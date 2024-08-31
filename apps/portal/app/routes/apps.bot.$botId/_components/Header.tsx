@@ -1482,7 +1482,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
           </div>
         </div>
       </div>
-      <nav className="hidden relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
+      <nav className="relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
         <div className="max-w-[85rem] flex flex-wrap basis-full justify-between items-center w-full mx-auto md:py-2.5 px-4 sm:px-6 lg:px-8">
           {/* Nav Links */}
           <div className="basis-full grow md:basis-auto md:grow-0">

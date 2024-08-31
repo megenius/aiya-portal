@@ -50,7 +50,7 @@ const ContextEditor: React.FC<ContextEditorProps> = ({ bot }) => {
                 defaultValue={input}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder='End your answer by encourage customers to leave their phone number for further assistance.'
+                placeholder=''
               ></textarea>
               {input !== bot.context && (
                 <div className="flex gap-x-3">
