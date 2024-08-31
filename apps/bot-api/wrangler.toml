@@ -6,10 +6,15 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "lambda-api.aiya.me/api/bots/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/bots/*", zone_name = "aiya.me" }
 ]
 
 [placement]
 mode = "smart"
+
+# [vars]
+# LAMBDA_SECRET_KEY = "Z6GhwjGVy5hqBz6cm8RdN6O1EZ33zB5B"
+# DIRECTUS_SERVICE_TOKEN = "f8LiIZVxY2-jGDqgeTU40IZ2xrj-7ygy"
 
 
 # [[kv_namespaces]]

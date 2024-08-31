@@ -5,7 +5,8 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "lambda-api.aiya.me/api/channels/*", zone_name = "aiya.me" },
-  { pattern = "portal-dev.aiya.me/api/channels/*", zone_name = "aiya.me" }
+  { pattern = "portal-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/channels/*", zone_name = "aiya.me" }
 ]
 
 [placement]

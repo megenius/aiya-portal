@@ -54,7 +54,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         </div>
         {/* End Title */}
         {/* Button Group */}
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="hidden flex flex-col sm:flex-row gap-2">
           <button
             type="button"
             className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
@@ -120,7 +120,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           </button>
         </div>
         {/* End Button Group */}
-        <div className="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+        <div className="hidden flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
           Or
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
