@@ -1,0 +1,29 @@
+name = "bot-api"
+compatibility_date = "2024-08-24"
+compatibility_flags = ["nodejs_compat"]
+
+
+routes = [
+  { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
+  { pattern = "lambda-api.aiya.me/api/bots/*", zone_name = "aiya.me" },
+]
+
+[placement]
+mode = "smart"
+
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
