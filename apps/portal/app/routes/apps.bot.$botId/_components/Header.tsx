@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
           </div>
           <div className="flex justify-end items-center gap-x-2">
             <div className="flex items-center">
-              <div className="md:hidden">
+              <div className="hidden">
                 {/* Search Button Icon */}
                 <button
                   type="button"
@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 {/* End Search Button Icon */}
               </div>
               {/* Help Dropdown */}
-              <div className="hs-dropdown [--placement:bottom-right] relative inline-flex">
+              <div className="hidden hs-dropdown [--placement:bottom-right] relative inline-flex">
                 {/* Help Button Icon */}
                 <button
                   id="hs-pro-dnhd"
@@ -394,7 +394,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               </div>
               {/* End Help Dropdown */}
               {/* Notifications Button Icon */}
-              <div className="hs-dropdown [--auto-close:inside] relative inline-flex">
+              <div className="hidden hs-dropdown [--auto-close:inside] relative inline-flex">
                 <button
                   id="hs-pro-dnnd"
                   type="button"
@@ -1482,7 +1482,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
           </div>
         </div>
       </div>
-      <nav className="relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
+      <nav className="hidden relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
         <div className="max-w-[85rem] flex flex-wrap basis-full justify-between items-center w-full mx-auto md:py-2.5 px-4 sm:px-6 lg:px-8">
           {/* Nav Links */}
           <div className="basis-full grow md:basis-auto md:grow-0">
