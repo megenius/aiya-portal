@@ -31,11 +31,11 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({ workspaces, onRo
                   Plan
                 </div>
               </th> */}
-              <th>
+              {/* <th>
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Status
                 </div>
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
@@ -57,7 +57,7 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({ workspaces, onRo
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   <span className="text-sm text-gray-600">{workspace.plan}</span>
                 </td> */}
-                <td className="size-px whitespace-nowrap px-4 py-3">
+                {/* <td className="size-px whitespace-nowrap px-4 py-3">
                   <span
                     className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${workspace.status === 'Active'
                       ? 'bg-teal-100 text-teal-800'
@@ -67,7 +67,7 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({ workspaces, onRo
                     <span className="size-1.5 inline-block bg-gray-800 rounded-full"></span>
                     {workspace.status}
                   </span>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
