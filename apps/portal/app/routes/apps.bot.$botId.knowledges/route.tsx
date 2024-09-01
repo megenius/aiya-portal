@@ -1,11 +1,13 @@
 import React from "react"
-import { Outlet, useNavigate } from "@remix-run/react"
+import { Outlet, useNavigate, useOutletContext } from "@remix-run/react"
 import { useEffect } from "react";
 import { useAppSelector } from "~/store";
 import MainContent from "./_components/MainContent";
+import { Bot } from "~/@types/app";
 
 const Route = () => {
   const navigate = useNavigate()
+  const { bot } = useOutletContext<{ bot: Bot }>();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // useEffect(() => {
@@ -20,7 +22,7 @@ const Route = () => {
 
   return (
     <>
-      <MainContent />
+      <Outlet context={{ bot }} />
     </>
   )
 }

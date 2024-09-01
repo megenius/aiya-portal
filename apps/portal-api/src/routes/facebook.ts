@@ -83,7 +83,7 @@ const facebookRoutes = new Hono<Env>()
         "inbox_labels",
         // "leadgen",
       ];
-      const fbURL = `${FB_API_URL}/${provider_id}/subscribed_apps}`;
+      const fbURL = `${FB_API_URL}/${provider_id}/subscribed_apps`;
       const response = await fetch(fbURL, {
         method: "POST",
         headers: {

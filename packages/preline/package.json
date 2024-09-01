@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    ".": "./src/index.ts",
     "./preline.css": "./assets/css/main.min.css",
     "./Avatar": "./src/components/Avatar.tsx",
-    ".": "./src/index.ts"
+    "./chat": "./src/chat/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

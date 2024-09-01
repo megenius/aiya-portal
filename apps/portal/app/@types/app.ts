@@ -25,6 +25,7 @@ export type BotKnowledge = {
   bot: string;
   raw_data?: BotIntentRaw[];
   intents: BotIntent[];
+  total_intent: number;
 };
 
 export type BotIntentRaw = {
@@ -39,6 +40,11 @@ export type BotIntent = {
   name: string;
   questions: string[];
   responses: any[];
+};
+
+export type BotKnowledgeUpdate = {
+  name: string;
+  intents: BotIntent[];
 };
 
 export interface AuthTokens {

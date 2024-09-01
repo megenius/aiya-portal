@@ -4,6 +4,7 @@ import { botsRoutes } from "./routes/bots";
 import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
 import { Env } from "@repo/shared";
+import { knowledgesRoutes } from "./routes/knowledges";
 // import { cache } from 'hono/cache'
 
 const app = new Hono<Env>()
@@ -19,6 +20,7 @@ const app = new Hono<Env>()
     return authMiddleware(c, next);
   })
   .route("/bots", botsRoutes)
+  .route("/bots/knowledges", knowledgesRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   const navItems: NavItem[] = [
     // { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
     { label: 'Messages', to: `/apps/bot/${botId}/messages` },
-    // { label: 'Knowledge Base', to: `/apps/bot/${botId}/knowledge-base` },
+    { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
     // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
     { label: 'Settings', to: `/apps/bot/${botId}/settings` },
   ];
