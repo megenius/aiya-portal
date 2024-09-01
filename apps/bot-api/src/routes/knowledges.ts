@@ -74,7 +74,9 @@ const knowledgesRoutes = new Hono<Env>()
         })
       );
 
-      return c.json({});
+      return c.json({
+        id: knowledgeId,
+      });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }

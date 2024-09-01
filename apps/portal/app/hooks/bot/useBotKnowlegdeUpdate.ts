@@ -18,6 +18,12 @@ export function useBotKnowlegdeUpdate() {
   return useMutation({
     mutationFn: ({ variables: { key, data } }: MutationFn) =>
       updateBotKnowledge(key, data).then((response) => response.data),
-    onSuccess: (data: Bot) => {},
+    onSuccess: (data: { id: string }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["bots", "knowledges", data.id],
+        exact: true,
+        refetchType: "active",
+      });
+    },
   });
 }
