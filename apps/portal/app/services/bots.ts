@@ -1,6 +1,8 @@
 import {
   Bot,
   BotChannelStatus,
+  BotKnowledge,
+  BotKnowledgeUpdate,
   BotUpdate,
   Channel,
   ChannelBot,
@@ -38,3 +40,18 @@ export const deleteBotChannel = (data: {
   bot_id: string;
   channel_id: string;
 }) => api.delete("/bots/" + data.bot_id + "/channels", { data });
+
+export const fetchBotKnowledges = (botId: string) =>
+  api.get<Array<BotKnowledge & { _id: number }>>(
+    "/bots/" + botId + "/knowledges"
+  );
+
+export const fetchBotKnowledge = (knowledgeId: string) =>
+  api.get<BotKnowledge>("/bots/knowledges/" + knowledgeId);
+
+export const updateBotKnowledge = (
+  knowledgeId: string,
+  data: Partial<BotKnowledgeUpdate>
+) => {
+  return api.patch("/bots/knowledges/" + knowledgeId, data);
+};

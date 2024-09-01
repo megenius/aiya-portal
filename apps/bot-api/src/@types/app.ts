@@ -15,6 +15,7 @@ export type BotKnowledge = {
   bot: string;
   raw_data?: BotIntentRaw[];
   intents: BotIntent[];
+  total_intents: number;
 };
 
 export type BotIntentRaw = {

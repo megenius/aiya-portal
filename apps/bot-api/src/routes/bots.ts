@@ -13,6 +13,7 @@ import { Env } from "@repo/shared";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { cache } from "hono/cache";
 import { Channel, Workspace } from "~/@types/app";
+import { knowledgesRoutes } from "./knowledges";
 
 const botsRoutes = new Hono<Env>()
   .get(
@@ -102,50 +103,6 @@ const botsRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
-
-  .get("/:id/channels/status", async (c) => {
-    try {
-      const id = c.req.param("id");
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-
-      const reponse = await directus.request<{
-        channels: Array<{ channel_id: { id: string } }>;
-        team: {
-          id: string;
-          channels: Array<Channel & { enabled: boolean }>;
-        };
-      }>(
-        readItem("bots", id, {
-          fields: [
-            // @ts-ignore
-            { "channels.channel_id": ["id"] },
-            // @ts-ignore
-            {
-              team: [
-                "id",
-                { channels: ["id", "name", "logo", "platform", "provider_id"] },
-              ],
-            },
-          ],
-        })
-      );
-
-      const allChannels = reponse.team?.channels || [];
-      const enabledChannels = reponse.channels.map(
-        (channel) => channel.channel_id.id
-      );
-
-      allChannels.forEach((channel) => {
-        channel.enabled = enabledChannels.includes(channel.id as string);
-      });
-
-      return c.json(allChannels);
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-
   .delete("/:id/channels", async (c) => {
     try {
       const id = c.req.param("id");
@@ -157,6 +114,22 @@ const botsRoutes = new Hono<Env>()
       // @ts-ignore
       const channels = item.channels.map((channel) => channel.channel_id);
       return c.json(channels);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .get("/:id/knowledges", async (c) => {
+    try {
+      const id = c.req.param("id") as string;
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+      const item = await directus.request(
+        readItems("bots_knowledges", {
+          fields: ["id", "name", "total_intent"],
+          filter: { bot: id },
+        })
+      );
+      return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }

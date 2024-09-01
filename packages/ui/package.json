@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    ".": "./src/index.ts",
     "./utils": "./src/utils/index.ts",
     "./LogoAiya": "./src/components/LogoAiya.tsx",
     "./LogoAiyaCompact": "./src/components/LogoAiyaCompact.tsx"
