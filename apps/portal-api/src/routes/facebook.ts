@@ -69,29 +69,57 @@ const facebookRoutes = new Hono<Env>()
       })
     );
 
-    const subscribed_fields = [
-      "messages",
-      "messaging_postbacks",
-      "messaging_optins",
-      "messaging_optouts",
-      "message_deliveries",
-      "message_reads",
-      "messaging_referrals",
-      "messaging_handovers",
-      "feed",
-      "inbox_labels",
-      "leadgen",
-    ];
-    const fbURL = `${FB_API_URL}/${provider_id}/subscribed_apps?subscribed_fields=${subscribed_fields.join(",")}`;
-    const response = await fetch(fbURL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${provider_access_token}`,
-      },
-    });
+    const subscribeApp = async () => {
+      const subscribed_fields = [
+        "messages",
+        "messaging_postbacks",
+        "messaging_optins",
+        "messaging_optouts",
+        "message_deliveries",
+        "message_reads",
+        "messaging_referrals",
+        "messaging_handovers",
+        "feed",
+        "inbox_labels",
+        // "leadgen",
+      ];
+      const fbURL = `${FB_API_URL}/${provider_id}/subscribed_apps}`;
+      const response = await fetch(fbURL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${provider_access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subscribed_fields: subscribed_fields.join(","),
+        }),
+      });
+      const data = await response.json();
+      logger.debug("Subscribed app", channelId);
+      return data;
+    };
 
-    const data = await response.json();
-    logger.debug("Subscribed app", channelId);
+    const setupGetStarted = async () => {
+      const fbURL = `${FB_API_URL}/me/messenger_profile`;
+      const response = await fetch(fbURL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${provider_access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          get_started: {
+            payload: "GET_STARTED",
+          },
+        }),
+      });
+      const data = await response.json();
+      logger.debug("Setup get started", channelId);
+      return data;
+    };
+
+    const data = await Promise.all([subscribeApp(), setupGetStarted()]);
+
     return c.json(data);
   })
   .post("/unsubscribe", async (c) => {

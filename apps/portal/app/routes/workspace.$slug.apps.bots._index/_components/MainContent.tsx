@@ -44,22 +44,22 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       date_updated: new Date(),
       team: workspace.id,
       status: 'Draft',
-      metadata: {
-        "basic": {},
-        "enabled": 1,
-        "bot_name": "",
-        "shop_info": {
-          "api_key": "",
-          "shop_url": "",
-          "shop_name": "",
-          "shop_type": "",
-          "basic_info": {
-            "tel": "",
-            "email": "",
-            "address": ""
-          }
-        }
-      }
+      // metadata: {
+      //   "basic": {},
+      //   "enabled": 1,
+      //   "bot_name": "",
+      //   "shop_info": {
+      //     "api_key": "",
+      //     "shop_url": "",
+      //     "shop_name": "",
+      //     "shop_type": "",
+      //     "basic_info": {
+      //       "tel": "",
+      //       "email": "",
+      //       "address": ""
+      //     }
+      //   }
+      // }
     }).then((res) => {
       // Show toast or something
       console.log(res)
