@@ -5,7 +5,7 @@ import { useAppSelector } from "~/store";
 
 export const useBotKnowlegde = (knowledgeId: string) => {
   return useQuery({
-    queryKey: ["knowledges", knowledgeId],
+    queryKey: ["bots", "knowledges", knowledgeId],
     queryFn: () =>
       fetchBotKnowledge(knowledgeId).then((res) => res.data),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),

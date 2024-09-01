@@ -40,24 +40,6 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     })
   }, [intents, knowledge.id]);
 
-  // const onIntentUpdate = useCallback(async (updatedIntent: BotIntent) => {
-  //   if (!client) return;
-
-  //   try {
-  //     await client.setToken(accessToken);
-
-  //     const updatedIntents = intents.map(intent =>
-  //       intent.id === updatedIntent.id ? updatedIntent : intent
-  //     );
-
-  //     await updateIntentsInDatabase(updatedIntents);
-
-  //     setIntents(updatedIntents);
-  //   } catch (error) {
-  //     console.error("Failed to update intent:", error);
-  //     // Handle error (e.g., show error message to user)
-  //   }
-  // }, [client, accessToken, intents, knowledge.id]);
 
   // const onIntentRemove = useCallback(async (intentId: string) => {
   //   if (!client) return;
