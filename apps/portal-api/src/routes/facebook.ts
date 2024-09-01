@@ -20,8 +20,6 @@ const bodySchema = z.object({
   // csrfToken: z.string().min(1),
 });
 
-const FB_API_URL = "https://graph.facebook.com/v19.0";
-
 const facebookRoutes = new Hono<Env>()
   .post("/exchange-token", async (c) => {
     try {
@@ -34,7 +32,7 @@ const facebookRoutes = new Hono<Env>()
       //   return c.json({ error: 'Invalid CSRF token' }, 403);
       // }
 
-      const { FB_APP_ID, FB_APP_SECRET } = c.env;
+      const { FB_API_URL, FB_APP_ID, FB_APP_SECRET } = c.env;
 
       logger.debug("Request exchange", { appID: FB_APP_ID, code });
 
@@ -64,7 +62,7 @@ const facebookRoutes = new Hono<Env>()
     const { channelId } = await c.req.json();
     const directus = getDirectusClient();
     await directus.setToken(c.get("token"));
-
+    const { FB_API_URL } = c.env;
     const { provider_id, provider_access_token } = await directus.request(
       readItem("channels", channelId, {
         fields: ["provider_id", "provider_access_token"],
@@ -100,6 +98,7 @@ const facebookRoutes = new Hono<Env>()
     const { channelId } = await c.req.json();
     const directus = getDirectusClient();
     await directus.setToken(c.get("token"));
+    const { FB_API_URL } = c.env;
 
     const { provider_id, provider_access_token } = await directus.request(
       readItem("channels", channelId, {

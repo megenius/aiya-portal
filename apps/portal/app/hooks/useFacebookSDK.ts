@@ -84,7 +84,7 @@ export function useFacebookSDK({
   appId,
   autoLogAppEvents = true,
   xfbml = true,
-  version = "v19.0",
+  version = "v20.0",
 }: UseFacebookSDKOptions) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -255,35 +255,6 @@ export function useFacebookSDK({
     });
   }, []);
 
-  const subscribedApps = useCallback(
-    (pageId, accessToken, subscribedFields = [], cb) => {
-      const subscribed_fields = [
-        ...subscribedFields,
-        "messages",
-        "messaging_postbacks",
-        "messaging_optins",
-        "messaging_optouts",
-        "message_deliveries",
-        "message_reads",
-        "messaging_referrals",
-        "messaging_handovers",
-        "feed",
-        "inbox_labels",
-        "leadgen",
-      ];
-      window.FB?.api(
-        `/${pageId}/subscribed_apps?access_token=${accessToken}`,
-        "post",
-        { subscribed_fields },
-        (res) => {
-          if (cb) {
-            cb(res);
-          }
-        }
-      );
-    },
-    []
-  );
 
   return {
     isInitialized,
@@ -295,6 +266,5 @@ export function useFacebookSDK({
     hideChat,
     accessToken,
     getPages,
-    subscribedApps
   };
 }

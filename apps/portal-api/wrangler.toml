@@ -1,10 +1,9 @@
 name = "portal-api"
 compatibility_date = "2024-08-24"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_flags = ["nodejs_compat"]
 
 routes = [
-  { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" },
-  { pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }
+  { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" }
 ]
 
 [placement]
@@ -12,22 +11,23 @@ mode = "smart"
 
 [vars]
 PORTAL_URL = "https://portal-dev.aiya.me"
+FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
-FB_APP_SECRET = "d06af69ed7366be6f127d210be962f6f"
-FB_APP_LOGIN_ID = "427888229704742"
+FB_APP_LOGIN_ID = "764646715708204"
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[env.prod]
+name = "portal-api_prod"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+routes = [
+  { pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }
+]
 
-# [ai]
-# binding = "AI"
+[env.prod.placement]
+mode = "smart"
+
+[env.prod.vars]
+PORTAL_URL = "https://portal.aiya.me"
+FB_API_URL = "https://graph.facebook.com/v20.0"
+FB_APP_ID = "788582819272015"
+FB_APP_LOGIN_ID = "881846220485854"
