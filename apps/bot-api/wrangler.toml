@@ -1,9 +1,10 @@
 name = "bot-api"
-compatibility_date = "2024-08-24"
+compatibility_date = "2024-08-21"
 compatibility_flags = ["nodejs_compat"]
 
 
 routes = [
+  { pattern = "portal-local.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "lambda-api.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "portal.aiya.me/api/bots/*", zone_name = "aiya.me" }
@@ -11,6 +12,24 @@ routes = [
 
 [placement]
 mode = "smart"
+
+
+[[vectorize]]
+binding = "VECTOR_SENTENCES"
+index_name = "sentences_embeddings"
+
+[[queues.producers]]
+binding = "SENTENCE_EMBEDINGS_QUEUE"
+queue = "sentences-embeddings"
+
+[[queues.consumers]]
+queue = "sentences-embeddings"
+max_batch_size = 5 # optional: defaults to 10
+max_batch_timeout = 30 # optional: defaults to 5 seconds
+
+[[kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
 
 # [vars]
 # LAMBDA_SECRET_KEY = "Z6GhwjGVy5hqBz6cm8RdN6O1EZ33zB5B"

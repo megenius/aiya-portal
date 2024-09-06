@@ -1,19 +1,14 @@
-// File: src/routes/items.ts
 import { Hono } from "hono";
 import { getDirectusClient } from "../config/directus";
-import {
-  readItems,
-  createItem,
-  updateItem,
-  deleteItem,
-  readItem,
-  deleteItems,
-} from "@directus/sdk";
-import { Env } from "@repo/shared";
+import { readItems, readItem } from "@directus/sdk";
+import { Env } from "~/@types/hono.types";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { cache } from "hono/cache";
-import { Channel, Workspace } from "~/@types/app";
+import { Channel, VectorQuerySentenceResponse, Workspace } from "~/@types/app";
 import { knowledgesRoutes } from "./knowledges";
+import { getTextEmbedding, groupByIntentWithMaxScore } from "~/utils/vector";
+import * as _ from "lodash";
+import { loadKnowledges } from "~/service/knowledges";
 
 const botsRoutes = new Hono<Env>()
   .get(
@@ -133,6 +128,82 @@ const botsRoutes = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  });
+  })
+  .get(
+    "/:id/search",
+    cache({ cacheName: "search", cacheControl: "max-age=15" }),
+    async (c) => {
+      const query = c.req.query("q") as string;
+      const k = Number(c.req.query("k") || "5");
+      const uid = _.get(c.req.query, "uid", "");
+      const platform = c.req.query("platform") as string;
+
+      if (!query) {
+        return c.json({ message: "q is required" });
+      }
+
+      const values = await getTextEmbedding(query);
+
+      if (c.env.VECTOR_SENTENCES) {
+        const response = (await c.env.VECTOR_SENTENCES.query(values, {
+          topK: 100,
+          returnValues: false,
+          returnMetadata: "indexed",
+          filter: {
+            bot_id: c.req.param("id"),
+          },
+        })) as VectorQuerySentenceResponse;
+
+        const directus = getDirectusClient();
+        await directus.setToken(c.get("token"));
+        const group = groupByIntentWithMaxScore(response);
+        const matches = await Promise.all(
+          Object.values(group)
+            .slice(0, k)
+            .map(async (x) => {
+              const knowledge = await loadKnowledges({
+                c,
+                knowledgeId: x.metadata.knowledge_id,
+                directus,
+              });
+
+              const intent = knowledge.intents.find(
+                (intent) => intent.id === x.metadata.intent_id
+              );
+
+              return {
+                knowledge_id: x.metadata.knowledge_id,
+                intent_id: x.metadata.intent_id,
+                score: x.score,
+                intent: intent?.name,
+                responses: intent?.responses,
+              };
+            })
+        );
+
+        const messages = matches[0]?.responses?.map((response) => {
+          if (platform === "line") {
+            return {
+              type: "text",
+              text: response,
+            };
+          } else if (platform === "facebook") {
+            return {
+              text: response,
+            };
+          }
+
+          return response;
+        });
+
+        return c.json({
+          messages,
+          matches: Object.values(matches).slice(0, k),
+        });
+      }
+
+      return c.json({ message: "No suppot local development" });
+    }
+  );
 
 export { botsRoutes };

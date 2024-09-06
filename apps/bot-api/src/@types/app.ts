@@ -15,7 +15,8 @@ export type BotKnowledge = {
   bot: string;
   raw_data?: BotIntentRaw[];
   intents: BotIntent[];
-  total_intents: number;
+  total_intent: number;
+  date_updated: string;
 };
 
 export type BotIntentRaw = {
@@ -101,4 +102,22 @@ export interface PageInfo {
   category: string;
   pictureUrl: string;
   ig: string;
+}
+
+
+export interface VectorIntentMatch {
+  id: string;
+  score: number;
+  metadata: {
+    bot_id: string;
+    hash: string;
+    intent_id: string;
+    knowledge_id: string;
+    text: string;
+  };
+}
+
+export interface VectorQuerySentenceResponse {
+  count: number;
+  matches: VectorIntentMatch[];
 }
