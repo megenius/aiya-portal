@@ -1,8 +1,8 @@
-import { Env } from "@repo/shared";
 import { Context, Next } from "hono";
 import { createMiddleware } from "hono/factory";
 import { decode, verify } from "hono/jwt";
 import { JWTPayload } from "hono/utils/jwt/types";
+import { Env } from "~/@types/hono.types";
 
 const BEARER_PREFIX = "Bearer ";
 
@@ -19,7 +19,7 @@ export const lambdaAuthMiddleware = createMiddleware<Env>(async (c, next) => {
   const DEBUG_MODE = c.env.NODE_ENV === "development";
   const authHeader = c.req.header("Authorization");
 
-  console.log("authHeader", authHeader);
+  console.log("lambdaAuthMiddleware:authHeader", authHeader);
 
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);
@@ -49,13 +49,13 @@ export const lambdaAuthMiddleware = createMiddleware<Env>(async (c, next) => {
     }
 
     const allowedIssuers = ["directus", "lambda"];
-    const issuer = payload.iss as string
+    const issuer = payload.iss as string;
     if (allowedIssuers.indexOf(issuer) === -1) {
       return c.json({ error: "Invalid token issuer" }, 401);
     }
 
     if (issuer === "lambda") {
-      token = c.env.DIRECTUS_SERVICE_TOKEN
+      token = c.env.DIRECTUS_SERVICE_TOKEN;
     }
 
     // console.log("token", token);

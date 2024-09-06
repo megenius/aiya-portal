@@ -19,7 +19,7 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
   const DEBUG_MODE = c.env.NODE_ENV === "development";
   const authHeader = c.req.header("Authorization");
 
-  // console.log("authHeader", authHeader);
+  // console.log("authMiddleware:authHeader", authHeader);
 
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);

@@ -29,6 +29,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     const updatedIntents = intents.map(intent =>
       intent.id === updatedIntent.id ? updatedIntent : intent
     );
+
     setIntents(updatedIntents);
     updateKnowlegde.mutateAsync({
       variables: {
@@ -37,6 +38,9 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
           intents: updatedIntents
         }
       }
+    }).then(() => {
+      // run embeding
+      console.log('updated')
     })
   }, [intents, knowledge.id]);
 

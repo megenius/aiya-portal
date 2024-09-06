@@ -19,7 +19,7 @@ if (!directusUrl) {
   throw new Error("DIRECTUS_URL is not defined in the environment variables");
 }
 
-type ClientType = DirectusClientOriginal<Schema> &
+export type ClientType = DirectusClientOriginal<Schema> &
   AuthenticationClient<Schema> &
   RestClient<Schema>;
 

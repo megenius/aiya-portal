@@ -41,7 +41,7 @@ export async function handle(
       Message: JSON.stringify({ event, providerId }),
       TopicArn: SNS_TOPIC_ARN,
       MessageGroupId: "webhook-facebook-sns",
-      MessageDeduplicationId: await calculateMD5(JSON.stringify({ event, providerId })),
+      MessageDeduplicationId: await MD5(JSON.stringify({ event, providerId })),
     });
     logger.debug("Sending", JSON.stringify({ event, providerId }));
     const data = await snsClient.send(command);
@@ -59,7 +59,7 @@ export async function handle(
   logger.debug(`Processing time: ${processingTime} ms`);
 }
 
-async function calculateMD5(message: string) {
+async function MD5(message: string) {
   const msgUint8 = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest("MD5", msgUint8);
   const hashArray = Array.from(new Uint8Array(hashBuffer));

@@ -12,7 +12,7 @@ const app = new Hono<Env>()
     const hostname = new URL(c.req.url).hostname;
 
     // console.log("hostname", hostname);
-    if (hostname.includes("lambda-api") || hostname.includes("portal")) {
+    if (hostname.includes("lambda-api")) {
       return lambdaAuthMiddleware(c, next);
     }
 
