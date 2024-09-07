@@ -2,15 +2,15 @@ import { HighlightText } from '@repo/ui';
 import React, { useState } from 'react';
 import EditIntentQuestionModal from '~/components/modal/EditIntentQuestion';
 import { Plus } from 'lucide-react';
+import { update } from 'lodash';
 
 interface IntentQuestionListProps {
   questions: string[];
   searchText: string;
-  knowledgeId?: string;
-  onChanged: (updatedQuestions: string[]) => void;
+  onChanged: (updatedQuestions: string[], index: number, action: 'create' | 'update' | 'delete') => void;
 }
 
-const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, searchText, knowledgeId, onChanged }) => {
+const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, searchText, onChanged }) => {
   const [selectedQuestion, setSelectedQuestion] = useState<number>(-1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -31,15 +31,16 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
 
   const handleQuestionRemoved = (removedIndex: number) => {
     const updatedQuestions = questions.filter((_, index) => index !== removedIndex);
-    onChanged(updatedQuestions);
+    onChanged(updatedQuestions, removedIndex, 'delete');
   };
+
 
   return (
     <>
       <div className="pb-3 px-3 flex flex-wrap items-center">
         {questions.map((question, index) => (
-          <span 
-            key={index} 
+          <span
+            key={index}
             className="inline-flex cursor-pointer me-1 mb-1 items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-gray-500 text-gray-500 dark:text-neutral-400"
             onClick={() => handleQuestionClick(index)}
           >
@@ -60,7 +61,7 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
         questionIndex={selectedQuestion}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onQuestionEdited={onChanged}
+        onQuestionEdited={(updatedQuestion) => { onChanged(updatedQuestion, selectedQuestion, selectedQuestion === -1 ? 'create' : 'update') }}
         onQuestionRemoved={handleQuestionRemoved}
       />
     </>

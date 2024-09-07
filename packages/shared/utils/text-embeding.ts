@@ -7,23 +7,32 @@ export interface Metadata {
 export class TextEmbedding<T extends Metadata = Metadata> {
   private readonly openSearch: OpenSearch;
   private readonly index: string;
+  private readonly dimension: number;
 
-  constructor(openSearchConfig: OpenSearchConfig, index: string) {
+  constructor(
+    openSearchConfig: OpenSearchConfig,
+    index: string,
+    dimension: number = 512
+  ) {
     this.openSearch = new OpenSearch(openSearchConfig);
     this.index = index;
+    this.dimension = dimension;
   }
 
   async createIndex(): Promise<void> {
     try {
       await this.openSearch.createIndex({
         index: this.index,
+        settings: {
+          "index.knn": true,
+        },
         mappings: {
           properties: {
             id: { type: "keyword" },
             text: { type: "text" },
-            embedding: {
+            vector_field: {
               type: "knn_vector",
-              dimension: 512,
+              dimension: this.dimension,
               method: {
                 engine: "faiss",
                 space_type: "l2",
@@ -59,7 +68,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
     const document: EmbeddingDocument<T> = {
       id: crypto.randomUUID(),
       text,
-      embedding,
+      vector_field: embedding,
       metadata,
     };
 
@@ -80,12 +89,15 @@ export class TextEmbedding<T extends Metadata = Metadata> {
 
     const searchBody = {
       size: topK,
+      _source: {
+        exclude: ["vector_field"],
+      },
       query: {
         bool: {
           must: [
             {
               knn: {
-                embedding: {
+                vector_field: {
                   vector: queryEmbedding,
                   k: topK,
                 },
@@ -93,6 +105,14 @@ export class TextEmbedding<T extends Metadata = Metadata> {
             },
           ],
           filter: filters ? this.buildFilters(filters) : [],
+        },
+      },
+      collapse: {
+        field: "metadata.intent_id.keyword",
+        inner_hits: {
+          name: "top_score_per_response",
+          size: 1,
+          sort: [{ _score: "desc" }],
         },
       },
     };
@@ -112,7 +132,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
 
   private buildFilters(filters: Record<string, unknown>): object[] {
     return Object.entries(filters).map(([key, value]) => ({
-      term: { [`metadata.${key}`]: value },
+      term: { [`metadata.${key}.keyword`]: value },
     }));
   }
 
@@ -128,7 +148,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
     const embedding = await getTextEmbedding(text);
     const document: Partial<EmbeddingDocument<T>> = {
       text,
-      embedding,
+      vector_field: embedding,
       metadata: metadata as T, // Type assertion needed due to partial update
     };
 
@@ -138,6 +158,43 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       document
     );
   }
+
+  async deleteDocumentByMetadata(
+    text: string,
+    metadata: Record<string, unknown>
+  ): Promise<{ deleted: string[] }> {
+    const filters = Object.entries(metadata).map(([key, value]) => ({
+      term: { [`metadata.${key}.keyword`]: value },
+    }));
+
+    const searchBody = {
+      size: 1000,
+      // _source: ["id", "text", "metadata"],
+      query: {
+        bool: {
+          must: [
+            {
+              match: {
+                text,
+              },
+            },
+          ],
+          filter: filters,
+        },
+      },
+    };
+
+    const searchResponse = await this.openSearch.search<EmbeddingDocument<T>>({
+      index: this.index,
+      body: searchBody,
+    });
+
+    const ids = searchResponse.hits.hits.map((hit) => hit._source.id) 
+    await Promise.all(ids.map((id) => this.openSearch.delete(this.index, id)));
+    console.log(`Deleted ${ids.length} documents with text "${text}" and metadata:`, metadata);
+    
+    return { deleted: ids};
+  }
 }
 
 type ID = string;
@@ -145,7 +202,7 @@ type ID = string;
 interface EmbeddingDocument<T extends Metadata = Metadata> {
   id: ID;
   text: string;
-  embedding: number[];
+  vector_field: number[];
   metadata?: T;
 }
 

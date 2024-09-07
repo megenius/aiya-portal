@@ -107,13 +107,14 @@ export interface PageInfo {
 
 export interface VectorIntentMatch {
   id: string;
+  text: string;
   score: number;
   metadata: {
     bot_id: string;
-    hash: string;
+    // hash: string;
     intent_id: string;
     knowledge_id: string;
-    text: string;
+    // text: string;
   };
 }
 

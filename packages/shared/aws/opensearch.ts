@@ -56,9 +56,11 @@ type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface SearchParams<TQuery> {
   index?: string;
-  query: TQuery;
-  size?: number;
-  from?: number;
+  body: {
+    query: TQuery;
+    size?: number;
+    from?: number;
+  };
 }
 
 interface SearchResponse<T> {
@@ -77,6 +79,7 @@ interface SearchResponse<T> {
 }
 
 interface IndexSettings {
+  [key: string]: any;
   number_of_shards?: number;
   number_of_replicas?: number;
   // Add other settings as needed
@@ -196,19 +199,8 @@ export class OpenSearch {
   async search<T, TQuery = object>(
     params: SearchParams<TQuery>
   ): Promise<SearchResponse<T>> {
-    const {
-      index = this.config.defaultIndex,
-      query,
-      size = 10,
-      from = 0,
-    } = params;
+    const { index = this.config.defaultIndex, body } = params;
     const path = `/${index}/_search`;
-    const body = {
-      query,
-      size,
-      from,
-    };
-
     return this.request<SearchResponse<T>>(path, "POST", body);
   }
 

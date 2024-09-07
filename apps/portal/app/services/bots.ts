@@ -55,3 +55,27 @@ export const updateBotKnowledge = (
 ) => {
   return api.patch("/bots/knowledges/" + knowledgeId, data);
 };
+
+export const deleteBotKnowledgeIntent = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+}) =>
+  api.delete(
+    `/bots/${data.bot_id}/knowledges/${data.knowledge_id}/intent/${data.intent_id}`
+  );
+
+
+  export const insertBotKnowledgeIntentQuestion = (data: {
+    bot_id: string;
+    knowledge_id: string;
+    intent_id: string;
+    text: string;
+  }) => api.post(`/bots/knowledges/insert-question`, data);
+
+export const deleteBotKnowledgeIntentQuestion = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  text: string;
+}) => api.post(`/bots/knowledges/delete-question`, data);

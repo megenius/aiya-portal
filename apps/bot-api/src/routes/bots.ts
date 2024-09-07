@@ -9,8 +9,23 @@ import { knowledgesRoutes } from "./knowledges";
 import { getTextEmbedding, groupByIntentWithMaxScore } from "~/utils/vector";
 import * as _ from "lodash";
 import { loadKnowledges } from "~/service/knowledges";
+import { TextEmbedding } from "@repo/shared/utils/text-embeding";
 
 const botsRoutes = new Hono<Env>()
+  .use("*", async (c, next) => {
+    if (!c.get("textEmbedding")) {
+      const textEmbedding = new TextEmbedding(
+        {
+          endpoint: c.env.OPENSEARCH_ENDPOINT,
+          username: c.env.OPENSEARCH_USERNAME,
+          password: c.env.OPENSEARCH_PASSWORD,
+        },
+        "text_embedding"
+      );
+      c.set("textEmbedding", textEmbedding);
+    }
+    await next();
+  })
   .get(
     "/:id",
     cache({
@@ -131,7 +146,7 @@ const botsRoutes = new Hono<Env>()
   })
   .get(
     "/:id/search",
-    // cache({ cacheName: "search", cacheControl: "max-age=15" }),
+    cache({ cacheName: "search", cacheControl: "max-age=15" }),
     async (c) => {
       const query = c.req.query("q") as string;
       const k = Number(c.req.query("k") || "5");
@@ -142,67 +157,57 @@ const botsRoutes = new Hono<Env>()
         return c.json({ message: "q is required" });
       }
 
-      const values = await getTextEmbedding(query);
+      const textEmbedding = c.get("textEmbedding") as TextEmbedding<{
+        bot_id: string;
+        knowledge_id: string;
+        intent_id: string;
+      }>;
 
-      if (c.env.VECTOR_SENTENCES) {
-        const response = (await c.env.VECTOR_SENTENCES.query(values, {
-          topK: 100,
-          returnValues: false,
-          returnMetadata: "indexed",
-          filter: {
-            bot_id: c.req.param("id"),
-          },
-        })) as VectorQuerySentenceResponse;
+      const response = await textEmbedding.search(query, {
+        topK: k,
+        filters: { bot_id: c.req.param("id") },
+      });
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
 
-        const directus = getDirectusClient();
-        await directus.setToken(c.get("token"));
-        const group = groupByIntentWithMaxScore(response);
-        const matches = await Promise.all(
-          Object.values(group)
-            .slice(0, k)
-            .map(async (x) => {
-              const knowledge = await loadKnowledges({
-                c,
-                knowledgeId: x.metadata.knowledge_id,
-                directus,
-              });
+      const matches = await Promise.all(
+        response.map(async (x) => {
+          const knowledge = await loadKnowledges({
+            c,
+            knowledgeId: x.metadata?.knowledge_id as string,
+            directus,
+          });
 
-              const intent = knowledge.intents.find(
-                (intent) => intent.id === x.metadata.intent_id
-              );
+          const intent = knowledge.intents.find(
+            (intent) => intent.id === x.metadata?.intent_id
+          );
 
-              return {
-                knowledge_id: x.metadata.knowledge_id,
-                intent_id: x.metadata.intent_id,
-                score: x.score,
-                intent: intent?.name,
-                responses: intent?.responses,
-              };
-            })
-        );
+          return {
+            knowledge_id: x.metadata?.knowledge_id,
+            intent_id: x.metadata?.intent_id,
+            score: x.score,
+            intent: intent?.name,
+            responses: intent?.responses,
+          };
+        })
+      );
 
-        const messages = matches[0]?.responses?.map((response) => {
-          if (platform === "line") {
-            return {
-              type: "text",
-              text: response,
-            };
-          } else if (platform === "facebook") {
-            return {
-              text: response,
-            };
-          }
+      const messages = matches[0]?.responses?.map((response) => {
+        if (platform === "line") {
+          return {
+            type: "text",
+            text: response,
+          };
+        } else if (platform === "facebook") {
+          return {
+            text: response,
+          };
+        }
 
-          return response;
-        });
+        return response;
+      });
 
-        return c.json({
-          messages,
-          matches: Object.values(matches).slice(0, k),
-        });
-      }
-
-      return c.json({ message: "No suppot local development" });
+      return c.json({ messages, matches });
     }
   );
 

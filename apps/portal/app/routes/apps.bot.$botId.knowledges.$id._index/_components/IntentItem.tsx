@@ -6,8 +6,11 @@ import IntentQuestionList from './IntentQuestionList';
 import ChatBubbles from './ChatBubbles';
 import { CreateTextMessageModal } from '@repo/preline/chat';
 import { Trash } from 'lucide-react';
+import { useBotKnowledgeIntentQuestionDelete } from '~/hooks/bot/useBotKnowledgeIntentQuestionDelete';
+import { useBotKnowledgeIntentQuestionInsert } from '~/hooks/bot/useBotKnowledgeIntentQuestionInsert';
 interface IntentItemProps {
   bot: Bot;
+  knowledgeId: string;
   intent: BotIntent;
   searchText: string;
   isActive?: boolean;
@@ -15,7 +18,10 @@ interface IntentItemProps {
   onRemove?: (intentId: string) => void;
 }
 
-const IntentItem: React.FC<IntentItemProps> = ({ bot, intent, searchText, isActive = false, onUpdate, onRemove }) => {
+const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searchText, isActive = false, onUpdate, onRemove }) => {
+  const createQuestion = useBotKnowledgeIntentQuestionInsert();
+  const deleteQuestion = useBotKnowledgeIntentQuestionDelete();
+
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this intent?')) {
       onRemove && onRemove(intent.id);
@@ -55,7 +61,29 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, intent, searchText, isActi
       >
         <div className="pb-10 px-6">
           <IntentQuestionList questions={intent.questions} searchText={searchText}
-            onChanged={(updatedQuestions) => {
+            onChanged={(updatedQuestions, index, action) => {
+
+              if (action === 'create') {
+                createQuestion.mutateAsync({
+                  variables: {
+                    bot_id: bot.id as string,
+                    knowledge_id: knowledgeId,
+                    intent_id: intent.id,
+                    text: updatedQuestions.slice(-1)[0]
+                  }
+                })
+              } else if (action === 'update') {
+
+              } else if (action === 'delete') {
+                deleteQuestion.mutateAsync({
+                  variables: {
+                    bot_id: bot.id as string,
+                    knowledge_id: knowledgeId,
+                    intent_id: intent.id,
+                    text: intent.questions[index]
+                  }
+                })
+              }
               onUpdate && onUpdate({ ...intent, questions: updatedQuestions });
             }}
           />
