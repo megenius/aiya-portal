@@ -73,7 +73,25 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                   }
                 })
               } else if (action === 'update') {
-
+                const oldQuestion = intent.questions[index];
+                const newQuestion = updatedQuestions[index];
+                deleteQuestion.mutateAsync({
+                  variables: {
+                    bot_id: bot.id as string,
+                    knowledge_id: knowledgeId,
+                    intent_id: intent.id,
+                    text: oldQuestion
+                  }
+                }).then(() => {
+                  createQuestion.mutateAsync({
+                    variables: {
+                      bot_id: bot.id as string,
+                      knowledge_id: knowledgeId,
+                      intent_id: intent.id,
+                      text: newQuestion
+                    }
+                  })
+                })
               } else if (action === 'delete') {
                 deleteQuestion.mutateAsync({
                   variables: {
