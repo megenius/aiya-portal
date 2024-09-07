@@ -8,6 +8,8 @@ import { getTextEmbedding } from "./utils/vector";
 import { MD5 } from "./utils/crypto";
 import { awsRoutes } from "./routes/aws";
 import testRoutes from "./routes/test";
+import { openSearchRoutes } from "./routes/opensearch";
+import { textEmbeddingRoutes } from "./routes/text-embedding";
 // import { cache } from 'hono/cache'
 
 const app = new Hono<HonoEnv>()
@@ -28,7 +30,9 @@ const app = new Hono<HonoEnv>()
   .route("/bots", botsRoutes)
   .route("/bots/knowledges", knowledgesRoutes)
   .route("/aws", awsRoutes)
+  .route("/aws/opensearch", openSearchRoutes)
   .route("/bots/test", testRoutes)
+  .route("/bots/embedding", textEmbeddingRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });
@@ -47,8 +51,6 @@ export default {
     }>,
     env: Env
   ) {
-    console.log("batch.queue", batch.queue);
-
     if (batch.queue == "sentences-embeddings") {
       const vectors = await Promise.all(
         batch.messages.map(async (message) => {
@@ -65,7 +67,7 @@ export default {
                 knowledge_id,
                 intent_id,
                 text,
-                hash,
+                // hash,
               },
             };
           });

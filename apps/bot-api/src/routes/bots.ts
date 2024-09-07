@@ -131,7 +131,7 @@ const botsRoutes = new Hono<Env>()
   })
   .get(
     "/:id/search",
-    cache({ cacheName: "search", cacheControl: "max-age=15" }),
+    // cache({ cacheName: "search", cacheControl: "max-age=15" }),
     async (c) => {
       const query = c.req.query("q") as string;
       const k = Number(c.req.query("k") || "5");
