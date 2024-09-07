@@ -8,8 +8,8 @@ import { getTextEmbedding } from "./utils/vector";
 import { MD5 } from "./utils/crypto";
 import { awsRoutes } from "./routes/aws";
 import testRoutes from "./routes/test";
-import { openSearchRoutes } from "./routes/opensearch";
 import { textEmbeddingRoutes } from "./routes/text-embedding";
+import { TextEmbedding } from "@repo/shared/utils/text-embeding";
 // import { cache } from 'hono/cache'
 
 const app = new Hono<HonoEnv>()
@@ -30,7 +30,6 @@ const app = new Hono<HonoEnv>()
   .route("/bots", botsRoutes)
   .route("/bots/knowledges", knowledgesRoutes)
   .route("/aws", awsRoutes)
-  .route("/aws/opensearch", openSearchRoutes)
   .route("/bots/test", testRoutes)
   .route("/bots/embedding", textEmbeddingRoutes)
   .onError((err, c) => {
@@ -47,11 +46,38 @@ export default {
       knowledge_id: string;
       intent_id: string;
       text: string;
-      responses: string[];
+      idx: number
     }>,
     env: Env
   ) {
     if (batch.queue == "sentences-embeddings") {
+      // const id = await textEmbedding.addDocument(text, metadata);
+      const textEmbedding = new TextEmbedding(
+        {
+          endpoint: env.OPENSEARCH_ENDPOINT,
+          username: env.OPENSEARCH_USERNAME,
+          password: env.OPENSEARCH_PASSWORD,
+        },
+        "text_embedding"
+      );
+      const results = await Promise.all(
+        batch.messages.map(async (message) => {
+          const { bot_id, knowledge_id, intent_id, text, idx } = message.body;
+          const metadata = {
+            bot_id,
+            knowledge_id,
+            intent_id,
+            idx
+          };
+          return textEmbedding.addDocument(text, metadata);
+        })
+      );
+
+      console.log(results);
+      
+    }
+
+    if (batch.queue == "sentences-embeddings2") {
       const vectors = await Promise.all(
         batch.messages.map(async (message) => {
           const { bot_id, knowledge_id, intent_id, text } = message.body;

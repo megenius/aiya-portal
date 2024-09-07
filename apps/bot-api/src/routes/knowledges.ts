@@ -12,7 +12,7 @@ import {
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { cache } from "hono/cache";
 import { BotIntent, BotKnowledge, Channel, Workspace } from "~/@types/app";
-import { randomHexString } from "@repo/shared/utils";
+import { randomHexString, TextEmbedding } from "@repo/shared/utils";
 import * as _ from "lodash";
 import { Env } from "~/@types/hono.types";
 import { MD5 } from "~/utils/crypto";
@@ -26,6 +26,20 @@ import { intentMiddleware, knowledgeMiddleware } from "~/middlewares/knowlegde";
 import { cachingMiddleware } from "~/middlewares/kv-cache";
 
 const knowledgesRoutes = new Hono<Env>()
+  .use("*", async (c, next) => {
+    if (!c.get("textEmbedding")) {
+      const textEmbedding = new TextEmbedding(
+        {
+          endpoint: c.env.OPENSEARCH_ENDPOINT,
+          username: c.env.OPENSEARCH_USERNAME,
+          password: c.env.OPENSEARCH_PASSWORD,
+        },
+        "text_embedding"
+      );
+      c.set("textEmbedding", textEmbedding);
+    }
+    await next();
+  })
   .get(
     "/:knowledgeId",
     cachingMiddleware({
@@ -70,7 +84,7 @@ const knowledgesRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
-  .get("/:knowledgeId/embeddings", async (c) => {
+  .post("/:knowledgeId/embeddings", async (c) => {
     try {
       const knowledgeId = c.req.param("knowledgeId") as string;
       const directus = getDirectusClient();
@@ -78,10 +92,10 @@ const knowledgesRoutes = new Hono<Env>()
       const knowledge = await loadKnowledges({ c, knowledgeId, directus });
 
       let totalQuestions = 0;
-      for (let i = 0; i < knowledge.intents.length; i++) {
-        const intent = knowledge.intents[i];
-        await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(
-          intent.questions.map((question) => {
+
+      const results = await Promise.all(
+        knowledge.intents.map(async (intent) => {
+          const batch = intent.questions.map((question, key) => {
             totalQuestions++;
             return {
               body: {
@@ -89,12 +103,26 @@ const knowledgesRoutes = new Hono<Env>()
                 knowledge_id: knowledge.id,
                 intent_id: intent.id,
                 text: question.trim(),
-                // responses: intent.responses,
+                idx: key + 1,
               },
             };
-          })
-        );
-      }
+          });
+
+          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch([
+            {
+              body: {
+                bot_id: knowledge.bot,
+                knowledge_id: knowledge.id,
+                intent_id: intent.id,
+                text: intent.name,
+                idx: 0,
+              },
+            },
+            ...batch,
+          ]);
+        })
+      );
+
       return c.json({ totalIntent: knowledge.intents.length, totalQuestions });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -181,6 +209,46 @@ const knowledgesRoutes = new Hono<Env>()
     await c.env.VECTOR_SENTENCES.deleteByIds(ids);
 
     return c.json(ids);
+  })
+  .post("/insert-question", async (c) => {
+    try {
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+
+      const { text, ...metadata } = await c.req.json<{
+        bot_id: string;
+        knowledge_id: string;
+        intent_id: string;
+        text: string;
+      }>();
+
+      const textEmbedding = c.get("textEmbedding") as TextEmbedding;
+      const response = await textEmbedding.addDocument(text, metadata);
+
+      return c.json(response);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .post("/delete-question", async (c) => {
+    try {
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+
+      const { text, ...metadata } = await c.req.json<{
+        bot_id: string;
+        knowledge_id: string;
+        intent_id: string;
+        text: string;
+      }>();
+
+      const textEmbedding = c.get("textEmbedding") as TextEmbedding;
+      const response = await textEmbedding.deleteDocumentByMetadata(text, metadata);
+
+      return c.json(response);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
   });
 
 export { knowledgesRoutes };

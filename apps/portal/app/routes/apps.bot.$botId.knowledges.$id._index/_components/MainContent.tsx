@@ -38,9 +38,6 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
           intents: updatedIntents
         }
       }
-    }).then(() => {
-      // run embeding
-      console.log('updated')
     })
   }, [intents, knowledge.id]);
 
@@ -123,6 +120,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
           <IntentsList
             bot={bot}
+            knowledgeId={knowledge.id}
             searchIntent={searchIntent}
             intents={intents}
             onIntentUpdate={onIntentUpdate}

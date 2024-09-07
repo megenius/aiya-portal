@@ -1,7 +1,8 @@
 // Example usage
 import { Hono } from "hono";
-import { Metadata, TextEmbedding } from "../services/text-embeding";
+import { Metadata, TextEmbedding } from "@repo/shared/utils/text-embeding";
 import { Env } from "~/@types/hono.types";
+import { cache } from "hono/cache";
 
 interface ProductMetadata extends Metadata {
   category: string;
@@ -23,10 +24,13 @@ const textEmbeddingRoutes = new Hono<Env>()
     }
     await next();
   })
-  .post('/create-index', async (c) => {
-    const textEmbedding = c.get('textEmbedding') as TextEmbedding<Metadata>;
+  .post("/create-index", async (c) => {
+    const textEmbedding = c.get("textEmbedding") as TextEmbedding<Metadata>;
     await textEmbedding.createIndex();
-    return c.json({ success: true, message: 'Index created or already exists' });
+    return c.json({
+      success: true,
+      message: "Index created or already exists",
+    });
   })
   .post("/add", async (c) => {
     const textEmbedding = c.get(
@@ -39,6 +43,47 @@ const textEmbeddingRoutes = new Hono<Env>()
     const id = await textEmbedding.addDocument(text, metadata);
     return c.json({ id });
   })
+  .get(
+    "/search",
+    cache({
+      cacheName: "text-embedding-search",
+      cacheControl: "max-age=15",
+    }),
+    async (c) => {
+      const textEmbedding = c.get(
+        "textEmbedding"
+      ) as TextEmbedding<ProductMetadata>;
+
+      // Get query parameters
+      const query = c.req.query("q");
+      const topK = parseInt(c.req.query("topK") || "5", 10);
+      const filtersParam = c.req.query("filters");
+
+      if (!query) {
+        return c.json({ error: "Query parameter 'q' is required" }, 400);
+      }
+
+      // Parse filters
+      const filters: Record<string, unknown> = {};
+      if (filtersParam) {
+        const filterParts = filtersParam.split(" AND ");
+        filterParts.forEach((part) => {
+          const [key, value] = part.split(":");
+          if (key && value) {
+            filters[key.trim()] = value.trim();
+          }
+        });
+      }
+
+      try {
+        const results = await textEmbedding.search(query, { topK, filters });
+        return c.json(results);
+      } catch (error) {
+        console.error("Search error:", error);
+        return c.json({ error: "An error occurred during the search" }, 500);
+      }
+    }
+  )
   .post("/search", async (c) => {
     const textEmbedding = c.get(
       "textEmbedding"

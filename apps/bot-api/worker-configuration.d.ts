@@ -14,4 +14,7 @@ interface Env {
 	FB_APP_LOGIN_ID: string;
 	SENTENCE_EMBEDINGS_QUEUE: Queue;
 	VECTOR_SENTENCES: VectorizeIndex;
+  OPENSEARCH_ENDPOINT: string;
+  OPENSEARCH_USERNAME: string;
+  OPENSEARCH_PASSWORD: string;
 }
