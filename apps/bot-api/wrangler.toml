@@ -7,7 +7,8 @@ routes = [
   { pattern = "portal-local.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
   { pattern = "lambda-api.aiya.me/api/bots/*", zone_name = "aiya.me" },
-  { pattern = "portal.aiya.me/api/bots/*", zone_name = "aiya.me" }
+  { pattern = "portal.aiya.me/api/bots/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/aws/*", zone_name = "aiya.me" }
 ]
 
 [placement]
@@ -24,8 +25,8 @@ queue = "sentences-embeddings"
 
 [[queues.consumers]]
 queue = "sentences-embeddings"
-max_batch_size = 5 # optional: defaults to 10
-max_batch_timeout = 30 # optional: defaults to 5 seconds
+max_batch_size = 10 # optional: defaults to 10
+max_batch_timeout = 3 # optional: defaults to 5 seconds
 
 [[kv_namespaces]]
 binding = "CACHING"

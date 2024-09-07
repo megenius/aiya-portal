@@ -1,30 +1,33 @@
-// File: src/routes/items.ts
 import { Hono } from "hono";
-import { getDirectusClient } from "../config/directus";
-import {
-  readItems,
-  createItem,
-  updateItem,
-  deleteItem,
-  readItem,
-  deleteItems,
-} from "@directus/sdk";
 import { Env } from "~/@types/hono.types";
-import { DirectusError } from "@repo/shared/exceptions/directus";
-import { cache } from "hono/cache";
-import { Channel, VectorQuerySentenceResponse, Workspace } from "~/@types/app";
-import { knowledgesRoutes } from "./knowledges";
-import { getTextEmbedding, groupByIntentWithMaxScore } from "~/utils/vector";
-import * as _ from "lodash";
-import { loadKnowledges } from "~/service/knowledges";
 import { AwsClient } from "aws4fetch";
 
-const awsRoutes = new Hono<Env>()
-.post("/cohere/embed", async (c) => {
+// Define types for the request and response
+interface EmbeddingRequest {
+  text: string;
+}
+
+interface EmbeddingResponse {
+  embedding: number[];
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
+// Define the Cohere API response type
+interface CohereApiResponse {
+  embeddings: number[][];
+  texts: string[];
+}
+
+const awsRoutes = new Hono<Env>();
+
+awsRoutes.post("/cohere/embed", async (c) => {
   const bedrockEndpoint = "https://bedrock-runtime.us-west-2.amazonaws.com";
   const modelId = "cohere.embed-multilingual-v3";
 
-  async function getCohereEmbedding(text: string) {
+  async function getCohereEmbedding(text: string): Promise<number[]> {
     const aws = new AwsClient({
       accessKeyId: c.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: c.env.AWS_SECRET_ACCESS_KEY,
@@ -54,25 +57,29 @@ const awsRoutes = new Hono<Env>()
     const response = await fetch(signedRequest);
     
     if (!response.ok) {
-      const result = await response.json()
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
-    const data = (await response.json()) as any;
+    const data = await response.json() as CohereApiResponse;
     return data.embeddings[0];
   }
 
-  const { text } = await c.req.json();
-  if (!text) {
-    return c.json({ error: "Text is required" }, 400);
+  const body = await c.req.json<EmbeddingRequest>();
+  if (!body.text || typeof body.text !== 'string' || body.text.length > 1000) {
+    return c.json<ErrorResponse>({ 
+      error: "Invalid input. Text is required and must be a string of 1000 characters or less." 
+    }, 400);
   }
 
   try {
-    const embedding = await getCohereEmbedding(text);
-    return c.json({ embedding });
-  } catch (error: any) {
-    return c.json({ error: error.message }, 500);
+    const embedding = await getCohereEmbedding(body.text);
+    return c.json<EmbeddingResponse>({ embedding });
+  } catch (error) {
+    console.error('Detailed error:', error);
+    return c.json<ErrorResponse>({ 
+      error: "An error occurred while processing your request." 
+    }, 500);
   }
-})
-
+});
 
 export { awsRoutes };

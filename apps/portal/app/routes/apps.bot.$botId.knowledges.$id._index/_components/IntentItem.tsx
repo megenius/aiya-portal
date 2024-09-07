@@ -55,7 +55,6 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, intent, searchText, isActi
       >
         <div className="pb-10 px-6">
           <IntentQuestionList questions={intent.questions} searchText={searchText}
-
             onChanged={(updatedQuestions) => {
               onUpdate && onUpdate({ ...intent, questions: updatedQuestions });
             }}

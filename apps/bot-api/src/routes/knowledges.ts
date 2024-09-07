@@ -107,7 +107,7 @@ const knowledgesRoutes = new Hono<Env>()
       await directus.setToken(c.get("token"));
       const intentId = c.req.param("intentId") as string;
 
-      const knowledge = await loadKnowledges({c, knowledgeId, directus });
+      const knowledge = await loadKnowledges({ c, knowledgeId, directus });
       const intents = knowledge.intents.filter(
         (intent) => intent.id === c.req.param("intentId")
       );
@@ -157,6 +157,30 @@ const knowledgesRoutes = new Hono<Env>()
     );
 
     return c.json({});
+  })
+  .delete("/embeddings", async (c) => {
+    const { bot_id, knowledge_id, intent } = await c.req.json<{
+      bot_id: string;
+      knowledge_id: string;
+      intent: BotIntent;
+    }>();
+    const text = intent.name;
+    const embedding = await getTextEmbedding(text);
+    const matches = await c.env.VECTOR_SENTENCES.query(embedding, {
+      topK: 100,
+      filter: {
+        bot_id,
+        knowledge_id,
+        intent_id: intent.id,
+      },
+      returnValues: false,
+      returnMetadata: "indexed",
+    });
+
+    const ids = matches.matches.map((match) => match.id);
+    await c.env.VECTOR_SENTENCES.deleteByIds(ids);
+
+    return c.json(ids);
   });
 
 export { knowledgesRoutes };
