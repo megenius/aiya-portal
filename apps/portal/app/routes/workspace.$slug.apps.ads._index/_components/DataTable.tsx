@@ -1,13 +1,16 @@
 
 import { Avatar } from '@repo/preline/Avatar';
 import React from 'react';
-import { AdApp } from '~/@types/app';
+import {
+  FacebookAdAccount
+} from '~/@types/app';
 import { getDirectusFileUrl } from '~/utils/files';
-
+import { NumericFormat } from 'react-number-format';
+import { CurrencyFormatter } from '@repo/ui';
 
 type DataTableProps = {
-  items?: AdApp[];
-  onRowClick?: (item: AdApp) => void
+  items?: FacebookAdAccount[];
+  onRowClick?: (item: FacebookAdAccount) => void
 };
 
 export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
@@ -22,16 +25,21 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                   Name
                 </div>
               </th>
-              {/* <th className="min-w-48">
+              <th className="min-w-48">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
-                  Role
+                  Spent last 28 days
+                </div>
+              </th>
+              <th className="min-w-48">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
+                  Business Name
                 </div>
               </th>
               <th className="min-w-36">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
-                  Plan
+                  Business Manager
                 </div>
-              </th> */}
+              </th>
               <th>
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Status
@@ -49,24 +57,33 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                       <span className="text-sm font-medium text-gray-800 dark:text-neutral-500">
                         {item.name}
                       </span>
+                      <div className="text-sm text-gray-400 dark:text-neutral-400">
+                        {item.ad_account_id}
+                      </div>
                     </div>
                   </div>
                 </td>
-                {/* <td className="size-px whitespace-nowrap px-4 py-3">
-                  <span className="text-sm text-gray-600">{item.role}</span>
+                <td className="size-px whitespace-nowrap px-4 py-3">
+                  <Spend spend={item.spend} currency={item.metadata?.currency} />
                 </td>
                 <td className="size-px whitespace-nowrap px-4 py-3">
-                  <span className="text-sm text-gray-600">{item.plan}</span>
-                </td> */}
+                  <span className="text-sm text-gray-600">{item.metadata?.business_name}</span>
+                </td>
+                <td className="size-px whitespace-nowrap px-4 py-3">
+                  <span className="text-sm text-gray-600">{item.metadata?.business?.name}</span>
+                  <div className="text-sm text-gray-400 dark:text-neutral-400">
+                    {item.metadata?.business?.id}
+                  </div>
+                </td>
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   <span
-                    className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${item.status === 'Active'
+                    className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${item.metadata?.account_status === 1
                       ? 'bg-teal-100 text-teal-800'
                       : 'bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white'
                       }`}
                   >
                     <span className="size-1.5 inline-block bg-gray-800 rounded-full"></span>
-                    {item.status}
+                    {item.metadata?.account_status === 1 ? 'Active' : 'Disabled'}
                   </span>
                 </td>
               </tr>
@@ -78,3 +95,12 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
   );
 };
 
+
+const Spend: React.FC<{ spend?: number, currency?: string }> = ({ spend = 0, currency = "" }) => {
+  if (spend === 0) {
+    return
+  }
+  return (
+    <span className="text-sm text-gray-600"><CurrencyFormatter amount={spend} currency={currency} /></span>
+  );
+};

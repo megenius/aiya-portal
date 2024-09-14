@@ -121,6 +121,50 @@ const workspacesRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
+  .get("/:id/facebook-ad-accounts", async (c) => {
+    try {
+      const FB_API_URL = c.env.FB_API_URL;
+      const workspaceId = c.req.param("id") as string;
+      const directus = getDirectusClient();
+      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const items = await directus.request(
+        readItems("facebook_ad_accounts", {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+
+      const accounts = await Promise.all(
+        items.map(async (item) => {
+          const fbURL = new URL(`${FB_API_URL}/${item.ad_account_id}/insights`);
+          fbURL.searchParams.append("fields", "spend");
+          fbURL.searchParams.append("level", "account");
+
+          const response = await fetch(fbURL.toString(), {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${item.access_token}`,
+            },
+          }).then((res) => res.json());
+
+          const data = response.data[0];
+          return { ...item, spend: data?.spend };
+        })
+      );
+
+      console.log(accounts);
+      
+
+      return c.json({ items: accounts });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
   .get("/:id/bots", async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
@@ -156,7 +200,14 @@ const workspacesRoutes = new Hono<Env>()
               _eq: workspaceId,
             },
           },
-          fields: ["id", "platform", "provider_id", "name", "logo", "expired_at"],
+          fields: [
+            "id",
+            "platform",
+            "provider_id",
+            "name",
+            "logo",
+            "expired_at",
+          ],
           sort: ["-date_updated"],
         })
       );

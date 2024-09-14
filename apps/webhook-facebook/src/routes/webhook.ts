@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { handle as snsEventHandler } from "../handlers/snsEventHandler";
 import { handle as logEventHandler } from "../handlers/logEventHandler";
 import { handle as forwardEventHandler } from "../handlers/forwardEventHandler";
+import { handle as snsImageEventHandler } from "../handlers/snsImageEventHandler";
 import { Bindings } from "../types";
 import { WebhookFacebookEvent } from "~/@types/app";
 
@@ -11,16 +12,25 @@ const webhookRouter = new Hono<{
 
 webhookRouter
   .post("/", async (c) => {
+
     const body: WebhookFacebookEvent = await c.req.json();
     await Promise.all([
       ...body.entry.map((entry) => {
         return Promise.all(
           entry.messaging.map((messaging) => {
-            return Promise.all([
-              snsEventHandler(c, messaging, messaging.recipient.id),
-              // logEventHandler(c, messaging),
-              // forwardEventHandler(c, messaging, []),
-            ]);
+            if (messaging.message?.attachments) {
+              return Promise.all([
+                snsImageEventHandler(c, messaging, messaging.recipient.id),
+                // logEventHandler(c, messaging),
+                // forwardEventHandler(c, messaging, []),
+              ]);
+            } else {
+              return Promise.all([
+                snsEventHandler(c, messaging, messaging.recipient.id),
+                // logEventHandler(c, messaging),
+                // forwardEventHandler(c, messaging, []),
+              ]);
+            }
           })
         );
       }),

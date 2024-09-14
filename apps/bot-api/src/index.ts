@@ -5,11 +5,11 @@ import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
 import { knowledgesRoutes } from "./routes/knowledges";
 import { getTextEmbedding } from "./utils/vector";
-import { MD5 } from "./utils/crypto";
 import { awsRoutes } from "./routes/aws";
 import testRoutes from "./routes/test";
 import { textEmbeddingRoutes } from "./routes/text-embedding";
 import { TextEmbedding } from "@repo/shared/utils/text-embeding";
+import { MD5 } from "@repo/shared/utils";
 // import { cache } from 'hono/cache'
 
 const app = new Hono<HonoEnv>()

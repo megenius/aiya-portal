@@ -1,7 +1,7 @@
 {
   "name": "aws-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 14103",
+    "dev": "wrangler dev src/index.ts --port 14103  --inspector-port 24103",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {

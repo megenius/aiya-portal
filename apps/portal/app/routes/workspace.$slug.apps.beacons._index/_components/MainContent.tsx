@@ -5,8 +5,8 @@ import PageFilter from './PageFilter';
 import AddModal from './AddModal';
 import { useNavigate } from '@remix-run/react';
 import MainContainer from '~/components/MainContainer';
-import { useAds } from '~/hooks/ad/useAds';
-import { useAdInsert } from '~/hooks/ad/useAdInsert';
+import { useAds } from '~/hooks/adaccount/useAds';
+import { useAdInsert } from '~/hooks/adaccount/useAdInsert';
 import { AdApp, Workspace } from '~/@types/app';
 import { randomHexString } from '~/utils/random';
 

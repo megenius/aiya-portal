@@ -142,7 +142,8 @@ export function useFacebookSDK({
             setLoginStatus(response);
 
             if (response.authResponse) {
-              fetchExchageToken(response.authResponse.code as string).then(
+              const { code, accessToken } = response.authResponse;
+              fetchExchageToken({ code, shortLivedToken: accessToken }).then(
                 (data) => {
                   console.log("Long-lived token received:", data);
                   const authResponse = {
@@ -255,6 +256,65 @@ export function useFacebookSDK({
     });
   }, []);
 
+  const getAdAccounts = useCallback((accessToken) => {
+    return new Promise<
+      Array<{
+        id: string;
+        name: string;
+        business: string;
+        account_status: string;
+        disable_reason: string;
+        created_time: string;
+        currency: string;
+        timezone_name: string;
+        timezone_offset_hours_utc: number;
+        customconversions: any[];
+      }>
+    >((resolve, reject) => {
+      if (!accessToken) reject(new Error("User access token not found"));
+
+      if (typeof window === "undefined" || !window.FB) {
+        reject(new Error("Facebook SDK not initialized"));
+        return;
+      }
+
+      const fields = [
+        "name",
+        "business",
+        "business_name",
+        "id",
+        "account_status",
+        "disable_reason",
+        "created_time",
+        "currency",
+        "timezone_name",
+        "timezone_offset_hours_utc",
+        "customconversions",
+      ];
+      const url = `/me/adaccounts?limit=100&fields=${fields.join(",")}&access_token=${accessToken}`;
+      console.log("Fetching ad accounts:", url);
+
+      window.FB?.api(url, "get", (res: any) => {
+        console.log(res);
+        const pages = res.data.map((p) => {
+          return {
+            id: p.id,
+            name: p.name,
+            business_name: p.business_name,
+            business: p.business,
+            account_status: p.account_status,
+            disable_reason: p.disable_reason,
+            created_time: p.created_time,
+            currency: p.currency,
+            timezone_name: p.timezone_name,
+            timezone_offset_hours_utc: p.timezone_offset_hours_utc,
+            customconversions: p.customconversions,
+          };
+        });
+        resolve(pages);
+      });
+    });
+  }, []);
 
   return {
     isInitialized,
@@ -266,5 +326,6 @@ export function useFacebookSDK({
     hideChat,
     accessToken,
     getPages,
+    getAdAccounts,
   };
 }

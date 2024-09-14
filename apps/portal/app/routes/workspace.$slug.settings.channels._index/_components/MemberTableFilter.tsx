@@ -25,15 +25,15 @@ const MemberTableFilter: React.FC<MemberTableFilterProps> = ({ onChanged, onLoad
 
 export default MemberTableFilter;
 
-const FB_APP_ID = '788582819272015'
-const FB_APP_LOGIN_ID = '427888229704742'
 
 const AddButton: React.FC<{ onLoadPages }> = ({ onLoadPages }) => {
-  const { login, getPages } = useFacebookSDK({ appId: FB_APP_ID });
+  const { login, getPages } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID  });
 
   const handleFacebookLogin = async () => {
+    // console.log("import.meta.env.VITE_FB_APP_LOGIN_ID", import.meta.env.VITE_FB_APP_LOGIN_ID);
+    const configId = "881846220485854"
     login({
-      config_id: FB_APP_LOGIN_ID,
+      config_id: configId, //import.meta.env.VITE_FB_APP_LOGIN_ID,
       response_type: 'code',
       override_default_response_type: true
     }).then((response) => {
