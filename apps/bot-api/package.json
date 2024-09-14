@@ -1,7 +1,7 @@
 {
   "name": "bot-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 14101",
+    "dev": "wrangler dev src/index.ts --port 14101 --inspector-port 24101",
     "deploy": "wrangler deploy --minify src/index.ts",
     "cf-typegen": "wrangler types"
   },

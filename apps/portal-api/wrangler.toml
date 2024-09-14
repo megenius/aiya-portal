@@ -13,7 +13,7 @@ mode = "smart"
 PORTAL_URL = "https://portal-dev.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
-FB_APP_LOGIN_ID = "764646715708204"
+FB_APP_LOGIN_ID = "1241725043635802"
 
 
 [env.prod]

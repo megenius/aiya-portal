@@ -10,6 +10,7 @@ import { getTextEmbedding, groupByIntentWithMaxScore } from "~/utils/vector";
 import * as _ from "lodash";
 import { loadKnowledges } from "~/service/knowledges";
 import { TextEmbedding } from "@repo/shared/utils/text-embeding";
+import { webhookRoutes } from "./webhook";
 
 const botsRoutes = new Hono<Env>()
   .use("*", async (c, next) => {
@@ -209,6 +210,8 @@ const botsRoutes = new Hono<Env>()
 
       return c.json({ messages, matches });
     }
-  );
+  )
+
+  .route("/:id/webhook", webhookRoutes)
 
 export { botsRoutes };

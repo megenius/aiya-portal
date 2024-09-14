@@ -1,6 +1,6 @@
 // hooks/useAds.ts
 import { useQuery } from "@tanstack/react-query";
-import { fetchWorkspaceBots } from "~/services/workspaces";
+import { fetchAdDashboard } from "~/services/ads";
 import { useAppSelector } from "~/store";
 
 interface QueryProps {
@@ -8,13 +8,13 @@ interface QueryProps {
 }
 
 interface Variables {
-  wid: string;
+  id: string;
 }
 
-export const useAds = ({ variables: { wid } }: QueryProps) => {
+export const useFacebookAdDashboard = ({ variables: { id } }: QueryProps) => {
   return useQuery({
-    queryKey: ["ads", wid],
-    queryFn: () => fetchWorkspaceBots(wid).then((res) => res.data),
+    queryKey: ["adaccounts", id, "dashboard"],
+    queryFn: () => fetchAdDashboard(id).then((res) => res.data),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
   });
 };

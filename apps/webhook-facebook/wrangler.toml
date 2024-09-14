@@ -1,12 +1,19 @@
 name = "webhooks-v2"
 compatibility_date = "2024-08-12"
 
+routes = [
+  { pattern = "webhook-dev.aiya.me/api/v2/facebook", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+  { pattern = "webhook-dev.aiya.me/api/v2/facebook/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+]
+
+
 [placement]
 mode = "smart"
 
 [vars]
 AWS_REGION = "ap-southeast-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-v2_dev.fifo"
+SNS_TOPIC_IMAGE_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-image-v2_dev.fifo"
 
 [[d1_databases]]
 binding = "DB"
@@ -14,30 +21,31 @@ database_name = "webhooks"
 database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
 
 
-[env.dev]
-  name = "webhooks-v2_dev"
+# [env.dev]
+#   name = "webhooks-v2_dev"
 
-  routes = [
-    { pattern = "dev-worker.aiya.me/api/v2/facebook", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
-    { pattern = "dev-worker.aiya.me/api/v2/facebook/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
-  ]
+#   routes = [
+#     { pattern = "dev-worker.aiya.me/api/v2/facebook", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+#     { pattern = "dev-worker.aiya.me/api/v2/facebook/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+#   ]
 
-[[env.dev.d1_databases]]
-binding = "DB"
-database_name = "webhooks_dev"
-database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
+# [[env.dev.d1_databases]]
+# binding = "DB"
+# database_name = "webhooks_dev"
+# database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
 
-[env.dev.vars]
-AWS_REGION = "ap-southeast-1"
-SNS_TOPIC_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-v2_dev.fifo"
+# [env.dev.vars]
+# AWS_REGION = "ap-southeast-1"
+# SNS_TOPIC_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-v2_dev.fifo"
+# SNS_TOPIC_IMAGE_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-image-v2_dev.fifo"
 
 [env.prod]
-  name = "webhooks-v2_prod"
+name = "webhooks-v2_prod"
 
-  routes = [
-    { pattern = "worker.aiya.me/api/v2/facebook", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
-    { pattern = "worker.aiya.me/api/v2/facebook/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
-  ]
+routes = [
+  { pattern = "webhook.aiya.me/api/v2/facebook", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+  { pattern = "webhook.aiya.me/api/v2/facebook/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+]
 
 [[env.prod.d1_databases]]
 binding = "DB"
@@ -47,6 +55,7 @@ database_id = "48e858e8-8353-490a-b86e-edf209b237b6"
 [env.prod.vars]
 AWS_REGION = "ap-southeast-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-v2_prod.fifo"
+SNS_TOPIC_IMAGE_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-image-v2_prod.fifo"
 
 # [vars]
 # MY_VAR = "my-variable"

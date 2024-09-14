@@ -24,6 +24,7 @@ export interface Message {
   mid: string
   text: string
   quick_reply: QuickReply
+  attachments?: Attachments[]
 }
 
 export interface QuickReply {
@@ -32,4 +33,13 @@ export interface QuickReply {
 
 export interface Recipient {
   id: string
+}
+
+interface Attachments {
+  type: string
+  payload: Payload
+}
+
+interface Payload {
+  url: string
 }

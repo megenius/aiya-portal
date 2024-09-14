@@ -1,7 +1,7 @@
 {
   "name": "channel-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 14102",
+    "dev": "wrangler dev src/index.ts --port 14102  --inspector-port 24102",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {

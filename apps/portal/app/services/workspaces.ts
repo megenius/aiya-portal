@@ -3,6 +3,7 @@ import {
   Workspace,
   WorkspaceBot,
   WorkspaceChannel,
+  WorkspaceFacebookAdAccount,
   WorkspaceMember,
 } from "~/@types/app";
 import api from "./api";
@@ -51,3 +52,9 @@ export const insertWorkspaceFacecbookChannels = (
     "/workspaces/" + id + "/channels/facebooks",
     items
   );
+
+export const fetchFacebookAdAccounts = (id: string) =>
+  api.get<{ items: WorkspaceFacebookAdAccount[] }>(
+    "/workspaces/" + id + "/facebook-ad-accounts"
+  );
+

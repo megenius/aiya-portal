@@ -23,7 +23,8 @@ export default ({ mode }) => {
       proxy: {
         "/api/bots": getEndpoint("http://localhost:14101", ""),
         "/api/channels": getEndpoint("http://localhost:14102", ""),
-        "/api/aws": getEndpoint("http://localhost:14101", ""),
+        "/api/ads": getEndpoint("http://localhost:14105", ""),
+        "/api/aws": getEndpoint("http://localhost:14103", ""),
 
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),

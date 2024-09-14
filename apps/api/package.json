@@ -1,7 +1,7 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 13000",
+    "dev": "wrangler dev src/index.ts --port 13000  --inspector-port 23000",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {

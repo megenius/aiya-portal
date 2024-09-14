@@ -5,8 +5,28 @@ export type Bot = components["schemas"]["ItemsBots"];
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
 export type ChannelDatasets = components["schemas"]["ItemsChannelsDatasets"];
+export type FacebookAdAccount =
+  components["schemas"]["ItemsFacebookAdAccounts"] & {
+    spend?: number;
+    metadata: {
+      id: string;
+      name: string;
+      business_name: string;
+      account_status: number;
+      disable_reason: number;
+      created_time: string;
+      currency: string;
+      timezone_name: string;
+      timezone_offset_hours_utc: number;
+      business: {
+        id: string;
+        name: string;
+      };
+    };
+  };
 
 export type WorkspaceBot = Bot;
+export type WorkspaceFacebookAdAccount = FacebookAdAccount;
 export type WorkspaceChannel = Channel;
 export type BotChannelStatus = Channel & { enabled: boolean };
 export type BotUpdate = {
