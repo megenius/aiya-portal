@@ -121,14 +121,15 @@ const workspacesRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
-  .get("/:id/facebook-ad-accounts", async (c) => {
+  .get("/:id/ad-accounts", async (c) => {
     try {
       const FB_API_URL = c.env.FB_API_URL;
       const workspaceId = c.req.param("id") as string;
       const directus = getDirectusClient();
+      // await directus.setToken(c.get("token"));
       await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
       const items = await directus.request(
-        readItems("facebook_ad_accounts", {
+        readItems("ad_accounts", {
           filter: {
             team: {
               _eq: workspaceId,
@@ -158,7 +159,6 @@ const workspacesRoutes = new Hono<Env>()
       );
 
       console.log(accounts);
-      
 
       return c.json({ items: accounts });
     } catch (error) {

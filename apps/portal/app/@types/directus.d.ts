@@ -2032,6 +2032,123 @@ export interface paths {
      */
     patch: operations["updateSingleItemsAdsAIRules"];
   };
+  "/items/ad_ads": {
+    /**
+     * List Items
+     * @description List the ad_ads items.
+     */
+    get: operations["readItemsAdAds"];
+    /**
+     * Create an Item
+     * @description Create a new ad_ads item.
+     */
+    post: operations["createItemsAdAds"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing ad_ads items.
+     */
+    delete: operations["deleteItemsAdAds"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple ad_ads items at the same time.
+     */
+    patch: operations["updateItemsAdAds"];
+  };
+  "/items/ad_ads/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single ad_ads item by unique identifier.
+     */
+    get: operations["readSingleItemsAdAds"];
+    /**
+     * Delete an Item
+     * @description Delete an existing ad_ads item.
+     */
+    delete: operations["deleteSingleItemsAdAds"];
+    /**
+     * Update an Item
+     * @description Update an existing ad_ads item.
+     */
+    patch: operations["updateSingleItemsAdAds"];
+  };
+  "/items/ad_campaigns": {
+    /**
+     * List Items
+     * @description List the ad_campaigns items.
+     */
+    get: operations["readItemsAdCampaigns"];
+    /**
+     * Create an Item
+     * @description Create a new ad_campaigns item.
+     */
+    post: operations["createItemsAdCampaigns"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing ad_campaigns items.
+     */
+    delete: operations["deleteItemsAdCampaigns"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple ad_campaigns items at the same time.
+     */
+    patch: operations["updateItemsAdCampaigns"];
+  };
+  "/items/ad_campaigns/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single ad_campaigns item by unique identifier.
+     */
+    get: operations["readSingleItemsAdCampaigns"];
+    /**
+     * Delete an Item
+     * @description Delete an existing ad_campaigns item.
+     */
+    delete: operations["deleteSingleItemsAdCampaigns"];
+    /**
+     * Update an Item
+     * @description Update an existing ad_campaigns item.
+     */
+    patch: operations["updateSingleItemsAdCampaigns"];
+  };
+  "/items/ad_accounts": {
+    /**
+     * List Items
+     * @description List the ad_accounts items.
+     */
+    get: operations["readItemsAdAccounts"];
+    /**
+     * Create an Item
+     * @description Create a new ad_accounts item.
+     */
+    post: operations["createItemsAdAccounts"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing ad_accounts items.
+     */
+    delete: operations["deleteItemsAdAccounts"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple ad_accounts items at the same time.
+     */
+    patch: operations["updateItemsAdAccounts"];
+  };
+  "/items/ad_accounts/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single ad_accounts item by unique identifier.
+     */
+    get: operations["readSingleItemsAdAccounts"];
+    /**
+     * Delete an Item
+     * @description Delete an existing ad_accounts item.
+     */
+    delete: operations["deleteSingleItemsAdAccounts"];
+    /**
+     * Update an Item
+     * @description Update an existing ad_accounts item.
+     */
+    patch: operations["updateSingleItemsAdAccounts"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -3313,13 +3430,14 @@ export interface components {
       campaign_id?: string | null;
       facebook_ad_account?: string | components["schemas"]["ItemsFacebookAdAccounts"] | null;
       name?: string | null;
-      budget?: number | null;
       /** Format: date-time */
       start_date?: string | null;
       /** Format: date-time */
       end_date?: string | null;
       /** Format: timestamp */
       last_synced?: string | null;
+      metadata?: unknown;
+      status?: string | null;
       ad_sets?: ((string | components["schemas"]["ItemsAdSets"])[]) | null;
       rule?: ((number | components["schemas"]["ItemsCampaignsAIRules"])[]) | null;
     };
@@ -3476,6 +3594,77 @@ export interface components {
       id?: number;
       ads_id?: string | components["schemas"]["ItemsAds"] | null;
       rule_id?: string | components["schemas"]["ItemsAIRules"] | null;
+    };
+    ItemsAdAds: {
+      /** Format: uuid */
+      id?: string;
+      sort?: number | null;
+      /** Format: uuid */
+      user_created?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: uuid */
+      user_updated?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      ad_id?: string | null;
+      /** Format: uuid */
+      ad_set?: string | null;
+      name?: string | null;
+      creative_content?: unknown;
+      call_to_action?: string | null;
+      /** Format: timestamp */
+      last_synced?: string | null;
+      rule?: string | null;
+    };
+    ItemsAdCampaigns: {
+      /** Format: uuid */
+      id?: string;
+      sort?: number | null;
+      /** Format: uuid */
+      user_created?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: uuid */
+      user_updated?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      campaign_id?: string | null;
+      /** Format: uuid */
+      facebook_ad_account?: string | null;
+      name?: string | null;
+      /** Format: date-time */
+      start_date?: string | null;
+      /** Format: date-time */
+      end_date?: string | null;
+      /** Format: timestamp */
+      last_synced?: string | null;
+      metadata?: unknown;
+      status?: string | null;
+      ad_sets?: string | null;
+      rule?: string | null;
+    };
+    ItemsAdAccounts: {
+      /** Format: uuid */
+      id?: string;
+      sort?: number | null;
+      /** Format: uuid */
+      user_created?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: uuid */
+      user_updated?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      ad_account_id?: string | null;
+      /** Format: uuid */
+      team?: string | null;
+      name?: string | null;
+      access_token?: string | null;
+      /** Format: timestamp */
+      last_synced?: string | null;
+      metadata?: unknown;
+      campaigns?: string | components["schemas"]["ItemsAdCampaigns"] | null;
     };
   };
   responses: {
@@ -13704,6 +13893,555 @@ export interface operations {
       404: components["responses"]["NotFoundError"];
     };
   };
+  /**
+   * List Items
+   * @description List the ad_ads items.
+   */
+  readItemsAdAds: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAds"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new ad_ads item.
+   */
+  createItemsAdAds: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAds"][] | components["schemas"]["ItemsAdAds"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing ad_ads items.
+   */
+  deleteItemsAdAds: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple ad_ads items at the same time.
+   */
+  updateItemsAdAds: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAds"][] | components["schemas"]["ItemsAdAds"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single ad_ads item by unique identifier.
+   */
+  readSingleItemsAdAds: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAds"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing ad_ads item.
+   */
+  deleteSingleItemsAdAds: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing ad_ads item.
+   */
+  updateSingleItemsAdAds: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAds"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAds"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the ad_campaigns items.
+   */
+  readItemsAdCampaigns: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdCampaigns"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new ad_campaigns item.
+   */
+  createItemsAdCampaigns: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdCampaigns"][] | components["schemas"]["ItemsAdCampaigns"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing ad_campaigns items.
+   */
+  deleteItemsAdCampaigns: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple ad_campaigns items at the same time.
+   */
+  updateItemsAdCampaigns: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdCampaigns"][] | components["schemas"]["ItemsAdCampaigns"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single ad_campaigns item by unique identifier.
+   */
+  readSingleItemsAdCampaigns: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdCampaigns"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing ad_campaigns item.
+   */
+  deleteSingleItemsAdCampaigns: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing ad_campaigns item.
+   */
+  updateSingleItemsAdCampaigns: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdCampaigns"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdCampaigns"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the ad_accounts items.
+   */
+  readItemsAdAccounts: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAccounts"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new ad_accounts item.
+   */
+  createItemsAdAccounts: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAccounts"][] | components["schemas"]["ItemsAdAccounts"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing ad_accounts items.
+   */
+  deleteItemsAdAccounts: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple ad_accounts items at the same time.
+   */
+  updateItemsAdAccounts: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAccounts"][] | components["schemas"]["ItemsAdAccounts"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single ad_accounts item by unique identifier.
+   */
+  readSingleItemsAdAccounts: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAccounts"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing ad_accounts item.
+   */
+  deleteSingleItemsAdAccounts: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing ad_accounts item.
+   */
+  updateSingleItemsAdAccounts: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdAccounts"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdAccounts"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
 }
 
 
@@ -13740,5 +14478,8 @@ export type Schema = {
   campaigns_ai_rules: components["schemas"]["ItemsCampaignsAIRules"][];
   ad_sets_ai_rules: components["schemas"]["ItemsAdSetsAIRules"][];
   ads_ai_rules: components["schemas"]["ItemsAdsAIRules"][];
+  ad_ads: components["schemas"]["ItemsAdAds"][];
+  ad_campaigns: components["schemas"]["ItemsAdCampaigns"][];
+  ad_accounts: components["schemas"]["ItemsAdAccounts"][];
 };
 

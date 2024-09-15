@@ -1,8 +1,8 @@
-import { Env } from "@repo/shared";
 import { Context, Next } from "hono";
 import { createMiddleware } from "hono/factory";
 import { decode, verify } from "hono/jwt";
 import { JWTPayload } from "hono/utils/jwt/types";
+import { Env } from "~/@types/hono.types";
 
 const BEARER_PREFIX = "Bearer ";
 

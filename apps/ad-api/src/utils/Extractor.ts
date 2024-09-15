@@ -1,4 +1,4 @@
-import { FacebookAdAccount, FacebookAdCampaign } from "~/@types/app";
+import { AdAccount, AdCampaign } from "~/@types/app";
 
 interface Action {
   action_type: string;
@@ -25,7 +25,7 @@ interface FacebookData {
 }
 
 abstract class FacebookDataExtractor<
-  T extends FacebookAdAccount | FacebookAdCampaign,
+  T extends AdAccount | AdCampaign,
 > {
   protected entity: T;
   protected data: FacebookData;
@@ -158,8 +158,8 @@ abstract class FacebookDataExtractor<
   }
 }
 
-export class AdDataExtractor extends FacebookDataExtractor<FacebookAdAccount> {
-  constructor(adAccount: FacebookAdAccount, adData: FacebookData) {
+export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
+  constructor(adAccount: AdAccount, adData: FacebookData) {
     super(adAccount, adData);
   }
 
@@ -219,7 +219,7 @@ export class AdDataExtractor extends FacebookDataExtractor<FacebookAdAccount> {
 
   static async fetchAndCreate(
     c: any,
-    adAccount: FacebookAdAccount
+    adAccount: AdAccount
   ): Promise<AdDataExtractor> {
     const FB_API_URL = c.env["FB_API_URL"];
     const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/insights`);
@@ -239,8 +239,8 @@ export class AdDataExtractor extends FacebookDataExtractor<FacebookAdAccount> {
   }
 }
 
-export class CampaignDataExtractor extends FacebookDataExtractor<FacebookAdCampaign> {
-  constructor(campaign: FacebookAdCampaign, campaignData: FacebookData) {
+export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
+  constructor(campaign: AdCampaign, campaignData: FacebookData) {
     super(campaign, campaignData);
   }
 
@@ -302,7 +302,7 @@ export class CampaignDataExtractor extends FacebookDataExtractor<FacebookAdCampa
 
   static async fetchAndCreate(
     c: any,
-    campaign: FacebookAdCampaign
+    campaign: AdCampaign
   ): Promise<CampaignDataExtractor> {
     const FB_API_URL = c.env["FB_API_URL"];
     const url = new URL(`${FB_API_URL}/${campaign.id}/insights`);
@@ -319,26 +319,5 @@ export class CampaignDataExtractor extends FacebookDataExtractor<FacebookAdCampa
       campaign.access_token as string
     );
     return new CampaignDataExtractor(campaign, data);
-  }
-}
-
-// Usage examples
-async function main(c: any) {
-  try {
-    const adAccount: FacebookAdAccount = c.get("adAccount");
-    const adExtractor = await AdDataExtractor.fetchAndCreate(c, adAccount);
-    console.log(adExtractor.getSummary());
-
-    const campaign: FacebookAdCampaign = c.get("campaign");
-    const campaignExtractor = await CampaignDataExtractor.fetchAndCreate(
-      c,
-      campaign
-    );
-    console.log(campaignExtractor.getSummary());
-  } catch (error) {
-    console.error(
-      "Error:",
-      error instanceof Error ? error.message : String(error)
-    );
   }
 }

@@ -4,7 +4,7 @@ import { LogoAiya } from '@repo/ui/LogoAiya';
 import { cn, isRouteActive } from '@repo/ui/utils';
 import React from 'react';
 import { Bot, FacebookAdAccount } from '~/@types/app';
-import { useFacebookAdAccounts } from '~/hooks/adaccount';
+import { useAdAccounts } from '~/hooks/adaccount';
 import { useMe } from '~/hooks/useMe';
 import { useWorkspace } from '~/hooks/workspace';
 import { getDirectusFileUrl } from '~/utils/files';
@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
   const adaccountId = adaccount.id
   const { data: user } = useMe()
   const { data: workspace } = useWorkspace({ id: adaccount?.team });
-  const { data: adaccounts } = useFacebookAdAccounts({ variables: { workspaceId: adaccount?.team as string } })
+  const { data: adaccounts } = useAdAccounts({ variables: { workspaceId: adaccount?.team as string } })
   const navItems: NavItem[] = [
     { label: 'Dashboard', to: `/apps/adaccount/${adaccountId}` },
     { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },

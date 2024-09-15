@@ -14,6 +14,7 @@ type Bindings = {
   DIRECTUS_SECRET_KEY: string
   DIRECTUS_SERVICE_TOKEN: string
   PORTAL_URL: string
+  FB_API_URL: string;
   FB_APP_ID: string
   FB_APP_SECRET: string
 }

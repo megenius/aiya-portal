@@ -53,8 +53,8 @@ export const insertWorkspaceFacecbookChannels = (
     items
   );
 
-export const fetchFacebookAdAccounts = (id: string) =>
+export const fetchAdAccounts = (id: string) =>
   api.get<{ items: WorkspaceFacebookAdAccount[] }>(
-    "/workspaces/" + id + "/facebook-ad-accounts"
+    "/workspaces/" + id + "/ad-accounts"
   );
 
