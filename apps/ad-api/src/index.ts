@@ -49,86 +49,105 @@ export default {
     console.log("batch", batch.queue, batch.messages.length);
 
     if (batch.queue == "ad-account-sync") {
-      const adAccounts = batch.messages.map((message) => message.body);
+      const messages = batch.messages.map(
+        (message) =>
+          message.body as {
+            ad: {
+              id: string;
+              ad_account_id: string;
+              access_token: string;
+            };
+            type: string;
+          }
+      );
 
-      for (const ad of adAccounts) {
-        const campaignApi = new CampaignApi(
-          ad.ad_account_id as string,
-          ad.access_token as string,
-          FB_API_URL
-        );
-
-        await campaignApi.getCampaignInfo(async (campaigns) => {
-          await env.AD_CAMPAIGN_SYNC.sendBatch(
-            campaigns.map((data) => {
-              return {
-                body: {
-                  campaign_id: data.id,
-                  ad_account: ad.id,
-                  ad_account_id: ad.ad_account_id,
-                  name: data.name,
-                  start_date: data.start_time,
-                  end_date: data.end_time,
-                  status: data.status,
-                  last_synced: toDate(new Date()).toISOString(),
-                  data: data,
-                },
-              };
-            })
+      for (const message of messages) {
+        const ad = message.ad;
+        if (message.type === "campaigns") {
+          const campaignApi = new CampaignApi(
+            ad.ad_account_id as string,
+            ad.access_token as string,
+            FB_API_URL
           );
-        });
 
-        const adsetApi = new AdSetApi(
-          ad.ad_account_id as string,
-          ad.access_token as string,
-          FB_API_URL
-        );
-
-        await adsetApi.getAdSetInfo(async (adsets) => {
-          await env.AD_SETS_SYNC.sendBatch(
-            adsets.map((data) => {
-              return {
-                body: {
-                  ad_account: ad.id,
-                  ad_account_id: ad.ad_account_id,
-                  campaign_id: data.campaign.id,
-                  name: data.name,
-                  ad_set_id: data.id,
-                  data,
-                },
-              };
-            })
-          );
-        });
-
-        const adApi = new AdApi(
-          ad.ad_account_id as string,
-          ad.access_token as string,
-          FB_API_URL
-        );
-
-        await adApi.getAdInfo(async (ads) => {
-          await env.AD_ADS_SYNC.sendBatch(
-            ads.map((data) => {
-              return {
-                body: {
-                  ad_account: ad.id,
-                  ad_account_id: ad.ad_account_id,
-                  campaign_id: data.campaign_id,
-                  name: data.name,
-                  ad_id: data.id,
-                  data: {
-                    ...data,
-                    insights: data.insights?.data.length
-                      ? data.insights?.data[0]
-                      : {},
+          await campaignApi.getCampaignInfo(async (campaigns) => {
+            await env.AD_CAMPAIGN_SYNC.sendBatch(
+              campaigns.map((data) => {
+                return {
+                  body: {
+                    campaign_id: data.id,
+                    ad_account: ad.id,
+                    ad_account_id: ad.ad_account_id,
+                    name: data.name,
+                    start_date: data.start_time,
+                    end_date: data.end_time,
+                    status: data.status,
+                    last_synced: toDate(new Date()).toISOString(),
+                    data: data,
                   },
-                  date_created: data.created_time,
-                },
-              };
-            })
+                };
+              })
+            );
+          });
+        } else if (message.type === "adsets") {
+          const adsetApi = new AdSetApi(
+            ad.ad_account_id as string,
+            ad.access_token as string,
+            FB_API_URL
           );
-        });
+
+          await adsetApi.getAdSetInfo(async (adsets) => {
+            await env.AD_SETS_SYNC.sendBatch(
+              adsets.map((data) => {
+                return {
+                  body: {
+                    ad_account: ad.id,
+                    ad_account_id: ad.ad_account_id,
+                    campaign_id: data.campaign.id,
+                    name: data.name,
+                    adset_id: data.id,
+                    data,
+                    status: data.status,
+                    date_created: data.created_time,
+                    last_synced: toDate(new Date()).toISOString(),
+                  },
+                };
+              })
+            );
+          });
+        } else if (message.type === "ads") {
+          const adApi = new AdApi(
+            ad.ad_account_id as string,
+            ad.access_token as string,
+            FB_API_URL
+          );
+
+          await adApi.getAdInfo(async (ads) => {
+            await env.AD_ADS_SYNC.sendBatch(
+              ads.map((data) => {
+                return {
+                  body: {
+                    ad_account: ad.id,
+                    ad_account_id: ad.ad_account_id,
+                    campaign_id: data.campaign_id,
+                    name: data.name,
+                    ad_id: data.id,
+                    adset_id: data.adset_id,
+                    data: {
+                      ...data,
+                      insights: data.insights?.data.length
+                        ? data.insights?.data[0]
+                        : {},
+                    },
+                    status: data.status,
+                    date_created: data.created_time,
+                    last_synced: toDate(new Date()).toISOString(),
+                  },
+                };
+              })
+            );
+          });
+        }
       }
     } else if (batch.queue == "ad-campaign-sync") {
       const directus = getAdminDirectusClient();
@@ -245,7 +264,7 @@ export default {
                 campaign_id: campaign.campaign_id,
                 ad_account_id: campaign.ad_account_id,
                 name: adset.name,
-                ad_set_id: adset.id,
+                adset_id: adset.id,
                 data: adset,
                 access_token: accountToken.get(
                   campaign.ad_account_id as string
@@ -270,7 +289,7 @@ export default {
       const directus = getAdminDirectusClient();
       const accountToken = new Map<string, string>();
       const items = batch.messages.map((message) => {
-        console.log("processing adset", message.body.ad_set_id);
+        console.log("processing adset", message.body.adset_id);
         accountToken.set(message.body.ad_account_id, message.body.access_token);
         return {
           ...message.body,
@@ -282,7 +301,7 @@ export default {
         const adsets = await directus.request(createItems("ad_sets", items));
         // for (const adset of adsets) {
         //   const api = new AdApi(
-        //     adset.ad_set_id as string,
+        //     adset.adset_id as string,
         //     accountToken.get(adset.ad_account_id as string) as string,
         //     FB_API_URL
         //   );
@@ -295,7 +314,7 @@ export default {
         //       ad_set: adset.id,
         //       ad_account_id: adset.ad_account_id,
         //       campaign_id: adset.campaign_id,
-        //       ad_set_id: adset.ad_set_id,
+        //       adset_id: adset.adset_id,
         //       ad_id: ad.id,
         //       name: ad.name,
         //       data: ad,

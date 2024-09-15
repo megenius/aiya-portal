@@ -13,7 +13,7 @@ type Variables = {
 type Bindings = {
   NODE_ENV: string;
   LAMBDA_SECRET_KEY: string;
-  AD_ACCOUNT_SYNC: Queue<AdAccount>;
+  AD_ACCOUNT_SYNC: Queue;
   AD_CAMPAIGN_SYNC: Queue;
   AD_SETS_SYNC: Queue;
   AD_ADS_SYNC: Queue;

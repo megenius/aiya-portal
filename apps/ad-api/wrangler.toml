@@ -49,7 +49,8 @@ queue = "ad-campaign-sync-process-adset-ads"
 [[queues.consumers]]
 queue = "ad-account-sync"
 max_batch_size = 1               # optional: defaults to 10
-max_batch_timeout = 15           # optional: defaults to 5 seconds
+max_batch_timeout = 5           # optional: defaults to 5 seconds
+max_concurrency = 6
 
 [[queues.consumers]]
 queue = "ad-campaign-sync"

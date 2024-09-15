@@ -76,10 +76,40 @@ const adsRoutes = new Hono<Env>()
     try {
       const ad = c.get("ad");
       console.log("Syncing ad", ad.id);
-      
-      // await c.env.AD_CAMPAIGN_SYNC_START.send(ad);
-      await c.env.AD_ACCOUNT_SYNC.send(ad);
-      
+
+      await c.env.AD_ACCOUNT_SYNC.sendBatch([
+        {
+          body: {
+            ad: {
+              id: ad.id,
+              ad_account_id: ad.ad_account_id,
+              access_token: ad.access_token,
+            },
+            type: "campaigns",
+          },
+        },
+        {
+          body: {
+            ad: {
+              id: ad.id,
+              ad_account_id: ad.ad_account_id,
+              access_token: ad.access_token,
+            },
+            type: "adsets",
+          },
+        },
+        {
+          body: {
+            ad: {
+              id: ad.id,
+              ad_account_id: ad.ad_account_id,
+              access_token: ad.access_token,
+            },
+            type: "ads",
+          },
+        },
+      ]);
+
       return c.json({});
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
