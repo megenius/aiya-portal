@@ -43,6 +43,7 @@ interface AdSet {
   daily_budget: string;
   lifetime_budget: string;
   budget_remaining: string;
+  created_time: string;
   start_time: string;
   status: string;
 }
@@ -231,6 +232,7 @@ class AdSetApi extends FacebookAdsBase {
       "lifetime_budget",
       "budget_remaining",
       "start_time",
+      "created_time",
       "status",
     ].join(",");
 

@@ -3497,7 +3497,7 @@ export interface components {
       user_updated?: string | components["schemas"]["Users"] | null;
       /** Format: timestamp */
       date_updated?: string | null;
-      ad_set_id?: string | null;
+      adset_id?: string | null;
       name?: string | null;
       /** Format: timestamp */
       last_synced?: string | null;
