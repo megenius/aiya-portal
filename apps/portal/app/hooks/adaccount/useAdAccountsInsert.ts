@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Bot, FacebookAdAccount } from "~/@types/app";
 import { insertFacebookAdAccounts } from "~/services/ads";
 
-export const useFacebookAdAccountsInsert = () => {
+export const useAdAccountsInsert = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["facebook-ad-accounts", "insert"],
+    mutationKey: ["ad-accounts", "insert"],
     mutationFn: (data: FacebookAdAccount[]) =>
       insertFacebookAdAccounts(data).then((response) => response.data),
     onSuccess: (data: FacebookAdAccount[]) => {
@@ -14,7 +14,7 @@ export const useFacebookAdAccountsInsert = () => {
       // Invalidate and refetch
       queryClient
         .invalidateQueries({
-          queryKey: ["workspaces", data[0].team, "facebookAdAccounts"],
+          queryKey: ["workspaces", data[0].team, "ad-accounts"],
           exact: true,
           refetchType: "active",
         })

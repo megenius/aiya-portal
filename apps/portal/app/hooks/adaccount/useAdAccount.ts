@@ -11,7 +11,7 @@ interface Variables {
   id: string;
 }
 
-export const useFacebookAdAccount = ({ variables: { id } }: QueryProps) => {
+export const useAdAccount = ({ variables: { id } }: QueryProps) => {
   return useQuery({
     queryKey: ["adaccounts", id],
     queryFn: () => fetchAdAccount(id).then((res) => res.data),

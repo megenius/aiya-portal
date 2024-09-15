@@ -2,7 +2,7 @@ import { useParams } from '@remix-run/react';
 import { CurrencyFormatter } from '@repo/ui';
 import React from 'react';
 import { FacebookAdAccount } from '~/@types/app';
-import { useFacebookAdDashboard } from '~/hooks/adaccount/useFacebookAdDashboard';
+import { useAdDashboard } from '~/hooks/adaccount/useAdDashboard';
 
 interface OverviewProps {
   adaccount: FacebookAdAccount
@@ -10,7 +10,7 @@ interface OverviewProps {
 
 const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
   const { id } = useParams();
-  const { data, isLoading } = useFacebookAdDashboard({
+  const { data, isLoading } = useAdDashboard({
     variables: {
       id: id as string,
     },

@@ -9,9 +9,9 @@ import { useAds } from '~/hooks/adaccount/useAds';
 import { useAdInsert } from '~/hooks/adaccount/useAdInsert';
 import { AdApp, FacebookAdAccount, Workspace, WorkspaceFacebookAdAccount } from '~/@types/app';
 import { randomHexString } from '~/utils/random';
-import { useFacebookAdAccounts } from '~/hooks/adaccount/useFacebookAdAccounts';
+import { useAdAccounts } from '~/hooks/adaccount/useAdAccounts';
 import { useFacebookSDK } from '~/hooks/useFacebookSDK';
-import { useFacebookAdAccountsInsert } from '~/hooks/adaccount/useFacebookAdAccountsInsert';
+import { useAdAccountsInsert } from '~/hooks/adaccount/useAdAccountsInsert';
 import { toast } from 'react-toastify';
 
 interface MainContentProps {
@@ -20,8 +20,8 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const { login, getAdAccounts } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID });
-  const adAccounts = useFacebookAdAccounts({ variables: { workspaceId: workspace?.id as string } });
-  const adAccountsInsert = useFacebookAdAccountsInsert();
+  const adAccounts = useAdAccounts({ variables: { workspaceId: workspace?.id as string } });
+  const adAccountsInsert = useAdAccountsInsert();
   const insertAd = useAdInsert();
   const navigate = useNavigate()
 
@@ -41,8 +41,10 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     });
   }, [adAccounts, searchValue]);
 
-  const handleRowClick = (item: AdApp) => {
-    navigate(`/apps/adaccount/${item.id}`)
+  const handleRowClick = (item: FacebookAdAccount) => {
+    if (item.last_synced) {
+      navigate(`/apps/adaccount/${item.id}`)
+    }
   }
 
   const handleSync = () => {
@@ -82,15 +84,15 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   return (
     <>
       <MainContainer
-        title="Facebook Ad Accounts"
-        description="Manage your facebook ad accounts"
+        title="Ad Accounts"
+        description="Manage your ad accounts"
         button={
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center text-sm gap-x-1 font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             onClick={() => handleSync()}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-refresh-cw"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>
             Sync
           </button>
         }>

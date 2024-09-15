@@ -9,7 +9,7 @@ export const fetchAds = (wsid: string) =>
 export const fetchAd = (id: string) => api.get<AdApp>(`/items/ads/${id}`);
 
 export const insertFacebookAdAccounts = (data: FacebookAdAccount[]) =>
-  api.post<FacebookAdAccount[]>("/items/facebook_ad_accounts", data);
+  api.post<FacebookAdAccount[]>("/items/ad_accounts", data);
 
 export const updateAd = (id: string, data: AdApp) => {
   return api.patch(`/items/ads/${id}`, data);
@@ -20,7 +20,7 @@ export const deleteAd = (id: string) => {
 };
 
 export const fetchAdAccount = (id: string) =>
-  api.get<FacebookAdAccount>("/items/facebook_ad_accounts/" + id);
+  api.get<FacebookAdAccount>("/items/ad_accounts/" + id);
 
 export const fetchAdDashboard = (id: string) =>
   api.get<{

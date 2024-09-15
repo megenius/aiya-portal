@@ -13,6 +13,7 @@ import { DirectusError } from "@repo/shared/exceptions/directus";
 import { adMiddleware } from "~/middlewares/ads";
 import { Env } from "~/@types/hono.types";
 import { AdDataExtractor } from "~/utils/Extractor";
+import { AdSetApi, CampaignApi } from "~/utils/facebook-api";
 
 const adsRoutes = new Hono<Env>()
   .get("/:id", adMiddleware, async (c) => {
@@ -32,41 +33,88 @@ const adsRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
-  .get("/:id/campaigns", adMiddleware, async (c) => {
+  // .get("/:id/campaigns", adMiddleware, async (c) => {
+  //   try {
+  //     const debug = c.req.query("debug") === "true";
+  //     const ad = c.get("ad");
+
+  //     const FB_API_URL = c.env["FB_API_URL"];
+  //     const startDate = c.req.query("startDate") || "2024-09-06";
+  //     const endDate = c.req.query("endDate") || "2024-09-12";
+
+  //     const url = new URL(`${FB_API_URL}/${ad.ad_account_id}/campaigns`);
+
+  //     url.searchParams.append("fields", "id,name,spend,impressions,clicks");
+  //     url.searchParams.append("date_preset", "last_7d");
+  //     // Uncomment the following lines if you want to use custom date range
+  //     // url.searchParams.append(
+  //     //   "time_range",
+  //     //   JSON.stringify({ since: startDate, until: endDate })
+  //     // );
+  //     url.searchParams.append("level", "account");
+
+  //     const response = await fetch(url.toString(), {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${ad.access_token}`,
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const { data } = await response.json();
+
+  //     return c.json(data);
+  //   } catch (error) {
+  //     throw DirectusError.fromDirectusResponse(error);
+  //   }
+  // })
+  .get("/:id/sync", adMiddleware, async (c) => {
     try {
-      const debug = c.req.query("debug") === "true";
+      const ad = c.get("ad");
+      console.log("Syncing ad", ad.id);
+      
+      // await c.env.AD_CAMPAIGN_SYNC_START.send(ad);
+      await c.env.AD_ACCOUNT_SYNC.send(ad);
+      
+      return c.json({});
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .get("/:id/ad-campaigns", adMiddleware, async (c) => {
+    try {
+      const directus = getDirectusClient();
       const ad = c.get("ad");
 
-      const FB_API_URL = c.env["FB_API_URL"];
-      const startDate = c.req.query("startDate") || "2024-09-06";
-      const endDate = c.req.query("endDate") || "2024-09-12";
+      const campaigns = await directus.request(
+        readItems("ad_campaigns", {
+          filter: { ad_account: { _eq: ad.id } },
+        })
+      );
 
-      const url = new URL(`${FB_API_URL}/${ad.ad_account_id}/campaigns`);
+      return c.json(campaigns);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .get("/:id/ad-sets", adMiddleware, async (c) => {
+    try {
+      const directus = getDirectusClient();
+      const ad = c.get("ad");
 
-      url.searchParams.append("fields", "id,name,spend,impressions,clicks");
-      url.searchParams.append("date_preset", "last_7d");
-      // Uncomment the following lines if you want to use custom date range
-      // url.searchParams.append(
-      //   "time_range",
-      //   JSON.stringify({ since: startDate, until: endDate })
-      // );
-      url.searchParams.append("level", "account");
+      const api = new AdSetApi(
+        ad.ad_account_id as string,
+        ad.access_token as string,
+        c.env["FB_API_URL"]
+      );
 
-      const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${ad.access_token}`,
-        },
-      });
+      const adsets = await api.getAdSetInfo();
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const { data } = await response.json();
-
-      return c.json(data);
+      return c.json(adsets);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }

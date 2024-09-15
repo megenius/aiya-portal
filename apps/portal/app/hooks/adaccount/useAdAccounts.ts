@@ -1,6 +1,6 @@
 // hooks/useAds.ts
 import { useQuery } from "@tanstack/react-query";
-import { fetchFacebookAdAccounts } from "~/services/workspaces";
+import { fetchAdAccounts } from "~/services/workspaces";
 import { useAppSelector } from "~/store";
 
 interface QueryProps {
@@ -11,12 +11,12 @@ interface Variables {
   workspaceId: string;
 }
 
-export const useFacebookAdAccounts = ({
+export const useAdAccounts = ({
   variables: { workspaceId },
 }: QueryProps) => {
   return useQuery({
-    queryKey: ["workspaces", workspaceId, "facebookAdAccounts"],
-    queryFn: () => fetchFacebookAdAccounts(workspaceId).then((res) => res.data),
+    queryKey: ["workspaces", workspaceId, "ad-accounts"],
+    queryFn: () => fetchAdAccounts(workspaceId).then((res) => res.data),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
   });
 };

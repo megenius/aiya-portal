@@ -11,9 +11,9 @@ interface Variables {
   id: string;
 }
 
-export const useFacebookAdDashboard = ({ variables: { id } }: QueryProps) => {
+export const useAdDashboard = ({ variables: { id } }: QueryProps) => {
   return useQuery({
-    queryKey: ["adaccounts", id, "dashboard"],
+    queryKey: ["ad-accounts", id, "dashboard"],
     queryFn: () => fetchAdDashboard(id).then((res) => res.data),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
   });
