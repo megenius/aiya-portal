@@ -19,7 +19,7 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
-  const { login, getAdAccounts } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID });
+  const { login, getAdAccounts } = useFacebookSDK({ appId: "788582819272015" });
   const adAccounts = useAdAccounts({ variables: { workspaceId: workspace?.id as string } });
   const adAccountsInsert = useAdAccountsInsert();
   const insertAd = useAdInsert();
@@ -43,7 +43,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
 
   const handleRowClick = (item: FacebookAdAccount) => {
     // if (item.last_synced) {
-      navigate(`/apps/adaccount/${item.id}`)
+    navigate(`/apps/adaccount/${item.id}`)
     // }
   }
 
