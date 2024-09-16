@@ -25,7 +25,7 @@ const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
         <h2 className="text-2xl font-bold">Dashboard Overview</h2>
         <div className="flex items-center space-x-2 bg-white rounded-md shadow px-3 py-2">
           <Calendar size={16} />
-          <span>Last 7 days</span>
+          <span>Last 28 days</span>
           {/* <ChevronDown size={16} /> */}
         </div>
       </div>
