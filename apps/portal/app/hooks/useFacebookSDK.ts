@@ -115,8 +115,10 @@ export function useFacebookSDK({
         autoLogAppEvents,
         xfbml,
         version,
-      });
+      })
 
+      console.log("Facebook SDK initialized", appId, version);
+      
       setIsInitialized(true);
 
       window.FB?.AppEvents.logPageView();

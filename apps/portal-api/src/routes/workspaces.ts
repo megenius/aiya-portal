@@ -144,6 +144,7 @@ const workspacesRoutes = new Hono<Env>()
           const fbURL = new URL(`${FB_API_URL}/${item.ad_account_id}/insights`);
           fbURL.searchParams.append("fields", "spend");
           fbURL.searchParams.append("level", "account");
+          fbURL.searchParams.append("date_preset", "last_28d");
 
           const response = await fetch(fbURL.toString(), {
             method: "GET",
