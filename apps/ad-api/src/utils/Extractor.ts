@@ -230,7 +230,7 @@ export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
       "fields",
       "frequency,impressions,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions"
     );
-    url.searchParams.append("date_preset", "last_7d");
+    url.searchParams.append("date_preset", "last_28d");
     url.searchParams.append("level", "account");
 
     const data = await FacebookDataExtractor.fetchData(
@@ -313,7 +313,7 @@ export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
       "fields",
       "frequency,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions"
     );
-    url.searchParams.append("date_preset", "last_7d");
+    url.searchParams.append("date_preset", "last_28d");
     url.searchParams.append("level", "campaign");
 
     const data = await FacebookDataExtractor.fetchData(
