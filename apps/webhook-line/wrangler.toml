@@ -1,0 +1,74 @@
+name = "webhooks-v2"
+compatibility_date = "2024-08-12"
+
+[placement]
+mode = "smart"
+
+[vars]
+# AWS_ACCESS_KEY_ID = ""
+# AWS_SECRET_ACCESS_KEY = ""
+AWS_REGION = "ap-northeast-1"
+SNS_TOPIC_ARN = "arn:aws:sns:ap-northeast-1:398684454127:webhook-line-sns-v2_dev.fifo"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "webhooks"
+database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
+
+
+[env.dev]
+  name = "webhooks-v2_dev"
+
+  routes = [
+    { pattern = "dev-worker.aiya.me/api/v2/line", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+    { pattern = "dev-worker.aiya.me/api/v2/line/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+  ]
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "webhooks_dev"
+database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
+
+[env.dev.vars]
+# AWS_ACCESS_KEY_ID = ""
+# AWS_SECRET_ACCESS_KEY = ""
+AWS_REGION = "ap-northeast-1"
+SNS_TOPIC_ARN = "arn:aws:sns:ap-northeast-1:398684454127:webhook-line-sns-v2_dev.fifo"
+
+[env.prod]
+  name = "webhooks-v2_prod"
+
+  routes = [
+    { pattern = "worker.aiya.me/api/v2/line", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+    { pattern = "worker.aiya.me/api/v2/line/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
+  ]
+
+[[env.prod.d1_databases]]
+binding = "DB"
+database_name = "webhooks"
+database_id = "48e858e8-8353-490a-b86e-edf209b237b6"
+
+[env.prod.vars]
+# AWS_ACCESS_KEY_ID = ""
+# AWS_SECRET_ACCESS_KEY = ""
+AWS_REGION = "ap-northeast-1"
+SNS_TOPIC_ARN = "arn:aws:sns:ap-northeast-1:398684454127:webhook-line-sns-v2_prod.fifo"
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
