@@ -51,7 +51,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
             {items?.map((item, index) => (
               <tr key={index} className={cn({
-                'cursor-pointer': item.last_synced
+                'cursor-pointer': true //item.last_synced
               })} onClick={() => onRowClick && onRowClick(item)}>
                 <td className="size-px whitespace-nowrap pe-4 py-3">
                   <div className="w-full flex items-center gap-x-3">
@@ -79,20 +79,19 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                   </div>
                 </td>
                 <td className="size-px whitespace-nowrap px-4 py-3">
-                  {item.last_synced ? (
-
-                    <span
-                      className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${item.metadata?.account_status === 1
-                        ? 'bg-teal-100 text-teal-800'
-                        : 'bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white'
-                        }`}
-                    >
-                      <span className="size-1.5 inline-block bg-gray-800 rounded-full"></span>
-                      {item.metadata?.account_status === 1 ? 'Active' : 'Disabled'}
-                    </span>
-                  ) : (
+                  {/* {item.last_synced ? ( */}
+                  <span
+                    className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${item.metadata?.account_status === 1
+                      ? 'bg-teal-100 text-teal-800'
+                      : 'bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white'
+                      }`}
+                  >
+                    <span className="size-1.5 inline-block bg-gray-800 rounded-full"></span>
+                    {item.metadata?.account_status === 1 ? 'Active' : 'Disabled'}
+                  </span>
+                  {/* ) : (
                     <span className="text-sm text-gray-400 dark:text-neutral-400">Wating ...</span>
-                  )}
+                  )} */}
                 </td>
               </tr>
             ))}

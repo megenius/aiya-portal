@@ -37,17 +37,17 @@ const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
-      <MetricCard title="Impressions" value={<CurrencyFormatter amount={data?.impressions} />} />
-      <MetricCard title="Reach" value={<CurrencyFormatter amount={data?.reach} />} />
-        <MetricCard title="Frequency" value={data?.frequency.toFixed(2)} />
-        <MetricCard title="Purchases" value={data?.purchase.toString()} />
+        <MetricCard title="Impressions" value={<CurrencyFormatter amount={data?.impressions} />} />
+        <MetricCard title="Reach" value={<CurrencyFormatter amount={data?.reach} />} />
+        <MetricCard title="Frequency" value={(data?.frequency || 0).toFixed(2)} />
+        <MetricCard title="Purchases" value={(data?.purchase || 0).toString()} />
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
         <MetricCard title="CPC" value={<CurrencyFormatter amount={data?.cpc} />} />
         <MetricCard title="CPM" value={<CurrencyFormatter amount={data?.cpm} />} />
         <MetricCard title="CPP" value={<CurrencyFormatter amount={data?.cpp} />} />
-        <MetricCard title="CTR" value={`${data?.ctr.toFixed(2)}%`} />
+        <MetricCard title="CTR" value={`${(data?.ctr || 0).toFixed(2)}%`} />
       </div>
     </>
 

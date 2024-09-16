@@ -48,7 +48,7 @@ export default {
 
     console.log("batch", batch.queue, batch.messages.length);
 
-    if (batch.queue == "ad-account-sync") {
+    if (batch.queue.startsWith("ad-account-sync")) {
       const messages = batch.messages.map(
         (message) =>
           message.body as {
@@ -149,7 +149,7 @@ export default {
           });
         }
       }
-    } else if (batch.queue == "ad-campaign-sync") {
+    } else if (batch.queue.startsWith("ad-campaign-sync")) {
       const directus = getAdminDirectusClient();
       const accounts = new Map<string, string>();
       const accountToken = new Map<string, string>();
@@ -163,7 +163,7 @@ export default {
         console.error("Directus Error", derror, JSON.stringify(items));
         throw derror;
       }
-    } else if (batch.queue == "ad-sets-sync") {
+    } else if (batch.queue.startsWith("ad-sets-sync")) {
       const directus = getAdminDirectusClient();
       const items = batch.messages.map((message) => message.body);
       try {
@@ -173,7 +173,7 @@ export default {
         console.error("Directus Error", derror, JSON.stringify(items));
         throw derror;
       }
-    } else if (batch.queue == "ad-ads-sync") {
+    } else if (batch.queue.startsWith("ad-ads-sync")) {
       const directus = getAdminDirectusClient();
       const items = batch.messages.map((message) => message.body);
       try {
