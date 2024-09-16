@@ -42,9 +42,9 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }, [adAccounts, searchValue]);
 
   const handleRowClick = (item: FacebookAdAccount) => {
-    if (item.last_synced) {
+    // if (item.last_synced) {
       navigate(`/apps/adaccount/${item.id}`)
-    }
+    // }
   }
 
   const handleSync = () => {
