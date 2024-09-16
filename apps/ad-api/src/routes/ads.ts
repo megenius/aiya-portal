@@ -13,7 +13,7 @@ import { DirectusError } from "@repo/shared/exceptions/directus";
 import { adMiddleware } from "~/middlewares/ads";
 import { Env } from "~/@types/hono.types";
 import { AdDataExtractor } from "~/utils/Extractor";
-import { AdSetApi, CampaignApi } from "~/utils/facebook-api";
+import { AdAccountApi, AdSetApi, CampaignApi } from "~/utils/facebook-api";
 
 const adsRoutes = new Hono<Env>()
   .get("/:id", adMiddleware, async (c) => {
@@ -23,12 +23,21 @@ const adsRoutes = new Hono<Env>()
   .get("/:id/dashboard", adMiddleware, async (c) => {
     try {
       const debug = c.req.query("debug") === "true";
+      const FB_API_URL = c.env["FB_API_URL"];
       const ad = c.get("ad");
       const extractor = await AdDataExtractor.fetchAndCreate(c, ad);
+      const adsetApi = new AdAccountApi(
+        ad.ad_account_id as string,
+        ad.access_token as string,
+        FB_API_URL
+      );
+
+      const ads_volume = await adsetApi.countTotalAds();
+
       if (debug) {
         return c.text(extractor.getSummary());
       }
-      return c.json(extractor.extractMetrics());
+      return c.json({ ...extractor.extractMetrics(), ads_volume });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }

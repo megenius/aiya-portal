@@ -1,7 +1,7 @@
 {
   "name": "ad-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 4000  --inspector-port 24105",
+    "dev": "wrangler dev src/index.ts --port 14105  --inspector-port 24105",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {

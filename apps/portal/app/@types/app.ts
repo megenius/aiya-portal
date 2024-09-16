@@ -135,3 +135,38 @@ export interface PageInfo {
   pictureUrl: string;
   ig: string;
 }
+
+// src/types.ts
+
+export interface KPI {
+  label: string;
+  value: string;
+  trend?: "up" | "down";
+}
+
+export interface PerformanceOverTimeData {
+  date: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+}
+
+export interface SpendVsBudgetData {
+  campaign: string;
+  spend: number;
+  budget: number;
+}
+
+export interface Campaign {
+  name: string;
+  status: "Active" | "Paused" | "Completed";
+  spend: string;
+  impressions: string;
+  clicks: string;
+}
+
+export interface TopAd {
+  name: string;
+  performance: "Excellent" | "Good" | "Average";
+  conversions: number;
+}

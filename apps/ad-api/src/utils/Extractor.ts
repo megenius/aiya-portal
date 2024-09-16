@@ -12,6 +12,7 @@ interface PurchaseROAS {
 
 interface FacebookData {
   frequency: number;
+  impressions: number;
   reach: number;
   purchase_roas: PurchaseROAS[];
   spend: number;
@@ -171,6 +172,7 @@ export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
     return {
       ad_account_id: this.entity.ad_account_id as string,
       date_range: `${this.data.date_start} to ${this.data.date_stop}`,
+      impressions: this.data.impressions,
       reach: this.data.reach,
       frequency: this.data.frequency,
       spend: this.data.spend,
@@ -226,7 +228,7 @@ export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
 
     url.searchParams.append(
       "fields",
-      "frequency,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions"
+      "frequency,impressions,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions"
     );
     url.searchParams.append("date_preset", "last_7d");
     url.searchParams.append("level", "account");
