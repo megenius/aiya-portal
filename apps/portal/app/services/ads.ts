@@ -26,8 +26,10 @@ export const fetchAdDashboard = (id: string) =>
   api.get<{
     ad_account_id: string;
     date_range: string;
+    impressions: number;
     reach: number;
     frequency: number;
+    revenue: number;
     spend: number;
     cpc: number;
     cpm: number;
@@ -35,4 +37,5 @@ export const fetchAdDashboard = (id: string) =>
     ctr: number;
     roas: number;
     purchase: number
+    ads_volume: number
   }>("/ads/" + id + "/dashboard");

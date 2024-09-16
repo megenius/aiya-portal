@@ -80,7 +80,7 @@ interface CurrencyFormatterProps {
   currency?: CurrencyCode | string;
 }
 
-export const CurrencyFormatter: React.FC<CurrencyFormatterProps> = ({ amount = 0, currency = "THB" }) => {
+export const CurrencyFormatter: React.FC<CurrencyFormatterProps> = ({ amount = 0, currency }) => {
   const currencyInfo = currencyData[currency as CurrencyCode] || { symbol: currency, position: 'before' };
   const formattedAmount = formatNumber(amount);
 

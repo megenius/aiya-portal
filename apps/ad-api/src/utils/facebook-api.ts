@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 interface CampaignInsights {
   frequency: number;
   reach: number;
@@ -272,6 +274,28 @@ class AdApi extends FacebookAdsBase {
     ].join(",");
 
     return this.fetchAllPages<Ad>("ads", { fields }, undefined, callback);
+  }
+}
+
+export class AdAccountApi extends FacebookAdsBase {
+  async countTotalAds(): Promise<number> {
+    let url: string | undefined = `${this.apiUrl}/${this.adAccountId}`;
+
+    const ads_volume = await this.fetchData<{ id: string }>(url, {
+      fields: "ads_volume",
+    })
+      .then((response) => {
+        return _.get(
+          response,
+          "ads_volume.data.0.ads_running_or_in_review_count",
+          0
+        );
+      })
+      .catch((error) => {
+        console.error("Error fetching ad account data", error);
+        return 0;
+      });
+    return ads_volume;
   }
 }
 
