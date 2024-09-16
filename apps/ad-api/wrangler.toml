@@ -29,22 +29,6 @@ queue = "ad-sets-sync"
 binding = "AD_ADS_SYNC"
 queue = "ad-ads-sync"
 
-[[queues.producers]]
-binding = "AD_CAMPAIGN_SYNC_START"
-queue = "ad-campaign-sync-start"
-
-[[queues.producers]]
-binding = "AD_CAMPAIGN_SYNC_PROCESS"
-queue = "ad-campaign-sync-process"
-
-[[queues.producers]]
-binding = "AD_CAMPAIGN_SYNC_PROCESS_ADSET"
-queue = "ad-campaign-sync-process-adset"
-
-[[queues.producers]]
-binding = "AD_CAMPAIGN_SYNC_PROCESS_ADSET_ADS"
-queue = "ad-campaign-sync-process-adset-ads"
-
 
 [[queues.consumers]]
 queue = "ad-account-sync"
@@ -71,33 +55,6 @@ queue = "ad-ads-sync"
 max_batch_size = 10                 # optional: defaults to 10
 max_batch_timeout = 5              # optional: defaults to 5 seconds
 max_concurrency = 5
-max_retries = 3
-
-[[queues.consumers]]
-queue = "ad-campaign-sync-start"
-max_batch_size = 1               # optional: defaults to 10
-max_batch_timeout = 15           # optional: defaults to 5 seconds
-
-
-[[queues.consumers]]
-queue = "ad-campaign-sync-process"
-max_batch_size = 1                 # optional: defaults to 10
-max_batch_timeout = 5              # optional: defaults to 5 seconds
-max_concurrency = 20
-max_retries = 3
-
-[[queues.consumers]]
-queue = "ad-campaign-sync-process-adset"
-max_batch_size = 1                       # optional: defaults to 10
-max_batch_timeout = 5                    # optional: defaults to 5 seconds
-max_concurrency = 20
-max_retries = 3
-
-[[queues.consumers]]
-queue = "ad-campaign-sync-process-adset-ads"
-max_batch_size = 1                           # optional: defaults to 10
-max_batch_timeout = 5                        # optional: defaults to 5 seconds
-max_concurrency = 20
 max_retries = 3
 
 # [[kv_namespaces]]
