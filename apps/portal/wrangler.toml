@@ -18,8 +18,6 @@ pages_build_output_dir = "./build/client"
 # [vars]
 # MY_VARIABLE = "production_value"
 
-[vars]
-VITE_FB_APP_ID = "788582819272015"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
@@ -71,8 +69,10 @@ VITE_FB_APP_ID = "788582819272015"
 
 ######## PREVIEW environment config ########
 
-# [env.preview.vars]
-# LIFF_ID = "2002725621-gLXwMPzZ"
+[env.preview.vars]
+LIFF_ID = "2002725621-gLXwMPzZ"
+VITE_FB_APP_ID = "788582819272015"
+
 
 # [[env.preview.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
