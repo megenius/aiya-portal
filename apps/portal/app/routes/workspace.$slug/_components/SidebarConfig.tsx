@@ -23,13 +23,13 @@ export const sidebarLinks: SidebarLink[] = [
   //     </svg>
   //   ),
   // },
-  // {
-  //   to: "conversions",
-  //   label: "Conversions",
-  //   icon: (
-  //     <CircleDollarSign size={18}/>
-  //   )
-  // },
+  {
+    to: "conversions",
+    label: "Conversions",
+    icon: (
+      <CircleDollarSign size={18}/>
+    )
+  },
   // {
   //   to: "engagements",
   //   label: "Engagements",

@@ -60,7 +60,7 @@ const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
       </div>
 
 
-      <SalesChart />
+      {/* <SalesChart /> */}
 
       {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
         <MetricCard title="Total Ad Spend" value={<CurrencyFormatter amount={data?.spend} currency={adaccount?.metadata?.currency} />} />
