@@ -80,7 +80,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                 {filteredMembers?.map((member) => (
-                  <tr>
+                  <tr key={member.id}>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <div className="w-full flex items-center gap-x-3">
                         <Avatar src={getDirectusFileUrl(member.avatar)} />
