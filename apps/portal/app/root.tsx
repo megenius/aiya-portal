@@ -22,6 +22,7 @@ import { store, persistor } from './store';
 import { useCallback, useEffect } from "react";
 import { renewToken } from "./store/slices/authSlice";
 import { ToastContainer, Slide } from 'react-toastify';
+import 'apexcharts/dist/apexcharts.css';
 
 
 export const links: LinksFunction = () => [

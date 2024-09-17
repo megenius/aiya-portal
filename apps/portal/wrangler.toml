@@ -79,6 +79,7 @@ pages_build_output_dir = "./build/client"
 
 [env.production.vars]
 LIFF_ID = "2002725621-9BveAB1M"
+VITE_FB_APP_ID = "788582819272015"
 
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

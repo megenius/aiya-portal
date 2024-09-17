@@ -1,0 +1,1 @@
+bun dev --filter=portal --filter=portal-api --filter=bot-api --filter=channel-api --filter=ad-api

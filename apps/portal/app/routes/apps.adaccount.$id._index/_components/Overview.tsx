@@ -1,12 +1,13 @@
 import { useParams } from '@remix-run/react';
 import { CurrencyFormatter } from '@repo/ui';
-import { Calendar, ChevronDown } from 'lucide-react';
+import { Activity, Blocks, Calendar, ChevronDown, CircleDollarSign, HandCoins } from 'lucide-react';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
 import { FacebookAdAccount } from '~/@types/app';
 import { useAdDashboard } from '~/hooks/adaccount/useAdDashboard';
 import MetricCard from './MetricCard';
-
+import StatCard from './StatCard';
+import SalesChart from './SalesChart';
 interface OverviewProps {
   adaccount: FacebookAdAccount
 }
@@ -29,12 +30,44 @@ const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
           {/* <ChevronDown size={16} /> */}
         </div>
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
+
+      <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden">
+        <StatCard
+          title="Total Revenue"
+          value={<CurrencyFormatter amount={data?.revenue} currency={adaccount?.metadata?.currency} />}
+          icon={<HandCoins />}
+        // change={-3.4}
+        />
+        <StatCard
+          title="Total Ad Spend"
+          value={<CurrencyFormatter amount={data?.spend} currency={adaccount?.metadata?.currency} />}
+          icon={<CircleDollarSign />}
+        // change={3.4}
+        />
+
+        <StatCard
+          title="ROAS"
+          value={<NumericFormat value={data?.roas} decimalScale={2} suffix="x" displayType='text' />}
+          icon={<Blocks />}
+        // change={12.9}
+        />
+        <StatCard
+          title="Active Ads"
+          value={data?.ads_volume}
+          icon={<Activity />}
+        // change={0.1}
+        />
+      </div>
+
+
+      <SalesChart />
+
+      {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
         <MetricCard title="Total Ad Spend" value={<CurrencyFormatter amount={data?.spend} currency={adaccount?.metadata?.currency} />} />
         <MetricCard title="Total Revenue" value={<CurrencyFormatter amount={data?.revenue} currency={adaccount?.metadata?.currency} />} />
         <MetricCard title="Average ROAS" value={<NumericFormat value={data?.roas || 0} decimalScale={2} suffix="x" displayType='text' />} />
         <MetricCard title="Active Ads" value={data?.ads_volume || 0} />
-      </div>
+      </div> */}
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
         <MetricCard title="Impressions" value={<CurrencyFormatter amount={data?.impressions} />} />
@@ -55,4 +88,3 @@ const Overview: React.FC<OverviewProps> = ({ adaccount }) => {
 };
 
 export default Overview;
-

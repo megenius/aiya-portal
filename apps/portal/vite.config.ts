@@ -25,6 +25,7 @@ export default ({ mode }) => {
         "/api/channels": getEndpoint("http://localhost:14102", ""),
         "/api/ads": getEndpoint("http://localhost:14105", ""),
         "/api/aws": getEndpoint("http://localhost:14103", ""),
+        "/api/customer": getEndpoint("http://localhost:14106", ""),
 
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),

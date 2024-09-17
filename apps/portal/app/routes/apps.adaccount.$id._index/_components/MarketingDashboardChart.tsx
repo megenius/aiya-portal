@@ -1,8 +1,7 @@
 import React, { Suspense, useMemo } from 'react';
 import { ClientOnly } from "remix-utils/client-only";
 
-const Chart = React.lazy(() => import('react-apexcharts')
-);
+const Chart = React.lazy(() => import('react-apexcharts'));
 
 const data = [
   { month: '2023-01', spend: 5000, revenue: 15000 },
