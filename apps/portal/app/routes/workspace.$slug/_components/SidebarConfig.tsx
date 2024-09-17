@@ -1,3 +1,5 @@
+import { CircleDollarSign } from "lucide-react";
+
 // SidebarConfig.ts
 export const sidebarLinks: SidebarLink[] = [
   // {
@@ -21,9 +23,16 @@ export const sidebarLinks: SidebarLink[] = [
   //     </svg>
   //   ),
   // },
+  {
+    to: "conversions",
+    label: "Conversions",
+    icon: (
+      <CircleDollarSign size={18}/>
+    )
+  },
   // {
-  //   to: "customers",
-  //   label: "Customers",
+  //   to: "engagements",
+  //   label: "Engagements",
   //   icon: (
   //     <svg
   //       className="flex-shrink-0 mt-0.5 size-4"

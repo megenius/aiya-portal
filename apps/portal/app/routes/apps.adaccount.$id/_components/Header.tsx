@@ -25,10 +25,10 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
   const { data: adaccounts } = useAdAccounts({ variables: { workspaceId: adaccount?.team as string } })
   const navItems: NavItem[] = [
     { label: 'Overview', to: `/apps/adaccount/${adaccountId}` },
-    // { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },
-    // { label: 'Ad Sets', to: `/apps/adaccount/${adaccountId}/adsets` },
+    { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },
+    { label: 'Ad Sets', to: `/apps/adaccount/${adaccountId}/adsets` },
     // { label: 'System Prompt', to: `/apps/adaccount/${adaccountId}/system-prompt` },
-    // { label: 'Ads', to: `/apps/adaccount/${adaccountId}/ads` },
+    { label: 'Ads', to: `/apps/adaccount/${adaccountId}/ads` },
   ];
 
   return (

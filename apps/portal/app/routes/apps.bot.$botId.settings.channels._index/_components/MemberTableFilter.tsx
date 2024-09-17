@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SearchInput from './SearchInput';
-import { useFacebookSDK } from '~/hooks/useFacebookSDK';
 import { Channel, PageInfo } from '~/@types/app';
 
 interface MemberTableFilterProps {
