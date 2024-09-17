@@ -22,9 +22,9 @@ const Route = () => {
           <MarketingDashboardChart />
           <Campaign />
         </div> */}
-        <Campaign />
-        <RecentCampaigns />
-        <TopAds />
+        {/* <Campaign /> */}
+        {/* <RecentCampaigns /> */}
+        {/* <TopAds /> */}
         {/* <Overview adaccount={adaccount} /> */}
       </MainContent>
     </>
