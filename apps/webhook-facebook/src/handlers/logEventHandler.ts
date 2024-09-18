@@ -1,7 +1,6 @@
 import { WebhookEvent } from "@line/bot-sdk";
 import { Logger, LogLevel } from "@repo/shared/utils";
 import { Context } from "hono";
-import { requestId } from "hono/request-id";
 
 const logger = new Logger("log", LogLevel.DEBUG);
 
@@ -12,7 +11,7 @@ export async function handle(c: Context, body: any): Promise<void> {
       VALUES (?, ?, ?)
     `
   )
-    .bind(c.var.requestId, "line", JSON.stringify(body))
+    .bind(c.var.requestId, "facebook", JSON.stringify(body))
     .run();
 
   if (success) {

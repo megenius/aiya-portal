@@ -9,13 +9,13 @@ export async function logSNSSent(
   processingTime: number
 ) {
   const id = requestId();
-  // await c.env.DB.prepare(
-  //   `
-  //   INSERT INTO sns_logs (id, message_id, provider_id, event_payload, processing_time)
-  //   VALUES (?, ?, ?, ?, ?)
-  // `
-  // )
-  //   .bind(id, messageId, providerId, JSON.stringify(event), processingTime)
-  //   .run();
+  await c.env.DB.prepare(
+    `
+    INSERT INTO sns_logs (id, message_id, provider_id, event_payload, processing_time)
+    VALUES (?, ?, ?, ?, ?)
+  `
+  )
+    .bind(id, messageId, providerId, JSON.stringify(event), processingTime)
+    .run();
   return id;
 }

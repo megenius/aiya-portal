@@ -21,13 +21,12 @@ interface FacebookData {
   cpp: number;
   ctr: number;
   actions: Action[];
+  action_values: Action[];
   date_start: string;
   date_stop: string;
 }
 
-abstract class FacebookDataExtractor<
-  T extends AdAccount | AdCampaign,
-> {
+abstract class FacebookDataExtractor<T extends AdAccount | AdCampaign> {
   protected entity: T;
   protected data: FacebookData;
 
@@ -47,6 +46,7 @@ abstract class FacebookDataExtractor<
       "cpp",
       "ctr",
       "actions",
+      // "action_values",
       "date_start",
       "date_stop",
     ];
@@ -55,6 +55,9 @@ abstract class FacebookDataExtractor<
         throw new Error(`Missing required field: ${field}`);
       }
     }
+
+    // console.log(JSON.stringify(data, null, 2));
+    
 
     return {
       ...data,
@@ -73,11 +76,22 @@ abstract class FacebookDataExtractor<
         ...action,
         value: Number(action.value),
       })),
+      action_values: data.action_values?.map((action: any) => ({
+        ...action,
+        value: Number(action.value),
+      })),
     };
   }
 
   protected getAction(actionType: string): number | undefined {
     const action = this.data.actions.find((a) => a.action_type === actionType);
+    return action ? action.value : undefined;
+  }
+
+  protected getActionValue(actionType: string): number | undefined {
+    const action = this.data.action_values.find(
+      (a) => a.action_type === actionType
+    );
     return action ? action.value : undefined;
   }
 
@@ -182,6 +196,7 @@ export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
       ctr: this.data.ctr,
       roas: purchaseROAS ? purchaseROAS.value : undefined,
       purchase: this.getAction("omni_purchase"),
+      purchase_value: this.getActionValue("omni_purchase"),
     };
   }
 
@@ -228,7 +243,7 @@ export class AdDataExtractor extends FacebookDataExtractor<AdAccount> {
 
     url.searchParams.append(
       "fields",
-      "frequency,impressions,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions"
+      "frequency,impressions,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions,action_values"
     );
     url.searchParams.append("date_preset", "last_28d");
     url.searchParams.append("level", "account");
@@ -264,6 +279,7 @@ export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
       ctr: this.data.ctr,
       roas: purchaseROAS ? purchaseROAS.value : undefined,
       purchase: this.getAction("omni_purchase"),
+      purchase_value: this.getActionValue("omni_purchase"),
     };
   }
 

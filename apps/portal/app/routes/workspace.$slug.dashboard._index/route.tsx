@@ -1,13 +1,18 @@
 import { useParams } from "@remix-run/react"
-import React from "react"
+import React, { Suspense } from "react"
 import MainContent from "./_components/MainContent"
+import { ClientOnly } from "remix-utils/client-only"
 
 const Route = () => {
   const { slug } = useParams()
   return (
-    <>
-      <MainContent />
-    </>
+    <Suspense fallback="">
+      <ClientOnly>
+        {() =>
+          <MainContent />
+        }
+      </ClientOnly>
+    </Suspense>
   )
 }
 

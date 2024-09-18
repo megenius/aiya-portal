@@ -170,3 +170,40 @@ export interface TopAd {
   performance: "Excellent" | "Good" | "Average";
   conversions: number;
 }
+
+export interface AdDashboard {
+  ad_account_id: string;
+  date_range: string;
+  impressions: number;
+  reach: number;
+  frequency: number;
+  spend: number;
+  cpc: number;
+  cpm: number;
+  cpp: number;
+  ctr: number;
+  roas: number;
+  purchase: number;
+  purchase_value: number;
+  ads_volume: number;
+}
+
+export interface AdInsight {
+  id: string;
+  name: string;
+  status: string;
+  start_time: string;
+  spend: number;
+  impressions: number;
+  clicks: number;
+  cpc: number;
+  cpm: number;
+  cpp: number;
+  ctr: number;
+  reach: number;
+  date_start: string;
+  date_stop: string;
+  roas: number;
+  purchase: number;
+  purchase_value: number;
+}

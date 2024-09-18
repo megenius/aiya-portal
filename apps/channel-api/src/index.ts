@@ -26,6 +26,7 @@ const app = new Hono<Env>()
     })
   )
   .route("/channels", channelsRoutes)
+
   .onError((err, c) => {
     return c.json({ error: err.message });
   });
