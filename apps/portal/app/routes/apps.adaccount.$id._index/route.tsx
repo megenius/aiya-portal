@@ -18,13 +18,13 @@ const Route = () => {
     <>
       <MainContent>
         <Overview adaccount={adaccount} />
-        {/* <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <MarketingDashboardChart />
           <Campaign />
-        </div> */}
-        {/* <Campaign /> */}
-        {/* <RecentCampaigns /> */}
-        {/* <TopAds /> */}
+        </div>
+        <Campaign />
+        <RecentCampaigns />
+        <TopAds />
         {/* <Overview adaccount={adaccount} /> */}
       </MainContent>
     </>
