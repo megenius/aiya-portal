@@ -194,7 +194,7 @@ class CampaignApi extends FacebookAdsBase {
       "daily_budget",
       "start_time",
       "created_time",
-      "insights{frequency,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions}",
+      "insights{frequency,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions,action_values}",
     ].join(",");
 
     return this.fetchAllPages<Campaign>(
@@ -270,7 +270,7 @@ class AdApi extends FacebookAdsBase {
       "creative",
       "status",
       "created_time",
-      "insights{frequency,impressions,clicks,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions}",
+      "insights{frequency,impressions,clicks,reach,conversions,purchase_roas,spend,cpc,cpm,cpp,ctr,actions,action_values}",
     ].join(",");
 
     return this.fetchAllPages<Ad>("ads", { fields }, undefined, callback);

@@ -1,35 +1,19 @@
+import { useParams } from '@remix-run/react';
+import { CurrencyFormatter } from '@repo/ui';
 import React from 'react';
-import { Campaign } from '~/@types/app';
+import { NumericFormat } from 'react-number-format';
+import { Campaign, FacebookAdAccount } from '~/@types/app';
+import { useAdCampaignActivity } from '~/hooks/adaccount/useAdCampaignActivity';
 
 interface RecentCampaignsProps {
-
+  adaccount: FacebookAdAccount
 }
 
-const recentCampaigns: Campaign[] = [
-  {
-    name: 'Campaign A',
-    status: 'Active',
-    spend: '$5,000',
-    impressions: '500,000',
-    clicks: '10,000',
-  },
-  {
-    name: 'Campaign B',
-    status: 'Paused',
-    spend: '$3,000',
-    impressions: '300,000',
-    clicks: '6,000',
-  },
-  {
-    name: 'Campaign C',
-    status: 'Completed',
-    spend: '$2,000',
-    impressions: '200,000',
-    clicks: '4,000',
-  },
-];
 
-const RecentCampaigns: React.FC<RecentCampaignsProps> = () => {
+const RecentCampaigns: React.FC<RecentCampaignsProps> = ({ adaccount }) => {
+  const { id } = useParams<{ id: string }>();
+  const { data, isLoading } = useAdCampaignActivity({ variables: { id: id as string } });
+
   return (
     <div className="bg-white shadow rounded-lg p-6 mt-6">
       <h2 className="text-xl font-semibold mb-4">Recent Campaigns Activity</h2>
@@ -44,27 +28,39 @@ const RecentCampaigns: React.FC<RecentCampaignsProps> = () => {
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Spend
+                Impressions
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Impressions
+                Reach
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Clicks
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Purchased
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Spend
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Revenue
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ROAS
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {recentCampaigns.map((campaign, index) => (
+            {data?.map((campaign, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {campaign.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${campaign.status === 'Active'
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${campaign.status === 'ACTIVE'
                       ? 'bg-green-100 text-green-800'
-                      : campaign.status === 'Paused'
+                      : campaign.status === 'PAUSED'
                         ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-gray-100 text-gray-800'
                       }`}
@@ -73,16 +69,34 @@ const RecentCampaigns: React.FC<RecentCampaignsProps> = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {campaign.spend}
+                  <CurrencyFormatter amount={campaign.impressions} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {campaign.impressions}
+                  <CurrencyFormatter amount={campaign.reach} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {campaign.clicks}
+                  <CurrencyFormatter amount={campaign.clicks} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {campaign.purchase}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <CurrencyFormatter amount={campaign.spend || 0} currency={adaccount.metadata?.currency} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <CurrencyFormatter amount={campaign.purchase_value || 0} currency={adaccount.metadata?.currency} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <NumericFormat value={campaign.roas} decimalScale={2} suffix='x' displayType='text'/>
                 </td>
               </tr>
             ))}
+
+            {isLoading && <tr>
+              <td colSpan={5} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                Loading...
+              </td>
+            </tr>}
           </tbody>
         </table>
       </div>

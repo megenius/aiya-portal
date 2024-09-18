@@ -21,13 +21,13 @@ webhookRouter
             if (messaging.message?.attachments) {
               return Promise.all([
                 snsImageEventHandler(c, messaging, messaging.recipient.id),
-                // logEventHandler(c, messaging),
+                logEventHandler(c, messaging),
                 // forwardEventHandler(c, messaging, []),
               ]);
             } else {
               return Promise.all([
                 snsEventHandler(c, messaging, messaging.recipient.id),
-                // logEventHandler(c, messaging),
+                logEventHandler(c, messaging),
                 // forwardEventHandler(c, messaging, []),
               ]);
             }
