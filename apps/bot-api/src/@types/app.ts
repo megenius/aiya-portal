@@ -29,8 +29,11 @@ export type BotIntentRaw = {
 export type BotIntent = {
   id: string;
   name: string;
+  intent: string;
   questions: string[];
   responses: any[];
+  quick_reply: string;
+  tags: string[];
 };
 
 export interface AuthTokens {

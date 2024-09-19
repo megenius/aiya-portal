@@ -89,21 +89,26 @@ export const updateKnowledge = async (
   const intents = data?.intents?.map((intent: BotIntent) => ({
     id: intent.id,
     name: intent.name,
+    intent: intent.intent,
+    quick_reply: intent.quick_reply,
     questions: intent.questions.join("#### "),
     responses: intent.responses.join("#### "),
+    tags: intent.tags.join("#### "),
   }));
 
-  await directus
+  return await directus
     .request(
       updateItem("bots_knowledges", knowledgeId, {
         name: data?.name,
         raw_data: intents ? JSON.stringify(intents) : undefined,
-        total_intent: data?.total_intent,
+        total_intent: intents ? intents.length : data?.total_intent,
         date_updated: new Date().toISOString(),
       })
     )
     .then(async (res) => {
       await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
       console.log("delete cache:", ["bots_knowledges", knowledgeId].join("|"));
+
+      return res;
     });
 };

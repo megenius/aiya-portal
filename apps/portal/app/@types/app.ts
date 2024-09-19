@@ -39,14 +39,19 @@ export type BotUpdate = {
 
 export type ChannelBot = components["schemas"]["ItemsChannelsBots"];
 
-export type BotKnowledge = {
-  id: string;
-  name: string;
-  bot: string;
+export type BotKnowledge = components["schemas"]["ItemsBotsKnowledges"] & {
   raw_data?: BotIntentRaw[];
   intents: BotIntent[];
-  total_intent: number;
 };
+
+// export type BotKnowledge = {
+//   id: string;
+//   name: string;
+//   bot: string;
+//   raw_data?: BotIntentRaw[];
+//   intents: BotIntent[];
+//   total_intent: number;
+// };
 
 export type BotIntentRaw = {
   id: string;
@@ -58,8 +63,11 @@ export type BotIntentRaw = {
 export type BotIntent = {
   id: string;
   name: string;
+  intent: string;
   questions: string[];
   responses: any[];
+  quick_reply: string;
+  tags: string[];
 };
 
 export type BotKnowledgeUpdate = {

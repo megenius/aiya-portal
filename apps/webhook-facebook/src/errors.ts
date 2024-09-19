@@ -1,6 +1,3 @@
-import { Context } from "hono";
-import { requestId } from "hono/request-id";
-
 export class AppError extends Error {
   constructor(message: string) {
     super(message);
@@ -26,20 +23,20 @@ export async function logError(
   error: unknown,
   relatedId: string | null = null
 ) {
-  const id = requestId();
-  // await c.env.DB.prepare(
-  //   `
-  //   INSERT INTO error_logs (id, error_type, error_message, stack_trace, related_id)
-  //   VALUES (?, ?, ?, ?, ?)
-  // `
-  // )
-  //   .bind(
-  //     id,
-  //     errorType,
-  //     getErrorMessage(error),
-  //     getErrorStack(error),
-  //     relatedId
-  //   )
-  //   .run();
+  const id = crypto.randomUUID()
+  await c.env.DB.prepare(
+    `
+    INSERT INTO error_logs (id, error_type, error_message, stack_trace, related_id)
+    VALUES (?, ?, ?, ?, ?)
+  `
+  )
+    .bind(
+      id,
+      errorType,
+      getErrorMessage(error),
+      getErrorStack(error),
+      relatedId
+    )
+    .run();
   return id;
 }

@@ -59,12 +59,17 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
 
     const transformedData = data.map(item => ({
       name: item.name.trim(),
+      intent: item.intent.trim(),
+      quick_reply: item.quick_reply.trim(),
       questions: item.questions.split('####')
         .map((q: string) => q.trim())
         .filter((q: string) => q !== ''),
-      responses: item.responses.split('####')
+      responses: (item.responses || item.answers).split('####')
         .map((r: string) => r.trim())
         .filter((r: string) => r !== ''),
+      tags: item.tags.split('####')
+        .map((t: string) => t.trim())
+        .filter((t: string) => t !== ''),
     }));
 
     setPreviewData(transformedData.slice(0, 5));
@@ -96,12 +101,17 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
     // Transform data to match our Intent structure
     const transformedData = data.map(item => ({
       name: item.name.trim(),
+      intent: item.intent.trim(),
+      quick_reply: item.quick_reply.trim(),
       questions: item.questions.split('####')
         .map((q: string) => q.trim())
         .filter((q: string) => q !== ''),
-      responses: item.responses.split('####')
+      responses: (item.responses || item.answers).split('####')
         .map((r: string) => r.trim())
         .filter((r: string) => r !== ''),
+      tags: item.tags.split('####')
+        .map((t: string) => t.trim())
+        .filter((t: string) => t !== ''),
     }));
 
     setPreviewData(transformedData.slice(0, 5)); // Preview first 5 rows
@@ -221,7 +231,10 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Intent</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Quick Reply</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tags</th>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Questions</th>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Responses</th>
                       </tr>
@@ -230,6 +243,9 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
                       {previewData.map((item, index) => (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{item.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{item.intent}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{item.quick_reply}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{item.tags.join(",")}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{item.questions.join(', ')}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{item.responses.join(', ')}</td>
                         </tr>

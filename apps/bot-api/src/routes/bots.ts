@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { getDirectusClient } from "../config/directus";
-import { readItems, readItem } from "@directus/sdk";
+import { readItems, readItem, createItem } from "@directus/sdk";
 import { Env } from "~/@types/hono.types";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { cache } from "hono/cache";
@@ -129,6 +129,7 @@ const botsRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
+  // fetch knowledges
   .get("/:id/knowledges", async (c) => {
     try {
       const id = c.req.param("id") as string;
@@ -140,6 +141,26 @@ const botsRoutes = new Hono<Env>()
           filter: { bot: id },
         })
       );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  // insert knowledge
+  .post("/:id/knowledges", async (c) => {
+    try {
+      const botId = c.req.param("id") as string;
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+
+      const data = await c.req.json();
+      const item = await directus.request(
+        createItem("bots_knowledges", {
+          bot: botId,
+          ...data
+        })
+      );
+
       return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -212,6 +233,6 @@ const botsRoutes = new Hono<Env>()
     }
   )
 
-  .route("/:id/webhook", webhookRoutes)
+  .route("/:id/webhook", webhookRoutes);
 
 export { botsRoutes };

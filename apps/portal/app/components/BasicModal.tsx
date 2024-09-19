@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import { HSOverlay } from 'preline/preline';
+import React, { ReactNode, useEffect, useRef } from 'react';
 
 interface BasicModalProps {
   id: string;
@@ -7,6 +8,7 @@ interface BasicModalProps {
 }
 
 const BasicModal: React.FC<BasicModalProps> = ({ id, title, children }) => {
+
   return (
     <div
       id={id}
