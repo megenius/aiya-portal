@@ -58,8 +58,9 @@ const knowledgesRoutes = new Hono<Env>()
       }
     }
   )
+  // get intent by id
   .get(
-    "/:knowledgeId/intent/:intentId",
+    "/:knowledgeId/intents/:intentId",
     knowledgeMiddleware,
     intentMiddleware,
     async (c) => {
@@ -70,20 +71,54 @@ const knowledgesRoutes = new Hono<Env>()
       }
     }
   )
+  .post("/:knowledgeId/intents", knowledgeMiddleware, async (c) => {
+    try {
+      const knowledge = c.get("knowledge") as BotKnowledge;
+      const knowledgeId = c.req.param("knowledgeId") as string;
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+      const body = await c.req.json<{
+        name: string;
+        intent: string;
+        questions: string[];
+        responses: string[];
+      }>();
+
+      const data = {
+        id: randomHexString(8),
+        name: body.name,
+        intent: body.intent,
+        questions: body.questions || [],
+        responses: body.responses || [],
+      };
+
+      await updateKnowledge(c, directus, knowledgeId, {
+        ...knowledge,
+        intents: [...knowledge.intents, data],
+      });
+
+      return c.json(data);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  // update knowledge
   .patch("/:knowledgeId", async (c) => {
     try {
       const knowledgeId = c.req.param("knowledgeId") as string;
       const directus = getDirectusClient();
       await directus.setToken(c.get("token"));
       const data = await c.req.json();
-      await updateKnowledge(c, directus, knowledgeId, data);
+      const result = await updateKnowledge(c, directus, knowledgeId, data);
       return c.json({
-        id: knowledgeId,
+        id: result.id,
+        bot: result.bot,
       });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
   })
+  // create knowledge vector embeddings
   .post("/:knowledgeId/embeddings", async (c) => {
     try {
       const knowledgeId = c.req.param("knowledgeId") as string;
@@ -128,7 +163,7 @@ const knowledgesRoutes = new Hono<Env>()
       throw DirectusError.fromDirectusResponse(error);
     }
   })
-  .get("/:knowledgeId/intent/:intentId/responses", async (c) => {
+  .get("/:knowledgeId/intents/:intentId/responses", async (c) => {
     try {
       const knowledgeId = c.req.param("knowledgeId") as string;
       const directus = getDirectusClient();
@@ -243,7 +278,10 @@ const knowledgesRoutes = new Hono<Env>()
       }>();
 
       const textEmbedding = c.get("textEmbedding") as TextEmbedding;
-      const response = await textEmbedding.deleteDocumentByMetadata(text, metadata);
+      const response = await textEmbedding.deleteDocumentByMetadata(
+        text,
+        metadata
+      );
 
       return c.json(response);
     } catch (error) {

@@ -22,8 +22,6 @@ const bodySchema = z.object({
   // csrfToken: z.string().min(1),
 });
 
-const token =
-  "EAALNNj7RlU8BO7POhI0X5Y0ZB6JLRARRFTVZBILOUzQqZCb3IFqtEIpZChmapZBN8r4hBqAPZBLAhhr4bxLDiStFYCEFbtX3MTpPlEXNVQN0lFhjpTNvN5ThyyUBqI9ajq0wYohtXLXmHJRG9TImMElSGSfYlKJo4l3WQ8d6x1qJ9nsiRdl2evGx62";
 
 const facebookRoutes = new Hono<Env>()
   .post("/exchange-token", async (c) => {
@@ -40,7 +38,7 @@ const facebookRoutes = new Hono<Env>()
 
       const { FB_API_URL, FB_APP_ID, FB_APP_SECRET } = c.env;
 
-      logger.debug("Request exchange", { appID: FB_APP_ID, code });
+      logger.debug("Request exchange", { appID: FB_APP_ID, code, FB_APP_SECRET });
 
       let fbURL = `${FB_API_URL}/oauth/access_token?client_id=${FB_APP_ID}&client_secret=${FB_APP_SECRET}&code=${code}`;
 
@@ -156,101 +154,101 @@ const facebookRoutes = new Hono<Env>()
     logger.debug("Unsubscribed app", channelId);
     return c.json(data);
   })
-  .get("/business", async (c) => {
-    const { FB_API_URL } = c.env;
-    const fbURL = `${FB_API_URL}/me/businesses?fields=id,name`;
-    const response = await fetch(fbURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // .get("/business", async (c) => {
+  //   const { FB_API_URL } = c.env;
+  //   const fbURL = `${FB_API_URL}/me/businesses?fields=id,name`;
+  //   const response = await fetch(fbURL, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    const data = await response.json();
-    return c.json(data);
-  })
-  .get("/adaccounts", async (c) => {
-    const { FB_API_URL } = c.env;
-    const fbURL = `${FB_API_URL}/me/adaccounts?limit=100&fields=name,business,id,account_status,disable_reason,created_time,currency,timezone_name,timezone_offset_hours_utc,customconversions`;
-    const response = await fetch(fbURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  //   const data = await response.json();
+  //   return c.json(data);
+  // })
+  // .get("/adaccounts", async (c) => {
+  //   const { FB_API_URL } = c.env;
+  //   const fbURL = `${FB_API_URL}/me/adaccounts?limit=100&fields=name,business,id,account_status,disable_reason,created_time,currency,timezone_name,timezone_offset_hours_utc,customconversions`;
+  //   const response = await fetch(fbURL, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    const data = await response.json();
-    return c.json(data);
-  })
-  .post("/adaccounts/spend", async (c) => {
-    const { FB_API_URL } = c.env;
-    const { ids } = await c.req.json();
+  //   const data = await response.json();
+  //   return c.json(data);
+  // })
+  // .post("/adaccounts/spend", async (c) => {
+  //   const { FB_API_URL } = c.env;
+  //   const { ids } = await c.req.json();
 
-    const results = await Promise.all(
-      ids.map(async (adAccountId: string) => {
-        const fbURL = new URL(`${FB_API_URL}/${adAccountId}/insights`);
-        // fbURL.searchParams.append(
-        //   "time_range",
-        //   JSON.stringify({ since: formattedStartDate, until: formattedEndDate })
-        // );
-        fbURL.searchParams.append("fields", "spend");
-        fbURL.searchParams.append("level", "account");
+  //   const results = await Promise.all(
+  //     ids.map(async (adAccountId: string) => {
+  //       const fbURL = new URL(`${FB_API_URL}/${adAccountId}/insights`);
+  //       // fbURL.searchParams.append(
+  //       //   "time_range",
+  //       //   JSON.stringify({ since: formattedStartDate, until: formattedEndDate })
+  //       // );
+  //       fbURL.searchParams.append("fields", "spend");
+  //       fbURL.searchParams.append("level", "account");
 
-        const response = await fetch(fbURL.toString(), {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((res) => res.json());
+  //       const response = await fetch(fbURL.toString(), {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }).then((res) => res.json());
 
-        const data = response.data[0];
+  //       const data = response.data[0];
 
-        return { id: adAccountId, ...data };
-      })
-    );
+  //       return { id: adAccountId, ...data };
+  //     })
+  //   );
 
-    return c.json(results.filter((r) => r.spend));
-  })
-  .get("/:pageId/*", async (c) => {
-    const { FB_API_URL } = c.env;
-    const fbURL = `${FB_API_URL}/${c.req.param("pageId")}`;
-    const response = await fetch(fbURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  //   return c.json(results.filter((r) => r.spend));
+  // })
+  // .get("/:pageId/*", async (c) => {
+  //   const { FB_API_URL } = c.env;
+  //   const fbURL = `${FB_API_URL}/${c.req.param("pageId")}`;
+  //   const response = await fetch(fbURL, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    const data = await response.json();
-    return c.json(data);
-  })
-  .post("/system-user-token", async (c) => {
-    const { FB_API_URL } = c.env;
-    // const fbURL = `${FB_API_URL}/824121811460009/system_user_access_tokens?scope=ads_management,ads_read`;
-    const fbURL = `${FB_API_URL}/824121811460009`;
-    console.log("c.env.FB_APP_SECRET", c.env.FB_APP_SECRET);
+  //   const data = await response.json();
+  //   return c.json(data);
+  // })
+  // .post("/system-user-token", async (c) => {
+  //   const { FB_API_URL } = c.env;
+  //   // const fbURL = `${FB_API_URL}/824121811460009/system_user_access_tokens?scope=ads_management,ads_read`;
+  //   const fbURL = `${FB_API_URL}/824121811460009`;
+  //   console.log("c.env.FB_APP_SECRET", c.env.FB_APP_SECRET);
 
-    const { access_token } = await c.req.json();
-    const appsecret_proof = await encryptSHA256(
-      access_token,
-      c.env.FB_APP_SECRET
-    );
-    const response = await fetch(fbURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      // body: JSON.stringify({ appsecret_proof, access_token }),
-    });
+  //   const { access_token } = await c.req.json();
+  //   const appsecret_proof = await encryptSHA256(
+  //     access_token,
+  //     c.env.FB_APP_SECRET
+  //   );
+  //   const response = await fetch(fbURL, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     // body: JSON.stringify({ appsecret_proof, access_token }),
+  //   });
 
-    const data = await response.json();
-    return c.json(data);
-  })
+  //   const data = await response.json();
+  //   return c.json(data);
+  // })
   .route("/campaigns", campaignRoutes);
 
 export { facebookRoutes };

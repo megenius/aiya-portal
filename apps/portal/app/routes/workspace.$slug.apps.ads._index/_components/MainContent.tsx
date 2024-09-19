@@ -48,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }
 
   const handleSync = () => {
-    const configId = "1241725043635802"
+    const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
     login({
       config_id: configId,
     }).then((response) => {

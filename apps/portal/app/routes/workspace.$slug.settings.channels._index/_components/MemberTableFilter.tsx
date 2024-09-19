@@ -31,7 +31,7 @@ const AddButton: React.FC<{ onLoadPages }> = ({ onLoadPages }) => {
 
   const handleFacebookLogin = async () => {
     // console.log("import.meta.env.VITE_FB_APP_LOGIN_ID", import.meta.env.VITE_FB_APP_LOGIN_ID);
-    const configId = "881846220485854"
+    const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
     login({
       config_id: configId, //import.meta.env.VITE_FB_APP_LOGIN_ID,
       response_type: 'code',

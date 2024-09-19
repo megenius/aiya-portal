@@ -6,6 +6,8 @@ import { useAppSelector } from '~/store';
 import { updateItem } from '@directus/sdk';
 import IntentImporter from './IntentImporter';
 import { useBotKnowlegdeUpdate } from '~/hooks/bot/useBotKnowlegdeUpdate';
+import BasicAddModal from '~/components/BasicAddModal';
+import { randomHexString } from '~/utils/random';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -25,6 +27,19 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   }, [searchParams]);
 
 
+  useEffect(() => {
+    async function initializePreline() {
+      const { HSAccordion, HSOverlay } = await import('preline/preline');
+      setTimeout(() => {
+        HSAccordion.autoInit();
+        HSOverlay.autoInit();
+      }, 500);
+    }
+
+    initializePreline();
+  }, [intents]);
+
+
   const onIntentUpdate = useCallback(async (updatedIntent: BotIntent) => {
     const updatedIntents = intents.map(intent =>
       intent.id === updatedIntent.id ? updatedIntent : intent
@@ -33,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     setIntents(updatedIntents);
     updateKnowlegde.mutateAsync({
       variables: {
-        key: knowledge.id,
+        key: knowledge.id as string,
         data: {
           intents: updatedIntents
         }
@@ -42,55 +57,43 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   }, [intents, knowledge.id]);
 
 
-  // const onIntentRemove = useCallback(async (intentId: string) => {
-  //   if (!client) return;
+  const onIntentRemove = useCallback(async (intentId: string) => {
+    const updatedIntents = intents.filter(intent => intent.id !== intentId);
 
-  //   try {
-  //     await client.setToken(accessToken);
+    setIntents(updatedIntents);
+    updateKnowlegde.mutateAsync({
+      variables: {
+        key: knowledge.id as string,
+        data: {
+          intents: updatedIntents
+        }
+      }
+    })
+  }, [intents, knowledge.id]);
 
-  //     const updatedIntents = intents.filter(intent => intent.id !== intentId);
 
-  //     await updateIntentsInDatabase(updatedIntents);
+  const handleImport = async (newIntents: BotIntent[]) => {
 
-  //     setIntents(updatedIntents);
-  //   } catch (error) {
-  //     console.error("Failed to remove intent:", error);
-  //     // Handle error (e.g., show error message to user)
-  //   }
-  // }, [client, accessToken, intents, knowledge.id]);
+    try {
 
-  // const updateIntentsInDatabase = async (updatedIntents: BotIntent[]) => {
-  //   if (!client) return;
+      const updatedIntents = [...intents, ...newIntents];
 
-  //   await client.request(updateItem("bots_knowledges", knowledge.id, {
-  //     raw_data: JSON.stringify(updatedIntents.map(intent => ({
-  //       ...intent,
-  //       questions: intent.questions.join("#### "),
-  //       responses: intent.responses.join("#### ")
-  //     }))),
-  //     total_intent: updatedIntents.length
-  //   }));
-  // };
+      setIntents(updatedIntents);
+      setShowImporter(false);
 
-  // const handleImport = async (newIntents: BotIntent[]) => {
-  //   if (!client) return;
-
-  //   try {
-  //     await client.setToken(accessToken);
-
-  //     const updatedIntents = [...intents, ...newIntents];
-
-  //     await updateIntentsInDatabase(updatedIntents);
-
-  //     setIntents(updatedIntents);
-  //     setShowImporter(false);
-
-  //     navigate(".", { replace: true });
-  //   } catch (error) {
-  //     console.error("Failed to import intents:", error);
-  //     // Handle error (e.g., show error message to user)
-  //   }
-  // };
+      updateKnowlegde.mutateAsync({
+        variables: {
+          key: knowledge.id as string,
+          data: {
+            intents: updatedIntents
+          }
+        }
+      })
+    } catch (error) {
+      console.error("Failed to import intents:", error);
+      // Handle error (e.g., show error message to user)
+    }
+  };
 
   return (
     <>
@@ -111,28 +114,61 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             </div>
           </div>
 
-          {/* {showImporter && (
+          {showImporter && (
             <IntentImporter
               existingIntents={intents}
               onImport={handleImport}
             />
-          )} */}
+          )}
 
           <IntentsList
             bot={bot}
-            knowledgeId={knowledge.id}
+            knowledgeId={knowledge.id as string}
             searchIntent={searchIntent}
             intents={intents}
             onIntentUpdate={onIntentUpdate}
-          // onIntentRemove={onIntentRemove}
+            onIntentRemove={onIntentRemove}
           />
 
         </div>
-        {/* <CreateIntentModal
-        knowledgeId={knowledge.id}
-        intents={intents}
-        onIntentCreated={(newIntent) => setIntents([...intents, newIntent])}
-      /> */}
+        <BasicAddModal
+          id="hs-pro-create-intent-modal"
+          title="Add Intent"
+          fields={[
+            {
+              name: 'intent',
+              label: 'Intent Name',
+              type: 'text',
+              required: true,
+              placeholder: 'Enter intent name',
+            },
+            {
+              name: 'name',
+              label: 'Question',
+              type: 'text',
+              required: true,
+              placeholder: 'Enter user question',
+            }
+          ]}
+          onOk={(data) => {
+            const newIntent: BotIntent = {
+              id: randomHexString(8),
+              name: data.name,
+              intent: data.intent,
+              questions: [],
+              responses: []
+            }
+            setIntents([newIntent, ...intents]);
+            updateKnowlegde.mutateAsync({
+              variables: {
+                key: knowledge.id as string,
+                data: {
+                  intents: [newIntent, ...intents]
+                }
+              }
+            })
+          }}
+        />
       </div>
     </>
   );

@@ -55,7 +55,7 @@ const EditIntentQuestionModal: React.FC<EditIntentQuestionModalProps> = ({
     let updatedQuestions;
     if (isNewQuestion) {
       // Split input by new lines and filter out empty lines
-      const newQuestions = input.split('\n').filter(q => q.trim() !== '');
+      const newQuestions = input.split('\n').filter(q => q.trim() !== '').map(q => q.replace("####", "").trim());
       updatedQuestions = [...questions, ...newQuestions];
     } else {
       updatedQuestions = [...questions];

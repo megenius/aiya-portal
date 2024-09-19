@@ -28,7 +28,7 @@ export const CreateTextMessageModal: React.FC<CreateTextMessageModalProps> = ({ 
 
   const onOk = async () => {
     if (input.text.trim() === '' || input.text === text) return;
-    const newMessage = { text: input.text };
+    const newMessage = { text: input.text.replace("#### ", "").trim() };
     onChanged?.(newMessage);
     setIsDirty(false);
     setInput({ text: '' });
