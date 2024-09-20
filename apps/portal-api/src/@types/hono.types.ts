@@ -7,7 +7,7 @@ type Variables = {
   token: string;
 };
 
-type Bindings = {
+export type Bindings = {
   NODE_ENV: string
   DIRECTUS_URL: string
   DIRECTUS_SECRET_KEY: string

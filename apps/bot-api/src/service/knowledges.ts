@@ -91,9 +91,9 @@ export const updateKnowledge = async (
     name: intent.name,
     intent: intent.intent,
     quick_reply: intent.quick_reply,
-    questions: intent.questions.join("#### "),
-    responses: intent.responses.join("#### "),
-    tags: intent.tags.join("#### "),
+    questions: intent.questions?.join("#### "),
+    responses: intent.responses?.join("#### "),
+    tags: intent.tags?.join("#### "),
   }));
 
   return await directus

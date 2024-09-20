@@ -9,6 +9,7 @@ import { readItem } from "@directus/sdk";
 import { endOfDay, subDays, startOfDay, format } from "date-fns";
 import { campaignRoutes } from "./campaign";
 import { Env } from "~/@types/hono.types";
+import exchangeToken from "./exchangeToken";
 
 const logger = new Logger("facebook", LogLevel.DEBUG);
 
@@ -22,7 +23,6 @@ const bodySchema = z.object({
   // csrfToken: z.string().min(1),
 });
 
-
 const facebookRoutes = new Hono<Env>()
   .post("/exchange-token", async (c) => {
     try {
@@ -31,27 +31,11 @@ const facebookRoutes = new Hono<Env>()
 
       const { code, shortLivedToken } = await bodySchema.parseAsync(body);
 
-      // CSRF validation
-      // if (c.get('csrf') !== csrfToken) {
-      //   return c.json({ error: 'Invalid CSRF token' }, 403);
-      // }
-
-      const { FB_API_URL, FB_APP_ID, FB_APP_SECRET } = c.env;
-
-      logger.debug("Request exchange", { appID: FB_APP_ID, code, FB_APP_SECRET });
-
-      let fbURL = `${FB_API_URL}/oauth/access_token?client_id=${FB_APP_ID}&client_secret=${FB_APP_SECRET}&code=${code}`;
-
-      if (shortLivedToken) {
-        fbURL = `${FB_API_URL}/oauth/access_token?grant_type=fb_exchange_token&client_id=${FB_APP_ID}&client_secret=${FB_APP_SECRET}&fb_exchange_token=${shortLivedToken}`;
-      }
-
-      const response = await fetch(fbURL, {
-        method: "GET",
+      const data = await exchangeToken({
+        env: c.env,
+        code,
+        shortLivedToken,
       });
-
-      const data = await response.json();
-      console.log(data);
 
       if ("error" in data) {
         return c.json({ error: data.error.message }, 400);
