@@ -143,6 +143,8 @@ export function useFacebookSDK({
           if (response.status === "connected") {
             setLoginStatus(response);
 
+            console.log("Auth response:", response.authResponse);
+            
             if (response.authResponse) {
               const { code, accessToken } = response.authResponse;
               fetchExchageToken({ code, shortLivedToken: accessToken }).then(
