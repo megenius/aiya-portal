@@ -136,10 +136,13 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
               data: {
                 ...values,
                 lang: 'th',
+                intents: [],
                 total_intent: 0,
                 raw_data: []
               }
             }
+          }).then((item) => {
+            navigate(item.id ?? '')
           })
         }}
       />

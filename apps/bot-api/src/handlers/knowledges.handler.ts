@@ -231,9 +231,12 @@ export const importIntentHandler = factory.createHandlers(
       };
     });
 
+    const updatedIntents = _.uniqBy([...knowledge.intents, ...intents], "intent");
+
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
-        intents: [...(knowledge.intents || []), ...intents],
+        intents: updatedIntents,
+        total_intent: updatedIntents.length,
         date_updated: new Date().toISOString(),
       })
     );
