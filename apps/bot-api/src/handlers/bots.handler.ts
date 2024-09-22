@@ -222,7 +222,6 @@ export const searchBotHandler = factory.createHandlers(
       filters: { bot_id: c.req.param("id") },
     });
 
-
     const matches = await Promise.all(
       response.map(async (x) => {
         const cacheKey = ["bots_knowledges", x.metadata?.knowledge_id].join(
@@ -235,7 +234,10 @@ export const searchBotHandler = factory.createHandlers(
         //   await c.env.CACHING.put(cacheKey, JSON.stringify(knowledge));
         // }
 
-        const  knowledge = await getKnowledge(directus, x.metadata?.knowledge_id);
+        const knowledge = await getKnowledge(
+          directus,
+          x.metadata?.knowledge_id
+        );
 
         const intent = knowledge.intents.find(
           (intent) => intent.id === x.metadata?.intent_id
@@ -254,13 +256,10 @@ export const searchBotHandler = factory.createHandlers(
 
     const messages = matches[0]?.responses?.map((response) => {
       if (platform === "line") {
-        return {
-          type: "text",
-          text: response.response,
-        };
+        return response.payload;
       } else if (platform === "facebook") {
         return {
-          text: response.response,
+          text: response.payload.text,
         };
       }
 

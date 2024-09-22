@@ -1,3 +1,4 @@
+import { ResponseElement } from "@repo/shared";
 import { components } from "./directus";
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
@@ -32,7 +33,7 @@ export type BotIntent = {
   name: string;
   intent: string;
   questions: IntentQuestion[];
-  responses: IntentResponse[];
+  responses: ResponseElement[];
   quick_reply: string;
   tags: string[];
 };
@@ -50,12 +51,6 @@ export type BotIntentImport = {
 export type IntentQuestion = {
   id: string;
   question: string;
-};
-
-export type IntentResponse = {
-  id: string;
-  type: string;
-  response: any;
 };
 
 export interface AuthTokens {
