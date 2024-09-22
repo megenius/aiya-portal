@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { ChatToolbar, ResponseElement, ResponseElementType, TextMessage } from "@repo/preline/chat";
+import { ChatToolbar, TextMessage } from "@repo/preline/chat";
+import { ResponseElementType, ResponseElement } from '@repo/shared'
 import { Bot, BotIntent } from "~/@types/app";
 import ChatBubble from './ChatBubble';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextMessage } from './TextMessage';
-import { ResponseElement, ResponseElementType } from './types';
-import CardMessage from './CardMessage';
+import { ResponseElement, ResponseElementType } from '@repo/shared'
+import { CardMessage } from './CardMessage';
 // import ImageMessage from './ImageMessage';
 
 interface ResponseElementProps {
@@ -12,7 +12,7 @@ interface ResponseElementProps {
 const ResponseElementItem: React.FC<ResponseElementProps> = ({ element, onChanged }) => {
   switch (element.type) {
     case ResponseElementType.Text:
-      return <TextMessage text={element.payload?.text} onChanged={(newText) => onChanged?.({ ...element, payload: { ...element.payload, text: newText } })} />;
+      return <TextMessage text={element.payload?.text} onChanged={(newText) => onChanged?.({ ...element, payload: { ...element.payload, text: newText } })} index={0} />;
     case ResponseElementType.CardMessage:
       return <CardMessage card={element.payload} onChanged={(newCard) => onChanged?.({ ...element, payload: newCard })} />;
     // case ResponseElementType.Image:
