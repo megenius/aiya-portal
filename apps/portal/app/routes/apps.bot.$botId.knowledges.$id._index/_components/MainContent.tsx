@@ -8,6 +8,7 @@ import IntentImporter from './IntentImporter';
 import { useBotKnowlegdeUpdate } from '~/hooks/bot/useBotKnowlegdeUpdate';
 import BasicAddModal from '~/components/BasicAddModal';
 import { randomHexString } from '~/utils/random';
+import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -21,6 +22,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const [showImporter, setShowImporter] = useState<boolean>(false);
   const navigate = useNavigate();
   const updateKnowlegde = useBotKnowlegdeUpdate()
+  const importKnowlegde = useBotKnowlegdeImport()
 
   useEffect(() => {
     setSearchIntent(searchParams.get('q') || '');
@@ -81,14 +83,14 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
       setIntents(updatedIntents);
       setShowImporter(false);
 
-      updateKnowlegde.mutateAsync({
+      importKnowlegde.mutateAsync({
         variables: {
-          key: knowledge.id as string,
-          data: {
-            intents: updatedIntents
-          }
+          knowledge_id: knowledge.id as string,
+          intents: updatedIntents
         }
       })
+
+
     } catch (error) {
       console.error("Failed to import intents:", error);
       // Handle error (e.g., show error message to user)
