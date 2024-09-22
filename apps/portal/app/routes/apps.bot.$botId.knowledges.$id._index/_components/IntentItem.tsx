@@ -8,6 +8,7 @@ import { CreateTextMessageModal } from '@repo/preline/chat';
 import { Trash } from 'lucide-react';
 import { useBotKnowledgeIntentQuestionDelete } from '~/hooks/bot/useBotKnowledgeIntentQuestionDelete';
 import { useBotKnowledgeIntentQuestionInsert } from '~/hooks/bot/useBotKnowledgeIntentQuestionInsert';
+import { useBotKnowledgeIntentQuestionUpdate } from '~/hooks/bot/useBotKnowledgeIntentQuestionUpdate';
 interface IntentItemProps {
   bot: Bot;
   knowledgeId: string;
@@ -20,6 +21,7 @@ interface IntentItemProps {
 
 const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searchText, isActive = false, onUpdate, onRemove }) => {
   const createQuestion = useBotKnowledgeIntentQuestionInsert();
+  const updateQuestion = useBotKnowledgeIntentQuestionUpdate();
   const deleteQuestion = useBotKnowledgeIntentQuestionDelete();
 
   const handleRemove = () => {
@@ -27,7 +29,6 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
       onRemove && onRemove(intent.id);
     }
   };
-
   return (
     <div className={cn("hs-accordion", { "active": isActive })} id={`hs-basic-heading-${intent.id}`}>
       <div className="flex justify-between items-center">
@@ -62,35 +63,23 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
         <div className="pb-10 px-6">
           <IntentQuestionList questions={intent.questions} searchText={searchText}
             onChanged={(updatedQuestions, index, action) => {
-
               if (action === 'create') {
                 createQuestion.mutateAsync({
                   variables: {
                     bot_id: bot.id as string,
                     knowledge_id: knowledgeId,
                     intent_id: intent.id,
-                    text: updatedQuestions.slice(-1)[0]
+                    questions: updatedQuestions
                   }
                 })
               } else if (action === 'update') {
-                const oldQuestion = intent.questions[index];
-                const newQuestion = updatedQuestions[index];
-                deleteQuestion.mutateAsync({
+                updateQuestion.mutateAsync({
                   variables: {
                     bot_id: bot.id as string,
                     knowledge_id: knowledgeId,
                     intent_id: intent.id,
-                    text: oldQuestion
+                    question: updatedQuestions[index]
                   }
-                }).then(() => {
-                  createQuestion.mutateAsync({
-                    variables: {
-                      bot_id: bot.id as string,
-                      knowledge_id: knowledgeId,
-                      intent_id: intent.id,
-                      text: newQuestion
-                    }
-                  })
                 })
               } else if (action === 'delete') {
                 deleteQuestion.mutateAsync({
@@ -98,11 +87,10 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                     bot_id: bot.id as string,
                     knowledge_id: knowledgeId,
                     intent_id: intent.id,
-                    text: intent.questions[index]
+                    question_id: intent.questions[index].id
                   }
                 })
               }
-              onUpdate && onUpdate({ ...intent, questions: updatedQuestions });
             }}
           />
           <div className="flex flex-col gap-y-3 pb-6 px-5 bg-slate-300 py-5">
@@ -120,7 +108,7 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
           //   payload: { text: message.text }
           // };
           const newResponse = message.text;
-          onUpdate && onUpdate({ ...intent, responses: [...(intent.responses || []), newResponse] });
+          // onUpdate && onUpdate({ ...intent, responses: [...(intent.responses || []), newResponse] });
         }}
       />
     </div>

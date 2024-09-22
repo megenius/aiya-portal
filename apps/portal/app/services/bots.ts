@@ -6,6 +6,7 @@ import {
   BotUpdate,
   Channel,
   ChannelBot,
+  IntentQuestion,
   WorkspaceMember,
 } from "~/@types/app";
 import api from "./api";
@@ -84,12 +85,30 @@ export const insertBotKnowledgeIntentQuestion = (data: {
   bot_id: string;
   knowledge_id: string;
   intent_id: string;
-  text: string;
-}) => api.post(`/bots/knowledges/insert-question`, data);
+  questions: Array<IntentQuestion>;
+}) =>
+  api.post<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/questions`,
+    data.questions
+  );
+
+export const updateBotKnowledgeIntentQuestion = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  question: IntentQuestion;
+}) =>
+  api.patch<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/questions/${data.question.id}`,
+    data.question
+  );
 
 export const deleteBotKnowledgeIntentQuestion = (data: {
   bot_id: string;
   knowledge_id: string;
   intent_id: string;
-  text: string;
-}) => api.post(`/bots/knowledges/delete-question`, data);
+  question_id: string;
+}) =>
+  api.delete<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/questions/${data.question_id}`
+  );

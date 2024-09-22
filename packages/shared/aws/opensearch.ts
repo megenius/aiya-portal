@@ -254,4 +254,17 @@ export class OpenSearch {
       body
     );
   }
+
+  async deleteByQuery<TQuery>(
+    index: string | undefined,
+    query: TQuery
+  ): Promise<{ deleted: number }> {
+    const path = `/${index || this.config.defaultIndex}/_delete_by_query`;
+
+    console.log("path", path);
+    console.log("query", JSON.stringify(query));
+    
+
+    return this.request<{ deleted: number }>(path, "POST", query);
+  }
 }

@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import EditIntentQuestionModal from '~/components/modal/EditIntentQuestion';
 import { Plus } from 'lucide-react';
 import { update } from 'lodash';
+import { IntentQuestion } from '~/@types/app';
 
 interface IntentQuestionListProps {
-  questions: string[];
+  questions: IntentQuestion[];
   searchText: string;
-  onChanged: (updatedQuestions: string[], index: number, action: 'create' | 'update' | 'delete') => void;
+  onChanged: (updatedQuestions: IntentQuestion[], index: number, action: 'create' | 'update' | 'delete') => void;
 }
 
 const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, searchText, onChanged }) => {
@@ -44,7 +45,7 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
             className="inline-flex cursor-pointer me-1 mb-1 items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-gray-500 text-gray-500 dark:text-neutral-400"
             onClick={() => handleQuestionClick(index)}
           >
-            <HighlightText text={question} highlight={searchText} />
+            <HighlightText text={question.question} highlight={searchText} />
           </span>
         ))}
         <button
@@ -61,7 +62,9 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
         questionIndex={selectedQuestion}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onQuestionEdited={(updatedQuestion) => { onChanged(updatedQuestion, selectedQuestion, selectedQuestion === -1 ? 'create' : 'update') }}
+        onQuestionEdited={(updatedQuestions) => {
+          onChanged(updatedQuestions, selectedQuestion, selectedQuestion === -1 ? 'create' : 'update')
+        }}
         onQuestionRemoved={handleQuestionRemoved}
       />
     </>

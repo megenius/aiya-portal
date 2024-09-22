@@ -23,7 +23,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ bot, knowledgeId, intents, se
     const searchLower = search.trim().toLowerCase();
     return intents.filter((intent) =>
       intent.name.toLowerCase().includes(searchLower) ||
-      intent.questions?.some(q => q.toLowerCase().includes(searchLower))
+      intent.questions?.some(q => q.question.toLowerCase().includes(searchLower))
     );
   }, [intents, search]);
 
