@@ -1,292 +1,85 @@
-// File: src/routes/items.ts
 import { Hono } from "hono";
-import { getDirectusClient } from "../config/directus";
-import {
-  readItems,
-  createItem,
-  updateItem,
-  deleteItem,
-  readItem,
-  deleteItems,
-} from "@directus/sdk";
-import { DirectusError } from "@repo/shared/exceptions/directus";
-import { cache } from "hono/cache";
-import { BotIntent, BotKnowledge, Channel, Workspace } from "~/@types/app";
-import { randomHexString, TextEmbedding } from "@repo/shared/utils";
-import * as _ from "lodash";
-import { Env } from "~/@types/hono.types";
-import { MD5 } from "~/utils/crypto";
-import { getTextEmbedding } from "~/utils/vector";
-import {
-  hasKnowledgeUpdated,
-  loadKnowledges,
-  updateKnowledge,
-} from "~/service/knowledges";
-import { intentMiddleware, knowledgeMiddleware } from "~/middlewares/knowlegde";
-import { cachingMiddleware } from "~/middlewares/kv-cache";
+import * as BotsHandler from "../handlers/bots.handler";
+import * as KnowledgesHandler from "../handlers/knowledges.handler";
+import { Env } from "~/types/hono.types";
 
-const knowledgesRoutes = new Hono<Env>()
-  .use("*", async (c, next) => {
-    if (!c.get("textEmbedding")) {
-      const textEmbedding = new TextEmbedding(
-        {
-          endpoint: c.env.OPENSEARCH_ENDPOINT,
-          username: c.env.OPENSEARCH_USERNAME,
-          password: c.env.OPENSEARCH_PASSWORD,
-        },
-        "text_embedding"
-      );
-      c.set("textEmbedding", textEmbedding);
-    }
-    await next();
-  })
-  .get(
-    "/:knowledgeId",
-    cachingMiddleware({
-      ttl: 60 * 60,
-      revalidate: async (c, cachedData) => {
-        return hasKnowledgeUpdated(c, cachedData);
-      },
-    }),
-    knowledgeMiddleware,
-    async (c) => {
-      try {
-        const knowledge = c.get("knowledge");
-        return c.json(knowledge);
-      } catch (error) {
-        throw DirectusError.fromDirectusResponse(error);
-      }
-    }
-  )
-  // get intent by id
-  .get(
-    "/:knowledgeId/intents/:intentId",
-    knowledgeMiddleware,
-    intentMiddleware,
-    async (c) => {
-      try {
-        return c.json(c.get("intent"));
-      } catch (error) {
-        throw DirectusError.fromDirectusResponse(error);
-      }
-    }
-  )
-  .post("/:knowledgeId/intents", knowledgeMiddleware, async (c) => {
-    try {
-      const knowledge = c.get("knowledge") as BotKnowledge;
-      const knowledgeId = c.req.param("knowledgeId") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-      const body = await c.req.json<{
-        name: string;
-        intent: string;
-        questions: string[];
-        responses: string[];
-      }>();
+const knowledgesRoutes = new Hono<Env>();
 
-      const data = {
-        id: randomHexString(8),
-        name: body.name,
-        intent: body.intent,
-        questions: body.questions || [],
-        responses: body.responses || [],
-      };
+knowledgesRoutes.get("/:knowledgeId", ...BotsHandler.getBotKnowledgeHandler);
 
-      await updateKnowledge(c, directus, knowledgeId, {
-        ...knowledge,
-        intents: [...knowledge.intents, data],
-      });
+// ----------------- intents -----------------
 
-      return c.json(data);
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-  // update knowledge
-  .patch("/:knowledgeId", async (c) => {
-    try {
-      const knowledgeId = c.req.param("knowledgeId") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-      const data = await c.req.json();
-      const result = await updateKnowledge(c, directus, knowledgeId, data);
-      return c.json({
-        id: result.id,
-        bot: result.bot,
-      });
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-  // create knowledge vector embeddings
-  .post("/:knowledgeId/embeddings", async (c) => {
-    try {
-      const knowledgeId = c.req.param("knowledgeId") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-      const knowledge = await loadKnowledges({ c, knowledgeId, directus });
+// get intents
+knowledgesRoutes.get(
+  "/:knowledgeId/intents/:intentId",
+  ...KnowledgesHandler.getIntentHandler
+);
 
-      let totalQuestions = 0;
+// create intent
+knowledgesRoutes.post(
+  "/:knowledgeId/intents",
+  ...KnowledgesHandler.createIntentHandler
+);
 
-      const results = await Promise.all(
-        knowledge.intents.map(async (intent) => {
-          const batch = intent.questions.map((question, key) => {
-            totalQuestions++;
-            return {
-              body: {
-                bot_id: knowledge.bot,
-                knowledge_id: knowledge.id,
-                intent_id: intent.id,
-                text: question.trim(),
-                idx: key + 1,
-              },
-            };
-          });
+// delete intent
+knowledgesRoutes.delete(
+  "/:knowledgeId/intents/:intentId",
+  ...KnowledgesHandler.deleteIntentHandler
+);
 
-          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch([
-            {
-              body: {
-                bot_id: knowledge.bot,
-                knowledge_id: knowledge.id,
-                intent_id: intent.id,
-                text: intent.name,
-                idx: 0,
-              },
-            },
-            ...batch,
-          ]);
-        })
-      );
+// import intent
+knowledgesRoutes.post(
+  "/:knowledgeId/intents/import",
+  ...KnowledgesHandler.importIntentHandler
+);
 
-      return c.json({ totalIntent: knowledge.intents.length, totalQuestions });
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-  .get("/:knowledgeId/intents/:intentId/responses", async (c) => {
-    try {
-      const knowledgeId = c.req.param("knowledgeId") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-      const intentId = c.req.param("intentId") as string;
+knowledgesRoutes.post(
+  "/:knowledgeId/intents/clear-all",
+  ...KnowledgesHandler.clearAllIntentsHandler
+);
 
-      const knowledge = await loadKnowledges({ c, knowledgeId, directus });
-      const intents = knowledge.intents.filter(
-        (intent) => intent.id === c.req.param("intentId")
-      );
+// ----------------- questions -----------------
 
-      const responses = _.get(intents, "0.responses", []);
-      return c.json(responses);
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-  .get(
-    "/:knowledgeId/search",
-    cache({
-      cacheName: "search",
-      cacheControl: "max-age=15",
-    }),
-    async (c) => {
-      const query = c.req.query("q") as string;
-      const values = await getTextEmbedding(query);
-      const matches = await c.env.VECTOR_SENTENCES.query(values, {
-        topK: 5,
-        returnValues: false,
-        returnMetadata: "all",
-      });
+// create intent questions
+knowledgesRoutes.post(
+  "/:knowledgeId/intents/:intentId/questions",
+  ...KnowledgesHandler.addIntentQuestionHandler
+);
 
-      return c.json(matches);
-    }
-  )
-  .post("/embeddings", async (c) => {
-    const { bot_id, knowledge_id, intent } = await c.req.json<{
-      bot_id: string;
-      knowledge_id: string;
-      intent: BotIntent;
-    }>();
+// update intent questions
+knowledgesRoutes.patch(
+  "/:knowledgeId/intents/:intentId/questions/:questionId",
+  ...KnowledgesHandler.updateIntentQuestionHandler
+);
 
-    await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(
-      intent.questions.map((question) => {
-        return {
-          body: {
-            bot_id,
-            knowledge_id,
-            intent_id: intent.id,
-            text: question.trim(),
-          },
-        };
-      })
-    );
+// delete intent questions
+knowledgesRoutes.delete(
+  "/:knowledgeId/intents/:intentId/questions/:questionId",
+  ...KnowledgesHandler.deleteIntentQuestionHandler
+);
 
-    return c.json({});
-  })
-  .delete("/embeddings", async (c) => {
-    const { bot_id, knowledge_id, intent } = await c.req.json<{
-      bot_id: string;
-      knowledge_id: string;
-      intent: BotIntent;
-    }>();
-    const text = intent.name;
-    const embedding = await getTextEmbedding(text);
-    const matches = await c.env.VECTOR_SENTENCES.query(embedding, {
-      topK: 100,
-      filter: {
-        bot_id,
-        knowledge_id,
-        intent_id: intent.id,
-      },
-      returnValues: false,
-      returnMetadata: "indexed",
-    });
+// ----------------- responses -----------------
 
-    const ids = matches.matches.map((match) => match.id);
-    await c.env.VECTOR_SENTENCES.deleteByIds(ids);
+// get intent responses
+knowledgesRoutes.get(
+  "/:knowledgeId/intents/:intentId/responses",
+  ...KnowledgesHandler.getIntentResponsesHandler
+);
 
-    return c.json(ids);
-  })
-  .post("/insert-question", async (c) => {
-    try {
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
+// create intent responses
+knowledgesRoutes.post(
+  "/:knowledgeId/intents/:intentId/responses",
+  ...KnowledgesHandler.addIntentResponseHandler
+);
 
-      const { text, ...metadata } = await c.req.json<{
-        bot_id: string;
-        knowledge_id: string;
-        intent_id: string;
-        text: string;
-      }>();
+knowledgesRoutes.delete(
+  "/:knowledgeId/intents/:intentId/responses/:responseId",
+  ...KnowledgesHandler.deleteIntentResponseHandler
+);
 
-      const textEmbedding = c.get("textEmbedding") as TextEmbedding;
-      const response = await textEmbedding.addDocument(text, metadata);
-
-      return c.json(response);
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  })
-  .post("/delete-question", async (c) => {
-    try {
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-
-      const { text, ...metadata } = await c.req.json<{
-        bot_id: string;
-        knowledge_id: string;
-        intent_id: string;
-        text: string;
-      }>();
-
-      const textEmbedding = c.get("textEmbedding") as TextEmbedding;
-      const response = await textEmbedding.deleteDocumentByMetadata(
-        text,
-        metadata
-      );
-
-      return c.json(response);
-    } catch (error) {
-      throw DirectusError.fromDirectusResponse(error);
-    }
-  });
+// knowledgesRoutes.delete("/:knowledgeId/intents/:intentId", KnowledgesHandler.deleteIntent);
+// knowledgesRoutes.patch("/:knowledgeId/intents/:intentId", KnowledgesHandler.updateIntent);
+// knowledgesRoutes.post("/:knowledgeId/embeddings", KnowledgesHandler.createEmbeddings);
+// knowledgesRoutes.get("/:knowledgeId/search", KnowledgesHandler.search);
 
 export { knowledgesRoutes };

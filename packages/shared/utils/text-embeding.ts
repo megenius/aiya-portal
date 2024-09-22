@@ -72,11 +72,14 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       metadata,
     };
 
-    await this.openSearch.index<EmbeddingDocument<T>>(
+    const res = await this.openSearch.index<EmbeddingDocument<T>>(
       this.index,
       document,
       document.id
     );
+
+    console.log(`Document added with id ${res._id}`);
+
     return document.id;
   }
 
@@ -121,6 +124,9 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       index: this.index,
       body: searchBody,
     });
+
+    // console.log("searchResponse", searchResponse);
+    
 
     return searchResponse.hits.hits.map((hit) => ({
       id: hit._source.id,
@@ -189,11 +195,32 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       body: searchBody,
     });
 
-    const ids = searchResponse.hits.hits.map((hit) => hit._source.id) 
+    const ids = searchResponse.hits.hits.map((hit) => hit._source.id);
     await Promise.all(ids.map((id) => this.openSearch.delete(this.index, id)));
-    console.log(`Deleted ${ids.length} documents with text "${text}" and metadata:`, metadata);
-    
-    return { deleted: ids};
+    console.log(
+      `Deleted ${ids.length} documents with text "${text}" and metadata:`,
+      metadata
+    );
+
+    return { deleted: ids };
+  }
+
+  async clearDocuments({
+    filters,
+  }: {
+    filters: Record<string, unknown>;
+  }): Promise<void> {
+    await this.openSearch
+      .deleteByQuery(this.index, {
+        query: {
+          bool: {
+            must: this.buildFilters(filters),
+          },
+        },
+      })
+      .then((res) => {
+        console.log(`Deleted ${res.deleted} documents`);
+      });
   }
 }
 

@@ -95,6 +95,10 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     }
   };
 
+  useEffect(() => {
+    setIntents(knowledge?.intents || []);
+  }, [knowledge?.intents])
+
   return (
     <>
       <div className='md:py-2.5 px-4 sm:px-6 lg:px-8'>
@@ -155,8 +159,10 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               id: randomHexString(8),
               name: data.name,
               intent: data.intent,
+              quick_reply: "",
               questions: [],
-              responses: []
+              responses: [],
+              tags: []
             }
             setIntents([newIntent, ...intents]);
             updateKnowlegde.mutateAsync({

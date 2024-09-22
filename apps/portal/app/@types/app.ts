@@ -1,3 +1,4 @@
+import { ResponseElement } from "@repo/preline/chat";
 import { components } from "./directus";
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
@@ -40,7 +41,7 @@ export type BotUpdate = {
 export type ChannelBot = components["schemas"]["ItemsChannelsBots"];
 
 export type BotKnowledge = components["schemas"]["ItemsBotsKnowledges"] & {
-  raw_data?: BotIntentRaw[];
+  // raw_data?: BotIntentRaw[];
   intents: BotIntent[];
 };
 
@@ -53,22 +54,38 @@ export type BotKnowledge = components["schemas"]["ItemsBotsKnowledges"] & {
 //   total_intent: number;
 // };
 
-export type BotIntentRaw = {
-  id: string;
-  name: string;
-  questions: string;
-  responses: string;
-};
+// export type BotIntentRaw = {
+//   id: string;
+//   name: string;
+//   questions: string;
+//   responses: string;
+// };
 
 export type BotIntent = {
   id: string;
   name: string;
   intent: string;
-  questions: string[];
-  responses: any[];
+  questions: IntentQuestion[];
+  responses: ResponseElement[];
   quick_reply: string;
   tags: string[];
 };
+
+export type BotIntentImport = {
+  id: string;
+  name: string;
+  intent: string;
+  questions: string;
+  answers: string;
+  quick_reply: string;
+  tags: string;
+};
+
+export type IntentQuestion = {
+  id: string;
+  question: string;
+};
+
 
 export type BotKnowledgeUpdate = {
   name: string;

@@ -1,9 +1,9 @@
 {
-  "name": "bot-api",
+  "name": "bot-api-0",
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14101 --inspector-port 24101",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
