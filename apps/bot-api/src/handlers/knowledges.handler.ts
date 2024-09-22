@@ -192,43 +192,48 @@ export const importIntentHandler = factory.createHandlers(
     const body = await c.req.json<Array<BotIntentImport>>();
 
     const intents = (body || []).map((intent) => {
+      const questions =
+        typeof intent.questions === "string"
+          ? intent.questions.split("####").filter((x) => x)
+          : intent.questions;
+      const responses =
+        typeof intent.answers === "string"
+          ? intent.answers.split("####").filter((x) => x)
+          : intent.answers;
+
+      const tags =
+        typeof intent.tags === "string"
+          ? intent.tags.split("####").filter((x) => x)
+          : intent.tags;
+
       return {
         id: randomHexString(8),
         name: intent.name,
         intent: intent.intent,
         quick_reply: intent.quick_reply,
-        questions: (intent.questions || "")
-          .split("####")
-          .filter((x) => x)
-          .map((question) => {
-            return {
-              id: randomHexString(8),
-              question: question.trim(),
-            };
-          }),
-        responses: (intent.answers || "")
-          .split("####")
-          .filter((x) => x)
-          .map((response) => {
-            return {
-              id: randomHexString(8),
-              type: "Text",
-              payload: {
-                type: "text",
-                text: response.trim(),
-              },
-            };
-          }),
-        tags: (intent.tags || "")
-          .split("####")
-          .filter((x) => x)
-          .map((tag) => tag.trim()),
+        questions: questions.map((question) => {
+          return {
+            id: randomHexString(8),
+            question: question.trim(),
+          };
+        }),
+        responses: responses.map((response) => {
+          return {
+            id: randomHexString(8),
+            type: "Text",
+            payload: {
+              type: "text",
+              text: response.trim(),
+            },
+          };
+        }),
+        tags: tags.map((tag) => tag.trim()),
       };
     });
 
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
-        intents: [...knowledge.intents, ...intents],
+        intents: [...(knowledge.intents || []), ...intents],
         date_updated: new Date().toISOString(),
       })
     );

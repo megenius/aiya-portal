@@ -1,6 +1,7 @@
 import {
   Bot,
   BotChannelStatus,
+  BotIntent,
   BotKnowledge,
   BotKnowledgeUpdate,
   BotUpdate,
@@ -11,6 +12,7 @@ import {
 } from "~/@types/app";
 import api from "./api";
 
+// --------------- bots ---------------
 export const fetchBot = (id: string) => api.get<Bot>(`/items/bots/${id}`);
 
 export const insertBot = (data: Bot) => api.post<Bot>("/items/bots", data);
@@ -23,9 +25,11 @@ export const deleteBot = (id: string) => {
   return api.delete(`/items/bots/${id}`);
 };
 
+// --------------- members ---------------
 export const fetchBotMembers = (id: string) =>
   api.get<{ items: WorkspaceMember[] }>("/bots/" + id + "/members");
 
+// --------------- channels ---------------
 export const fetchBotChannels = (id: string) =>
   api.get<Array<Channel & { _id: number }>>("/bots/" + id + "/channels");
 
@@ -42,19 +46,25 @@ export const deleteBotChannel = (data: {
   channel_id: string;
 }) => api.delete("/bots/" + data.bot_id + "/channels", { data });
 
+// --------------- knowledges ---------------
+
+// list knowledges
 export const fetchBotKnowledges = (botId: string) =>
   api.get<Array<BotKnowledge & { _id: number }>>(
     "/bots/" + botId + "/knowledges"
   );
 
+// get knowledge
 export const fetchBotKnowledge = (knowledgeId: string) =>
   api.get<BotKnowledge>("/bots/knowledges/" + knowledgeId);
 
+// insert knowledge
 export const insertBotKnowledge = (
   botId: string,
   data: Partial<BotKnowledge>
 ) => api.post(`/bots/${botId}/knowledges`, data);
 
+// update knowledge
 export const updateBotKnowledge = (
   knowledgeId: string,
   data: Partial<BotKnowledgeUpdate>
@@ -62,6 +72,7 @@ export const updateBotKnowledge = (
   return api.patch("/bots/knowledges/" + knowledgeId, data);
 };
 
+// delete knowledge
 export const deleteBotKnowledgeIntent = (data: {
   bot_id: string;
   knowledge_id: string;
@@ -71,6 +82,8 @@ export const deleteBotKnowledgeIntent = (data: {
     `/bots/${data.bot_id}/knowledges/${data.knowledge_id}/intents/${data.intent_id}`
   );
 
+// --------------- intents ---------------
+// insert intent
 export const insertBotKnowledgeIntent = (data: {
   bot_id: string;
   knowledge_id: string;
@@ -81,6 +94,20 @@ export const insertBotKnowledgeIntent = (data: {
     data
   );
 
+// import intents
+export const importBotKnowledgeIntents = (data: {
+  knowledge_id: string;
+  intents: Array<BotIntent>;
+}) => {
+  return api.post(
+    `/bots/knowledges/${data.knowledge_id}/intents/import`,
+    data.intents
+  );
+};
+
+// --------------- questions ---------------
+
+// insert question
 export const insertBotKnowledgeIntentQuestion = (data: {
   bot_id: string;
   knowledge_id: string;
@@ -92,6 +119,7 @@ export const insertBotKnowledgeIntentQuestion = (data: {
     data.questions
   );
 
+// update question
 export const updateBotKnowledgeIntentQuestion = (data: {
   bot_id: string;
   knowledge_id: string;
@@ -103,6 +131,7 @@ export const updateBotKnowledgeIntentQuestion = (data: {
     data.question
   );
 
+// delete question
 export const deleteBotKnowledgeIntentQuestion = (data: {
   bot_id: string;
   knowledge_id: string;
