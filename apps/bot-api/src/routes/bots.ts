@@ -9,12 +9,9 @@ botsRoutes.patch("/:id", ...BotsHandler.updateBotHandler);
 // botsRoutes.post("/:id/logs", BotsHandler.logBot);
 botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 // botsRoutes.delete("/:id/channels", BotsHandler.deleteBotChannel);
+
 botsRoutes.get("/:id/knowledges", ...BotsHandler.searchBotKnowledgesHandler);
 botsRoutes.post("/:id/knowledges", ...BotsHandler.createBotKnowledgeHandler);
-botsRoutes.get("/:id/knowledges/:knowledgeId", ...BotsHandler.getBotKnowledgeHandler);
-botsRoutes.delete("/:id/knowledges/:knowledgeId", ...BotsHandler.deleteBotKnowledgeHandler);
-
-
 botsRoutes.get("/:id/search", ...BotsHandler.searchBotHandler);
 
 export { botsRoutes };

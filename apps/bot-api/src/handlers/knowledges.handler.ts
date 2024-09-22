@@ -1,4 +1,10 @@
-import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
+import {
+  createItem,
+  deleteItem,
+  readItem,
+  readItems,
+  updateItem,
+} from "@directus/sdk";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -22,6 +28,44 @@ import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware
 
 const factory = createFactory<Env>();
 
+export const getBotKnowledgeHandler = factory.createHandlers(
+  cachingMiddleware({
+    ttl: 60 * 60,
+    revalidate: async (c: Context<Env>, cachedData: any) => {
+      return hasItemUpdated(c, cachedData, (c) =>
+        ["bots_knowledges", c.req.param("knowledgeId")].join("|")
+      );
+    },
+  }),
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const directus = c.get("directus");
+    const item = await getKnowledge(directus, knowledgeId);
+    return c.json(item);
+  }
+);
+
+export const deleteBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const directus = c.get("directus");
+    const textEmbedding = c.get("textEmbedding");
+    await directus.request(deleteItem("bots_knowledges", knowledgeId));
+
+    await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
+
+    await textEmbedding.clearDocuments({
+      filters: { knowledge_id: knowledgeId },
+    });
+
+    return c.json({ success: true });
+  }
+);
 // --------------------- intents ---------------------
 
 // get intent
@@ -231,7 +275,10 @@ export const importIntentHandler = factory.createHandlers(
       };
     });
 
-    const updatedIntents = _.uniqBy([...knowledge.intents, ...intents], "intent");
+    const updatedIntents = _.uniqBy(
+      [...knowledge.intents, ...intents],
+      "intent"
+    );
 
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {

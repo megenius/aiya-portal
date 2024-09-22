@@ -150,25 +150,6 @@ export const searchBotKnowledgesHandler = factory.createHandlers(
   }
 );
 
-export const getBotKnowledgeHandler = factory.createHandlers(
-  cachingMiddleware({
-    ttl: 60 * 60,
-    revalidate: async (c: Context<Env>, cachedData: any) => {
-      return hasItemUpdated(c, cachedData, (c) =>
-        ["bots_knowledges", c.req.param("knowledgeId")].join("|")
-      );
-    },
-  }),
-  logger(),
-  directusMiddleware,
-  async (c: Context<Env>) => {
-    const knowledgeId = c.req.param("knowledgeId");
-    const directus = c.get("directus");
-    const item = await getKnowledge(directus, knowledgeId);
-    return c.json(item);
-  }
-);
-
 export const createBotKnowledgeHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -186,20 +167,6 @@ export const createBotKnowledgeHandler = factory.createHandlers(
   }
 );
 
-export const deleteBotKnowledgeHandler = factory.createHandlers(
-  logger(),
-  directusMiddleware,
-  async (c: Context<Env>) => {
-    const knowledgeId = c.req.param("knowledgeId");
-    const directus = c.get("directus");
-    await directus.request(
-      updateItem("bots_knowledges", knowledgeId, {
-        status: "Archived",
-      })
-    );
-    return c.json({ success: true });
-  }
-);
 
 export const searchBotHandler = factory.createHandlers(
   logger(),
@@ -259,7 +226,7 @@ export const searchBotHandler = factory.createHandlers(
         return response.payload;
       } else if (platform === "facebook") {
         return {
-          text: response.payload.text,
+          text: response.payload?.text,
         };
       }
 

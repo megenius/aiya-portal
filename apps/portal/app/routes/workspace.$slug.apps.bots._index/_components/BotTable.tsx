@@ -49,6 +49,7 @@ export const BotTable: React.FC<BotTableProps> = ({ bots, onRowClick }) => {
                         {bot.name}
                       </span>
                     </div>
+                    <div className='text-gray-300 text-sm'>{bot.id}</div>
                   </div>
                 </td>
                 {/* <td className="size-px whitespace-nowrap px-4 py-3">

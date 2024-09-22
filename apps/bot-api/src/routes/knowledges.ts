@@ -5,7 +5,18 @@ import { Env } from "~/types/hono.types";
 
 const knowledgesRoutes = new Hono<Env>();
 
-knowledgesRoutes.get("/:knowledgeId", ...BotsHandler.getBotKnowledgeHandler);
+// ----------------- knowledges -----------------
+
+// get knowledges
+knowledgesRoutes.get(
+  "/:knowledgeId",
+  ...KnowledgesHandler.getBotKnowledgeHandler
+);
+// delete knowledge
+knowledgesRoutes.delete(
+  "/:knowledgeId",
+  ...KnowledgesHandler.deleteBotKnowledgeHandler
+);
 
 // ----------------- intents -----------------
 
