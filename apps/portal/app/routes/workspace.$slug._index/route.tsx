@@ -5,9 +5,10 @@ import Welcome from "./_components/Welcome"
 
 const Route = () => {
   const navigate = useNavigate()
-useEffect(() => {
-  navigate("settings/channels")
-}, [])
+  useEffect(() => {
+    navigate("settings/channels")
+  }, [])
+  
   return (
     <>
       {/* <Welcome /> */}

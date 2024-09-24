@@ -7,6 +7,7 @@ import Footer from "./_components/Footer";
 import { Workspace } from "~/@types/app";
 import ArchiveLayout from "~/components/ArchiveLayout";
 import { useWorkspaceBySlug } from "~/hooks/workspace/useWorkspaceBySlug";
+import { Loading } from "@repo/preline";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Layout = () => {
   }, [isAuthenticated]);
 
   if (isLoading) {
-    return
+    return <Loading />
   }
 
   if (workspace?.status === 'Archived') {
