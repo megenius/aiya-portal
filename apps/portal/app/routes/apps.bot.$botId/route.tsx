@@ -19,10 +19,6 @@ const Route = () => {
     }
   }, [isAuthenticated]);
 
-  if (isLoading) {
-    return
-  }
-
   if (!bot || isLoading) {
     return <Loading />
   }
