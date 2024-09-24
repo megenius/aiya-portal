@@ -27,13 +27,34 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   }
 
   const filteredItems = React.useMemo(() => {
-    if (!searchValue) return knowledges || [];
+    if (!searchValue) return knowledges?.map(item => {
+      let no = 0
+      try {
+        no = Number(item.name?.split(".")[0])
+      } catch (e) {
+
+      }
+      return {
+        ...item,
+        no
+      }
+    }).sort((a, b) => a.no - b.no) || [];
 
     const searchText = searchValue.toLowerCase().trim();
 
     return knowledges?.filter(item => {
       return item.name?.toLowerCase().includes(searchText);
-    });
+    }).map(item => {
+      let no = 0
+      try {
+        no = Number(item.name?.split(".")[0])
+      } catch (e) {
+      }
+      return {
+        ...item,
+        no
+      }
+    }).sort((a, b) => a.no - b.no)
   }, [knowledges, searchValue]);
 
   if (isLoading || !knowledges) {
@@ -94,7 +115,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                     {filteredItems?.map((item) => (
                       <tr key={item.id}>
                         <td className="size-px whitespace-nowrap pe-4 py-3 cursor-pointer">
-                          <div className="w-full flex items-center gap-x-3" onClick={() => handleRowClick(item.id)}>
+                          <div className="w-full flex items-center gap-x-3" onClick={() => handleRowClick(item.id as string)}>
                             <div className="grow">
                               <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
                                 {item.name}
