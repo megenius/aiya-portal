@@ -24,11 +24,11 @@ export const useBotKnowledgeIntentResponseUpdate = () => {
       ),
     onSuccess: (item) => {
       // Invalidate and refetch
-      // queryClient.invalidateQueries({
-      //   queryKey: ["bots", "knowledges", item.id],
-      //   exact: true,
-      //   refetchType: "active",
-      // });
+      queryClient.invalidateQueries({
+        queryKey: ["bots", "knowledges", item.id],
+        exact: true,
+        refetchType: "active",
+      });
     },
   });
 };

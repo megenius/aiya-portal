@@ -638,7 +638,12 @@ export const addIntentResponseHandler = factory.createHandlers(
   async (c) => {
     const knowledgeId = c.req.param("knowledgeId");
     const directus = c.get("directus");
-    const knowledge = c.get("knowledge") as BotKnowledge;
+    let knowledge = c.get("knowledge") as BotKnowledge;
+
+    if (!knowledge || !knowledge.intents) {
+      knowledge = await getKnowledge(directus, knowledgeId);
+    }
+    
     const body = await c.req.json<Array<string>>();
 
     const intentId = c.req.param("intentId");
@@ -676,12 +681,17 @@ export const addIntentResponseHandler = factory.createHandlers(
 export const updateIntentResponseHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
-  knowledgeMiddleware,
+  // knowledgeMiddleware,
   async (c) => {
     const knowledgeId = c.req.param("knowledgeId");
     const responseId = c.req.param("responseId");
     const directus = c.get("directus");
-    const knowledge = c.get("knowledge") as BotKnowledge;
+    let knowledge = c.get("knowledge") as BotKnowledge;
+
+    if (!knowledge || !knowledge.intents) {
+      knowledge = await getKnowledge(directus, knowledgeId);
+    }
+
     const body = await c.req.json<{
       type: string;
       payload: JSON;
