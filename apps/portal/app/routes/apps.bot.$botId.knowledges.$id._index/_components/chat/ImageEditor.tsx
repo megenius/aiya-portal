@@ -42,7 +42,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
 
     fileUpload.mutateAsync(file, {
       onSuccess: (data) => {
-        setInput({ ...input, payload: { url: getDirectusFileUrl(data.id, { key: "system-large-contain" }), alt: data.filename_download } })
+        setInput({ ...input, payload: { url: getDirectusFileUrl(data.id, { baseUrl: import.meta.env.VITE_BASE_URL, key: "system-large-contain", filename_download: data.filename_download }), alt: data.filename_download } })
       }
     });
 
@@ -52,7 +52,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
     if (response) {
       setInput(response)
     }
-  }, [response])
+  }, [response, id, onChanged, onDelete])
 
   return (
     <>
