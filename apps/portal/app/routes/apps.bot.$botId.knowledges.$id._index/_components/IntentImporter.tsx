@@ -21,6 +21,7 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
   const [importStats, setImportStats] = useState<ImportStats>({ success: 0, errors: 0 });
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       processFile(acceptedFiles[0]);

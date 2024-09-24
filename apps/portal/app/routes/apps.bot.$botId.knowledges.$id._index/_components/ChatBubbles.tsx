@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 // import { ChatToolbar, TextMessage } from "@repo/preline/chat";
 import { ResponseElementType, ResponseElement } from '@repo/shared'
-import { Bot, BotIntent, IntentResponse } from "~/@types/app";
+import { Bot, BotIntent, ImageMessageResponse, IntentResponse, TextMessageResponse } from "~/@types/app";
 import ChatBubble from './ChatBubble';
 import ChatToolbar from './ChatToolbar';
 import TextMessage from './chat/TextMessage';
@@ -11,6 +11,8 @@ import { useBotKnowledgeIntentResponseDelete } from '~/hooks/bot/useBotKnowledge
 import { useBotKnowledgeIntentResponseInsert } from '~/hooks/bot/useBotKnowledgeIntentResponseInsert';
 import { randomHexString } from '~/utils/random';
 import { useBotKnowledgeIntentResponseDuplicate } from '~/hooks/bot/useBotKnowledgeIntentResponseDuplicate';
+import ImageMessage from './chat/ImageMessage';
+import ImageEditor from './chat/ImageEditor';
 
 interface ChatBubblesProps {
   bot: Bot;
@@ -79,24 +81,37 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
     });
   }, [messages, insertIntentResponse, bot, intent]);
 
-  const renderResponseElement = useCallback((response: ResponseElement, index: number) => {
+  const renderResponseElement = useCallback((response: IntentResponse, index: number) => {
     if (typeof response === 'string' || response.type === ResponseElementType.Text) {
-      const text = typeof response === 'string' ? response : response.payload?.text || '';
+      const item = response as TextMessageResponse;
+      const text = typeof response === 'string' ? item : item.payload.text || '';
       return (
         <>
           <TextMessage
-            response={response}
-            onDelete={() => handleMessageDelete(response.id)}
+            response={item}
+            onDelete={() => handleMessageDelete(item.id)}
             onDuplicate={() => handleMessageDuplicate(index)}
           />
           <TextEditor
-            response={response}
-            onChanged={handleMessageChange}
-            onDelete={(e) => {
-            }} />
+            response={item}
+            onChanged={handleMessageChange} />
         </>
       );
+    } else if (response.type === ResponseElementType.Image) {
+      const item = response as ImageMessageResponse;
+      return (
+        <>
+          <ImageMessage key={index} response={item}
+            onDelete={() => handleMessageDelete(item.id)}
+            onDuplicate={() => handleMessageDuplicate(index)}
+          />
+          <ImageEditor response={item}
+            onChanged={handleMessageChange} />
+        </>
+      )
     }
+
+
     return <div key={index}>Unsupported response type: {JSON.stringify(response)}</div>;
   }, [handleMessageChange, handleMessageDelete, handleMessageDuplicate, bot, knowledgeId, intent]);
 
@@ -130,13 +145,27 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
       ))}
       <ChatBubble bot={bot}>
         <ChatToolbar modalKey={intent.id}
-          onAddText={() => handleOpenModal("new-text")} />
+          onAddText={() => handleOpenModal("new-text")}
+          onAddImage={() => handleOpenModal("new-image")}
+        />
       </ChatBubble>
       <TextEditor id="new-text" response={{
         id: randomHexString(8),
         type: ResponseElementType.Text,
         payload: {
           text: ""
+        }
+      }}
+        onChanged={handleMessageInsert}
+        onDelete={(e) => { }}
+      />
+
+      <ImageEditor id="new-image" response={{
+        id: randomHexString(8),
+        type: ResponseElementType.Image,
+        payload: {
+          url: "",
+          alt: ""
         }
       }}
         onChanged={handleMessageInsert}
