@@ -126,7 +126,6 @@ export class TextEmbedding<T extends Metadata = Metadata> {
     });
 
     // console.log("searchResponse", searchResponse);
-    
 
     return searchResponse.hits.hits.map((hit) => ({
       id: hit._source.id,
@@ -144,6 +143,30 @@ export class TextEmbedding<T extends Metadata = Metadata> {
 
   async deleteDocument(id: ID): Promise<void> {
     await this.openSearch.delete(this.index, id);
+  }
+
+  async getDocumentByMetadata(
+    metadata: Record<string, unknown>
+  ): Promise<EmbeddingDocument<T> | null> {
+    const filters = Object.entries(metadata).map(([key, value]) => ({
+      term: { [`metadata.${key}.keyword`]: value },
+    }));
+
+    const searchBody = {
+      size: 1,
+      query: {
+        bool: {
+          filter: filters,
+        },
+      },
+    };
+
+    const searchResponse = await this.openSearch.search<EmbeddingDocument<T>>({
+      index: this.index,
+      body: searchBody,
+    });
+
+    return searchResponse.hits.hits[0]?._source ?? null;
   }
 
   async updateDocument(
@@ -165,7 +188,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
     );
   }
 
-  async deleteDocumentByMetadata(
+  async deleteDocumentByText(
     text: string,
     metadata: Record<string, unknown>
   ): Promise<{ deleted: string[] }> {
@@ -201,6 +224,40 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       `Deleted ${ids.length} documents with text "${text}" and metadata:`,
       metadata
     );
+
+    return { deleted: ids };
+  }
+
+  async deleteDocumentByMetadata(
+    metadata: Record<string, unknown>
+  ): Promise<{ deleted: string[] }> {
+    const filters = Object.entries(metadata).map(([key, value]) => ({
+      term: { [`metadata.${key}.keyword`]: value },
+    }));
+
+    const searchBody = {
+      size: 1000,
+      // _source: ["id", "text", "metadata"],
+      query: {
+        bool: {
+          filter: filters,
+        },
+      },
+    };
+
+    console.log("searchBody", JSON.stringify(searchBody, null, 2));
+
+    const searchResponse = await this.openSearch.search<EmbeddingDocument<T>>({
+      index: this.index,
+      body: searchBody,
+    });
+
+    const ids = searchResponse.hits.hits.map((hit) => hit._source.id);
+
+    console.log("ids", ids);
+
+    await Promise.all(ids.map((id) => this.openSearch.delete(this.index, id)));
+    console.log(`Deleted ${ids.length} documents with metadata:`, metadata);
 
     return { deleted: ids };
   }
