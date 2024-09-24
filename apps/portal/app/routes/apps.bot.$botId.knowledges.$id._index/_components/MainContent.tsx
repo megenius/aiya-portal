@@ -10,6 +10,7 @@ import BasicAddModal from '~/components/BasicAddModal';
 import { randomHexString } from '~/utils/random';
 import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
 import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
+import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -25,6 +26,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const insertIntent = useBotKnowledgeIntentInsert();
   const updateKnowlegde = useBotKnowlegdeUpdate()
   const importKnowlegde = useBotKnowlegdeImport()
+  const removeIntent = useBotKnowledgeIntentDelete();
 
   useEffect(() => {
     setSearchIntent(searchParams.get('q') || '');
@@ -46,16 +48,15 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
   const onIntentRemove = useCallback(async (intentId: string) => {
     const updatedIntents = intents.filter(intent => intent.id !== intentId);
-
     setIntents(updatedIntents);
-    updateKnowlegde.mutateAsync({
+    removeIntent.mutateAsync({
       variables: {
-        key: knowledge.id as string,
-        data: {
-          intents: updatedIntents
-        }
+        bot_id: bot.id as string,
+        knowledge_id: knowledge.id as string,
+        intent_id: intentId
       }
     })
+    
   }, [intents, knowledge.id]);
 
 

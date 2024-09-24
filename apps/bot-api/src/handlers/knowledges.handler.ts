@@ -210,6 +210,17 @@ export const deleteIntentHandler = factory.createHandlers(
       JSON.stringify(item)
     );
 
+    await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch([
+      {
+        body: {
+          operation: "deleteIntent",
+          bot_id: knowledge.bot,
+          knowledge_id: knowledgeId,
+          intent_id: intentId,
+        },
+      },
+    ]);
+
     return c.json(item);
   }
 );
