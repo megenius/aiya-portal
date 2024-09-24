@@ -209,7 +209,7 @@ export class OpenSearch {
     document: T,
     id?: string
   ): Promise<{ _id: string }> {
-    const path = `/${index || this.config.defaultIndex}/_doc${id ? `/${id}` : ""}`;
+    const path = `/${index || this.config.defaultIndex}/_doc${id ? `/${id}` : ""}?refresh=true`;
     return this.request<{ _id: string }>(path, id ? "PUT" : "POST", document);
   }
 
@@ -226,7 +226,7 @@ export class OpenSearch {
     id: string,
     doc: Partial<T>
   ): Promise<{ _id: string }> {
-    const path = `/${index || this.config.defaultIndex}/_doc/${id}/_update`;
+    const path = `/${index || this.config.defaultIndex}/_doc/${id}/_update?refresh=true`;
     return this.request<{ _id: string }>(path, "POST", { doc });
   }
 
@@ -234,7 +234,7 @@ export class OpenSearch {
     index: string | undefined,
     id: string
   ): Promise<{ _id: string }> {
-    const path = `/${index || this.config.defaultIndex}/_doc/${id}`;
+    const path = `/${index || this.config.defaultIndex}/_doc/${id}?refresh=true`;
     return this.request<{ _id: string }>(path, "DELETE");
   }
 
