@@ -71,16 +71,28 @@ knowledgesRoutes.delete(
 
 // ----------------- responses -----------------
 
-// get intent responses
+// list intent responses
 knowledgesRoutes.get(
   "/:knowledgeId/intents/:intentId/responses",
   ...KnowledgesHandler.getIntentResponsesHandler
+);
+
+// get intent response
+knowledgesRoutes.get(
+  "/:knowledgeId/intents/:intentId/responses/:responseId",
+  ...KnowledgesHandler.getIntentResponseHandler
 );
 
 // create intent responses
 knowledgesRoutes.post(
   "/:knowledgeId/intents/:intentId/responses",
   ...KnowledgesHandler.addIntentResponseHandler
+);
+
+// update intent responses
+knowledgesRoutes.patch(
+  "/:knowledgeId/intents/:intentId/responses/:responseId",
+  ...KnowledgesHandler.updateIntentResponseHandler
 );
 
 knowledgesRoutes.delete(

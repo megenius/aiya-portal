@@ -86,6 +86,25 @@ export type IntentQuestion = {
   question: string;
 };
 
+export type IntentResponse = {
+  altText?: string;
+  id: string;
+  opts?: JSON;
+  payload?: JSON;
+  type?: ResponseElementType;
+};
+
+export enum ResponseElementType {
+  CardMessage = "CardMessage",
+  Flex = "Flex",
+  GenericTemplate = "GenericTemplate",
+  Image = "Image",
+  Imagemap = "Imagemap",
+  OptInMessage = "OptInMessage",
+  RichMessage = "RichMessage",
+  RichVideo = "RichVideo",
+  Text = "Text",
+}
 
 export type BotKnowledgeUpdate = {
   name: string;

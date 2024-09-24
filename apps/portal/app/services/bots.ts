@@ -8,6 +8,7 @@ import {
   Channel,
   ChannelBot,
   IntentQuestion,
+  IntentResponse,
   WorkspaceMember,
 } from "~/@types/app";
 import api from "./api";
@@ -90,9 +91,7 @@ export const deleteBotKnowledgeIntent = (data: {
   knowledge_id: string;
   intent_id: string;
 }) =>
-  api.delete(
-    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}`
-  );
+  api.delete(`/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}`);
 
 // import intents
 export const importBotKnowledgeIntents = (data: {
@@ -140,4 +139,41 @@ export const deleteBotKnowledgeIntentQuestion = (data: {
 }) =>
   api.delete<BotKnowledge>(
     `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/questions/${data.question_id}`
+  );
+
+// --------------- responses ---------------
+
+// insert response
+export const insertBotKnowledgeIntentResponse = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  response: IntentResponse;
+}) =>
+  api.post<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses`,
+    data.response
+  );
+
+// update response
+export const updateBotKnowledgeIntentResponse = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  response: Partial<IntentResponse>;
+}) =>
+  api.patch<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response.id}`,
+    data.response
+  );
+
+// delete response
+export const deleteBotKnowledgeIntentResponse = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  response_id: string;
+}) =>
+  api.delete<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response_id}`
   );
