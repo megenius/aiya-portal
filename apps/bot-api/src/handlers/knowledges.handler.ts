@@ -643,8 +643,8 @@ export const addIntentResponseHandler = factory.createHandlers(
     if (!knowledge || !knowledge.intents) {
       knowledge = await getKnowledge(directus, knowledgeId);
     }
-    
-    const body = await c.req.json<Array<string>>();
+
+    const body = await c.req.json();
 
     const intentId = c.req.param("intentId");
     const intent = knowledge.intents.find((intent) => intent.id === intentId);
@@ -751,6 +751,59 @@ export const deleteIntentResponseHandler = factory.createHandlers(
       responses: intent.responses.filter(
         (response) => response.id !== responseId
       ),
+    };
+
+    const intents = knowledge.intents.map((intent) =>
+      intent.id === intentId ? updatedIntent : intent
+    );
+
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, {
+        intents,
+      })
+    );
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    return c.json(item);
+  }
+);
+
+// duplicate response
+export const duplicateIntentResponseHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  knowledgeMiddleware,
+  async (c) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const responseId = c.req.param("responseId");
+    const directus = c.get("directus");
+    const knowledge = c.get("knowledge") as BotKnowledge;
+
+    const intentId = c.req.param("intentId");
+    const intent = knowledge.intents.find((intent) => intent.id === intentId);
+    if (!intent) {
+      return c.json({ status: 404, message: "Intent not found" }, 404);
+    }
+
+    const responseIdx = intent.responses.findIndex(
+      (response) => response.id === responseId
+    );
+    const response = intent.responses[responseIdx];
+    if (!response) {
+      return c.json({ status: 404, message: "Response not found" }, 404);
+    }
+
+    const updatedIntent = {
+      ...intent,
+      responses: [
+        ...intent.responses.slice(0, responseIdx + 1),
+        { ...response, id: randomHexString(8) },
+        ...intent.responses.slice(responseIdx + 1),
+      ],
     };
 
     const intents = knowledge.intents.map((intent) =>

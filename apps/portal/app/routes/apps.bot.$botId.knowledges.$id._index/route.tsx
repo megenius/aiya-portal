@@ -2,11 +2,12 @@ import React, { Suspense } from "react"
 import { Outlet, useNavigate, useOutletContext, useParams } from "@remix-run/react"
 import { useEffect } from "react";
 import { useAppSelector } from "~/store";
-import MainContent from "./_components/MainContent";
+// import MainContent from "./_components/MainContent";
 import { Bot } from "~/@types/app";
 import { useBotKnowlegde } from "~/hooks/bot/useBotKnowlegde";
 import { Loading } from "@repo/preline";
 import { ClientOnly } from "remix-utils/client-only";
+const MainContent = React.lazy(() => import("./_components/MainContent"))
 
 const Route = () => {
   const navigate = useNavigate()

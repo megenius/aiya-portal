@@ -95,9 +95,16 @@ knowledgesRoutes.patch(
   ...KnowledgesHandler.updateIntentResponseHandler
 );
 
+// delete intent responses
 knowledgesRoutes.delete(
   "/:knowledgeId/intents/:intentId/responses/:responseId",
   ...KnowledgesHandler.deleteIntentResponseHandler
+);
+
+// duplicate intent responses
+knowledgesRoutes.post(
+  "/:knowledgeId/intents/:intentId/responses/:responseId/duplicate",
+  ...KnowledgesHandler.duplicateIntentResponseHandler
 );
 
 // knowledgesRoutes.delete("/:knowledgeId/intents/:intentId", KnowledgesHandler.deleteIntent);

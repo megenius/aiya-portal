@@ -4,12 +4,11 @@ import ToolDropdown from './ToolDropdown';
 
 interface TextMessageProps {
   response: ResponseElement;
-  onChanged,
-  onDuplicate?,
-  onDelete
+  onDuplicate?: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const TextMessage: React.FC<TextMessageProps> = ({ response, onChanged, onDelete, onDuplicate }) => {
+const TextMessage: React.FC<TextMessageProps> = ({ response, onDelete, onDuplicate }) => {
   const handleDelete = () => {
     onDelete?.(response.id);
   }
@@ -19,7 +18,23 @@ const TextMessage: React.FC<TextMessageProps> = ({ response, onChanged, onDelete
   }
 
   const handleOpenModal = () => {
+    const offcanvasId = `hs-offcanvas-${response.id}`;
+    const offcanvas = document.getElementById(offcanvasId);
+    if (offcanvas) {
+      // Assuming you're using a library like HSOverlay
+      // @ts-ignore
+      window.HSOverlay.open(offcanvas);
+    }
+  }
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Check if the clicked element is a link
+    const isLink = (e.target as HTMLElement).tagName.toLowerCase() === 'a';
+
+    if (!isLink) {
+      e.preventDefault();
+      handleOpenModal()
+    }
   }
 
   return (
@@ -31,8 +46,7 @@ const TextMessage: React.FC<TextMessageProps> = ({ response, onChanged, onDelete
         >
           <div
             className="order-1 bg-white shadow-sm inline-block rounded-xl pt-2 pb-1.5 px-2.5 cursor-pointer"
-            // onClick={handleOpenModal}
-            data-hs-overlay={`#hs-offcanvas-${response.id}`}
+            onClick={handleClick}
           >
             <div className="text-sm text-gray-800">
               <FormatAnswer text={response.payload?.text} />
@@ -75,4 +89,3 @@ const FormatAnswer: React.FC<{ text: string }> = ({ text }) => {
     }
   });
 };
-
