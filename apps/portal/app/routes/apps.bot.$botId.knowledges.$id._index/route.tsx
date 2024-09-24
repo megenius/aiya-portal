@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { Outlet, useNavigate, useOutletContext, useParams } from "@remix-run/react"
 import { useEffect } from "react";
 import { useAppSelector } from "~/store";
@@ -6,6 +6,7 @@ import MainContent from "./_components/MainContent";
 import { Bot } from "~/@types/app";
 import { useBotKnowlegde } from "~/hooks/bot/useBotKnowlegde";
 import { Loading } from "@repo/preline";
+import { ClientOnly } from "remix-utils/client-only";
 
 const Route = () => {
   const navigate = useNavigate()
@@ -19,7 +20,16 @@ const Route = () => {
 
   return (
     <>
-      <MainContent bot={bot} knowledge={knowledge} />
+      <Suspense fallback="">
+        <ClientOnly>
+          {() =>
+            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
+              <MainContent bot={bot} knowledge={knowledge} />
+            </div>
+          }
+        </ClientOnly>
+      </Suspense>
+
     </>
   )
 }

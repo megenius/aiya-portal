@@ -3,7 +3,6 @@ import { Outlet, useNavigate, useOutletContext, useParams } from "@remix-run/rea
 import { useEffect } from "react";
 import { useAppSelector } from "~/store";
 import Overview from "./_components/Overview";
-import MainContent from "./_components/MainContent";
 import { FacebookAdAccount } from "~/@types/app";
 import { CampaignPerformance } from "./_components/CampaignPerformance";
 import RecentCampaigns from "./_components/RecentCampaigns";
@@ -14,6 +13,9 @@ import { CurrencyFormatter } from "@repo/ui";
 import MetricCard from "./_components/MetricCard";
 import { RoasChart } from "./_components/RoasChart";
 import { Loading } from "@repo/preline";
+
+const MainContent = React.lazy(() => import("./_components/MainContent"))
+
 
 const Route = () => {
   const navigate = useNavigate()
