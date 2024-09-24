@@ -81,13 +81,7 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient}>
-            <Suspense fallback="">
-              <ClientOnly>
-                {() =>
-                  <Outlet />
-                }
-              </ClientOnly>
-            </Suspense>
+            <Outlet />
           </QueryClientProvider>
         </PersistGate>
       </Provider>
