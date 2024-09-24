@@ -13,6 +13,7 @@ import { useAdDashboard } from "~/hooks/adaccount/useAdDashboard";
 import { CurrencyFormatter } from "@repo/ui";
 import MetricCard from "./_components/MetricCard";
 import { RoasChart } from "./_components/RoasChart";
+import { Loading } from "@repo/preline";
 
 const Route = () => {
   const navigate = useNavigate()
@@ -23,7 +24,11 @@ const Route = () => {
       id: id as string,
     },
   });
-
+  
+  if (isLoading) {
+    return <Loading />
+  }
+  
   return (
     <Suspense fallback="">
       <ClientOnly>
