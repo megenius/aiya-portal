@@ -1,8 +1,9 @@
 import { Outlet, useParams } from "@remix-run/react"
-import React from "react"
+import React, { Suspense } from "react"
 import MainContent from "./_components/MainContent"
 import { Loading } from "@repo/preline"
 import { useBot } from "~/hooks/bot"
+import { ClientOnly } from "remix-utils/client-only"
 
 
 const Route = () => {
@@ -13,9 +14,15 @@ const Route = () => {
   }
 
   return (
-    <MainContent>
-      <Outlet context={{ bot }} />
-    </MainContent>
+    <Suspense fallback="">
+      <ClientOnly>
+        {() =>
+          <MainContent>
+            <Outlet context={{ bot }} />
+          </MainContent>
+        }
+      </ClientOnly>
+    </Suspense>
   )
 }
 

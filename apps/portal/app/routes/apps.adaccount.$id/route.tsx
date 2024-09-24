@@ -20,10 +20,6 @@ const Route = () => {
     }
   }, [isAuthenticated]);
 
-  if (isLoading) {
-    return
-  }
-
   if (!adaccount || isLoading) {
     return <Loading />
   }

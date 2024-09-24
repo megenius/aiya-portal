@@ -1,8 +1,10 @@
 import { useOutletContext, useParams } from "@remix-run/react"
 import React, { Suspense } from "react"
-import MainContent from "./_components/MainContent"
 import { Workspace } from "~/@types/app"
 import { ClientOnly } from "remix-utils/client-only"
+
+const MainContent = React.lazy(() => import("./_components/MainContent"))
+
 
 const Route = () => {
   const { workspace } = useOutletContext<{ workspace: Workspace }>()
