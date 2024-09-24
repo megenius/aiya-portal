@@ -19,10 +19,11 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { store, persistor } from './store';
-import { useCallback, useEffect } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import { renewToken } from "./store/slices/authSlice";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'apexcharts/dist/apexcharts.css';
+import { ClientOnly } from "remix-utils/client-only";
 
 
 export const links: LinksFunction = () => [
@@ -80,7 +81,13 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient}>
-            <Outlet />
+            <Suspense fallback="">
+              <ClientOnly>
+                {() =>
+                  <Outlet />
+                }
+              </ClientOnly>
+            </Suspense>
           </QueryClientProvider>
         </PersistGate>
       </Provider>
