@@ -90,9 +90,21 @@ export type IntentResponse = {
   altText?: string;
   id: string;
   opts?: JSON;
-  payload?: JSON;
   type?: ResponseElementType;
 };
+
+export type TextMessageResponse = {
+  payload: {
+    text: string;
+  };
+} & IntentResponse;
+
+export type ImageMessageResponse = {
+  payload: {
+    url: string;
+    alt: string;
+  };
+} & IntentResponse;
 
 export enum ResponseElementType {
   CardMessage = "CardMessage",

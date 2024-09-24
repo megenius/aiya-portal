@@ -1,9 +1,9 @@
-import { ResponseElement } from '@repo/shared';
 import React, { useRef, useState } from 'react';
 import ToolDropdown from './ToolDropdown';
+import { TextMessageResponse } from '~/@types/app';
 
 interface TextMessageProps {
-  response: ResponseElement;
+  response: TextMessageResponse;
   onDuplicate?: (id: string) => void;
   onDelete: (id: string) => void;
 }

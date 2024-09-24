@@ -23,7 +23,7 @@ import { Suspense, useCallback, useEffect } from "react";
 import { renewToken } from "./store/slices/authSlice";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'apexcharts/dist/apexcharts.css';
-import { ClientOnly } from "remix-utils/client-only";
+import "yet-another-react-lightbox/styles.css";
 
 
 export const links: LinksFunction = () => [
