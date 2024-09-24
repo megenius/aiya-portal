@@ -24,22 +24,13 @@ const app = new Hono<Env>()
   })
   // .use("*", errorHandler)
   .route("/bots", botsRoutes)
-  .route("/bots/knowledges", knowledgesRoutes)
-  // .route("/bots/embedding", textEmbeddingRoutes)
-  // .route("/webhook", webhookRoutes);
+  .route("/bots/knowledges", knowledgesRoutes);
+// .route("/bots/embedding", textEmbeddingRoutes)
+// .route("/webhook", webhookRoutes);
 
 export default {
   fetch: app.fetch,
-  async queue(
-    batch: MessageBatch<{
-      bot_id: string;
-      knowledge_id: string;
-      intent_id: string;
-      text: string;
-      idx: number;
-    }>,
-    env: WorkerEnv
-  ) {
+  async queue(batch: MessageBatch, env: WorkerEnv) {
     await handleQueueMessage(batch, env);
   },
 };

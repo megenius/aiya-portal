@@ -169,6 +169,7 @@ export const createIntentHandler = factory.createHandlers(
       questions.map((question) => {
         return {
           body: {
+            operation: "addQuestion",
             text: question.question,
             bot_id: knowledge.bot,
             knowledge_id: knowledgeId,
@@ -178,16 +179,6 @@ export const createIntentHandler = factory.createHandlers(
         };
       })
     );
-
-    // for (const question of questions) {
-
-    //   await textEmbedding.addDocument(question.question, {
-    //     bot_id: knowledge.bot,
-    //     knowledge_id: knowledgeId,
-    //     intent_id: data.id,
-    //     id: question.id,
-    //   })
-    // }
 
     return c.json(item);
   }
@@ -400,6 +391,23 @@ export const addIntentQuestionHandler = factory.createHandlers(
       JSON.stringify(item)
     );
 
+    console.log("questions", questions);
+
+    await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(
+      questions.map((question) => {
+        return {
+          body: {
+            operation: "addQuestion",
+            text: question.question,
+            bot_id: knowledge.bot,
+            knowledge_id: knowledgeId,
+            intent_id: intentId,
+            id: question.id,
+          },
+        };
+      })
+    );
+
     return c.json(item);
   }
 );
@@ -449,6 +457,15 @@ export const updateIntentQuestionHandler = factory.createHandlers(
       JSON.stringify(item)
     );
 
+    await c.env.SENTENCE_EMBEDINGS_QUEUE.send({
+      operation: "updateQuestion",
+      bot_id: knowledge.bot,
+      knowledge_id: knowledgeId,
+      intent_id: intentId,
+      id: questionId,
+      text: body.question,
+    });
+
     return c.json(item);
   }
 );
@@ -458,6 +475,7 @@ export const deleteIntentQuestionHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
   knowledgeMiddleware,
+  textEmbeddingMiddleware,
   async (c) => {
     const knowledgeId = c.req.param("knowledgeId");
     const questionId = c.req.param("questionId");
@@ -491,6 +509,14 @@ export const deleteIntentQuestionHandler = factory.createHandlers(
       ["bots_knowledges", knowledgeId].join("|"),
       JSON.stringify(item)
     );
+
+    await c.env.SENTENCE_EMBEDINGS_QUEUE.send({
+      operation: "deleteQuestion",
+      bot_id: knowledge.bot,
+      knowledge_id: knowledgeId,
+      intent_id: intentId,
+      id: questionId,
+    });
 
     return c.json(item);
   }
