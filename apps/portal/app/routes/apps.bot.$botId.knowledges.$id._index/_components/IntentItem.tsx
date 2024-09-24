@@ -113,7 +113,7 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
             }}
           />
           <div className="flex flex-col gap-y-3 pb-6 px-5 bg-slate-300 py-5">
-            <ChatBubbles bot={bot} intent={intent} onUpdate={onUpdate} />
+            <ChatBubbles bot={bot} knowledgeId={knowledgeId} intent={intent} onUpdate={onUpdate} />
           </div>
         </div>
       </div>

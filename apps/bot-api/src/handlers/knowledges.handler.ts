@@ -39,11 +39,16 @@ export const getBotKnowledgeHandler = factory.createHandlers(
   }),
   logger(),
   directusMiddleware,
+  // knowledgeMiddleware,
   async (c: Context<Env>) => {
     const knowledgeId = c.req.param("knowledgeId");
     const directus = c.get("directus");
-    const item = await getKnowledge(directus, knowledgeId);
-    return c.json(item);
+    let knowledge = c.get("knowledge");
+
+    if (!knowledge || !knowledge.intents) {
+      knowledge = await getKnowledge(directus, knowledgeId);
+    }
+    return c.json(knowledge);
   }
 );
 
@@ -98,6 +103,8 @@ export const getIntentHandler = factory.createHandlers(
     const intents = knowledge?.intents?.filter(
       (intent) => intent.id === c.req.param("intentId")
     );
+    console.log("intents", intents);
+
     const intent = _.get(intents, 0, {});
 
     return c.json(intent);
@@ -535,7 +542,7 @@ export const deleteIntentQuestionHandler = factory.createHandlers(
 
 // --------------------- response ---------------------
 
-// get response
+// get responses
 export const getIntentResponsesHandler = factory.createHandlers(
   cachingMiddleware({
     ttl: 60 * 60,
@@ -582,6 +589,47 @@ export const getIntentResponsesHandler = factory.createHandlers(
   }
 );
 
+// get response
+export const getIntentResponseHandler = factory.createHandlers(
+  cachingMiddleware({
+    ttl: 60 * 60,
+    revalidate: async (c: Context<Env>, cachedData: any) => {
+      return hasItemUpdated(c, cachedData, (c) =>
+        [
+          "knowledge",
+          c.req.param("knowledgeId"),
+          "intent",
+          c.req.param("intentId"),
+          "response",
+          c.req.param("responseId"),
+        ].join("|")
+      );
+    },
+  }),
+  logger(),
+  directusMiddleware,
+  knowledgeMiddleware,
+  async (c) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const directus = c.get("directus");
+    let knowledge = c.get("knowledge");
+
+    if (!knowledge || !knowledge.intents) {
+      knowledge = await getKnowledge(directus, knowledgeId);
+    }
+
+    const intents = knowledge?.intents?.filter(
+      (intent) => intent.id === c.req.param("intentId")
+    );
+    const responses = _.get(intents, "0.responses", []);
+    const response = responses.find(
+      (response) => response.id === c.req.param("responseId")
+    );
+
+    return c.json(response);
+  }
+);
+
 // add response
 export const addIntentResponseHandler = factory.createHandlers(
   logger(),
@@ -603,6 +651,53 @@ export const addIntentResponseHandler = factory.createHandlers(
     const updatedIntent = {
       ...intent,
       responses: _.uniq([...intent.responses, ...responses]),
+    };
+
+    const intents = knowledge.intents.map((intent) =>
+      intent.id === intentId ? updatedIntent : intent
+    );
+
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, {
+        intents,
+      })
+    );
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    return c.json(item);
+  }
+);
+
+// update response
+export const updateIntentResponseHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  knowledgeMiddleware,
+  async (c) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const responseId = c.req.param("responseId");
+    const directus = c.get("directus");
+    const knowledge = c.get("knowledge") as BotKnowledge;
+    const body = await c.req.json<{
+      type: string;
+      payload: JSON;
+    }>();
+
+    const intentId = c.req.param("intentId");
+    const intent = knowledge.intents.find((intent) => intent.id === intentId);
+    if (!intent) {
+      return c.json({ status: 404, message: "Intent not found" }, 404);
+    }
+
+    const updatedIntent = {
+      ...intent,
+      responses: intent.responses.map((response) =>
+        response.id === responseId ? { id: responseId, ...body } : response
+      ),
     };
 
     const intents = knowledge.intents.map((intent) =>

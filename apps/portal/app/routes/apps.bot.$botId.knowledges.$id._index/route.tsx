@@ -29,7 +29,6 @@ const Route = () => {
           }
         </ClientOnly>
       </Suspense>
-
     </>
   )
 }

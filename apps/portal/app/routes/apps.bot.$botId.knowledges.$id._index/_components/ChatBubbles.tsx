@@ -1,28 +1,43 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { ChatToolbar, TextMessage } from "@repo/preline/chat";
+// import { ChatToolbar, TextMessage } from "@repo/preline/chat";
 import { ResponseElementType, ResponseElement } from '@repo/shared'
-import { Bot, BotIntent } from "~/@types/app";
+import { Bot, BotIntent, IntentResponse } from "~/@types/app";
 import ChatBubble from './ChatBubble';
+import ChatToolbar from './ChatToolbar';
+import TextMessage from './chat/TextMessage';
+import TextEditor from './chat/TextEditor';
+import { useBotKnowledgeIntentResponseUpdate } from '~/hooks/bot/useBotKnowledgeIntentResponseUpdate';
 
 interface ChatBubblesProps {
-  intent: BotIntent;
   bot: Bot;
+  knowledgeId: string;
+  intent: BotIntent;
   onUpdate?: (updatedIntent: BotIntent) => void;
 }
 
-const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot }) => {
+const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowledgeId }) => {
   const [messages, setMessages] = useState<ResponseElement[]>(intent.responses || []);
+
+  const updateIntentReponse = useBotKnowledgeIntentResponseUpdate();
 
   const updateMessages = useCallback((newMessages: ResponseElement[]) => {
     setMessages(newMessages);
     onUpdate && onUpdate({ ...intent, responses: newMessages });
   }, [intent, onUpdate]);
 
-  const handleMessageChange = useCallback((index: number, payload: { text: string }) => {
-    updateMessages(
-      messages.map((msg, i) => i === index ? payload.text as any : msg)
-    );
-  }, [messages, updateMessages]);
+  const handleMessageChange = useCallback((message: IntentResponse) => {
+    setMessages(messages.map((msg) => msg.id === message.id ? message : msg))
+    updateIntentReponse.mutateAsync({
+      variables: {
+        bot_id: bot.id as string,
+        knowledge_id: knowledgeId,
+        intent_id: intent.id,
+        response: message,
+      },
+    }).then(() => {
+
+    });
+  }, [messages, updateIntentReponse, bot, intent]);
 
   const handleMessageDelete = useCallback((index: number) => {
     updateMessages(messages.filter((_, i) => i !== index));
@@ -38,14 +53,21 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot }) => {
     if (typeof response === 'string' || response.type === ResponseElementType.Text) {
       const text = typeof response === 'string' ? response : response.payload?.text || '';
       return (
-        <TextMessage
-          key={index}
-          index={index}
-          text={text}
-          onChanged={({ text }) => handleMessageChange(index, { text })}
-          onDelete={() => handleMessageDelete(index)}
-          onDuplicate={() => handleMessageDuplicate(index)}
-        />
+        <>
+          <TextMessage
+            response={response}
+            onChanged={(message) => {
+              console.log('onChanged', message);
+            }}
+            onDelete={() => handleMessageDelete(index)}
+            onDuplicate={() => handleMessageDuplicate(index)}
+          />
+          <TextEditor
+            response={response}
+            onChanged={handleMessageChange}
+            onDelete={(e) => {
+            }} />
+        </>
       );
     }
     return <div key={index}>Unsupported response type: {JSON.stringify(response)}</div>;
