@@ -72,16 +72,6 @@ export const updateBotKnowledge = (
   return api.patch("/bots/knowledges/" + knowledgeId, data);
 };
 
-// delete knowledge
-export const deleteBotKnowledgeIntent = (data: {
-  bot_id: string;
-  knowledge_id: string;
-  intent_id: string;
-}) =>
-  api.delete(
-    `/bots/${data.bot_id}/knowledges/${data.knowledge_id}/intents/${data.intent_id}`
-  );
-
 // --------------- intents ---------------
 // insert intent
 export const insertBotKnowledgeIntent = (data: {
@@ -93,6 +83,16 @@ export const insertBotKnowledgeIntent = (data: {
     intent: data.intent,
     name: data.name,
   });
+
+// delete intent
+export const deleteBotKnowledgeIntent = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+}) =>
+  api.delete(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}`
+  );
 
 // import intents
 export const importBotKnowledgeIntents = (data: {

@@ -44,6 +44,13 @@ async function handleSentenceEmbeddings(batch: MessageBatch, env: WorkerEnv) {
       console.log("operation", operation, message.body);
 
       switch (operation) {
+        case "deleteIntent":
+          return textEmbedding.deleteDocumentByMetadata({
+            bot_id,
+            knowledge_id,
+            intent_id,
+          });
+
         case "addQuestion":
           return textEmbedding.addDocument(text, {
             bot_id,
@@ -51,7 +58,7 @@ async function handleSentenceEmbeddings(batch: MessageBatch, env: WorkerEnv) {
             intent_id,
             id,
           });
-          
+
         case "updateQuestion":
           const metadata = {
             bot_id,
