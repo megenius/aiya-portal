@@ -85,14 +85,14 @@ export const deleteBotKnowledgeIntent = (data: {
 // --------------- intents ---------------
 // insert intent
 export const insertBotKnowledgeIntent = (data: {
-  bot_id: string;
   knowledge_id: string;
-  intent_name: string;
+  intent: string;
+  name: string;
 }) =>
-  api.post(
-    `/bots/${data.bot_id}/knowledges/${data.knowledge_id}/intents`,
-    data
-  );
+  api.post(`/bots/knowledges/${data.knowledge_id}/intents`, {
+    intent: data.intent,
+    name: data.name,
+  });
 
 // import intents
 export const importBotKnowledgeIntents = (data: {

@@ -10,11 +10,10 @@ interface IntentsListProps {
   knowledgeId: string;
   searchIntent: string;
   intents: BotIntent[];
-  onIntentUpdate?: (updatedIntent: BotIntent) => void;
   onIntentRemove?: (intentId: string) => void;
 }
 
-const IntentsList: React.FC<IntentsListProps> = ({ bot, knowledgeId, intents, searchIntent, onIntentUpdate, onIntentRemove }) => {
+const IntentsList: React.FC<IntentsListProps> = ({ bot, knowledgeId, intents, searchIntent, onIntentRemove }) => {
   const [search, setSearch] = useState<string>("");
   const location = useLocation();
 
@@ -56,7 +55,6 @@ const IntentsList: React.FC<IntentsListProps> = ({ bot, knowledgeId, intents, se
               intent={intent}
               searchText={search}
               isActive={intent.id === searchIntent}
-              onUpdate={onIntentUpdate}
               onRemove={onIntentRemove}
             />
           ))}

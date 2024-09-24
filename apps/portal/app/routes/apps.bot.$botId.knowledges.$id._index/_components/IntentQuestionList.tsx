@@ -41,7 +41,7 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
       <div className="pb-3 px-3 flex flex-wrap items-center">
         {questions.map((question, index) => (
           <span
-            key={index}
+            key={question.id}
             className="inline-flex cursor-pointer me-1 mb-1 items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-gray-500 text-gray-500 dark:text-neutral-400"
             onClick={() => handleQuestionClick(index)}
           >
