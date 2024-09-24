@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponseElement } from '@repo/shared';
 
 interface TextEditorProps {
-  response: ResponseElement;
-  onChanged,
-  onDelete
+  id?: string;
+  response?: ResponseElement;
+  onChanged?,
+  onDelete?
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
+  id,
   response,
   onChanged,
   onDelete
 }) => {
-  const [input, setInput] = useState(response.payload?.text);
+  const [input, setInput] = useState(response?.payload?.text);
   const maxLength = 1000
+
+  useEffect(() => {
+    setInput(response?.payload?.text)
+  }, [response])
 
   return (
     <>
       <div
-        id={`hs-offcanvas-${response.id}`}
+        id={`hs-offcanvas-${id || response?.id}`}
         className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-[80] bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
         role="dialog"
         tabIndex={-1}
@@ -26,13 +32,13 @@ const TextEditor: React.FC<TextEditorProps> = ({
       >
         <div className="flex justify-between items-center py-3 px-4 border-b">
           <h3 id="hs-offcanvas-example-label" className="font-bold text-gray-800">
-            Text Message<span className='text-gray-400 ps-2'>{response.id}</span>
+            Text Message<span className='text-gray-400 ps-2'>{id || response?.id}</span>
           </h3>
           <button
             type="button"
             className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Close"
-            data-hs-overlay={`#hs-offcanvas-${response.id}`}
+            data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
           >
             <span className="sr-only">Close</span>
             <svg
@@ -64,7 +70,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             maxLength={maxLength}
           />
           <div className="mt-2 text-sm text-gray-500 text-right">
-            {input.length} / {maxLength}
+            {input?.length} / {maxLength}
           </div>
         </div>
 
@@ -73,15 +79,15 @@ const TextEditor: React.FC<TextEditorProps> = ({
             {/* Button */}
             <button
               type="button"
-              className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="py-2 px-3 w-64 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => onChanged({ ...response, payload: { text: input } })}
-              data-hs-overlay={`#hs-offcanvas-${response.id}`}
+              data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
             >
               Save
             </button>
             {/* End Button */}
             {/* Button */}
-            <button
+            {/* <button
               type="button"
               className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             >
@@ -104,7 +110,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
                 <line x1={14} x2={14} y1={11} y2={17} />
               </svg>
               Delete
-            </button>
+            </button> */}
             {/* End Button */}
           </div>
         </div>

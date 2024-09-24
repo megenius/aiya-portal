@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { useAppSelector } from "~/store";
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
-const MainContent = React.lazy(() => import("./_components/MainContent"))
+// const MainContent = React.lazy(() => import("./_components/MainContent"))
 
 import { Bot } from "~/@types/app";
+import MainContent from "./_components/MainContent";
 
 const Route = () => {
   const navigate = useNavigate()

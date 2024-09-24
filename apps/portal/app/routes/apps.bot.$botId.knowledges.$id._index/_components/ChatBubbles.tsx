@@ -7,6 +7,10 @@ import ChatToolbar from './ChatToolbar';
 import TextMessage from './chat/TextMessage';
 import TextEditor from './chat/TextEditor';
 import { useBotKnowledgeIntentResponseUpdate } from '~/hooks/bot/useBotKnowledgeIntentResponseUpdate';
+import { useBotKnowledgeIntentResponseDelete } from '~/hooks/bot/useBotKnowledgeIntentResponseDelete';
+import { useBotKnowledgeIntentResponseInsert } from '~/hooks/bot/useBotKnowledgeIntentResponseInsert';
+import { randomHexString } from '~/utils/random';
+import { useBotKnowledgeIntentResponseDuplicate } from '~/hooks/bot/useBotKnowledgeIntentResponseDuplicate';
 
 interface ChatBubblesProps {
   bot: Bot;
@@ -16,14 +20,13 @@ interface ChatBubblesProps {
 }
 
 const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowledgeId }) => {
-  const [messages, setMessages] = useState<ResponseElement[]>(intent.responses || []);
+  const [messages, setMessages] = useState<IntentResponse[]>(intent.responses || []);
 
+  const insertIntentResponse = useBotKnowledgeIntentResponseInsert();
   const updateIntentReponse = useBotKnowledgeIntentResponseUpdate();
+  const deleteIntentResponse = useBotKnowledgeIntentResponseDelete();
+  const duplicateIntentResponse = useBotKnowledgeIntentResponseDuplicate();
 
-  const updateMessages = useCallback((newMessages: ResponseElement[]) => {
-    setMessages(newMessages);
-    onUpdate && onUpdate({ ...intent, responses: newMessages });
-  }, [intent, onUpdate]);
 
   const handleMessageChange = useCallback((message: IntentResponse) => {
     setMessages(messages.map((msg) => msg.id === message.id ? message : msg))
@@ -34,20 +37,47 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
         intent_id: intent.id,
         response: message,
       },
-    }).then(() => {
-
-    });
+    })
   }, [messages, updateIntentReponse, bot, intent]);
 
-  const handleMessageDelete = useCallback((index: number) => {
-    updateMessages(messages.filter((_, i) => i !== index));
-  }, [messages, updateMessages]);
+  const handleMessageDelete = useCallback((responseId: string) => {
+    setMessages(messages.filter((msg) => msg.id !== responseId));
+    deleteIntentResponse.mutateAsync({
+      variables: {
+        bot_id: bot.id as string,
+        knowledge_id: knowledgeId,
+        intent_id: intent.id,
+        response_id: responseId
+      },
+    });
+  }, [messages, deleteIntentResponse, bot, intent]);
 
   const handleMessageDuplicate = useCallback((index: number) => {
-    const newMessages = [...messages];
-    newMessages.splice(index, 0, messages[index]);
-    updateMessages(newMessages);
-  }, [messages, updateMessages]);
+    const message = messages[index];
+    const newMessage = { ...message, id: randomHexString(8) };
+    setMessages([...messages.slice(0, index + 1), newMessage, ...messages.slice(index + 1)]);
+    duplicateIntentResponse.mutateAsync({
+      variables: {
+        bot_id: bot.id as string,
+        knowledge_id: knowledgeId,
+        intent_id: intent.id,
+        response_id: message.id,
+      },
+    });
+
+  }, [messages, insertIntentResponse, bot, intent]);
+
+  const handleMessageInsert = useCallback((message: IntentResponse) => {
+    setMessages([...messages, message]);
+    insertIntentResponse.mutateAsync({
+      variables: {
+        bot_id: bot.id as string,
+        knowledge_id: knowledgeId,
+        intent_id: intent.id,
+        response: [message],
+      },
+    });
+  }, [messages, insertIntentResponse, bot, intent]);
 
   const renderResponseElement = useCallback((response: ResponseElement, index: number) => {
     if (typeof response === 'string' || response.type === ResponseElementType.Text) {
@@ -56,10 +86,7 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
         <>
           <TextMessage
             response={response}
-            onChanged={(message) => {
-              console.log('onChanged', message);
-            }}
-            onDelete={() => handleMessageDelete(index)}
+            onDelete={() => handleMessageDelete(response.id)}
             onDuplicate={() => handleMessageDuplicate(index)}
           />
           <TextEditor
@@ -71,7 +98,18 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
       );
     }
     return <div key={index}>Unsupported response type: {JSON.stringify(response)}</div>;
-  }, [handleMessageChange, handleMessageDelete, handleMessageDuplicate]);
+  }, [handleMessageChange, handleMessageDelete, handleMessageDuplicate, bot, knowledgeId, intent]);
+
+  const handleOpenModal = (offcanvasId: string) => {
+    const offcanvas = document.getElementById(`hs-offcanvas-${offcanvasId}`);
+    console.log("offcanvas", offcanvas);
+
+    if (offcanvas) {
+      // Assuming you're using a library like HSOverlay
+      // @ts-ignore
+      window.HSOverlay.open(offcanvas);
+    }
+  }
 
   useEffect(() => {
     setMessages(intent.responses || []);
@@ -91,8 +129,19 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
         </ChatBubble>
       ))}
       <ChatBubble bot={bot}>
-        <ChatToolbar modalKey={intent.id} />
+        <ChatToolbar modalKey={intent.id}
+          onAddText={() => handleOpenModal("new-text")} />
       </ChatBubble>
+      <TextEditor id="new-text" response={{
+        id: randomHexString(8),
+        type: ResponseElementType.Text,
+        payload: {
+          text: ""
+        }
+      }}
+        onChanged={handleMessageInsert}
+        onDelete={(e) => { }}
+      />
     </>
   );
 };

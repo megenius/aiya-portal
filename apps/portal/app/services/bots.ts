@@ -148,7 +148,7 @@ export const insertBotKnowledgeIntentResponse = (data: {
   bot_id: string;
   knowledge_id: string;
   intent_id: string;
-  response: IntentResponse;
+  response: IntentResponse[];
 }) =>
   api.post<BotKnowledge>(
     `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses`,
@@ -176,4 +176,15 @@ export const deleteBotKnowledgeIntentResponse = (data: {
 }) =>
   api.delete<BotKnowledge>(
     `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response_id}`
+  );
+
+// duplicate response
+export const duplicateBotKnowledgeIntentResponse = (data: {
+  bot_id: string;
+  knowledge_id: string;
+  intent_id: string;
+  response_id: string;
+}) =>
+  api.post<BotKnowledge>(
+    `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response_id}/duplicate`
   );
