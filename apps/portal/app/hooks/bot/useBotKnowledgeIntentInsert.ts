@@ -8,9 +8,9 @@ interface MutationFn {
 }
 
 interface Variables {
-  bot_id: string;
   knowledge_id: string;
-  intent_name: string;
+  name: string;
+  intent: string;
 }
 
 export const useBotKnowledgeIntentInsert = () => {

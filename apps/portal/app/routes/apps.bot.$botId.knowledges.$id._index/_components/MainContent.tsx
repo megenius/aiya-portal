@@ -9,6 +9,7 @@ import { useBotKnowlegdeUpdate } from '~/hooks/bot/useBotKnowlegdeUpdate';
 import BasicAddModal from '~/components/BasicAddModal';
 import { randomHexString } from '~/utils/random';
 import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
+import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -21,6 +22,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const [intents, setIntents] = useState<BotIntent[]>(knowledge?.intents || []);
   const [showImporter, setShowImporter] = useState<boolean>(false);
   const navigate = useNavigate();
+  const insertIntent = useBotKnowledgeIntentInsert();
   const updateKnowlegde = useBotKnowlegdeUpdate()
   const importKnowlegde = useBotKnowlegdeImport()
 
@@ -40,23 +42,6 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
     initializePreline();
   }, [intents]);
-
-
-  const onIntentUpdate = useCallback(async (updatedIntent: BotIntent) => {
-    const updatedIntents = intents.map(intent =>
-      intent.id === updatedIntent.id ? updatedIntent : intent
-    );
-
-    setIntents(updatedIntents);
-    updateKnowlegde.mutateAsync({
-      variables: {
-        key: knowledge.id as string,
-        data: {
-          intents: updatedIntents
-        }
-      }
-    })
-  }, [intents, knowledge.id]);
 
 
   const onIntentRemove = useCallback(async (intentId: string) => {
@@ -132,7 +117,6 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             knowledgeId={knowledge.id as string}
             searchIntent={searchIntent}
             intents={intents}
-            onIntentUpdate={onIntentUpdate}
             onIntentRemove={onIntentRemove}
           />
 
@@ -167,12 +151,12 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               tags: []
             }
             setIntents([newIntent, ...intents]);
-            updateKnowlegde.mutateAsync({
+
+            insertIntent.mutateAsync({
               variables: {
-                key: knowledge.id as string,
-                data: {
-                  intents: [newIntent, ...intents]
-                }
+                knowledge_id: knowledge.id as string,
+                intent: data.intent,
+                name: data.name
               }
             })
           }}

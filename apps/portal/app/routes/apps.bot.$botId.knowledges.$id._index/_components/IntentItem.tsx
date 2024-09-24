@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Bot, BotIntent } from '~/@types/app';
 import { cn } from '@repo/ui/utils';
 import { HighlightText } from '@repo/ui';
@@ -9,6 +9,7 @@ import { Trash } from 'lucide-react';
 import { useBotKnowledgeIntentQuestionDelete } from '~/hooks/bot/useBotKnowledgeIntentQuestionDelete';
 import { useBotKnowledgeIntentQuestionInsert } from '~/hooks/bot/useBotKnowledgeIntentQuestionInsert';
 import { useBotKnowledgeIntentQuestionUpdate } from '~/hooks/bot/useBotKnowledgeIntentQuestionUpdate';
+import { set } from 'lodash';
 interface IntentItemProps {
   bot: Bot;
   knowledgeId: string;
@@ -24,11 +25,18 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
   const updateQuestion = useBotKnowledgeIntentQuestionUpdate();
   const deleteQuestion = useBotKnowledgeIntentQuestionDelete();
 
+  const [questions, setQuestions] = React.useState(intent.questions);
+
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this intent?')) {
       onRemove && onRemove(intent.id);
     }
   };
+
+  useEffect(() => {
+    setQuestions(intent.questions);
+  }, [intent.questions])
+
   return (
     <div className={cn("hs-accordion", { "active": isActive })} id={`hs-basic-heading-${intent.id}`}>
       <div className="flex justify-between items-center">
@@ -37,12 +45,17 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
           aria-expanded={isActive}
           aria-controls={`hs-basic-heading-${intent.id}`}
         >
-          <div className='flex gap-2 items-center'>
+          <div className='flex gap-2 items-start'>
             <ExpandIcon isExpanded={false} />
-            <HighlightText text={intent.name} highlight={searchText} />
+            <div className='flex items-start flex-col'>
+              <HighlightText text={intent.name} highlight={searchText} />
+              <div className='text-sm text-gray-400'>{intent.intent}</div>
+            </div>
           </div>
-          <div className='font-normal'>
-            ({intent.questions?.length ?? 0})({intent.responses?.length ?? 0})
+          <div className='flex gap-2'>
+            <div className='font-normal'>
+              ({intent.questions?.length ?? 0})({intent.responses?.length ?? 0})
+            </div>
           </div>
         </button>
         <button
@@ -61,7 +74,7 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
         aria-labelledby={`hs-basic-heading-${intent.id}`}
       >
         <div className="pb-10 px-6">
-          <IntentQuestionList questions={intent.questions} searchText={searchText}
+          <IntentQuestionList questions={questions} searchText={searchText}
             onChanged={(updatedQuestions, index, action) => {
               if (action === 'create') {
                 createQuestion.mutateAsync({
@@ -80,6 +93,9 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                     intent_id: intent.id,
                     question: updatedQuestions[index]
                   }
+                }).then((res) => {
+                  const newQuestions = questions.map((q, i) => i === index ? updatedQuestions[index] : q);
+                  setQuestions(newQuestions);
                 })
               } else if (action === 'delete') {
                 deleteQuestion.mutateAsync({
@@ -89,6 +105,9 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                     intent_id: intent.id,
                     question_id: intent.questions[index].id
                   }
+                }).then((res) => {
+                  const newQuestions = questions.filter((_, i) => i !== index);
+                  setQuestions(newQuestions);
                 })
               }
             }}
