@@ -2,35 +2,39 @@ import { Hono } from "hono";
 import { AwsClient } from "aws4fetch";
 import { Env } from "~/@types/hono.types";
 
-export const s3Routes = new Hono<Env>().get("/presigned-url", async (c) => {
-  const { bucket, key } = c.req.query();
+export const s3Routes = new Hono<Env>().get(
+  "/presigned-url",
 
-  if (!bucket || !key) {
-    return c.json({ error: "Missing bucket or key parameter" }, 400);
-  }
+  async (c) => {
+    const { bucket, key } = c.req.query();
 
-  const region = c.env.AWS_REGION;
-  const host = `s3.${region}.amazonaws.com/${bucket}`;
-  const path = `/${key}`;
+    if (!bucket || !key) {
+      return c.json({ error: "Missing bucket or key parameter" }, 400);
+    }
 
-  const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = c.env;
+    const region = c.env.AWS_REGION;
+    const host = `s3.${region}.amazonaws.com/${bucket}`;
+    const path = `/${key}`;
 
-  const aws = new AwsClient({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region,
-    service: "s3",
-  });
+    const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = c.env;
 
-  const signedRequest = await aws.sign(`https://${host}${path}`, {
-    method: "GET",
-    aws: {
-      service: "s3",
+    const aws = new AwsClient({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
       region,
-      signQuery: true,
-    },
-  });
-  const url = signedRequest.url;
+      service: "s3",
+    });
 
-  return c.json({ url: url.toString() });
-});
+    const signedRequest = await aws.sign(`https://${host}${path}`, {
+      method: "GET",
+      aws: {
+        service: "s3",
+        region,
+        signQuery: true,
+      },
+    });
+    const url = signedRequest.url;
+
+    return c.json({ url: url.toString() });
+  }
+);

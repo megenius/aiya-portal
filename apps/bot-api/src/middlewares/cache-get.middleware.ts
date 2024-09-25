@@ -48,6 +48,7 @@ export const cachingMiddleware = (options: CachingOptions) => {
     if (c.res.ok) {
       const response = await c.res.clone().text();
       await kv.put(cacheKey, response, { expirationTtl: options.ttl || 3600 });
+      console.log("Cache updated for", cacheKey);
       c.res.headers.set("X-Cache", "MISS");
     }
   });

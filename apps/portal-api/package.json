@@ -1,7 +1,7 @@
 {
   "name": "portal-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 14000 --inspector-port 24000",
+    "dev": "wrangler dev --remote src/index.ts --port 14000 --inspector-port 24000",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {

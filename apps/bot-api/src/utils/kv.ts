@@ -13,7 +13,7 @@ export const hasItemUpdated = async (
     type: "json",
   });
 
-  // console.log("hasItemUpdated.currentItem:", currentItem);
+  console.log("hasItemUpdated.currentItem:", currentItem);
   // console.log("hasItemUpdated.cachedData:", cachedData);
   
   if (!currentItem) {

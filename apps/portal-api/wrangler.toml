@@ -2,12 +2,15 @@ name = "portal-api"
 compatibility_date = "2024-08-24"
 compatibility_flags = ["nodejs_compat"]
 
-routes = [
-  { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" }
-]
+routes = [{ pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" }]
 
 [placement]
 mode = "smart"
+
+[[r2_buckets]]
+binding = "BOT_MESSAGE_BUCKET"
+bucket_name = "bot-message"
+preview_bucket_name = "preview-bot-message"
 
 [vars]
 PORTAL_URL = "https://portal-dev.aiya.me"
@@ -18,9 +21,7 @@ FB_APP_ID = "788582819272015"
 [env.prod]
 name = "portal-api_prod"
 
-routes = [
-  { pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }
-]
+routes = [{ pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }]
 
 [env.prod.placement]
 mode = "smart"
@@ -29,3 +30,9 @@ mode = "smart"
 PORTAL_URL = "https://portal.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
+BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
+
+
+[[env.prod.r2_buckets]]
+binding = "BOT_MESSAGE_BUCKET"
+bucket_name = "bot-message"
