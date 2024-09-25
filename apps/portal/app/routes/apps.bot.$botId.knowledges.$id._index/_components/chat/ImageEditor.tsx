@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone-esm'
 import { useFileUpload } from '~/hooks/useFileUpload';
 import { useFileDelete } from '~/hooks/useFileDelete';
 import { getDirectusFileUrl } from '~/utils/files';
+import Lightbox from 'yet-another-react-lightbox';
 
 interface ImageEditorProps {
   id?: string;
@@ -18,6 +19,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
   onChanged,
   onDelete
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState<ImageMessageResponse>(response || { id: 'new-image', payload: { url: '', alt: "" } });
   const fileUpload = useFileUpload()
   const fileDelete = useFileDelete()
@@ -95,7 +97,9 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
           {input.payload.url ? (
             <>
               <div>
-                <img src={input.payload.url} alt={input.payload.alt} className="w-full h-auto" />
+                <img src={input.payload.url} alt={input.payload.alt} className="w-full h-auto cursor-pointer"
+                  onClick={() => setIsOpen(true)}
+                />
               </div>
               <div className='pt-2'>
                 {/* reset button */}
@@ -218,6 +222,19 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
           </div>
         </div>
 
+        <Lightbox
+          carousel={{ finite: true }}
+          render={{
+            buttonPrev: () => null,
+            buttonNext: () => null,
+          }}
+          open={isOpen}
+          close={() => setIsOpen(false)}
+          slides={[{
+            src: response?.payload?.url || ""
+            , alt: response?.payload.alt
+          }]}
+        />
       </div >
     </>
   )

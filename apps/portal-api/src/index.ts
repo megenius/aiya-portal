@@ -4,11 +4,13 @@ import { authRoutes } from "./routes/auth";
 import { itemRoutes } from "./routes/items";
 import { adminRoutes } from "./routes/admin";
 import { meRoutes } from "./routes/me";
-import { Env } from "./types/hono.types";
 import { fileRoutes } from "./routes/file";
 import { workspacesRoutes } from "./routes/workspaces";
 import { facebookRoutes } from "./routes/facebook";
+
 import { cache } from "hono/cache";
+import { Env } from "./@types/hono.types";
+import { s3Routes } from "./routes/s3";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -35,6 +37,7 @@ const app = new Hono<Env>()
   .route("/files", fileRoutes)
   .route("/workspaces", workspacesRoutes)
   .route("/facebook", facebookRoutes)
+  .route("/s3", s3Routes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

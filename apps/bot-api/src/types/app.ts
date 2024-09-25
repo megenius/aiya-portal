@@ -33,10 +33,44 @@ export type BotIntent = {
   name: string;
   intent: string;
   questions: IntentQuestion[];
-  responses: ResponseElement[];
+  responses: IntentResponse[];
   quick_reply: string;
   tags: string[];
 };
+
+export type IntentResponse = {
+  altText?: string;
+  id: string;
+  opts?: JSON;
+  type?: ResponseElementType;
+};
+
+export type TextMessageResponse = {
+  type: ResponseElementType.Text;
+  payload: {
+    text: string;
+  };
+} & IntentResponse;
+
+export type ImageMessageResponse = {
+  type: ResponseElementType.Image;
+  payload: {
+    url: string;
+    alt: string;
+  };
+} & IntentResponse;
+
+export enum ResponseElementType {
+  CardMessage = "CardMessage",
+  Flex = "Flex",
+  GenericTemplate = "GenericTemplate",
+  Image = "Image",
+  Imagemap = "Imagemap",
+  OptInMessage = "OptInMessage",
+  RichMessage = "RichMessage",
+  RichVideo = "RichVideo",
+  Text = "Text",
+}
 
 export type BotIntentImport = {
   id: string;
