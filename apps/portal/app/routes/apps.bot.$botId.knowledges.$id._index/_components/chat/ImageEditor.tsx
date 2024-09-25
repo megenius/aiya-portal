@@ -69,7 +69,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
         className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-[80] bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
         role="dialog"
         tabIndex={-1}
-        aria-labelledby="hs-offcanvas-example-label"
+        aria-labelledby={`hs-offcanvas-example-label-${id || response?.id}`}
       >
         <div className="flex justify-between items-center py-3 px-4 border-b">
           <h3 id="hs-offcanvas-example-label" className="font-bold text-gray-800">
