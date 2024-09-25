@@ -1,4 +1,4 @@
-import { KVNamespace, Queue, Vectorize } from "@cloudflare/workers-types";
+import { KVNamespace, Queue, Vectorize, R2Bucket } from "@cloudflare/workers-types";
 import { BotIntent, BotKnowledge } from "./app";
 import { ClientType, AdminClientType } from "~/utils/directus";
 import { TextEmbedding } from "@repo/shared/utils";

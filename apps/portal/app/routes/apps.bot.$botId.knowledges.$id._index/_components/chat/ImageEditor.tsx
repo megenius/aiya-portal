@@ -5,6 +5,8 @@ import { useFileUpload } from '~/hooks/useFileUpload';
 import { useFileDelete } from '~/hooks/useFileDelete';
 import { getDirectusFileUrl } from '~/utils/files';
 import Lightbox from 'yet-another-react-lightbox';
+import { useBotMessageFileUpload } from '~/hooks/useBotMessageFileUpload';
+import { useParams } from '@remix-run/react';
 
 interface ImageEditorProps {
   id?: string;
@@ -19,9 +21,10 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
   onChanged,
   onDelete
 }) => {
+  const { botId } = useParams()
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState<ImageMessageResponse>(response || { id: 'new-image', payload: { url: '', alt: "" } });
-  const fileUpload = useFileUpload()
+  const fileUpload = useBotMessageFileUpload()
   const fileDelete = useFileDelete()
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -42,9 +45,12 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
     console.log(file);
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
-    fileUpload.mutateAsync(file, {
+    fileUpload.mutateAsync({
+      path: `${botId}/images`,
+      file
+    }, {
       onSuccess: (data) => {
-        setInput({ ...input, payload: { url: getDirectusFileUrl(data.id, { baseUrl: import.meta.env.VITE_BASE_URL, key: "system-large-contain", filename_download: data.filename_download }), alt: data.filename_download } })
+        setInput({ ...input, payload: { url: data.url, alt: data.filename_download } })
       }
     });
 

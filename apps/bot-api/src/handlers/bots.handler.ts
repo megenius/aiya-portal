@@ -21,18 +21,23 @@ import { cachingMiddleware } from "~/middlewares/cache-get.middleware";
 import { hasItemUpdated } from "~/utils/kv";
 import { getKnowledge } from "~/services/knowledge.service";
 import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
+import { transformData } from "~/utils/datasource";
 
 const factory = createFactory<Env>();
 
 export const getBotHandler = factory.createHandlers(
-  // cachingMiddleware({
-  //   ttl: 60 * 60,
-  //   revalidate: async (c: Context<Env>, cachedData: any) => {
-  //     return hasItemUpdated(c, cachedData, (c) =>
-  //       ["bots", c.req.param("id")].join("|")
-  //     );
-  //   },
-  // }),
+  cachingMiddleware({
+    ttl: 60 * 60,
+    revalidate: async (c: Context<Env>, cachedData: any) => {
+      if (c.req.query("refresh") === "true") {
+        return true;
+      }
+
+      return hasItemUpdated(c, cachedData, (c) =>
+        ["bots", c.req.param("id")].join("|")
+      );
+    },
+  }),
   logger(),
   directusMiddleware,
   async (c) => {
@@ -46,30 +51,9 @@ export const getBotHandler = factory.createHandlers(
         ],
       })
     );
-    return c.json({...bot, datasources: transformData(bot.datasources)});
+    return c.json({ ...bot, datasources: transformData(bot.datasources) });
   }
 );
-
-function transformData(inputData) {
-  return inputData.map((item) => {
-    const table = item.tables[0];
-    return {
-      sheet_id: item.connection_string.split("/").pop(),
-      sheet_name: table.name,
-      table_name: table.name,
-      table_schema: table.fields.map((field) => ({
-        example: field.example,
-        field_name: field.name,
-        field_type: field.type,
-        is_noun: field.is_noun,
-        description: field.description,
-      })),
-      example_queries: table.metadata.example_queries,
-      table_description: null,
-      instructions: table.instructions,
-    };
-  });
-}
 
 export const updateBotHandler = factory.createHandlers(
   cachingMiddleware({
