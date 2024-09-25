@@ -69,8 +69,9 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
 
   }, [messages, insertIntentResponse, bot, intent]);
 
-  const handleMessageInsert = useCallback((message: IntentResponse) => {
+  const handleMessageInsert = (message: IntentResponse) => {
     setMessages([...messages, message]);
+
     insertIntentResponse.mutateAsync({
       variables: {
         bot_id: bot.id as string,
@@ -79,7 +80,7 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
         response: [message],
       },
     });
-  }, [messages, insertIntentResponse, bot, intent]);
+  }
 
   const renderResponseElement = useCallback((response: IntentResponse, index: number) => {
     if (typeof response === 'string' || response.type === ResponseElementType.Text) {
@@ -168,7 +169,7 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
           alt: ""
         }
       }}
-        onChanged={handleMessageInsert}
+        onChanged={(e) => handleMessageInsert({ ...e, id: randomHexString(8) })}
         onDelete={(e) => { }}
       />
     </>
