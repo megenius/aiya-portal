@@ -11,6 +11,17 @@ interface ImageMessageProps {
 
 const ImageMessage: React.FC<ImageMessageProps> = ({ response, onDelete, onDuplicate }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleOpenModal = () => {
+    const offcanvasId = `hs-offcanvas-${response.id}`;
+    const offcanvas = document.getElementById(offcanvasId);
+    if (offcanvas) {
+      // Assuming you're using a library like HSOverlay
+      // @ts-ignore
+      window.HSOverlay.open(offcanvas);
+    }
+  }
+
   return (
     <>
       <div className="space-y-1">
@@ -23,7 +34,7 @@ const ImageMessage: React.FC<ImageMessageProps> = ({ response, onDelete, onDupli
             >
               <img className="mb-2 rounded-lg cursor-pointer"
                 src={response.payload.url} alt={response.payload.alt}
-                onClick={() => setIsOpen(true)}
+                onClick={() => handleOpenModal()}
               />
             </div>
           </div>
@@ -43,17 +54,6 @@ const ImageMessage: React.FC<ImageMessageProps> = ({ response, onDelete, onDupli
           />
         </div>
       </div>
-
-      <Lightbox
-        carousel={{ finite: true }}
-        render={{
-          buttonPrev: () => null,
-          buttonNext: () => null,
-        }}
-        open={isOpen}
-        close={() => setIsOpen(false)}
-        slides={[{ src: response.payload.url, alt: response.payload.alt }]}
-      />
     </>
   );
 };

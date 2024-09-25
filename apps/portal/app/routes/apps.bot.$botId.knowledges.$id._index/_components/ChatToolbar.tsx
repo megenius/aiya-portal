@@ -11,7 +11,7 @@ export const ChatToolbar: React.FC<ChatToolbarProps> = ({ modalKey, onAddText, o
   return (
     <>
       <div className="relative inline-flex gap-1">
-        <button
+        {/* <button
           aria-haspopup="menu"
           aria-expanded="false"
           // aria-label="Dropdown"
@@ -19,7 +19,7 @@ export const ChatToolbar: React.FC<ChatToolbarProps> = ({ modalKey, onAddText, o
           className="flex justify-center cursor-default items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
         >
           <Plus className="size-5" />
-        </button>
+        </button> */}
         <button
           aria-haspopup="menu"
           aria-expanded="false"

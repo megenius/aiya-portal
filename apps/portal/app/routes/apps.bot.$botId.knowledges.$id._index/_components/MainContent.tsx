@@ -162,6 +162,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             })
           }}
         />
+        
       </div>
     </>
   );

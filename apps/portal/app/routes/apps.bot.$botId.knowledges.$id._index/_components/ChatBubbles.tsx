@@ -145,11 +145,11 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
       ))}
       <ChatBubble bot={bot}>
         <ChatToolbar modalKey={intent.id}
-          onAddText={() => handleOpenModal("new-text")}
-          onAddImage={() => handleOpenModal("new-image")}
+          onAddText={() => handleOpenModal(`new-text-${intent.id}`)}
+          onAddImage={() => handleOpenModal(`new-image-${intent.id}`)}
         />
       </ChatBubble>
-      <TextEditor id="new-text" response={{
+      <TextEditor id={`new-text-${intent.id}`} response={{
         id: randomHexString(8),
         type: ResponseElementType.Text,
         payload: {
@@ -160,7 +160,7 @@ const ChatBubbles: React.FC<ChatBubblesProps> = ({ intent, onUpdate, bot, knowle
         onDelete={(e) => { }}
       />
 
-      <ImageEditor id="new-image" response={{
+      <ImageEditor id={`new-image-${intent.id}`} response={{
         id: randomHexString(8),
         type: ResponseElementType.Image,
         payload: {

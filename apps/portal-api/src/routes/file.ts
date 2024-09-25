@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { getDirectusClient } from "../config/directus";
-import { Env } from "~/types/hono.types";
 import { deleteFile, readAssetRaw, uploadFiles } from "@directus/sdk";
 import { stream } from "hono/streaming";
 import { cache } from 'hono/cache'
+import { Env } from "~/@types/hono.types";
 
 const fileRoutes = new Hono<Env>()
   .get(

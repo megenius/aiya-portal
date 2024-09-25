@@ -2,7 +2,15 @@ import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import { Bot, BotIntent, BotKnowledge, Channel } from "~/types/app";
+import {
+  Bot,
+  BotIntent,
+  BotKnowledge,
+  Channel,
+  ImageMessageResponse,
+  TextMessageResponse,
+  ResponseElementType,
+} from "~/types/app";
 import { Env } from "~/types/hono.types";
 import { getDirectusClient } from "~/utils/directus";
 import { DirectusError } from "@repo/shared/exceptions/directus";
@@ -17,23 +25,51 @@ import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware
 const factory = createFactory<Env>();
 
 export const getBotHandler = factory.createHandlers(
-  cachingMiddleware({
-    ttl: 60 * 60,
-    revalidate: async (c: Context<Env>, cachedData: any) => {
-      return hasItemUpdated(c, cachedData, (c) =>
-        ["bots", c.req.param("id")].join("|")
-      );
-    },
-  }),
+  // cachingMiddleware({
+  //   ttl: 60 * 60,
+  //   revalidate: async (c: Context<Env>, cachedData: any) => {
+  //     return hasItemUpdated(c, cachedData, (c) =>
+  //       ["bots", c.req.param("id")].join("|")
+  //     );
+  //   },
+  // }),
   logger(),
   directusMiddleware,
   async (c) => {
     const id = c.req.param("id");
     const directus = c.get("directus");
-    const bot = await directus.request(readItem("bots", id));
-    return c.json(bot);
+    const bot = await directus.request(
+      readItem("bots", id, {
+        fields: [
+          "*",
+          { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
+        ],
+      })
+    );
+    return c.json({...bot, datasources: transformData(bot.datasources)});
   }
 );
+
+function transformData(inputData) {
+  return inputData.map((item) => {
+    const table = item.tables[0];
+    return {
+      sheet_id: item.connection_string.split("/").pop(),
+      sheet_name: table.name,
+      table_name: table.name,
+      table_schema: table.fields.map((field) => ({
+        example: field.example,
+        field_name: field.name,
+        field_type: field.type,
+        is_noun: field.is_noun,
+        description: field.description,
+      })),
+      example_queries: table.metadata.example_queries,
+      table_description: null,
+      instructions: table.instructions,
+    };
+  });
+}
 
 export const updateBotHandler = factory.createHandlers(
   cachingMiddleware({
@@ -167,7 +203,6 @@ export const createBotKnowledgeHandler = factory.createHandlers(
   }
 );
 
-
 export const searchBotHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -223,11 +258,38 @@ export const searchBotHandler = factory.createHandlers(
 
     const messages = matches[0]?.responses?.map((response) => {
       if (platform === "line") {
-        return response.payload;
-      } else if (platform === "facebook") {
+        if (response.type === ResponseElementType.Text) {
+          const item = response as TextMessageResponse;
+          return {
+            type: "text",
+            text: item.payload?.text,
+          };
+        }
+
         return {
-          text: response.payload?.text,
+          type: "text",
+          text: `Unsupported response type` + JSON.stringify(response.type),
         };
+      } else if (platform === "facebook") {
+        if (response.type === ResponseElementType.Text) {
+          const item = response as TextMessageResponse;
+          return {
+            text: item.payload?.text,
+          };
+        } else if (response.type === ResponseElementType.Image) {
+          if (response.type === ResponseElementType.Image) {
+            const item = response as ImageMessageResponse;
+            return {
+              attachment: {
+                type: "image",
+                payload: {
+                  url: item.payload.url,
+                  is_reusable: true,
+                },
+              },
+            };
+          }
+        }
       }
 
       return response;
