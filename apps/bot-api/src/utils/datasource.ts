@@ -7,7 +7,7 @@ export function transformData(inputData: any) {
         sheet_id: item.connection_string.split("/").pop(),
         sheet_name: table.name,
         table_name: table.name,
-        table_schema: table.fields.map((field: any) => ({
+        table_schema: table.fields?.map((field: any) => ({
           example: field.example,
           field_name: field.name,
           field_type: field.type,
