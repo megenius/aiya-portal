@@ -42,7 +42,7 @@ For full documentation of the Preline options, visit <a href="https://preline.co
 
 Preline Pro comes with custom license terms and condition, please visit [Preline Pro](https://preline.co/docs/license.html) for more details.
 
-Preline UI is free for both personal and commercial projects, released under dual license terms [MIT](https://preline.co/docs/license.html) and [Preline UI Fair Use License](https://preline.co/docs/license.html) , and copyrighted 2024 by Preline Labs Ltd.
+Preline UI is Open Source project and licensed under [MIT](https://preline.co/docs/license.html).
 
 Preline UI Figma is free for both commercial and personal projects, learn more [here](https://preline.co/license.html).
   
