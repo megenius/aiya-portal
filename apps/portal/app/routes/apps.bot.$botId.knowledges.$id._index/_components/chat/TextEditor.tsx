@@ -15,7 +15,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   onDelete
 }) => {
   const [input, setInput] = useState(response?.payload?.text);
-  const maxLength = 1000
+  const maxLength = 2000
 
   useEffect(() => {
     setInput(response?.payload?.text)

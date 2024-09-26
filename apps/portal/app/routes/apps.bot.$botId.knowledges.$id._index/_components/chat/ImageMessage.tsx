@@ -30,7 +30,6 @@ const ImageMessage: React.FC<ImageMessageProps> = ({ response, onDelete, onDupli
           style={{ wordBreak: "break-word" }}
         >
           <div className="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
-            {response.id}
             <div className="text-sm text-gray-800 dark:text-neutral-200"
             >
               <img className="mb-2 rounded-lg cursor-pointer"
