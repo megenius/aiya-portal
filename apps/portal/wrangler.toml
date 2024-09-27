@@ -75,6 +75,7 @@ VITE_FB_APP_ID = "3714459305432334"
 VITE_FB_APP_LOGIN_ID = "1161949228234307"
 VITE_FB_APP_CONVERSION_LOGIN_ID = "2284888945209119"
 VITE_BASE_URL = "https://portal.aiya.me"
+VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
 
 # [[env.preview.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
@@ -88,6 +89,7 @@ VITE_FB_APP_ID = "788582819272015"
 VITE_FB_APP_LOGIN_ID = "1241725043635802"
 VITE_FB_APP_CONVERSION_LOGIN_ID = "881846220485854"
 VITE_BASE_URL = "https://portal.aiya.me"
+VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
 
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

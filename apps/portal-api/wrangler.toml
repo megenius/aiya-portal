@@ -1,4 +1,4 @@
-name = "portal-api"
+name = "portal-api_dev"
 compatibility_date = "2024-08-24"
 compatibility_flags = ["nodejs_compat"]
 
@@ -16,7 +16,8 @@ preview_bucket_name = "preview-bot-message"
 PORTAL_URL = "https://portal-dev.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
-
+BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot-dev.aiya.me"
+LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
 
 [env.prod]
 name = "portal-api_prod"
@@ -31,6 +32,8 @@ PORTAL_URL = "https://portal.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
 BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
+LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
+
 
 
 [[env.prod.r2_buckets]]

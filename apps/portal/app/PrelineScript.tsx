@@ -36,5 +36,6 @@ export default function PrelineScript() {
     initializePreline();
   }, [location.pathname]);
 
+
   return null;
 }

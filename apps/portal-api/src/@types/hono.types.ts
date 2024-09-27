@@ -24,5 +24,6 @@ export type Bindings = {
   AWS_REGION: string
   BOT_MESSAGE_BUCKET_CDN: StringLike;
   BOT_MESSAGE_BUCKET: R2Bucket
+  LINE_WEBHOOK_ENDPOINT: string
 }
 

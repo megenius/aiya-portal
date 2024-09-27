@@ -42,6 +42,7 @@ export const insertBotChannel = (data: {
   channel_id: string;
 }) => api.post("/items/channels_bots", data);
 
+
 export const deleteBotChannel = (data: {
   bot_id: string;
   channel_id: string;

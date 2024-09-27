@@ -1,4 +1,13 @@
-import { CircleDollarSign, Package, Settings, UserCog, Users } from "lucide-react";
+import { Bolt, Box, CircleDollarSign, HeartHandshake, Package, Settings, ShoppingCart, UserCog, Users } from "lucide-react";
+
+
+const CustomBoxIcon = () => {
+  return (
+    <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
+      <Box size={12} />
+    </span>
+  )
+}
 
 // SidebarConfig.ts
 export const sidebarLinks: SidebarLink[] = [
@@ -24,20 +33,6 @@ export const sidebarLinks: SidebarLink[] = [
     ),
   },
   {
-    to: "customers",
-    label: "Customers",
-    icon: (
-      <Users size={18} />
-    )
-  },
-  {
-    to: "orders",
-    label: "Orders",
-    icon: (
-      <CircleDollarSign size={18} />
-    )
-  },
-  {
     to: "products",
     label: "Products",
     icon: (
@@ -48,30 +43,35 @@ export const sidebarLinks: SidebarLink[] = [
     to: "engagements",
     label: "Engagements",
     icon: (
-      <svg
-        className="flex-shrink-0 mt-0.5 size-4"
-        xmlns="http://www.w3.org/2000/svg"
-        width={24}
-        height={24}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx={9} cy={7} r={4} />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
+      <HeartHandshake size={18} />
+    )
+  },
+  {
+    to: "orders",
+    label: "Orders",
+    icon: (
+      <ShoppingCart size={18} />
+    )
+  },
+  {
+    to: "conversions",
+    label: "Conversion",
+    icon: (
+      <CircleDollarSign size={18} />
+    )
+  },
+  {
+    to: "customers",
+    label: "Customers",
+    icon: (
+      <Users size={18} />
     )
   },
   {
     to: "settings",
     label: "Settings",
     icon: (
-      <UserCog size={18}/>
+      <Bolt size={18} />
     ),
     subLinks: [
       { to: "settings", label: "Workspace" },
@@ -147,123 +147,34 @@ export const sidebarLinks: SidebarLink[] = [
   {
     to: "apps/ads",
     label: "AiAds",
-    icon: (
-      <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
-        <svg
-          className="flex-shrink-0 size-3"
-          xmlns="http://www.w3.org/2000/svg"
-          width={24}
-          height={24}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-          <path d="m3.3 7 8.7 5 8.7-5" />
-          <path d="M12 22V12" />
-        </svg>
-      </span>
-    ),
+    icon: <CustomBoxIcon />,
   },
-  // {
-  //   to: "apps/beacons",
-  //   label: "AiBeacon",
-  //   icon: (
-  //     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
-  //       <svg
-  //         className="flex-shrink-0 size-3"
-  //         xmlns="http://www.w3.org/2000/svg"
-  //         width={24}
-  //         height={24}
-  //         viewBox="0 0 24 24"
-  //         fill="none"
-  //         stroke="currentColor"
-  //         strokeWidth={2}
-  //         strokeLinecap="round"
-  //         strokeLinejoin="round"
-  //       >
-  //         <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-  //         <path d="m3.3 7 8.7 5 8.7-5" />
-  //         <path d="M12 22V12" />
-  //       </svg>
-  //     </span>
-  //   ),
-  // },
+  {
+    to: "apps/beacons",
+    label: "AiBeacon",
+    icon: <CustomBoxIcon />,
+  },
   {
     to: "apps/bots",
     label: "AiBots",
-    icon: (
-      <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
-        <svg
-          className="flex-shrink-0 size-3"
-          xmlns="http://www.w3.org/2000/svg"
-          width={24}
-          height={24}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-          <path d="m3.3 7 8.7 5 8.7-5" />
-          <path d="M12 22V12" />
-        </svg>
-      </span>
-    ),
+    icon: <CustomBoxIcon />,
+  },
+  {
+    to: "apps/chats",
+    label: "AiChat",
+    icon: <CustomBoxIcon />,
   },
   {
     to: "apps/orders",
     label: "AiOrders",
-    icon: (
-      <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
-        <svg
-          className="flex-shrink-0 size-3"
-          xmlns="http://www.w3.org/2000/svg"
-          width={24}
-          height={24}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-          <path d="m3.3 7 8.7 5 8.7-5" />
-          <path d="M12 22V12" />
-        </svg>
-      </span>
-    ),
+    icon: <CustomBoxIcon />,
   },
-  // {
-  //   to: "apps/chats",
-  //   label: "AiChat",
-  //   icon: (
-  //     <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
-  //       <svg
-  //         className="flex-shrink-0 size-3"
-  //         xmlns="http://www.w3.org/2000/svg"
-  //         width={24}
-  //         height={24}
-  //         viewBox="0 0 24 24"
-  //         fill="none"
-  //         stroke="currentColor"
-  //         strokeWidth={2}
-  //         strokeLinecap="round"
-  //         strokeLinejoin="round"
-  //       >
-  //         <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-  //         <path d="m3.3 7 8.7 5 8.7-5" />
-  //         <path d="M12 22V12" />
-  //       </svg>
-  //     </span>
-  //   ),
-  // },
+  {
+    to: "apps/vouchers",
+    label: "AiVoucher",
+    icon: <CustomBoxIcon />,
+  },
+
 ];
 
 interface SidebarLink {

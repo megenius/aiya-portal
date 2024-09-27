@@ -249,6 +249,14 @@ export const searchBotHandler = factory.createHandlers(
             text: item.payload?.text,
           };
         }
+        else if (response.type === ResponseElementType.Image) {
+          const item = response as ImageMessageResponse;
+          return {
+            type: "image",
+            originalContentUrl: item.payload.url,
+            previewImageUrl: item.payload.url,
+          };
+        } 
 
         return {
           type: "text",
