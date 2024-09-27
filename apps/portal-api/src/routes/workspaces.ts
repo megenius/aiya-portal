@@ -11,11 +11,6 @@ import {
   importFile,
   createItems,
 } from "@directus/sdk";
-import { Schema } from "../config/schema";
-import { Env } from "~/types/hono.types";
-import { DirectusException } from "~/types/exception";
-import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
 import * as line from "@line/bot-sdk";
 import { addSeconds, format } from "date-fns";
 import * as _ from "lodash";
@@ -23,6 +18,7 @@ import { WorkspaceChannel } from "~/@types/app";
 import { parseQuery } from "@repo/shared/utils/query";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { Logger, LogLevel } from "@repo/shared/utils";
+import { Env } from "~/@types/hono.types";
 
 const { MessagingApiClient } = line.messagingApi;
 const { ChannelAccessTokenClient } = line.channelAccessToken;
@@ -272,6 +268,7 @@ const workspacesRoutes = new Hono<Env>()
           date_updated: new Date(),
         })
       );
+
       return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -326,6 +323,27 @@ const workspacesRoutes = new Hono<Env>()
             },
           },
           fields: ["platform", "provider_id", "name"],
+        })
+      );
+      return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .get("/:id/products", async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = getDirectusClient();
+      await directus.setToken(c.get("token"));
+      // await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const items = await directus.request(
+        readItems("products", {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+          sort: ["-date_updated"],
         })
       );
       return c.json({ total: items.length, items });

@@ -11,7 +11,7 @@ const app = new Hono<Env>()
   .use("*", (c, next) => {
     const hostname = new URL(c.req.url).hostname;
 
-    // console.log("hostname", hostname);
+    console.log("hostname", hostname);
     if (hostname.includes("lambda-api")) {
       return lambdaAuthMiddleware(c, next);
     }
@@ -22,7 +22,7 @@ const app = new Hono<Env>()
     "*",
     cache({
       cacheName: "my-app",
-      cacheControl: "max-age=15",
+      cacheControl: "max-age=60",
     })
   )
   .route("/channels", channelsRoutes)

@@ -10,5 +10,6 @@ type Variables = {
 type Bindings = {
   NODE_ENV: string
   LAMBDA_SECRET_KEY: string
+  LINE_WEBHOOK_ENDPOINT: string;
 }
 

@@ -6,6 +6,7 @@ import { Bot, BotChannelStatus, Channel } from '~/@types/app';
 import { useBotUpdate } from '~/hooks/bot';
 import { useBotChannelDelete } from '~/hooks/bot/useBotChannelDelete';
 import { useBotChannelInsert } from '~/hooks/bot/useBotChannelInsert';
+import { useBotChannelLineSetWebhook } from '~/hooks/bot/useBotChannelLineSetWebhook';
 import { subscribeApp, unsubscribeApp } from '~/services/facebook';
 import { getDirectusFileUrl } from '~/utils/files';
 
@@ -16,6 +17,7 @@ interface ChannelTableProps {
 
 const ChannelTable: React.FC<ChannelTableProps> = ({ bot, channels }) => {
   const insertBotChannel = useBotChannelInsert();
+  const setLineWebhook = useBotChannelLineSetWebhook();
   const updateBot = useBotUpdate();
 
   const handleConnectChannel = async (channel: Channel) => {
@@ -23,6 +25,14 @@ const ChannelTable: React.FC<ChannelTableProps> = ({ bot, channels }) => {
       .then(async () => {
         if (channel.platform === "Facebook") {
           await subscribeApp(channel.id as string);
+        } else if (channel.platform === "Line") {
+          // @todo
+          setLineWebhook.mutateAsync({
+            variables: {
+              bot_id: bot.id as string, channel_id: channel.id as string,
+              endpoint: import.meta.env.VITE_LINE_WEBHOOK_ENDPOINT,
+            }
+          });
         }
       });
   };

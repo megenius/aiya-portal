@@ -26,6 +26,8 @@ export type FacebookAdAccount =
     };
   };
 
+export type Product = components["schemas"]["ItemsProducts"];
+
 export type WorkspaceBot = Bot;
 export type WorkspaceFacebookAdAccount = FacebookAdAccount;
 export type WorkspaceChannel = Channel;

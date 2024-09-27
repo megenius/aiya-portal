@@ -25,23 +25,7 @@ export async function handle(
     SNS_TOPIC_ARN,
   } = c.env;
 
-  // console.log({ AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNS_TOPIC_ARN });
-
-  const snsClient = new SNSClient({
-    region: AWS_REGION,
-    credentials: {
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    },
-  });
-
   try {
-    const command = new PublishCommand({
-      Message: JSON.stringify({ event, providerId }),
-      TopicArn: SNS_TOPIC_ARN,
-      MessageGroupId: "webhook-facebook-sns",
-      MessageDeduplicationId: await MD5(JSON.stringify({ event, providerId })),
-    });
     logger.debug("Sending", JSON.stringify({ event, providerId }));
 
     const MessageId = await publishToSNS(

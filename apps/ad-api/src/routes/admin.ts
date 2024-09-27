@@ -7,35 +7,39 @@ import {
   readCollections,
   readCollection,
   readFieldsByCollection,
+  createField,
 } from "@directus/sdk";
 import * as _ from "lodash";
 import { getAdminDirectusClient } from "~/config/directus";
+import { DirectusError } from "@repo/shared/exceptions/directus";
 
 const adminRoutes = new Hono()
-  .get("/collections", async (c) => {
+  .get("/collections/:collection", async (c) => {
     try {
+      const { collection } = c.req.param();
       const directus = getAdminDirectusClient();
       let collections = await directus.request(readCollections());
 
-      const names = ["facebook_ad_accounts", "campaigns"];
+      const names = [collection];
       collections = collections.filter((collection) =>
         names.includes(collection.collection)
       );
 
       return c.json(collections);
     } catch (error) {
-      console.error("Error creating collection:", error);
-      return c.json({ error: "Failed to create collection" }, 500);
+      throw DirectusError.fromDirectusResponse(error);
     }
   })
   .post("/create-collection", async (c) => {
     try {
       const directus = getAdminDirectusClient();
-      const { collectionName, fields } = await c.req.json();
+      const { collection, meta, schema, fields } = await c.req.json();
 
       const newCollection = await directus.request(
         createCollection({
-          collection: collectionName,
+          collection,
+          meta,
+          schema,
           fields: fields,
         })
       );
@@ -48,8 +52,32 @@ const adminRoutes = new Hono()
         201
       );
     } catch (error) {
-      console.error("Error creating collection:", error);
-      return c.json({ error: "Failed to create collection" }, 500);
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+  .post("/create-fields", async (c) => {
+    try {
+      const directus = getAdminDirectusClient();
+      const { collection, fields } = await c.req.json();
+
+      console.log("Creating fields for collection", collection);
+      console.log("Fields:", fields);
+      
+      
+
+      for (const field of fields) {
+        const newField = await directus.request(createField(collection, field));
+        console.log(newField.field, "created");
+      }
+
+      return c.json(
+        {
+          message: "Fields created successfully",
+        },
+        201
+      );
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
     }
   })
   .post("/duplicate-collection", async (c) => {
@@ -92,7 +120,9 @@ const adminRoutes = new Hono()
       };
 
       // Create the new collection
-      const newCollection = await directus.request(createCollection(collectionBody));
+      const newCollection = await directus.request(
+        createCollection(collectionBody)
+      );
 
       return c.json(
         {

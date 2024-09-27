@@ -1,5 +1,6 @@
 import {
   Channel,
+  Product,
   Workspace,
   WorkspaceBot,
   WorkspaceChannel,
@@ -58,3 +59,12 @@ export const fetchAdAccounts = (id: string) =>
     "/workspaces/" + id + "/ad-accounts"
   );
 
+export const fetchWorkspaceProducts = (id: string) =>
+  api.get<{ items: Product[] }>(
+    "/workspaces/" + id + "/products"
+  );
+
+  export const fetchWorkspaceOrders = (id: string) =>
+    api.get<{ items: WorkspaceFacebookAdAccount[] }>(
+      "/workspaces/" + id + "/orders"
+    );

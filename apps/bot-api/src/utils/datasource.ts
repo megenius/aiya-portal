@@ -10,12 +10,12 @@ export function transformData(inputData: any) {
         table_schema: table.fields?.map((field: any) => ({
           example: field.example,
           field_name: field.name,
-          field_type: field.type,
+          field_type: field.map_type,
           is_noun: field.is_noun,
           description: field.description,
         })),
         example_queries: table.metadata?.example_queries,
-        table_description: null,
+        table_description: table.description,
         instructions: table.instructions,
       };
     }
