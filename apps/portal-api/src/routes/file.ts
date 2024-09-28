@@ -3,7 +3,7 @@ import { getDirectusClient } from "../config/directus";
 import { deleteFile, readAssetRaw, uploadFiles } from "@directus/sdk";
 import { stream } from "hono/streaming";
 import { cache } from "hono/cache";
-import { Env } from "~/@types/hono.types";
+import { Env } from "~/types/hono.types";
 import { randomHexString } from "@repo/shared/utils";
 
 const fileRoutes = new Hono<Env>()

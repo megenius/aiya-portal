@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { AwsClient } from "aws4fetch";
-import { Env } from "~/@types/hono.types";
+import { Env } from "~/types/hono.types";
 
 export const s3Routes = new Hono<Env>().get(
   "/presigned-url",

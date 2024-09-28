@@ -1,4 +1,4 @@
-import { Bindings, Env } from "~/@types/hono.types";
+import { Bindings, Env } from "~/types/hono.types";
 
 const exchangeToken = async ({
   env,

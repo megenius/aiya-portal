@@ -1,11 +1,11 @@
 import { Avatar } from '@repo/preline/Avatar';
 import React from 'react';
-import { Bot } from '~/@types/app';
+import { Orderbot } from '~/@types/app';
 import { getDirectusFileUrl } from '~/utils/files';
 
 
 type BotTableProps = {
-  bots?: Bot[];
+  bots?: Orderbot[];
   onRowClick?: (item: any) => void
 };
 

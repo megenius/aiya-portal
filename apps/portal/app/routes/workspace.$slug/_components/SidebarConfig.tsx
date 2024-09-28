@@ -53,13 +53,13 @@ export const sidebarLinks: SidebarLink[] = [
       <ShoppingCart size={18} />
     )
   },
-  {
-    to: "conversions",
-    label: "Conversion",
-    icon: (
-      <CircleDollarSign size={18} />
-    )
-  },
+  // {
+  //   to: "conversions",
+  //   label: "Conversion",
+  //   icon: (
+  //     <CircleDollarSign size={18} />
+  //   )
+  // },
   {
     to: "customers",
     label: "Customers",
@@ -149,31 +149,31 @@ export const sidebarLinks: SidebarLink[] = [
     label: "AiAds",
     icon: <CustomBoxIcon />,
   },
-  {
-    to: "apps/beacons",
-    label: "AiBeacon",
-    icon: <CustomBoxIcon />,
-  },
+  // {
+  //   to: "apps/beacons",
+  //   label: "AiBeacon",
+  //   icon: <CustomBoxIcon />,
+  // },
   {
     to: "apps/bots",
     label: "AiBots",
     icon: <CustomBoxIcon />,
   },
+  // {
+  //   to: "apps/chats",
+  //   label: "AiChat",
+  //   icon: <CustomBoxIcon />,
+  // },
   {
-    to: "apps/chats",
-    label: "AiChat",
-    icon: <CustomBoxIcon />,
-  },
-  {
-    to: "apps/orders",
+    to: "apps/orderbots",
     label: "AiOrders",
     icon: <CustomBoxIcon />,
   },
-  {
-    to: "apps/vouchers",
-    label: "AiVoucher",
-    icon: <CustomBoxIcon />,
-  },
+  // {
+  //   to: "apps/vouchers",
+  //   label: "AiVoucher",
+  //   icon: <CustomBoxIcon />,
+  // },
 
 ];
 
