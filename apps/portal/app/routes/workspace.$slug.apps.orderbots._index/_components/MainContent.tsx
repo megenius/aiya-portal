@@ -5,7 +5,7 @@ import PageFilter from './PageFilter';
 import AddBot from './AddBot';
 import { useNavigate } from '@remix-run/react';
 import MainContainer from '~/components/MainContainer';
-import { useBotInsert } from '~/hooks/bot/useBotInsert';
+import { useOrderbotInsert } from '~/hooks/orderbot/useOrderbotInsert';
 import { Bot, Workspace } from '~/@types/app';
 import { randomHexString } from '~/utils/random';
 import { useWorkspaceOrderbots } from '~/hooks/workspace/useWorkspaceOrderbots';
@@ -17,7 +17,7 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const bots = useWorkspaceOrderbots({ variables: { workspaceId: workspace?.id as string } });
-  const insertBot = useBotInsert();
+  const insertOrderBot = useOrderbotInsert();
   const navigate = useNavigate()
 
   const [searchValue, setSearchValue] = useState('');
@@ -37,7 +37,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }, [bots.data, searchValue]);
 
   const handleAddBot = (values) => {
-    insertBot.mutateAsync({
+    insertOrderBot.mutateAsync({
       ...values,
       id: randomHexString(10),
       slug: randomHexString(8),
@@ -52,7 +52,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }
 
   const handleRowClick = (item: Bot) => {
-    navigate(`/apps/bot/${item.id}`)
+    navigate(`/apps/orderbot/${item.id}`)
   }
 
   if (bots.isPending) {
@@ -92,24 +92,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           },
         ]}
         onOk={(data) => {
-          //   const newIntent: BotIntent = {
-          //     id: randomHexString(8),
-          //     name: data.name,
-          //     intent: data.intent,
-          //     quick_reply: "",
-          //     questions: [],
-          //     responses: [],
-          //     tags: []
-          //   }
-          //   setIntents([newIntent, ...intents]);
-
-          //   insertBot.mutateAsync({
-          //     variables: {
-          //       knowledge_id: knowledge.id as string,
-          //       intent: data.intent,
-          //       name: data.name
-          //     }
-          //   })
+          handleAddBot(data)
         }}
       />
     </>

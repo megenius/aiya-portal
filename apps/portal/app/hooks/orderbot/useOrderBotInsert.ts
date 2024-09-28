@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Bot } from "~/@types/app";
 import { insertBot } from "~/services/orderbots";
 
-export const useOrderBotInsert = () => {
+export const useOrderbotInsert = () => {
   const queryClient = useQueryClient();
   return useMutation({
     // mutationKey: ["bot:insert"],

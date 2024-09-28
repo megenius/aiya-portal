@@ -18,13 +18,13 @@ const app = new Hono<Env>()
 
     return authMiddleware(c, next);
   })
-  .get(
-    "*",
-    cache({
-      cacheName: "my-app",
-      cacheControl: "max-age=60",
-    })
-  )
+  // .get(
+  //   "*",
+  //   cache({
+  //     cacheName: "my-app",
+  //     cacheControl: "max-age=60",
+  //   })
+  // )
   .route("/channels", channelsRoutes)
 
   .onError((err, c) => {

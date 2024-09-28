@@ -25,12 +25,16 @@ const channelsRoutes = new Hono<Env>()
         readItems("channels", {
           fields: [
             "*",
-            // @ts-ignore
             {
+              // @ts-ignore
               "bots.bot_id": [
                 "*",
                 { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
               ],
+            },
+            {
+              // @ts-ignore
+              "orderbots.orderbot_id": ["*"],
             },
           ],
           filter: {
@@ -44,10 +48,16 @@ const channelsRoutes = new Hono<Env>()
       // console.log(items);
 
       if (items.length > 0) {
-        const bots = items[0].bots?.map((bot) => bot.bot_id);
+        const bots = items[0].bots
+          ?.filter((bot) => !!bot.bot_id)
+          .map((bot) => bot.bot_id);
+        const orderbots = items[0].orderbots
+          ?.filter((bot) => !!bot.orderbot_id)
+          .map((bot) => bot.orderbot_id);
         const channel = _.omit(items[0], "bots");
         const response = {
           ...channel,
+          orderbots,
           bots: bots?.map((bot) => {
             return {
               ...bot,
