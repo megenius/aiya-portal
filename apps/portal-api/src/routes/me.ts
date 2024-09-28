@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { getDirectusClient } from "../config/directus";
 import { readMe, updateUser } from "@directus/sdk";
 import { Env } from "~/types/hono.types";
+import { getDirectusClient } from "~/config/directus";
 
 const meRoutes = new Hono<Env>()
   .get("/", async (c) => {

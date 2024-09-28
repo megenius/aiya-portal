@@ -1,5 +1,6 @@
 import { KVNamespace, Queue, Vectorize, R2Bucket } from "@cloudflare/workers-types";
 import { StringLike } from "bun";
+import { ClientType, AdminClientType } from "~/utils/directus";
 
 export type Env = {
   Bindings: Bindings;
@@ -8,6 +9,8 @@ export type Env = {
 
 type Variables = {
   token: string;
+  directus: ClientType;
+  directAdmin: AdminClientType;
 };
 
 export type Bindings = {

@@ -8,7 +8,7 @@ import { getDirectusClient } from "~/config/directus";
 import { readItem } from "@directus/sdk";
 import { endOfDay, subDays, startOfDay, format } from "date-fns";
 import { campaignRoutes } from "./campaign";
-import { Env } from "~/@types/hono.types";
+import { Env } from "~/types/hono.types";
 import exchangeToken from "./exchangeToken";
 
 const logger = new Logger("facebook", LogLevel.DEBUG);

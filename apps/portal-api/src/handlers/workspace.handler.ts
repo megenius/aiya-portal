@@ -1,5 +1,6 @@
 // File: src/routes/items.ts
 import { Hono } from "hono";
+import { getDirectusClient } from "../config/directus";
 import {
   readItems,
   createItem,
@@ -10,6 +11,7 @@ import {
   importFile,
   createItems,
 } from "@directus/sdk";
+import { logger as honoLogger } from "hono/logger";
 import * as line from "@line/bot-sdk";
 import { addSeconds, format } from "date-fns";
 import * as _ from "lodash";
@@ -18,49 +20,92 @@ import { parseQuery } from "@repo/shared/utils/query";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { Logger, LogLevel } from "@repo/shared/utils";
 import { Env } from "~/types/hono.types";
-import * as WorkspaceHandler from "../handlers/workspace.handler";
+import { createFactory } from "hono/factory";
+import { directusMiddleware } from "~/middleware/directus.middleware";
 
 const { MessagingApiClient } = line.messagingApi;
 const { ChannelAccessTokenClient } = line.channelAccessToken;
 
 const logger = new Logger("workspace", LogLevel.DEBUG);
 
-const workspacesRoutes = new Hono<Env>()
-  .get("/", ...WorkspaceHandler.getWorkspaces)
-  .post("/", ...WorkspaceHandler.createWorkspace)
-  .get("/:id", ...WorkspaceHandler.getWorkspace)
-  .patch("/:id", ...WorkspaceHandler.updateWorkspace)
-  .delete("/:id", ...WorkspaceHandler.deleteWorkspace)
+const factory = createFactory<Env>();
 
-  .get("/:id/members", ...WorkspaceHandler.getWorkspaceMembers)
-  .get("/:id/ad-accounts", ...WorkspaceHandler.getWorkspaceAdAccounts)
-  .get("/:id/bots", ...WorkspaceHandler.getWorkspaceBots)
-  .get("/:id/channels", ...WorkspaceHandler.getWorkspaceChannels)
-  .post("/:id/channels/line", ...WorkspaceHandler.createWorkspaceChannelLine)
-  .post("/:id/channels/facebooks", ...WorkspaceHandler.createWorkspaceChannelFacebooks)
-  .get("/:id/chats", ...WorkspaceHandler.getWorkspaceChats)
-  .get("/:id/products", ...WorkspaceHandler.getWorkspaceProducts)
-  .get("/:id/orderbots", ...WorkspaceHandler.getWorkspaceOrderbots);
+// --------------- WORKSPACE  ---------------
+//get workspaces
+export const getWorkspaces = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { q } = c.req.query();
+      const parsedQuery = parseQuery(q);
+      const directus = c.get("directus");
 
+      const items = await directus.request(
+        readItems("saas_teams", {
+          filter: {
+            ...parsedQuery,
+            status: {
+              _neq: "Archived",
+            },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+      return c.json({ items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
 
-const a = new Hono<Env>()
-  .get("/:id", async (c) => {
+//get workspace
+export const getWorkspace = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const id = c.req.param("id");
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
+      const directus = c.get("directus");
       const item = await directus.request(readItem("saas_teams", id));
       return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .patch("/:id", async (c) => {
+  }
+);
+
+//create workspace
+export const createWorkspace = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const data = await c.req.json();
+      const directus = c.get("directus");
+      const item = await directus.request(
+        createItem("saas_teams", {
+          ...data,
+          date_created: new Date(),
+          date_updated: new Date(),
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//update workspace
+export const updateWorkspace = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const id = c.req.param("id");
       const data = await c.req.json();
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
+      const directus = c.get("directus");
       const result = await directus.request(
         updateItem("saas_teams", id, { ...data, date_updated: new Date() })
       );
@@ -68,12 +113,34 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/members", async (c) => {
+  }
+);
+
+//delete workspace
+export const deleteWorkspace = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+      const directus = c.get("directus");
+      await directus.request(deleteItem("saas_teams", id));
+      return c.json({});
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// --------------- WORKSPACE MEMBERS  ---------------
+//get workspace members
+export const getWorkspaceMembers = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const users = await directus.request(
         readItems("saas_teams_users", {
           filter: {
@@ -112,14 +179,19 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/ad-accounts", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE AD ACCOUNTS  ---------------
+//get workspace ad accounts
+export const getWorkspaceAdAccounts = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const FB_API_URL = c.env.FB_API_URL;
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      // await directus.setToken(c.get("token"));
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const items = await directus.request(
         readItems("ad_accounts", {
           filter: {
@@ -157,12 +229,18 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/bots", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE BOTS  ---------------
+//get workspace bots
+export const getWorkspaceBots = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const items = await directus.request(
         readItems("bots", {
           filter: {
@@ -180,12 +258,18 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/channels", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE CHANNELS  ---------------
+//get workspace channels
+export const getWorkspaceChannels = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const items = await directus.request(
         readItems("channels", {
           filter: {
@@ -208,12 +292,18 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .post("/:id/channels/line", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE CHANNELS LINE  ---------------
+//create workspace channel line
+export const createWorkspaceChannelLine = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
 
       // channel
       const body = await c.req.json();
@@ -269,12 +359,18 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .post("/:id/channels/facebooks", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE CHANNELS FACEBOOKS  ---------------
+//create workspace channel facebooks
+export const createWorkspaceChannelFacebooks = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
 
       const items = await c.req.json<WorkspaceChannel[]>();
 
@@ -305,12 +401,18 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/chats", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE CHANNELS CHATS  ---------------
+//get workspace chats
+export const getWorkspaceChats = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const items = await directus.request(
         readItems("channels", {
           filter: {
@@ -325,15 +427,46 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  })
-  .get("/:id/products", async (c) => {
+  }
+);
+
+// --------------- WORKSPACE PRODUCTS  ---------------
+//get workspace products
+export const getWorkspaceProducts = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
     try {
       const workspaceId = c.req.param("id") as string;
-      const directus = getDirectusClient();
-      await directus.setToken(c.get("token"));
-      // await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+      const directus = c.get("directus");
       const items = await directus.request(
         readItems("products", {
+          filter: {
+            // team: {
+            //   _eq: workspaceId,
+            // },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+      return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// --------------- WORKSPACE ORDERBOTS  ---------------
+// get workspace orderbots
+export const getWorkspaceOrderbots = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const items = await directus.request(
+        readItems("orderbots", {
           filter: {
             team: {
               _eq: workspaceId,
@@ -346,6 +479,5 @@ const a = new Hono<Env>()
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-  });
-
-export { workspacesRoutes };
+  }
+);

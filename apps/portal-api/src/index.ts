@@ -9,7 +9,7 @@ import { workspacesRoutes } from "./routes/workspaces";
 import { facebookRoutes } from "./routes/facebook";
 
 import { cache } from "hono/cache";
-import { Env } from "./@types/hono.types";
+import { Env } from "./types/hono.types";
 import { s3Routes } from "./routes/s3";
 
 const app = new Hono<Env>()

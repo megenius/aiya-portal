@@ -7,7 +7,7 @@ import { DirectusError } from "@repo/shared/exceptions/directus";
 import { getDirectusClient } from "~/config/directus";
 import { readItem } from "@directus/sdk";
 import { endOfDay, subDays, startOfDay, format } from "date-fns";
-import { Env } from "~/@types/hono.types";
+import { Env } from "~/types/hono.types";
 
 const logger = new Logger("facebook.campaign", LogLevel.DEBUG);
 
