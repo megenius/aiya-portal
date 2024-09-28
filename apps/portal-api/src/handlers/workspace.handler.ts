@@ -41,6 +41,8 @@ export const getWorkspaces = factory.createHandlers(
       const parsedQuery = parseQuery(q);
       const directus = c.get("directus");
 
+      console.log("parsedQuery", parsedQuery);
+      
       const items = await directus.request(
         readItems("saas_teams", {
           filter: {
@@ -54,6 +56,7 @@ export const getWorkspaces = factory.createHandlers(
       );
       return c.json({ items });
     } catch (error) {
+      console.error(error);
       throw DirectusError.fromDirectusResponse(error);
     }
   }
