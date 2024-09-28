@@ -248,15 +248,14 @@ export const searchBotHandler = factory.createHandlers(
             type: "text",
             text: item.payload?.text,
           };
-        }
-        else if (response.type === ResponseElementType.Image) {
+        } else if (response.type === ResponseElementType.Image) {
           const item = response as ImageMessageResponse;
           return {
             type: "image",
             originalContentUrl: item.payload.url,
             previewImageUrl: item.payload.url,
           };
-        } 
+        }
 
         return {
           type: "text",
@@ -290,3 +289,11 @@ export const searchBotHandler = factory.createHandlers(
     return c.json({ messages, matches });
   }
 );
+
+// webhook ----------------------------------------------------------
+export const webhookHandler = factory.createHandlers(logger(), async (c) => {
+  const body = await c.req.json();
+  console.log("webhookHandler", JSON.stringify(body, null, 2));
+
+  return c.json({});
+});
