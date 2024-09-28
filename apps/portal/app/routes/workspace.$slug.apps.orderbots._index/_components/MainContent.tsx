@@ -5,7 +5,7 @@ import PageFilter from './PageFilter';
 import AddBot from './AddBot';
 import { useNavigate } from '@remix-run/react';
 import MainContainer from '~/components/MainContainer';
-import { useOrderbotInsert } from '~/hooks/orderbot/useOrderbotInsert';
+import { useOrderbotInsert } from '~/hooks/orderbot/useOrderbotInsertTmp';
 import { Bot, Workspace } from '~/@types/app';
 import { randomHexString } from '~/utils/random';
 import { useWorkspaceOrderbots } from '~/hooks/workspace/useWorkspaceOrderbots';
