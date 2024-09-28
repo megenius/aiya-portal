@@ -2188,6 +2188,45 @@ export interface paths {
      */
     patch: operations["updateSingleItemsTmp"];
   };
+  "/items/orders": {
+    /**
+     * List Items
+     * @description List the orders items.
+     */
+    get: operations["readItemsOrders"];
+    /**
+     * Create an Item
+     * @description Create a new orders item.
+     */
+    post: operations["createItemsOrders"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing orders items.
+     */
+    delete: operations["deleteItemsOrders"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple orders items at the same time.
+     */
+    patch: operations["updateItemsOrders"];
+  };
+  "/items/orders/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single orders item by unique identifier.
+     */
+    get: operations["readSingleItemsOrders"];
+    /**
+     * Delete an Item
+     * @description Delete an existing orders item.
+     */
+    delete: operations["deleteSingleItemsOrders"];
+    /**
+     * Update an Item
+     * @description Update an existing orders item.
+     */
+    patch: operations["updateSingleItemsOrders"];
+  };
   "/items/products": {
     /**
      * List Items
@@ -2227,44 +2266,83 @@ export interface paths {
      */
     patch: operations["updateSingleItemsProducts"];
   };
-  "/items/orders": {
+  "/items/orderbots": {
     /**
      * List Items
-     * @description List the orders items.
+     * @description List the orderbots items.
      */
-    get: operations["readItemsOrders"];
+    get: operations["readItemsOrderbots"];
     /**
      * Create an Item
-     * @description Create a new orders item.
+     * @description Create a new orderbots item.
      */
-    post: operations["createItemsOrders"];
+    post: operations["createItemsOrderbots"];
     /**
      * Delete Multiple Items
-     * @description Delete multiple existing orders items.
+     * @description Delete multiple existing orderbots items.
      */
-    delete: operations["deleteItemsOrders"];
+    delete: operations["deleteItemsOrderbots"];
     /**
      * Update Multiple Items
-     * @description Update multiple orders items at the same time.
+     * @description Update multiple orderbots items at the same time.
      */
-    patch: operations["updateItemsOrders"];
+    patch: operations["updateItemsOrderbots"];
   };
-  "/items/orders/{id}": {
+  "/items/orderbots/{id}": {
     /**
      * Retrieve an Item
-     * @description Retrieve a single orders item by unique identifier.
+     * @description Retrieve a single orderbots item by unique identifier.
      */
-    get: operations["readSingleItemsOrders"];
+    get: operations["readSingleItemsOrderbots"];
     /**
      * Delete an Item
-     * @description Delete an existing orders item.
+     * @description Delete an existing orderbots item.
      */
-    delete: operations["deleteSingleItemsOrders"];
+    delete: operations["deleteSingleItemsOrderbots"];
     /**
      * Update an Item
-     * @description Update an existing orders item.
+     * @description Update an existing orderbots item.
      */
-    patch: operations["updateSingleItemsOrders"];
+    patch: operations["updateSingleItemsOrderbots"];
+  };
+  "/items/orderbots_channels": {
+    /**
+     * List Items
+     * @description List the orderbots_channels items.
+     */
+    get: operations["readItemsOrderbotsChannels"];
+    /**
+     * Create an Item
+     * @description Create a new orderbots_channels item.
+     */
+    post: operations["createItemsOrderbotsChannels"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing orderbots_channels items.
+     */
+    delete: operations["deleteItemsOrderbotsChannels"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple orderbots_channels items at the same time.
+     */
+    patch: operations["updateItemsOrderbotsChannels"];
+  };
+  "/items/orderbots_channels/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single orderbots_channels item by unique identifier.
+     */
+    get: operations["readSingleItemsOrderbotsChannels"];
+    /**
+     * Delete an Item
+     * @description Delete an existing orderbots_channels item.
+     */
+    delete: operations["deleteSingleItemsOrderbotsChannels"];
+    /**
+     * Update an Item
+     * @description Update an existing orderbots_channels item.
+     */
+    patch: operations["updateSingleItemsOrderbotsChannels"];
   };
 }
 
@@ -3322,6 +3400,8 @@ export interface components {
       bots?: ((string | components["schemas"]["ItemsBots"])[]) | null;
       users?: ((string | components["schemas"]["ItemsSaasTeamsUsers"])[]) | null;
       channels?: ((string | components["schemas"]["ItemsChannels"])[]) | null;
+      products?: ((string | components["schemas"]["ItemsProducts"])[]) | null;
+      orderbots?: ((string | components["schemas"]["ItemsOrderbots"])[]) | null;
     };
     ItemsSaasTasksFiles: {
       /** Format: uuid */
@@ -3554,6 +3634,7 @@ export interface components {
       name?: string | null;
       provider_info?: unknown;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      orderbots?: ((number | components["schemas"]["ItemsOrderbotsChannels"])[]) | null;
       datasets?: ((string | components["schemas"]["ItemsChannelsDatasets"])[]) | null;
       bots?: ((number | components["schemas"]["ItemsChannelsBots"])[]) | null;
     };
@@ -3770,6 +3851,17 @@ export interface components {
       /** Format: uuid */
       id?: string;
     };
+    ItemsOrders: {
+      id?: number;
+      status?: string;
+      sort?: number | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+    };
     ItemsProducts: {
       /** Format: uuid */
       id?: string;
@@ -3781,7 +3873,6 @@ export interface components {
       user_updated?: string | components["schemas"]["Users"] | null;
       /** Format: timestamp */
       date_updated?: string | null;
-      title?: string | null;
       description?: string | null;
       slug?: string | null;
       metadata?: unknown;
@@ -3797,17 +3888,52 @@ export interface components {
       /** Format: float */
       price?: number | null;
       is_available?: boolean | null;
+      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      type?: string | null;
+      name?: string | null;
+      thumbnail?: string | components["schemas"]["Files"] | null;
     };
-    ItemsOrders: {
-      id?: number;
+    ItemsOrderbots: {
+      id?: string;
       status?: string;
       sort?: number | null;
-      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      user_created?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      user_updated?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
+      name?: string | null;
+      metadata?: unknown;
+      /** Format: uuid */
+      avatar?: string | null;
+      system_prompt?: string | null;
+      expertise?: string | null;
+      functions?: unknown;
+      greeting_message?: string | null;
+      gender?: string | null;
+      version?: string | null;
+      greeting_message_mobile?: string | null;
+      system_prompt_mobile?: string | null;
+      data_sources?: unknown;
+      irrelevant_answers?: unknown;
+      slug?: string | null;
+      sql_agent_prompt?: string | null;
+      product_name?: string | null;
+      product_description?: string | null;
+      guidelines?: string | null;
+      context?: string | null;
+      routing_config?: unknown;
+      type?: string | null;
+      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      channels?: ((number | components["schemas"]["ItemsOrderbotsChannels"])[]) | null;
+    };
+    ItemsOrderbotsChannels: {
+      id?: number;
+      orderbot_id?: string | components["schemas"]["ItemsOrderbots"] | null;
+      channel_id?: string | components["schemas"]["ItemsChannels"] | null;
     };
   };
   responses: {
@@ -14807,6 +14933,189 @@ export interface operations {
   };
   /**
    * List Items
+   * @description List the orders items.
+   */
+  readItemsOrders: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrders"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new orders item.
+   */
+  createItemsOrders: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrders"][] | components["schemas"]["ItemsOrders"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing orders items.
+   */
+  deleteItemsOrders: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple orders items at the same time.
+   */
+  updateItemsOrders: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrders"][] | components["schemas"]["ItemsOrders"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single orders item by unique identifier.
+   */
+  readSingleItemsOrders: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrders"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing orders item.
+   */
+  deleteSingleItemsOrders: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing orders item.
+   */
+  updateSingleItemsOrders: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrders"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrders"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
    * @description List the products items.
    */
   readItemsProducts: {
@@ -14990,9 +15299,9 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the orders items.
+   * @description List the orderbots items.
    */
-  readItemsOrders: {
+  readItemsOrderbots: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -15009,7 +15318,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsOrders"][];
+            data?: components["schemas"]["ItemsOrderbots"][];
             meta?: components["schemas"]["x-metadata"];
           };
         };
@@ -15019,9 +15328,9 @@ export interface operations {
   };
   /**
    * Create an Item
-   * @description Create a new orders item.
+   * @description Create a new orderbots item.
    */
-  createItemsOrders: {
+  createItemsOrderbots: {
     parameters: {
       query?: {
         meta?: components["parameters"]["Meta"];
@@ -15029,7 +15338,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsOrders"][] | components["schemas"]["ItemsOrders"];
+        "application/json": components["schemas"]["ItemsOrderbots"][] | components["schemas"]["ItemsOrderbots"];
       };
     };
     responses: {
@@ -15046,9 +15355,9 @@ export interface operations {
   };
   /**
    * Delete Multiple Items
-   * @description Delete multiple existing orders items.
+   * @description Delete multiple existing orderbots items.
    */
-  deleteItemsOrders: {
+  deleteItemsOrderbots: {
     responses: {
       /** @description Successful request */
       200: {
@@ -15059,9 +15368,9 @@ export interface operations {
   };
   /**
    * Update Multiple Items
-   * @description Update multiple orders items at the same time.
+   * @description Update multiple orderbots items at the same time.
    */
-  updateItemsOrders: {
+  updateItemsOrderbots: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -15075,7 +15384,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsOrders"][] | components["schemas"]["ItemsOrders"];
+        "application/json": components["schemas"]["ItemsOrderbots"][] | components["schemas"]["ItemsOrderbots"];
       };
     };
     responses: {
@@ -15091,9 +15400,9 @@ export interface operations {
   };
   /**
    * Retrieve an Item
-   * @description Retrieve a single orders item by unique identifier.
+   * @description Retrieve a single orderbots item by unique identifier.
    */
-  readSingleItemsOrders: {
+  readSingleItemsOrderbots: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -15110,7 +15419,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsOrders"];
+            data?: components["schemas"]["ItemsOrderbots"];
           };
         };
       };
@@ -15120,9 +15429,9 @@ export interface operations {
   };
   /**
    * Delete an Item
-   * @description Delete an existing orders item.
+   * @description Delete an existing orderbots item.
    */
-  deleteSingleItemsOrders: {
+  deleteSingleItemsOrderbots: {
     parameters: {
       path: {
         /** @description Index of the item. */
@@ -15140,9 +15449,9 @@ export interface operations {
   };
   /**
    * Update an Item
-   * @description Update an existing orders item.
+   * @description Update an existing orderbots item.
    */
-  updateSingleItemsOrders: {
+  updateSingleItemsOrderbots: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -15155,7 +15464,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsOrders"];
+        "application/json": components["schemas"]["ItemsOrderbots"];
       };
     };
     responses: {
@@ -15163,7 +15472,190 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsOrders"];
+            data?: components["schemas"]["ItemsOrderbots"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the orderbots_channels items.
+   */
+  readItemsOrderbotsChannels: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrderbotsChannels"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new orderbots_channels item.
+   */
+  createItemsOrderbotsChannels: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrderbotsChannels"][] | components["schemas"]["ItemsOrderbotsChannels"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing orderbots_channels items.
+   */
+  deleteItemsOrderbotsChannels: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple orderbots_channels items at the same time.
+   */
+  updateItemsOrderbotsChannels: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrderbotsChannels"][] | components["schemas"]["ItemsOrderbotsChannels"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single orderbots_channels item by unique identifier.
+   */
+  readSingleItemsOrderbotsChannels: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrderbotsChannels"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing orderbots_channels item.
+   */
+  deleteSingleItemsOrderbotsChannels: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing orderbots_channels item.
+   */
+  updateSingleItemsOrderbotsChannels: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsOrderbotsChannels"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsOrderbotsChannels"];
           };
         };
       };
@@ -15211,7 +15703,9 @@ export type Schema = {
   bots_datasources_tables: components["schemas"]["ItemsBotsDatasourcesTables"][];
   bots_datasources_fields: components["schemas"]["ItemsBotsDatasourcesFields"][];
   tmp: components["schemas"]["ItemsTmp"][];
-  products: components["schemas"]["ItemsProducts"][];
   orders: components["schemas"]["ItemsOrders"][];
+  products: components["schemas"]["ItemsProducts"][];
+  orderbots: components["schemas"]["ItemsOrderbots"][];
+  orderbots_channels: components["schemas"]["ItemsOrderbotsChannels"][];
 };
 

@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { productsRoutes } from "./routes/products";
+import { orderRoutes } from "./routes/orderbots";
 // import { knowledgesRoutes } from "./routes/knowledges";
 // import { textEmbeddingRoutes } from "./routes/text-embedding";
 // import { webhookRoutes } from "./routes/webhook";
@@ -10,7 +11,7 @@ import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth.middleware";
 
 const app = new Hono<Env>()
-  .basePath("/api")
+  .basePath("/api/shops")
   .use("*", (c: any, next) => {
     const hostname = new URL(c.req.url).hostname;
 
@@ -22,7 +23,8 @@ const app = new Hono<Env>()
     return authMiddleware(c, next);
   })
   // .use("*", errorHandler)
-  .route("/products", productsRoutes);
+  .route("/products", productsRoutes)
+  .route("/orderbots", orderRoutes);
 // .route("/bots/knowledges", knowledgesRoutes);
 
 export default {
