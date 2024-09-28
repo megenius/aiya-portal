@@ -51,65 +51,85 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
               data-hs-accordion-always-open=""
             >
               <ul>
-                {sidebarLinks.map((link) => (
-                  <li key={link.to}
-                    className="hs-accordion px-5 mb-1.5" id={link.label}>
-                    <button
-                      type="button"
-                      className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                      onClick={() => {
-                        if (!link.subLinks) {
-                          navigate(link.to)
-                        }
-                      }}
-                    >
-                      {link.icon}
-                      {link.label}
+                {sidebarLinks.map((link) => {
+                  if (link.isDivider) {
+                    return (
+                      <li
+                        className="hs-accordion px-5 mb-1.5" id={link.label}>
+                        <button
+                          type="button"
+                          className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          onClick={() => {
+  
+                          }}
+                        >
+                          {link.icon}
+                          {link.label}
+                        </button>
+                      </li>
+                    )
+                  }
 
-                      {link.subLinks && (
-                        <svg
-                          className="hs-accordion-active:-rotate-180 flex-shrink-0 mt-1 size-3.5 ms-auto transition"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={24}
-                          height={24}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      )}
-                    </button>
-                    {link.subLinks && (
-                      <>
-                        <div
-                          id={`${link.label}-sub`}
-                          className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  "
-                          role="region" aria-labelledby="account-accordion"
-                        >
-                          <ul
-                            className="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
-                          // data-hs-accordion-always-open=""
+                  return (
+                    <li key={link.to}
+                      className="hs-accordion px-5 mb-1.5" id={link.label}>
+                      <button
+                        type="button"
+                        className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                        onClick={() => {
+                          if (!link.subLinks) {
+                            navigate(link.to)
+                          }
+                        }}
+                      >
+                        {link.icon}
+                        {link.label}
+
+                        {link.subLinks && (
+                          <svg
+                            className="hs-accordion-active:-rotate-180 flex-shrink-0 mt-1 size-3.5 ms-auto transition"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           >
-                            {link.subLinks.map((subLink) => (
-                              <li key={subLink.to} className="px-5 mb-1.5">
-                                <Link
-                                  to={`${subLink.to}`}
-                                  className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                                >
-                                  {subLink.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </>
-                    )}
-                  </li>
-                ))}
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        )}
+                      </button>
+                      {link.subLinks && (
+                        <>
+                          <div
+                            id={`${link.label}-sub`}
+                            className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  "
+                            role="region" aria-labelledby="account-accordion"
+                          >
+                            <ul
+                              className="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
+                            // data-hs-accordion-always-open=""
+                            >
+                              {link.subLinks.map((subLink) => (
+                                <li key={subLink.to} className="px-5 mb-1.5">
+                                  <Link
+                                    to={`${subLink.to}`}
+                                    className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                                  >
+                                    {subLink.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </nav>
             {/* End Nav */}
