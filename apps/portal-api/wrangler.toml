@@ -28,6 +28,7 @@ routes = [{ pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }]
 mode = "smart"
 
 [env.prod.vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
