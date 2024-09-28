@@ -14,4 +14,6 @@ botsRoutes.get("/:id/knowledges", ...BotsHandler.searchBotKnowledgesHandler);
 botsRoutes.post("/:id/knowledges", ...BotsHandler.createBotKnowledgeHandler);
 botsRoutes.get("/:id/search", ...BotsHandler.searchBotHandler);
 
+botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
+
 export { botsRoutes };
