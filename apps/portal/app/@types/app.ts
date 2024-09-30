@@ -1,30 +1,45 @@
-import { ResponseElement } from "@repo/preline/chat";
+import { ResponseElement } from "@repo/shared";
 import { components } from "./directus";
+export interface FeatureFlags {
+  feature_dashboard: boolean;
+  feature_products: boolean;
+  feature_engagements: boolean;
+  feature_orders: boolean;
+  feature_conversions: boolean;
+  feature_customers: boolean;
+  feature_apps_ads: boolean;
+  feature_apps_beacons: boolean;
+  feature_apps_bots: boolean;
+  feature_apps_chats: boolean;
+  feature_apps_orderbots: boolean;
+  feature_apps_vourchers: boolean;
+}
 
-export type Workspace = components["schemas"]["ItemsSaasTeams"];
+export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
+  feature_flags: FeatureFlags;
+};
 export type Bot = components["schemas"]["ItemsBots"];
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
 export type ChannelDatasets = components["schemas"]["ItemsChannelsDatasets"];
-export type FacebookAdAccount =
-  components["schemas"]["ItemsFacebookAdAccounts"] & {
-    spend?: number;
-    metadata: {
+export type FacebookAdAccount = components["schemas"]["ItemsAdAccounts"] & {
+  spend?: number;
+  metadata: {
+    id: string;
+    name: string;
+    business_name: string;
+    account_status: number;
+    disable_reason: number;
+    created_time: string;
+    currency: string;
+    timezone_name: string;
+    timezone_offset_hours_utc: number;
+    business: {
       id: string;
       name: string;
-      business_name: string;
-      account_status: number;
-      disable_reason: number;
-      created_time: string;
-      currency: string;
-      timezone_name: string;
-      timezone_offset_hours_utc: number;
-      business: {
-        id: string;
-        name: string;
-      };
     };
   };
+};
 
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
@@ -40,6 +55,8 @@ export type BotUpdate = {
     delete: number[];
   };
 } & Partial<Bot>;
+
+// export type ChannelOrderbot = components["schemas"][""];
 
 export type ChannelBot = components["schemas"]["ItemsChannelsBots"];
 

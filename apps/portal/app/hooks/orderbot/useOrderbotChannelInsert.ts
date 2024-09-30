@@ -19,6 +19,9 @@ export const useOrderbotChannelInsert = () => {
     mutationFn: ({ variables }: MutationFn) =>
       insertBotChannel(variables).then((response) => response.data),
     onSuccess: (item: ChannelBot) => {
+      console.log("Channel inserted", item);
+      
+
       // Invalidate and refetch
       queryClient.invalidateQueries({
         queryKey: ["orderbots", item.bot_id, "channels"],
