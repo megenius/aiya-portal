@@ -14,6 +14,11 @@ botsRoutes.get("/:id/knowledges", ...BotsHandler.searchBotKnowledgesHandler);
 botsRoutes.post("/:id/knowledges", ...BotsHandler.createBotKnowledgeHandler);
 botsRoutes.get("/:id/search", ...BotsHandler.searchBotHandler);
 
+//get channels
+botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
+//delete channel
+botsRoutes.delete("/:id/channels", ...BotsHandler.deleteBotChannelHandler);
+
 botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
 
 export { botsRoutes };

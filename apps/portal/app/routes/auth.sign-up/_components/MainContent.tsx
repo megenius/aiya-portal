@@ -140,6 +140,36 @@ const MainContent: React.FC<MainContentProps> = () => {
                 {...register('name')}
               />
             </div>
+            {/* <div>
+              <label
+                htmlFor="hs-pro-dalfn"
+                className="block mb-2 text-sm font-medium text-gray-800"
+              >
+                Phone
+              </label>
+              <input
+                type="text"
+                id="hs-pro-dalfn"
+                className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                placeholder="ex. 0812345678"
+                {...register('phone')}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="hs-pro-dalfn"
+                className="block mb-2 text-sm font-medium text-gray-800"
+              >
+                Company
+              </label>
+              <input
+                type="text"
+                id="hs-pro-dalfn"
+                className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                placeholder="My Company"
+                {...register('company')}
+              />
+            </div> */}
             <div>
               <label
                 htmlFor="hs-pro-dale"

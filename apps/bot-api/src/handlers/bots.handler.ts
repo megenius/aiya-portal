@@ -47,6 +47,7 @@ export const getBotHandler = factory.createHandlers(
       readItem("bots", id, {
         fields: [
           "*",
+          // @ts-ignore
           { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
         ],
       })
@@ -84,6 +85,9 @@ export const getBotChannelsHandler = factory.createHandlers(
     try {
       const id = c.req.param("id");
       const directus = c.get("directus");
+
+      console.log("getBotChannelsHandler", id);
+      
 
       const item = await directus.request<{
         team: { channels: Array<Partial<Channel>> };
@@ -160,6 +164,9 @@ export const searchBotKnowledgesHandler = factory.createHandlers(
   async (c: Context<Env>) => {
     const botId = c.req.param("id");
     const directus = c.get("directus");
+
+    console.log("searchBotKnowledgesHandler", botId);
+    
     const items = await directus.request(
       readItems("bots_knowledges", {
         fields: ["id", "name", "total_intent"],

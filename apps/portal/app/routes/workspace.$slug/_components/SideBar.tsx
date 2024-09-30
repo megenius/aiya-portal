@@ -3,22 +3,69 @@ import { LogoAiya } from "@repo/ui/LogoAiya";
 import { sidebarLinks } from "./SidebarConfig";
 import { Avatar } from "@repo/preline/Avatar";
 import { getDirectusFileUrl } from "~/utils/files";
-import { Workspace } from "~/@types/app";
+import { FeatureFlags, Workspace } from "~/@types/app";
 import { useMe } from "~/hooks/useMe";
 import { useWorkspace } from "~/hooks/workspace";
+import { useEffect, useMemo, useState } from "react";
+import { SidebarLink } from "./types";
 
 interface SideBarProps {
   workspaces: Workspace[]
   workspace?: Workspace
 }
 
+const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
+  feature_dashboard: false,
+  feature_products: false,
+  feature_engagements: false,
+  feature_orders: false,
+  feature_conversions: false,
+  feature_customers: false,
+  feature_apps_ads: true,
+  feature_apps_beacons: false,
+  feature_apps_bots: true,
+  feature_apps_chats: false,
+  feature_apps_orderbots: true,
+  feature_apps_vourchers: false
+}
+
 const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
   const navigate = useNavigate()
   const { data: user } = useMe()
+  const [featureFlags, setFeatureFlags] = useState<FeatureFlags>(DEFAULT_FEATURE_FLAGS);
+
+  useEffect(() => {
+    if (workspace && workspace.feature_flags) {
+      setFeatureFlags({
+        ...DEFAULT_FEATURE_FLAGS,
+        ...workspace.feature_flags
+      });
+    }
+    console.log(workspace);
+    
+  }, [workspace]);
+
+  useEffect(() => {
+    console.log(featureFlags);
+    
+  }, [featureFlags]);
+
+  const filteredSidebarLinks = sidebarLinks.filter(link => {
+    if (link.to.startsWith('apps/')) {
+      const appFeature = link.to.replace('apps/', 'feature_apps_');
+      console.log(appFeature);
+      
+      return featureFlags[appFeature as keyof FeatureFlags] !== false;
+    } else {
+      const featureName = `feature_${link.to}` as keyof FeatureFlags;
+      return featureFlags[featureName] !== false;
+    }
+  });
 
   const handleSignOut = () => {
     navigate("/sign-out")
   }
+
 
   return (
     <>
@@ -51,7 +98,7 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
               data-hs-accordion-always-open=""
             >
               <ul>
-                {sidebarLinks.map((link) => {
+                {filteredSidebarLinks.map((link) => {
                   if (link.isDivider) {
                     return (
                       <li
@@ -60,7 +107,7 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                           type="button"
                           className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           onClick={() => {
-  
+
                           }}
                         >
                           {link.icon}
@@ -299,3 +346,14 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
 
 export default SideBar;
 
+
+
+function mapFeatureFlagsToSidebarLinks(
+  featureFlags: Record<string, boolean>,
+  links: SidebarLink[]
+): SidebarLink[] {
+  return links.filter(link => {
+    const featureName = `feature_${link.to}`;
+    return featureFlags[featureName] !== false; // Show link if feature is undefined or true
+  });
+}
