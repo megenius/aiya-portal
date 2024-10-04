@@ -1,5 +1,4 @@
 import { KVNamespace, Queue, Vectorize, R2Bucket } from "@cloudflare/workers-types";
-import { StringLike } from "bun";
 import { ClientType, AdminClientType } from "~/utils/directus";
 
 export type Env = {
