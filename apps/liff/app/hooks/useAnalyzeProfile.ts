@@ -1,5 +1,6 @@
 // hooks/useBots.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 interface AnalyzeProfile {
   pictureUrl: string;
@@ -21,18 +22,10 @@ const analyze = async (
   analysis: any;
 }> => {
   return new Promise(async (resolve) => {
-    //upload image to server
-    // https://portal.aiya.me/api/files/upload-automix
-    const response = await fetch(
-      "https://portal.aiya.me/api/files/upload-automix",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    ).then((response) => response.json<any>());
+    const response = await axios("/api/files/upload-automix", {
+      method: "POST",
+      data,
+    }).then((response) => response.data);
 
     return resolve(response);
   });
