@@ -8,6 +8,7 @@ import {
 import tailwindCss from "~/tailwind.css?url";
 import { LinksFunction } from "@remix-run/cloudflare";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Loading from "./components/Loading";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCss },
