@@ -25,6 +25,11 @@ export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   ];
 };
 
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {
+  return !!!_.isEqual(currentParams, nextParams);
+};
+
 export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
   const { liffId, slug } = params;
   const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
