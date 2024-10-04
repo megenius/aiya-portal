@@ -1,0 +1,1 @@
+bun dev  --filter=partner-api --filter=liff --filter=liff-api

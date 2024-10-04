@@ -44,6 +44,6 @@ const getEndpoint = (url: string, prefix: string) => {
     target: url,
     changeOrigin: true,
     secure: false,
-    rewrite: (path) => path.replace(new RegExp(`^/${prefix}`), ""),
+    rewrite: (path: string) => path.replace(new RegExp(`^/${prefix}`), ""),
   };
 };
