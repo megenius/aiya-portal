@@ -22,6 +22,7 @@ export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page
   return [
     { title: page?.name || "Loading..." },
+    { tagName: "link", rel: "icon", type: "image/x-icon", href: page?.favicon || "/images/favicon.ico" }
   ];
 };
 
@@ -49,7 +50,6 @@ const Layout = () => {
 
   return (
     <>
-      <DynamicFavicon href={page?.favicon} />
       <Outlet context={{ page }} />
     </>
   )
