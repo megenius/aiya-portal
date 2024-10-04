@@ -2,7 +2,10 @@ name = "portal-api_dev"
 compatibility_date = "2024-08-24"
 compatibility_flags = ["nodejs_compat"]
 
-routes = [{ pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" }]
+routes = [
+  { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" },
+  { pattern = "liff2.aiya.me/api/files/*", zone_name = "aiya.me" }
+]
 
 [placement]
 mode = "smart"

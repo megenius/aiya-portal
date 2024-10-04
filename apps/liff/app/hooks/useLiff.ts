@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import liff from "@line/liff";
+import { useParams } from "@remix-run/react";
 
 interface UseLiffProps {
   liffId: string;
-  destTH: string;
-  destEN: string;
 }
 
 export const useLiff = ({ liffId }: UseLiffProps) => {
@@ -15,7 +14,8 @@ export const useLiff = ({ liffId }: UseLiffProps) => {
   useEffect(() => {
     const initializeLiff = async () => {
       try {
-        await liff.init({ liffId });
+        console.log("LIFF loading", liffId);
+        await liff.init({ liffId: liffId as string });
         console.log("LIFF initialized", liffId);
         setIsInitialized(true);
         setIsLoggedIn(liff.isLoggedIn());
@@ -34,7 +34,9 @@ export const useLiff = ({ liffId }: UseLiffProps) => {
       }
     };
 
-    initializeLiff();
+    if (liffId) {
+      initializeLiff();
+    }
   }, [liffId]);
 
   return { language, isInitialized, isLoggedIn };

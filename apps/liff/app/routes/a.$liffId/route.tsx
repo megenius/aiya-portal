@@ -15,6 +15,7 @@ import { PageLiff } from "~/types/page";
 import DynamicFavicon from "~/components/DynamicFavicon";
 import { useGetPageLiff } from "~/hooks/useGetPageLiff";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
+import { useLineLiff } from "~/hooks/useLineLiff";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page
@@ -33,16 +34,12 @@ export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
 
 const Layout = () => {
   const { page } = useLoaderData<typeof clientLoader>();
-  return (
-    <>
-      {JSON.stringify(page)}
-    </>
-  )
+  useLineLiff();
 
   return (
     <>
-      {/* <DynamicFavicon href={page?.favicon} /> */}
-      <Outlet />
+      <DynamicFavicon href={page?.favicon} />
+      <Outlet context={{ page }} />
     </>
   )
 }

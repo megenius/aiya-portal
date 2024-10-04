@@ -2,11 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@font-face {
+  font-family: "LINE Seed Sans TH";
+  src: url("https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/LINESeedSansTH/LINESeedSansTH-Regular.woff2")
+    format("woff2");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+body {
+  font-family: "LINE Seed Sans TH", sans-serif;
+}
+
+.wysiwyg-content h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  /* Add any other styles you want for h1 */
+}
+
+/* You can add styles for other elements as well */
+.wysiwyg-content p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* Ensure proper text direction for Thai content */
+.wysiwyg-content [dir="ltr"] {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  font-size: 16px;
 }

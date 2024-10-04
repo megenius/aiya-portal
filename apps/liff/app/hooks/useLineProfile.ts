@@ -5,6 +5,6 @@ export function useLineProfile() {
   return useQuery({
     queryKey: ["me"],
     queryFn: () => liff?.getProfile(),
-    enabled: liff?.isLoggedIn(),
+    enabled: false,
   });
 }
