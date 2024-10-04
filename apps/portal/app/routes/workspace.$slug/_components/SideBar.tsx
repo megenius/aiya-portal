@@ -54,7 +54,6 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
     if (link.to.startsWith('apps/')) {
       const appFeature = link.to.replace('apps/', 'feature_apps_');
       console.log(appFeature);
-      
       return featureFlags[appFeature as keyof FeatureFlags] !== false;
     } else {
       const featureName = `feature_${link.to}` as keyof FeatureFlags;
