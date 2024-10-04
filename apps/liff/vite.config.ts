@@ -20,6 +20,7 @@ export default () => {
     server: {
       port: PORT ? Number(PORT) : 4200,
       proxy: {
+        "/api/files": getEndpoint("http://localhost:14000", ""),
         "/api": getEndpoint("http://localhost:14200", ""),
       },
     },
