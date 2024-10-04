@@ -8,6 +8,8 @@ import Footer from './Footer';
 import { useFormContext } from 'react-hook-form';
 import { useLiff } from '~/hooks/useLiff';
 import { getDirectusFileUrl } from '~/utils/files';
+import AIProfile from './AIProfile';
+import LayoutViewer from './LayoutViewer';
 
 interface PageViewerProps {
   page: PageLiff
@@ -21,7 +23,7 @@ const PageViewer: React.FC<PageViewerProps> = ({ page }) => {
   const isThaiLanguage = language.startsWith('th');
   const buttonText = isThaiLanguage ? page.metadata.btnTextTH : page.metadata.btnTextEN;
   const destination = isThaiLanguage ? page.metadata.destTH : page.metadata.destEN;
-  // const [analysis, setAnalysis] = useState({})
+  const [analysis, setAnalysis] = useState({})
 
   useEffect(() => {
     setValue("LANGUAGE", language)
@@ -35,7 +37,7 @@ const PageViewer: React.FC<PageViewerProps> = ({ page }) => {
     if (profile?.pictureUrl && page?.metadata?.layout?.showAIProfile) {
       analyzer.mutateAsync({ pictureUrl: profile?.pictureUrl as string, path: "79fb452868/profiles" }).then((response) => {
         console.log("Analyze response", response)
-        // setAnalysis(response.analysis)
+        setAnalysis(response.analysis)
         setValue("interest", response.analysis?.life_style)
         setValue("age", response.analysis?.age)
         setValue("gender", response.analysis?.gender)
@@ -66,15 +68,15 @@ const PageViewer: React.FC<PageViewerProps> = ({ page }) => {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center pt-6">
-            {/* <h1 className="text-center font-bold text-lg leading-tight mb-4">
-              {page.name}
-            </h1> */}
             <div className="px-4">
               <WYSIWYGContent content={page.content} />
             </div>
 
           </div>
-          {/* <LayoutBuilder page={page} /> */}
+          {page?.metadata?.layout?.showAIProfile && (
+            <AIProfile page={page} analysis={analysis} />
+          )}
+          <LayoutViewer page={page} />
         </div>
         <Footer className="flex-none"
           // bgColor="bg-blue-500"
