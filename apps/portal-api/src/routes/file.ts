@@ -110,8 +110,6 @@ const fileRoutes = new Hono<Env>()
       },
     });
 
-    console.log("Uploaded file to R2:", result);
-
     const url = `${c.env.BOT_MESSAGE_BUCKET_CDN}/${key}`;
     const endpoint =
       "https://km8erw3hik.execute-api.ap-southeast-1.amazonaws.com/prod/image-analysis";

@@ -33,33 +33,38 @@ const route: React.FC<routeProps> = () => {
     const { browser } = page.metadata
     const isExternal = browser === "external"
 
-    tracking.mutateAsync({
-      tracking: page.metadata.tracking,
-      data: methods.getValues()
-    }).then(res => {
-      if (browser === "liff") {
-        if (url.startsWith("http")) {
-          window.location.href = url
-        } if (url === 'liff://close') {
-          liff?.closeWindow()
-        } else {
-          navigate(url)
-        }
+    if (page.metadata.tracking) {
+      await tracking.mutateAsync({
+        tracking: page.metadata.tracking,
+        data: methods.getValues()
+      })
+    }
+
+    if (browser === "liff") {
+      if (url.startsWith("http")) {
+        window.location.href = url
+      } if (url === 'liff://close') {
+        liff?.closeWindow()
       } else {
-        liff?.openWindow({
-          url,
-          external: isExternal
-        })
+        navigate(url)
       }
-    })
+    } else {
+      liff?.openWindow({
+        url,
+        external: isExternal
+      })
+    }
+
   }
 
   const onSubmit = async (values: any) => {
     console.log("Form submitted", values)
     const { destination } = values
     const destUrl = resolveUrl(destination)
-    openWindow(destUrl)
 
+    console.log("Destination", destUrl);
+    
+    openWindow(destUrl)
   }
 
   if (!page) {
