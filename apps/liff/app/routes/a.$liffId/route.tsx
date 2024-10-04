@@ -20,7 +20,7 @@ import { useLineLiff } from "~/hooks/useLineLiff";
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page
   return [
-    { title: page?.name },
+    { title: page?.name || "Loading..." },
   ];
 };
 

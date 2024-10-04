@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" },
-  { pattern = "liff2.aiya.me/api/files/*", zone_name = "aiya.me" }
+  { pattern = "liff2-dev.aiya.me/api/files/*", zone_name = "aiya.me" },
 ]
 
 [placement]
@@ -25,7 +25,10 @@ LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
 [env.prod]
 name = "portal-api_prod"
 
-routes = [{ pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" }]
+routes = [
+  { pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" },
+  { pattern = "liff2.aiya.me/api/files/*", zone_name = "aiya.me" },
+]
 
 [env.prod.placement]
 mode = "smart"
@@ -37,7 +40,6 @@ FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
 BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
 LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
-
 
 
 [[env.prod.r2_buckets]]
