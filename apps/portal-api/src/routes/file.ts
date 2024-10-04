@@ -5,6 +5,7 @@ import { stream } from "hono/streaming";
 import { cache } from "hono/cache";
 import { Env } from "~/types/hono.types";
 import { randomHexString } from "@repo/shared/utils";
+import { cors } from 'hono/cors'
 
 const fileRoutes = new Hono<Env>()
   .get(
@@ -91,6 +92,36 @@ const fileRoutes = new Hono<Env>()
       console.error("Error uploading file:", error);
       return c.json({ error: "Failed to upload file" }, 500);
     }
+  })
+  .post("/upload-automix", async (c) => {
+    const { pictureUrl, path } = await c.req.json();
+
+    // stream image to R2
+    const image = await fetch(pictureUrl);
+    const arrayBuffer = await image.arrayBuffer();
+    const key = `${path}/${randomHexString(16)}.jpg`;
+
+    const result = await c.env.BOT_MESSAGE_BUCKET.put(key, arrayBuffer, {
+      httpMetadata: {
+        contentType: image.headers.get("content-type") || "image/jpeg",
+      },
+    });
+
+    const url = `${c.env.BOT_MESSAGE_BUCKET_CDN}/${key}`;
+    const endpoint =
+      "https://km8erw3hik.execute-api.ap-southeast-1.amazonaws.com/prod/image-analysis";
+
+    const data = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImxhbWJkYSIsImlzcyI6ImxhbWJkYSIsImV4cCI6MTczMDQ4MTQ5MX0.GBznnaVIfW-fEvGcYUMUEUFLJ6MlmafXMl8LJV1uDVc`,
+      },
+      body: JSON.stringify({ image_url: url }),
+    }).then((response) => response.json());
+
+
+    return c.json(data);
   })
   .delete("/:id", async (c) => {
     const fileId = c.req.param("id") as string;

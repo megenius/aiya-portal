@@ -11,6 +11,7 @@ import { facebookRoutes } from "./routes/facebook";
 import { cache } from "hono/cache";
 import { Env } from "./types/hono.types";
 import { s3Routes } from "./routes/s3";
+import { cors } from "hono/cors";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -30,6 +31,14 @@ const app = new Hono<Env>()
   //     cacheControl: 'max-age=15',
   //   })
   // )
+  app.use('/*', cors({
+    origin: ['https://localhost:4243', 'https://liff.aiya.me'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    exposeHeaders: ['Content-Length'],
+    maxAge: 600,
+    credentials: true,
+  }))
   .route("/auth", authRoutes)
   .route("/items", itemRoutes)
   .route("/admin", adminRoutes)
