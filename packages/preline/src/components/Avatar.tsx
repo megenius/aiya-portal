@@ -22,7 +22,6 @@ export const Avatar: React.FC<AvatarProps> = ({
   size = 38,
   className = ''
 }) => {
-  const [imageSrc, setImageSrc] = useState("");
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
