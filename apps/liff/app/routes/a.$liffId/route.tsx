@@ -44,9 +44,9 @@ const Layout = () => {
   useLineLiff();
 
 
-  if (!page) {
-    return <Loading />
-  }
+  // if (!page) {
+  //   return <Loading />
+  // }
 
   return (
     <>

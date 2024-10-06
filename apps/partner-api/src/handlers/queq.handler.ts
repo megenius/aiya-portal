@@ -8,6 +8,8 @@ import * as _ from "lodash";
 const factory = createFactory<Env>();
 
 export const getAds = factory.createHandlers(logger(), async (c) => {
+  console.log("call getAds");
+
   const res = await fetch(c.env.QUEQ_URL + "/QueQAds/Ads/ReqAdsList", {
     method: "POST",
     headers: {
@@ -22,8 +24,11 @@ export const getAds = factory.createHandlers(logger(), async (c) => {
     }),
   });
 
-  const data = await res.json<Ads>();
-  return c.json(data);
+  const response = await res.json<Ads>();
+  if (response?.return_code === "0000") {
+    return c.json(response.lstAds);
+  }
+  return c.json([]);
 });
 
 export const getAd = factory.createHandlers(logger(), async (c) => {
@@ -39,6 +44,9 @@ export const getAd = factory.createHandlers(logger(), async (c) => {
     }),
   });
 
-  const data = await res.json<Ad>();
-  return c.json(data);
+  const response = await res.json<Ad>();
+  if (response?.return_code === "0000") {
+    return c.json(response);
+  }
+  return c.json({});
 });

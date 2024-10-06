@@ -5,14 +5,20 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import tailwindCss from "~/tailwind.css?url";
+
+import PrelineScript from "./PrelineScript";
 import { LinksFunction } from "@remix-run/cloudflare";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Loading from "./components/Loading";
+import prelineCss from "@repo/preline/preline.css?url";
+import tailwindCss from "~/styles/tailwind.css?url";
+import globalCss from "~/styles/global.css?url";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCss },
+  { rel: "stylesheet", href: prelineCss },
+  { rel: "stylesheet", href: globalCss },
 ];
+
 
 // import "./tailwind.css";
 
@@ -34,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <Meta />
         <Links />
       </head>
@@ -60,9 +66,12 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-    </QueryClientProvider>
+    <>
+      <PrelineScript />
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+      </QueryClientProvider>
+    </>
   )
 }
 
