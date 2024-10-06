@@ -1,4 +1,4 @@
-import { useNavigate, useOutletContext } from '@remix-run/react';
+import { useNavigate, useOutletContext, useSearchParams } from '@remix-run/react';
 import React, { useEffect, useMemo } from 'react';
 import AdsList from '~/components/AdsList';
 import Header1 from '~/components/headers/Header1';
@@ -13,10 +13,15 @@ interface routeProps {
 
 }
 
+type Tab = 'voucher' | 'my-voucher';
+
 const route: React.FC<routeProps> = () => {
   const { page } = useOutletContext<{ page: PageLiff }>()
   const { data: ads, isLoading } = useListQAds()
   const navigate = useNavigate()
+  const [search] = useSearchParams()
+  const [tab, setTab] = React.useState<Tab>((search.get('tab') || 'voucher') as Tab);
+
   useLiff({ liffId: page?.liff_id })
 
   const handleAdClick = (ad: QueQNS.Ad) => {
@@ -59,7 +64,7 @@ const route: React.FC<routeProps> = () => {
           >
             <button
               type="button"
-              className={getTabClass(true)}
+              className={getTabClass(tab === 'voucher')}
               id="horizontal-alignment-item-1"
               aria-selected="true"
               data-hs-tab="#horizontal-alignment-1"
@@ -70,7 +75,7 @@ const route: React.FC<routeProps> = () => {
             </button>
             <button
               type="button"
-              className={getTabClass(false)}
+              className={getTabClass(tab === 'my-voucher')}
               id="horizontal-alignment-item-2"
               aria-selected="false"
               data-hs-tab="#horizontal-alignment-2"
@@ -85,6 +90,7 @@ const route: React.FC<routeProps> = () => {
           <div
             id="horizontal-alignment-1"
             role="tabpanel"
+            className={tab === 'voucher' ? `` : `hidden`}
             aria-labelledby="horizontal-alignment-item-1"
           >
             {isLoading ? <Loading /> :
@@ -93,7 +99,7 @@ const route: React.FC<routeProps> = () => {
           </div>
           <div
             id="horizontal-alignment-2"
-            className="hidden"
+            className={tab === 'my-voucher' ? `` : `hidden`}
             role="tabpanel"
             aria-labelledby="horizontal-alignment-item-2"
           >

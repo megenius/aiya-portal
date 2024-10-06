@@ -6,5 +6,6 @@ const queqRoutes = new Hono<Env>();
 
 queqRoutes.get("/ads", ...QueqHandler.getAds);
 queqRoutes.get("/ads/:id", ...QueqHandler.getAd);
+queqRoutes.post("/ads/:id/collect", ...QueqHandler.collectAdCoupon);
 
 export { queqRoutes };

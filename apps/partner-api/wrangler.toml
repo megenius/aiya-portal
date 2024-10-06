@@ -20,6 +20,11 @@ binding = "CACHING"
 id = "b494201ff6b74231a02c94891f805ba7"
 
 
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "qpon_dev"
+# database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
+
 
 [env.prod]
 name = "partner-api_prod"
@@ -35,7 +40,6 @@ mode = "smart"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 QUEQ_URL = "http://api1.queq.me"
 QUEQ_TOKEN = "eb6ed5f7013d4e9b858a22c0763e4bbe"
-
 
 [[env.prod.kv_namespaces]]
 binding = "CACHING"
