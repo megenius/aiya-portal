@@ -35,7 +35,7 @@ const route: React.FC<routeProps> = () => {
 
   return (
     <>
-      <HeaderNavBar title={"Deal"} />
+      {/* <HeaderNavBar title={"Deal"} /> */}
       <div className='p-2'>
         <AdViewer ad={ad} onCollectCoupon={handleCollectCoupon} />
       </div>
