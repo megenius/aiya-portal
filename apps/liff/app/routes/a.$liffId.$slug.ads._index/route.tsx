@@ -22,8 +22,10 @@ const route: React.FC<routeProps> = () => {
   }
 
   const getTabClass = useMemo(() => {
+    const bgColor = page?.bg_color || "#47B383";
+
     return (isActive: boolean) => {
-      return `hs-tab-active:font-semibold hs-tab-active:border-[${page?.bg_color}] hs-tab-active:text-[${page?.bg_color}] py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[${page?.bg_color}] focus:outline-none focus:text-[${page?.bg_color}] disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
+      return `hs-tab-active:font-semibold hs-tab-active:border-[${bgColor}] hs-tab-active:text-[${bgColor}] py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[${bgColor}] focus:outline-none focus:text-[${bgColor}] disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
     };
   }, [page]);
 
@@ -82,8 +84,6 @@ const route: React.FC<routeProps> = () => {
           </div>
         </div>
       </>
-
-
     </>
   );
 };
