@@ -1,6 +1,8 @@
 import { useNavigate, useOutletContext, useSearchParams } from '@remix-run/react';
+import { cn } from '@repo/ui/utils';
 import React, { useEffect, useMemo } from 'react';
 import AdsList from '~/components/AdsList';
+import Footer from '~/components/Footer';
 import Header1 from '~/components/headers/Header1';
 import Loading from '~/components/Loading';
 import MyVoucher from '~/components/MyVoucher';
@@ -8,7 +10,6 @@ import { useLiff } from '~/hooks/useLiff';
 import { useListQAds } from '~/hooks/useListQAds';
 import { QueQNS } from '~/types/app';
 import { PageLiff } from '~/types/page';
-
 interface routeProps {
 
 }
@@ -33,13 +34,14 @@ const route: React.FC<routeProps> = () => {
 
     return (isActive: boolean) => {
       return `hs-tab-active:font-semibold hs-tab-active:border-[#47B383] hs-tab-active:text-[#47B383] py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#47B383] focus:outline-none focus:text-[#47B383] disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
+      // return `hs-tab-active:font-semibold  py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500  disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
     };
   }, [page]);
 
   return (
     <>
       <Header1 backgroundColor={page?.bg_color} color={page?.fore_color} />
-      <>
+      <div className='min-h-[calc(100vh-200px)]' style={{ paddingBottom: 150 }}>
         <div className="border-b border-gray-200">
           <nav
             className="-mb-0.5 flex justify-center gap-x-6"
@@ -50,6 +52,11 @@ const route: React.FC<routeProps> = () => {
             <button
               type="button"
               className={getTabClass(tab === 'voucher')}
+              // className={cn(
+              //   'hs-tab-active:font-semibold  py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500  disabled:opacity-50 disabled:pointer-events-none',
+              //   {
+              //     'hs-tab-active:border-[#47B383] hs-tab-active:text-[#47B383] hover:text-[#47B383] focus:outline-none focus:text-[#47B383] active': tab === 'voucher'
+              //   })}
               id="horizontal-alignment-item-1"
               aria-selected="true"
               data-hs-tab="#horizontal-alignment-1"
@@ -75,7 +82,11 @@ const route: React.FC<routeProps> = () => {
           <div
             id="horizontal-alignment-1"
             role="tabpanel"
-            className={tab === 'voucher' ? `` : `hidden`}
+            className={cn(
+              {
+                "hidden": tab !== 'voucher'
+              },
+            )}
             aria-labelledby="horizontal-alignment-item-1"
           >
             {isLoading ? <Loading /> :
@@ -84,14 +95,23 @@ const route: React.FC<routeProps> = () => {
           </div>
           <div
             id="horizontal-alignment-2"
-            className={tab === 'my-voucher' ? `` : `hidden`}
+            className={cn(
+              {
+                "hidden": tab !== 'my-voucher'
+              }
+            )}
             role="tabpanel"
             aria-labelledby="horizontal-alignment-item-2"
           >
             <MyVoucher />
           </div>
         </div>
-      </>
+      </div >
+      <Footer fixed={false}>
+        <div className='w-full flex justify-center'>
+          <div className='text-sm text-gray-500'>Powered by AIYA.AI</div>
+        </div>
+      </Footer>
     </>
   );
 };
