@@ -21,12 +21,10 @@ export default function PrelineScript() {
 
   useEffect(() => {
     async function initializePreline() {
-      await import('preline/preline').then(({ HSStaticMethods, HSOverlay, HSTabs, HSDropdown, HSAccordion, HSTogglePassword }) => {
-        setTimeout(() => {
-          HSStaticMethods.autoInit();
-          HSOverlay.autoInit();
-          HSTabs.autoInit();
-        }, 1000)
+      await import('preline/preline').then(({ HSStaticMethods, HSOverlay, HSTabs }) => {
+        HSStaticMethods.autoInit();
+        HSOverlay.autoInit();
+        HSTabs.autoInit();
       });
     }
 

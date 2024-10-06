@@ -1,5 +1,5 @@
 import { useNavigate, useOutletContext } from '@remix-run/react';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import AdsList from '~/components/AdsList';
 import Header1 from '~/components/headers/Header1';
 import Loading from '~/components/Loading';
@@ -17,7 +17,7 @@ const route: React.FC<routeProps> = () => {
   const { page } = useOutletContext<{ page: PageLiff }>()
   const { data: ads, isLoading } = useListQAds()
   const navigate = useNavigate()
-  useLiff({liffId: page?.liff_id})
+  useLiff({ liffId: page?.liff_id })
 
   const handleAdClick = (ad: QueQNS.Ad) => {
     navigate(`./${ad.ads_code}`)
@@ -27,8 +27,23 @@ const route: React.FC<routeProps> = () => {
     const bgColor = "#47B383";
 
     return (isActive: boolean) => {
-      return `hs-tab-active:font-semibold hs-tab-active:border-[${bgColor}] hs-tab-active:text-[${bgColor}] py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[${bgColor}] focus:outline-none focus:text-[${bgColor}] disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
+      return `hs-tab-active:font-semibold hs-tab-active:border-[#47B383] hs-tab-active:text-[#47B383] py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-[#47B383] focus:outline-none focus:text-[#47B383] disabled:opacity-50 disabled:pointer-events-none ${isActive ? 'active' : ''}`;
     };
+  }, [page]);
+
+
+  useEffect(() => {
+    async function initializePreline() {
+      const { HSStaticMethods, HSOverlay, HSTabs } = await import('preline/preline');
+      setTimeout(() => {
+        HSStaticMethods.autoInit();
+        HSOverlay.autoInit();
+        HSTabs.autoInit();
+      }, 1000);
+    }
+    if (page) {
+      initializePreline();
+    }
   }, [page]);
 
   return (

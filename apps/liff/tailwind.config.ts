@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 export default {
   content: [
     "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
-    "node_modules/preline/dist/*.js",
+    './node_modules/preline/preline.js',
   ],
   theme: {
     extend: {
