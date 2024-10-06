@@ -10,7 +10,7 @@ export function useLineLiff() {
   return useQuery({
     queryKey: ["liff", liffId],
     queryFn: () => initLiff({ liffId: liffId as string }),
-    enabled: liffId ? true : false,
+    enabled: liff ? true : false,
   });
 }
 

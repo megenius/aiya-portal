@@ -8,6 +8,8 @@ import * as _ from "lodash";
 const factory = createFactory<Env>();
 
 export const getAds = factory.createHandlers(logger(), async (c) => {
+  console.log("Get Ads", c.env.QUEQ_URL);
+  
   const res = await fetch(c.env.QUEQ_URL + "/QueQAds/Ads/ReqAdsList", {
     method: "POST",
     headers: {
@@ -28,6 +30,8 @@ export const getAds = factory.createHandlers(logger(), async (c) => {
 
 export const getAd = factory.createHandlers(logger(), async (c) => {
   const { id } = c.req.param();
+  console.log("Get Ad", id);
+
   const res = await fetch(c.env.QUEQ_URL + "/QueQAds/Ads/ReqAdsFreeCode", {
     method: "POST",
     headers: {
