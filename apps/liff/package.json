@@ -12,6 +12,7 @@
     "ssl": "local-ssl-proxy --source 4243 --target 4200"
   },
   "dependencies": {
+    "@repo/ui": "*",
     "@remix-run/node": "^2.12.1",
     "@remix-run/react": "^2.12.1",
     "@tanstack/react-query": "^5.51.24",
