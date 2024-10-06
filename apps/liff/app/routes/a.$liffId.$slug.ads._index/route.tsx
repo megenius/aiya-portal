@@ -4,6 +4,7 @@ import AdsList from '~/components/AdsList';
 import Header1 from '~/components/headers/Header1';
 import Loading from '~/components/Loading';
 import MyVoucher from '~/components/MyVoucher';
+import { useLiff } from '~/hooks/useLiff';
 import { useListQAds } from '~/hooks/useListQAds';
 import { QueQNS } from '~/types/app';
 import { PageLiff } from '~/types/page';
@@ -16,6 +17,7 @@ const route: React.FC<routeProps> = () => {
   const { page } = useOutletContext<{ page: PageLiff }>()
   const { data: ads, isLoading } = useListQAds()
   const navigate = useNavigate()
+  useLiff({liffId: page?.liff_id})
 
   const handleAdClick = (ad: QueQNS.Ad) => {
     navigate(`./${ad.ads_code}`)
