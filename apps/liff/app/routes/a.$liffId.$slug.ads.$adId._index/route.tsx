@@ -24,9 +24,9 @@ const route: React.FC<routeProps> = () => {
   const navigate = useNavigate()
 
   const handleCollectCoupon = async (ad?: QueQNS.AdDetail) => {
-    // if (ad?.barcode) {
-    navigate(`../?tab=my-voucher`)
-    // }
+    if (ad?.barcode) {
+    // navigate(`../?tab=my-voucher`)
+    }
   }
 
   if (isLoading) {

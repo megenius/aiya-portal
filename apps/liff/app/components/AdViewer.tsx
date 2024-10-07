@@ -14,7 +14,7 @@ interface AdViewerProps {
 const AdViewer: React.FC<AdViewerProps> = ({ ad, onCollectCoupon }) => {
   const { page } = useOutletContext<{ page: PageLiff }>()
   const canCollect = useMemo(() => {
-    return true //ad?.barcode ? true : false
+    return ad?.barcode ? true : false
   }, [ad])
 
   return (

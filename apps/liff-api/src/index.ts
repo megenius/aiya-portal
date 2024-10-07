@@ -3,6 +3,7 @@ import { liffRoutes } from "./routes/liff";
 import { handleQueueMessage } from "./handlers/queue.handler";
 import { Env } from "./types/hono.types";
 import { cache } from "hono/cache";
+import { voucherRoutes } from "./routes/voucher";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -13,7 +14,8 @@ const app = new Hono<Env>()
   //     cacheControl: "max-age=3600",
   //   })
   // )
-  .route("/liff", liffRoutes);
+  .route("/liff", liffRoutes)
+  .route("/vouchers", voucherRoutes);
 
 export default {
   fetch: app.fetch,
