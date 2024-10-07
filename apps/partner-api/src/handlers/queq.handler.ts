@@ -50,24 +50,3 @@ export const getAd = factory.createHandlers(logger(), async (c) => {
   }
   return c.json({});
 });
-
-
-export const collectAdCoupon = factory.createHandlers(logger(), async (c) => {
-  const { id } = c.req.param();
-  const res = await fetch(c.env.QUEQ_URL + "/QueQAds/Ads/ReqAdsFreeCode", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-QueQAds-UserToken": c.env.QUEQ_TOKEN,
-    },
-    body: JSON.stringify({
-      ads_code: id,
-    }),
-  });
-
-  const response = await res.json<Ad>();
-  if (response?.return_code === "0000") {
-    return c.json(response);
-  }
-  return c.json({});
-});

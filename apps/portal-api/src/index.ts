@@ -7,6 +7,7 @@ import { meRoutes } from "./routes/me";
 import { fileRoutes } from "./routes/file";
 import { workspacesRoutes } from "./routes/workspaces";
 import { facebookRoutes } from "./routes/facebook";
+import { voucherRoutes } from "./routes/voucher";
 
 import { cache } from "hono/cache";
 import { Env } from "./types/hono.types";
@@ -16,29 +17,33 @@ import { cors } from "hono/cors";
 const app = new Hono<Env>()
   .basePath("/api")
   .use("*", async (c, next) => {
-    if (
-      !c.req.path.startsWith("/api/auth") &&
-      !c.req.path.startsWith("/api/files")
-    ) {
-      return authMiddleware(c, next);
-    }
-    await next();
-  })
-  // .get(
-  //   '*',
-  //   cache({
-  //     cacheName: 'portal-api',
-  //     cacheControl: 'max-age=15',
-  //   })
-  // )
-  app.use('/*', cors({
-    origin: ['https://localhost:4243', 'https://liff.aiya.me'],
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization'],
-    exposeHeaders: ['Content-Length'],
-    maxAge: 600,
-    credentials: true,
-  }))
+  if (
+    !c.req.path.startsWith("/api/auth") &&
+    !c.req.path.startsWith("/api/files")
+  ) {
+    return authMiddleware(c, next);
+  }
+  await next();
+});
+// .get(
+//   '*',
+//   cache({
+//     cacheName: 'portal-api',
+//     cacheControl: 'max-age=15',
+//   })
+// )
+app
+  .use(
+    "/*",
+    cors({
+      origin: ["https://localhost:4243", "https://liff.aiya.me"],
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization"],
+      exposeHeaders: ["Content-Length"],
+      maxAge: 600,
+      credentials: true,
+    })
+  )
   .route("/auth", authRoutes)
   .route("/items", itemRoutes)
   .route("/admin", adminRoutes)
@@ -47,6 +52,7 @@ const app = new Hono<Env>()
   .route("/workspaces", workspacesRoutes)
   .route("/facebook", facebookRoutes)
   .route("/s3", s3Routes)
+  .route("/vouchers", voucherRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

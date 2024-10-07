@@ -24,7 +24,7 @@ export type Bindings = {
   AWS_ACCESS_KEY_ID: string
   AWS_SECRET_ACCESS_KEY: string
   AWS_REGION: string
-  BOT_MESSAGE_BUCKET_CDN: StringLike;
+  BOT_MESSAGE_BUCKET_CDN: string;
   BOT_MESSAGE_BUCKET: R2Bucket
   LINE_WEBHOOK_ENDPOINT: string
 }

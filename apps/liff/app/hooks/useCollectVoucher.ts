@@ -8,7 +8,7 @@ interface TrackingMethods {
   data: any;
 }
 
-export function useTracking() {
+export function useCollectVoucher() {
   return useMutation({
     mutationFn: ({ tracking, data }: TrackingMethods) =>
       sendTracking(tracking, data),
@@ -25,9 +25,6 @@ const sendTracking = (tracking: Tracking, data: any) => {
 
   return axios(onClick.url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
     data: trackingBody,
   });
 };

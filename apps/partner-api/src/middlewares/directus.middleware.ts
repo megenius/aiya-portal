@@ -5,9 +5,8 @@ import { getDirectusClient } from "~/utils/directus";
 const factory = createFactory<Env>();
 
 export const directusMiddleware = factory.createMiddleware(async (c, next) => {
-  // console.log("directusMiddleware", c.env.DIRECTUS_URL);
   const directus = getDirectusClient(c.env.DIRECTUS_URL);
-  directus.setToken(c.get("token"));
-  c.set("directus", directus);
+  directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
+  c.set("directAdmin", directus);
   await next();
 });
