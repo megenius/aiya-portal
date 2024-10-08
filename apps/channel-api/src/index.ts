@@ -8,11 +8,16 @@ import { cache } from "hono/cache";
 
 const app = new Hono<Env>()
   .basePath("/api")
-  .use("*", (c, next) => {
+  .use("*", async (c, next) => {
     const hostname = new URL(c.req.url).hostname;
-
     console.log("hostname", hostname);
-    if (hostname.includes("lambda-api")) {
+    
+    if (hostname.includes("webhook-dev.aiya.me")) {
+      return await next();
+    }
+
+    
+    if (hostname.includes("lambda-api") || hostname.includes("channel-api")) {
       return lambdaAuthMiddleware(c, next);
     }
 

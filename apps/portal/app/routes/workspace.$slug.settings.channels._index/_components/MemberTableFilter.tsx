@@ -27,18 +27,30 @@ export default MemberTableFilter;
 
 
 const AddButton: React.FC<{ onLoadPages }> = ({ onLoadPages }) => {
-  const { login, getPages } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID  });
+  const { login, getPages } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID });
+
+  // const handleFacebookLogin = async () => {
+  //   const configId = import.meta.env.VITE_FB_APP_CONVERSION_LOGIN_ID
+  //   console.log("configId", configId);
+
+  //   login({
+  //     config_id: configId,
+  //     response_type: 'code',
+  //     override_default_response_type: true
+  //   }).then((response) => {
+  //     console.log("response", response);      
+  //     getPages(response.authResponse?.accessToken).then((pages) => {
+  //       onLoadPages(pages)
+  //     })
+  //   })
+  // }
 
   const handleFacebookLogin = async () => {
-    const configId = import.meta.env.VITE_FB_APP_CONVERSION_LOGIN_ID
-    console.log("configId", configId);
+    // const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
+    // console.log("configId", configId);
 
-    login({
-      config_id: configId,
-      response_type: 'code',
-      override_default_response_type: true
-    }).then((response) => {
-      console.log("response", response);      
+    login().then((response) => {
+      console.log("response", response);
       getPages(response.authResponse?.accessToken).then((pages) => {
         onLoadPages(pages)
       })

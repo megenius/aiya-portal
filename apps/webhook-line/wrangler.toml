@@ -6,6 +6,8 @@ routes = [
   { pattern = "webhook-dev.aiya.me/api/v2/line/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
 ]
 
+services = [{ binding = "WORKER_CHANNEL", service = "channel-api_dev" }]
+
 
 [placement]
 mode = "smart"
@@ -15,12 +17,16 @@ mode = "smart"
 # AWS_SECRET_ACCESS_KEY = ""
 AWS_REGION = "ap-northeast-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-northeast-1:398684454127:webhook-line-sns-v2_dev.fifo"
+DIRECTUS_URL = "https://console.portal.aiya.ai"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "webhooks_dev"
 database_id = "a8c89931-6fdb-450a-8015-c7a2a6fd4926"
 
+[[kv_namespaces]]
+binding = "KV_PORTAL"
+id = "a254b6e667cd4e64a038493398ce998e"
 
 [env.prod]
 name = "webhook-line-v2_prod"
@@ -29,6 +35,8 @@ routes = [
   { pattern = "webhook.aiya.me/api/v2/line", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
   { pattern = "webhook.aiya.me/api/v2/line/*", zone_id = "46fe6c128f87451e7bc42c74c0a47169" },
 ]
+
+services = [{ binding = "WORKER_CHANNEL", service = "channel-api_prod" }]
 
 [[env.prod.d1_databases]]
 binding = "DB"
@@ -40,6 +48,12 @@ database_id = "48e858e8-8353-490a-b86e-edf209b237b6"
 # AWS_SECRET_ACCESS_KEY = ""
 AWS_REGION = "ap-northeast-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-northeast-1:398684454127:webhook-line-sns-v2_prod.fifo"
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+
+[[env.prod.kv_namespaces]]
+binding = "KV_PORTAL"
+id = "fe0b7a47778942d69ce767ca149d1cad"
+
 
 # [vars]
 # MY_VAR = "my-variable"

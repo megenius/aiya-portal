@@ -6,10 +6,16 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   { pattern = "portal-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
   { pattern = "lambda-api-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
+  { pattern = "webhook-dev.aiya.me/api/v2/line/channels/*", zone_name = "aiya.me" },
 ]
 
 [placement]
 mode = "smart"
+
+# [[kv_namespaces]]
+# binding = "KV_PORTAL"
+# id = "088f1972ae4347179a232a198ad780c0"
+# preview_id = "5e314082400b4a1dac3ec0a2937a8dd8"
 
 
 # [[kv_namespaces]]
@@ -42,3 +48,8 @@ routes = [
 
 [env.prod.placement]
 mode = "smart"
+
+
+# [[env.prod.kv_namespaces]]
+# binding = "KV_PORTAL"
+# id = "088f1972ae4347179a232a198ad780c0"

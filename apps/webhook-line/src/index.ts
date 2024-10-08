@@ -4,12 +4,11 @@ import { cleanupRouter } from "./routes/cleanup";
 import { logger } from "hono/logger";
 import { compress } from "hono/compress";
 import { requestId, RequestIdVariables } from "hono/request-id";
-import { Bindings } from "./types";
+import { WorkerEnv } from "./types";
+import { channelMiddleware } from "./middlewares/channel.middleware";
+import { sign } from "hono/jwt";
 
-const app = new Hono<{
-  Bindings: Bindings;
-  Variables: RequestIdVariables;
-}>().basePath("/api/v2/line");
+const app = new Hono<WorkerEnv>().basePath("/api/v2/line");
 
 app.use(logger());
 // app.use(compress());
@@ -72,6 +71,24 @@ app.use("*", async (c, next) => {
 
 app.route("/webhook", webhookRouter);
 app.route("/cleanup", cleanupRouter);
+
+app.post("/set-value", async (c) => {
+  const body = await c.req.json();
+  console.log("body", body);
+  const key = `channel.providerId=${body.provider_id}`;
+  await c.env.KV_PORTAL.put(key, JSON.stringify(body));
+  return c.json({});
+});
+
+app.get("/:providerId", async (c) => {
+  const providerId = c.req.param("providerId");
+  const cache = await c.env.KV_PORTAL.get(`channel.providerId=${providerId}`);
+  let channel;
+  if (cache) {
+    channel = JSON.parse(cache);
+  }
+  return c.json(channel);
+});
 
 app.get("*", (c) => {
   return c.text("AIYA");

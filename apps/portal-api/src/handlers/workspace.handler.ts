@@ -355,6 +355,7 @@ export const createWorkspaceChannelLine = factory.createHandlers(
           logo: fileId,
           date_created: new Date(),
           date_updated: new Date(),
+          forward_urls: []
         })
       );
 
