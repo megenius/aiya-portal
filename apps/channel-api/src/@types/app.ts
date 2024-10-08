@@ -3,7 +3,13 @@ import { components } from "../config/schema";
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
 export type Bot = components["schemas"]["ItemsBots"];
 export type User = components["schemas"]["Users"];
-export type Channel = components["schemas"]["ItemsChannels"];
+export type Channel = components["schemas"]["ItemsChannels"] & {
+  forward_urls: Array<{
+    name: string;
+    url: string;
+    enabled: boolean;
+  }>;
+};
 
 export type WorkspaceBot = Bot;
 export type WorkspaceChannel = Channel;
@@ -89,8 +95,6 @@ export interface BeaconApp {
   date_updated: string;
   team: string;
 }
-
-
 
 export interface PageInfo {
   id: string;

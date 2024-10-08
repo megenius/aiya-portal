@@ -4,7 +4,8 @@ compatibility_flags = ["nodejs_compat"]
 
 
 routes = [
-  { pattern = "lambda-api.aiya.me", custom_domain = true }
+  { pattern = "lambda-api.aiya.me", custom_domain = true },
+  { pattern = "lambda-api-dev.aiya.me", custom_domain = true }
 ]
 
 [placement]

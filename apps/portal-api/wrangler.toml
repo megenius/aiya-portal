@@ -23,6 +23,10 @@ FB_APP_ID = "788582819272015"
 BOT_MESSAGE_BUCKET_CDN = "https://pub-07ce3c07d08e416caec26bf7a9128170.r2.dev"
 LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
 
+[[kv_namespaces]]
+binding = "CACHING"
+id = "5e314082400b4a1dac3ec0a2937a8dd8"
+
 [env.prod]
 name = "portal-api_prod"
 
@@ -47,3 +51,8 @@ LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
 [[env.prod.r2_buckets]]
 binding = "BOT_MESSAGE_BUCKET"
 bucket_name = "bot-message"
+
+
+[[env.prod.kv_namespaces]]
+binding = "CACHING"
+id = "088f1972ae4347179a232a198ad780c0"

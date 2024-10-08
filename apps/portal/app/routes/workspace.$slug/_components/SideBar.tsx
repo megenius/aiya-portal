@@ -45,10 +45,6 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
     
   }, [workspace]);
 
-  useEffect(() => {
-    console.log(featureFlags);
-    
-  }, [featureFlags]);
 
   const filteredSidebarLinks = sidebarLinks.filter(link => {
     if (link.to.startsWith('apps/')) {

@@ -8,6 +8,7 @@ import { useBot } from "~/hooks/bot"
 const Route = () => {
   const { botId } = useParams()
   const { data: bot, isLoading } = useBot({ id: botId });
+  
   if (isLoading) {
     return <Loading />
   }

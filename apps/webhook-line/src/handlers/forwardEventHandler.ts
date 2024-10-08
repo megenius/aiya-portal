@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { Logger, LogLevel } from "@repo/shared/utils";
 import { HTTPException } from "hono/http-exception";
-import { Bindings } from "../types";
+import { Bindings, WorkerEnv } from "../types";
 import { logError } from "../utils/errors";
 import { logForward } from "../utils/forward";
 
@@ -21,7 +21,7 @@ interface ForwardResult {
 
 // Forward handling function
 export async function handle(
-  c: Context<{ Bindings: Bindings }>,
+  c: Context<WorkerEnv>,
   webhookData: any,
   DESTINATIONS: Destination[]
 ): Promise<Response> {
@@ -50,7 +50,7 @@ export async function handle(
 }
 
 async function safeForward(
-  c: Context<{ Bindings: Bindings }>,
+  c: Context<WorkerEnv>,
   destination: string,
   webhookData: any
 ): Promise<any> {

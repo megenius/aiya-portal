@@ -13,12 +13,14 @@ import { DirectusError } from "@repo/shared/exceptions/directus";
 import { Env } from "~/@types/hono.types";
 
 import * as line from "@line/bot-sdk";
+import { Channel } from "~/@types/app";
 const { MessagingApiClient } = line.messagingApi;
 
 const channelsRoutes = new Hono<Env>()
   .get("/:providerId", async (c) => {
     try {
       const providerId = c.req.param("providerId");
+      // console.log("providerId", providerId);
       const directus = getDirectusClient();
       await directus.setToken(c.get("token"));
       const items = await directus.request(
@@ -45,7 +47,7 @@ const channelsRoutes = new Hono<Env>()
         })
       );
 
-      // console.log(items);
+      // console.log("items", items);
 
       if (items.length > 0) {
         const bots = items[0].bots
@@ -68,6 +70,8 @@ const channelsRoutes = new Hono<Env>()
             };
           }),
         };
+
+        // console.log("response", response);
         return c.json(response);
       }
       return c.json({ message: `Not found: ${providerId}` }, 404);
@@ -94,11 +98,51 @@ const channelsRoutes = new Hono<Env>()
       const { channel_id, endpoint } = await c.req.json();
       const directus = getDirectusClient();
       await directus.setToken(c.get("token"));
-      const channel = await directus.request(readItem("channels", channel_id));
+      const channel = await directus.request<Channel>(
+        readItem("channels", channel_id)
+      );
       const client = new MessagingApiClient({
         channelAccessToken: channel.provider_access_token as string,
       });
-      const result = await client.setWebhookEndpointWithHttpInfo({ endpoint });
+
+      const { endpoint: existEndpoint, active } =
+        await client.getWebhookEndpoint();
+
+      const forward_urls = channel.forward_urls || [];
+      const ignoreEndpoints = [
+        ...forward_urls,
+        "https://webhook-line.megenius.workers.dev/v1/line",
+        "https://6upazw951k.execute-api.ap-southeast-1.amazonaws.com/prod",
+        "https://beacon-webhook.aiya.ai",
+        "https://4bjzpvprnd.execute-api.ap-southeast-1.amazonaws.com/prod",
+        "https://webhook-dev.aiya.me/api/v2/line/webhook",
+        "https://webhook.aiya.me/api/v2/line/webhook",
+      ];
+
+      if (existEndpoint && !ignoreEndpoints.includes(existEndpoint)) {
+        const channel = await directus.request(
+          updateItem("channels", channel_id, {
+            forward_urls: _.uniqBy(
+              [
+                ...forward_urls,
+                {
+                  name: "External",
+                  url: existEndpoint,
+                  enabled: active,
+                },
+              ],
+              "url"
+            ),
+          })
+        );
+
+        await c.env.KV_PORTAL?.put(
+          `channel.id=${channel_id}`,
+          JSON.stringify(channel)
+        ).then(() => console.log("put kv - " + `channel.id=${channel_id}`));
+      }
+
+      const result = await client.setWebhookEndpoint({ endpoint });
       return c.json(result);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);

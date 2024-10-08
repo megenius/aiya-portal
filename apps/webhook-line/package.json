@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 15001 --inspector-port 25001",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "tunnel": "cloudflared tunnel --url http://localhost:8787"
+    "tunnel": "cloudflared tunnel --url http://localhost:15001"
   },
   "dependencies": {
     "@aws-sdk/client-sns": "^3.624.0",

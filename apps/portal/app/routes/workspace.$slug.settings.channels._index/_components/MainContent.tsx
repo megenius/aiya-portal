@@ -20,7 +20,7 @@ interface MainContentProps {
 
 
 const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
-  const { data: channels, isLoading } = useWorkspaceChannels({ id: workspace.id });
+  const { data: channels, isLoading } = useWorkspaceChannels({ id: workspace?.id });
   const insertChannelLine = useWorkspaceChannelLineInsert();
   const insertChannelFacebook = useWorkspaceChannelFacebookInsert();
   const [searchValue, setSearchValue] = useState('');
