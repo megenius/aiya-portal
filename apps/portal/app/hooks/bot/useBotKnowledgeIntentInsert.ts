@@ -25,6 +25,12 @@ export const useBotKnowledgeIntentInsert = () => {
         exact: true,
         refetchType: "active",
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["bots", item.bot, "knowledges"],
+        exact: true,
+        refetchType: "active",
+      });
     },
   });
 };

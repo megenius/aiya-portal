@@ -25,6 +25,12 @@ export const useBotKnowledgeIntentDelete = () => {
         exact: true,
         refetchType: "active",
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["bots", item.bot, "knowledges"],
+        exact: true,
+        refetchType: "active",
+      });
     },
   });
 };

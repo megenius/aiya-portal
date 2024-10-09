@@ -158,6 +158,7 @@ export const createIntentHandler = factory.createHandlers(
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
         intents: [...knowledge.intents, data],
+        total_intent: knowledge.intents.length + 1,
         date_updated: new Date().toISOString(),
       })
     );
@@ -209,6 +210,7 @@ export const deleteIntentHandler = factory.createHandlers(
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
         intents,
+        total_intent: intents.length
       })
     );
 
