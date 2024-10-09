@@ -127,19 +127,19 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
           title="Add Intent"
           fields={[
             {
+              name: 'name',
+              label: 'Question',
+              type: 'text',
+              required: true,
+              placeholder: 'Enter user question',
+            },
+            {
               name: 'intent',
               label: 'Intent Name',
               type: 'text',
               required: true,
               placeholder: 'Enter intent name',
             },
-            {
-              name: 'name',
-              label: 'Question',
-              type: 'text',
-              required: true,
-              placeholder: 'Enter user question',
-            }
           ]}
           onOk={(data) => {
             const newIntent: BotIntent = {
