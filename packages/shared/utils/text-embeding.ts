@@ -279,6 +279,62 @@ export class TextEmbedding<T extends Metadata = Metadata> {
         console.log(`Deleted ${res.deleted} documents`);
       });
   }
+
+  // update disable document by metadata
+  async disableDocumentByMetadata(
+    metadata: Record<string, unknown>
+  ): Promise<{ updated: number }> {
+    const filters = Object.entries(metadata).map(([key, value]) => ({
+      term: { [`metadata.${key}.keyword`]: value },
+    }));
+
+    const updateResponse = await this.openSearch.updateByQuery<
+      EmbeddingDocument<T>
+    >({
+      index: this.index,
+      body: {
+        script: {
+          source: "ctx._source.metadata.status = 'draft'",
+          lang: "painless",
+        },
+        query: {
+          bool: {
+            filter: filters,
+          },
+        },
+      },
+    });
+
+    return { updated: updateResponse.updated };
+  }
+
+  // update enable document by metadata
+  async enableDocumentByMetadata(
+    metadata: Record<string, unknown>
+  ): Promise<{ updated: number }> {
+    const filters = Object.entries(metadata).map(([key, value]) => ({
+      term: { [`metadata.${key}.keyword`]: value },
+    }));
+
+    const updateResponse = await this.openSearch.updateByQuery<
+      EmbeddingDocument<T>
+    >({
+      index: this.index,
+      body: {
+        script: {
+          source: "ctx._source.metadata.status = 'published'",
+          lang: "painless",
+        },
+        query: {
+          bool: {
+            filter: filters,
+          },
+        },
+      },
+    });
+
+    return { updated: updateResponse.updated };
+  }
 }
 
 type ID = string;

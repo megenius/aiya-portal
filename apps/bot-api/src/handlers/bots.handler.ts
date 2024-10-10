@@ -165,11 +165,9 @@ export const searchBotKnowledgesHandler = factory.createHandlers(
     const botId = c.req.param("id");
     const directus = c.get("directus");
 
-    console.log("searchBotKnowledgesHandler", botId);
-    
     const items = await directus.request(
       readItems("bots_knowledges", {
-        fields: ["id", "name", "total_intent"],
+        fields: ["id", "name", "total_intent", "status"],
         filter: { bot: botId },
       })
     );
@@ -194,6 +192,7 @@ export const createBotKnowledgeHandler = factory.createHandlers(
   }
 );
 
+// Search ----------------------------------------------------------
 export const searchBotHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -212,7 +211,7 @@ export const searchBotHandler = factory.createHandlers(
     const textEmbedding = c.get("textEmbedding");
     const response = await textEmbedding.search(query, {
       topK: k,
-      filters: { bot_id: c.req.param("id") },
+      filters: { bot_id: c.req.param("id"), status: "published" },
     });
 
     const matches = await Promise.all(

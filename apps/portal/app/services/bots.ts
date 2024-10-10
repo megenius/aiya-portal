@@ -42,7 +42,6 @@ export const insertBotChannel = (data: {
   channel_id: string;
 }) => api.post("/items/channels_bots", data);
 
-
 export const deleteBotChannel = (data: {
   bot_id: string;
   channel_id: string;
@@ -73,6 +72,10 @@ export const updateBotKnowledge = (
 ) => {
   return api.patch("/bots/knowledges/" + knowledgeId, data);
 };
+
+// delete knowledge
+export const deleteBotKnowledge = (knowledgeId: string) =>
+  api.delete("/bots/knowledges/" + knowledgeId);
 
 // --------------- intents ---------------
 // insert intent

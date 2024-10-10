@@ -7,6 +7,7 @@ import TableFilter from './TableFilter';
 import { useNavigate } from '@remix-run/react';
 import BasicAddModal from '~/components/BasicAddModal';
 import { useBotKnowledgeInsert } from '~/hooks/bot/useBotKnowledgeInsert';
+import { cn } from '@repo/ui/utils';
 
 interface MainContentProps {
   bot: Bot
@@ -109,6 +110,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                           Total Intents
                         </div>
                       </th>
+                      <th scope="col">
+                        <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                          Status
+                        </div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
@@ -126,6 +132,19 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                         <td className="size-px whitespace-nowrap px-4 py-3">
                           <span className="text-sm text-gray-600 dark:text-neutral-400">
                             {item.total_intent}
+                          </span>
+                        </td>
+                        <td className="size-px whitespace-nowrap px-4 py-3">
+                          <span className={cn("inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full", {
+                            'bg-yellow-100 text-yellow-800 dark:bg-red-500/10 dark:text-yellow-500': item.status === 'draft',
+                            "bg-teal-100 text-teal-800 dark:bg-teal-500/10 dark:text-teal-500": item.status === 'published',
+                          })}
+                          >
+                            <span className={ cn("size-1.5 inline-block bg-gray-800 rounded-full dark:bg-neutral-200", {
+                              'bg-yellow-500': item.status === 'draft',
+                              'bg-teal-500': item.status === 'published',
+                            })} />
+                            {item.status === 'draft' ? 'Draft' : 'Published'}
                           </span>
                         </td>
                       </tr>

@@ -141,6 +141,7 @@ export enum ResponseElementType {
 export type BotKnowledgeUpdate = {
   name: string;
   intents: BotIntent[];
+  status: string;
 };
 
 export interface AuthTokens {

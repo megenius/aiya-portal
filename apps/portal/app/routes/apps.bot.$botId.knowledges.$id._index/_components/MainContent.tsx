@@ -11,6 +11,11 @@ import { randomHexString } from '~/utils/random';
 import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
 import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
 import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
+import { cn } from '@repo/ui/utils';
+import { EllipsisVertical, Trash, Upload } from 'lucide-react';
+import { useBotKnowlegdeDelete } from '~/hooks/bot/useBotKnowlegdeDelete';
+import { set } from 'lodash';
+import { Loading } from '@repo/preline';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -26,7 +31,9 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const insertIntent = useBotKnowledgeIntentInsert();
   const updateKnowlegde = useBotKnowlegdeUpdate()
   const importKnowlegde = useBotKnowlegdeImport()
+  const deleteKnowlegde = useBotKnowlegdeDelete()
   const removeIntent = useBotKnowledgeIntentDelete();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setSearchIntent(searchParams.get('q') || '');
@@ -83,9 +90,48 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     }
   };
 
+  const handleStatusChange = async (status: 'draft' | 'published') => {
+    try {
+      updateKnowlegde.mutateAsync({
+        variables: {
+          key: knowledge.id as string,
+          data: {
+            status
+          }
+        }
+      })
+    } catch (error) {
+      console.error("Failed to update knowledge status:", error);
+      // Handle error (e.g., show error message to user)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true)
+      deleteKnowlegde.mutateAsync({
+        variables: {
+          key: knowledge.id as string
+        }
+      }).then(() => {
+        setTimeout(() => {
+          setLoading(false)
+          navigate(`/apps/bot/${bot.id}/knowledges`);
+        }, 2000);
+      })
+    } catch (error) {
+      console.error("Failed to delete knowledge:", error);
+      // Handle error (e.g., show error message to user)
+    }
+  }
+
   useEffect(() => {
     setIntents(knowledge?.intents || []);
   }, [knowledge?.intents])
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <>
@@ -99,10 +145,69 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               <h1 className="text-lg md:text-xl font-semibold text-stone-600 dark:text-neutral-200">
                 ({intents.length})
               </h1>
+              <div>
+                {/* drop down status */}
+                <div className="hs-dropdown relative inline-flex">
+                  <span className={cn("inline-flex cursor-pointer items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full", {
+                    'bg-yellow-100 text-yellow-800 dark:bg-red-500/10 dark:text-yellow-500': knowledge.status === 'draft',
+                    "bg-teal-100 text-teal-800 dark:bg-teal-500/10 dark:text-teal-500": knowledge.status === 'published',
+                  })}
+                  >
+                    <span className={cn("size-1.5 inline-block bg-gray-800 rounded-full dark:bg-neutral-200", {
+                      'bg-yellow-500': knowledge.status === 'draft',
+                      'bg-teal-500': knowledge.status === 'published',
+                    })} />
+                    {knowledge.status === 'draft' ? 'Draft' : 'Published'}
+                  </span>
+                  <div
+                    className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-48 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900"
+                    role="menu"
+                  >
+                    <div className="p-1">
+                      <button
+                        className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        onClick={() => handleStatusChange('draft')}
+                      >
+                        Draft
+                      </button>
+                      <button
+                        className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        onClick={() => handleStatusChange('published')}
+                      >
+                        Published
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <AddButton />
-              <ImportButton onClick={() => setShowImporter(!showImporter)} />
+              {/* drop down delete & import */}
+              <div className="hs-dropdown relative inline-flex">
+                <EllipsisVertical className='cursor-pointer' />
+                <div
+                  className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-48 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900"
+                  role="menu"
+                >
+                  <div className="p-1">
+                    <button
+                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={() => setShowImporter(!showImporter)}
+                    >
+                      <Upload className='size-4' />
+                      Import
+                    </button>
+                    <button
+                      className="flex w-full items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={handleDelete}
+                    >
+                      <Trash className='size-4' />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
