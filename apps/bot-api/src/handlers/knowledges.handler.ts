@@ -60,6 +60,12 @@ export const deleteBotKnowledgeHandler = factory.createHandlers(
     const knowledgeId = c.req.param("knowledgeId");
     const directus = c.get("directus");
     const textEmbedding = c.get("textEmbedding");
+    const item = await directus.request(
+      readItem("bots_knowledges", knowledgeId, {
+        fields: ["bot"],
+      })
+    );
+
     await directus.request(deleteItem("bots_knowledges", knowledgeId));
 
     await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
@@ -68,7 +74,7 @@ export const deleteBotKnowledgeHandler = factory.createHandlers(
       filters: { knowledge_id: knowledgeId },
     });
 
-    return c.json({ success: true });
+    return c.json({ success: true, ...item });
   }
 );
 

@@ -108,16 +108,14 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
   const handleDelete = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       deleteKnowlegde.mutateAsync({
         variables: {
           key: knowledge.id as string
         }
       }).then(() => {
-        setTimeout(() => {
-          setLoading(false)
-          navigate(`/apps/bot/${bot.id}/knowledges`);
-        }, 2000);
+        setLoading(false);
+        navigate(`/apps/bot/${bot.id}/knowledges`);
       })
     } catch (error) {
       console.error("Failed to delete knowledge:", error);

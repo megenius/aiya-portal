@@ -15,7 +15,7 @@ export function useBotKnowlegdeDelete() {
   return useMutation({
     mutationFn: ({ variables: { key } }: MutationFn) =>
       deleteBotKnowledge(key).then((response) => response.data),
-    onSuccess: (data: { id: string, bot: string }) => {
+    onSuccess: (data: { bot: string }) => {
       queryClient.invalidateQueries({
         queryKey: ["bots", data.bot, "knowledges"],
         exact: true,
