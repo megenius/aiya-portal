@@ -71,6 +71,42 @@ export const deleteBotKnowledgeHandler = factory.createHandlers(
     return c.json({ success: true });
   }
 );
+
+// update knowledge
+export const updateBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const directus = c.get("directus");
+    const textEmbedding = c.get("textEmbedding");
+    const body = await c.req.json<Partial<BotKnowledge>>();
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, body)
+    );
+
+    if (body.status === "draft") {
+      // update opensearch document
+      await textEmbedding.disableDocumentByMetadata({
+        knowledge_id: knowledgeId,
+      });
+    } else if (body.status === "published") {
+      // update opensearch document
+      await textEmbedding.enableDocumentByMetadata({
+        knowledge_id: knowledgeId,
+      });
+    }
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    return c.json(item);
+  }
+);
+
 // --------------------- intents ---------------------
 
 // get intent
@@ -210,7 +246,7 @@ export const deleteIntentHandler = factory.createHandlers(
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
         intents,
-        total_intent: intents.length
+        total_intent: intents.length,
       })
     );
 
@@ -314,6 +350,7 @@ export const importIntentHandler = factory.createHandlers(
         questions.map((question) => {
           return {
             body: {
+              operation: "addQuestion",
               text: question.question,
               bot_id: knowledge.bot,
               knowledge_id: knowledgeId,

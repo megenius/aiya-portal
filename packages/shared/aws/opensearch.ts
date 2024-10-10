@@ -78,6 +78,14 @@ interface SearchResponse<T> {
   };
 }
 
+interface UpdateByQueryParams {
+  index?: string;
+  body: {
+    script: any;
+    query: any;
+  };
+}
+
 interface IndexSettings {
   [key: string]: any;
   number_of_shards?: number;
@@ -263,8 +271,21 @@ export class OpenSearch {
 
     console.log("path", path);
     console.log("query", JSON.stringify(query));
-    
 
     return this.request<{ deleted: number }>(path, "POST", query);
+  }
+
+  // update by query
+  async updateByQuery<TQuery>(
+    params: UpdateByQueryParams<TQuery>
+  ): Promise<{ updated: number }> {
+    const { index, body } = params;
+    const { query } = body;
+    const path = `/${index || this.config.defaultIndex}/_update_by_query`;
+
+    console.log("path", path);
+    console.log("query", JSON.stringify(query));
+
+    return this.request<{ updated: number }>(path, "POST", body);
   }
 }

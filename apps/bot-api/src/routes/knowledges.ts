@@ -17,6 +17,11 @@ knowledgesRoutes.delete(
   "/:knowledgeId",
   ...KnowledgesHandler.deleteBotKnowledgeHandler
 );
+// update knowledge
+knowledgesRoutes.patch(
+  "/:knowledgeId",
+  ...KnowledgesHandler.updateBotKnowledgeHandler
+);
 
 // ----------------- intents -----------------
 
