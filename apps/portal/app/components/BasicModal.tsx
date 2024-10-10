@@ -1,3 +1,4 @@
+import { cn } from '@repo/ui/utils';
 import { HSOverlay } from 'preline/preline';
 import React, { ReactNode, useEffect, useRef } from 'react';
 
@@ -5,9 +6,10 @@ interface BasicModalProps {
   id: string;
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-const BasicModal: React.FC<BasicModalProps> = ({ id, title, children }) => {
+const BasicModal: React.FC<BasicModalProps> = ({ id, title, children, className }) => {
 
   return (
     <div
@@ -17,7 +19,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ id, title, children }) => {
       tabIndex={-1}
       aria-labelledby={`${id}-label`}
     >
-      <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto h-[calc(100%-3.5rem)] min-h-[calc(100%-3.5rem)] flex items-center">
+      <div className={cn("hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto h-[calc(100%-3.5rem)] min-h-[calc(100%-3.5rem)] flex items-center", className)}>
         <div className="w-full max-h-full flex flex-col bg-white rounded-xl pointer-events-auto shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)]">
           {/* Header */}
           <div className="py-2.5 px-4 flex justify-between items-center border-b">
