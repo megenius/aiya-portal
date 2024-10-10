@@ -1,6 +1,6 @@
 import { Avatar } from '@repo/preline/Avatar';
 import React, { useState } from 'react';
-import { Workspace } from '~/@types/app';
+import { Channel, PageInfo, Workspace } from '~/@types/app';
 import { useWorkspaceChannels } from '~/hooks/workspace/useWorkspaceChannels';
 import { getDirectusFileUrl } from '~/utils/files';
 import * as _ from 'lodash'
@@ -13,6 +13,10 @@ import { useFacebookSDK } from '~/hooks/useFacebookSDK';
 import { Loading } from '@repo/preline';
 import AddFacebookModal from './AddFacebookModal';
 import { useWorkspaceChannelFacebookInsert } from '~/hooks/workspace/useWorkspaceChannelFacebookInsert';
+import AddButtons from './AddButtons';
+import ChannelEditor from './ChannelEditor';
+import { Trash } from 'lucide-react';
+import { useWorkspaceChannelDelete } from '~/hooks/workspace/useWorkspaceChannelDelete';
 interface MainContentProps {
   workspace: Workspace
 }
@@ -23,7 +27,10 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const { data: channels, isLoading } = useWorkspaceChannels({ id: workspace?.id });
   const insertChannelLine = useWorkspaceChannelLineInsert();
   const insertChannelFacebook = useWorkspaceChannelFacebookInsert();
+  const deleteChannel = useWorkspaceChannelDelete();
   const [searchValue, setSearchValue] = useState('');
+  const { login, getPages } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID });
+  const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>([]);
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
@@ -40,6 +47,43 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }, [channels, searchValue]);
 
 
+  const handleFacebookLogin = async () => {
+    const offcanvas = document.getElementById(`add-facebook-modal`);
+    if (offcanvas) {
+      window.HSOverlay.open(offcanvas);
+    }
+
+    login().then((response) => {
+      getPages(response.authResponse?.accessToken).then((pages) => {
+        setPages(pages.map(page => ({
+          ...page,
+          checked: channels?.items?.some(channel => channel.provider_id === page.id) || false
+        })))
+      })
+    })
+  }
+
+  const handleDelete = (channel: Channel) => {
+    deleteChannel.mutateAsync({
+      variables: {
+        workspace_id: workspace.id as string,
+        channel_id: channel.id as string
+      }
+    })
+  }
+
+  // const onChannelClick = (channel: Channel) => {
+  //   setSelectedChannel(channel);
+
+  //   const offcanvas = document.getElementById(`channel-modal`);
+  //   console.log("offcanvas", offcanvas);
+
+  //   if (offcanvas) {
+  //     window.HSOverlay.open(offcanvas);
+  //   }
+  // }
+
+
   return (
     <>
       <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
@@ -54,30 +98,38 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         </div>
         {/* End Title */}
         <div className="space-y-5">
-          <MemberTableFilter onChanged={handleSearchChange} onLoadPages={(pages) => {
-            insertChannelFacebook.mutateAsync({
-              variables: {
-                workspaceId: workspace.id as string,
-                items: pages.map((page) => ({
-                  provider_id: page.id,
-                  provider_access_token: page.accessToken,
-                  provider_name: page.name,
-                  provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
-                  name: page.name,
-                  logo: page.pictureUrl,
-                  team: workspace.id as string,
-                  platform: 'Facebook',
-                  provider: "Facebook",
-                }))
-              }
-            })
-          }}
+          <MemberTableFilter
+            onChanged={handleSearchChange}
+            button={<AddButtons
+              onFacebookClick={handleFacebookLogin}
+            />}
+          // onLoadPages={(pages) => {
+          //   insertChannelFacebook.mutateAsync({
+          //     variables: {
+          //       workspaceId: workspace.id as string,
+          //       items: pages.map((page) => ({
+          //         provider_id: page.id,
+          //         provider_access_token: page.accessToken,
+          //         provider_name: page.name,
+          //         provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
+          //         name: page.name,
+          //         logo: page.pictureUrl,
+          //         team: workspace.id as string,
+          //         platform: 'Facebook',
+          //         provider: "Facebook",
+          //       }))
+          //     }
+          //   })
+          // }}
           />
           {/* End Filter Group */}
           <MemberStats channels={channels?.items} />
           {/* Table Section */}
           <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div className="min-w-full inline-block align-middle">
+              {/* Loader */}
+              {insertChannelFacebook.isPending && <Loading />}
+              {/* End Loader */}
               {/* Table */}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead>
@@ -103,15 +155,19 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                       </div>
                     </th>
                     {/* <th scope="col">
-                    <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      Status
-                    </div>
-                  </th> */}
+                      <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        Status
+                      </div>
+                    </th> */}
+                    <th scope="col" className="max-w-36">
+                      <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                   {filteredItems?.map((item) => (
-                    <tr key={item.id} className='cursor-pointer'>
+                    <tr key={item.id}>
                       <td className="size-px whitespace-nowrap pe-4 py-3">
                         <div className="w-full flex items-center gap-x-3">
                           <Avatar src={getDirectusFileUrl(item.logo as string,)} firstName={item.name as string} />
@@ -136,6 +192,9 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                         <span className="text-sm text-gray-600 dark:text-neutral-400">
                           {item.expired_at ? formatDistance(new Date(), new Date(item.expired_at)) : "Never"}
                         </span>
+                      </td>
+                      <td className="size-px whitespace-nowrap px-4 py-3">
+                        <Trash className="cursor-pointer w-4 text-red-300" onClick={() => handleDelete(item)} />
                       </td>
                       {/* <td className="size-px whitespace-nowrap px-4 py-3">
                         <span className="inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
@@ -166,8 +225,39 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           }
         })
       }} />
+      <AddFacebookModal id='add-facebook-modal' pages={pages} onOk={(selectedPages) => {
+        insertChannelFacebook.mutateAsync({
+          variables: {
+            workspaceId: workspace.id as string,
+            items: selectedPages.map((page) => ({
+              provider_id: page.id,
+              provider_access_token: page.accessToken,
+              provider_name: page.name,
+              provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
+              name: page.name,
+              logo: page.pictureUrl,
+              team: workspace.id as string,
+              platform: 'Facebook',
+              provider: "Facebook",
+            }))
+          }
+        }).then(() => {
+          setPages(pages.map(page => {
+            if (selectedPages.some(selectedPage => selectedPage.id === page.id)) {
+              return {
+                ...page,
+                checked: true
+              }
+            }
+            return page;
+          }))
+        })
+      }} />
+      {/* <ChannelEditor id="channel-modal" channel={selectedChannel} /> */}
     </>
   )
 };
 
 export default MainContent;
+
+

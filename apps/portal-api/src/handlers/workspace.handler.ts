@@ -42,7 +42,7 @@ export const getWorkspaces = factory.createHandlers(
       const directus = c.get("directus");
 
       console.log("parsedQuery", parsedQuery);
-      
+
       const items = await directus.request(
         readItems("saas_teams", {
           filter: {
@@ -298,6 +298,30 @@ export const getWorkspaceChannels = factory.createHandlers(
   }
 );
 
+//delete workspace channel
+export const deleteWorkspaceChannel = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const channelId = c.req.param("channelId") as string;
+      
+      const directus = c.get("directus");
+      await directus.request(
+        updateItem("saas_teams", workspaceId, {
+          channels: {
+            delete: [channelId],
+          },
+        })
+      );
+      return c.json({ workspace_id: workspaceId, channel_id: channelId });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
 // --------------- WORKSPACE CHANNELS LINE  ---------------
 //create workspace channel line
 export const createWorkspaceChannelLine = factory.createHandlers(
@@ -355,7 +379,7 @@ export const createWorkspaceChannelLine = factory.createHandlers(
           logo: fileId,
           date_created: new Date(),
           date_updated: new Date(),
-          forward_urls: []
+          forward_urls: [],
         })
       );
 

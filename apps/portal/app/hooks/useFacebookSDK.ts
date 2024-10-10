@@ -115,10 +115,10 @@ export function useFacebookSDK({
         autoLogAppEvents,
         xfbml,
         version,
-      })
+      });
 
       console.log("Facebook SDK initialized", appId, version);
-      
+
       setIsInitialized(true);
 
       window.FB?.AppEvents.logPageView();
@@ -137,32 +137,40 @@ export function useFacebookSDK({
           return;
         }
 
-        window.FB.login((response) => {
-          console.log("Login response:", response);
-
+        window.FB.getLoginStatus((response) => {
           if (response.status === "connected") {
             setLoginStatus(response);
-
-            console.log("Auth response:", response.authResponse);
-            
-            if (response.authResponse) {
-              const { code, accessToken } = response.authResponse;
-              fetchExchageToken({ code, shortLivedToken: accessToken }).then(
-                (data) => {
-                  console.log("Long-lived token received:", data);
-                  const authResponse = {
-                    ...response.authResponse,
-                    ...data,
-                  } as any;
-                  setAccessToken(authResponse.accessToken);
-                  resolve({ ...response, authResponse });
-                }
-              );
-            }
+            resolve(response);
           } else {
-            reject(new Error("Facebook login failed"));
+            window.FB?.login((response) => {
+              console.log("Login response:", response);
+
+              if (response.status === "connected") {
+                setLoginStatus(response);
+
+                console.log("Auth response:", response.authResponse);
+
+                if (response.authResponse) {
+                  const { code, accessToken } = response.authResponse;
+                  fetchExchageToken({
+                    code,
+                    shortLivedToken: accessToken,
+                  }).then((data) => {
+                    console.log("Long-lived token received:", data);
+                    const authResponse = {
+                      ...response.authResponse,
+                      ...data,
+                    } as any;
+                    setAccessToken(authResponse.accessToken);
+                    resolve({ ...response, authResponse });
+                  });
+                }
+              } else {
+                reject(new Error("Facebook login failed"));
+              }
+            }, options);
           }
-        }, options);
+        });
       });
     },
     [fetcher]

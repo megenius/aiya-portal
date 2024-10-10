@@ -38,6 +38,11 @@ export const fetchWorkspaceMembers = (id: string) =>
 export const fetchWorkspaceChannels = (id: string) =>
   api.get<{ items: WorkspaceChannel[] }>("/workspaces/" + id + "/channels");
 
+export const deleteWorkspaceChannel = (
+  workspaceId: string,
+  channelId: string
+) => api.delete("/workspaces/" + workspaceId + "/channels/" + channelId);
+
 export const fetchWorkspaceBots = (id: string) =>
   api.get<{ items: WorkspaceBot[] }>("/workspaces/" + id + "/bots");
 
