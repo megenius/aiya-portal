@@ -6,7 +6,8 @@ const botsRoutes = new Hono<Env>();
 
 botsRoutes.get("/:id", ...BotsHandler.getBotHandler);
 botsRoutes.patch("/:id", ...BotsHandler.updateBotHandler);
-// botsRoutes.post("/:id/logs", BotsHandler.logBot);
+botsRoutes.post("/:id/logs", ...BotsHandler.logsHandler);
+
 botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 // botsRoutes.delete("/:id/channels", BotsHandler.deleteBotChannel);
 
@@ -20,5 +21,6 @@ botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 botsRoutes.delete("/:id/channels", ...BotsHandler.deleteBotChannelHandler);
 
 botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
+
 
 export { botsRoutes };

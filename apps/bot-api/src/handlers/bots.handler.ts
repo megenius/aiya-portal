@@ -304,3 +304,12 @@ export const webhookHandler = factory.createHandlers(logger(), async (c) => {
 
   return c.json({});
 });
+
+
+// logs ----------------------------------------------------------
+export const logsHandler = factory.createHandlers(logger(), async (c) => {
+  const body = await c.req.json();
+  console.log("logsHandler", JSON.stringify(body, null, 2));
+
+  return c.json({});
+});
