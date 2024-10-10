@@ -43,7 +43,7 @@ mode = "smart"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
-FB_APP_ID = "788582819272015"
+FB_APP_ID = "879998535846224"
 BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
 LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
 
@@ -55,4 +55,4 @@ bucket_name = "bot-message"
 
 [[env.prod.kv_namespaces]]
 binding = "CACHING"
-id = "088f1972ae4347179a232a198ad780c0"
+id = "b494201ff6b74231a02c94891f805ba7"
