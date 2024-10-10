@@ -21,7 +21,7 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
   const [importStats, setImportStats] = useState<ImportStats>({ success: 0, errors: 0 });
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       processFile(acceptedFiles[0]);
@@ -58,21 +58,27 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
       data = JSON.parse(text);
     }
 
+    if (data.length === 0) {
+      return;
+    }
+
+    console.log(data);
+
+
     const transformedData = data.map(item => ({
       name: item.name.trim(),
       intent: item.intent.trim(),
-      quick_reply: item.quick_reply.trim(),
-      questions: item.questions.split('####')
-        .map((q: string) => q.trim())
-        .filter((q: string) => q !== ''),
-      answers: item.answers.split('####')
-        .map((r: string) => r.trim())
-        .filter((r: string) => r !== ''),
-      tags: item.tags.split('####')
-        .map((t: string) => t.trim())
-        .filter((t: string) => t !== ''),
+      quick_reply: item.quick_reply?.trim(),
+      questions: Array.isArray(item.questions)
+        ? item.questions.map(q => q.trim()).filter(q => q !== '')
+        : item.questions.split('####').map(q => q.trim()).filter(q => q !== ''),
+      answers: Array.isArray(item.answers)
+        ? item.answers.map(a => a.trim()).filter(a => a !== '')
+        : item.answers.split('####').map(a => a.trim()).filter(a => a !== ''),
+      tags: Array.isArray(item.tags)
+        ? item.tags.map(t => t.trim()).filter(t => t !== '')
+        : item.tags.split('####').map(t => t.trim()).filter(t => t !== ''),
     }));
-
     setPreviewData(transformedData.slice(0, 5));
     setTransformedData(transformedData);
   };
@@ -195,7 +201,7 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Quick Reply</th>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tags</th>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Questions</th>
-                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Responses</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Answers</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
