@@ -56,7 +56,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
         intent_id: intentId
       }
     })
-    
+
   }, [intents, knowledge.id]);
 
 
@@ -72,7 +72,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
       importKnowlegde.mutateAsync({
         variables: {
           knowledge_id: knowledge.id as string,
-          intents: updatedIntents
+          intents: newIntents
         }
       })
 
@@ -162,7 +162,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             })
           }}
         />
-        
+
       </div>
     </>
   );

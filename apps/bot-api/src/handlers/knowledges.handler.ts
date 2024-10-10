@@ -269,7 +269,7 @@ export const importIntentHandler = factory.createHandlers(
         questions: questions.map((question) => {
           return {
             id: randomHexString(8),
-            question: question.trim(),
+            question: question?.trim(),
           };
         }),
         responses: responses.map((response) => {
