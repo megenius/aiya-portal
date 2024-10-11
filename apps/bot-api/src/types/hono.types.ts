@@ -2,6 +2,7 @@ import { KVNamespace, Queue, Vectorize, R2Bucket } from "@cloudflare/workers-typ
 import { BotIntent, BotKnowledge } from "./app";
 import { ClientType, AdminClientType } from "~/utils/directus";
 import { TextEmbedding } from "@repo/shared/utils";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface Env {
   Bindings: WorkerEnv;
@@ -12,5 +13,6 @@ export interface Env {
     textEmbedding: TextEmbedding;
     directus: ClientType;
     directAdmin: AdminClientType;
+    supabase: SupabaseClient
   };
 }

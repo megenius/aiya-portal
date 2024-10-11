@@ -284,3 +284,20 @@ export interface AdInsight {
   purchase: number;
   purchase_value: number;
 }
+
+export interface BotLog {
+  id: number;
+  created: string;
+  bot_id: string;
+  confidence: number;
+  intent: string;
+  sentence: string;
+  answer: string;
+  input_tokens: number;
+  output_tokens: number;
+  social_id: string;
+  platform: string;
+  rag_intents: any[];
+  lang: any;
+  fallback: number;
+}
