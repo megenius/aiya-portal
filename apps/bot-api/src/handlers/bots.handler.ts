@@ -207,7 +207,7 @@ export const searchBotHandler = factory.createHandlers(
     if (!query) {
       return c.json({ message: "q is required" });
     }
-    // console.log("searchBotHandler", query, k, platform);
+    console.log("searchBotHandler", query, k, platform);
     const textEmbedding = c.get("textEmbedding");
     const response = await textEmbedding.search(query, {
       topK: k,
@@ -306,9 +306,15 @@ export const webhookHandler = factory.createHandlers(logger(), async (c) => {
 
 
 // logs ----------------------------------------------------------
-export const logsHandler = factory.createHandlers(logger(), async (c) => {
+export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
   const body = await c.req.json();
   console.log("logsHandler", JSON.stringify(body, null, 2));
+
+  return c.json({});
+});
+
+export const getLogsHandler = factory.createHandlers(logger(), async (c) => {
+  console.log("getLogsHandler")
 
   return c.json({});
 });

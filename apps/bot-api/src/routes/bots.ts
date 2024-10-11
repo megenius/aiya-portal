@@ -1,12 +1,13 @@
 import { Hono } from "hono";
 import * as BotsHandler from "../handlers/bots.handler";
+import insightsRoutes from "./insights";
 import { Env } from "~/types/hono.types";
 
 const botsRoutes = new Hono<Env>();
 
 botsRoutes.get("/:id", ...BotsHandler.getBotHandler);
 botsRoutes.patch("/:id", ...BotsHandler.updateBotHandler);
-botsRoutes.post("/:id/logs", ...BotsHandler.logsHandler);
+botsRoutes.post("/:id/logs", ...BotsHandler.insertLogsHandler);
 
 botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 // botsRoutes.delete("/:id/channels", BotsHandler.deleteBotChannel);
@@ -22,5 +23,6 @@ botsRoutes.delete("/:id/channels", ...BotsHandler.deleteBotChannelHandler);
 
 botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
 
+botsRoutes.route("/:id/insights", insightsRoutes);
 
 export { botsRoutes };

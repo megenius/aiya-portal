@@ -12,6 +12,7 @@
     "@hono/zod-validator": "^0.2.2",
     "@line/bot-sdk": "^9.3.0",
     "@repo/shared": "*",
+    "@supabase/supabase-js": "^2.45.4",
     "aws4fetch": "^1.0.20",
     "change-case": "^5.4.4",
     "date-fns": "^3.6.0",

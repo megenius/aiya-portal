@@ -4,6 +4,7 @@ import {
   BotIntent,
   BotKnowledge,
   BotKnowledgeUpdate,
+  BotLog,
   BotUpdate,
   Channel,
   ChannelBot,
@@ -192,3 +193,11 @@ export const duplicateBotKnowledgeIntentResponse = (data: {
   api.post<BotKnowledge>(
     `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response_id}/duplicate`
   );
+
+// insight logs
+export const fetchBotInsightLogs = (botId: string) =>
+  api.get<{
+    start: string;
+    end: string;
+    data: BotLog[];
+  }>(`/bots/${botId}/insights/logs`);
