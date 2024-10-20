@@ -57,7 +57,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   Intent
                 </div>
               </th>
-              <th scope="col">
+              <th scope="col"  className="max-w-lg">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Question
                 </div>
@@ -101,7 +101,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </span>
                   </div>
                 </td>
-                <td className="size-px whitespace-nowrap px-4 py-3">
+                <td className="size-px whitespace-nowrap px-4 py-3 text-wrap">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {item.sentence}
                   </span>
