@@ -10,9 +10,21 @@ const webhookRouter = new Hono<{
   Bindings: Bindings;
 }>();
 
+const ACRM_ENDPOINT_URL =
+  "https://cju6s6uzwk.execute-api.ap-southeast-1.amazonaws.com/prod/sender";
+
+const forwarToACRM = (body: any) => {
+  return fetch(ACRM_ENDPOINT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+};
+
 webhookRouter
   .post("/", async (c) => {
-
     const body: WebhookFacebookEvent = await c.req.json();
     await Promise.all([
       ...body.entry.map((entry) => {
@@ -34,6 +46,7 @@ webhookRouter
           })
         );
       }),
+      forwarToACRM(body),
       // logEventHandler(c, body),
       // forwardEventHandler(c, body, []),
     ]);

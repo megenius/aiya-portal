@@ -19,6 +19,7 @@ export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
   feature_flags: FeatureFlags;
 };
 export type Bot = components["schemas"]["ItemsBots"];
+export type BotMutedUser = components["schemas"]["ItemsBotsMutedUsers"];
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
 export type ChannelDatasets = components["schemas"]["ItemsChannelsDatasets"];

@@ -25,4 +25,8 @@ botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
 
 botsRoutes.route("/:id/insights", insightsRoutes);
 
+
+//get muted users
+botsRoutes.get("/:id/muted-users", ...BotsHandler.getMutedUsersHandler);
+
 export { botsRoutes };

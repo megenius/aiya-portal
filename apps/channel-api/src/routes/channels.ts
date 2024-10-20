@@ -32,6 +32,7 @@ const channelsRoutes = new Hono<Env>()
               "bots.bot_id": [
                 "*",
                 { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
+                { muted_users: ["uid"] },
               ],
             },
             {
