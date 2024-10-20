@@ -137,40 +137,69 @@ export function useFacebookSDK({
           return;
         }
 
-        window.FB.getLoginStatus((response) => {
+        window.FB?.login((response) => {
+          console.log("Login response:", response);
+
           if (response.status === "connected") {
             setLoginStatus(response);
-            resolve(response);
+
+            console.log("Auth response:", response.authResponse);
+
+            if (response.authResponse) {
+              const { code, accessToken } = response.authResponse;
+              fetchExchageToken({
+                code,
+                shortLivedToken: accessToken,
+              }).then((data) => {
+                console.log("Long-lived token received:", data);
+                const authResponse = {
+                  ...response.authResponse,
+                  ...data,
+                } as any;
+                setAccessToken(authResponse.accessToken);
+                resolve({ ...response, authResponse });
+              });
+            }
           } else {
-            window.FB?.login((response) => {
-              console.log("Login response:", response);
-
-              if (response.status === "connected") {
-                setLoginStatus(response);
-
-                console.log("Auth response:", response.authResponse);
-
-                if (response.authResponse) {
-                  const { code, accessToken } = response.authResponse;
-                  fetchExchageToken({
-                    code,
-                    shortLivedToken: accessToken,
-                  }).then((data) => {
-                    console.log("Long-lived token received:", data);
-                    const authResponse = {
-                      ...response.authResponse,
-                      ...data,
-                    } as any;
-                    setAccessToken(authResponse.accessToken);
-                    resolve({ ...response, authResponse });
-                  });
-                }
-              } else {
-                reject(new Error("Facebook login failed"));
-              }
-            }, options);
+            reject(new Error("Facebook login failed"));
           }
-        });
+        }, options);
+
+        // window.FB.getLoginStatus((response) => {
+        //   console.log("Login status:", response);
+        //   if (response.status === "connected") {
+        //     setLoginStatus(response);
+        //     resolve(response);
+        //   } else {
+        //     window.FB?.login((response) => {
+        //       console.log("Login response:", response);
+
+        //       if (response.status === "connected") {
+        //         setLoginStatus(response);
+
+        //         console.log("Auth response:", response.authResponse);
+
+        //         if (response.authResponse) {
+        //           const { code, accessToken } = response.authResponse;
+        //           fetchExchageToken({
+        //             code,
+        //             shortLivedToken: accessToken,
+        //           }).then((data) => {
+        //             console.log("Long-lived token received:", data);
+        //             const authResponse = {
+        //               ...response.authResponse,
+        //               ...data,
+        //             } as any;
+        //             setAccessToken(authResponse.accessToken);
+        //             resolve({ ...response, authResponse });
+        //           });
+        //         }
+        //       } else {
+        //         reject(new Error("Facebook login failed"));
+        //       }
+        //     }, options);
+        //   }
+        // });
       });
     },
     [fetcher]
@@ -253,6 +282,7 @@ export function useFacebookSDK({
 
       window.FB?.api(url, "get", (res: any) => {
         console.log(res);
+
         const pages = res.data.map((p) => {
           return {
             id: p.id,

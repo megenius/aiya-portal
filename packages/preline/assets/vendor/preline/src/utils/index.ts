@@ -1,3 +1,10 @@
+/*
+ * @version: 2.5.0
+ * @author: Preline Labs Ltd.
+ * @license: Licensed under MIT and Preline UI Fair Use License (https://preline.co/docs/license.html)
+ * Copyright 2024 Preline Labs Ltd.
+ */
+
 const stringToBoolean = (string: string): boolean => {
 	return string === 'true' ? true : false;
 };
@@ -66,6 +73,16 @@ const isIpadOS = () => {
 		navigator.maxTouchPoints > 2 &&
 		/MacIntel/.test(navigator.platform)
 	);
+};
+
+const isDirectChild = (parent: Element, child: HTMLElement) => {
+	const children = parent.children;
+
+	for (let i = 0; i < children.length; i++) {
+		if (children[i] === child) return true;
+	}
+
+	return false;
 };
 
 const isEnoughSpace = (
@@ -143,9 +160,16 @@ const afterTransition = (el: HTMLElement, callback: Function) => {
 
 		el.removeEventListener('transitionend', handleEvent, true);
 	};
+
+	const computedStyle = window.getComputedStyle(el);
+	const transitionDuration = computedStyle.getPropertyValue(
+		'transition-duration',
+	);
+	const transitionProperty = computedStyle.getPropertyValue(
+		'transition-property',
+	);
 	const hasTransition =
-		window.getComputedStyle(el, null).getPropertyValue('transition') !==
-		(navigator.userAgent.includes('Firefox') ? 'all' : 'all 0s ease 0s');
+		transitionProperty !== 'none' && parseFloat(transitionDuration) > 0;
 
 	if (hasTransition) el.addEventListener('transitionend', handleEvent, true);
 	else callback();
@@ -198,6 +222,7 @@ export {
 	isEnoughSpace,
 	isParentOrElementHidden,
 	isFormElement,
+	isDirectChild,
 	debounce,
 	dispatch,
 	afterTransition,

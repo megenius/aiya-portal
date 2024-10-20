@@ -22,22 +22,23 @@ import { hasItemUpdated } from "~/utils/kv";
 import { getKnowledge } from "~/services/knowledge.service";
 import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
 import { transformData } from "~/utils/datasource";
+import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 
 const factory = createFactory<Env>();
 
 export const getBotHandler = factory.createHandlers(
-  cachingMiddleware({
-    ttl: 60 * 60,
-    revalidate: async (c: Context<Env>, cachedData: any) => {
-      if (c.req.query("refresh") === "true") {
-        return true;
-      }
+  // cachingMiddleware({
+  //   ttl: 60 * 60,
+  //   revalidate: async (c: Context<Env>, cachedData: any) => {
+  //     if (c.req.query("refresh") === "true") {
+  //       return true;
+  //     }
 
-      return hasItemUpdated(c, cachedData, (c) =>
-        ["bots", c.req.param("id")].join("|")
-      );
-    },
-  }),
+  //     return hasItemUpdated(c, cachedData, (c) =>
+  //       ["bots", c.req.param("id")].join("|")
+  //     );
+  //   },
+  // }),
   logger(),
   directusMiddleware,
   async (c) => {
@@ -49,6 +50,8 @@ export const getBotHandler = factory.createHandlers(
           "*",
           // @ts-ignore
           { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
+          // @ts-ignore
+          { muted_users: ["uid"] },
         ],
       })
     );
@@ -87,7 +90,6 @@ export const getBotChannelsHandler = factory.createHandlers(
       const directus = c.get("directus");
 
       console.log("getBotChannelsHandler", id);
-      
 
       const item = await directus.request<{
         team: { channels: Array<Partial<Channel>> };
@@ -207,7 +209,7 @@ export const searchBotHandler = factory.createHandlers(
     if (!query) {
       return c.json({ message: "q is required" });
     }
-    console.log("searchBotHandler", query, k, platform);
+    // console.log("searchBotHandler", query, k, platform);
     const textEmbedding = c.get("textEmbedding");
     const response = await textEmbedding.search(query, {
       topK: k,
@@ -216,9 +218,9 @@ export const searchBotHandler = factory.createHandlers(
 
     const matches = await Promise.all(
       response.map(async (x) => {
-        const cacheKey = ["bots_knowledges", x.metadata?.knowledge_id].join(
-          "|"
-        );
+        // const cacheKey = ["bots_knowledges", x.metadata?.knowledge_id].join(
+        //   "|"
+        // );
         // let knowledge = await c.env.CACHING.get<BotKnowledge>(cacheKey, "json");
 
         // if (!knowledge) {
@@ -297,13 +299,33 @@ export const searchBotHandler = factory.createHandlers(
 );
 
 // webhook ----------------------------------------------------------
-export const webhookHandler = factory.createHandlers(logger(), async (c) => {
-  const body = await c.req.json();
-  console.log("webhookHandler", JSON.stringify(body, null, 2));
+export const webhookHandler = factory.createHandlers(
+  logger(),
+  opensearchMiddleware,
+  async (c) => {
+    const body = await c.req.json();
+    console.log("webhookHandler", JSON.stringify(body, null, 2));
+    const opensearch = c.get("opensearch");
+    const event_type = body.event_type;
+    let payload = _.omit(body, ["event_type"]) as any;
+    payload = { ...payload, created_at: new Date().toISOString() };
 
-  return c.json({});
-});
+    try {
+      if (event_type === "bots_logs") {
+        await opensearch.index(event_type, payload, crypto.randomUUID());
+      } else if (event_type === "slip") {
+        await opensearch.index(event_type, payload, crypto.randomUUID());
+      } else {
+        await opensearch.index("bots_logs", payload, crypto.randomUUID());
+      }
+    } catch (error) {
+      console.error("webhookHandler", error);
+    }
+    // event type
 
+    return c.json({});
+  }
+);
 
 // logs ----------------------------------------------------------
 export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
@@ -314,7 +336,29 @@ export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
 });
 
 export const getLogsHandler = factory.createHandlers(logger(), async (c) => {
-  console.log("getLogsHandler")
+  console.log("getLogsHandler");
 
   return c.json({});
 });
+
+
+// getMutedUsersHandler
+export const getMutedUsersHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    console.log("getMutedUsersHandler");
+    
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+
+    const items = await directus.request(
+      readItems("bots_muted_users", {
+        fields: ["uid"],
+        filter: { bot: botId },
+      })
+    );
+
+    return c.json(items);
+  }
+);

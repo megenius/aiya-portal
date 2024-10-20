@@ -120,12 +120,15 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       },
     };
 
+    console.log("searchBody", JSON.stringify(searchBody, null, 2));
+    
+
     const searchResponse = await this.openSearch.search<EmbeddingDocument<T>>({
       index: this.index,
       body: searchBody,
     });
 
-    // console.log("searchResponse", searchResponse);
+    // console.log("searchResponse", searchResponse.hits.hits.map((hit) => hit._score));
 
     return searchResponse.hits.hits.map((hit) => ({
       id: hit._source.id,

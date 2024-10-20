@@ -52,8 +52,14 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     if (offcanvas) {
       window.HSOverlay.open(offcanvas);
     }
-
-    login().then((response) => {
+    const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
+    console.log("configId", configId);
+    
+    login({
+      config_id: configId,
+      response_type: 'code',
+      override_default_response_type: true
+    }).then((response) => {
       getPages(response.authResponse?.accessToken).then((pages) => {
         setPages(pages.map(page => ({
           ...page,

@@ -2,7 +2,10 @@ import { useParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
 import { format } from 'date-fns';
 import React from 'react';
+import { toast } from 'react-toastify';
+import { useBotUpdate } from '~/hooks/bot';
 import { useBotLogs } from '~/hooks/bot/useBotLogs';
+import { useBotMutedUsersInsert } from '~/hooks/bot/useBotMutedUsersInsert';
 
 interface MainContentProps {
 
@@ -11,6 +14,16 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = () => {
   const { botId } = useParams();
   const { data: logs, isLoading } = useBotLogs({ id: botId });
+  const muteUser = useBotMutedUsersInsert()
+
+  const handleMute = (socialId: string) => {
+    muteUser.mutateAsync({
+      bot: botId as string,
+      uid: socialId
+    }).then(() => {
+      toast.success('User muted successfully')
+    })
+  }
 
   if (isLoading) {
     return <Loading />;
@@ -47,6 +60,11 @@ const MainContent: React.FC<MainContentProps> = () => {
               <th scope="col">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Question
+                </div>
+              </th>
+              <th scope="col">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Social ID
                 </div>
               </th>
               {/* <th scope="col">
@@ -87,6 +105,14 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {item.sentence}
                   </span>
+                </td>
+                <td className="size-px whitespace-nowrap px-4 py-3">
+                  <span className="text-sm text-gray-600 dark:text-neutral-400">
+                    {item.social_id}
+                  </span>
+                  <div> <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => {
+                    handleMute(item.social_id)
+                  }}>Mute</button></div>
                 </td>
                 {/* <td className="size-px px-4 py-3">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">

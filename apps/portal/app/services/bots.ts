@@ -5,6 +5,7 @@ import {
   BotKnowledge,
   BotKnowledgeUpdate,
   BotLog,
+  BotMutedUser,
   BotUpdate,
   Channel,
   ChannelBot,
@@ -201,3 +202,7 @@ export const fetchBotInsightLogs = (botId: string) =>
     end: string;
     data: BotLog[];
   }>(`/bots/${botId}/insights/logs`);
+
+
+  // --------------- muted users ---------------
+  export const insertBotMutedUser = (data: BotMutedUser) => api.post("/items/bots_muted_users", data);
