@@ -130,7 +130,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 </label>
                 <a
                   className="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline"
-                  href="#"
+                  href="/auth/reset-password"
                 >
                   I forgot my password
                 </a>

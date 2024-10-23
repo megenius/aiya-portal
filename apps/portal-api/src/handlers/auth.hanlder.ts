@@ -163,3 +163,38 @@ export const registerUserVerify = factory.createHandlers(
     }
   }
 );
+
+//resetPassword
+export const resetPasswordRequest = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    const { email } = await c.req.json();
+    try {
+      const directus = c.get("directAdmin");
+      await directus.request(
+        sdk.passwordRequest(email, `${c.env.PORTAL_URL}/auth/change-password`)
+      );
+      return c.json({});
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "reset-password failed" }, 500);
+    }
+  }
+);
+
+export const resetPassword = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    const { token, password } = await c.req.json();
+    try {
+      const directus = c.get("directAdmin");
+      await directus.request(sdk.passwordReset(token, password));
+      return c.json({});
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "reset-password failed" }, 500);
+    }
+  }
+);

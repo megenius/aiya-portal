@@ -9,6 +9,8 @@ const authRoutes = new Hono<Env>()
   .post("/refresh", ...AuthHandler.refresh)
   .post("/logout", ...AuthHandler.logout)
   .post("/signup", ...AuthHandler.registerUser)
-  .post("/verify-email", ...AuthHandler.registerUserVerify);
+  .post("/verify-email", ...AuthHandler.registerUserVerify)
+  .post("/reset-password-request", ...AuthHandler.resetPasswordRequest)
+  .post("/reset-password", ...AuthHandler.resetPassword);
 
 export { authRoutes };
