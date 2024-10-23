@@ -10,7 +10,7 @@ interface MemberStatsProps {
 const MemberStats: React.FC<MemberStatsProps> = ({ members = [] }) => {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 xl:gap-4">
-      <Card members={members} title='Admin' role='administrator' />
+      <Card members={members} title='Admin' role='Administrator' />
       <Card members={members} title='Operator' role='operator' />
       <Card members={members} title='Agent' role='agent' />
       {/* <Card members={members} title='Unassigned' role='' /> */}

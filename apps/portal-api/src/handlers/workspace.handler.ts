@@ -56,7 +56,7 @@ export const getWorkspaces = factory.createHandlers(
           sort: ["-date_updated"],
         })
       );
-      return c.json({ total: items?.length , items, });
+      return c.json({ total: items?.length, items });
     } catch (error) {
       console.error(error);
       throw DirectusError.fromDirectusResponse(error);
@@ -148,11 +148,6 @@ export const getWorkspaceMembers = factory.createHandlers(
       const directus = c.get("directus");
       const users = await directus.request(
         readItems("saas_teams_users", {
-          filter: {
-            team_id: {
-              _eq: workspaceId,
-            },
-          },
           fields: [
             "role",
             "date_accepted",
@@ -167,6 +162,11 @@ export const getWorkspaceMembers = factory.createHandlers(
               ],
             },
           ],
+          filter: {
+            team_id: {
+              _eq: workspaceId,
+            },
+          },
         })
       );
 
