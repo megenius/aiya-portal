@@ -9,7 +9,10 @@ const Route = () => {
   const verifyEmail = useVerifyEmail()
 
   const onProceed = useCallback((token: string) => {
-    verifyEmail.mutateAsync({ variables: { token } })
+    verifyEmail.mutateAsync({ variables: { token } }).then(() => {
+      console.log('Email verified')
+      window.location.href = `/auth/sign-in`
+    })
   }, [verifyEmail])
 
   useEffect(() => {
