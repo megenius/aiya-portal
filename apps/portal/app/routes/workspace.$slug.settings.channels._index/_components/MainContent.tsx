@@ -48,25 +48,29 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
 
 
   const handleFacebookLogin = async () => {
-    const offcanvas = document.getElementById(`add-facebook-modal`);
-    if (offcanvas) {
-      window.HSOverlay.open(offcanvas);
-    }
     const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
     console.log("configId", configId);
-    
-    login({
-      config_id: configId,
-      response_type: 'code',
-      override_default_response_type: true
-    }).then((response) => {
-      getPages(response.authResponse?.accessToken).then((pages) => {
-        setPages(pages.map(page => ({
-          ...page,
-          checked: channels?.items?.some(channel => channel.provider_id === page.id) || false
-        })))
+
+    // login({
+    //   config_id: configId,
+    //   response_type: 'code',
+    //   override_default_response_type: true
+    // })
+    login()
+      .then((response) => {
+        getPages(response.authResponse?.accessToken).then((pages) => {
+
+          const offcanvas = document.getElementById(`add-facebook-modal`);
+          if (offcanvas) {
+            window.HSOverlay.open(offcanvas);
+          }
+
+          setPages(pages.map(page => ({
+            ...page,
+            checked: channels?.items?.some(channel => channel.provider_id === page.id) || false
+          })))
+        })
       })
-    })
   }
 
   const handleDelete = (channel: Channel) => {
