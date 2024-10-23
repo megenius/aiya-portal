@@ -13,13 +13,15 @@ import { cache } from "hono/cache";
 import { Env } from "./types/hono.types";
 import { s3Routes } from "./routes/s3";
 import { cors } from "hono/cors";
+import { usersRoutes } from "./routes/users";
 
 const app = new Hono<Env>()
   .basePath("/api")
   .use("*", async (c, next) => {
   if (
     !c.req.path.startsWith("/api/auth") &&
-    !c.req.path.startsWith("/api/files")
+    !c.req.path.startsWith("/api/files") &&
+    !c.req.path.startsWith("/api/users")
   ) {
     return authMiddleware(c, next);
   }
@@ -53,6 +55,7 @@ app
   .route("/facebook", facebookRoutes)
   .route("/s3", s3Routes)
   .route("/vouchers", voucherRoutes)
+  .route("/users", usersRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

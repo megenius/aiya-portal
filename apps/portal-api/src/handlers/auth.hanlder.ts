@@ -97,17 +97,52 @@ export const registerUser = factory.createHandlers(
     try {
       const directus = c.get("directus");
       await directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
-      await directus.request(
-        sdk.registerUser(email, password, {
-          verification_url: `${c.env.PORTAL_URL}/verify-email`,
-          first_name,
-          last_name,
+
+      const users = await directus.request(
+        sdk.readUsers({
+          fields: ["id", "email"],
+          filter: {
+            email: {
+              _eq: email,
+            },
+          },
         })
       );
-      return c.json({});
-    } catch (error) {
+
+      if (users.length > 0) {
+        return c.json({ error: "User already exists" }, 400);
+      }
+
+      const userId = await directus
+        .request(
+          sdk.registerUser(email, password, {
+            verification_url: `${c.env.PORTAL_URL}/verify-email`,
+            first_name,
+            last_name,
+          })
+        )
+        .then(async (res) => {
+          const users = await directus.request(
+            sdk.readUsers({
+              fields: ["id", "email"],
+              filter: {
+                email: {
+                  _eq: email,
+                },
+              },
+            })
+          );
+
+          if (users.length > 0) {
+            const user = users[0];
+            return user.id;
+          }
+        });
+
+      return c.json({ id: userId });
+    } catch (error: any) {
       console.error(error);
-      return c.json({ error: "sign-up failed" }, 500);
+      return c.json(error, error.status || 500);
     }
   }
 );
