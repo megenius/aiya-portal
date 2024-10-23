@@ -23,14 +23,22 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     setSearchValue(value);
   };
 
-  const handleInviteMember = (emails: string[], role: string = "Administrator") => {
-    inviteMember.mutateAsync({
-      workspaceId: workspace.id as string,
-      emails,
-      role
-    }).then(() => {
-      toast.success("Invitation sent successfully");
-    });
+  const handleInviteMember = (emails: string[], role: string = "administrator") => {
+
+    // remove existing members
+    const existingMembers = members?.items?.map(member => member.email);
+    emails = emails.filter(email => !existingMembers?.includes(email));
+    if (emails.length > 0) {
+      inviteMember.mutateAsync({
+        workspaceId: workspace.id as string,
+        emails,
+        role
+      }).then(() => {
+        toast.success("Invitation sent successfully");
+      });
+    } else {
+      toast.error("All the emails are already members of this workspace");
+    }
   }
 
   const filteredMembers = React.useMemo(() => {
@@ -42,6 +50,9 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       return member.name?.toLowerCase().includes(searchText) || member.email?.toLowerCase().includes(searchText);
     });
   }, [members, searchValue]);
+
+
+
   return (
     <>
       <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
