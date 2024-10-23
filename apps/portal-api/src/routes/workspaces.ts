@@ -12,6 +12,7 @@ const workspacesRoutes = new Hono<Env>()
   .delete("/:id", ...WorkspaceHandler.deleteWorkspace)
 
   .get("/:id/members", ...WorkspaceHandler.getWorkspaceMembers)
+  .post("/:id/members/invite", ...WorkspaceHandler.inviteWorkspaceMembers)
   .get("/:id/ad-accounts", ...WorkspaceHandler.getWorkspaceAdAccounts)
   .get("/:id/bots", ...WorkspaceHandler.getWorkspaceBots)
   .get("/:id/channels", ...WorkspaceHandler.getWorkspaceChannels)

@@ -18,6 +18,9 @@ export interface FeatureFlags {
 export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
   feature_flags: FeatureFlags;
 };
+export type WorkspaceInvite = components["schemas"]["ItemsSaasTeamsInvites"] & {
+  user_id?: string;
+};
 export type Bot = components["schemas"]["ItemsBots"];
 export type BotMutedUser = components["schemas"]["ItemsBotsMutedUsers"];
 export type User = components["schemas"]["Users"];
@@ -302,3 +305,4 @@ export interface BotLog {
   lang: any;
   fallback: number;
 }
+

@@ -10,18 +10,20 @@ import {
   uploadFiles,
   importFile,
   createItems,
+  readUsers,
 } from "@directus/sdk";
 import { logger as honoLogger } from "hono/logger";
 import * as line from "@line/bot-sdk";
-import { addSeconds, format } from "date-fns";
+import { addDays, addSeconds, format } from "date-fns";
 import * as _ from "lodash";
 import { WorkspaceChannel } from "~/types/app";
 import { parseQuery } from "@repo/shared/utils/query";
 import { DirectusError } from "@repo/shared/exceptions/directus";
-import { Logger, LogLevel } from "@repo/shared/utils";
+import { Logger, LogLevel, randomHexString } from "@repo/shared/utils";
 import { Env } from "~/types/hono.types";
 import { createFactory } from "hono/factory";
 import { directusMiddleware } from "~/middleware/directus.middleware";
+import * as jwt from "hono/jwt";
 
 const { MessagingApiClient } = line.messagingApi;
 const { ChannelAccessTokenClient } = line.channelAccessToken;
@@ -54,7 +56,7 @@ export const getWorkspaces = factory.createHandlers(
           sort: ["-date_updated"],
         })
       );
-      return c.json({ items });
+      return c.json({ total: items?.length , items, });
     } catch (error) {
       console.error(error);
       throw DirectusError.fromDirectusResponse(error);
@@ -152,7 +154,6 @@ export const getWorkspaceMembers = factory.createHandlers(
             },
           },
           fields: [
-            "user_id",
             "role",
             "date_accepted",
             {
@@ -168,6 +169,7 @@ export const getWorkspaceMembers = factory.createHandlers(
           ],
         })
       );
+
       const items = users
         .map((user) => {
           return {
@@ -179,6 +181,55 @@ export const getWorkspaceMembers = factory.createHandlers(
         })
         .sort((a, b) => (a.first_name || "").localeCompare(b.first_name || ""));
       return c.json({ total: items.length, items });
+    } catch (error) {
+      console.error(error);
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// invite workspace members
+export const inviteWorkspaceMembers = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const { emails, role } = await c.req.json();
+      const directus = c.get("directus");
+
+      console.log("inviteUsers", emails, workspaceId);
+
+      const workspace = await directus.request(
+        readItem("saas_teams", workspaceId, {
+          fields: ["id", "name"],
+        })
+      );
+
+      const id = randomHexString(8);
+
+      const token = await jwt.sign(
+        {
+          id,
+          exp: addDays(new Date(), 1).valueOf(),
+        },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+
+      for (const email of emails) {
+        await directus.request(
+          createItem("saas_teams_invites", {
+            id,
+            email,
+            role,
+            team_id: workspaceId,
+            team_name: workspace.name,
+            token,
+          })
+        );
+      }
+
+      return c.json({});
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
@@ -306,7 +357,7 @@ export const deleteWorkspaceChannel = factory.createHandlers(
     try {
       const workspaceId = c.req.param("id") as string;
       const channelId = c.req.param("channelId") as string;
-      
+
       const directus = c.get("directus");
       await directus.request(
         updateItem("saas_teams", workspaceId, {

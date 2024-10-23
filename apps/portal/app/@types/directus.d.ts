@@ -2539,6 +2539,45 @@ export interface paths {
      */
     patch: operations["updateSingleItemsBotsMutedUsers"];
   };
+  "/items/saas_teams_invites": {
+    /**
+     * List Items
+     * @description List the saas_teams_invites items.
+     */
+    get: operations["readItemsSaasTeamsInvites"];
+    /**
+     * Create an Item
+     * @description Create a new saas_teams_invites item.
+     */
+    post: operations["createItemsSaasTeamsInvites"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing saas_teams_invites items.
+     */
+    delete: operations["deleteItemsSaasTeamsInvites"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple saas_teams_invites items at the same time.
+     */
+    patch: operations["updateItemsSaasTeamsInvites"];
+  };
+  "/items/saas_teams_invites/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single saas_teams_invites item by unique identifier.
+     */
+    get: operations["readSingleItemsSaasTeamsInvites"];
+    /**
+     * Delete an Item
+     * @description Delete an existing saas_teams_invites item.
+     */
+    delete: operations["deleteSingleItemsSaasTeamsInvites"];
+    /**
+     * Update an Item
+     * @description Update an existing saas_teams_invites item.
+     */
+    patch: operations["updateSingleItemsSaasTeamsInvites"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -4216,6 +4255,18 @@ export interface components {
       date_updated?: string | null;
       uid?: string | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
+    };
+    ItemsSaasTeamsInvites: {
+      id?: string;
+      user_invite?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_invite?: string | null;
+      email?: string | null;
+      team_id?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      team_name?: string | null;
+      user_id?: string | components["schemas"]["Users"] | null;
+      role?: string | null;
+      token?: string | null;
     };
   };
   responses: {
@@ -16860,6 +16911,189 @@ export interface operations {
       404: components["responses"]["NotFoundError"];
     };
   };
+  /**
+   * List Items
+   * @description List the saas_teams_invites items.
+   */
+  readItemsSaasTeamsInvites: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsSaasTeamsInvites"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new saas_teams_invites item.
+   */
+  createItemsSaasTeamsInvites: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsSaasTeamsInvites"][] | components["schemas"]["ItemsSaasTeamsInvites"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing saas_teams_invites items.
+   */
+  deleteItemsSaasTeamsInvites: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple saas_teams_invites items at the same time.
+   */
+  updateItemsSaasTeamsInvites: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsSaasTeamsInvites"][] | components["schemas"]["ItemsSaasTeamsInvites"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single saas_teams_invites item by unique identifier.
+   */
+  readSingleItemsSaasTeamsInvites: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsSaasTeamsInvites"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing saas_teams_invites item.
+   */
+  deleteSingleItemsSaasTeamsInvites: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing saas_teams_invites item.
+   */
+  updateSingleItemsSaasTeamsInvites: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsSaasTeamsInvites"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsSaasTeamsInvites"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
 }
 
 
@@ -16909,5 +17143,6 @@ export type Schema = {
   user_profile: components["schemas"]["ItemsUserProfile"][];
   vouchers_users: components["schemas"]["ItemsVouchersUsers"][];
   bots_muted_users: components["schemas"]["ItemsBotsMutedUsers"][];
+  saas_teams_invites: components["schemas"]["ItemsSaasTeamsInvites"][];
 };
 

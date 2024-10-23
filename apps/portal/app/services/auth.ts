@@ -30,7 +30,7 @@ export const logoutApi = () =>
   );
 
 export const signUp = (data: SignUpCredential) =>
-  api.post("/auth/signup", data);
+  api.post<{ id?: string }>("/auth/signup", data);
 
 export const verifyEmail = (token: string) =>
   api.post("/auth/verify-email", { token });

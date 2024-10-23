@@ -1,9 +1,11 @@
-import { Link, useNavigate } from '@remix-run/react';
-import React from 'react';
+import { Link, useNavigate, useSearchParams } from '@remix-run/react';
+import React, { useEffect } from 'react';
 import { useSignup } from '~/hooks/useSignup';
 import { useForm } from 'react-hook-form'
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useVerifyInvite } from '~/hooks/useVerifyInvite';
+import { useAcceptInvite } from '~/hooks/useAcceptInvite';
 interface MainContentProps {
 
 }
@@ -19,12 +21,17 @@ const signupSchema = z.object({
 })
 
 const MainContent: React.FC<MainContentProps> = () => {
+  const [search] = useSearchParams()
+  const token = search.get('token')
   const { register, reset, handleSubmit, watch, formState } = useForm({
     resolver: zodResolver(signupSchema),
   })
   const { errors } = formState
   const signUp = useSignup()
   const navigate = useNavigate()
+
+  const { data: invitation } = useVerifyInvite({ token })
+  const acceptInvite = useAcceptInvite()
 
   const onSubmit = (data) => {
     const [firstName, lastName] = data.name.split(' ')
@@ -35,10 +42,29 @@ const MainContent: React.FC<MainContentProps> = () => {
         first_name: firstName,
         last_name: lastName
       }
-    }).then(() => {
-      navigate(`../verify-email?mail=${data.email}`, { replace: true })
+    }).then((res) => {
+      if (res.id) {
+        acceptInvite.mutateAsync({
+          variables: {
+            id: invitation?.id as string,
+            user_id: res.id
+          }
+        }).then(({ slug }) => {
+          navigate(`../verify-email?mail=${data.email}`, { replace: true })
+        })
+      } else {
+        navigate(`../verify-email?mail=${data.email}`, { replace: true })
+      }
     })
   }
+
+  useEffect(() => {
+    if (invitation) {
+      reset({
+        email: invitation.email
+      })
+    }
+  }, [invitation])
 
   return (
     <div className="grow px-5">
@@ -46,7 +72,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         {/* Title */}
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
-            Set up your AIYA account
+            Set up your AIYA account:
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Enhance customer engagement with AIYA.
@@ -182,6 +208,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 id="hs-pro-dale"
                 className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="you@email.com"
+                disabled={invitation?.email !== null}
                 {...register('email')}
               />
             </div>

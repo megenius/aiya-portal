@@ -70,3 +70,9 @@ export const fetchWorkspaceProducts = (id: string) =>
 
 export const fetchWorkspaceOrderbots = (id: string) =>
   api.get<{ items: Orderbot[] }>("/workspaces/" + id + "/orderbots");
+
+export const inviteWorkspaceMembers = (id: string, emails: string[], role) =>
+  api.post("/workspaces/" + id + "/members/invite", {
+    emails,
+    role,
+  });
