@@ -34,3 +34,9 @@ export const signUp = (data: SignUpCredential) =>
 
 export const verifyEmail = (token: string) =>
   api.post("/auth/verify-email", { token });
+
+export const resetPassword = (token: string, password: string) =>
+  api.post("/auth/reset-password", { token, password });
+
+export const resetPasswordRequest = (email: string) =>
+  api.post("/auth/reset-password-request", { email });
