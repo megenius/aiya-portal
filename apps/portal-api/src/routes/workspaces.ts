@@ -1,29 +1,8 @@
 // File: src/routes/items.ts
 import { Hono } from "hono";
-import {
-  readItems,
-  createItem,
-  updateItem,
-  deleteItem,
-  readItem,
-  uploadFiles,
-  importFile,
-  createItems,
-} from "@directus/sdk";
-import * as line from "@line/bot-sdk";
-import { addSeconds, format } from "date-fns";
 import * as _ from "lodash";
-import { WorkspaceChannel } from "~/types/app";
-import { parseQuery } from "@repo/shared/utils/query";
-import { DirectusError } from "@repo/shared/exceptions/directus";
-import { Logger, LogLevel } from "@repo/shared/utils";
 import { Env } from "~/types/hono.types";
 import * as WorkspaceHandler from "../handlers/workspace.handler";
-
-const { MessagingApiClient } = line.messagingApi;
-const { ChannelAccessTokenClient } = line.channelAccessToken;
-
-const logger = new Logger("workspace", LogLevel.DEBUG);
 
 const workspacesRoutes = new Hono<Env>()
   .get("/", ...WorkspaceHandler.getWorkspaces)
