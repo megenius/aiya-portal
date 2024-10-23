@@ -9,21 +9,22 @@ import { createFactory } from "hono/factory";
 
 const factory = createFactory<Env>();
 
-export const getFile =  factory.createHandlers(
+export const getFile = factory.createHandlers(
   honoLogger(),
   directusMiddleware,
-  cache({
-    cacheName: "file",
-    cacheControl: "max-age=3600",
-  }),
+  // cache({
+  //   cacheName: "file",
+  //   cacheControl: "max-age=3600",
+  // }),
   async (c) => {
     const fileId = c.req.param("id") as string;
     const key = (c.req.query("key") as string) || "";
-    const directus = c.get("directus");
-
+    const directus = c.get("directAdmin");
+    console.log("Reading file from directus:", fileId, key);
     const anotherReadableStream = await directus.request(
       sdk.readAssetRaw(fileId, { key })
     );
+
     return stream(c, async (stream) => {
       await stream.pipe(anotherReadableStream);
     });
@@ -40,7 +41,7 @@ export const downloadFile = factory.createHandlers(
   async (c) => {
     const fileId = c.req.param("id") as string;
     const key = (c.req.query("key") as string) || "";
-    const directus = c.get("directus");
+    const directus = c.get("directAdmin");
 
     const anotherReadableStream = await directus.request(
       sdk.readAssetRaw(fileId, { key })
@@ -58,7 +59,7 @@ export const uploadFile = factory.createHandlers(
     const body = await c.req.parseBody();
     const formData = new FormData();
     formData.append("file", body.file);
-    const directus = c.get("directus");
+    const directus = c.get("directAdmin");
     const result = await directus.request(sdk.uploadFiles(formData));
     return c.json(result);
   }
@@ -111,14 +112,14 @@ export const uploadAutomix = factory.createHandlers(
   async (c) => {
     const { pictureUrl, path } = await c.req.json();
     console.log("Uploading file to R2:", pictureUrl);
-    
+
     // stream image to R2
     const image = await fetch(pictureUrl);
     const arrayBuffer = await image.arrayBuffer();
     const key = `${path}/${randomHexString(16)}.jpg`;
 
     console.log("Uploading file to R2:", key);
-    
+
     const result = await c.env.BOT_MESSAGE_BUCKET.put(key, arrayBuffer, {
       httpMetadata: {
         contentType: image.headers.get("content-type") || "image/jpeg",
@@ -130,18 +131,20 @@ export const uploadAutomix = factory.createHandlers(
       "https://km8erw3hik.execute-api.ap-southeast-1.amazonaws.com/prod/image-analysis";
 
     console.log("Analyzing image:", url);
-    
+
     const data = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImxhbWJkYSIsImlzcyI6ImxhbWJkYSIsImV4cCI6MTczMDQ4MTQ5MX0.GBznnaVIfW-fEvGcYUMUEUFLJ6MlmafXMl8LJV1uDVc`,
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImxhbWJkYSIsImlzcyI6ImxhbWJkYSIsImV4cCI6MTczMDQ4MTQ5MX0.GBznnaVIfW-fEvGcYUMUEUFLJ6MlmafXMl8LJV1uDVc`,
       },
       body: JSON.stringify({ image_url: url }),
-    }).then((response) => response.json()).catch((error) => {
-      console.error("Error analyzing image:", error);
-      return {};
-    });
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error("Error analyzing image:", error);
+        return {};
+      });
 
     return c.json(data);
   }
@@ -153,7 +156,7 @@ export const deleteFile = factory.createHandlers(
   async (c) => {
     const fileId = c.req.param("id") as string;
     const key = (c.req.query("key") as string) || "";
-    const directus = c.get("directus");
+    const directus = c.get("directAdmin");
     await directus.request(sdk.deleteFile(fileId));
     return c.json({});
   }
