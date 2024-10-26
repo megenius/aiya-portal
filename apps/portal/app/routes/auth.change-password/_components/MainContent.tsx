@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useVerifyInvite } from '~/hooks/useVerifyInvite';
 import { useAcceptInvite } from '~/hooks/useAcceptInvite';
 import { useResetPassword } from '~/hooks/useResetPassword';
+import { toast } from 'react-toastify';
 interface MainContentProps {
 
 }
@@ -39,6 +40,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         password: data.password
       }
     }).then(() => {
+      toast.success('Password changed successfully')
       navigate('../sign-in')
     })
   }

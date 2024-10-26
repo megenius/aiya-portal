@@ -79,6 +79,14 @@ export const updateBotKnowledge = (
 export const deleteBotKnowledge = (knowledgeId: string) =>
   api.delete("/bots/knowledges/" + knowledgeId);
 
+// deploy knowledge
+export const deployBotKnowledge = (knowledgeId: string) =>
+  api.post(`/bots/knowledges/${knowledgeId}/deploy`);
+
+// undeploy knowledge
+export const undeployBotKnowledge = (knowledgeId: string) =>
+  api.post(`/bots/knowledges/${knowledgeId}/undeploy`);
+
 // --------------- intents ---------------
 // insert intent
 export const insertBotKnowledgeIntent = (data: {

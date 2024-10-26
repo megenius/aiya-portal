@@ -24,6 +24,7 @@ import { Env } from "~/types/hono.types";
 import { createFactory } from "hono/factory";
 import { directusMiddleware } from "~/middleware/directus.middleware";
 import * as jwt from "hono/jwt";
+import { getDatasetId } from "./facebook/dataset";
 
 const { MessagingApiClient } = line.messagingApi;
 const { ChannelAccessTokenClient } = line.channelAccessToken;
@@ -149,6 +150,7 @@ export const getWorkspaceMembers = factory.createHandlers(
       const users = await directus.request(
         readItems("saas_teams_users", {
           fields: [
+            "id",
             "role",
             "date_accepted",
             {
@@ -174,6 +176,7 @@ export const getWorkspaceMembers = factory.createHandlers(
         .map((user) => {
           return {
             ...user.user_id,
+            id: user.id,
             name: user.user_id?.first_name + " " + user.user_id?.last_name,
             role: user.role,
             date_accepted: user.date_accepted,
@@ -230,6 +233,32 @@ export const inviteWorkspaceMembers = factory.createHandlers(
       }
 
       return c.json({});
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// remove workspace member
+export const deleteWorkspaceMember = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const memberId = c.req.param("memberId") as string;
+      const directus = c.get("directus");
+
+      await directus.request(
+        updateItem("saas_teams", workspaceId, {
+          users: {
+            create: [],
+            delete: [memberId],
+            update: [],
+          },
+        })
+      );
+      return c.json({ workspaceId });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
@@ -338,6 +367,7 @@ export const getWorkspaceChannels = factory.createHandlers(
             "name",
             "logo",
             "expired_at",
+            "dataset"
           ],
           sort: ["-date_updated"],
         })
@@ -453,6 +483,18 @@ export const createWorkspaceChannelFacebooks = factory.createHandlers(
 
       const items = await c.req.json<WorkspaceChannel[]>();
 
+      const datasetIds = await Promise.all(
+        items.map(async (item) => {
+          return getDatasetId({
+            pageId: item.provider_id as string,
+            pageToken: item.provider_access_token as string,
+          }).then((res) => res.id);
+        })
+      );
+
+      console.log("datasetIds", datasetIds);
+      
+
       // Download and import logos
       const fileIds = await Promise.all(
         items.map(async (item) => {
@@ -470,6 +512,7 @@ export const createWorkspaceChannelFacebooks = factory.createHandlers(
         ...item,
         team: workspaceId,
         logo: fileIds[index],
+        dataset: datasetIds[index],
       }));
 
       const createdItems = await directus.request(

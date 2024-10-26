@@ -76,3 +76,6 @@ export const inviteWorkspaceMembers = (id: string, emails: string[], role) =>
     emails,
     role,
   });
+
+export const removeWorkspaceMembers = (id: string, memberId: string) =>
+  api.delete(`/workspaces/${id}/members/${memberId}`);

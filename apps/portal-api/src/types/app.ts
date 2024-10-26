@@ -1,4 +1,4 @@
-import { components } from "../config/schema";
+import { components } from "./directus";
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
 export type Bot = components["schemas"]["ItemsBots"];
@@ -89,8 +89,6 @@ export interface BeaconApp {
   date_updated: string;
   team: string;
 }
-
-
 
 export interface PageInfo {
   id: string;

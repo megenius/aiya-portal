@@ -1525,45 +1525,6 @@ export interface paths {
      */
     patch: operations["updateSingleItemsPagesLiff"];
   };
-  "/items/channels_datasets": {
-    /**
-     * List Items
-     * @description List the channels_datasets items.
-     */
-    get: operations["readItemsChannelsDatasets"];
-    /**
-     * Create an Item
-     * @description Create a new channels_datasets item.
-     */
-    post: operations["createItemsChannelsDatasets"];
-    /**
-     * Delete Multiple Items
-     * @description Delete multiple existing channels_datasets items.
-     */
-    delete: operations["deleteItemsChannelsDatasets"];
-    /**
-     * Update Multiple Items
-     * @description Update multiple channels_datasets items at the same time.
-     */
-    patch: operations["updateItemsChannelsDatasets"];
-  };
-  "/items/channels_datasets/{id}": {
-    /**
-     * Retrieve an Item
-     * @description Retrieve a single channels_datasets item by unique identifier.
-     */
-    get: operations["readSingleItemsChannelsDatasets"];
-    /**
-     * Delete an Item
-     * @description Delete an existing channels_datasets item.
-     */
-    delete: operations["deleteSingleItemsChannelsDatasets"];
-    /**
-     * Update an Item
-     * @description Update an existing channels_datasets item.
-     */
-    patch: operations["updateSingleItemsChannelsDatasets"];
-  };
   "/items/channels": {
     /**
      * List Items
@@ -1602,6 +1563,45 @@ export interface paths {
      * @description Update an existing channels item.
      */
     patch: operations["updateSingleItemsChannels"];
+  };
+  "/items/channels_datasets": {
+    /**
+     * List Items
+     * @description List the channels_datasets items.
+     */
+    get: operations["readItemsChannelsDatasets"];
+    /**
+     * Create an Item
+     * @description Create a new channels_datasets item.
+     */
+    post: operations["createItemsChannelsDatasets"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing channels_datasets items.
+     */
+    delete: operations["deleteItemsChannelsDatasets"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple channels_datasets items at the same time.
+     */
+    patch: operations["updateItemsChannelsDatasets"];
+  };
+  "/items/channels_datasets/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single channels_datasets item by unique identifier.
+     */
+    get: operations["readSingleItemsChannelsDatasets"];
+    /**
+     * Delete an Item
+     * @description Delete an existing channels_datasets item.
+     */
+    delete: operations["deleteSingleItemsChannelsDatasets"];
+    /**
+     * Update an Item
+     * @description Update an existing channels_datasets item.
+     */
+    patch: operations["updateSingleItemsChannelsDatasets"];
   };
   "/items/channels_bots": {
     /**
@@ -2849,7 +2849,6 @@ export interface components {
       theme_light?: string | null;
       theme_light_overrides?: unknown;
       theme_dark_overrides?: unknown;
-      profile?: string | components["schemas"]["ItemsUserProfile"] | null;
       teams?: ((string | components["schemas"]["ItemsSaasTeamsUsers"])[]) | null;
       policies?: unknown;
     };
@@ -3831,21 +3830,6 @@ export interface components {
       env?: string | null;
       favicon?: string | null;
     };
-    ItemsChannelsDatasets: {
-      /** Format: uuid */
-      id?: string;
-      status?: string;
-      sort?: number | null;
-      user_created?: string | components["schemas"]["Users"] | null;
-      /** Format: timestamp */
-      date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      code?: string | null;
-      name?: string | null;
-      channel?: string | components["schemas"]["ItemsChannels"] | null;
-    };
     ItemsChannels: {
       /** Format: uuid */
       id?: string;
@@ -3870,9 +3854,24 @@ export interface components {
       name?: string | null;
       provider_info?: unknown;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      dataset?: string | null;
       orderbots?: ((number | components["schemas"]["ItemsOrderbotsChannels"])[]) | null;
-      datasets?: ((string | components["schemas"]["ItemsChannelsDatasets"])[]) | null;
       bots?: ((number | components["schemas"]["ItemsChannelsBots"])[]) | null;
+    };
+    ItemsChannelsDatasets: {
+      /** Format: uuid */
+      id?: string;
+      status?: string;
+      sort?: number | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      code?: string | null;
+      name?: string | null;
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
     };
     ItemsChannelsBots: {
       id?: number;
@@ -12155,189 +12154,6 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the channels_datasets items.
-   */
-  readItemsChannelsDatasets: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsDatasets"][];
-            meta?: components["schemas"]["x-metadata"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Create an Item
-   * @description Create a new channels_datasets item.
-   */
-  createItemsChannelsDatasets: {
-    parameters: {
-      query?: {
-        meta?: components["parameters"]["Meta"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsDatasets"][] | components["schemas"]["ItemsChannelsDatasets"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Delete Multiple Items
-   * @description Delete multiple existing channels_datasets items.
-   */
-  deleteItemsChannelsDatasets: {
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Update Multiple Items
-   * @description Update multiple channels_datasets items at the same time.
-   */
-  updateItemsChannelsDatasets: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsDatasets"][] | components["schemas"]["ItemsChannelsDatasets"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Retrieve an Item
-   * @description Retrieve a single channels_datasets item by unique identifier.
-   */
-  readSingleItemsChannelsDatasets: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-        version?: components["parameters"]["Version"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsDatasets"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Delete an Item
-   * @description Delete an existing channels_datasets item.
-   */
-  deleteSingleItemsChannelsDatasets: {
-    parameters: {
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Update an Item
-   * @description Update an existing channels_datasets item.
-   */
-  updateSingleItemsChannelsDatasets: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsDatasets"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsDatasets"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * List Items
    * @description List the channels items.
    */
   readItemsChannels: {
@@ -12512,6 +12328,189 @@ export interface operations {
         content: {
           "application/json": {
             data?: components["schemas"]["ItemsChannels"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the channels_datasets items.
+   */
+  readItemsChannelsDatasets: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelsDatasets"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new channels_datasets item.
+   */
+  createItemsChannelsDatasets: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelsDatasets"][] | components["schemas"]["ItemsChannelsDatasets"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing channels_datasets items.
+   */
+  deleteItemsChannelsDatasets: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple channels_datasets items at the same time.
+   */
+  updateItemsChannelsDatasets: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelsDatasets"][] | components["schemas"]["ItemsChannelsDatasets"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single channels_datasets item by unique identifier.
+   */
+  readSingleItemsChannelsDatasets: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelsDatasets"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing channels_datasets item.
+   */
+  deleteSingleItemsChannelsDatasets: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing channels_datasets item.
+   */
+  updateSingleItemsChannelsDatasets: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelsDatasets"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelsDatasets"];
           };
         };
       };
@@ -17117,8 +17116,8 @@ export type Schema = {
   bots_logs: components["schemas"]["ItemsBotsLogs"][];
   pages_liff_page: components["schemas"]["ItemsPagesLiffPage"][];
   pages_liff: components["schemas"]["ItemsPagesLiff"][];
-  channels_datasets: components["schemas"]["ItemsChannelsDatasets"][];
   channels: components["schemas"]["ItemsChannels"][];
+  channels_datasets: components["schemas"]["ItemsChannelsDatasets"][];
   channels_bots: components["schemas"]["ItemsChannelsBots"][];
   ad_sets: components["schemas"]["ItemsAdSets"][];
   ad_performance: components["schemas"]["ItemsAdPerformance"][];

@@ -23,6 +23,18 @@ knowledgesRoutes.patch(
   ...KnowledgesHandler.updateBotKnowledgeHandler
 );
 
+// deploy knowledge
+knowledgesRoutes.post(
+  "/:knowledgeId/deploy",
+  ...KnowledgesHandler.deployBotKnowledgeHandler
+);
+
+// undeploy knowledge
+knowledgesRoutes.post(
+  "/:knowledgeId/undeploy",
+  ...KnowledgesHandler.undeployBotKnowledgeHandler
+);
+
 // ----------------- intents -----------------
 
 // get intents

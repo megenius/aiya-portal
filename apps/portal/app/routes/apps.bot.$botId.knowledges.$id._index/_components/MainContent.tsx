@@ -12,10 +12,13 @@ import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
 import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
 import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
 import { cn } from '@repo/ui/utils';
-import { EllipsisVertical, Trash, Upload } from 'lucide-react';
+import { CloudUpload, EllipsisVertical, OctagonPause, Rocket, Rss, Trash, Upload } from 'lucide-react';
 import { useBotKnowlegdeDelete } from '~/hooks/bot/useBotKnowlegdeDelete';
 import { set } from 'lodash';
 import { Loading } from '@repo/preline';
+import { toast } from 'react-toastify';
+import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
+import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -33,6 +36,10 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const importKnowlegde = useBotKnowlegdeImport()
   const deleteKnowlegde = useBotKnowlegdeDelete()
   const removeIntent = useBotKnowledgeIntentDelete();
+
+  const deployKnowledge = useBotKnowlegdeDeploy();
+  const undeployKnowledge = useBotKnowlegdeUndeploy();
+
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -123,6 +130,38 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
     }
   }
 
+  const handleDeploy = async () => {
+    try {
+      deployKnowledge.mutateAsync({
+        variables: {
+          key: knowledge.id as string,
+        }
+      }).then(() => {
+        toast.success('Knowledge deployed successfully');
+      }).catch((error) => {
+        toast.error('Failed to deploy knowledge');
+      })
+    } catch (error) {
+      console.error("Failed to update knowledge status:", error);
+    }
+  }
+
+  const handleUndeploy = async () => {
+    try {
+      undeployKnowledge.mutateAsync({
+        variables: {
+          key: knowledge.id as string,
+        }
+      }).then(() => {
+        toast.success('Knowledge undeployed successfully');
+      }).catch((error) => {
+        toast.error('Failed to undeploy knowledge');
+      })
+    } catch (error) {
+      console.error("Failed to update knowledge status:", error);
+    }
+  }
+
   useEffect(() => {
     setIntents(knowledge?.intents || []);
   }, [knowledge?.intents])
@@ -146,7 +185,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               <div>
                 {/* drop down status */}
                 <div className="hs-dropdown relative inline-flex">
-                  <span className={cn("inline-flex cursor-pointer items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full", {
+                  <span className={cn("inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full", {
                     'bg-yellow-100 text-yellow-800 dark:bg-red-500/10 dark:text-yellow-500': knowledge.status === 'draft',
                     "bg-teal-100 text-teal-800 dark:bg-teal-500/10 dark:text-teal-500": knowledge.status === 'published',
                   })}
@@ -157,7 +196,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                     })} />
                     {knowledge.status === 'draft' ? 'Draft' : 'Published'}
                   </span>
-                  <div
+                  {/* <div
                     className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-48 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900"
                     role="menu"
                   >
@@ -175,7 +214,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                         Published
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -189,6 +228,20 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                   role="menu"
                 >
                   <div className="p-1">
+                    <button
+                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={() => handleDeploy()}
+                    >
+                      <Rocket className='size-4' />
+                      Publish
+                    </button>
+                    <button
+                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={() => handleUndeploy()}
+                    >
+                      <OctagonPause className='size-4' />
+                      Unpublish
+                    </button>
                     <button
                       className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       onClick={() => setShowImporter(!showImporter)}

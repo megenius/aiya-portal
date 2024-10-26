@@ -113,6 +113,62 @@ export const updateBotKnowledgeHandler = factory.createHandlers(
   }
 );
 
+// deploy knowledge
+export const deployBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const textEmbedding = c.get("textEmbedding");
+    const directus = c.get("directus");
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, {
+        status: "published",
+      })
+    );
+
+    await textEmbedding.enableDocumentByMetadata({
+      knowledge_id: knowledgeId,
+    });
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    return c.json(item);
+  }
+);
+
+// undeploy knowledge
+export const undeployBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const textEmbedding = c.get("textEmbedding");
+    const directus = c.get("directus");
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, {
+        status: "draft",
+      })
+    );
+
+    await textEmbedding.disableDocumentByMetadata({
+      knowledge_id: knowledgeId,
+    });
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    return c.json(item);
+  }
+);
+
 // --------------------- intents ---------------------
 
 // get intent

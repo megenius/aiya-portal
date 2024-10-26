@@ -10,6 +10,9 @@ import MemberTableFilter from './MemberTableFilter';
 import AddMember from './AddMember';
 import { useWorkspaceInviteMember } from '~/hooks/workspace/useWorkspaceInviteMember';
 import { toast } from 'react-toastify';
+import { EllipsisVertical } from 'lucide-react';
+import { ActionButtons } from './ActionButtons';
+import { useWorkspaceRemoveMember } from '~/hooks/workspace/useWorkspaceRemoveMember';
 interface MainContentProps {
   workspace: Workspace
 }
@@ -18,6 +21,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const { data: members, isLoading } = useWorkspaceMembers({ id: workspace.id });
   const [searchValue, setSearchValue] = useState('');
   const inviteMember = useWorkspaceInviteMember();
+  const removeMember = useWorkspaceRemoveMember();
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
@@ -51,6 +55,15 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     });
   }, [members, searchValue]);
 
+
+  const handleRemoveMember = (id: string) => {
+    removeMember.mutateAsync({
+      workspaceId: workspace.id as string,
+      memberId: id
+    }).then(() => {
+      toast.success("Member removed successfully");
+    })
+  }
 
 
   return (
@@ -98,9 +111,9 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                       </div>
                     </th>
                     <th scope="col">
-                      <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                      {/* <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Status
-                      </div>
+                      </div> */}
                     </th>
                   </tr>
                 </thead>
@@ -133,10 +146,13 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                         </span>
                       </td>
                       <td className="size-px whitespace-nowrap px-4 py-3">
-                        <span className="inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
+                        {/* <span className="inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
                           <span className="size-1.5 inline-block bg-gray-800 rounded-full dark:bg-neutral-200" />
                           Active
-                        </span>
+                        </span> */}
+                        <ActionButtons id={member.id} onRemove={(id) => {
+                          handleRemoveMember(id)
+                        }} />
                       </td>
                     </tr>
                   ))}

@@ -82,6 +82,38 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     })
   }
 
+  const handleInsertFacebook = (selectedPages: PageInfo[]) => {
+    const existingPages = channels?.items?.map(channel => channel.provider_id);
+    selectedPages = selectedPages.filter(page => !existingPages?.includes(page.id));
+
+    insertChannelFacebook.mutateAsync({
+      variables: {
+        workspaceId: workspace.id as string,
+        items: selectedPages.map((page) => ({
+          provider_id: page.id,
+          provider_access_token: page.accessToken,
+          provider_name: page.name,
+          provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
+          name: page.name,
+          logo: page.pictureUrl,
+          team: workspace.id as string,
+          platform: 'Facebook',
+          provider: "Facebook",
+        }))
+      }
+    }).then(() => {
+      setPages(pages.map(page => {
+        if (selectedPages.some(selectedPage => selectedPage.id === page.id)) {
+          return {
+            ...page,
+            checked: true
+          }
+        }
+        return page;
+      }))
+    })
+  }
+
   // const onChannelClick = (channel: Channel) => {
   //   setSelectedChannel(channel);
 
@@ -149,14 +181,14 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                         Name
                       </div>
                     </th>
-                    <th scope="col" className="min-w-48">
+                    {/* <th scope="col" className="min-w-48">
                       <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Platform
                       </div>
-                    </th>
+                    </th> */}
                     <th scope="col">
                       <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                        Provider ID
+                        Platform
                       </div>
                     </th>
                     <th scope="col" className="min-w-36">
@@ -185,18 +217,20 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                             <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
                               {item.name}
                             </span>
+                            <p className="text-sm text-gray-400">{item.provider_id}</p>
                           </div>
                         </div>
                       </td>
+                      {/* <td className="size-px whitespace-nowrap px-4 py-3">
+                        <span className="text-sm text-gray-600 dark:text-neutral-400">
+                          {_.capitalize(item.platform as string)}
+                        </span>
+                      </td> */}
                       <td className="size-px whitespace-nowrap px-4 py-3">
                         <span className="text-sm text-gray-600 dark:text-neutral-400">
                           {_.capitalize(item.platform as string)}
                         </span>
-                      </td>
-                      <td className="size-px whitespace-nowrap px-4 py-3">
-                        <span className="text-sm text-gray-600 dark:text-neutral-400">
-                          {item.provider_id}
-                        </span>
+                        <p className="text-sm text-gray-400" >{item.dataset}</p>
                       </td>
                       <td className="size-px whitespace-nowrap px-4 py-3">
                         <span className="text-sm text-gray-600 dark:text-neutral-400">
@@ -236,32 +270,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         })
       }} />
       <AddFacebookModal id='add-facebook-modal' pages={pages} onOk={(selectedPages) => {
-        insertChannelFacebook.mutateAsync({
-          variables: {
-            workspaceId: workspace.id as string,
-            items: selectedPages.map((page) => ({
-              provider_id: page.id,
-              provider_access_token: page.accessToken,
-              provider_name: page.name,
-              provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
-              name: page.name,
-              logo: page.pictureUrl,
-              team: workspace.id as string,
-              platform: 'Facebook',
-              provider: "Facebook",
-            }))
-          }
-        }).then(() => {
-          setPages(pages.map(page => {
-            if (selectedPages.some(selectedPage => selectedPage.id === page.id)) {
-              return {
-                ...page,
-                checked: true
-              }
-            }
-            return page;
-          }))
-        })
+        handleInsertFacebook(selectedPages)
       }} />
       {/* <ChannelEditor id="channel-modal" channel={selectedChannel} /> */}
     </>
