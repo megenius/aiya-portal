@@ -7,6 +7,7 @@ import { Bot } from "~/@types/app";
 import { useBotKnowlegde } from "~/hooks/bot/useBotKnowlegde";
 import { Loading } from "@repo/preline";
 import { ClientOnly } from "remix-utils/client-only";
+import ChatWidget from "~/components/ChatWidget";
 // const MainContent = React.lazy(() => import("./_components/MainContent"))
 
 const Route = () => {
@@ -26,6 +27,7 @@ const Route = () => {
           {() =>
             <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
               <MainContent bot={bot} knowledge={knowledge} />
+              <ChatWidget title={knowledge.name as string} greeting={bot?.greeting_message_mobile as string} />
             </div>
           }
         </ClientOnly>
