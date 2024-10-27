@@ -133,9 +133,9 @@ export const getTodayStatsHandler = factory.createHandlers(
     });
 
     const transformed = TodayAnalytics.transformESResponse(res as any);
-    console.log(TodayAnalytics.analyzeActivityPatterns(transformed));
-    const { summary, hourlyBreakdown } = transformed;
+    console.log(TodayAnalytics.analyzeData(transformed));
+    const { summary, hourlyData } = transformed;
 
-    return c.json({...summary, hourlyBreakdown});
+    return c.json({...summary, hourlyData});
   }
 );

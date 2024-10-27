@@ -1,14 +1,15 @@
-import { useParams } from '@remix-run/react';
+import { json, useParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
 import { format } from 'date-fns';
+import { Download, FileUp, Train } from 'lucide-react';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useBotUpdate } from '~/hooks/bot';
 import { useBotLogs } from '~/hooks/bot/useBotLogs';
 import { useBotMutedUsersInsert } from '~/hooks/bot/useBotMutedUsersInsert';
-
+import { read, utils } from 'xlsx';
+import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
 interface MainContentProps {
-
 }
 
 const MainContent: React.FC<MainContentProps> = () => {
@@ -25,6 +26,30 @@ const MainContent: React.FC<MainContentProps> = () => {
     })
   }
 
+  const handleDownload = () => {
+    if (logs?.data) {
+      jsonArrayToExcel(logs.data.map(d => {
+        return {
+          Date: format(d.created, "yyyy-MM-dd HH:mm:ss"),
+          Intent: d.intent,
+          Confience: d.confidence,
+          Question: d.sentence,
+          SocialID: d.social_id,
+          Platform: d.platform,
+          Fallback: d.fallback,
+          Answer: d.answer,
+          TrainingIntent: d.training_intent,
+          TrainingQuestion: d.training_question,
+        }
+      }), {
+        // file name with datetime
+        fileName: `bot-logs-${format(new Date(), 'yyyyMMddHHmmss')}.xlsx`,
+        sheetName: 'Logs'
+      })
+    }
+  }
+
+
   if (isLoading) {
     return <Loading />;
   }
@@ -35,6 +60,23 @@ const MainContent: React.FC<MainContentProps> = () => {
         <h2 className="inline-block text-lg font-semibold text-gray-800 dark:text-neutral-200">
           Logs
         </h2>
+
+        <div className="flex md:justify-end items-center gap-x-2">
+          {/* Import / Export Dropdown */}
+          <div className="hs-dropdown [--auto-close:true] relative inline-flex">
+            {/* Import / Export Button */}
+            <button id="hs-pro-dptied"
+              onClick={handleDownload}
+              type="button" className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+              <div className='text-gray-800'>
+                <Download size={16} />
+              </div>
+              Download
+            </button>
+            {/* End Import / Export Button */}
+          </div>
+          {/* End Import / Export Dropdown */}
+        </div>
       </div>
       <div>
         {/* {logs?.data?.map((log, index) => (
@@ -47,22 +89,22 @@ const MainContent: React.FC<MainContentProps> = () => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
           <thead>
             <tr>
-              <th scope="col" className="min-w-[250px] ">
+              <th scope="col" className="min-w-[80px] ">
                 <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Date
                 </div>
               </th>
-              <th scope="col" className="min-w-48">
+              <th scope="col" className="min-w-[80px] max-w-96">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Intent
                 </div>
               </th>
-              <th scope="col"  className="max-w-lg">
+              <th scope="col" className="min-w-[300px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Question
                 </div>
               </th>
-              <th scope="col">
+              <th scope="col" className="max-w-[80px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Social ID
                 </div>
@@ -110,9 +152,9 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {item.social_id}
                   </span>
-                  <div> <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => {
+                  {/* <div> <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => {
                     handleMute(item.social_id)
-                  }}>Mute</button></div>
+                  }}>Mute</button></div> */}
                 </td>
                 {/* <td className="size-px px-4 py-3">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">

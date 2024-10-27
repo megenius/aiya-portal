@@ -5,17 +5,17 @@ import { addDays, endOfDay, format, startOfDay, startOfMonth, endOfMonth } from 
 interface DateSelectorProps {
 
 }
-const DATE_OPTS = ['Today', 'Last 7 days', 'Last 14 days', 'Last 30 days', 'Last Month'];
+const DATE_OPTS = ['Today', 'Last 7 days', 'Last 14 days', 'Last 30 days', 'This Month' ,'Last Month'];
 
 const DateSelector: React.FC<DateSelectorProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedDate, setSelectedDate] = React.useState<'Today' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days' | 'Last Month'>('Today');
+  const [selectedDate, setSelectedDate] = React.useState<'Today' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days' | 'This Month' | 'Last Month'>('Today');
 
   const filterDates = useMemo(() => {
     return DATE_OPTS.filter((date) => date !== selectedDate);
   }, [selectedDate]);
 
-  const handleDateChange = (date: 'Today' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days' | 'Last Month') => {
+  const handleDateChange = (date: 'Today' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days'| 'This Month' | 'Last Month') => {
     setSelectedDate(date);
     let start_date, end_date
 
@@ -35,6 +35,10 @@ const DateSelector: React.FC<DateSelectorProps> = () => {
       case 'Last 30 days':
         start_date = addDays(new Date(), -30);
         end_date = endOfDay(new Date());
+        break;
+      case 'This Month':
+        start_date = startOfMonth(new Date());
+        end_date = endOfMonth(new Date());
         break;
       case 'Last Month':
         start_date = startOfMonth(addDays(new Date(), -30));

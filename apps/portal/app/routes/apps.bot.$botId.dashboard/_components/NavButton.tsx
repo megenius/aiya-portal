@@ -7,10 +7,11 @@ interface NavButtonProps {
   label: string;
   value: number;
   active?: boolean;
+  icon?: React.ReactNode;
   onClick?: () => void;
 }
 
-const NavButton: React.FC<NavButtonProps> = ({ label, value, active, onClick }) => {
+const NavButton: React.FC<NavButtonProps> = ({ label, value, icon, active, onClick }) => {
   return (
     <>
       <button
@@ -28,21 +29,9 @@ const NavButton: React.FC<NavButtonProps> = ({ label, value, active, onClick }) 
         onClick={() => onClick && onClick()}
       >
         <span className="flex gap-x-4">
-          <svg
-            className="hidden xl:block shrink-0 size-5 text-gray-500 dark:text-neutral-500"
-            xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-            <circle cx={12} cy={7} r={4} />
-          </svg>
+          <span className="shrink-0 size-6">
+            {icon}
+          </span>
           <span className="grow text-center md:text-start">
             <span className="block text-xs md:text-sm text-gray-500 dark:text-neutral-500">
               {label}
@@ -56,7 +45,7 @@ const NavButton: React.FC<NavButtonProps> = ({ label, value, active, onClick }) 
                   renderText={(value) => <span className="block text-lg lg:text-xl xl:text-2xl text-gray-800 dark:text-neutral-200">{value}</span>}
                 />
               </span>
-              <span className="inline-flex items-center gap-x-1 text-xs lg:text-sm text-gray-600 dark:text-neutral-400">
+              {/* <span className="inline-flex items-center gap-x-1 text-xs lg:text-sm text-gray-600 dark:text-neutral-400">
                 <svg
                   className="shrink-0 size-4 text-teal-500 dark:text-teal-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +62,7 @@ const NavButton: React.FC<NavButtonProps> = ({ label, value, active, onClick }) 
                   <polyline points="16 7 22 7 22 13" />
                 </svg>
                 1.2%
-              </span>
+              </span> */}
             </span>
           </span>
         </span>

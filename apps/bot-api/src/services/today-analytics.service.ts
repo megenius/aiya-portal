@@ -1,30 +1,32 @@
-interface ESBucket {
-  key_as_string: string;
-  key: number;
-  doc_count: number;
-  users_per_hour: {
-    value: number;
-  };
-}
-
 interface ESResponse {
   took: number;
   aggregations: {
     unique_users: { value: number };
     total_conversations: { value: number };
     hourly_breakdown: {
-      buckets: ESBucket[];
+      buckets: Array<{
+        key_as_string: string;
+        key: number;
+        doc_count: number;
+        users_per_hour: { value: number };
+      }>;
     };
   };
 }
 
-interface HourlyData {
-  timestamp: string;
-  hour: string;
-  localHour: string;  // Bangkok time
+interface HourData {
+  utcTime: string;
+  localTime: string;
   conversations: number;
   activeUsers: number;
-  percentOfDailyConversations: number;
+  percentOfTotal: number;
+}
+
+interface PeakHour {
+  utcTime: string;
+  localTime: string;
+  conversations: number;
+  activeUsers: number;
 }
 
 interface TransformedData {
@@ -33,103 +35,82 @@ interface TransformedData {
     totalConversations: number;
     activeHours: number;
     peaks: {
-      byConversations: {
-        localHour: string;
-        conversations: number;
-        users: number;
-      };
-      byUsers: {
-        localHour: string;
-        conversations: number;
-        users: number;
-      };
-    };
-    distribution: {
-      conversationsPerActiveHour: number;
-      usersPerActiveHour: number;
+      byConversations: PeakHour[];  // Array for multiple peaks
+      byUsers: PeakHour[];          // Array for multiple peaks
     };
   };
-  hourlyBreakdown: HourlyData[];
+  hourlyData: HourData[];
   metadata: {
     timezone: string;
     utcOffset: number;
-    queryExecutionTime: number;
-    timeRange: {
+    executionTime: number;
+    dateRange: {
       start: string;
       end: string;
     };
   };
 }
 
-function formatThaiHour(date: Date): string {
-  // Format hour in 24-hour format for Bangkok time
-  const bangkokHour = date.getUTCHours() + 7;
-  const adjustedHour = bangkokHour >= 24 ? bangkokHour - 24 : bangkokHour;
-  return `${adjustedHour.toString().padStart(2, '0')}:00`;
-}
-
 export function transformESResponse(response: ESResponse): TransformedData {
-  const BANGKOK_OFFSET = 7; // UTC+7
+  const BANGKOK_OFFSET = 7;
   const buckets = response.aggregations.hourly_breakdown.buckets;
   const totalConversations = response.aggregations.total_conversations.value;
-  
-  // Process hourly data with Bangkok time
-  const hourlyBreakdown: HourlyData[] = buckets.map(bucket => {
+
+  // Process hourly data
+  const hourlyData: HourData[] = buckets.map(bucket => {
     const utcDate = new Date(bucket.key_as_string);
-    const bangkokTime = new Date(utcDate.getTime() + (BANGKOK_OFFSET * 60 * 60 * 1000));
+    const bangkokHour = (utcDate.getUTCHours() + BANGKOK_OFFSET) % 24;
     
     return {
-      timestamp: bucket.key_as_string,
-      hour: `${utcDate.getUTCHours().toString().padStart(2, '0')}:00`,
-      localHour: formatThaiHour(utcDate),
+      utcTime: `${utcDate.getUTCHours().toString().padStart(2, '0')}:00`,
+      localTime: `${bangkokHour.toString().padStart(2, '0')}:00`,
       conversations: bucket.doc_count,
       activeUsers: bucket.users_per_hour.value,
-      percentOfDailyConversations: totalConversations > 0 
+      percentOfTotal: totalConversations > 0 
         ? Number(((bucket.doc_count / totalConversations) * 100).toFixed(1))
         : 0
     };
   });
 
-  // Find peaks (both by conversations and by users)
-  const peaks = hourlyBreakdown.reduce((acc, curr) => {
-    if (curr.conversations > (acc.byConversations?.conversations || 0)) {
-      acc.byConversations = {
-        localHour: curr.localHour,
-        conversations: curr.conversations,
-        users: curr.activeUsers
-      };
-    }
-    if (curr.activeUsers > (acc.byUsers?.users || 0)) {
-      acc.byUsers = {
-        localHour: curr.localHour,
-        conversations: curr.conversations,
-        users: curr.activeUsers
-      };
-    }
-    return acc;
-  }, {} as TransformedData['summary']['peaks']);
+  // Find peak values
+  const maxConversations = Math.max(...hourlyData.map(h => h.conversations));
+  const maxUsers = Math.max(...hourlyData.map(h => h.activeUsers));
 
-  // Calculate active hours and averages
-  const activeHours = hourlyBreakdown.filter(hour => hour.conversations > 0);
-  const activeHoursCount = activeHours.length;
+  // Find all hours matching peak values
+  const conversationPeaks = hourlyData
+    .filter(hour => hour.conversations === maxConversations && hour.conversations > 0)
+    .map(hour => ({
+      utcTime: hour.utcTime,
+      localTime: hour.localTime,
+      conversations: hour.conversations,
+      activeUsers: hour.activeUsers
+    }));
+
+  const userPeaks = hourlyData
+    .filter(hour => hour.activeUsers === maxUsers && hour.activeUsers > 0)
+    .map(hour => ({
+      utcTime: hour.utcTime,
+      localTime: hour.localTime,
+      conversations: hour.conversations,
+      activeUsers: hour.activeUsers
+    }));
 
   return {
     summary: {
       uniqueUsers: response.aggregations.unique_users.value,
       totalConversations,
-      activeHours: activeHoursCount,
-      peaks,
-      distribution: {
-        conversationsPerActiveHour: Number((totalConversations / activeHoursCount).toFixed(2)),
-        usersPerActiveHour: Number((response.aggregations.unique_users.value / activeHoursCount).toFixed(2))
+      activeHours: hourlyData.filter(h => h.conversations > 0).length,
+      peaks: {
+        byConversations: conversationPeaks,
+        byUsers: userPeaks
       }
     },
-    hourlyBreakdown,
+    hourlyData: hourlyData,
     metadata: {
       timezone: "Asia/Bangkok",
       utcOffset: BANGKOK_OFFSET,
-      queryExecutionTime: response.took,
-      timeRange: {
+      executionTime: response.took,
+      dateRange: {
         start: buckets[0].key_as_string,
         end: buckets[buckets.length - 1].key_as_string
       }
@@ -137,45 +118,40 @@ export function transformESResponse(response: ESResponse): TransformedData {
   };
 }
 
-// Utility function for analysis
-export function analyzeActivityPatterns(data: TransformedData): string {
-  const { summary, hourlyBreakdown } = data;
+export function analyzeData(data: TransformedData): string {
+  const { summary, hourlyData } = data;
   
+  const formatPeaks = (peaks: PeakHour[]) => 
+    peaks.map(peak => 
+      `${peak.localTime} BKK (${peak.utcTime} UTC): ${peak.conversations} conversations, ${peak.activeUsers} users`
+    ).join('\n  ');
+
   const insights = [
     `📊 Activity Summary (Bangkok Time)`,
-    ``,
     `Total Conversations: ${summary.totalConversations}`,
     `Unique Users: ${summary.uniqueUsers}`,
-    `Active Hours: ${summary.activeHours} of 24`,
+    `Active Hours: ${summary.activeHours}`,
     ``,
-    `🔝 Peak Activity (Bangkok Time):`,
-    `By Conversations: ${summary.peaks.byConversations.localHour}`,
-    `  ${summary.peaks.byConversations.conversations} conversations`,
-    `  ${summary.peaks.byConversations.users} users`,
+    `🔝 Peak Hours by Conversations:`,
+    `  ${formatPeaks(summary.peaks.byConversations)}`,
     ``,
-    `By Users: ${summary.peaks.byUsers.localHour}`,
-    `  ${summary.peaks.byUsers.users} users`,
-    `  ${summary.peaks.byUsers.conversations} conversations`,
+    `👥 Peak Hours by Users:`,
+    `  ${formatPeaks(summary.peaks.byUsers)}`,
     ``,
-    `⏰ Active Hours (Bangkok Time):`,
-    hourlyBreakdown
-      .filter(h => h.conversations > 0)
-      .map(h => `${h.localHour}: ${h.conversations} conversations, ${h.activeUsers} users`)
-      .join('\n')
+    `📈 Hourly Activity (with activity):`,
+    ...hourlyData
+      .filter(hour => hour.conversations > 0)
+      .map(hour => 
+        `  ${hour.localTime} BKK (${hour.utcTime} UTC): ${hour.conversations} conversations, ${hour.activeUsers} users`
+      )
   ].join('\n');
 
   return insights;
 }
 
-// Example usage with timezone info
+// Example usage
 function demonstrateUsage(rawResponse: ESResponse) {
-  const transformed = transformESResponse(rawResponse);
-  
-  console.log(analyzeActivityPatterns(transformed));
-  
-  console.log('\nTimezone Info:');
-  console.log(`Timezone: ${transformed.metadata.timezone}`);
-  console.log(`UTC Offset: +${transformed.metadata.utcOffset}:00`);
-  
-  return transformed;
+  const data = transformESResponse(rawResponse);
+  console.log(analyzeData(data));
+  return data;
 }

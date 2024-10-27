@@ -304,5 +304,43 @@ export interface BotLog {
   rag_intents: any[];
   lang: any;
   fallback: number;
+  training_intent: string;
+  training_question: string;
 }
 
+export namespace stats {
+  interface HourData {
+    utcTime: string;
+    localTime: string;
+    conversations: number;
+    activeUsers: number;
+    percentOfTotal: number;
+  }
+
+  interface PeakHour {
+    utcTime: string;
+    localTime: string;
+    conversations: number;
+    activeUsers: number;
+  }
+
+  export interface TodayStats {
+    uniqueUsers: number;
+    totalConversations: number;
+    activeHours: number;
+    peaks: {
+      byConversations: PeakHour[]; // Array for multiple peaks
+      byUsers: PeakHour[]; // Array for multiple peaks
+    };
+    hourlyData: HourData[];
+    metadata: {
+      timezone: string;
+      utcOffset: number;
+      executionTime: number;
+      dateRange: {
+        start: string;
+        end: string;
+      };
+    };
+  }
+}

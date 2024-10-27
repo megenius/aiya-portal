@@ -12,7 +12,9 @@ import {
   IntentQuestion,
   IntentResponse,
   WorkspaceMember,
+  stats,
 } from "~/@types/app";
+
 import api from "./api";
 
 // --------------- bots ---------------
@@ -211,6 +213,10 @@ export const fetchBotInsightLogs = (botId: string) =>
     data: BotLog[];
   }>(`/bots/${botId}/insights/logs`);
 
+// --------------- muted users ---------------
+export const insertBotMutedUser = (data: BotMutedUser) =>
+  api.post("/items/bots_muted_users", data);
 
-  // --------------- muted users ---------------
-  export const insertBotMutedUser = (data: BotMutedUser) => api.post("/items/bots_muted_users", data);
+// --------------- stats ---------------
+export const fetchBotStatsToday = (botId: string) =>
+  api.get<stats.TodayStats>(`/bots/${botId}/insights/stats/today`);
