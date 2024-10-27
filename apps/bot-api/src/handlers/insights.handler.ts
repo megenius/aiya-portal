@@ -95,7 +95,12 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
       },
       aggs: {
-        metrics_summary: {
+        total_conversations: {
+          value_count: {
+            field: "_id",
+          },
+        },
+        confidence_summary: {
           stats: {
             script: {
               source: "doc['confidence'].value",
@@ -308,6 +313,6 @@ export const getTodayStatsHandler = factory.createHandlers(
     // const { summary, hourlyData } = transformed;
 
     // return c.json({ ...summary, hourlyData });
-    return c.json(transformed)
+    return c.json(transformed);
   }
 );

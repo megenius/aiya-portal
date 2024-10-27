@@ -1,7 +1,10 @@
 interface ESResponse {
   took: number;
   aggregations: {
-    metrics_summary: {
+    total_conversations: {
+      value: number
+    }
+    confidence_summary: {
       count: number;
       min: number;
       max: number;
@@ -202,13 +205,15 @@ interface AnalyticsReport {
 }
 
 export function transformESResponse(response: ESResponse): AnalyticsReport {
-  const totalConversations = response.aggregations.metrics_summary.sum;
-  const fallbackCount = response.aggregations.fallback_analysis.doc_count;
+
+  const totalConversations = response.aggregations.total_conversations.value;
 
   // Process knowledge usage
   const knowledgeBuckets = response.aggregations.knowledge_usage.buckets;
   const unknownBucket = knowledgeBuckets.find(b => b.key === 'unknown');
   const knownBuckets = knowledgeBuckets.filter(b => b.key !== 'unknown');
+  const fallbackCount = unknownBucket?.doc_count || 0;
+
 
   const processKnowledgeBucket = (bucket: typeof knowledgeBuckets[0]): KnowledgeUsage => ({
     id: bucket.key,
@@ -308,7 +313,7 @@ export function transformESResponse(response: ESResponse): AnalyticsReport {
         averageUsersPerHour: activeHours > 0 ? uniqueUsers / activeHours : 0
       },
       performance: {
-        avgConfidence: response.aggregations.metrics_summary.avg,
+        avgConfidence: response.aggregations.confidence_summary.avg,
         successRate: ((totalConversations - fallbackCount) / totalConversations) * 100
       }
     },
