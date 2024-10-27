@@ -112,7 +112,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
     }
   });
 
-  const formatPercentage = (value: number) => `${value.toFixed(1)}%`;
+  const formatPercentage = (value: number) => `${value?.toFixed(1)}%`;
 
   return (
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">

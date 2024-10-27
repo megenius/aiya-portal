@@ -78,6 +78,11 @@ export const getTodayStatsHandler = factory.createHandlers(
         bool: {
           filter: [
             {
+              term: {
+                "bot_id.keyword": id,
+              },
+            },
+            {
               range: {
                 created_at: {
                   gte: "now/d",
