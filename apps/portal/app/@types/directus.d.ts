@@ -3627,6 +3627,8 @@ export interface components {
       context?: string | null;
       routing_config?: unknown;
       type?: string | null;
+      start_keyword?: string | null;
+      stop_keyword?: string | null;
       muted_users?: ((string | components["schemas"]["ItemsBotsMutedUsers"])[]) | null;
       knowledges?: ((string | components["schemas"]["ItemsBotsKnowledges"])[]) | null;
       datasources?: ((string | components["schemas"]["ItemsBotsDatasources"])[]) | null;

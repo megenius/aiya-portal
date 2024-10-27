@@ -7,7 +7,7 @@ const Route = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate("./messages")
+    navigate("./dashboard")
   }, [navigate]);
 
   return <div></div>

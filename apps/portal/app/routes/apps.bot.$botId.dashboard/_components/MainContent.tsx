@@ -64,12 +64,12 @@ const MainContent: React.FC<MainContentProps> = () => {
         >
           <NavButton
             icon={<MessageSquare size={24} color='gray' />}
-            label='Total Conversations' value={stats?.totalConversations || 0} active={activeTab === 'Conversations'}
+            label='Total Conversations' value={stats?.summary.conversations.total || 0} active={activeTab === 'Conversations'}
             onClick={() => setActiveTab('Conversations')}
           />
           <NavButton
             icon={<UserIcon size={24} color='gray' />}
-            label='Active Users' value={stats?.uniqueUsers || 0} active={activeTab === 'Users'}
+            label='Active Users' value={stats?.summary.users.total || 0} active={activeTab === 'Users'}
             onClick={() => setActiveTab('Users')}
           />
         </nav>
@@ -82,10 +82,10 @@ const MainContent: React.FC<MainContentProps> = () => {
             role="tabpanel"
             aria-labelledby="bar-with-underline-item-1"
           >
-            <TodayBarChart title={activeTab === 'Conversations' ? 'Hourly Chat Conversations': 'Hourly Active Users'} data={stats?.hourlyData.map(d => {
+            <TodayBarChart title={activeTab === 'Conversations' ? 'Hourly Chat Conversations': 'Hourly Active Users'} data={stats?.hourlyActivity.map(d => {
               return {
-                hour: d.localTime,
-                value: activeTab === 'Conversations' ? d.conversations : d.activeUsers
+                hour: d.hour,
+                value: activeTab === 'Conversations' ? d.conversations : d.uniqueUsers
               }
             })} />
           </div>

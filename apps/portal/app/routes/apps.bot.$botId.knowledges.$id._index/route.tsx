@@ -27,7 +27,7 @@ const Route = () => {
           {() =>
             <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
               <MainContent bot={bot} knowledge={knowledge} />
-              <ChatWidget title={knowledge.name as string} greeting={bot?.greeting_message_mobile as string} />
+              {/* <ChatWidget title={knowledge.name as string} greeting={bot?.greeting_message_mobile as string} /> */}
             </div>
           }
         </ClientOnly>

@@ -309,38 +309,96 @@ export interface BotLog {
 }
 
 export namespace stats {
-  interface HourData {
-    utcTime: string;
-    localTime: string;
+  interface KnowledgeUsage {
+    id: string;
     conversations: number;
-    activeUsers: number;
-    percentOfTotal: number;
+    avgConfidence: number;
+    intents: Array<{
+      name: string;
+      count: number;
+      percentage: number;
+    }>;
+    platforms: Array<{
+      name: string;
+      count: number;
+      percentage: number;
+    }>;
   }
-
-  interface PeakHour {
-    utcTime: string;
-    localTime: string;
-    conversations: number;
-    activeUsers: number;
-  }
-
-  export interface TodayStats {
-    uniqueUsers: number;
-    totalConversations: number;
-    activeHours: number;
-    peaks: {
-      byConversations: PeakHour[]; // Array for multiple peaks
-      byUsers: PeakHour[]; // Array for multiple peaks
+  
+  export interface AnalyticsReport {
+    summary: {
+      conversations: {
+        total: number;
+        fallbacks: number;
+        fallbackRate: number;
+      };
+      users: {
+        total: number;
+        activeHours: number;
+        averageUsersPerHour: number;
+      };
+      performance: {
+        avgConfidence: number;
+        successRate: number;
+      };
     };
-    hourlyData: HourData[];
+    knowledgeUsage: {
+      known: KnowledgeUsage[];
+      unknown: KnowledgeUsage | null;
+      summary: {
+        totalKnown: number;
+        totalUnknown: number;
+        knowledgeUtilization: number;
+      };
+    };
+    hourlyActivity: Array<{
+      hour: string;
+      conversations: number;
+      uniqueUsers: number;
+      fallbacks: number;
+      confidence: number | null;
+      platforms: Array<{
+        name: string;
+        count: number;
+      }>;
+    }>;
+    intents: {
+      top: Array<{
+        name: string;
+        count: number;
+        successRate: number;
+        confidence: number;
+      }>;
+      fallbacks: {
+        total: number;
+        byIntent: Array<{
+          intent: string;
+          count: number;
+          percentage: number;
+        }>;
+        byConfidence: Array<{
+          range: string;
+          count: number;
+          percentage: number;
+        }>;
+      };
+    };
+    platforms: Array<{
+      name: string;
+      conversations: number;
+      uniqueUsers: number;
+      fallbackRate: number;
+      topIntents: Array<{
+        name: string;
+        count: number;
+        percentage: number;
+      }>;
+    }>;
     metadata: {
       timezone: string;
-      utcOffset: number;
-      executionTime: number;
-      dateRange: {
-        start: string;
-        end: string;
-      };
+      queryTime: number;
+      startTime: string;
+      endTime: string;
     };
   }
 }

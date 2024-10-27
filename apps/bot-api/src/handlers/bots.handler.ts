@@ -1,4 +1,10 @@
-import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
+import {
+  createItem,
+  deleteItem,
+  readItem,
+  readItems,
+  updateItem,
+} from "@directus/sdk";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -341,7 +347,6 @@ export const getLogsHandler = factory.createHandlers(logger(), async (c) => {
   return c.json({});
 });
 
-
 // getMutedUsersHandler
 export const getMutedUsersHandler = factory.createHandlers(
   logger(),
@@ -380,5 +385,31 @@ export const muteUserHandler = factory.createHandlers(
       })
     );
     return c.json(item);
+  }
+);
+
+// unmuteUserHandler
+export const unmuteUserHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+    const data = await c.req.json();
+
+    const item = await directus.request(
+      readItems("bots_muted_users", {
+        fields: ["id"],
+        filter: { bot: botId, uid: data.uid },
+      })
+    );
+
+    if (item.length > 0) {
+      await directus.request(
+        deleteItem("bots_muted_users", item[0]?.id as string)
+      );
+    }
+
+    return c.json({});
   }
 );

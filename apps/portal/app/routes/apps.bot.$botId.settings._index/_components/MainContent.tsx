@@ -10,6 +10,8 @@ import { Loading } from '@repo/preline';
 import AvartarUploader from './AvartarUploader';
 import NameEditor from './NameEditor';
 import { Bot } from '~/@types/app';
+import StartKeyword from './StartKeyword';
+import StopKeyword from './StopKeyword';
 
 interface MainContentProps {
   bot: Bot
@@ -25,6 +27,8 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <NameEditor bot={bot} />
           {/* Form */}
           <AvartarUploader bot={bot} />
+          <StartKeyword bot={bot} />
+          <StopKeyword  bot={bot} />
           {/* <CoverPhoto /> */}
           {/* <PersonalInfo user={workspace} /> */}
           {/* <SocialAccount /> */}

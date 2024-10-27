@@ -219,4 +219,4 @@ export const insertBotMutedUser = (data: BotMutedUser) =>
 
 // --------------- stats ---------------
 export const fetchBotStatsToday = (botId: string) =>
-  api.get<stats.TodayStats>(`/bots/${botId}/insights/stats/today`);
+  api.get<stats.AnalyticsReport>(`/bots/${botId}/insights/stats/today`);

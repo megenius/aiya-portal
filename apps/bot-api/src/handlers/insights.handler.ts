@@ -78,11 +78,6 @@ export const getTodayStatsHandler = factory.createHandlers(
         bool: {
           filter: [
             {
-              term: {
-                "bot_id.keyword": id,
-              },
-            },
-            {
               range: {
                 created_at: {
                   gte: "now/d",
@@ -95,14 +90,110 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
       },
       aggs: {
-        total_conversations: {
-          value_count: {
-            field: "_id",
+        metrics_summary: {
+          stats: {
+            script: {
+              source: "doc['confidence'].value",
+            },
           },
         },
-        unique_users: {
-          cardinality: {
-            field: "social_id.keyword",
+        total_stats: {
+          stats_bucket: {
+            buckets_path: "hourly_breakdown>_count",
+          },
+        },
+        platform_metrics: {
+          terms: {
+            field: "platform.keyword",
+            missing: "unknown",
+            size: 10,
+            order: {
+              _count: "desc",
+            },
+          },
+          aggs: {
+            unique_users: {
+              cardinality: {
+                field: "social_id.keyword",
+              },
+            },
+            avg_confidence: {
+              avg: {
+                field: "confidence",
+              },
+            },
+            fallback_rate: {
+              filter: {
+                term: {
+                  fallback: 1,
+                },
+              },
+            },
+            top_intents: {
+              terms: {
+                field: "intent.keyword",
+                size: 5,
+              },
+            },
+          },
+        },
+        intent_analysis: {
+          terms: {
+            field: "intent.keyword",
+            missing: "unknown",
+            size: 20,
+            order: {
+              _count: "desc",
+            },
+          },
+          aggs: {
+            avg_confidence: {
+              avg: {
+                field: "confidence",
+              },
+            },
+            platforms: {
+              terms: {
+                field: "platform.keyword",
+                size: 5,
+              },
+            },
+            success_rate: {
+              avg: {
+                script: {
+                  source: "doc['fallback'].value == 0 ? 1 : 0",
+                },
+              },
+            },
+          },
+        },
+        knowledge_usage: {
+          terms: {
+            field: "knowledge_id.keyword",
+            missing: "unknown",
+            size: 20,
+            order: {
+              _count: "desc",
+            },
+          },
+          aggs: {
+            avg_confidence: {
+              avg: {
+                field: "confidence",
+              },
+            },
+            platforms: {
+              terms: {
+                field: "platform.keyword",
+                size: 5,
+              },
+            },
+            top_intents: {
+              terms: {
+                field: "intent.keyword",
+                size: 5,
+              },
+            },
           },
         },
         hourly_breakdown: {
@@ -117,9 +208,84 @@ export const getTodayStatsHandler = factory.createHandlers(
             },
           },
           aggs: {
-            users_per_hour: {
+            platforms: {
+              terms: {
+                field: "platform.keyword",
+                size: 10,
+              },
+            },
+            unique_users: {
               cardinality: {
                 field: "social_id.keyword",
+              },
+            },
+            avg_confidence: {
+              avg: {
+                field: "confidence.keyword",
+              },
+            },
+            fallback_rate: {
+              filter: {
+                term: {
+                  fallback: 1,
+                },
+              },
+            },
+          },
+        },
+        fallback_analysis: {
+          filter: {
+            term: {
+              fallback: 1,
+            },
+          },
+          aggs: {
+            by_platform: {
+              terms: {
+                field: "platform.keyword",
+                size: 10,
+              },
+            },
+            by_intent: {
+              terms: {
+                field: "intent.keyword",
+                size: 20,
+              },
+            },
+            low_confidence: {
+              range: {
+                field: "confidence",
+                ranges: [
+                  { to: 0.3 },
+                  { from: 0.3, to: 0.5 },
+                  { from: 0.5, to: 0.7 },
+                  { from: 0.7 },
+                ],
+              },
+            },
+          },
+        },
+        confidence_distribution: {
+          range: {
+            field: "confidence",
+            ranges: [
+              { to: 0.2 },
+              { from: 0.2, to: 0.4 },
+              { from: 0.4, to: 0.6 },
+              { from: 0.6, to: 0.8 },
+              { from: 0.8 },
+            ],
+          },
+        },
+        rag_intent_analysis: {
+          nested: {
+            path: "rag_intents.keyword",
+          },
+          aggs: {
+            top_rag_intents: {
+              terms: {
+                field: "rag_intents.keyword",
+                size: 20,
               },
             },
           },
@@ -133,9 +299,10 @@ export const getTodayStatsHandler = factory.createHandlers(
     });
 
     const transformed = TodayAnalytics.transformESResponse(res as any);
-    console.log(TodayAnalytics.analyzeData(transformed));
-    const { summary, hourlyData } = transformed;
+    console.log(TodayAnalytics.generateReport(transformed));
+    // const { summary, hourlyData } = transformed;
 
-    return c.json({...summary, hourlyData});
+    // return c.json({ ...summary, hourlyData });
+    return c.json(transformed)
   }
 );

@@ -29,5 +29,6 @@ botsRoutes.route("/:id/insights", insightsRoutes);
 //get muted users
 botsRoutes.get("/:id/muted-users", ...BotsHandler.getMutedUsersHandler);
 botsRoutes.post("/:id/muted-users", ...BotsHandler.muteUserHandler);
+botsRoutes.delete("/:id/muted-users", ...BotsHandler.unmuteUserHandler);
 
 export { botsRoutes };
