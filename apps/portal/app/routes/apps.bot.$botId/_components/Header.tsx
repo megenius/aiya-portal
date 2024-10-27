@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   const { data: workspace } = useWorkspace({ id: bot?.team });
   const { data: bots } = useBots({ variables: { workspaceId: bot?.team as string } })
   const navItems: NavItem[] = [
-    // { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
+    { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
     { label: 'Messages', to: `/apps/bot/${botId}/messages` },
     { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
     { label: 'Logs', to: `/apps/bot/${botId}/logs` },

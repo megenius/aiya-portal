@@ -5,18 +5,18 @@ import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
 import { Env } from "@repo/shared";
 import { cache } from "hono/cache";
+import { FollowerDurableObject } from "./durables/FollowerDO";
 
 const app = new Hono<Env>()
   .basePath("/api")
   .use("*", async (c, next) => {
     const hostname = new URL(c.req.url).hostname;
     console.log("hostname", hostname);
-    
+
     if (hostname.includes("webhook-dev.aiya.me")) {
       return await next();
     }
 
-    
     if (hostname.includes("lambda-api") || hostname.includes("channel-api")) {
       return lambdaAuthMiddleware(c, next);
     }
@@ -35,6 +35,8 @@ const app = new Hono<Env>()
   .onError((err, c) => {
     return c.json({ error: err.message });
   });
+
+export { FollowerDurableObject };
 
 export default app;
 

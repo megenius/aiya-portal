@@ -1,5 +1,5 @@
 name = "channel-api_dev"
-compatibility_date = "2024-08-24"
+compatibility_date = "2024-10-22"
 compatibility_flags = ["nodejs_compat"]
 
 
@@ -11,6 +11,14 @@ routes = [
 
 [placement]
 mode = "smart"
+
+[[durable_objects.bindings]]
+name = "FOLLOWERS"
+class_name = "FollowerDurableObject"
+
+[[migrations]]
+tag = "v1"                # Should be unique for each entry
+new_sqlite_classes = ["FollowerDurableObject"]
 
 # [[kv_namespaces]]
 # binding = "KV_PORTAL"

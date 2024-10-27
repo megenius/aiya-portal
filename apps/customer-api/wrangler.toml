@@ -1,123 +1,50 @@
-name = "ad-api"
-compatibility_date = "2024-08-24"
+name = "customer-api_dev"
+compatibility_date = "2024-10-22"
 compatibility_flags = ["nodejs_compat"]
 
+# [observability]
+# enabled = true
 
 routes = [
-  { pattern = "portal-local.aiya.me/api/ads/*", zone_name = "aiya.me" },
-  { pattern = "lambda-api.aiya.me/api/ads/*", zone_name = "aiya.me" },
-  { pattern = "portal-dev.aiya.me/api/ads/*", zone_name = "aiya.me" },
+  { pattern = "portal-local.aiya.me/api/customer/*", zone_name = "aiya.me" },
+  { pattern = "portal-dev.aiya.me/api/customer/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/customer/*", zone_name = "aiya.me" },
+  { pattern = "lambda-api.aiya.me/api/customer/*", zone_name = "aiya.me" },
 ]
 
 [placement]
 mode = "smart"
 
 [vars]
-PORTAL_URL = "https://portal-dev.aiya.me"
-FB_API_URL = "https://graph.facebook.com/v20.0"
-FB_APP_ID = "788582819272015"
-FB_APP_LOGIN_ID = "764646715708204"
-
-[[queues.producers]]
-binding = "AD_ACCOUNT_SYNC"
-queue = "ad-account-sync-dev"
-
-[[queues.producers]]
-binding = "AD_CAMPAIGN_SYNC"
-queue = "ad-campaign-sync-dev"
-
-[[queues.producers]]
-binding = "AD_SETS_SYNC"
-queue = "ad-sets-sync-dev"
-
-[[queues.producers]]
-binding = "AD_ADS_SYNC"
-queue = "ad-ads-sync-dev"
+DIRECTUS_URL = "https://console.portal.aiya.ai"
 
 
-[[queues.consumers]]
-queue = "ad-account-sync-dev"
-max_batch_size = 1        # optional: defaults to 10
-max_batch_timeout = 5     # optional: defaults to 5 seconds
-max_concurrency = 6
-
-[[queues.consumers]]
-queue = "ad-campaign-sync-dev"
-max_batch_size = 10        # optional: defaults to 10
-max_batch_timeout = 5      # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
-
-[[queues.consumers]]
-queue = "ad-sets-sync-dev"
-max_batch_size = 10    # optional: defaults to 10
-max_batch_timeout = 5  # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
-
-[[queues.consumers]]
-queue = "ad-ads-sync-dev"
-max_batch_size = 10   # optional: defaults to 10
-max_batch_timeout = 5 # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
+[[kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
 
 
-[env.prod]
-name = "ad-api_prod"
+[[durable_objects.bindings]]
+name = "COUNTERS"
+class_name = "MyDurableObject"
 
-routes = [{ pattern = "portal.aiya.me/api/ads/*", zone_name = "aiya.me" }]
-
-[env.prod.placement]
-mode = "smart"
-
-[env.prod.vars]
-PORTAL_URL = "https://portal.aiya.me"
-FB_API_URL = "https://graph.facebook.com/v20.0"
-FB_APP_ID = "788582819272015"
-FB_APP_LOGIN_ID = "764646715708204"
+[[migrations]]
+tag = "v1"                # Should be unique for each entry
+new_sqlite_classes = ["MyDurableObject"]
 
 
-[[env.prod.queues.producers]]
-binding = "AD_ACCOUNT_SYNC"
-queue = "ad-account-sync"
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-[[env.prod.queues.producers]]
-binding = "AD_CAMPAIGN_SYNC"
-queue = "ad-campaign-sync"
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
 
-[[env.prod.queues.producers]]
-binding = "AD_SETS_SYNC"
-queue = "ad-sets-sync"
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
 
-[[env.prod.queues.producers]]
-binding = "AD_ADS_SYNC"
-queue = "ad-ads-sync"
-
-
-[[env.prod.queues.consumers]]
-queue = "ad-account-sync"
-max_batch_size = 1        # optional: defaults to 10
-max_batch_timeout = 5     # optional: defaults to 5 seconds
-max_concurrency = 6
-
-[[env.prod.queues.consumers]]
-queue = "ad-campaign-sync"
-max_batch_size = 10        # optional: defaults to 10
-max_batch_timeout = 5      # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
-
-[[env.prod.queues.consumers]]
-queue = "ad-sets-sync"
-max_batch_size = 10    # optional: defaults to 10
-max_batch_timeout = 5  # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
-
-[[env.prod.queues.consumers]]
-queue = "ad-ads-sync"
-max_batch_size = 10   # optional: defaults to 10
-max_batch_timeout = 5 # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
+# [ai]
+# binding = "AI"

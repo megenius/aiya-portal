@@ -33,7 +33,7 @@ export const getExchangeToken = factory.createHandlers(
       const body = await c.req.json();
 
       console.log("body", body);
-      
+
       const { code, shortLivedToken } = await bodySchema.parseAsync(body);
 
       const data = await exchangeToken({
@@ -42,8 +42,7 @@ export const getExchangeToken = factory.createHandlers(
         shortLivedToken,
       });
 
-      console.debug("Exchanged token", data);  
-      
+      console.debug("Exchanged token", data);
 
       if ("error" in data) {
         return c.json({ error: data.error.message }, 400);
@@ -87,6 +86,9 @@ export const subscribe = factory.createHandlers(
         "feed",
         "inbox_labels",
         // "leadgen",
+        // new
+        "message_echoes",
+        "message_context",
       ];
       const fbURL = `${FB_API_URL}/${provider_id}/subscribed_apps`;
       const response = await fetch(fbURL, {

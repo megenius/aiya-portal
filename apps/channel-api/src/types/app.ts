@@ -1,72 +1,90 @@
-import { components } from "../config/schema";
+import { ResponseElement } from "@repo/shared";
+import { components } from "./directus";
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
 export type Bot = components["schemas"]["ItemsBots"];
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
-export type ChannelDatasets = components["schemas"]["ItemsChannelsDatasets"];
-export type AdAccount = components["schemas"]["ItemsAdAccounts"] & {
-  spend?: number;
-  metadata: {
-    id: string;
-    name: string;
-    business_name: string;
-    account_status: number;
-    disable_reason: number;
-    created_time: string;
-    currency: string;
-    timezone_name: string;
-    timezone_offset_hours_utc: number;
-    business: {
-      id: string;
-      name: string;
-    };
-  };
-};
-
-export type AdCampaign = components["schemas"]["ItemsAdCampaigns"]
-export type AdSet = components["schemas"]["ItemsAdSets"]
 
 export type WorkspaceBot = Bot;
-export type WorkspaceAdAccount = AdAccount;
 export type WorkspaceChannel = Channel;
 export type BotChannelStatus = Channel & { enabled: boolean };
-export type BotUpdate = {
-  channels?: {
-    create: [];
-    update: [];
-    delete: number[];
-  };
-} & Partial<Bot>;
-
-export type ChannelBot = components["schemas"]["ItemsChannelsBots"];
 
 export type BotKnowledge = {
   id: string;
   name: string;
   bot: string;
-  raw_data?: BotIntentRaw[];
+  // raw_data?: BotIntentRaw[];
   intents: BotIntent[];
   total_intent: number;
+  date_updated: string;
 };
 
-export type BotIntentRaw = {
-  id: string;
-  name: string;
-  questions: string;
-  responses: string;
-};
+// export type BotIntentRaw = {
+//   id: string;
+//   name: string;
+//   intent: string;
+//   questions: string;
+//   responses: string;
+// };
 
 export type BotIntent = {
   id: string;
   name: string;
-  questions: string[];
-  responses: any[];
+  intent: string;
+  questions: IntentQuestion[];
+  responses: IntentResponse[];
+  quick_reply: string;
+  tags: string[];
 };
 
-export type BotKnowledgeUpdate = {
+export type IntentResponse = {
+  altText?: string;
+  id: string;
+  opts?: JSON;
+  type?: ResponseElementType;
+};
+
+export type TextMessageResponse = {
+  type: ResponseElementType.Text;
+  payload: {
+    text: string;
+  };
+} & IntentResponse;
+
+export type ImageMessageResponse = {
+  type: ResponseElementType.Image;
+  payload: {
+    url: string;
+    alt: string;
+  };
+} & IntentResponse;
+
+export enum ResponseElementType {
+  CardMessage = "CardMessage",
+  Flex = "Flex",
+  GenericTemplate = "GenericTemplate",
+  Image = "Image",
+  Imagemap = "Imagemap",
+  OptInMessage = "OptInMessage",
+  RichMessage = "RichMessage",
+  RichVideo = "RichVideo",
+  Text = "Text",
+}
+
+export type BotIntentImport = {
+  id: string;
   name: string;
-  intents: BotIntent[];
+  intent: string;
+  questions: string;
+  answers: string;
+  quick_reply: string;
+  tags: string;
+};
+
+export type IntentQuestion = {
+  id: string;
+  question: string;
 };
 
 export interface AuthTokens {
@@ -136,4 +154,22 @@ export interface PageInfo {
   category: string;
   pictureUrl: string;
   ig: string;
+}
+
+export interface VectorIntentMatch {
+  id: string;
+  text: string;
+  score: number;
+  metadata: {
+    bot_id: string;
+    // hash: string;
+    intent_id: string;
+    knowledge_id: string;
+    // text: string;
+  };
+}
+
+export interface VectorQuerySentenceResponse {
+  count: number;
+  matches: VectorIntentMatch[];
 }

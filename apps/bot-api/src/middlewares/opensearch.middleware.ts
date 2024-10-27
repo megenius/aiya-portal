@@ -4,24 +4,19 @@ import { OpenSearch } from "@repo/shared";
 
 const factory = createFactory<Env>();
 
-let initialized = false;
+let openSearch: OpenSearch;
 
 export const opensearchMiddleware = factory.createMiddleware(
   async (c, next) => {
-    if (initialized) {
-      await next();
-      return;
+    if (!openSearch) {
+      openSearch = new OpenSearch({
+        endpoint: c.env.OPENSEARCH_ENDPOINT,
+        username: c.env.OPENSEARCH_USERNAME,
+        password: c.env.OPENSEARCH_PASSWORD,
+      });
     }
-    
-    const openSearch = new OpenSearch({
-      endpoint: c.env.OPENSEARCH_ENDPOINT,
-      username: c.env.OPENSEARCH_USERNAME,
-      password: c.env.OPENSEARCH_PASSWORD,
-    });
 
     c.set("opensearch", openSearch);
-
-    initialized = true;
     await next();
   }
 );

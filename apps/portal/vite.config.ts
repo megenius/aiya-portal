@@ -26,6 +26,7 @@ export default ({ mode }) => {
         "/api/ads": getEndpoint("http://localhost:14105", ""),
         "/api/aws": getEndpoint("http://localhost:14103", ""),
         "/api/customers": getEndpoint("http://localhost:14106", ""),
+        "/api/followers": getEndpoint("http://localhost:14106", ""),
 
         "/api/shops": getEndpoint("http://localhost:14107", ""),
         "/api/partners": getEndpoint("http://localhost:14108", ""),

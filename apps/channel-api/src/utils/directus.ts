@@ -1,4 +1,3 @@
-// config/directus.ts
 import {
   createDirectus,
   rest,
@@ -8,22 +7,13 @@ import {
   DirectusClient as DirectusClientOriginal,
   RestClient,
 } from "@directus/sdk";
-import { Schema } from "./schema";
+import { Schema } from "~/types/directus";
 
-// const directusUrl = process.env.DIRECTUS_URL as string;
-// const serviceToken = process.env.DIRECTUS_SERVICE_TOKEN as string;
-const directusUrl = "https://console.portal.aiya.ai"
-const serviceToken = "f8LiIZVxY2-jGDqgeTU40IZ2xrj-7ygy"
-
-if (!directusUrl) {
-  throw new Error("DIRECTUS_URL is not defined in the environment variables");
-}
-
-type ClientType = DirectusClientOriginal<Schema> &
+export type ClientType = DirectusClientOriginal<Schema> &
   AuthenticationClient<Schema> &
   RestClient<Schema>;
 
-type AdminClientType = DirectusClientOriginal<Schema> & RestClient<Schema>;
+export type AdminClientType = DirectusClientOriginal<Schema> & RestClient<Schema>;
 
 class DirectusClient {
   private static instance: ClientType | null = null;
@@ -31,7 +21,7 @@ class DirectusClient {
 
   private constructor() {}
 
-  public static getInstance(): ClientType {
+  public static getInstance(directusUrl: string): ClientType {
     if (!DirectusClient.instance) {
       DirectusClient.instance = createDirectus<Schema>(directusUrl)
         .with(rest())
@@ -40,10 +30,15 @@ class DirectusClient {
     return DirectusClient.instance;
   }
 
-  public static getAdminInstance(): AdminClientType {
+  public static getAdminInstance(
+    directusUrl: string,
+    serviceToken: string
+  ): AdminClientType {
     if (!DirectusClient.adminInstance) {
       if (!serviceToken) {
-        throw new Error("DIRECTUS_SERVICE_TOKEN is not defined in the environment variables");
+        throw new Error(
+          "DIRECTUS_SERVICE_TOKEN is not defined in the environment variables"
+        );
       }
       DirectusClient.adminInstance = createDirectus<Schema>(directusUrl)
         .with(rest())

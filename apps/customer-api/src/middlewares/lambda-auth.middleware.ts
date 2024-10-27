@@ -19,7 +19,7 @@ export const lambdaAuthMiddleware = createMiddleware<Env>(async (c, next) => {
   const DEBUG_MODE = c.env.NODE_ENV === "development";
   const authHeader = c.req.header("Authorization");
 
-  console.log("authHeader", authHeader);
+  console.log("lambdaAuthMiddleware:authHeader", authHeader);
 
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);
@@ -37,7 +37,6 @@ export const lambdaAuthMiddleware = createMiddleware<Env>(async (c, next) => {
 
   const secretKey = c.env.LAMBDA_SECRET_KEY;
 
-
   if (!secretKey) {
     console.error("SECRET_KEY is not set");
     return c.json({ error: "Server configuration error" }, 500);
@@ -50,16 +49,16 @@ export const lambdaAuthMiddleware = createMiddleware<Env>(async (c, next) => {
     }
 
     const allowedIssuers = ["directus", "lambda"];
-    const issuer = payload.iss as string
+    const issuer = payload.iss as string;
     if (allowedIssuers.indexOf(issuer) === -1) {
       return c.json({ error: "Invalid token issuer" }, 401);
     }
 
     if (issuer === "lambda") {
-      token = c.env.DIRECTUS_SERVICE_TOKEN
+      token = c.env.DIRECTUS_SERVICE_TOKEN;
     }
 
-    console.log("token", token);
+    // console.log("token", token);
     c.set("jwtPayload", payload);
     c.set("token", token);
     await next();

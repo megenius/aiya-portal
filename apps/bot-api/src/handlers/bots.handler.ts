@@ -347,8 +347,6 @@ export const getMutedUsersHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c: Context<Env>) => {
-    console.log("getMutedUsersHandler");
-    
     const botId = c.req.param("id");
     const directus = c.get("directus");
 
@@ -360,5 +358,27 @@ export const getMutedUsersHandler = factory.createHandlers(
     );
 
     return c.json(items);
+  }
+);
+
+// muteUserHandler
+export const muteUserHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+    const data = await c.req.json();
+    // example data
+    // {
+    //   "uid": "Ua29b798287b0acc26cc5ec62e30185e2",
+    // }
+    const item = await directus.request(
+      createItem("bots_muted_users", {
+        bot: botId,
+        uid: data.uid,
+      })
+    );
+    return c.json(item);
   }
 );
