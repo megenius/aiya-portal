@@ -258,12 +258,12 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
 
         {/* Intent Distribution Pie Chart */}
         <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
-          <h3 className="font-semibold text-gray-800 mb-4">Intent Distribution</h3>
+          <h3 className="font-semibold text-gray-800 mb-4">Intent Distribution Top 5</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={data.knowledge.metrics.unknown.intents}
+                  data={stats.intents.top}
                   dataKey="count"
                   nameKey="name"
                   cx="50%"
@@ -271,7 +271,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
                   outerRadius={100}
                   label={(entry) => entry.name}
                 >
-                  {data.knowledge.metrics.unknown.intents.map((entry, index) => (
+                  {stats.intents.top.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -348,12 +348,12 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
                       <tr>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Intent</th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Count</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th> */}
+                        {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th> */}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {data.knowledge.metrics.unknown.intents.map((intent, index) => (
+                      {stats.intents.top.map((intent, index) => (
                         <tr key={index} className="hover:bg-gray-100">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                             {intent.name}
@@ -361,7 +361,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                             {intent.count}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                             {formatPercentage(intent.percentage)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
@@ -371,7 +371,55 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
                               }`}>
                               {intent.name === 'FALLBACK' ? 'Failed' : 'Success'}
                             </span>
+                          </td> */}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white border shadow-sm rounded-xl mt-4">
+        <div className="p-4 md:p-5">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Fallback Analysis</h3>
+          <div className="flex flex-col">
+            <div className="-m-1.5 overflow-x-auto">
+              <div className="p-1.5 min-w-full inline-block align-middle">
+                <div className="overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Intent</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Count</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th>
+                        {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th> */}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {stats.intents.fallbacks.byIntent.map((intent, index) => (
+                        <tr key={index} className="hover:bg-gray-100">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                            {intent.intent}
                           </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            {intent.count}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            {formatPercentage(intent.percentage)}
+                          </td>
+                          {/*
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            <span className={`inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium ${intent.name === 'FALLBACK'
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-green-100 text-green-800'
+                              }`}>
+                              {intent.name === 'FALLBACK' ? 'Failed' : 'Success'}
+                            </span>
+                          </td> */}
                         </tr>
                       ))}
                     </tbody>
