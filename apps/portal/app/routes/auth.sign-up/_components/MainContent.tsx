@@ -208,7 +208,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 id="hs-pro-dale"
                 className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="you@email.com"
-                disabled={invitation?.email !== null}
+                // disabled={invitation?.email !== null}
                 {...register('email')}
               />
             </div>
