@@ -12,7 +12,8 @@ const AddButtons: React.FC<AddButtonsProps> = ({ onFacebookClick }) => {
     // const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
     // console.log("configId", configId);
 
-    login().then((response) => {
+    login({
+    }).then((response) => {
       console.log("response", response);
       getPages(response.authResponse?.accessToken).then((pages) => {
         // onLoadPages(pages)
@@ -146,7 +147,29 @@ const AddButton: React.FC<{ onLoadPages }> = ({ onLoadPages }) => {
     // const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
     // console.log("configId", configId);
 
-    login().then((response) => {
+    const scopes = [
+      'email',
+      'pages_show_list',
+      'read_page_mailboxes',
+      'pages_messaging',
+      'pages_messaging_subscriptions',
+      'pages_manage_metadata', //review
+      'pages_read_user_content',
+      'pages_manage_engagement', //review
+      'public_profile',
+      'instagram_basic',
+      'instagram_manage_messages',
+      //page insight
+      'read_insights',
+      'pages_read_engagement',
+      // ads api
+      'ads_read',
+    ];
+    console.log("scopes", scopes);
+    
+    login({
+      scope: scopes.join(','), 
+    }).then((response) => {
       console.log("response", response);
       getPages(response.authResponse?.accessToken).then((pages) => {
         // onLoadPages(pages)
