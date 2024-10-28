@@ -129,6 +129,7 @@ export function useFacebookSDK({
     };
   }, [appId, autoLogAppEvents, xfbml, version]);
 
+  
   const login = useCallback(
     (options?: FB.LoginOptions) => {
       return new Promise<FB.LoginStatusResponse>((resolve, reject) => {
