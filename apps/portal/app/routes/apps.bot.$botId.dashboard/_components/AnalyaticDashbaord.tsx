@@ -314,7 +314,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
               <PieChart>
                 <Pie
                   data={[
-                    { name: 'Success', value: data.summary.performance.successRate.toFixed(2) },
+                    { name: 'Success', value: data.summary.performance.successRate },
                     { name: 'Fallback', value: data.summary.conversations.fallbackRate }
                   ]}
                   dataKey="value"
