@@ -263,7 +263,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={stats.intents.top}
+                  data={stats.intents.top.slice(0,5)}
                   dataKey="count"
                   nameKey="name"
                   cx="50%"
@@ -314,7 +314,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
               <PieChart>
                 <Pie
                   data={[
-                    { name: 'Success', value: data.summary.performance.successRate },
+                    { name: 'Success', value: data.summary.performance.successRate.toFixed(2) },
                     { name: 'Fallback', value: data.summary.conversations.fallbackRate }
                   ]}
                   dataKey="value"
