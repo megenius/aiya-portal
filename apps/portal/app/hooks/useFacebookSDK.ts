@@ -323,8 +323,8 @@ export function useFacebookSDK({
 
       const fields = [
         "name",
-        "business",
-        "business_name",
+        // "business",
+        // "business_name",
         "id",
         "account_status",
         "disable_reason",
@@ -343,8 +343,8 @@ export function useFacebookSDK({
           return {
             id: p.id,
             name: p.name,
-            business_name: p.business_name,
-            business: p.business,
+            // business_name: p.business_name,
+            // business: p.business,
             account_status: p.account_status,
             disable_reason: p.disable_reason,
             created_time: p.created_time,

@@ -31,7 +31,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                   Spent last 28 days
                 </div>
               </th>
-              <th className="min-w-48">
+              {/* <th className="min-w-48">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Business Name
                 </div>
@@ -40,7 +40,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Business Manager
                 </div>
-              </th>
+              </th> */}
               <th>
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Status
@@ -69,7 +69,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   <Spend spend={item.spend} currency={item.metadata?.currency} />
                 </td>
-                <td className="size-px whitespace-nowrap px-4 py-3">
+                {/* <td className="size-px whitespace-nowrap px-4 py-3">
                   <span className="text-sm text-gray-600">{item.metadata?.business_name}</span>
                 </td>
                 <td className="size-px whitespace-nowrap px-4 py-3">
@@ -77,7 +77,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                   <div className="text-sm text-gray-400 dark:text-neutral-400">
                     {item.metadata?.business?.id}
                   </div>
-                </td>
+                </td> */}
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   {/* {item.last_synced ? ( */}
                   <span
