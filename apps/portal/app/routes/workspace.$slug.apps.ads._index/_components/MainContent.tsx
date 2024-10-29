@@ -48,9 +48,28 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   }
 
   const handleSync = () => {
-    const configId = import.meta.env.VITE_FB_APP_LOGIN_ID
+  
+    const scopes = [
+      'email',
+      'pages_show_list',
+      'read_page_mailboxes',
+      'pages_messaging',
+      'pages_messaging_subscriptions',
+      'pages_manage_metadata', //review
+      'pages_read_user_content',
+      'pages_manage_engagement', //review
+      'public_profile',
+      'instagram_basic',
+      'instagram_manage_messages',
+      //page insight
+      'read_insights',
+      'pages_read_engagement',
+      // ads api
+      'ads_read',
+      'ads_management'
+    ];
     login({
-      config_id: configId,
+      scope: scopes.join(','),
     }).then((response) => {
       getAdAccounts(response.authResponse?.accessToken).then((accounts) => {
         const newItems = accounts.filter(acc => {
