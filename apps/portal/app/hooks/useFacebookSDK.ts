@@ -278,7 +278,7 @@ export function useFacebookSDK({
         return;
       }
 
-      const url = `/me/accounts?fields=name,access_token,id,category,picture.width(480).height(480),connected_instagram_account,dataset{id,name}&limit=100&access_token=${accessToken}`;
+      const url = `/me/accounts?fields=name,access_token,id,category,picture.width(480).height(480),connected_instagram_account&limit=100&access_token=${accessToken}`;
       console.log("Fetching pages:", url);
 
       window.FB?.api(url, "get", (res: any) => {

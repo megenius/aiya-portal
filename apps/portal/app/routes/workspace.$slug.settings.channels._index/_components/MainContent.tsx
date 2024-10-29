@@ -66,6 +66,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       'pages_manage_metadata', //review
       'pages_read_user_content',
       'pages_manage_engagement', //review
+      'page_events',
       'public_profile',
       'instagram_basic',
       'instagram_manage_messages',
