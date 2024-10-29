@@ -4,11 +4,11 @@ import { Env } from "~/types/hono.types";
 import { followersRoutes } from "./followers";
 
 const channelsRoutes = new Hono<Env>();
-channelsRoutes.get("/:id", ...Handler.getProvider);
-channelsRoutes.patch("/:id", ...Handler.updateProvider);
-channelsRoutes.post("/line/webhook-endpoint", ...Handler.lineWebhookEndpoint);
+channelsRoutes.get("/:providerId", ...Handler.getProvider);
+channelsRoutes.patch("/:providerId", ...Handler.updateProvider);
+channelsRoutes.route("/:providerId/followers", followersRoutes);
 
-channelsRoutes.route("/:id/followers", followersRoutes);
+channelsRoutes.post("/line/webhook-endpoint", ...Handler.lineWebhookEndpoint);
 
 export { channelsRoutes };
 

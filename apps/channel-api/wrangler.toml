@@ -58,6 +58,9 @@ routes = [
 mode = "smart"
 
 
+[env.prod.vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+
 # [[env.prod.kv_namespaces]]
 # binding = "KV_PORTAL"
 # id = "088f1972ae4347179a232a198ad780c0"

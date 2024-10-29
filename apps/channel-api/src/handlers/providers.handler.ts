@@ -36,12 +36,13 @@ export const getProvider = factory.createHandlers(
                 "*",
                 { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
                 { muted_users: ["uid"] },
+                { orders: ["name", "template", "metadata"] },
               ],
             },
-            {
-              // @ts-ignore
-              "orderbots.orderbot_id": ["*"],
-            },
+            // {
+            //   // @ts-ignore
+            //   "orderbots.orderbot_id": ["*"],
+            // },
           ],
           filter: {
             provider_id: {
@@ -61,8 +62,8 @@ export const getProvider = factory.createHandlers(
         const channel = _.omit(items[0], "bots");
         const response = {
           ...channel,
-          orderbots,
-          bots: bots?.map((bot) => {
+          orderbots: bots?.filter(b => b.type === "orderbot"),
+          bots: bots?.filter(b => b.type === "chatbot").map((bot) => {
             return {
               ...bot,
               datasources:
@@ -76,10 +77,12 @@ export const getProvider = factory.createHandlers(
         return c.json(response);
       }
     } catch (error) {
+      console.log("error", error);
+      
       throw DirectusError.fromDirectusResponse(error);
     }
   }
-)
+);
 
 export const updateProvider = factory.createHandlers(
   directusMiddleware,
@@ -96,7 +99,7 @@ export const updateProvider = factory.createHandlers(
       throw DirectusError.fromDirectusResponse(error);
     }
   }
-)
+);
 
 //line webhook endpoint
 
@@ -156,7 +159,7 @@ export const lineWebhookEndpoint = factory.createHandlers(
       throw DirectusError.fromDirectusResponse(error);
     }
   }
-)
+);
 
 export function transformData(inputData: any) {
   return inputData.map((item: any) => {

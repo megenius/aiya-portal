@@ -58,6 +58,8 @@ export const getBotHandler = factory.createHandlers(
           { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
           // @ts-ignore
           { muted_users: ["uid"] },
+          // @ts-ignore
+          { orders: ["name", "template", "metadata"] },
         ],
       })
     );

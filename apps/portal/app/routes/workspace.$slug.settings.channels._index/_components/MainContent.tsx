@@ -75,7 +75,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       // ads api
       'ads_read',
     ];
-    console.log("scopes", scopes);
+    // console.log("scopes", scopes);
     login({
       scope: scopes.join(','),
     })
