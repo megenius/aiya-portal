@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   const { data: user } = useMe()
   const { data: workspace } = useWorkspace({ id: bot?.team });
   const { data: bots } = useBots({ variables: { workspaceId: bot?.team as string } })
-  const navItems: NavItem[] = [
+  let navItems: NavItem[] = [
     { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
     { label: 'Messages', to: `/apps/bot/${botId}/messages` },
     { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
@@ -31,6 +31,23 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
     // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
     { label: 'Settings', to: `/apps/bot/${botId}/settings` },
   ];
+
+  if (bot.type === 'chatbot') {
+    navItems = [
+      { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
+      { label: 'Messages', to: `/apps/bot/${botId}/messages` },
+      { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
+      { label: 'Logs', to: `/apps/bot/${botId}/logs` },
+      // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
+      { label: 'Settings', to: `/apps/bot/${botId}/settings` },
+    ];
+  } else if (bot.type === 'orderbot') {
+    navItems = [
+      { label: 'Slips', to: `/apps/bot/${botId}/Slips` },
+      { label: 'Logs', to: `/apps/bot/${botId}/logs` },
+      { label: 'Settings', to: `/apps/bot/${botId}/settings` },
+    ];
+  }
 
   return (
     <header className="flex flex-col z-50">
