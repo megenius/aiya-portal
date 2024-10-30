@@ -165,11 +165,11 @@ export const sidebarLinks: SidebarLink[] = [
     label: "AiChat",
     icon: <CustomBoxIcon />,
   },
-  {
-    to: "apps/orderbots",
-    label: "AiOrders",
-    icon: <CustomBoxIcon />,
-  },
+  // {
+  //   to: "apps/orderbots",
+  //   label: "AiOrders",
+  //   icon: <CustomBoxIcon />,
+  // },
   // {
   //   to: "apps/vouchers",
   //   label: "AiVoucher",

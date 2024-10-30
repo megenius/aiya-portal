@@ -76,6 +76,9 @@ export const getProvider = factory.createHandlers(
 
         return c.json(response);
       }
+
+      throw Error("Provider not found");
+
     } catch (error) {
       console.log("error", error);
       
