@@ -31,9 +31,10 @@ botsRoutes.get("/:id/muted-users", ...BotsHandler.getMutedUsersHandler);
 botsRoutes.post("/:id/muted-users", ...BotsHandler.muteUserHandler);
 botsRoutes.delete("/:id/muted-users", ...BotsHandler.unmuteUserHandler);
 
-// slips
+botsRoutes.get("/:id/orders", ...BotsHandler.ordersHandler);
 botsRoutes.get("/:id/slips", ...BotsHandler.slipsHandler);
 botsRoutes.get("/:id/capi-logs", ...BotsHandler.capiLogsHandler);
+botsRoutes.get("/:id/order-templates", ...BotsHandler.orderTemplatesHandler);
 
 
 // webhook

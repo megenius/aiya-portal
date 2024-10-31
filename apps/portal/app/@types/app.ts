@@ -68,6 +68,7 @@ export type BotUpdate = {
 // export type ChannelOrderbot = components["schemas"][""];
 
 export type ChannelBot = components["schemas"]["ItemsChannelsBots"];
+export type OrderTemplate = components["schemas"]["ItemsBotsOrders"];
 
 export type BotKnowledge = components["schemas"]["ItemsBotsKnowledges"] & {
   // raw_data?: BotIntentRaw[];

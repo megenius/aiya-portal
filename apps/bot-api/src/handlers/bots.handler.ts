@@ -116,7 +116,14 @@ export const getBotChannelsHandler = factory.createHandlers(
               channels: [
                 "id",
                 {
-                  channel_id: ["id", "name", "logo", "provider_id", "platform", "dataset"],
+                  channel_id: [
+                    "id",
+                    "name",
+                    "logo",
+                    "provider_id",
+                    "platform",
+                    "dataset",
+                  ],
                 },
               ],
             },
@@ -311,7 +318,6 @@ export const searchBotHandler = factory.createHandlers(
   }
 );
 
-
 // logs ----------------------------------------------------------
 export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
   const body = await c.req.json();
@@ -394,6 +400,51 @@ export const unmuteUserHandler = factory.createHandlers(
   }
 );
 
+// orders ----------------------------------------------------------
+export const ordersHandler = factory.createHandlers(
+  logger(),
+  opensearchMiddleware,
+
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const opensearch = c.get("opensearch");
+    const { start, end } = c.req.query();
+
+    const res = await opensearch.search({
+      index: "bots_orders",
+      body: {
+        query: {
+          bool: {
+            filter: [
+              {
+                term: {
+                  "metadata.bot_id.keyword": botId,
+                },
+              },
+              {
+                range: {
+                  created_at: {
+                    gte: start,
+                    lt: end,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        sort: [{ created_at: { order: "desc" } }],
+        size: 10000,
+      },
+    });
+
+    return c.json({
+      start,
+      end,
+      data: res.hits.hits.map((x) => x._source),
+    });
+  }
+);
+
 // slips ----------------------------------------------------------
 export const slipsHandler = factory.createHandlers(
   logger(),
@@ -439,7 +490,6 @@ export const slipsHandler = factory.createHandlers(
   }
 );
 
-
 // capi-logs ----------------------------------------------------------
 export const capiLogsHandler = factory.createHandlers(
   logger(),
@@ -481,5 +531,25 @@ export const capiLogsHandler = factory.createHandlers(
       end,
       data: res.hits.hits.map((x) => x._source),
     });
+  }
+);
+
+// order-templates ----------------------------------------------------------
+export const orderTemplatesHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+
+    const items = await directus.request(
+      readItems("bots_orders", {
+        fields: ["id", "name", "template", "metadata", "date_updated"],
+        filter: { bot: botId },
+        limit: 100,
+      })
+    );
+
+    return c.json(items);
   }
 );

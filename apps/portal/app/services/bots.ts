@@ -13,11 +13,13 @@ import {
   ChannelBot,
   IntentQuestion,
   IntentResponse,
+  OrderTemplate,
   WorkspaceMember,
   stats,
 } from "~/@types/app";
 
 import api from "./api";
+import { BotsOrders } from "~/@types/modules/order";
 
 // --------------- bots ---------------
 export const fetchBot = (id: string) => api.get<Bot>(`/items/bots/${id}`);
@@ -238,3 +240,16 @@ export const fetchCapiLogs = (botId: string) =>
     end: string;
     data: CAPIEvents[];
   }>(`/bots/${botId}/capi-logs`);
+
+// --------------- order templates ---------------
+export const fetchOrderTemplates = (botId: string) =>
+  api.get<Array<OrderTemplate>>(`/bots/${botId}/order-templates`);
+
+
+// --------------- order templates ---------------
+export const fetchOrders = (botId: string) =>
+  api.get<{
+    start: string;
+    end: string;
+    data: BotsOrders[];
+  }>(`/bots/${botId}/orders`);
