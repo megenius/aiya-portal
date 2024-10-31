@@ -114,6 +114,7 @@ const ChannelTable: React.FC<ChannelTableProps> = ({ bot, channels }) => {
                     <span className="text-sm text-gray-600 dark:text-neutral-400">
                       {item.provider_id}
                     </span>
+                    <p className='text-sm text-gray-400' >{item.dataset}</p>
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <span className="text-sm text-gray-600 dark:text-neutral-400">

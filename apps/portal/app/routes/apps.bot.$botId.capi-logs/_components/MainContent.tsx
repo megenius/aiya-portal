@@ -66,7 +66,12 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </th>
                     <th scope="col" className="min-w-[250px] ">
                       <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                        Event/Dataset
+                        Page/Dataset
+                      </div>
+                    </th>
+                    <th scope="col" className="min-w-[250px] ">
+                      <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        Event/User
                       </div>
                     </th>
                     <th scope="col" className="min-w-[250px] ">
@@ -76,7 +81,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </th>
                     <th scope="col">
                       <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                        Amount/User
+                        Amount
                       </div>
                     </th>
                   </tr>
@@ -100,9 +105,19 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="w-full flex items-center gap-x-3">
                           <div className="grow">
                             <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                              {item.event_name}
+                              {item.user_data.page_id}
                             </span>
                             <p className="text-sm text-gray-400">{item.dataset}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="size-px whitespace-nowrap pe-4 py-3">
+                        <div className="w-full flex items-center gap-x-3">
+                          <div className="grow">
+                            <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
+                              {item.event_name}
+                            </span>
+                            <p className="text-sm text-gray-400">{item.user_data.page_scoped_user_id}</p>
                           </div>
                         </div>
                       </td>
@@ -120,9 +135,9 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="w-full flex items-center gap-x-3">
                           <div className="grow">
                             <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                              <NumericFormat displayType='text' value={item.custom_data.value} prefix={item.custom_data.currency + " "} thousandSeparator="," />
+                              <NumericFormat displayType='text' value={item.custom_data.value} thousandSeparator="," />
                             </span>
-                            <p className="text-sm text-gray-400">{item.user_data.page_scoped_user_id}</p>
+                            <p className="text-sm text-gray-400">{item.custom_data.currency}</p>
                           </div>
                         </div>
                       </td>

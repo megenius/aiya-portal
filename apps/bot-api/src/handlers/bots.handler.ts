@@ -116,7 +116,7 @@ export const getBotChannelsHandler = factory.createHandlers(
               channels: [
                 "id",
                 {
-                  channel_id: ["id", "name", "logo", "provider_id", "platform"],
+                  channel_id: ["id", "name", "logo", "provider_id", "platform", "dataset"],
                 },
               ],
             },
