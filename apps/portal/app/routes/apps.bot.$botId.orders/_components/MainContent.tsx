@@ -29,7 +29,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
     const searchText = searchValue.toLowerCase().trim();
 
     return orders?.data.filter(item => {
-      return item.name?.toLowerCase().includes(searchText)
+      return item.data._name?.toLowerCase().includes(searchText)
     });
   }, [orders, searchValue]);
 
@@ -76,6 +76,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                     </th>
                     <th scope="col" className="min-w-[250px] ">
                       <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        User
+                      </div>
+                    </th>
+                    <th scope="col" className="min-w-[250px] ">
+                      <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Phone
                       </div>
                     </th>
@@ -103,6 +108,13 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                         <div className="w-full flex items-center gap-x-3">
                           <div className="grow">
                             {item.data._name}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="size-px whitespace-nowrap pe-4 py-3">
+                        <div className="w-full flex items-center gap-x-3">
+                          <div className="grow">
+                            {item.metadata.user_id}
                           </div>
                         </div>
                       </td>
