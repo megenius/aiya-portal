@@ -101,15 +101,15 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   //export using jsonArrayToExcel
   const handleExport = async () => {
     const data = intents.map(intent => {
-      const questions = intent.questions.map(question => question.question).join('####')
-      const answers = intent.responses.map(response => response.payload?.text).join('####')
+      const questions = intent.questions.map(question => question.question).join('\n####')
+      const answers = intent.responses.map(response => response.payload?.text).join('\n####')
 
       return {
         name: intent.name,
         intent: intent.intent,
         questions: "####" + questions,
         answers: "####" + answers,
-        tags: intent.tags.join('####'),
+        tags: "####" + intent.tags.join('\n####'),
       }
     });
 
