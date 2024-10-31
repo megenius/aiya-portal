@@ -7,6 +7,8 @@ import {
   BotLog,
   BotMutedUser,
   BotUpdate,
+  BotsSlips,
+  CAPIEvents,
   Channel,
   ChannelBot,
   IntentQuestion,
@@ -205,7 +207,7 @@ export const duplicateBotKnowledgeIntentResponse = (data: {
     `/bots/knowledges/${data.knowledge_id}/intents/${data.intent_id}/responses/${data.response_id}/duplicate`
   );
 
-// insight logs
+// --------------- insight logs ---------------
 export const fetchBotInsightLogs = (botId: string) =>
   api.get<{
     start: string;
@@ -220,3 +222,19 @@ export const insertBotMutedUser = (data: BotMutedUser) =>
 // --------------- stats ---------------
 export const fetchBotStatsToday = (botId: string) =>
   api.get<stats.AnalyticsReport>(`/bots/${botId}/insights/stats/today`);
+
+// --------------- slips ---------------
+export const fetchBotSlips = (botId: string) =>
+  api.get<{
+    start: string;
+    end: string;
+    data: BotsSlips[];
+  }>(`/bots/${botId}/slips`);
+
+// --------------- capi logs ---------------
+export const fetchCapiLogs = (botId: string) =>
+  api.get<{
+    start: string;
+    end: string;
+    data: CAPIEvents[];
+  }>(`/bots/${botId}/capi-logs`);

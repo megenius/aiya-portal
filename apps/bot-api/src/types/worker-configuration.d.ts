@@ -2,8 +2,6 @@
 
 interface WorkerEnv {
 	CACHING: KVNamespace;
-	SUPABASE_URL: "https://app-api.aiya.ai";
-	SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhibHhpaHZjbnNrdHdqaWNzeXJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzMjg0ODksImV4cCI6MjAwODkwNDQ4OX0.MElXtyFRyjfyMlCNyqdf-iAI7xpPk0dCrzxH9Qe2RVY";
 	NODE_ENV: string;
 	PORT: string;
 	LAMBDA_SECRET_KEY: string;
@@ -19,6 +17,9 @@ interface WorkerEnv {
 	OPENSEARCH_ENDPOINT: string;
 	OPENSEARCH_USERNAME: string;
 	OPENSEARCH_PASSWORD: string;
+	SUPABASE_URL: string;
+	SUPABASE_ANON_KEY: string;
 	SENTENCE_EMBEDINGS_QUEUE: Queue;
+	CAPI_QUEUE: Queue;
 	VECTOR_SENTENCES: VectorizeIndex;
 }

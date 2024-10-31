@@ -174,3 +174,49 @@ export interface VectorQuerySentenceResponse {
   count: number;
   matches: VectorIntentMatch[];
 }
+
+export interface CAPIEventMessage {
+  pageId: string;
+  datasetId: string;
+  psid: string;
+  value: number;
+  currency?: string;
+  eventName?: string;
+  eventTime?: number;
+  accessToken: string;
+  messaging_channel?: string;
+  action_source?: string;
+}
+
+export namespace NsCapi {
+
+  export interface RequestBody {
+    event: Event;
+    botId: string;
+    dataset: string;
+    accessToken: string;
+  }
+  export interface Root {
+    data: Event[];
+    partner_agent: string;
+  }
+
+  export interface Event {
+    event_name: string;
+    event_time: number;
+    action_source: string;
+    messaging_channel: string;
+    user_data: UserData;
+    custom_data: CustomData;
+  }
+
+  export interface UserData {
+    page_id: string;
+    page_scoped_user_id: string;
+  }
+
+  export interface CustomData {
+    currency: string;
+    value: number;
+  }
+}

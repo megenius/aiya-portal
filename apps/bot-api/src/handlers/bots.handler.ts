@@ -33,6 +33,7 @@ import { sendEventToCapi } from "~/services/facebook.service";
 
 const factory = createFactory<Env>();
 
+// list bots ----------------------------------------------------------
 export const getBotHandler = factory.createHandlers(
   // cachingMiddleware({
   //   ttl: 60 * 60,
@@ -68,6 +69,7 @@ export const getBotHandler = factory.createHandlers(
   }
 );
 
+// update bot ----------------------------------------------------------
 export const updateBotHandler = factory.createHandlers(
   cachingMiddleware({
     ttl: 60 * 60,
@@ -153,6 +155,7 @@ export const getBotChannelsHandler = factory.createHandlers(
   }
 );
 
+// delete channel ----------------------------------------------------------
 export const deleteBotChannelHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -186,6 +189,7 @@ export const searchBotKnowledgesHandler = factory.createHandlers(
   }
 );
 
+// create knowledge ----------------------------------------------------------
 export const createBotKnowledgeHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -307,100 +311,6 @@ export const searchBotHandler = factory.createHandlers(
   }
 );
 
-// webhook ----------------------------------------------------------
-export const webhookHandler = factory.createHandlers(
-  logger(),
-  directusMiddleware,
-  opensearchMiddleware,
-  async (c) => {
-    const body = await c.req.json();
-    console.log("webhookHandler", JSON.stringify(body, null, 2));
-    let sendCapi = false;
-    const opensearch = c.get("opensearch");
-    const event_type = body.event_type;
-    let payload = _.omit(body, ["event_type"]) as any;
-    payload = { ...payload, created_at: new Date().toISOString() };
-
-    const getChannel = async (providerId: string) => {
-      const directus = c.get("directus");
-      const items = await directus.request(
-        readItems("channels", {
-          fields: ["dataset", "provider_access_token"],
-          filter: {
-            provider_id: {
-              _eq: providerId,
-            },
-          },
-        })
-      );
-
-      if (items.length > 0) {
-        return items[0];
-      }
-
-      return;
-    };
-
-    try {
-      if (event_type === "bots_logs") {
-        await opensearch.index(event_type, payload, crypto.randomUUID());
-      } else if (event_type === "bots_slips") {
-        await opensearch.index(event_type, payload, crypto.randomUUID());
-        if (payload.metadata?.platform === "facebook") {
-          sendCapi = true;
-        }
-      } else if (event_type === "bots_orders") {
-        await opensearch.index(event_type, payload, crypto.randomUUID());
-        if (payload.metadata?.platform === "facebook") {
-          sendCapi = true;
-        }
-      } else {
-        await opensearch.index(event_type, payload, crypto.randomUUID());
-      }
-
-      if (sendCapi) {
-        const {
-          metadata: { provider_id, user_id },
-          data: { transaction_details },
-        } = payload;
-        const channel = await getChannel(provider_id);
-
-        if (channel) {
-          const id = randomHexString(6);
-          const body = {
-            pageId: provider_id,
-            datasetId: channel.dataset as string,
-            psid: user_id,
-            value: transaction_details?.amount,
-            eventName: "Purchase",
-            eventTime: Math.floor(Date.now() / 1000),
-            currency: "THB",
-          };
-
-          console.log("sendEventToCapi", id, JSON.stringify(body));
-
-          await sendEventToCapi({
-            ...body,
-            accessToken: channel?.provider_access_token as string,
-          })
-            .then((response) => {
-              console.log("sendEventToCapi", id, response);
-            })
-            .catch((error) => {
-              console.error("sendEventToCapi", id, error);
-            });
-        } else {
-          console.error("sendEventToCapi", "dataset not found");
-        }
-      }
-    } catch (error) {
-      console.error("webhookHandler", error);
-    }
-    // event type
-
-    return c.json({});
-  }
-);
 
 // logs ----------------------------------------------------------
 export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
@@ -410,13 +320,14 @@ export const insertLogsHandler = factory.createHandlers(logger(), async (c) => {
   return c.json({});
 });
 
+// getLogsHandler ----------------------------------------------------------
 export const getLogsHandler = factory.createHandlers(logger(), async (c) => {
   console.log("getLogsHandler");
 
   return c.json({});
 });
 
-// getMutedUsersHandler
+// getMutedUsersHandler ----------------------------------------------------------
 export const getMutedUsersHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -435,7 +346,7 @@ export const getMutedUsersHandler = factory.createHandlers(
   }
 );
 
-// muteUserHandler
+// muteUserHandler ----------------------------------------------------------
 export const muteUserHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -457,7 +368,7 @@ export const muteUserHandler = factory.createHandlers(
   }
 );
 
-// unmuteUserHandler
+// unmuteUserHandler ----------------------------------------------------------
 export const unmuteUserHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -480,5 +391,95 @@ export const unmuteUserHandler = factory.createHandlers(
     }
 
     return c.json({});
+  }
+);
+
+// slips ----------------------------------------------------------
+export const slipsHandler = factory.createHandlers(
+  logger(),
+  opensearchMiddleware,
+
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const opensearch = c.get("opensearch");
+    const { start, end } = c.req.query();
+
+    const res = await opensearch.search({
+      index: "bots_slips",
+      body: {
+        query: {
+          bool: {
+            filter: [
+              {
+                term: {
+                  "metadata.bot_id.keyword": botId,
+                },
+              },
+              {
+                range: {
+                  created_at: {
+                    gte: start,
+                    lt: end,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        sort: [{ created_at: { order: "desc" } }],
+        size: 10000,
+      },
+    });
+
+    return c.json({
+      start,
+      end,
+      data: res.hits.hits.map((x) => x._source),
+    });
+  }
+);
+
+
+// capi-logs ----------------------------------------------------------
+export const capiLogsHandler = factory.createHandlers(
+  logger(),
+  opensearchMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const opensearch = c.get("opensearch");
+    const { start, end } = c.req.query();
+
+    const res = await opensearch.search({
+      index: "capi_events",
+      body: {
+        query: {
+          bool: {
+            filter: [
+              {
+                term: {
+                  "bot_id.keyword": botId,
+                },
+              },
+              {
+                range: {
+                  created_at: {
+                    gte: start,
+                    lt: end,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        sort: [{ created_at: { order: "desc" } }],
+        size: 10000,
+      },
+    });
+
+    return c.json({
+      start,
+      end,
+      data: res.hits.hits.map((x) => x._source),
+    });
   }
 );

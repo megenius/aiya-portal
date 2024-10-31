@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import * as BotsHandler from "../handlers/bots.handler";
 import insightsRoutes from "./insights";
+
+import * as WebhookHandler from "../handlers/webhook.handler";
 import { Env } from "~/types/hono.types";
 
 const botsRoutes = new Hono<Env>();
@@ -21,8 +23,6 @@ botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 //delete channel
 botsRoutes.delete("/:id/channels", ...BotsHandler.deleteBotChannelHandler);
 
-botsRoutes.post("/webhook", ...BotsHandler.webhookHandler);
-
 botsRoutes.route("/:id/insights", insightsRoutes);
 
 
@@ -30,5 +30,13 @@ botsRoutes.route("/:id/insights", insightsRoutes);
 botsRoutes.get("/:id/muted-users", ...BotsHandler.getMutedUsersHandler);
 botsRoutes.post("/:id/muted-users", ...BotsHandler.muteUserHandler);
 botsRoutes.delete("/:id/muted-users", ...BotsHandler.unmuteUserHandler);
+
+// slips
+botsRoutes.get("/:id/slips", ...BotsHandler.slipsHandler);
+botsRoutes.get("/:id/capi-logs", ...BotsHandler.capiLogsHandler);
+
+
+// webhook
+botsRoutes.post("/webhook", ...WebhookHandler.webhookHandler);
 
 export { botsRoutes };

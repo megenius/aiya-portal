@@ -43,8 +43,8 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
     ];
   } else if (bot.type === 'orderbot') {
     navItems = [
-      { label: 'Slips', to: `/apps/bot/${botId}/Slips` },
-      { label: 'Logs', to: `/apps/bot/${botId}/logs` },
+      { label: 'Slips', to: `/apps/bot/${botId}/slips` },
+      { label: 'CAPI Logs', to: `/apps/bot/${botId}/capi-logs` },
       { label: 'Settings', to: `/apps/bot/${botId}/settings` },
     ];
   }

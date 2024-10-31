@@ -1,5 +1,7 @@
+import { CAPIEventMessage, NsCapi } from "~/types/app";
 import { getTextEmbedding } from "../utils/vector";
 import { Logger, MD5, TextEmbedding } from "@repo/shared/utils";
+import { OpenSearch } from "@repo/shared";
 
 interface QueueMessage {
   operation:
@@ -15,12 +17,15 @@ interface QueueMessage {
 }
 
 let textEmbedding: TextEmbedding;
+let opensearch: OpenSearch;
 
 export async function handleQueueMessage(batch: MessageBatch, env: WorkerEnv) {
   if (batch.queue === "sentences-embeddings") {
     await handleSentenceEmbeddings(batch, env);
   } else if (batch.queue === "sentences-embeddings2") {
     await handleSentenceEmbeddings2(batch, env);
+  } else if (batch.queue === "capi-queue") {
+    await handleCapiEvents(batch, env);
   }
 }
 
@@ -108,4 +113,52 @@ async function handleSentenceEmbeddings2(batch: MessageBatch, env: WorkerEnv) {
 
   const result = await env.VECTOR_SENTENCES.upsert(vectors);
   console.log("result.ids", result.ids);
+}
+
+async function handleCapiEvents(batch: MessageBatch, env: WorkerEnv) {
+  const messages = batch.messages.map(
+    (message) => message.body as NsCapi.RequestBody
+  );
+
+  const results = await Promise.all<{
+    events_received: number;
+    messages: string[];
+    fbtrace_id: string;
+  }>(
+    messages.map(async (message) => {
+      console.log("message", message);
+      const url = `https://graph.facebook.com/${message.dataset}/events?access_token=${message.accessToken}`;
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: [message.event],
+          partner_agent: "AIYA",
+        }),
+      };
+
+      return await fetch(url, options).then((res) => res.json());
+    })
+  );
+
+  if (!opensearch) {
+    opensearch = new OpenSearch({
+      endpoint: env.OPENSEARCH_ENDPOINT,
+      username: env.OPENSEARCH_USERNAME,
+      password: env.OPENSEARCH_PASSWORD,
+    });
+  }
+
+  for (const [index, message] of messages.entries()) {
+    const result = results[index];
+    await opensearch.index("capi_events", {
+      ...message.event,
+      bot_id: message.botId,
+      dataset: message.dataset,
+      fbtrace_id: result.fbtrace_id,
+      created_at: new Date().toISOString(),
+    });
+  }
 }

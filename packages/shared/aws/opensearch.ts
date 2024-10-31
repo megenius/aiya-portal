@@ -60,6 +60,11 @@ interface SearchParams<TQuery> {
     query: TQuery;
     size?: number;
     from?: number;
+    sort?: Array<{
+      [key: string]: {
+        order: "asc" | "desc";
+      };
+    }>;
   };
 }
 

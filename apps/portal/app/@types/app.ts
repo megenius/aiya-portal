@@ -1,5 +1,10 @@
 import { ResponseElement } from "@repo/shared";
 import { components } from "./directus";
+import { BotsSlips } from "./modules/slips";
+import { CAPIEvents } from "./modules/capi";
+
+export type { BotsSlips, CAPIEvents };
+
 export interface FeatureFlags {
   feature_dashboard: boolean;
   feature_products: boolean;
@@ -324,7 +329,7 @@ export namespace stats {
       percentage: number;
     }>;
   }
-  
+
   export interface AnalyticsReport {
     summary: {
       conversations: {
