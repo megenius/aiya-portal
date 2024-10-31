@@ -112,7 +112,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
     }
   });
 
-  const formatPercentage = (value: number) => `${value?.toFixed(1)}%`;
+  const formatPercentage = (value: number = 0) => `${value?.toFixed(1)}%`;
 
   return (
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -129,7 +129,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
               </p>
               <div className="mt-1 flex items-center gap-x-2">
                 <h3 className="text-xl font-medium text-gray-800">
-                  {formatPercentage(data.summary.performance.successRate)}
+                  {formatPercentage(data.summary.performance.successRate || 0)}
                 </h3>
               </div>
             </div>
@@ -205,7 +205,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">Rate</p>
-                    <p className="text-lg font-semibold">{formatPercentage(data.summary.conversations.fallbackRate)}</p>
+                    <p className="text-lg font-semibold">{formatPercentage(data.summary.conversations.fallbackRate || 0)}</p>
                   </div>
                 </div>
               </div>

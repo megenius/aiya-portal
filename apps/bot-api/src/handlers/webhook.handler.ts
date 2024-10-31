@@ -73,49 +73,65 @@ export const webhookHandler = factory.createHandlers(
       } else if (event_type === "bots_slips") {
         await opensearch.index(event_type, payload, crypto.randomUUID());
         if (payload.metadata?.platform === "facebook") {
-          sendCapi = true;
+          const {
+            metadata: { provider_id, user_id },
+            data: { transaction_details },
+          } = payload;
+          const channel = await getChannel(provider_id);
+          if (channel) {
+            await c.env.CAPI_QUEUE.send({
+              event: {
+                event_name: "Purchase",
+                event_time: Math.floor(Date.now() / 1000),
+                action_source: "business_messaging",
+                messaging_channel: "messenger",
+                user_data: {
+                  page_id: provider_id,
+                  page_scoped_user_id: user_id,
+                },
+                custom_data: {
+                  currency: transaction_details.currency,
+                  value: transaction_details.amount,
+                },
+              },
+              dataset: channel.dataset as string,
+              botId: payload.metadata.bot_id as string,
+              accessToken: channel.provider_access_token as string,
+            });
+          }
         }
       } else if (event_type === "bots_orders") {
         await opensearch.index(event_type, payload, crypto.randomUUID());
         if (payload.metadata?.platform === "facebook") {
-          sendCapi = true;
+          // const {
+          //   metadata: { provider_id, user_id },
+          //   data: { transaction_details },
+          // } = payload;
+          // const channel = await getChannel(provider_id);
+          // if (channel) {
+          //   await c.env.CAPI_QUEUE.send({
+          //     event: {
+          //       event_name: "Purchase",
+          //       event_time: Math.floor(Date.now() / 1000),
+          //       action_source: "business_messaging",
+          //       messaging_channel: "messenger",
+          //       user_data: {
+          //         page_id: provider_id,
+          //         page_scoped_user_id: user_id,
+          //       },
+          //       custom_data: {
+          //         currency: transaction_details.currency,
+          //         value: transaction_details.amount,
+          //       },
+          //     },
+          //     dataset: channel.dataset as string,
+          //     botId: payload.metadata.bot_id as string,
+          //     accessToken: channel.provider_access_token as string,
+          //   });
+          // }
         }
       } else {
         await opensearch.index(event_type, payload, crypto.randomUUID());
-      }
-
-      if (sendCapi) {
-        const {
-          metadata: { provider_id, user_id },
-          data: { transaction_details },
-        } = payload;
-        const channel = await getChannel(provider_id);
-
-        if (channel) {
-          await c.env.CAPI_QUEUE.send({
-            event: {
-              event_name: "Purchase",
-              event_time: Math.floor(Date.now() / 1000),
-              action_source: "business_messaging",
-              messaging_channel: "messenger",
-              user_data: {
-                page_id: provider_id,
-                page_scoped_user_id: user_id,
-              },
-              custom_data: {
-                currency: transaction_details.currency,
-                value: transaction_details.amount,
-              },
-            },
-            dataset: channel.dataset as string,
-            botId: payload.metadata.bot_id as string,
-            accessToken: channel.provider_access_token as string,
-          });
-
-          console.log("sendEventToCapi", "sent");
-        } else {
-          console.error("sendEventToCapi", "dataset not found");
-        }
       }
     } catch (error) {
       console.error("webhookHandler", error);

@@ -12,13 +12,14 @@ import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
 import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
 import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
 import { cn } from '@repo/ui/utils';
-import { CloudUpload, EllipsisVertical, OctagonPause, Rocket, Rss, Trash, Upload } from 'lucide-react';
+import { CloudUpload, DownloadIcon, EllipsisVertical, OctagonPause, Rocket, Rss, Trash, Upload } from 'lucide-react';
 import { useBotKnowlegdeDelete } from '~/hooks/bot/useBotKnowlegdeDelete';
 import { set } from 'lodash';
 import { Loading } from '@repo/preline';
 import { toast } from 'react-toastify';
 import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
 import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
+import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -96,6 +97,33 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
       // Handle error (e.g., show error message to user)
     }
   };
+
+  //export using jsonArrayToExcel
+  const handleExport = async () => {
+    const data = intents.map(intent => {
+      const questions = intent.questions.map(question => question.question).join('####')
+      const answers = intent.responses.map(response => response.payload?.text).join('####')
+
+      return {
+        name: intent.name,
+        intent: intent.intent,
+        questions: "####" + questions,
+        answers: "####" + answers,
+        tags: intent.tags.join('####'),
+      }
+    });
+
+    const fileName = `knowledge-${knowledge.name}-${new Date().toISOString()}.xlsx`;
+
+    console.log('data', data);
+
+    jsonArrayToExcel(data, {
+      fileName,
+      sheetName: 'Intents'
+    });
+  }
+
+
 
   const handleStatusChange = async (status: 'draft' | 'published') => {
     try {
@@ -244,9 +272,16 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                     </button>
                     <button
                       className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                      onClick={() => setShowImporter(!showImporter)}
+                      onClick={() => handleExport()}
                     >
                       <Upload className='size-4' />
+                      Export
+                    </button>
+                    <button
+                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={() => setShowImporter(!showImporter)}
+                    >
+                      <DownloadIcon className='size-4' />
                       Import
                     </button>
                     <button
