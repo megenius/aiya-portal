@@ -11,7 +11,7 @@ const Route = () => {
   useEffect(() => {
     if (bot) {
       if (bot.type === "orderbot") {
-        navigate("./slips")
+        navigate("./orders")
       } else {
         navigate("./dashboard")
       }

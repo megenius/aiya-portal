@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
       { label: 'Orders', to: `/apps/bot/${botId}/orders` },
       { label: 'Slips', to: `/apps/bot/${botId}/slips` },
       { label: 'CAPI Logs', to: `/apps/bot/${botId}/capi-logs` },
-      { label: 'Templates', to: `/apps/bot/${botId}/orders-templates` },
+      { label: 'Templates', to: `/apps/bot/${botId}/templates` },
       { label: 'Settings', to: `/apps/bot/${botId}/settings` },
     ];
   }

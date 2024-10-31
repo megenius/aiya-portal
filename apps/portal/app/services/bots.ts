@@ -243,7 +243,7 @@ export const fetchCapiLogs = (botId: string) =>
 
 // --------------- order templates ---------------
 export const fetchOrderTemplates = (botId: string) =>
-  api.get<Array<OrderTemplate>>(`/bots/${botId}/order-templates`);
+  api.get<Array<OrderTemplate>>(`/bots/${botId}/templates`);
 
 
 // --------------- order templates ---------------
