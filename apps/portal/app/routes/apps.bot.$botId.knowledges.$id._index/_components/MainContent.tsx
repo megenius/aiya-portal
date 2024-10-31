@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
 import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
 import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
+import { format } from 'date-fns';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -113,7 +114,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
       }
     });
 
-    const fileName = `knowledge-${knowledge.name}-${new Date().toISOString()}.xlsx`;
+    const fileName = `knowledge-${knowledge.name}-${format(new Date(), 'yyyyMMddHHmmss')}.xlsx`;
 
     console.log('data', data);
 

@@ -9,6 +9,7 @@ import { useFacebookSDK } from '~/hooks/useFacebookSDK';
 import { Loading } from '@repo/preline';
 import { useBotSlips } from '~/hooks/bot/useBotSlips';
 import { NumericFormat } from 'react-number-format';
+import Lightbox from 'yet-another-react-lightbox';
 
 interface MainContentProps {
   bot: Bot
@@ -84,6 +85,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                         Amount
                       </div>
                     </th>
+                    <th scope="col">
+                      <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
@@ -122,12 +128,16 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                       <td className="size-px whitespace-nowrap px-4 py-3">
                         <div className="grow">
                           <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                            <NumericFormat displayType='text' value={item.data.transaction_details.amount} prefix={item.data.transaction_details.currency + " "} thousandSeparator=","/>
+                            <NumericFormat displayType='text' value={item.data.transaction_details.amount} prefix={item.data.transaction_details.currency + " "} thousandSeparator="," />
                           </span>
                           <p className="text-sm text-gray-400">{item.data.transaction_details.transaction_id}</p>
                         </div>
                       </td>
-
+                      <td className="size-24 whitespace-nowrap px-4 py-3">
+                        <div className="grow">
+                          <ImageLightbox src={item.data.image_url} alt="Slip" />
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -147,3 +157,25 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
 export default MainContent;
 
 
+const ImageLightbox: React.FC<{ src: string, alt: string }> = ({ src, alt }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <>
+      <Lightbox
+        carousel={{ finite: true }}
+        render={{
+          buttonPrev: () => null,
+          buttonNext: () => null,
+        }}
+        open={isOpen}
+        close={() => setIsOpen(false)}
+        slides={[{
+          src: src
+          , alt: alt
+        }]}
+      />
+      <img src={src} onClick={() => setIsOpen(true)} className='cursor-pointer'/>
+    </>
+  );
+}
