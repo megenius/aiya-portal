@@ -136,7 +136,7 @@ export const uploadAutomix = factory.createHandlers(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImxhbWJkYSIsImlzcyI6ImxhbWJkYSIsImV4cCI6MTczMDQ4MTQ5MX0.GBznnaVIfW-fEvGcYUMUEUFLJ6MlmafXMl8LJV1uDVc`,
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImxhbWJkYSIsImlzcyI6ImxhbWJkYSIsImV4cCI6MTczMzQ0NzI0MH0.GoNGA9oTRZVATth8UjnkPariVCj8x8KlV7Q011v6_Yc`,
       },
       body: JSON.stringify({ image_url: url }),
     })

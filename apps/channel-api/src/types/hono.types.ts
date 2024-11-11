@@ -1,8 +1,9 @@
-import { FollowerDurableObject } from "~/durables/Follower";
-import { BotIntent, BotKnowledge } from "./app";
+import { FollowerDO } from "~/durables/FollowerDO";
+import { ProviderDO } from "~/durables/ProviderDO";
+import { BotIntent, BotKnowledge, Channel } from "./app";
 import { TextEmbedding } from "@repo/shared/utils";
-import { WorkerEnv } from "./worker-configuration";
 import { ClientType, AdminClientType } from "~/utils/directus";
+import { WorkerEnv } from "./worker-configuration";
 
 export interface Env {
   Bindings: WorkerEnv;
@@ -13,7 +14,9 @@ export interface Env {
     textEmbedding: TextEmbedding;
     directus: ClientType;
     directAdmin: AdminClientType;
-    followerStub: DurableObjectStub<FollowerDurableObject>;
+    followerDO: DurableObjectStub<FollowerDO>;
+    providerDO: DurableObjectStub<ProviderDO>;
     count: number;
+    channel: Channel;
   };
 }

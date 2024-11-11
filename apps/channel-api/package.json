@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14102  --inspector-port 24102",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
+    "cf-typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
@@ -20,6 +20,6 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241022.0",
     "@types/bun": "latest",
-    "wrangler": "^3.83.0"
+    "wrangler": "^3.86.0"
   }
 }

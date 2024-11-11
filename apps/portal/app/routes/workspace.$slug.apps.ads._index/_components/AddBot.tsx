@@ -1,10 +1,10 @@
 import React from 'react';
 import BasicModal from '~/components/BasicModal';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { randomHexString } from '~/utils/random';
 
 type Inputs = {
   name: string
+  type: string
 }
 
 interface AddBotProps {
@@ -47,7 +47,27 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk }) => {
               {...register("name", { required: true })}
             />
           </div>
+
+          {/* Project name input */}
+          <div>
+            <label
+              htmlFor="hs-pro-dalpn"
+              className="block mb-2 text-sm font-medium text-gray-800"
+            >
+              Bot type
+            </label>
+            <select
+              id="hs-pro-dalpn"
+              className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              {...register("type", { required: true })}
+            >
+              <option value="chatbot">Chatbot</option>
+              <option value="orderbot">Orderbot</option>
+            </select>
+          </div>
         </div>
+
+
 
         {/* <div className="space-y-5">
           <div>

@@ -36,6 +36,9 @@ botsRoutes.get("/:id/slips", ...BotsHandler.slipsHandler);
 botsRoutes.get("/:id/capi-logs", ...BotsHandler.capiLogsHandler);
 botsRoutes.get("/:id/templates", ...BotsHandler.orderTemplatesHandler);
 
+//gpt
+
+botsRoutes.post("/:id/chat", ...BotsHandler.chatsHandler);
 
 // webhook
 botsRoutes.post("/webhook", ...WebhookHandler.webhookHandler);

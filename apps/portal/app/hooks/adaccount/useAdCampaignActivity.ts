@@ -14,7 +14,7 @@ interface Variables {
 export const useAdCampaignActivity = ({ variables: { id } }: QueryProps) => {
   return useQuery({
     queryKey: ["ad-accounts", id, "campaign-activity"],
-    queryFn: () => fetchAdCampaignActivity(id).then((res) => res.data),
+    queryFn: () => fetchAdCampaignActivity(id).then((res) => res.data?.sort((a,b) => a.name?.localeCompare(b.name))),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
   });
 };

@@ -8,6 +8,7 @@ import { getDirectusFileUrl } from '~/utils/files';
 import { NumericFormat } from 'react-number-format';
 import { CurrencyFormatter } from '@repo/ui';
 import { cn } from '@repo/ui/utils';
+import { Trash } from 'lucide-react';
 
 type DataTableProps = {
   items?: FacebookAdAccount[];
@@ -15,6 +16,12 @@ type DataTableProps = {
 };
 
 export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
+
+
+  const handleDelete = (item: FacebookAdAccount) => {
+    
+  };
+
   return (
     <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
       <div className="min-w-full inline-block align-middle">
@@ -42,9 +49,9 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                 </div>
               </th> */}
               <th>
-                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
+                {/* <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-500">
                   Status
-                </div>
+                </div> */}
               </th>
             </tr>
           </thead>
@@ -79,19 +86,7 @@ export const DataTable: React.FC<DataTableProps> = ({ items, onRowClick }) => {
                   </div>
                 </td> */}
                 <td className="size-px whitespace-nowrap px-4 py-3">
-                  {/* {item.last_synced ? ( */}
-                  <span
-                    className={`inline-flex items-center gap-x-1.5 py-1.5 px-2.5 text-xs font-medium rounded-full ${item.metadata?.account_status === 1
-                      ? 'bg-teal-100 text-teal-800'
-                      : 'bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white'
-                      }`}
-                  >
-                    <span className="size-1.5 inline-block bg-gray-800 rounded-full"></span>
-                    {item.metadata?.account_status === 1 ? 'Active' : 'Disabled'}
-                  </span>
-                  {/* ) : (
-                    <span className="text-sm text-gray-400 dark:text-neutral-400">Wating ...</span>
-                  )} */}
+                  <Trash className="cursor-pointer w-4 text-red-300" onClick={() => handleDelete(item)} />
                 </td>
               </tr>
             ))}

@@ -1,10 +1,14 @@
 import React from 'react';
 import BasicModal from '~/components/BasicModal';
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useAdAccounts } from '~/hooks/adaccount';
+import { useOutletContext } from '@remix-run/react';
+import { Workspace } from '~/@types/app';
 
 type Inputs = {
   name: string
   type: string
+  ad_account: string;
 }
 
 interface AddBotProps {
@@ -13,6 +17,9 @@ interface AddBotProps {
 }
 
 const AddBot: React.FC<AddBotProps> = ({ id, onOk }) => {
+  const { workspace } = useOutletContext<{ workspace: Workspace }>()
+  const adAccounts = useAdAccounts({ variables: { workspaceId: workspace?.id as string } });
+
   const {
     register,
     handleSubmit,
@@ -26,6 +33,8 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk }) => {
     reset()
     onOk(data)
   }
+
+  const type = watch("type")
 
   return (
     <BasicModal id={id} title="Add Bot">
@@ -63,29 +72,31 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk }) => {
             >
               <option value="chatbot">Chatbot</option>
               <option value="orderbot">Orderbot</option>
+              <option value="docbot">Docbot</option>
+              <option value="adbot">Adbot</option>
             </select>
           </div>
+
+          {type === "adbot" && (
+            <div>
+              <label
+                htmlFor="hs-pro-dalpn"
+                className="block mb-2 text-sm font-medium text-gray-800"
+              >
+                Ad account
+              </label>
+              <select
+                id="hs-pro-dalpn"
+                className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                {...register("ad_account", { required: true })}
+              >
+                {adAccounts?.data?.items.map((ad) => (
+                  <option key={ad.ad_account_id} value={ad.id as string}>{ad.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
-
-
-
-        {/* <div className="space-y-5">
-          <div>
-            <label
-              htmlFor="hs-pro-dalpn"
-              className="block mb-2 text-sm font-medium text-gray-800"
-            >
-              Machine Name
-            </label>
-            <input
-              type="text"
-              id="hs-pro-dalpn"
-              className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-              placeholder="my_bot"
-              {...register("slug", { required: true })}
-            />
-          </div>
-        </div> */}
 
         <div className="mt-5 flex justify-end gap-x-2">
           <button

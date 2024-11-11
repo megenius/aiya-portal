@@ -12,4 +12,5 @@ type Bindings = {
   LAMBDA_SECRET_KEY: string;
   LINE_WEBHOOK_ENDPOINT: string;
   KV_PORTAL: KVNamespace;
+  CACHING: KVNamespace;
 };

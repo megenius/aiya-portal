@@ -16,21 +16,33 @@ import * as line from "@line/bot-sdk";
 import { Channel } from "~/@types/app";
 import { createFactory } from "hono/factory";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { durableFollowerObjectMiddleware } from "~/middlewares/durable-follower.middleware";
+import { channelMiddleware } from "~/middlewares/channel.middleware";
+import { followerDOMiddleware } from "~/middlewares/follower-do.middleware";
 const { MessagingApiClient } = line.messagingApi;
 
 const factory = createFactory<Env>();
 
 export const listAll = factory.createHandlers(
-  durableFollowerObjectMiddleware,
+  followerDOMiddleware,
   async (c) => {
     try {
-      const stub = c.var.followerStub
-      // const message = stub.
-
       return c.json({ message: "Hello, World!" });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
   }
-)
+);
+
+export const setActiveBot = factory.createHandlers(
+  directusMiddleware,
+  channelMiddleware,
+  async (c) => {
+    try {
+      const channel = await c.get("channel");
+
+      return c.json(channel);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);

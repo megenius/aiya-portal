@@ -7,6 +7,7 @@ export type { BotsSlips, CAPIEvents };
 
 export interface FeatureFlags {
   feature_dashboard: boolean;
+  feature_adaccounts: boolean;
   feature_products: boolean;
   feature_engagements: boolean;
   feature_orders: boolean;
@@ -245,6 +246,7 @@ export interface SpendVsBudgetData {
 }
 
 export interface Campaign {
+  id: string;
   name: string;
   status: "Active" | "Paused" | "Completed";
   spend: string;

@@ -5,9 +5,15 @@ import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
 import { Env } from "@repo/shared";
 import { cache } from "hono/cache";
-import { FollowerDurableObject } from "./durables/FollowerDO";
+import { wsRoutes } from "./routes/ws";
+export * from "./durables/FollowerDO";
+export * from "./durables/ProviderDO";
 
 const app = new Hono<Env>()
+  .get("/health", (c) => {
+    return c.json({ status: "ok" });
+  })
+  .route("/ws", wsRoutes)
   .basePath("/api")
   .use("*", async (c, next) => {
     const hostname = new URL(c.req.url).hostname;
@@ -35,8 +41,6 @@ const app = new Hono<Env>()
   .onError((err, c) => {
     return c.json({ error: err.message });
   });
-
-export { FollowerDurableObject };
 
 export default app;
 

@@ -24,8 +24,8 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
   const { data: workspace } = useWorkspace({ id: adaccount?.team });
   const { data: adaccounts } = useAdAccounts({ variables: { workspaceId: adaccount?.team as string } })
   const navItems: NavItem[] = [
-    { label: 'Overview', to: `/apps/adaccount/${adaccountId}` },
-    // { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },
+    { label: 'Overview', to: `/apps/adaccount/${adaccountId}/dashboard` },
+    { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },
     // { label: 'Ad Sets', to: `/apps/adaccount/${adaccountId}/adsets` },
     // { label: 'System Prompt', to: `/apps/adaccount/${adaccountId}/system-prompt` },
     // { label: 'Ads', to: `/apps/adaccount/${adaccountId}/ads` },
@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
       <div className="bg-gray-800 border-b border-gray-700 dark:bg-black dark:border-neutral-800">
         <div className="max-w-[85rem] flex justify-between lg:grid lg:grid-cols-2 basis-full items-center w-full mx-auto py-2.5 px-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-x-3">
-            <Link to={`/workspace/${workspace?.slug}/apps/ads`}>
+            <Link to={`/workspace/${workspace?.slug}/ad-accounts`}>
               <LogoAiya colors={{
                 path1: "white",
                 path2: "white",

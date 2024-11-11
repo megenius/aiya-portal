@@ -30,6 +30,8 @@ import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware
 import { transformData } from "~/utils/datasource";
 import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 import { sendEventToCapi } from "~/services/facebook.service";
+import OpenAI from "openai";
+import { createParser } from "eventsource-parser";
 
 const factory = createFactory<Env>();
 
@@ -264,55 +266,57 @@ export const searchBotHandler = factory.createHandlers(
           intent: intent?.intent,
           responses: intent?.responses,
           quick_reply: intent?.quick_reply,
+          messages: intent?.responses?.map((response) => {
+            if (platform === "line") {
+              if (response.type === ResponseElementType.Text) {
+                const item = response as TextMessageResponse;
+                return {
+                  type: "text",
+                  text: item.payload?.text,
+                };
+              } else if (response.type === ResponseElementType.Image) {
+                const item = response as ImageMessageResponse;
+                return {
+                  type: "image",
+                  originalContentUrl: item.payload.url,
+                  previewImageUrl: item.payload.url,
+                };
+              }
+
+              return {
+                type: "text",
+                text:
+                  `Unsupported response type` + JSON.stringify(response.type),
+              };
+            } else if (platform === "facebook") {
+              if (response.type === ResponseElementType.Text) {
+                const item = response as TextMessageResponse;
+                return {
+                  text: item.payload?.text,
+                };
+              } else if (response.type === ResponseElementType.Image) {
+                if (response.type === ResponseElementType.Image) {
+                  const item = response as ImageMessageResponse;
+                  return {
+                    attachment: {
+                      type: "image",
+                      payload: {
+                        url: item.payload.url,
+                        is_reusable: true,
+                      },
+                    },
+                  };
+                }
+              }
+            }
+
+            return response;
+          }),
         };
       })
     );
 
-    const messages = matches[0]?.responses?.map((response) => {
-      if (platform === "line") {
-        if (response.type === ResponseElementType.Text) {
-          const item = response as TextMessageResponse;
-          return {
-            type: "text",
-            text: item.payload?.text,
-          };
-        } else if (response.type === ResponseElementType.Image) {
-          const item = response as ImageMessageResponse;
-          return {
-            type: "image",
-            originalContentUrl: item.payload.url,
-            previewImageUrl: item.payload.url,
-          };
-        }
-
-        return {
-          type: "text",
-          text: `Unsupported response type` + JSON.stringify(response.type),
-        };
-      } else if (platform === "facebook") {
-        if (response.type === ResponseElementType.Text) {
-          const item = response as TextMessageResponse;
-          return {
-            text: item.payload?.text,
-          };
-        } else if (response.type === ResponseElementType.Image) {
-          if (response.type === ResponseElementType.Image) {
-            const item = response as ImageMessageResponse;
-            return {
-              attachment: {
-                type: "image",
-                payload: {
-                  url: item.payload.url,
-                  is_reusable: true,
-                },
-              },
-            };
-          }
-        }
-      }
-
-      return response;
-    });
+    const messages = matches[0]?.messages || [];
 
     return c.json({ messages, matches });
   }
@@ -362,11 +366,13 @@ export const muteUserHandler = factory.createHandlers(
     const data = await c.req.json();
     // example data
     // {
+    //  "provider_id": "XXX",
     //   "uid": "Ua29b798287b0acc26cc5ec62e30185e2",
     // }
     const item = await directus.request(
       createItem("bots_muted_users", {
         bot: botId,
+        provider_id: data.provider_id,
         uid: data.uid,
       })
     );
@@ -551,5 +557,104 @@ export const orderTemplatesHandler = factory.createHandlers(
     );
 
     return c.json(items);
+  }
+);
+
+export async function OpenAIStream(payload: any, apiKey: string) {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  // Use ReadableStream and TransformStream for streaming
+  const stream = new ReadableStream({
+    async start(controller) {
+      const onParse = (event: any) => {
+        if (event.type === "event") {
+          const data = event.data;
+
+          if (data === "[DONE]") {
+            controller.close();
+            return;
+          }
+
+          try {
+            const json = JSON.parse(data);
+            const text = json.choices[0]?.delta?.content || "";
+            const queue = encoder.encode(text);
+            controller.enqueue(queue);
+          } catch (e) {
+            controller.error(e);
+          }
+        }
+      };
+
+      const parser = createParser(onParse);
+
+      // Process the response body
+      for await (const chunk of res.body as any) {
+        parser.feed(decoder.decode(chunk));
+      }
+    },
+  });
+
+  return stream;
+}
+
+// chats ----------------------------------------------------------
+export const chatsHandler = factory.createHandlers(
+  logger(),
+  opensearchMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const { OPENAI_API_KEY } = c.env;
+    const body = await c.req.json();
+
+    const openai = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
+
+    // const response = await openai.chat.completions.create({
+    //   model: "gpt-3.5-turbo",
+    //   messages: body.messages,
+    //   stream: true,
+    // });
+
+    // const stream = new ReadableStream({
+    //   async start(controller) {
+    //     for await (const chunk of response) {
+    //       const content = chunk.choices[0]?.delta?.content || "";
+    //       if (content) {
+    //         controller.enqueue(content);
+    //       }
+    //     }
+    //     controller.close();
+    //   },
+    // });
+
+    const stream = await OpenAIStream(
+      {
+        model: "gpt-3.5-turbo",
+        messages: body.messages,
+        temperature: 0.7,
+        stream: true,
+      },
+      OPENAI_API_KEY
+    );
+
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
   }
 );

@@ -57,7 +57,6 @@ abstract class FacebookDataExtractor<T extends AdAccount | AdCampaign> {
     }
 
     // console.log(JSON.stringify(data, null, 2));
-    
 
     return {
       ...data,
@@ -84,12 +83,12 @@ abstract class FacebookDataExtractor<T extends AdAccount | AdCampaign> {
   }
 
   protected getAction(actionType: string): number | undefined {
-    const action = this.data.actions.find((a) => a.action_type === actionType);
+    const action = this.data.actions?.find((a) => a.action_type === actionType);
     return action ? action.value : undefined;
   }
 
   protected getActionValue(actionType: string): number | undefined {
-    const action = this.data.action_values.find(
+    const action = this.data.action_values?.find(
       (a) => a.action_type === actionType
     );
     return action ? action.value : undefined;
@@ -262,7 +261,7 @@ export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
   }
 
   public extractMetrics(): Record<string, string | number | undefined> {
-    const purchaseROAS = this.data.purchase_roas.find(
+    const purchaseROAS = this.data.purchase_roas?.find(
       (roas) => roas.action_type === "omni_purchase"
     );
 
@@ -320,7 +319,8 @@ export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
 
   static async fetchAndCreate(
     c: any,
-    campaign: AdCampaign
+    campaign: AdCampaign,
+    access_token: string
   ): Promise<CampaignDataExtractor> {
     const FB_API_URL = c.env["FB_API_URL"];
     const url = new URL(`${FB_API_URL}/${campaign.id}/insights`);
@@ -334,7 +334,7 @@ export class CampaignDataExtractor extends FacebookDataExtractor<AdCampaign> {
 
     const data = await FacebookDataExtractor.fetchData(
       url.toString(),
-      campaign.access_token as string
+      access_token as string
     );
     return new CampaignDataExtractor(campaign, data);
   }

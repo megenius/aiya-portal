@@ -94,7 +94,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         <BotTable bots={filteredItems} onRowClick={handleRowClick} />
       </MainContainer>
 
-      <AddBot id='hs-add-bot' onOk={handleAddBot} />
+      <AddBot id='hs-add-bot' workspace={workspace} onOk={handleAddBot} />
     </>
   )
 };

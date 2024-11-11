@@ -4,5 +4,6 @@ import { Env } from "~/types/hono.types";
 
 const followersRoutes = new Hono<Env>()
   .get("/", ...Handler.listAll)
+  .get("/:uid/set-active-bot", ...Handler.setActiveBot)
 
 export { followersRoutes };

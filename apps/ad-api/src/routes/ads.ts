@@ -10,10 +10,15 @@ import {
 } from "@directus/sdk";
 import * as _ from "lodash";
 import { DirectusError } from "@repo/shared/exceptions/directus";
-import { adMiddleware } from "~/middlewares/ads";
+import { adMiddleware } from "~/middlewares/ads.middleware";
 import { Env } from "~/@types/hono.types";
-import { AdDataExtractor } from "~/utils/Extractor";
-import { AdAccountApi, AdSetApi, CampaignApi } from "~/utils/facebook-api";
+import { AdDataExtractor, CampaignDataExtractor } from "~/utils/Extractor";
+import {
+  AdAccountApi,
+  AdApi,
+  AdSetApi,
+  CampaignApi,
+} from "~/utils/facebook-api";
 
 type DialyRevenueSpend = {
   spend: number;
@@ -40,14 +45,14 @@ type AdInsight = {
 
 const adsRoutes = new Hono<Env>()
   .get("/:id", adMiddleware, async (c) => {
-    const ad = c.get("ad");
+    const ad = c.get("ad_account");
     return c.json(ad);
   })
   .get("/:id/dashboard", adMiddleware, async (c) => {
     try {
       const debug = c.req.query("debug") === "true";
       const FB_API_URL = c.env["FB_API_URL"];
-      const ad = c.get("ad");
+      const ad = c.get("ad_account");
       const extractor = await AdDataExtractor.fetchAndCreate(c, ad);
       const adsetApi = new AdAccountApi(
         ad.ad_account_id as string,
@@ -70,7 +75,7 @@ const adsRoutes = new Hono<Env>()
       const date_preset = c.req.query("date_preset") || "last_28d";
       const debug = c.req.query("debug") === "true";
       const FB_API_URL = c.env["FB_API_URL"];
-      const adAccount = c.get("ad");
+      const adAccount = c.get("ad_account");
 
       const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/insights`);
       url.searchParams.append("fields", "spend,action_values");
@@ -115,12 +120,119 @@ const adsRoutes = new Hono<Env>()
     }
   })
 
+  .get("/:id/campaigns/:campaignId/dashboard", adMiddleware, async (c) => {
+    try {
+      const debug = c.req.query("debug") === "true";
+      const FB_API_URL = c.env["FB_API_URL"];
+      const ad = c.get("ad_account");
+      const campaignId = c.req.param("campaignId");
+      const extractor = await CampaignDataExtractor.fetchAndCreate(
+        c,
+        { id: campaignId },
+        ad.access_token as string
+      );
+
+      const api = new AdApi(campaignId, ad.access_token as string, FB_API_URL);
+
+      const ads_volume = await api.countTotalAds();
+
+      if (debug) {
+        return c.text(extractor.getSummary());
+      }
+      return c.json({ ...extractor.extractMetrics(), ads_volume });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+
+  .get("/:id/campaigns/dashboard", adMiddleware, async (c) => {
+    try {
+      const date_preset = c.req.query("date_preset") || "last_28d";
+      const debug = c.req.query("debug") === "true";
+      const FB_API_URL = c.env["FB_API_URL"];
+      const adAccount = c.get("ad_account");
+
+      const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
+      url.searchParams.append(
+        "fields",
+        "name,insights{spend,action_values,frequency,reach,conversions,purchase_roas,cpc,cpm,cpp,ctr}"
+      );
+      url.searchParams.append("date_preset", date_preset);
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adAccount.access_token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const { data } = await response.json<{
+        data: Array<{
+          id: string;
+          name: string;
+          insights: {
+            data: Array<
+              DialyRevenueSpend & {
+                frequency: number;
+                reach: number;
+                conversions: number;
+                purchase_roas: {
+                  action_type: string;
+                  value: number;
+                }[];
+                cpc: number;
+                cpm: number;
+                cpp: number;
+                ctr: number;
+              }
+            >;
+          };
+        }>;
+      }>();
+
+      return c.json(
+        data
+          .map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              spend: Number(_.sumBy(item.insights?.data, "spend")),
+              revenue: Number(
+                _.sumBy(
+                  item.insights?.data.map((i) =>
+                    i.action_values?.find(
+                      (a) => a.action_type === "omni_purchase"
+                    )
+                  ),
+                  "value"
+                )
+              ),
+              reach: item.insights?.data[0].reach,
+              frequency: item.insights?.data[0].frequency,
+              cpc: item.insights?.data[0].cpc,
+              cpm: item.insights?.data[0].cpm,
+              cpp: item.insights?.data[0].cpp,
+              ctr: item.insights?.data[0].ctr,
+            };
+          })
+          .filter((item) => item.spend > 0)
+      );
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  })
+
   .get("/:id/campaigns/performance", adMiddleware, async (c) => {
     try {
       const date_preset = c.req.query("date_preset") || "last_28d";
       const debug = c.req.query("debug") === "true";
       const FB_API_URL = c.env["FB_API_URL"];
-      const adAccount = c.get("ad");
+      const adAccount = c.get("ad_account");
 
       const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
       url.searchParams.append("fields", "name,insights{spend,action_values}");
@@ -149,23 +261,25 @@ const adsRoutes = new Hono<Env>()
       }>();
 
       return c.json(
-        data.map((item) => {
-          return {
-            id: item.id,
-            name: item.name,
-            spend: Number(_.sumBy(item.insights?.data, "spend")),
-            revenue: Number(
-              _.sumBy(
-                item.insights?.data.map((i) =>
-                  i.action_values?.find(
-                    (a) => a.action_type === "omni_purchase"
-                  )
-                ),
-                "value"
-              )
-            ),
-          };
-        }).filter(item => item.spend > 0)
+        data
+          .map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              spend: Number(_.sumBy(item.insights?.data, "spend")),
+              revenue: Number(
+                _.sumBy(
+                  item.insights?.data.map((i) =>
+                    i.action_values?.find(
+                      (a) => a.action_type === "omni_purchase"
+                    )
+                  ),
+                  "value"
+                )
+              ),
+            };
+          })
+          .filter((item) => item.spend > 0)
       );
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -177,7 +291,7 @@ const adsRoutes = new Hono<Env>()
       const date_preset = c.req.query("date_preset") || "last_28d";
       const debug = c.req.query("debug") === "true";
       const FB_API_URL = c.env["FB_API_URL"];
-      const adAccount = c.get("ad");
+      const adAccount = c.get("ad_account");
 
       const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
       url.searchParams.append(
@@ -212,42 +326,51 @@ const adsRoutes = new Hono<Env>()
       }>();
 
       return c.json(
-        data.map((item) => {
-          const insight =
-            item.insights?.data.length > 0
-              ? item.insights?.data[0]
-              : ({
-                  spend: 0,
-                  impressions: 0,
-                  clicks: 0,
-                  cpc: 0,
-                  cpm: 0,
-                  cpp: 0,
-                  ctr: 0,
-                  reach: 0,
-                  conversions: 0,
-                  conversion_values: 0,
-                  purchase_roas: [],
-                  actions: [],
-                  action_values: [],
-              } as AdInsight);
+        data
+          .map((item) => {
+            const insight =
+              item.insights?.data.length > 0
+                ? item.insights?.data[0]
+                : ({
+                    spend: 0,
+                    impressions: 0,
+                    clicks: 0,
+                    cpc: 0,
+                    cpm: 0,
+                    cpp: 0,
+                    ctr: 0,
+                    reach: 0,
+                    conversions: 0,
+                    conversion_values: 0,
+                    purchase_roas: [],
+                    actions: [],
+                    action_values: [],
+                  } as AdInsight);
 
+            const roas =
+              insight.purchase_roas?.find(
+                (a) => a.action_type === "omni_purchase"
+              )?.value || 0;
+            const purchase =
+              insight.actions?.find((a) => a.action_type === "omni_purchase")
+                ?.value || 0;
+            const purchase_value =
+              insight.action_values?.find(
+                (a) => a.action_type === "omni_purchase"
+              )?.value || 0;
 
-          const roas = insight.purchase_roas?.find(a => a.action_type === "omni_purchase")?.value || 0;
-          const purchase = insight.actions?.find(a => a.action_type === "omni_purchase")?.value || 0;
-          const purchase_value = insight.action_values?.find(a => a.action_type === "omni_purchase")?.value || 0;
-
-          return {
-            id: item.id,
-            name: item.name,
-            status: item.status,
-            start_time: item.start_time,
-            ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
-            roas,
-            purchase,
-            purchase_value,
-          };
-        }).filter(item => item.spend > 0)
+            return {
+              id: item.id,
+              name: item.name,
+              status: item.status,
+              start_time: item.start_time,
+              ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
+              roas,
+              purchase,
+              purchase_value,
+            };
+          })
+          .filter((item) => item.spend > 0)
       );
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -256,7 +379,7 @@ const adsRoutes = new Hono<Env>()
   // .get("/:id/campaigns", adMiddleware, async (c) => {
   //   try {
   //     const debug = c.req.query("debug") === "true";
-  //     const ad = c.get("ad");
+  //     const ad = c.get("ad_account");
 
   //     const FB_API_URL = c.env["FB_API_URL"];
   //     const startDate = c.req.query("startDate") || "2024-09-06";
@@ -294,7 +417,7 @@ const adsRoutes = new Hono<Env>()
   // })
   .get("/:id/sync", adMiddleware, async (c) => {
     try {
-      const ad = c.get("ad");
+      const ad = c.get("ad_account");
       console.log("Syncing ad", ad.id);
 
       await c.env.AD_ACCOUNT_SYNC.sendBatch([
@@ -338,7 +461,7 @@ const adsRoutes = new Hono<Env>()
   .get("/:id/ad-campaigns", adMiddleware, async (c) => {
     try {
       const directus = getDirectusClient();
-      const ad = c.get("ad");
+      const ad = c.get("ad_account");
 
       const campaigns = await directus.request(
         readItems("ad_campaigns", {
@@ -354,7 +477,7 @@ const adsRoutes = new Hono<Env>()
   .get("/:id/ad-sets", adMiddleware, async (c) => {
     try {
       const directus = getDirectusClient();
-      const ad = c.get("ad");
+      const ad = c.get("ad_account");
 
       const api = new AdSetApi(
         ad.ad_account_id as string,

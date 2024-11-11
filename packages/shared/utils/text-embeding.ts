@@ -38,7 +38,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
                 space_type: "l2",
                 name: "hnsw",
                 parameters: {
-                  ef_construction: 512,
+                  ef_construction: this.dimension,
                   m: 16,
                 },
               },

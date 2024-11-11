@@ -16,6 +16,7 @@ interface SideBarProps {
 
 const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   feature_dashboard: false,
+  feature_adaccounts: true,
   feature_products: false,
   feature_engagements: false,
   feature_orders: false,
@@ -52,7 +53,7 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
       console.log(appFeature);
       return featureFlags[appFeature as keyof FeatureFlags] !== false;
     } else {
-      const featureName = `feature_${link.to}` as keyof FeatureFlags;
+      const featureName = `feature_${link.to?.replace("-", "")}` as keyof FeatureFlags;
       return featureFlags[featureName] !== false;
     }
   });

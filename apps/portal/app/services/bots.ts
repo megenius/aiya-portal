@@ -245,7 +245,6 @@ export const fetchCapiLogs = (botId: string) =>
 export const fetchOrderTemplates = (botId: string) =>
   api.get<Array<OrderTemplate>>(`/bots/${botId}/templates`);
 
-
 // --------------- order templates ---------------
 export const fetchOrders = (botId: string) =>
   api.get<{
@@ -253,3 +252,24 @@ export const fetchOrders = (botId: string) =>
     end: string;
     data: BotsOrders[];
   }>(`/bots/${botId}/orders`);
+
+// --------------- chat ---------------
+export const streamBotChat = (
+  botId: string,
+  {
+    messages,
+  }: {
+    messages: Array<{ role: string; content: string }>;
+  }
+) =>
+  api.post(
+    `/bots/${botId}/chat`,
+    { messages },
+    {
+      responseType: "stream",
+      headers: {
+        Accept: "text/event-stream",
+        "Content-Type": "application/json",
+      },
+    }
+  );

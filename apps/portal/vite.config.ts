@@ -32,6 +32,9 @@ export default ({ mode }) => {
         "/api/partners": getEndpoint("http://localhost:14108", ""),
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),
+        "/ws/provider": getEndpoint("http://localhost:14102", "", {
+          ws: true,
+        }),
       },
     },
     ssr: {
@@ -40,11 +43,18 @@ export default ({ mode }) => {
   });
 };
 
-const getEndpoint = (url: string, prefix: string) => {
+const getEndpoint = (
+  url: string,
+  prefix: string,
+  opts?: {
+    ws?: boolean;
+  }
+) => {
   return {
     target: url,
     changeOrigin: true,
     secure: false,
+    ws: opts?.ws,
     rewrite: (path: string) => path.replace(new RegExp(`^/${prefix}`), ""),
   };
 };

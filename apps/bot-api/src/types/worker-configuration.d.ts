@@ -19,6 +19,7 @@ interface WorkerEnv {
 	OPENSEARCH_PASSWORD: string;
 	SUPABASE_URL: string;
 	SUPABASE_ANON_KEY: string;
+	OPENAI_API_KEY: string;
 	SENTENCE_EMBEDINGS_QUEUE: Queue;
 	CAPI_QUEUE: Queue;
 	VECTOR_SENTENCES: VectorizeIndex;

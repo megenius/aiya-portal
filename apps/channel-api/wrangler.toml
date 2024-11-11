@@ -1,5 +1,5 @@
 name = "channel-api_dev"
-compatibility_date = "2024-10-22"
+compatibility_date = "2024-11-06"
 compatibility_flags = ["nodejs_compat"]
 
 
@@ -12,13 +12,22 @@ routes = [
 [placement]
 mode = "smart"
 
-[[durable_objects.bindings]]
-name = "FOLLOWERS"
-class_name = "FollowerDurableObject"
+
+[durable_objects]
+bindings = [
+  { name = "FOLLOWERS", class_name = "FollowerDO" },
+  { name = "PROVIDERS", class_name = "ProviderDO" },
+]
+
 
 [[migrations]]
-tag = "v1"                # Should be unique for each entry
-new_sqlite_classes = ["FollowerDurableObject"]
+tag = "v1"                         
+new_classes = ["FollowerDO", "ProviderDO"]
+
+
+[[kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
 
 # [[kv_namespaces]]
 # binding = "KV_PORTAL"
@@ -70,5 +79,5 @@ name = "FOLLOWERS"
 class_name = "FollowerDurableObject"
 
 [[env.prod.migrations]]
-tag = "v1"                # Should be unique for each entry
+tag = "v1"                                     # Should be unique for each entry
 new_sqlite_classes = ["FollowerDurableObject"]

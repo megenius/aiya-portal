@@ -34,6 +34,13 @@ export const sidebarLinks: SidebarLink[] = [
     ),
   },
   {
+    to: "ad-accounts",
+    label: "Ad Accounts",
+    icon: (
+      <Package size={18} />
+    )
+  },
+  {
     to: "products",
     label: "Products",
     icon: (
