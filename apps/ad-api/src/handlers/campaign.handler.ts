@@ -107,7 +107,6 @@ export const getCampaigns = async (c: Context<Env>) => {
       purchase_value,
     };
   });
-  // .filter((item) => item.spend > 0);
 
   return c.json({
     data,

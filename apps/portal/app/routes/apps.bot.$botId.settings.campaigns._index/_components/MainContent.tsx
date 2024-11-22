@@ -6,32 +6,30 @@ import { getDirectusFileUrl } from '~/utils/files';
 import * as _ from 'lodash'
 import TableFilter from './TableFilter';
 import CampaignTable from './CampaignTable';
-import { useAdCampaigns } from '~/hooks/bot/useAdCampaigns';
-import { useAdCampaignActivity } from '~/hooks/adaccount/useAdCampaignActivity';
 
 interface MainContentProps {
   bot: Bot
 }
 
 const MainContent: React.FC<MainContentProps> = ({ bot }) => {
-  const { data: campaigns, isLoading } = useAdCampaignActivity({ variables: { id: bot.ad_account as string } });
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
   };
 
-  const filterItems = useMemo(() => {
-    if (!campaigns) return [];
+  // const filterItems = useMemo(() => {
+  //   if (!campaigns) return [];
 
-    const lowerSearchValue = searchValue.toLowerCase().trim();
+  //   const lowerSearchValue = searchValue.toLowerCase().trim();
 
-    return campaigns.filter(campaign =>
-      !searchValue ||
-      campaign.name?.toLowerCase().includes(lowerSearchValue)
-    )
-  }, [bot, campaigns, searchValue]);
+  //   return campaigns.filter(campaign =>
+  //     !searchValue ||
+  //     campaign.name?.toLowerCase().includes(lowerSearchValue)
+  //   )
+  // }, [bot, campaigns, searchValue]);
 
+  const filterItems = []
 
   return (
     <>
@@ -48,7 +46,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
         {/* End Title */}
         <div className="space-y-5">
           <TableFilter onChanged={handleSearchChange} />
-          <CampaignTable bot={bot} campaigns={filterItems} />
+          {/* <CampaignTable bot={bot} campaigns={filterItems} /> */}
         </div>
       </div>
     </>

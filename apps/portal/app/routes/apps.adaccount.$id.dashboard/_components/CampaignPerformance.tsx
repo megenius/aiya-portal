@@ -2,7 +2,7 @@ import { useParams } from '@remix-run/react';
 import React, { Suspense, useMemo } from 'react';
 import { ClientOnly } from "remix-utils/client-only";
 import { FacebookAdAccount } from '~/@types/app';
-import { useAdCampaignPerformance } from '~/hooks/adaccount/useAdCampaignPerformance';
+import { useAdaccountPerformanceCampaigns } from '~/hooks/adaccount/useAdaccountPerformanceCampaigns';
 
 const Chart = React.lazy(() => import('react-apexcharts')
 );
@@ -13,7 +13,7 @@ interface CampaignProps {
 
 const CampaignPerformance: React.FC<CampaignProps> = ({ adaccount }) => {
   const { id } = useParams();
-  const { data } = useAdCampaignPerformance({ variables: { id: id as string } });
+  const { data } = useAdaccountPerformanceCampaigns({ variables: { id: id as string } });
 
   const formatCurrency = (value) => `${adaccount.metadata.currency} ${value.toLocaleString()}`;
 
@@ -84,7 +84,6 @@ const CampaignPerformance: React.FC<CampaignProps> = ({ adaccount }) => {
 
     return { chartOptions, series };
   }, [data]);
-
 
 
   return (

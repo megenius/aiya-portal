@@ -5,14 +5,13 @@ import { useAppSelector } from "~/store";
 import Overview from "./_components/Overview";
 import { FacebookAdAccount } from "~/@types/app";
 import { CampaignPerformance } from "./_components/CampaignPerformance";
-import RecentCampaigns from "./_components/RecentCampaigns";
-import TopAds from "./_components/TopAds";
 import { ClientOnly } from "remix-utils/client-only";
-import { useAdDashboard } from "~/hooks/adaccount/useAdDashboard";
 import { CurrencyFormatter } from "@repo/ui";
 import MetricCard from "./_components/MetricCard";
 import { RoasChart } from "./_components/RoasChart";
 import { Loading } from "@repo/preline";
+import { useAdaccountInsight } from "~/hooks/adaccount/useAdaccountInsight";
+import CampaignDisplay from "./_components/CampaignDisplay";
 
 const MainContent = React.lazy(() => import("./_components/MainContent"))
 
@@ -21,16 +20,16 @@ const Route = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const { adaccount } = useOutletContext<{ adaccount: FacebookAdAccount }>()
-  const { data, isLoading } = useAdDashboard({
+  const { data, isLoading } = useAdaccountInsight({
     variables: {
       id: id as string,
     },
   });
-  
+
   if (isLoading) {
     return <Loading />
   }
-  
+
   return (
     <Suspense fallback="">
       <ClientOnly>
@@ -52,7 +51,8 @@ const Route = () => {
               <MetricCard title="CPP" value={<CurrencyFormatter amount={data?.cpp} />} />
               <MetricCard title="CTR" value={`${(data?.ctr || 0).toFixed(2)}%`} />
             </div>
-            {/* <CampaignPerformance adaccount={adaccount} /> */}
+            <CampaignPerformance adaccount={adaccount} />
+            <CampaignDisplay adaccount={adaccount} />
             {/* <RecentCampaigns adaccount={adaccount}/> */}
             {/* <TopAds /> */}
             {/* <Overview adaccount={adaccount} /> */}

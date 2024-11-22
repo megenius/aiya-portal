@@ -76,7 +76,7 @@ export const getDailySpend = async (c: Context<Env>) => {
   }
 };
 
-export const getPerformance = async (c: Context<Env>) => {
+export const getPerformanceCampaigns = async (c: Context<Env>) => {
   try {
     const date_preset = c.req.query("date_preset") || "last_28d";
     const debug = c.req.query("debug") === "true";
@@ -86,6 +86,7 @@ export const getPerformance = async (c: Context<Env>) => {
     const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
     url.searchParams.append("fields", "name,insights{spend,action_values}");
     url.searchParams.append("date_preset", date_preset);
+    url.searchParams.append("limit", "100");
 
     const response = await fetch(url, {
       method: "GET",
@@ -133,9 +134,99 @@ export const getPerformance = async (c: Context<Env>) => {
   } catch (error) {
     throw DirectusError.fromDirectusResponse(error);
   }
-}
+};
 
-export const getCampaignDashboard = async (c: Context<Env>) => {
+export const getPerformanceCampaignsTop10 = async (c: Context<Env>) => {
+  try {
+    const date_preset = c.req.query("date_preset") || "last_28d";
+    const debug = c.req.query("debug") === "true";
+    const FB_API_URL = c.env["FB_API_URL"];
+    const adAccount = c.get("ad_account");
+
+    const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
+    url.searchParams.append(
+      "fields",
+      "name,status,insights{spend,impressions,clicks,cpc,cpm,cpp,ctr,reach,conversions,conversion_values,purchase_roas,actions,action_values}"
+    );
+    url.searchParams.append("date_preset", date_preset);
+    url.searchParams.append("limit", "100");
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${adAccount.access_token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const res = await response.json<{
+      data: Array<{
+        id: string;
+        name: string;
+        status: string;
+        start_time: string;
+        insights: {
+          data: AdInsight[];
+        };
+      }>;
+      paging: { cursors: { after: string; before: string }; next: string };
+    }>();
+
+    const data = res.data.map((item) => {
+      const insight =
+        item.insights?.data.length > 0
+          ? item.insights?.data[0]
+          : ({
+              spend: 0,
+              impressions: 0,
+              clicks: 0,
+              cpc: 0,
+              cpm: 0,
+              cpp: 0,
+              ctr: 0,
+              reach: 0,
+              conversions: 0,
+              conversion_values: 0,
+              purchase_roas: [],
+              actions: [],
+              action_values: [],
+            } as AdInsight);
+
+      const roas =
+        insight.purchase_roas?.find((a) => a.action_type === "omni_purchase")
+          ?.value || 0;
+      const purchase =
+        insight.actions?.find((a) => a.action_type === "omni_purchase")
+          ?.value || 0;
+      const purchase_value =
+        insight.action_values?.find((a) => a.action_type === "omni_purchase")
+          ?.value || 0;
+
+      return {
+        id: item.id,
+        name: item.name,
+        status: item.status,
+        start_time: item.start_time,
+        ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
+        roas,
+        purchase,
+        purchase_value,
+      };
+    });
+
+    return c.json(
+      data.sort((a, b) => b.roas - a.roas).slice(0, 10)
+    );
+  } catch (error) {
+    throw DirectusError.fromDirectusResponse(error);
+  }
+};
+
+export const getCampaignPerformance = async (c: Context<Env>) => {
   try {
     const debug = c.req.query("debug") === "true";
     const FB_API_URL = c.env["FB_API_URL"];
@@ -158,7 +249,7 @@ export const getCampaignDashboard = async (c: Context<Env>) => {
   } catch (error) {
     throw DirectusError.fromDirectusResponse(error);
   }
-}
+};
 
 export const getAdAccountCampaignsDashboard = async (c: Context<Env>) => {
   try {
@@ -240,14 +331,10 @@ export const getAdAccountCampaignsDashboard = async (c: Context<Env>) => {
   } catch (error) {
     throw DirectusError.fromDirectusResponse(error);
   }
-}
+};
 
+export const getAdCampaigns = async (c: Context<Env>) => {};
 
-export const getAdCampaigns = async (c: Context<Env>) => {
-}
+export const getAdSets = async (c: Context<Env>) => {};
 
-export const getAdSets = async (c: Context<Env>) => {
-}
-
-export const getAdAds = async (c: Context<Env>) => {
-}
+export const getAdAds = async (c: Context<Env>) => {};

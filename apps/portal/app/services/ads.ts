@@ -1,6 +1,6 @@
 import { AdApp, AdDashboard, AdInsight, FacebookAdAccount } from "~/@types/app";
 import api from "./api";
-import { CampaignResult } from "~/@types/ads/campaign.type";
+import { CampaignResult, Campaign } from "~/@types/ads/campaign.type";
 import { AdsetResult } from "~/@types/ads/adset.type";
 
 export const fetchAdAccounts = () => api.get("/facebook/adaccounts");
@@ -22,10 +22,10 @@ export const deleteAd = (id: string) => {
 };
 
 export const fetchAdAccount = (id: string) =>
-  api.get<FacebookAdAccount>("/items/ad_accounts/" + id);
+  api.get<FacebookAdAccount>("/adaccounts/" + id);
 
-export const fetchAdDashboard = (id: string) =>
-  api.get<AdDashboard>("/ads/" + id + "/dashboard");
+export const fetchAdaccountInsight = (id: string) =>
+  api.get<AdDashboard>("/adaccounts/" + id + "/insights");
 
 export const fetchAdSpendDaily = (id: string) =>
   api.get<
@@ -34,7 +34,7 @@ export const fetchAdSpendDaily = (id: string) =>
       spend: number;
       revenue: number;
     }>
-  >("/ads/" + id + "/spend-daily");
+  >("/adaccounts/" + id + "/spend-daily");
 
 export const fetchAdCampaigns = (id: string) =>
   api.get<
@@ -44,9 +44,9 @@ export const fetchAdCampaigns = (id: string) =>
       revenue: number;
       spend: number;
     }>
-  >("/ads/" + id + "/campaigns");
+  >("/adaccounts/" + id + "/campaigns");
 
-export const fetchAdCampaignPerformance = (id: string) =>
+export const fetchAdccountPerformanceCampaigns = (id: string) =>
   api.get<
     Array<{
       id: string;
@@ -54,14 +54,20 @@ export const fetchAdCampaignPerformance = (id: string) =>
       revenue: number;
       spend: number;
     }>
-  >("/ads/" + id + "/campaigns/performance");
+  >("/adaccounts/" + id + "/performance/campaigns");
 
+export const fetchAdccountPerformanceCampaignsTop10 = (id: string) =>
+  api.get<Array<Campaign>>(
+    "/adaccounts/" + id + "/performance/campaigns/top10"
+  );
 
 export const getCampaigns = (
   id: string,
   { q, limit = 25, after }: { q?: string; limit?: number; after?: string }
 ) => {
-  const url = new URL(window.location.origin + `/api/ads/${id}/campaigns`);
+  const url = new URL(
+    window.location.origin + `/api/adaccounts/${id}/campaigns`
+  );
   url.searchParams.append("limit", limit.toString());
   if (after) {
     url.searchParams.append("after", after);
@@ -76,7 +82,7 @@ export const getAdsets = (
   id: string,
   { q, limit = 25, after }: { q?: string; limit?: number; after?: string }
 ) => {
-  const url = new URL(window.location.origin + `/api/ads/${id}/adsets`);
+  const url = new URL(window.location.origin + `/api/adaccounts/${id}/adsets`);
   url.searchParams.append("limit", limit.toString());
   if (after) {
     url.searchParams.append("after", after);
@@ -91,7 +97,7 @@ export const getAds = (
   id: string,
   { q, limit = 25, after }: { q?: string; limit?: number; after?: string }
 ) => {
-  const url = new URL(window.location.origin + `/api/ads/${id}/ads`);
+  const url = new URL(window.location.origin + `/api/adaccounts/${id}/ads`);
   url.searchParams.append("limit", limit.toString());
   if (after) {
     url.searchParams.append("after", after);
