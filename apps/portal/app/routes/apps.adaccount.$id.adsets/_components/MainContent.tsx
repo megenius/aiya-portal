@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Bot, BotChannelStatus, FacebookAdAccount, WorkspaceChannel } from '~/@types/app';
 import * as _ from 'lodash'
-import { useGetCampaigns } from '~/hooks/adaccount/useGetCampaigns';
 import { Loading } from '@repo/preline';
 import { useSearchParams } from '@remix-run/react';
-import CampaignDisplay from './CampaignDisplay';
+import AdsetDisplay from './AdsetDisplay';
+import { useGetAdsets } from '~/hooks/adaccount/useGetAdsets';
 
 interface MainContentProps {
   adaccount: FacebookAdAccount
@@ -24,13 +24,13 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
     status,
     isLoading,
     refetch
-  } = useGetCampaigns({ variables: { id: adaccount.id as string, q: searchValue } });
+  } = useGetAdsets({ variables: { id: adaccount.id as string, q: searchValue } });
 
   const handleSearch = () => {
     setSearch({ q: searchValue });
   };
 
-  const campaigns = React.useMemo(() => {
+  const adsets = React.useMemo(() => {
     return data?.pages?.reduce((acc, page) => {
       return [...acc, ...page.data];
     }, []) || [];
@@ -58,10 +58,10 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
         {/* Title */}
         <div className="mb-4 xl:mb-8">
           <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-            Campaigns
+            Adsets
           </h1>
           <p className="text-sm text-gray-500 dark:text-neutral-500">
-            {/* Manage campaigns */}
+            {/* Manage adsets */}
           </p>
         </div>
         {/* End Title */}
@@ -96,7 +96,7 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
               }}
             />
           </div>
-          <CampaignDisplay adaccount={adaccount} campaigns={campaigns} />
+          <AdsetDisplay adaccount={adaccount} adsets={adsets} />
           <div>
             <button
               className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:pointer-events-none"

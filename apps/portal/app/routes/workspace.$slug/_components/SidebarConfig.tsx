@@ -152,11 +152,11 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Apps",
     isDivider: true,
   },
-  {
-    to: "apps/ads",
-    label: "AiAds",
-    icon: <CustomBoxIcon />,
-  },
+  // {
+  //   to: "apps/ads",
+  //   label: "AiAds",
+  //   icon: <CustomBoxIcon />,
+  // },
   {
     to: "apps/beacons",
     label: "AiBeacon",

@@ -7,7 +7,7 @@ export type Env = {
 
 type Variables = {
   token: string;
-  ad: AdAccount;
+  ad_account: AdAccount;
 };
 
 type Bindings = {

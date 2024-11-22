@@ -1,13 +1,10 @@
-import { ShouldRevalidateFunction, useOutletContext, useParams } from "@remix-run/react"
+import { useOutletContext, useParams } from "@remix-run/react"
 import React from "react"
 import MainContent from "./_components/MainContent"
 import { Bot, FacebookAdAccount } from "~/@types/app"
 import { useWorkspaceChannels } from "~/hooks/workspace/useWorkspaceChannels"
 import { useBotChannels } from "~/hooks/bot/useBotChannels"
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {
-  return true
-};
 
 const Route = () => {
   const { adaccount } = useOutletContext<{ adaccount: FacebookAdAccount }>()

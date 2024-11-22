@@ -42,15 +42,14 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
         ...workspace.feature_flags
       });
     }
-    console.log(workspace);
-    
+    // console.log(workspace);
   }, [workspace]);
 
 
   const filteredSidebarLinks = sidebarLinks.filter(link => {
     if (link.to.startsWith('apps/')) {
       const appFeature = link.to.replace('apps/', 'feature_apps_');
-      console.log(appFeature);
+      // console.log(appFeature);
       return featureFlags[appFeature as keyof FeatureFlags] !== false;
     } else {
       const featureName = `feature_${link.to?.replace("-", "")}` as keyof FeatureFlags;

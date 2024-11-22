@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
       { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
       { label: 'Messages', to: `/apps/bot/${botId}/messages` },
       { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
-      // { label: 'Chat', to: `/apps/bot/${botId}/chat` },
+      { label: 'Chat', to: `/apps/bot/${botId}/chat` },
       { label: 'Logs', to: `/apps/bot/${botId}/logs` },
       // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
       { label: 'Settings', to: `/apps/bot/${botId}/settings` },

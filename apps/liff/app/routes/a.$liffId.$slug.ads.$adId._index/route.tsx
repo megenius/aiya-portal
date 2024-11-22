@@ -1,9 +1,6 @@
 import { useNavigate, useOutletContext, useParams } from '@remix-run/react';
 import React from 'react';
 import AdViewer from '~/components/AdViewer';
-import Footer from '~/components/Footer';
-import HeaderNavBar from '~/components/HeaderNavBar';
-import Header1 from '~/components/headers/Header1';
 import Loading from '~/components/Loading';
 import { useGetQAd } from '~/hooks/useGetQAd';
 import { useLiff } from '~/hooks/useLiff';

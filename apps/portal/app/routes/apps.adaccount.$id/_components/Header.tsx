@@ -16,6 +16,7 @@ interface HeaderProps {
 interface NavItem {
   label: string;
   to: string;
+  exact?: boolean
 }
 
 const Header: React.FC<HeaderProps> = ({ adaccount }) => {
@@ -26,9 +27,9 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
   const navItems: NavItem[] = [
     { label: 'Overview', to: `/apps/adaccount/${adaccountId}/dashboard` },
     { label: 'Campaigns', to: `/apps/adaccount/${adaccountId}/campaigns` },
-    // { label: 'Ad Sets', to: `/apps/adaccount/${adaccountId}/adsets` },
+    { label: 'Ad Sets', to: `/apps/adaccount/${adaccountId}/adsets` },
     // { label: 'System Prompt', to: `/apps/adaccount/${adaccountId}/system-prompt` },
-    // { label: 'Ads', to: `/apps/adaccount/${adaccountId}/ads` },
+    { label: 'Ads', to: `/apps/adaccount/${adaccountId}/ads`, exact: true },
   ];
 
   return (
@@ -1499,6 +1500,7 @@ const Header: React.FC<HeaderProps> = ({ adaccount }) => {
                     label={item.label}
                     url={item.to}
                     activePath={window.location.pathname}
+                    exact={item.exact}
                   />
                 ))}
               </div>
@@ -1602,12 +1604,15 @@ function NavLink({
   label,
   url,
   activePath,
+  exact
 }: {
   label: string;
   url: string;
   activePath: string;
+  exact?: boolean;
 }) {
-  const isCurrent = isRouteActive(url, activePath, false);
+  let isCurrent = isRouteActive(url, activePath, exact);
+
   return (
     <Link
       to={url}

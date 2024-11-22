@@ -232,6 +232,7 @@ class AdSetApi extends FacebookAdsBase {
       "name",
       "daily_budget",
       "lifetime_budget",
+      "bid_strategy",
       "budget_remaining",
       "start_time",
       "created_time",

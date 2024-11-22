@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { adsRoutes } from "./routes/ads";
+import { adsRoutes } from "./routes/adaccount.route";
 
 import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
@@ -26,13 +26,13 @@ const app = new Hono<Env>()
 
     return authMiddleware(c, next);
   })
-  // .get(
-  //   "*",
-  //   cache({
-  //     cacheName: "my-app",
-  //     cacheControl: "max-age=15",
-  //   })
-  // )
+  .get(
+    "*",
+    cache({
+      cacheName: "my-app",
+      cacheControl: "max-age=15",
+    })
+  )
   .route("/ads", adsRoutes)
   .route("/ads/admin", adminRoutes)
   .onError((err, c) => {

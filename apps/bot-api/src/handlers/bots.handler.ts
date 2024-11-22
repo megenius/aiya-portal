@@ -32,6 +32,7 @@ import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 import { sendEventToCapi } from "~/services/facebook.service";
 import OpenAI from "openai";
 import { createParser } from "eventsource-parser";
+import { stream, streamText, streamSSE } from "hono/streaming";
 
 const factory = createFactory<Env>();
 
@@ -621,11 +622,26 @@ export const chatsHandler = factory.createHandlers(
       apiKey: OPENAI_API_KEY,
     });
 
-    // const response = await openai.chat.completions.create({
-    //   model: "gpt-3.5-turbo",
-    //   messages: body.messages,
-    //   stream: true,
-    // });
+    const chatStream = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: body.messages,
+      stream: true,
+    });
+
+    return streamText(c, async (stream) => {
+      for await (const message of chatStream) {
+        const text = message.choices[0]?.delta.content ?? "";
+        // console.log("text", text);
+        await stream.write(text);
+        await stream.sleep(100);
+        // await Promise.all(
+        //   Array.from(text).map(async (s) => {
+        //     await stream.write(s);
+        //     await stream.sleep(20);
+        //   })
+        // );
+      }
+    });
 
     // const stream = new ReadableStream({
     //   async start(controller) {
@@ -639,22 +655,22 @@ export const chatsHandler = factory.createHandlers(
     //   },
     // });
 
-    const stream = await OpenAIStream(
-      {
-        model: "gpt-3.5-turbo",
-        messages: body.messages,
-        temperature: 0.7,
-        stream: true,
-      },
-      OPENAI_API_KEY
-    );
+    // const stream = await OpenAIStream(
+    //   {
+    //     model: "gpt-3.5-turbo",
+    //     messages: body.messages,
+    //     temperature: 0.7,
+    //     stream: true,
+    //   },
+    //   OPENAI_API_KEY
+    // );
 
-    return new Response(stream, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
+    // return new Response(stream, {
+    //   headers: {
+    //     "Content-Type": "text/event-stream",
+    //     "Cache-Control": "no-cache",
+    //     Connection: "keep-alive",
+    //   },
+    // });
   }
 );

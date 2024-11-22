@@ -52,8 +52,8 @@ const Route = () => {
               <MetricCard title="CPP" value={<CurrencyFormatter amount={data?.cpp} />} />
               <MetricCard title="CTR" value={`${(data?.ctr || 0).toFixed(2)}%`} />
             </div>
-            <CampaignPerformance adaccount={adaccount} />
-            <RecentCampaigns adaccount={adaccount}/>
+            {/* <CampaignPerformance adaccount={adaccount} /> */}
+            {/* <RecentCampaigns adaccount={adaccount}/> */}
             {/* <TopAds /> */}
             {/* <Overview adaccount={adaccount} /> */}
           </div>
