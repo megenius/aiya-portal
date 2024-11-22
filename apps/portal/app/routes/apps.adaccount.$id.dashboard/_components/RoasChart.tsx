@@ -3,7 +3,7 @@ import { CurrencyFormatter } from '@repo/ui';
 import React, { Suspense, useMemo } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { AdDashboard, FacebookAdAccount } from '~/@types/app';
-import { useAdAccountSpendDaily } from '~/hooks/adaccount/useAdaccountSpendDaily';
+import { useAdAccountSpendDaily } from '~/hooks/adaccount/useAdAccountSpendDaily';
 
 const Chart = React.lazy(() => import('react-apexcharts'));
 
