@@ -27,7 +27,7 @@ export const fetchAdAccount = (id: string) =>
 export const fetchAdaccountInsight = (id: string) =>
   api.get<AdDashboard>("/adaccounts/" + id + "/insights");
 
-export const fetchAdSpendDaily = (id: string) =>
+export const fetchAdaccountSpendDaily = (id: string) =>
   api.get<
     Array<{
       date: string;
@@ -35,6 +35,15 @@ export const fetchAdSpendDaily = (id: string) =>
       revenue: number;
     }>
   >("/adaccounts/" + id + "/spend-daily");
+
+export const fetchAdSpendDaily = (adaccountId: string, adId: string) =>
+  api.get<
+    Array<{
+      date: string;
+      spend: number;
+      revenue: number;
+    }>
+  >("/adaccounts/" + adaccountId + "/ads/" + adId + "/spend-daily");
 
 export const fetchAdCampaigns = (id: string) =>
   api.get<

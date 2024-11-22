@@ -32,7 +32,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearchChange }) => {
       <input
         type="text"
         className="py-2 px-3 ps-10 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600"
-        placeholder="Search by name or ID"
+        placeholder="Search by name"
         onChange={handleChange}
       />
     </div>

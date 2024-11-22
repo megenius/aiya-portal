@@ -13,8 +13,13 @@ interface OverviewProps {
 }
 
 const RoasChart: React.FC<OverviewProps> = ({ adaccount, addata }) => {
-  const { id } = useParams();
-  const { data } = useAdSpendDaily({ variables: { id: id as string } });
+  const { id, adId } = useParams();
+  const { data } = useAdSpendDaily({
+    variables: {
+      adaccountId: id as string,
+      adId: adId as string
+    }
+  });
 
 
   const formatCurrency = (value) => `${adaccount.metadata.currency} ${value.toLocaleString()}`;

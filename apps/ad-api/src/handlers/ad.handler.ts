@@ -229,3 +229,44 @@ export const getAdsInsight = async (c: Context<Env>) => {
     purchase_value,
   });
 };
+
+export const getDailySpend = async (c: Context<Env>) => {
+  try {
+    const date_preset = c.req.query("date_preset") || "last_28d";
+    const FB_API_URL = c.env["FB_API_URL"];
+    const adAccount = c.get("ad_account");
+    const { adId } = c.req.param();
+
+    const url = new URL(`${FB_API_URL}/${adId}/insights`);
+    url.searchParams.append("fields", "spend,action_values");
+    url.searchParams.append("date_preset", date_preset);
+    url.searchParams.append("level", "account");
+    url.searchParams.append("time_increment", "1");
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${adAccount.access_token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const { data } = await response.json<{ data: DialyRevenueSpend[] }>();
+
+    return c.json(
+      data.map((item) => ({
+        date: item.date_start,
+        spend: item.spend,
+        revenue:
+          item.action_values?.find((a) => a.action_type === "omni_purchase")
+            ?.value || 0,
+      }))
+    );
+  } catch (error) {
+    throw DirectusError.fromDirectusResponse(error);
+  }
+};

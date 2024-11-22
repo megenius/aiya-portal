@@ -3,7 +3,7 @@ import { CurrencyFormatter } from '@repo/ui';
 import React, { Suspense, useMemo } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { AdDashboard, FacebookAdAccount } from '~/@types/app';
-import { useAdSpendDaily } from '~/hooks/adaccount/useAdSpendDaily';
+import { useAdAccountSpendDaily } from '~/hooks/adaccount/useAdaccountSpendDaily';
 
 const Chart = React.lazy(() => import('react-apexcharts'));
 
@@ -14,7 +14,7 @@ interface OverviewProps {
 
 const RoasChart: React.FC<OverviewProps> = ({ adaccount, addata }) => {
   const { id } = useParams();
-  const { data } = useAdSpendDaily({ variables: { id: id as string } });
+  const { data } = useAdAccountSpendDaily({ variables: { id: id as string } });
 
 
   const formatCurrency = (value) => `${adaccount.metadata.currency} ${value.toLocaleString()}`;
@@ -42,7 +42,7 @@ const RoasChart: React.FC<OverviewProps> = ({ adaccount, addata }) => {
         width: 3,
       },
       xaxis: {
-        categories: data.map(item => item.date),
+        categories: data?.map(item => item.date),
       },
       yaxis: {
         labels: {

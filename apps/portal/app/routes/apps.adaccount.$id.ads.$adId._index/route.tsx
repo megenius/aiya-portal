@@ -36,7 +36,7 @@ const Route = () => {
           <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
             <Overview adaccount={adaccount} addata={data} />
 
-            {/* {<RoasChart adaccount={adaccount} addata={data} /> */}
+            <RoasChart adaccount={adaccount} addata={data} />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 xl:gap-4 mb-6">
               <MetricCard title="Impressions" value={<CurrencyFormatter amount={data?.impressions} />} />
               <MetricCard title="Reach" value={<CurrencyFormatter amount={data?.reach} />} />
