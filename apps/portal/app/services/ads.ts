@@ -107,3 +107,6 @@ export const getAds = (
   }
   return api.get<AdsetResult>(url.toString());
 };
+
+export const fetchAdInsight = (adaccountId: string, adId: string) =>
+  api.get<AdDashboard>(`adaccounts/${adaccountId}/ads/${adId}/insight`);

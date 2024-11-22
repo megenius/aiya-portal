@@ -37,28 +37,28 @@ queue = "ad-ads-sync-dev"
 
 [[queues.consumers]]
 queue = "ad-account-sync-dev"
-max_batch_size = 1        # optional: defaults to 10
-max_batch_timeout = 5     # optional: defaults to 5 seconds
+max_batch_size = 1            # optional: defaults to 10
+max_batch_timeout = 5         # optional: defaults to 5 seconds
 max_concurrency = 6
 
 [[queues.consumers]]
 queue = "ad-campaign-sync-dev"
+max_batch_size = 10            # optional: defaults to 10
+max_batch_timeout = 5          # optional: defaults to 5 seconds
+max_concurrency = 5
+max_retries = 3
+
+[[queues.consumers]]
+queue = "ad-sets-sync-dev"
 max_batch_size = 10        # optional: defaults to 10
 max_batch_timeout = 5      # optional: defaults to 5 seconds
 max_concurrency = 5
 max_retries = 3
 
 [[queues.consumers]]
-queue = "ad-sets-sync-dev"
-max_batch_size = 10    # optional: defaults to 10
-max_batch_timeout = 5  # optional: defaults to 5 seconds
-max_concurrency = 5
-max_retries = 3
-
-[[queues.consumers]]
 queue = "ad-ads-sync-dev"
-max_batch_size = 10   # optional: defaults to 10
-max_batch_timeout = 5 # optional: defaults to 5 seconds
+max_batch_size = 10       # optional: defaults to 10
+max_batch_timeout = 5     # optional: defaults to 5 seconds
 max_concurrency = 5
 max_retries = 3
 
@@ -66,7 +66,10 @@ max_retries = 3
 [env.prod]
 name = "ad-api_prod"
 
-routes = [{ pattern = "portal.aiya.me/api/ads/*", zone_name = "aiya.me" }]
+routes = [
+  { pattern = "portal.aiya.me/api/ads/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/adaccounts/*", zone_name = "aiya.me" },
+]
 
 [env.prod.placement]
 mode = "smart"

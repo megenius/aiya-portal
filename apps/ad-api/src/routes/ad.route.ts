@@ -7,6 +7,6 @@ import { adMiddleware } from "~/middlewares/ads.middleware";
 const adRoutes = new Hono<Env>();
 
 adRoutes.get("/", adMiddleware, Handler.getAds);
-// adsetsRoutes.get("/:adsetId", adMiddleware, Handler.getCampaignInsight);
+adRoutes.get("/:adId/insight", adMiddleware, Handler.getAdsInsight);
 
 export { adRoutes };

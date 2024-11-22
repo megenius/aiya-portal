@@ -1,15 +1,10 @@
+import { useNavigate } from '@remix-run/react';
 import { CurrencyFormatter } from '@repo/ui';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
 
 const AdDisplay = ({ ads, adaccount }) => {
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('th-TH', {
-      style: 'decimal',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount);
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="overflow-x-auto">
@@ -49,7 +44,10 @@ const AdDisplay = ({ ads, adaccount }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {ads.map((ad) => (
               <tr key={ad.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 cursor-pointer"
+                  onClick={() => {
+                    navigate("./" + ad.id);
+                  }}>
                   <p>{ad.name}</p>
                   <p className="text-xs text-gray-500">{ad.adset_name}</p>
                   <p className="text-xs text-gray-500">{ad.campaign_name}</p>
