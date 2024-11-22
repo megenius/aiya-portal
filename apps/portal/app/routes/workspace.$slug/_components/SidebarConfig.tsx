@@ -40,13 +40,13 @@ export const sidebarLinks: SidebarLink[] = [
       <Package size={18} />
     )
   },
-  {
-    to: "products",
-    label: "Products",
-    icon: (
-      <Package size={18} />
-    )
-  },
+  // {
+  //   to: "products",
+  //   label: "Products",
+  //   icon: (
+  //     <Package size={18} />
+  //   )
+  // },
   {
     to: "engagements",
     label: "Engagements",
