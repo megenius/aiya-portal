@@ -19,7 +19,7 @@ export const getAds = async (c: Context<Env>) => {
   // url.searchParams.append("fields", "name,id,status,start_time");
   url.searchParams.append(
     "fields",
-    "id,name,campaign_id,campaign{name},adset{name},creative{thumbnail_url},adset_id,status,insights{spend,impressions,clicks,cpc,cpm,cpp,ctr,reach,conversions,conversion_values,purchase_roas,actions,action_values}"
+    "id,name,campaign_id,campaign{name},adset{name},adset_id,status,insights{spend,impressions,clicks,cpc,cpm,cpp,ctr,reach,conversions,conversion_values,purchase_roas,actions,action_values}"
   );
   // url.searchParams.append("date_preset", date_preset);
   if (limit) {
@@ -63,7 +63,6 @@ export const getAds = async (c: Context<Env>) => {
       adset_id: string;
       adset: { name: string };
       campaign: { name: string };
-      creative: { thumbnail_url: string };
       insights: {
         data: AdInsight[];
       };
@@ -110,7 +109,6 @@ export const getAds = async (c: Context<Env>) => {
       campaign_name: item.campaign.name,
       adset_id: item.adset_id,
       adset_name: item.adset.name,
-      creative_thumbnail_url: item.creative.thumbnail_url,
       ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
       roas,
       purchase,
@@ -137,9 +135,8 @@ export const getAdsInsight = async (c: Context<Env>) => {
   // url.searchParams.append("fields", "name,id,status,start_time");
   url.searchParams.append(
     "fields",
-    "id,name,campaign_id,campaign{name},adset{name},creative,adset_id,status,insights{spend,impressions,clicks,cpc,cpm,cpp,ctr,reach,conversions,conversion_values,purchase_roas,actions,action_values}"
+    "id,name,campaign_id,campaign{name},adset{name},adset_id,status,insights{spend,impressions,clicks,cpc,cpm,cpp,ctr,reach,conversions,conversion_values,purchase_roas,actions,action_values}"
   );
-
   // url.searchParams.append("date_preset", date_preset);
   if (limit) {
     url.searchParams.append("limit", limit);
@@ -172,32 +169,6 @@ export const getAdsInsight = async (c: Context<Env>) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const getCreativeThumbnailUrl = async (
-    creativeId: string,
-    width: number,
-    height: number
-  ) => {
-    const url = new URL(`${FB_API_URL}/${creativeId}`);
-    url.searchParams.append("fields", "thumbnail_url");
-    url.searchParams.append("thumbnail_width", width.toString());
-    url.searchParams.append("thumbnail_height", height.toString());
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${adAccount.access_token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = (await response.json()) as any;
-    return data.thumbnail_url;
-  };
-
   // const data = (await response.json()) as any;
   // return c.json(data);
 
@@ -210,7 +181,6 @@ export const getAdsInsight = async (c: Context<Env>) => {
     adset_id: string;
     adset: { name: string };
     campaign: { name: string };
-    creative: { id: string };
     insights: {
       data: AdInsight[];
     };
@@ -253,7 +223,6 @@ export const getAdsInsight = async (c: Context<Env>) => {
     campaign_name: item.campaign.name,
     adset_id: item.adset_id,
     adset_name: item.adset.name,
-    creative_thumbnail_url: await getCreativeThumbnailUrl(item.creative.id, 128, 128),
     ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
     roas,
     purchase,

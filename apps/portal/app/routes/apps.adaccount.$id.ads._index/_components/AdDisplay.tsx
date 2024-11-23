@@ -48,9 +48,19 @@ const AdDisplay = ({ ads, adaccount }) => {
                   onClick={() => {
                     navigate("./" + ad.id);
                   }}>
-                  <p>{ad.name}</p>
-                  <p className="text-xs text-gray-500">{ad.adset_name}</p>
-                  <p className="text-xs text-gray-500">{ad.campaign_name}</p>
+                  <div
+                    className="flex items-center gap-2"
+                  >
+                    <img src={ad.creative_thumbnail_url} alt={ad.name}
+                      className="h-14 w-14 object-cover rounded-md"
+                    />
+                    <div>
+                      <p>{ad.name}</p>
+                      <p className="text-xs text-gray-500">{ad.adset_name}</p>
+                      <p className="text-xs text-gray-500">{ad.campaign_name}</p>
+                    </div>
+                  </div>
+
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${ad.status === 'ACTIVE'

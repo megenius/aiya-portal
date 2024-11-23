@@ -17,12 +17,17 @@ const Overview: React.FC<OverviewProps> = ({ adaccount, addata }) => {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <div className='space-y-2'>
-          <h2 className="text-2xl font-bold">{addata?.name}</h2>
-          <p>
-            Campaign: {addata?.campaign_name}
-          </p>
-          <p> Adset: {addata?.adset_name}</p>
+        <div className="flex items-center gap-2">
+          <img src={addata?.creative_thumbnail_url} alt={addata?.name}
+            className="h-24 w-24 object-cover rounded-md"
+          />
+          <div className='space-y-2'>
+            <h2 className="text-2xl font-bold">{addata?.name}</h2>
+            <p>
+              Campaign: {addata?.campaign_name}
+            </p>
+            <p> Adset: {addata?.adset_name}</p>
+          </div>
         </div>
         <div className="flex items-center space-x-2 bg-white rounded-md shadow px-3 py-2">
           <Calendar size={16} />

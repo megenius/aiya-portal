@@ -6,6 +6,7 @@ export interface AdInsight {
   campaign_name: string;
   adset_id: string;
   adset_name: string;
+  creative_thumbnail_url: string;
   spend: string;
   impressions: string;
   clicks: string;
