@@ -15,6 +15,7 @@ adaccountsRoutes
   .get("/:id/spend-daily", adMiddleware, AdAccountHandler.getDailySpend)
   .get("/:id/performance/campaigns", adMiddleware, AdAccountHandler.getPerformanceCampaigns)
   .get("/:id/performance/campaigns/top10", adMiddleware, AdAccountHandler.getPerformanceCampaignsTop10)
+  .get("/:id/performance/ads/top10", adMiddleware, AdAccountHandler.getPerformanceAdsTop10)
   .route("/:id/campaigns", campaignsRoutes)
   .route("/:id/adsets", adsetsRoutes)
   .route("/:id/ads", adRoutes);

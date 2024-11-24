@@ -253,7 +253,11 @@ export const getAdsInsight = async (c: Context<Env>) => {
     campaign_name: item.campaign.name,
     adset_id: item.adset_id,
     adset_name: item.adset.name,
-    creative_thumbnail_url: await getCreativeThumbnailUrl(item.creative.id, 128, 128),
+    creative_thumbnail_url: await getCreativeThumbnailUrl(
+      item.creative.id,
+      128,
+      128
+    ),
     ..._.omit(insight, ["actions", "action_values", "purchase_roas"]),
     roas,
     purchase,
@@ -300,4 +304,68 @@ export const getDailySpend = async (c: Context<Env>) => {
   } catch (error) {
     throw DirectusError.fromDirectusResponse(error);
   }
+};
+
+// getTop10Impressions
+export const getTop10Impressions = async (c: Context<Env>) => {
+  const debug = c.req.query("debug") === "true";
+  const FB_API_URL = c.env["FB_API_URL"];
+  const adAccount = c.get("ad_account");
+  const { limit, after, q } = c.req.query();
+
+  const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/insights`);
+  url.searchParams.append(
+    "fields",
+    "ad_name,campaign_name,spend,impressions,cpc,cpm,cpp,ctr,action_values,cost_per_action_type,cost_per_thruplay"
+  );
+  url.searchParams.append("level", "ad");
+  url.searchParams.append("sort", "impressions_descending");
+  if (limit) {
+    url.searchParams.append("limit", limit);
+  }
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adAccount.access_token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const { data: _data, paging } = await response.json<{
+    data: Array<{
+      ad_name: string;
+      campaign_name: string;
+      spend: string;
+      impressions: string;
+      cpc: string;
+      cpm: string;
+      cpp: string;
+      ctr: string;
+      action_values: any;
+      cost_per_action_type: any;
+      cost_per_thruplay: string;
+    }>;
+    paging: { cursors: { after: string; before: string }; next: string };
+  }>();
+
+  const data = _data.map((item) => ({
+    ad_name: item.ad_name,
+    campaign_name: item.campaign_name,
+    spend: item.spend,
+    impressions: item.impressions,
+    cpc: item.cpc,
+    cpm: item.cpm,
+    cpp: item.cpp,
+    ctr: item.ctr,
+    action_values: item.action_values,
+    cost_per_action_type: item.cost_per_action_type,
+    cost_per_thruplay: item.cost_per_thruplay,
+  }));
+
+  return c.json(data);
 };

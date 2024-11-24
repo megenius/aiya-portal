@@ -16,7 +16,14 @@ export const useGetAdsets = ({ variables: { id, q } }: QueryProps) => {
   return useInfiniteQuery({
     queryKey: ["ad-accounts", id, "adsets"],
     queryFn: ({ pageParam }) =>
-      getAdsets(id, { q, after: pageParam }).then((res) => res.data),
+      getAdsets(id, { q, after: pageParam })
+        .then((res) => res.data)
+        .catch((err) => {
+          return {
+            data: [],
+            cursors: null,
+          };
+        }),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
     initialPageParam: "",
     getNextPageParam: (lastPage) => lastPage?.cursors?.after || null,

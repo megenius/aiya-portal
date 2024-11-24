@@ -16,7 +16,12 @@ export const useGetAds = ({ variables: { id, q } }: QueryProps) => {
   return useInfiniteQuery({
     queryKey: ["ad-accounts", id, "ads"],
     queryFn: ({ pageParam }) =>
-      getAds(id, { q, after: pageParam }).then((res) => res.data),
+      getAds(id, { q, after: pageParam }).then((res) => res.data).catch((err) => {
+        return {
+          data: [],
+          cursors: null,
+        }
+      }),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
     initialPageParam: "",
     getNextPageParam: (lastPage) => lastPage?.cursors?.after || null,
