@@ -256,12 +256,16 @@ export const searchBotHandler = factory.createHandlers(
           x.metadata?.knowledge_id
         );
 
+        console.log(knowledge.id,
+           knowledge.lang);
+
         const intent = knowledge.intents.find(
           (intent) => intent.id === x.metadata?.intent_id
         );
 
         return {
           knowledge_id: x.metadata?.knowledge_id,
+          lang: knowledge.lang,
           intent_id: x.metadata?.intent_id,
           score: x.score,
           intent: intent?.intent,

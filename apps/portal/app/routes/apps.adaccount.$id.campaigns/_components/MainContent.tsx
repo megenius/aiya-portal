@@ -5,7 +5,8 @@ import { useSearchParams } from '@remix-run/react';
 import CampaignDisplay from './CampaignDisplay';
 import { useInfiniteScroll } from '~/hooks/useInfiniteScroll';
 import { useGetCampaigns } from '~/hooks/adaccount/useGetCampaigns';
-
+import { useScrollToTop } from '~/hooks/useScrollToTop';
+import { ArrowUp } from 'lucide-react';
 interface MainContentProps {
   adaccount: FacebookAdAccount
 }
@@ -13,6 +14,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
   const [search, setSearch] = useSearchParams();
   const [searchValue, setSearchValue] = useState(search.get("q") || '');
+  const { showButton: showToTopButton, scrollToTop } = useScrollToTop(400);
 
   const {
     data,
@@ -24,10 +26,10 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
     status,
     isLoading,
     refetch
-  } = useGetCampaigns({ 
-    variables: { 
-      id: adaccount.id as string, 
-      q: searchValue 
+  } = useGetCampaigns({
+    variables: {
+      id: adaccount.id as string,
+      q: searchValue
     }
   });
 
@@ -123,9 +125,9 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
             />
           </div>
           <CampaignDisplay adaccount={adaccount} campaigns={campaigns} />
-          
+
           {/* Infinite scroll trigger element */}
-          <div 
+          <div
             ref={lastElementRef}
             className="w-full py-4 flex justify-center"
           >
@@ -133,6 +135,17 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
           </div>
         </div>
       </div>
+
+      {/* Scroll to top button */}
+      {showToTopButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg transition-all duration-300 z-50"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 };

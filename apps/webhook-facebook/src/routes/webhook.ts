@@ -23,9 +23,24 @@ const forwarToACRM = (body: any) => {
   })
 };
 
+const APP_AIYA_AI = "https://g100-facebook-webhook-app.megenius.workers.dev/v1/facebook/webhook"
+
+const forwarToAppAiyaAi = (body: any) => {
+  return fetch(APP_AIYA_AI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+};
+
 webhookRouter
   .post("/", async (c) => {
     const body: WebhookFacebookEvent = await c.req.json();
+    
+    
+
     await Promise.all([
       ...body.entry.map((entry) => {
         return Promise.all(
@@ -46,7 +61,8 @@ webhookRouter
           })
         );
       }),
-      forwarToACRM(body),
+      forwarToAppAiyaAi(body)
+      // forwarToACRM(body),
       // logEventHandler(c, body),
       // forwardEventHandler(c, body, []),
     ]);

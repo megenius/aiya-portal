@@ -19,6 +19,7 @@ export type BotKnowledge = {
   total_intent: number;
   date_updated: string;
   status: string;
+  lang: string;
 };
 
 // export type BotIntentRaw = {

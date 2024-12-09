@@ -6,6 +6,9 @@ import { useSearchParams } from '@remix-run/react';
 import AdDisplay from './AdDisplay';
 import { useGetAds } from '~/hooks/adaccount/useGetAds';
 import { useInfiniteScroll } from '~/hooks/useInfiniteScroll';
+import { useScrollToTop } from '~/hooks/useScrollToTop';
+import { ArrowUp } from 'lucide-react';
+import { AdListSkeleton } from './AdItemSkeleton';
 
 interface MainContentProps {
   adaccount: FacebookAdAccount
@@ -14,6 +17,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
   const [search, setSearch] = useSearchParams();
   const [searchValue, setSearchValue] = useState(search.get("q") || '');
+  const { showButton, scrollToTop } = useScrollToTop(400);
 
   const {
     data,
@@ -27,7 +31,6 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
     refetch
   } = useGetAds({ variables: { id: adaccount.id as string, q: searchValue } });
 
-  // Integrate infinite scroll
   const { lastElementRef } = useInfiniteScroll({
     loading: isFetchingNextPage,
     hasMore: !!hasNextPage,
@@ -52,16 +55,34 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
     return () => { }
   }, [search]);
 
+  // Show skeleton for initial loading
   if (isLoading) {
-    return <Loading />
+    return (
+      <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="mb-4 xl:mb-8">
+          {/* Title skeleton */}
+          <div className="h-6 bg-gray-200 dark:bg-neutral-700 rounded w-32 mb-2" />
+          <div className="h-4 bg-gray-200 dark:bg-neutral-700 rounded w-48" />
+        </div>
+        
+        {/* Search box skeleton */}
+        <div className="mb-5">
+          <div className="h-10 bg-gray-200 dark:bg-neutral-700 rounded w-full" />
+        </div>
+
+        <AdListSkeleton />
+      </div>
+    );
   }
 
   return status === 'pending' ? (
-    <Loading />
+    <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+      <AdListSkeleton />
+    </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
-    <div className="h-full overflow-y-auto">
+    <>
       <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         {/* Title */}
         <div className="mb-4 xl:mb-8">
@@ -125,11 +146,26 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
             ref={lastElementRef}
             className="w-full py-4 flex justify-center"
           >
-            {isFetchingNextPage && <Loading />}
+            {isFetchingNextPage && (
+              <div className="w-full">
+                <AdListSkeleton />
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Scroll to top button */}
+      {showButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg transition-all duration-300 z-50"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
+    </>
   );
 };
 
