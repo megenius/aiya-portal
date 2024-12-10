@@ -62,26 +62,27 @@ export const getProvider = factory.createHandlers(
         const channel = _.omit(items[0], "bots");
         const response = {
           ...channel,
-          orderbots: bots?.filter(b => b.type === "orderbot"),
-          bots: bots?.filter(b => b.type === "chatbot").map((bot) => {
-            return {
-              ...bot,
-              datasources:
-                bot?.datasources?.length > 0
-                  ? transformData(bot?.datasources)
-                  : [],
-            };
-          }),
+          orderbots: bots?.filter((b) => b.type === "orderbot"),
+          bots: bots
+            ?.filter((b) => b.type === "chatbot")
+            .map((bot) => {
+              return {
+                ...bot,
+                datasources:
+                  bot?.datasources?.length > 0
+                    ? transformData(bot?.datasources)
+                    : [],
+              };
+            }),
         };
 
         return c.json(response);
       }
 
       throw Error("Provider not found");
-
     } catch (error) {
       console.log("error", error);
-      
+
       throw DirectusError.fromDirectusResponse(error);
     }
   }
@@ -111,16 +112,25 @@ export const lineWebhookEndpoint = factory.createHandlers(
   async (c) => {
     try {
       const { channel_id, endpoint } = await c.req.json();
+
+      console.log("lineWebhookEndpoint", channel_id, endpoint);
+
       const directus = c.get("directus");
       const channel = await directus.request<Channel>(
         readItem("channels", channel_id)
       );
+
+      console.log("channel", channel);
+
       const client = new MessagingApiClient({
         channelAccessToken: channel.provider_access_token as string,
       });
 
-      const { endpoint: existEndpoint, active } =
-        await client.getWebhookEndpoint();
+      const { endpoint: existEndpoint, active } = await client
+        .getWebhookEndpoint()
+        .catch((error) => {
+          return { endpoint: null, active: false };
+        });
 
       const forward_urls = channel.forward_urls || [];
       const ignoreEndpoints = [
@@ -157,8 +167,11 @@ export const lineWebhookEndpoint = factory.createHandlers(
       }
 
       const result = await client.setWebhookEndpoint({ endpoint });
+      console.log("setWebhookEndpoint", result);
+
       return c.json(result);
     } catch (error) {
+      console.error("error", error);
       throw DirectusError.fromDirectusResponse(error);
     }
   }
