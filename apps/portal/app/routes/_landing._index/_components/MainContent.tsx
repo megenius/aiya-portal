@@ -8,6 +8,7 @@ import { useMe } from '~/hooks/useMe';
 import { useNavigate } from '@remix-run/react';
 import { Workspace } from '~/@types/app';
 import { useWorkspaceInsert, useWorkspaces } from '~/hooks/workspace';
+import * as _ from 'lodash';
 interface MainContentProps {
 
 }
@@ -40,7 +41,7 @@ const MainContent: React.FC<MainContentProps> = () => {
       type: "demo",
       date_created: new Date(),
       date_updated: new Date(),
-      users: [{ user_id: currentUser, role: 'administrator' }]
+      users: [{ user_id: _.omit(currentUser, "name"), role: 'administrator' }]
     }).then((res) => {
       // Show toast or something
       console.log(res)

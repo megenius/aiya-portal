@@ -21,7 +21,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
     // { label: 'Members', to: `/apps/bot/${botId}/settings/members` },
     { label: 'Information', to: `/apps/bot/${botId}/settings/information` },
     { label: 'Channels', to: `/apps/bot/${botId}/settings/channels` },
-    { label: 'Campaigns', to: `/apps/bot/${botId}/settings/campaigns` },
+    // { label: 'Campaigns', to: `/apps/bot/${botId}/settings/campaigns` },
     // { label: 'Notifications', to: `/apps/bot/${botId}/settings/notifications` },
   ];
 

@@ -60,56 +60,58 @@ export const acceptInvite = factory.createHandlers(
   honoLogger(),
   directusMiddleware,
   async (c) => {
-    const directus = c.get("directAdmin");
-    const { id, user_id } = await c.req.json();
-    const invite = await directus.request(
-      sdk.readItem("saas_teams_invites", id, {
-        fields: ["id", "team_id", "email", "role"],
-      })
-    );
+    try {
+      const directus = c.get("directAdmin");
+      const { id, user_id } = await c.req.json();
+      const invite = await directus.request(
+        sdk.readItem("saas_teams_invites", id, {
+          fields: ["id", "team_id", "email", "role"],
+        })
+      );
 
-    if (!invite) {
-      return c.json({ error: "Invite not found" }, 404);
-    }
+      if (!invite) {
+        return c.json({ error: "Invite not found" }, 404);
+      }
 
-    const users = await directus.request(
-      sdk.readItems("saas_teams_users", {
-        filter: {
-          team_id: {
-            _eq: invite.team_id,
+      const users = await directus.request(
+        sdk.readItems("saas_teams_users", {
+          filter: {
+            team_id: {
+              _eq: invite.team_id,
+            },
+            user_id: {
+              _eq: user_id,
+            },
           },
-          user_id: {
-            _eq: user_id,
-          },
-        },
-      })
-    );
+        })
+      );
 
-    const workspace = await directus.request(
-      sdk.readItem("saas_teams", invite.team_id as string, {
-        fields: ["slug"],
-      })
-    );
-    await directus.request(sdk.deleteItem("saas_teams_invites", id));
+      const workspace = await directus.request(
+        sdk.readItem("saas_teams", invite.team_id as string, {
+          fields: ["slug"],
+        })
+      );
+      await directus.request(sdk.deleteItem("saas_teams_invites", id));
 
-    if (users.length > 0) {
+      if (users.length > 0) {
+        return c.json({ slug: workspace.slug });
+      }
+
+      // const user = await directus.request(sdk.readUser(user_id));
+      await directus.request(
+        sdk.createItem("saas_teams_users", {
+          team_id: invite.team_id,
+          user_id,
+          role: invite.role,
+        })
+      );
+
       return c.json({ slug: workspace.slug });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error)
     }
-
-    // const user = await directus.request(sdk.readUser(user_id));
-    await directus.request(
-      sdk.createItem("saas_teams_users", {
-        team_id: invite.team_id,
-        user_id,
-        role: invite.role,
-      })
-    );
-
-    return c.json({ slug: workspace.slug });
   }
 );
-
-
 
 export const getUsers = factory.createHandlers(
   honoLogger(),

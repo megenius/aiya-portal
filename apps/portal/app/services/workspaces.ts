@@ -22,7 +22,7 @@ export const fetchWorkspaceBySlug = (slug) =>
     .then((res) => (res.data?.items?.length > 0 ? res.data.items[0] : null));
 
 export const insertWorkspace = (data: Workspace) =>
-  api.post<Workspace>("/items/saas_teams", data);
+  api.post<Workspace>("/workspaces", data);
 
 export const updateWorkspace = (id: string, data: Workspace) => {
   return api.patch(`/workspaces/${id}`, data);
