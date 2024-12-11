@@ -25,8 +25,15 @@ export const login = factory.createHandlers(
       external_identifier,
     } = await c.req.json();
 
-    console.log("login", email, password, first_name, last_name, avatar, external_identifier);
-    
+    console.log(
+      "login",
+      email,
+      password,
+      first_name,
+      last_name,
+      avatar,
+      external_identifier
+    );
 
     try {
       if (external_identifier) {
@@ -36,12 +43,24 @@ export const login = factory.createHandlers(
           sdk.readUsers({
             fields: ["id", "email"],
             filter: {
-              external_identifier: {
-                _eq: external_identifier,
+              email: {
+                _eq: email,
               },
+              // _or: [
+              //   {
+              //     email: {
+              //       _eq: email,
+              //     },
+              //     external_identifier: {
+              //       _eq: external_identifier,
+              //     },
+              //   },
+              // ],
             },
           })
         );
+
+        console.log("users", users);
 
         let userId = users.length > 0 ? users[0].id : null;
 

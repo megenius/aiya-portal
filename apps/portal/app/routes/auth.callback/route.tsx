@@ -21,7 +21,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         login.mutateAsync({
           email: userInfo.email,
           first_name: userInfo.first_name,
-          last_name: userInfo.last_name,
+          last_name: userInfo.last_name || "",
           avatar: userInfo.avatar,
           external_identifier: userInfo.external_identifier,
         });

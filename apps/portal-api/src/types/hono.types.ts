@@ -30,5 +30,8 @@ export type Bindings = {
   GOOGLE_CLIENT_ID: string
   GOOGLE_CLIENT_SECRET: string
   GOOGLE_REDIRECT_URI: string
+  LINE_CLIENT_ID: string
+  LINE_CLIENT_SECRET: string
+  LINE_REDIRECT_URI: string
 }
 

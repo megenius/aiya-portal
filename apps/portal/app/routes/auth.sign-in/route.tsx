@@ -2,6 +2,7 @@ import { Link, useNavigate, useSearchParams } from '@remix-run/react';
 import React, { useEffect } from 'react';
 import { useLogin } from '~/hooks/useLogin';
 import { useAppSelector } from '~/store';
+import { randomHexString } from '~/utils/random';
 
 interface MainContentProps {
 
@@ -37,6 +38,26 @@ const MainContent: React.FC<MainContentProps> = () => {
     }
 
     window.location.href = googleAuthUrl;
+  }
+
+  const signInWithLine = () => {
+    // https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1234567890&redirect_uri=https%3A%2F%2Fexample.com%2Fauth%3Fkey%3Dvalue&state=12345abcde&scope=profile%20openid&nonce=09876xyz
+    const LINE_CLIENT_ID = import.meta.env.VITE_LINE_CLIENT_ID
+    const REDIRECT_URI = `${import.meta.env.VITE_BASE_URL}/api/auth/line/callback`
+
+    let url = `https://access.line.me/oauth2/v2.1/authorize?` +
+      `client_id=${LINE_CLIENT_ID}&` +
+      `redirect_uri=${REDIRECT_URI}&` +
+      `response_type=code&` +
+      `scope=openid profile email&` +
+      `state=${randomHexString(8)}&` +
+      `nonce=${randomHexString(8)}`;
+
+    // if (token) {
+    //   url += `&state=${token}`
+    // }
+
+    window.location.href = url;
   }
 
 
@@ -98,6 +119,13 @@ const MainContent: React.FC<MainContentProps> = () => {
               </defs>
             </svg>
             Sign in with Google
+          </button>
+          <button
+            type="button"
+            className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+            onClick={signInWithLine}
+          >
+            Sign in with LINE
           </button>
           <button
             type="button"

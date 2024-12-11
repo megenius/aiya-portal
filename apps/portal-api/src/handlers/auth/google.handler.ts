@@ -65,7 +65,7 @@ export const callback = factory.createHandlers(honoLogger(), async (c) => {
       external_identifier: userInfo.id,
     }
     
-    return c.redirect(`${c.env.PORTAL_URL}/auth/google?user=${JSON.stringify(user)}`);
+    return c.redirect(`${c.env.PORTAL_URL}/auth/callback?user=${JSON.stringify(user)}`);
   } catch (error) {
     console.error(error);
     return c.json({ error: "googleCallback failed" }, 500);
