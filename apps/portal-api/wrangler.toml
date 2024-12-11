@@ -24,6 +24,8 @@ BOT_MESSAGE_BUCKET_CDN = "https://pub-07ce3c07d08e416caec26bf7a9128170.r2.dev"
 LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
 GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
 GOOGLE_REDIRECT_URI = "https://portal.aiya.me/api/auth/google/callback"
+LINE_CLIENT_ID = "1660709265"
+LINE_REDIRECT_URI = "https://portal.aiya.me/api/auth/line/callback"
 
 [[kv_namespaces]]
 binding = "CACHING"
@@ -50,6 +52,8 @@ BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
 LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
 GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
 GOOGLE_REDIRECT_URI = "https://portal.aiya.me/api/auth/google/callback"
+LINE_CLIENT_ID = "1660709265"
+LINE_REDIRECT_URI = "https://portal.aiya.me/api/auth/line/callback"
 
 
 [[env.prod.r2_buckets]]
