@@ -22,6 +22,9 @@ FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "788582819272015"
 BOT_MESSAGE_BUCKET_CDN = "https://pub-07ce3c07d08e416caec26bf7a9128170.r2.dev"
 LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
+GOOGLE_CLIENT_ID = "104019000000000000000"
+GOOGLE_CLIENT_SECRET = ""
+GOOGLE_REDIRECT_URI = "https://portal.aiya.me/api/auth/google/callback"
 
 [[kv_namespaces]]
 binding = "CACHING"
@@ -46,6 +49,9 @@ FB_API_URL = "https://graph.facebook.com/v20.0"
 FB_APP_ID = "879998535846224"
 BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
 LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
+GOOGLE_CLIENT_ID = "104019000000000000000"
+GOOGLE_CLIENT_SECRET = ""
+GOOGLE_REDIRECT_URI = "https://portal.aiya.me/api/auth/google/callback"
 
 
 [[env.prod.r2_buckets]]

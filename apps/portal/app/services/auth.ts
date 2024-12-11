@@ -1,9 +1,9 @@
 import api from "./api";
 import { store } from "../store";
-import { AuthState, SignUpCredential } from "~/@types/auth";
+import { AuthState, SignUpCredential, SignInCredential } from "~/@types/auth";
 
-export const login = (email: string, password: string) =>
-  api.post<AuthState>("/auth/login", { email, password });
+export const login = (args: SignInCredential) =>
+  api.post<AuthState>("/auth/login", args);
 
 export const refreshTokenApi = async (refreshToken: string) =>
   api

@@ -1,6 +1,10 @@
 export type SignInCredential = {
   email: string;
-  password: string;
+  password?: string;
+  external_identifier?: string;
+  first_name?: string;
+  last_name?: string;
+  avatar?: string;
 };
 
 export type SignOut = {

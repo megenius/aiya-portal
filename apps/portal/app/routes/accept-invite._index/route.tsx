@@ -29,7 +29,7 @@ const Route = () => {
 
   const handleSignup = useCallback(() => {
     // Redirect to signup
-    window.location.href = `/auth/sign-up?token=${token}`
+    window.location.href = `/auth/sign-in?token=${token}`
   }, [])
 
 

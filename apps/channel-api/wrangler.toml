@@ -21,7 +21,7 @@ bindings = [
 
 
 [[migrations]]
-tag = "v1"                         
+tag = "v1"
 new_classes = ["FollowerDO", "ProviderDO"]
 
 
@@ -74,10 +74,10 @@ DIRECTUS_URL = "https://console.portal.aiya.ai"
 # binding = "KV_PORTAL"
 # id = "088f1972ae4347179a232a198ad780c0"
 
-[[env.prod.durable_objects.bindings]]
-name = "FOLLOWERS"
-class_name = "FollowerDurableObject"
+# [[env.prod.durable_objects.bindings]]
+# name = "FOLLOWERS"
+# class_name = "FollowerDO"
 
 [[env.prod.migrations]]
-tag = "v1"                                     # Should be unique for each entry
-new_sqlite_classes = ["FollowerDurableObject"]
+tag = "v2"                                  # Should be unique for each entry
+# new_classes = ["FollowerDO", "ProviderDO"]

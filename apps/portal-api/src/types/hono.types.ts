@@ -27,5 +27,8 @@ export type Bindings = {
   BOT_MESSAGE_BUCKET_CDN: string;
   BOT_MESSAGE_BUCKET: R2Bucket
   LINE_WEBHOOK_ENDPOINT: string
+  GOOGLE_CLIENT_ID: string
+  GOOGLE_CLIENT_SECRET: string
+  GOOGLE_REDIRECT_URI: string
 }
 
