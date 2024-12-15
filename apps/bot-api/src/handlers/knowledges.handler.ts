@@ -64,9 +64,9 @@ export const deleteBotKnowledgeHandler = factory.createHandlers(
       readItem("bots_knowledges", knowledgeId, {
         fields: ["bot"],
       })
-    );
+    ).catch(() => {});
 
-    await directus.request(deleteItem("bots_knowledges", knowledgeId));
+    await directus.request(deleteItem("bots_knowledges", knowledgeId)).catch(() => {})
 
     await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
 

@@ -239,91 +239,82 @@ export const searchBotHandler = factory.createHandlers(
       filters: { bot_id: c.req.param("id"), status: "published" },
     });
 
-    const matches = await Promise.all(
-      response.map(async (x) => {
-        // const cacheKey = ["bots_knowledges", x.metadata?.knowledge_id].join(
-        //   "|"
-        // );
-        // let knowledge = await c.env.CACHING.get<BotKnowledge>(cacheKey, "json");
+    try {
+      const matches = await Promise.all(
+        response.map(async (x) => {
+          const knowledge = await getKnowledge(
+            directus,
+            x.metadata?.knowledge_id
+          ).catch(() => null);
 
-        // if (!knowledge) {
-        //   knowledge = await getKnowledge(directus, x.metadata?.knowledge_id);
-        //   await c.env.CACHING.put(cacheKey, JSON.stringify(knowledge));
-        // }
+          const intent = knowledge?.intents.find(
+            (intent) => intent.id === x.metadata?.intent_id
+          );
 
-        const knowledge = await getKnowledge(
-          directus,
-          x.metadata?.knowledge_id
-        );
-
-        console.log(knowledge.id,
-           knowledge.lang);
-
-        const intent = knowledge.intents.find(
-          (intent) => intent.id === x.metadata?.intent_id
-        );
-
-        return {
-          knowledge_id: x.metadata?.knowledge_id,
-          lang: knowledge.lang,
-          intent_id: x.metadata?.intent_id,
-          score: x.score,
-          intent: intent?.intent,
-          responses: intent?.responses,
-          quick_reply: intent?.quick_reply,
-          messages: intent?.responses?.map((response) => {
-            if (platform === "line") {
-              if (response.type === ResponseElementType.Text) {
-                const item = response as TextMessageResponse;
-                return {
-                  type: "text",
-                  text: item.payload?.text,
-                };
-              } else if (response.type === ResponseElementType.Image) {
-                const item = response as ImageMessageResponse;
-                return {
-                  type: "image",
-                  originalContentUrl: item.payload.url,
-                  previewImageUrl: item.payload.url,
-                };
-              }
-
-              return {
-                type: "text",
-                text:
-                  `Unsupported response type` + JSON.stringify(response.type),
-              };
-            } else if (platform === "facebook") {
-              if (response.type === ResponseElementType.Text) {
-                const item = response as TextMessageResponse;
-                return {
-                  text: item.payload?.text,
-                };
-              } else if (response.type === ResponseElementType.Image) {
-                if (response.type === ResponseElementType.Image) {
+          return {
+            knowledge_id: x.metadata?.knowledge_id,
+            lang: knowledge?.lang,
+            intent_id: x.metadata?.intent_id,
+            score: x.score,
+            intent: intent?.intent,
+            responses: intent?.responses,
+            quick_reply: intent?.quick_reply,
+            messages: intent?.responses?.map((response) => {
+              if (platform === "line") {
+                if (response.type === ResponseElementType.Text) {
+                  const item = response as TextMessageResponse;
+                  return {
+                    type: "text",
+                    text: item.payload?.text,
+                  };
+                } else if (response.type === ResponseElementType.Image) {
                   const item = response as ImageMessageResponse;
                   return {
-                    attachment: {
-                      type: "image",
-                      payload: {
-                        url: item.payload.url,
-                        is_reusable: true,
-                      },
-                    },
+                    type: "image",
+                    originalContentUrl: item.payload.url,
+                    previewImageUrl: item.payload.url,
                   };
                 }
+
+                return {
+                  type: "text",
+                  text:
+                    `Unsupported response type` + JSON.stringify(response.type),
+                };
+              } else if (platform === "facebook") {
+                if (response.type === ResponseElementType.Text) {
+                  const item = response as TextMessageResponse;
+                  return {
+                    text: item.payload?.text,
+                  };
+                } else if (response.type === ResponseElementType.Image) {
+                  if (response.type === ResponseElementType.Image) {
+                    const item = response as ImageMessageResponse;
+                    return {
+                      attachment: {
+                        type: "image",
+                        payload: {
+                          url: item.payload.url,
+                          is_reusable: true,
+                        },
+                      },
+                    };
+                  }
+                }
               }
-            }
 
-            return response;
-          }),
-        };
-      })
-    );
+              return response;
+            }),
+          };
+        })
+      );
 
-    const messages = matches[0]?.messages || [];
+      const messages = matches[0]?.messages || [];
 
-    return c.json({ messages, matches });
+      return c.json({ messages, matches });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
   }
 );
 

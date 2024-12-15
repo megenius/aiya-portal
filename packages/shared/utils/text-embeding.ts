@@ -120,8 +120,7 @@ export class TextEmbedding<T extends Metadata = Metadata> {
       },
     };
 
-    console.log("searchBody", JSON.stringify(searchBody, null, 2));
-    
+    // console.log("searchBody", JSON.stringify(searchBody, null, 2));
 
     const searchResponse = await this.openSearch.search<EmbeddingDocument<T>>({
       index: this.index,
