@@ -14,6 +14,7 @@ import { Env } from "./types/hono.types";
 import { s3Routes } from "./routes/s3";
 import { cors } from "hono/cors";
 import { usersRoutes } from "./routes/users";
+import { billingsRoutes } from "./routes/billings";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -21,7 +22,8 @@ const app = new Hono<Env>()
   if (
     !c.req.path.startsWith("/api/auth") &&
     !c.req.path.startsWith("/api/files") &&
-    !c.req.path.startsWith("/api/users")
+    !c.req.path.startsWith("/api/users") &&
+    !c.req.path.startsWith("/api/billings/stripe/webhook")
   ) {
     return authMiddleware(c, next);
   }
@@ -56,6 +58,7 @@ app
   .route("/s3", s3Routes)
   .route("/vouchers", voucherRoutes)
   .route("/users", usersRoutes)
+  .route("/billings", billingsRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

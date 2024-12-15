@@ -1,93 +1,106 @@
 import React, { useEffect, useState } from 'react';
+import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+
+const plans = [
+  {
+    name: "Free Trial",
+    price: "0",
+    monthlyPriceId: "",
+    annualPriceId: "",
+    icon: {
+      rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
+    },
+    features: [
+      "150 Smart Replies/mo",
+      "20 Generative Replies/mo",
+      "15 Slip Recognition/mo",
+      "2 Workspace",
+      "1 Bot per Workspace",
+      "3 Knowledge Base per Bot",
+      "100MB Storage",
+      "2 Team Members per Workspace",
+      "Text, Image, Link, Document (PDF)",
+      "Community Support"
+    ],
+    button: {
+      text: "Start Free",
+      disabled: false,
+      primary: false
+    }
+  },
+  {
+    name: "Starter",
+    monthlyPrice: "990",
+    annualPrice: "10,098",
+    monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
+    annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
+    icon: {
+      rects: [
+        { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
+        { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" }
+      ]
+    },
+    popular: true,
+    features: monthly => [
+      `${monthly ? "1,500" : "1,800"} Smart Replies/mo`,
+      `${monthly ? "400" : "480"} Generative Replies/mo`,
+      `${monthly ? "150" : "180"} Slip Recognition/mo`,
+      "3 Workspaces",
+      "3 Bots per Workspace",
+      "5 Knowledge Bases per Bot",
+      "500MB Storage",
+      "3 Team Members per Workspace",
+      "Text, Image, Link, Document (PDF, Word, Excel), Video",
+      "Email Support",
+      "Basic Analytics"
+    ],
+    button: {
+      text: "Choose Starter",
+      disabled: false,
+      primary: true
+    }
+  },
+  {
+    name: "Growth",
+    monthlyPrice: "1,890",
+    annualPrice: "19,278",
+    monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
+    annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
+    icon: {
+      rects: [
+        { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
+        { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
+        { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" }
+      ]
+    },
+    features: monthly => [
+      `${monthly ? "4,000" : "4,800"} Smart Replies/mo`,
+      `${monthly ? "1,500" : "1,800"} Generative Replies/mo`,
+      `${monthly ? "400" : "480"} Slip Recognition/mo`,
+      "5 Workspaces",
+      "5 Bots per Workspace",
+      "10 Knowledge Bases per Bot",
+      "2GB Storage",
+      "5 Team Members per Workspace",
+      "Text, Image, Link, Document (PDF, Word, Excel), Video",
+      "Priority Support",
+      "Advanced Analytics"
+    ],
+    button: {
+      text: "Choose Growth",
+      disabled: false,
+      primary: true
+    }
+  }
+];
+
 
 const PricingCards = ({ isAnnual }) => {
+  const checkout = useStripeCheckout();
 
-  const plans = [
-    {
-      name: "Free Trial",
-      price: "0",
-      icon: {
-        rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
-      },
-      features: [
-        "150 Smart Replies/mo",
-        "20 Generative Replies/mo",
-        "15 Slip Recognition/mo",
-        "2 Workspace",
-        "1 Bot per Workspace",
-        "3 Knowledge Base per Bot",
-        "100MB Storage",
-        "2 Team Members per Workspace",
-        "Text, Image, Link, Document (PDF)",
-        "Community Support"
-      ],
-      button: {
-        text: "Start Free",
-        disabled: false,
-        primary: false
-      }
-    },
-    {
-      name: "Starter",
-      monthlyPrice: "990",
-      annualPrice: "10,098",
-      icon: {
-        rects: [
-          { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
-          { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" }
-        ]
-      },
-      popular: true,
-      features: monthly => [
-        `${monthly ? "1,500" : "1,800"} Smart Replies/mo`,
-        `${monthly ? "400" : "480"} Generative Replies/mo`,
-        `${monthly ? "150" : "180"} Slip Recognition/mo`,
-        "3 Workspaces",
-        "3 Bots per Workspace",
-        "5 Knowledge Bases per Bot",
-        "500MB Storage",
-        "3 Team Members per Workspace",
-        "Text, Image, Link, Document (PDF, Word, Excel), Video",
-        "Email Support",
-        "Basic Analytics"
-      ],
-      button: {
-        text: "Choose Starter",
-        disabled: false,
-        primary: true
-      }
-    },
-    {
-      name: "Growth",
-      monthlyPrice: "1,890",
-      annualPrice: "19,278",
-      icon: {
-        rects: [
-          { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
-          { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
-          { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" }
-        ]
-      },
-      features: monthly => [
-        `${monthly ? "4,000" : "4,800"} Smart Replies/mo`,
-        `${monthly ? "1,500" : "1,800"} Generative Replies/mo`,
-        `${monthly ? "400" : "480"} Slip Recognition/mo`,
-        "5 Workspaces",
-        "5 Bots per Workspace",
-        "10 Knowledge Bases per Bot",
-        "2GB Storage",
-        "5 Team Members per Workspace",
-        "Text, Image, Link, Document (PDF, Word, Excel), Video",
-        "Priority Support",
-        "Advanced Analytics"
-      ],
-      button: {
-        text: "Choose Growth",
-        disabled: false,
-        primary: true
-      }
-    }
-  ];
+  const handleCheckout = async (priceId: string) => {
+    checkout.mutate({ priceId })
+  }
 
   return (
     <>
@@ -145,7 +158,8 @@ const PricingCards = ({ isAnnual }) => {
                     ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                     : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     }`}
-                  disabled={plan.button.disabled}
+                  disabled={plan.button.disabled || checkout.isPending}
+                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
                 >
                   {plan.button.text}
                 </button>

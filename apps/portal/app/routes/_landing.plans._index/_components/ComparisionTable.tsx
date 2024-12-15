@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
+import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
 
 const ComparisonTable = ({ isAnnual }) => {
-  // const [billingPeriod, setBillingPeriod] = useState('monthly');
+  const checkout = useStripeCheckout();
+
+  const handleCheckout = async (priceId: string) => {
+    checkout.mutate({ priceId })
+  }
 
   const getAnnualPrice = (monthlyPrice) => {
     const annual = monthlyPrice * 12;
@@ -22,6 +27,8 @@ const ComparisonTable = ({ isAnnual }) => {
       name: "Free Trial",
       monthlyPrice: "0",
       annualPrice: "0",
+      monthlyPriceId: "",
+      annualPriceId: "",
       period: "forever free",
       buttonText: "Start Free"
     },
@@ -29,6 +36,8 @@ const ComparisonTable = ({ isAnnual }) => {
       name: "Starter",
       monthlyPrice: "990",
       annualPrice: getAnnualPrice(990),
+      monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
+      annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
       period: !isAnnual ? 'monthly' : 'yearly',
       buttonText: "Choose Starter",
       popular: true
@@ -37,6 +46,8 @@ const ComparisonTable = ({ isAnnual }) => {
       name: "Growth",
       monthlyPrice: "1,890",
       annualPrice: getAnnualPrice(1890),
+      monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
+      annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
       period: !isAnnual ? 'monthly' : 'yearly',
       buttonText: "Choose Growth"
     }
@@ -190,6 +201,8 @@ const ComparisonTable = ({ isAnnual }) => {
                       ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                       : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                       }`}
+                    disabled={checkout.isPending}
+                    onClick={() => handleCheckout(!isAnnual ? plan.monthlyPriceId : plan.annualPriceId)}
                   >
                     {plan.buttonText}
                   </button>
