@@ -1125,9 +1125,9 @@
               <div class="px-4 py-3.5 border-y border-gray-200 dark:border-neutral-800">
                 <!-- Switch/Toggle -->
                 <div class="flex justify-between items-center">
-                  <label for="@@darkmodeID" class="text-sm text-gray-800 dark:text-neutral-300">Dark mode</label>
+                  <label for="hs-pro-dnaddm" class="text-sm text-gray-800 dark:text-neutral-300">Dark mode</label>
                   <div class="relative inline-block">
-                    <input data-hs-theme-switch type="checkbox" id="@@darkmodeID" class="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
+                    <input data-hs-theme-switch type="checkbox" id="hs-pro-dnaddm" class="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
 
                     before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white">
                   </div>
@@ -1268,17 +1268,32 @@
                   </li>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-teams.html">
-                      Teams
+                      Teams: Grid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-teams-list.html">
+                      Teams: Listing
                     </a>
                   </li>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-files.html">
-                      Files
+                      Files: Grid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-files-list.html">
+                      Files: Listing
                     </a>
                   </li>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-connections.html">
-                      Connections
+                      Connections: Grid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-connections-list.html">
+                      Connections: Listing
                     </a>
                   </li>
                   <li>
@@ -1427,6 +1442,20 @@
 
             <!-- Link -->
             <li class="px-5">
+              <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/inbox.html">
+                <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
+                  <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                    <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                  </svg>
+                </span>
+                Inbox <span class="py-0.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">New</span>
+              </a>
+            </li>
+            <!-- End Link -->
+
+            <!-- Link -->
+            <li class="px-5">
               <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/calendar-month.html">
                 <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                   <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1452,7 +1481,7 @@
                     <path d="M16 7v9" />
                   </svg>
                 </span>
-                Kanban Board <span class="py-0.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">New</span>
+                Kanban Board
               </a>
             </li>
             <!-- End Link -->
@@ -2035,17 +2064,17 @@
               <div class="-mb-2.5 px-3 overflow-x-auto">
                 <div class="overflow-x-auto [&::-webkit-scrollbar]:h-0">
                   <!-- Nav Tab -->
-                  <nav class="flex gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
-                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 font-medium text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-chsn-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-chsn-all" aria-controls="hs-pro-tabs-chsn-all" role="tab">
+                  <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
+                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 font-medium text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-chsn-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-chsn-all" aria-controls="hs-pro-tabs-chsn-all" role="tab">
                       All
                     </button>
-                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-mentions" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-mentions" aria-controls="hs-pro-tabs-chsn-mentions" role="tab">
+                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-mentions" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-mentions" aria-controls="hs-pro-tabs-chsn-mentions" role="tab">
                       Mentions
                     </button>
-                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-spammed" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-spammed" aria-controls="hs-pro-tabs-chsn-spammed" role="tab">
-                      Spammed
+                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-spammed" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-spammed" aria-controls="hs-pro-tabs-chsn-spammed" role="tab">
+                      Spam
                     </button>
-                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-blocked" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-blocked" aria-controls="hs-pro-tabs-chsn-blocked" role="tab">
+                    <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-chsn-item-blocked" aria-selected="false" data-hs-tab="#hs-pro-tabs-chsn-blocked" aria-controls="hs-pro-tabs-chsn-blocked" role="tab">
                       Blocked
                     </button>
                   </nav>
@@ -2070,7 +2099,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Costa Quinn</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Costa Quinn</p>
                           <div>
                             <svg class="inline-block shrink-0 size-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <path d="M18 6 7 17l-5-5" />
@@ -2098,7 +2127,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Rachel Doe</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Rachel Doe</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">14m</span>
                           </div>
@@ -2107,7 +2136,7 @@
                           <div class="flex items-center gap-x-1.5">
                             <img class="shrink-0 size-5 rounded object-cover" src="../assets/img/mockups/img10.jpg" alt="Attachment Image">
                             <div class="grow truncate">
-                              <p class="truncate font-medium text-gray-800 dark:text-neutral-200 text-xs">When using open method, const select = new HSSelect(document.querySelector('#select'));</p>
+                              <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">When using open method, const select = new HSSelect(document.querySelector('#select'));</p>
                             </div>
                           </div>
                         </div>
@@ -2130,7 +2159,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Lewis Clarke</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Lewis Clarke</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">15m</span>
                           </div>
@@ -2154,7 +2183,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Technical issues</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Technical issues</p>
                           <div>
                             <svg class="inline-block shrink-0 size-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <path d="M20 6 9 17l-5-5" />
@@ -2181,7 +2210,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Bob Dean</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Bob Dean</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">41m</span>
                           </div>
@@ -2192,7 +2221,7 @@
                               <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                             </svg>
                             <div class="grow truncate">
-                              <p class="truncate font-medium text-gray-800 dark:text-neutral-200 text-xs">Hey Preline team, I got an error while using the headless UI component with preline. I'm not sure how to fix it. Could you kindly assist me in identifying what I might be missing? Your help would be greatly appreciate</p>
+                              <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">Hey Preline team, I got an error while using the headless UI component with preline. I'm not sure how to fix it. Could you kindly assist me in identifying what I might be missing? Your help would be greatly appreciate</p>
                             </div>
                           </div>
                         </div>
@@ -2218,7 +2247,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Mark Colbert</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Mark Colbert</p>
                           <div>
                             <svg class="inline-block shrink-0 size-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <path d="M18 6 7 17l-5-5" />
@@ -2244,7 +2273,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Ella Lauda</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Ella Lauda</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">37m</span>
                           </div>
@@ -2255,7 +2284,7 @@
                               <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                             </svg>
                             <div class="grow truncate">
-                              <p class="truncate font-medium text-gray-800 dark:text-neutral-200 text-xs">site-source.zip</p>
+                              <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">site-source.zip</p>
                             </div>
                           </div>
                         </div>
@@ -2280,7 +2309,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Bugs/Improvements</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Bugs/Improvements</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">1h</span>
                           </div>
@@ -2304,7 +2333,7 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Alex Brown</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Alex Brown</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">2h</span>
                           </div>
@@ -2326,13 +2355,13 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">David Harrison</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">David Harrison</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500">2h</span>
                           </div>
                         </div>
                         <div class="truncate me-5">
-                          <p class="truncate font-medium text-gray-800 dark:text-neutral-200 text-xs">Thanks!</p>
+                          <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">Thanks!</p>
                         </div>
                         <div class="hs-tab-active:hidden absolute bottom-3.5 end-2.5">
                           <span class="relative min-w-[18px] min-h-[18px] inline-flex justify-center items-center text-[10px] bg-blue-500 text-white rounded-full px-1">
@@ -2355,13 +2384,13 @@
                       </div>
                       <div class="grow truncate">
                         <div class="flex justify-between items-center gap-x-1">
-                          <p class="truncate font-semibold text-[13px] text-gray-800 dark:text-neutral-200">Ols Schols</p>
+                          <p class="truncate font-medium text-[13px] text-gray-800 dark:text-neutral-200">Ols Schols</p>
                           <div>
                             <span class="text-[10px] text-gray-400 uppercase dark:text-neutral-500"></span>
                           </div>
                         </div>
                         <div class="truncate me-5">
-                          <p class="truncate font-medium text-gray-800 dark:text-neutral-200 text-xs"></p>
+                          <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs"></p>
                         </div>
                       </div>
                     </div>
@@ -2506,10 +2535,10 @@
 
                   <div class="max-w-sm mx-auto text-wrap">
                     <p class="mt-2 font-medium text-gray-800 dark:text-neutral-200">
-                      No mentioned message
+                      No blocked message
                     </p>
                     <p class="mb-5 text-sm text-gray-500 dark:text-neutral-500">
-                      Only mentioned messages appear here
+                      Only blocked messages appear here
                     </p>
                   </div>
                 </div>
@@ -2964,7 +2993,7 @@
           <label for="hs-chat-autoheight-textarea-1" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-1" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Costa"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-1" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Costa" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -3097,7 +3126,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc1">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc1-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc1-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -3111,8 +3140,8 @@
                 <div id="hs-pro-chdsudc1-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdsudc1">
                   <div class="px-5 pb-5">
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 12h.01" />
@@ -3123,7 +3152,7 @@
                           Company:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           Fortex
                         </p>
@@ -3132,8 +3161,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -3142,7 +3171,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United States
                         </p>
@@ -3151,8 +3180,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -3161,7 +3190,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           costa.notion@gmail.com
                         </p>
@@ -3170,8 +3199,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -3179,7 +3208,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +1 000-00-00
                         </p>
@@ -3188,8 +3217,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10" />
@@ -3199,7 +3228,7 @@
                           Site:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <a class="align-top text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500" href="#">
                           fortex.com
                         </a>
@@ -3213,7 +3242,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc1">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc1-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc1-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -3642,7 +3671,7 @@
           <label for="hs-chat-autoheight-textarea-2" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-2" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Rachel"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-2" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Rachel" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -3733,7 +3762,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-indigo-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-indigo-500 text-white rounded-full">
               R
             </span>
             <div class="mt-2 w-full">
@@ -3776,7 +3806,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc2">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc2-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc2-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -3791,8 +3821,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -3801,7 +3831,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           Netherlands
                         </p>
@@ -3810,8 +3840,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -3820,7 +3850,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           rachel@gmail.com
                         </p>
@@ -3829,8 +3859,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -3838,7 +3868,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +297 000-00-00
                         </p>
@@ -3852,7 +3882,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc2">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc2-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc2-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -4168,7 +4198,7 @@
           <div id="hs-ch1trc" class="hs-removing:opacity-0 transition duration-100 py-2.5 px-[26px] border-b border-gray-100 dark:border-neutral-700">
             <div class="flex justify-between items-center gap-x-3 border-s-2 border-blue-600 ps-2">
               <div class="w-full">
-                <p class="font-medium text-xs text-blue-600">Reply to Lewis</p>
+                <p class="font-medium text-xs text-blue-600">Reply to @@name</p>
                 <p class="text-xs text-gray-800 dark:text-neutral-200">How's these all free? 🤯</p>
               </div>
               <div class="grow">
@@ -4186,7 +4216,7 @@
           <!-- End Reply -->
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-3" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis">This is little appreciation to community! 🤭</textarea>
+            <textarea id="hs-chat-autoheight-textarea-3" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis" data-hs-textarea-auto-height>This is little appreciation to community! 🤭</textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -4319,7 +4349,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc3">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc3-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc3-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -4333,8 +4363,8 @@
                 <div id="hs-pro-chdsudc3-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdsudc3">
                   <div class="px-5 pb-5">
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 12h.01" />
@@ -4345,7 +4375,7 @@
                           Company:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           Acroma
                         </p>
@@ -4354,8 +4384,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -4364,7 +4394,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United States
                         </p>
@@ -4373,8 +4403,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -4383,7 +4413,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           lewis@acroma.com
                         </p>
@@ -4392,8 +4422,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10" />
@@ -4403,7 +4433,7 @@
                           Site:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <a class="align-top text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500" href="#">
                           acroma.com
                         </a>
@@ -4417,7 +4447,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc3">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc3-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc3-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -5669,7 +5699,7 @@
           <label for="hs-chat-autoheight-textarea-4" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-4" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Group"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-4" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Group" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -5760,7 +5790,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-orange-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-orange-500 text-white rounded-full">
               B
             </span>
             <div class="mt-2 w-full">
@@ -5800,9 +5831,10 @@
           <!-- Body -->
           <div class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div class="hs-accordion-group" data-hs-accordion-always-open>
+
               <!-- Members -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsm1">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm1-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm1-collapse">
                   <span class="text-sm font-medium">Members</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -5855,7 +5887,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc4">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc4-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc4-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -5870,8 +5902,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -5880,7 +5912,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           technical-issue@preline.com
                         </p>
@@ -5894,7 +5926,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc4">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc4-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc4-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -6210,7 +6242,7 @@
           <label for="hs-chat-autoheight-textarea-5" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-5" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Bob"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-5" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Bob" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -6301,7 +6333,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-pink-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-pink-500 text-white rounded-full">
               B
             </span>
             <div class="mt-2 w-full">
@@ -6344,7 +6377,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc5">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc5-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc5-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -6358,8 +6391,8 @@
                 <div id="hs-pro-chdsudc5-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdsudc5">
                   <div class="px-5 pb-5">
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 12h.01" />
@@ -6370,7 +6403,7 @@
                           Company:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           HALO LAB
                         </p>
@@ -6379,8 +6412,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -6389,7 +6422,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United Kingdom
                         </p>
@@ -6398,8 +6431,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -6408,7 +6441,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           bob.dean@halolab.com
                         </p>
@@ -6417,8 +6450,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -6426,7 +6459,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +33 000-00-00
                         </p>
@@ -6435,8 +6468,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10" />
@@ -6446,7 +6479,7 @@
                           Site:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <a class="align-top text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500" href="#">
                           halolab.com
                         </a>
@@ -6460,7 +6493,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc5">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc5-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc5-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -7237,7 +7270,7 @@
           <label for="hs-chat-autoheight-textarea-6" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-6" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Mark"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-6" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Mark" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -7328,7 +7361,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-teal-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-teal-500 text-white rounded-full">
               M
             </span>
             <div class="mt-2 w-full">
@@ -7371,7 +7405,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc6">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc6-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc6-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -7386,8 +7420,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -7396,7 +7430,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           Australia
                         </p>
@@ -7405,8 +7439,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -7415,7 +7449,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           mark@gmail.com
                         </p>
@@ -7424,8 +7458,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -7433,7 +7467,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +420 000-00-00
                         </p>
@@ -7447,7 +7481,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc6">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc6-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc6-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -7822,7 +7856,7 @@
           <label for="hs-chat-autoheight-textarea-7" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-7" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Ella"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-7" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Ella" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -7955,7 +7989,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc7">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc7-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc7-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -7970,8 +8004,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -7980,7 +8014,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United States
                         </p>
@@ -7989,8 +8023,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -7999,7 +8033,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           ellalauda@icloud.com
                         </p>
@@ -8008,8 +8042,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -8017,7 +8051,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +1 212-00-11
                         </p>
@@ -8031,7 +8065,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc7">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc7-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc7-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -8347,7 +8381,7 @@
           <label for="hs-chat-autoheight-textarea-8" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-8" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Group"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-8" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Group" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -8438,7 +8472,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-purple-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-purple-500 text-white rounded-full">
               B
             </span>
             <div class="mt-2 w-full">
@@ -8478,9 +8513,10 @@
           <!-- Body -->
           <div class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div class="hs-accordion-group" data-hs-accordion-always-open>
+
               <!-- Members -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsm2">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm2-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm2-collapse">
                   <span class="text-sm font-medium">Members</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -8525,7 +8561,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc8">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc8-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc8-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -8540,8 +8576,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -8550,7 +8586,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           bugs-improvements@preline.com
                         </p>
@@ -8564,7 +8600,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc8">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc8-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc8-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -8875,7 +8911,7 @@
           <div id="hs-ch9trc" class="hs-removing:opacity-0 transition duration-100 py-2.5 px-[26px] border-b border-gray-100 dark:border-neutral-700">
             <div class="flex justify-between items-center gap-x-3 border-s-2 border-blue-600 ps-2">
               <div class="w-full">
-                <p class="font-medium text-xs text-blue-600">Reply to Lewis</p>
+                <p class="font-medium text-xs text-blue-600">Reply to Alex</p>
                 <p class="text-xs text-gray-800 dark:text-neutral-200">I love Preline Pro! What can we expect in the next update?</p>
               </div>
               <div class="grow">
@@ -8893,7 +8929,7 @@
           <!-- End Reply -->
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-9" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis">A brand new Chat demo. 🙂</textarea>
+            <textarea id="hs-chat-autoheight-textarea-9" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis" data-hs-textarea-auto-height>A brand new Chat demo. 🙂</textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -8984,7 +9020,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-sky-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-sky-500 text-white rounded-full">
               A
             </span>
             <div class="mt-2 w-full">
@@ -9027,7 +9064,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc9">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc9-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc9-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -9042,8 +9079,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -9052,7 +9089,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United Kingdom
                         </p>
@@ -9061,8 +9098,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -9071,7 +9108,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           alex2brown@gmail.com
                         </p>
@@ -9085,7 +9122,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc9">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc9-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc9-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -9510,7 +9547,7 @@
           <label for="hs-chat-autoheight-textarea-10" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-10" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message David"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-10" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message David" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -9643,7 +9680,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc10">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc10-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc10-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -9658,8 +9695,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -9668,7 +9705,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           United States
                         </p>
@@ -9677,8 +9714,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -9687,7 +9724,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           david@icloud.com
                         </p>
@@ -9696,8 +9733,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -9705,7 +9742,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +492-00-11
                         </p>
@@ -9719,7 +9756,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc10">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc10-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc10-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -9980,7 +10017,7 @@
           <label for="hs-chat-autoheight-textarea-11" class="sr-only">Message</label>
 
           <div class="pb-2 ps-2">
-            <textarea id="hs-chat-autoheight-textarea-11" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Ols"></textarea>
+            <textarea id="hs-chat-autoheight-textarea-11" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Ols" data-hs-textarea-auto-height></textarea>
 
             <div class="pe-4 flex justify-between items-center gap-x-1">
               <!-- Button Group -->
@@ -10071,7 +10108,8 @@
           <!-- End Header -->
 
           <!-- Profile -->
-          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800"><span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-orange-500 text-white rounded-full">
+          <div class="p-5 flex flex-col justify-center items-center text-center border-b border-gray-100 dark:border-neutral-800">
+            <span class="flex shrink-0 justify-center items-center size-16 text-2xl font-medium uppercase bg-orange-500 text-white rounded-full">
               O
             </span>
             <div class="mt-2 w-full">
@@ -10114,7 +10152,7 @@
 
               <!-- User Details -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsudc11">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc11-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsudc11-collapse">
                   <span class="text-sm font-medium">User details</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -10129,8 +10167,8 @@
                   <div class="px-5 pb-5">
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -10139,7 +10177,7 @@
                           Country:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           Australia
                         </p>
@@ -10148,8 +10186,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -10158,7 +10196,7 @@
                           Email:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           olsschols@gmail.com
                         </p>
@@ -10167,8 +10205,8 @@
                     <!-- End List Item -->
 
                     <!-- List Item -->
-                    <dl class="py-1 grid grid-cols-3 gap-x-4">
-                      <dt class="col-span-1">
+                    <dl class="py-1 flex items-center gap-x-4">
+                      <dt class="w-full max-w-28">
                         <p class="inline-flex items-center gap-x-2 text-[13px] text-gray-500 dark:text-neutral-500">
                           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -10176,7 +10214,7 @@
                           Phone:
                         </p>
                       </dt>
-                      <dd class="col-span-2">
+                      <dd class="grow">
                         <p class="font-medium text-[13px] text-gray-800 dark:text-neutral-200">
                           +234-95-86
                         </p>
@@ -10190,7 +10228,7 @@
 
               <!-- Shared Media -->
               <div class="hs-accordion active" id="hs-pro-chdssmc11">
-                <button type="button" class="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc11-collapse">
+                <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdssmc11-collapse">
                   <span class="text-sm font-medium">Shared media</span>
                   <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
@@ -10575,7 +10613,7 @@
             <label for="hs-pro-chhcntmnm" class="mb-2 block text-sm font-medium text-gray-800 dark:text-neutral-200">
               Name
             </label>
-            <input id="hs-pro-chhcntmnm" type="text" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600" placeholder="e.g. App">
+            <input id="hs-pro-chhcntmnm" type="text" class="py-2 px-3 block w-full border-gray-200 rounded-lg sm:text-sm text-base placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600" placeholder="e.g. App">
           </div>
           <!-- End Input -->
 
@@ -10798,56 +10836,56 @@
             </legend>
 
             <!-- Checkbox -->
-            <label for="hs-pro-chhsnrt1" class="py-2 px-3 flex items-center bg-white rounded-lg cursor-pointer rounded-md hover:bg-gray-200 has-[:checked]:bg-gray-200 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700">
+            <label for="hs-pro-chhsnrt1" class="py-2 px-3 flex items-center rounded-lg cursor-pointer rounded-md hover:bg-gray-100 has-[:checked]:bg-gray-100 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700 ">
               <input type="radio" id="hs-pro-chhsnrt1" class="hidden" value="Today" name="hs-pro-chhsnrt" checked>
               <span class="grow">
-                <span class="block font-medium text-sm text-gray-800 dark:text-neutral-200">
+                <span class="block text-sm text-gray-800 dark:text-neutral-200">
                   Today
                 </span>
               </span>
-              <span class="block font-normal text-xs leading-6 text-gray-500 dark:text-neutral-500">
+              <span class="font-normal text-xs text-gray-500 dark:text-neutral-500">
                 5:05 PM
               </span>
             </label>
             <!-- End Checkbox -->
 
             <!-- Checkbox -->
-            <label for="hs-pro-chhsnrt2" class="py-2 px-3 flex items-center bg-white rounded-lg cursor-pointer rounded-md hover:bg-gray-200 has-[:checked]:bg-gray-200 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700">
+            <label for="hs-pro-chhsnrt2" class="py-2 px-3 flex items-center rounded-lg cursor-pointer rounded-md hover:bg-gray-100 has-[:checked]:bg-gray-100 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700 ">
               <input type="radio" id="hs-pro-chhsnrt2" class="hidden" value="Tomorrow" name="hs-pro-chhsnrt">
               <span class="grow">
-                <span class="block font-medium text-sm text-gray-800 dark:text-neutral-200">
+                <span class="block text-sm text-gray-800 dark:text-neutral-200">
                   Tomorrow
                 </span>
               </span>
-              <span class="block font-normal text-xs leading-6 text-gray-500 dark:text-neutral-500">
+              <span class="font-normal text-xs text-gray-500 dark:text-neutral-500">
                 Wed 9:00 AM
               </span>
             </label>
             <!-- End Checkbox -->
 
             <!-- Checkbox -->
-            <label for="hs-pro-chhsnrt3" class="py-2 px-3 flex items-center bg-white rounded-lg cursor-pointer rounded-md hover:bg-gray-200 has-[:checked]:bg-gray-200 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700">
+            <label for="hs-pro-chhsnrt3" class="py-2 px-3 flex items-center rounded-lg cursor-pointer rounded-md hover:bg-gray-100 has-[:checked]:bg-gray-100 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700 ">
               <input type="radio" id="hs-pro-chhsnrt3" class="hidden" value="This week" name="hs-pro-chhsnrt">
               <span class="grow">
-                <span class="block font-medium text-sm text-gray-800 dark:text-neutral-200">
+                <span class="block text-sm text-gray-800 dark:text-neutral-200">
                   This week
                 </span>
               </span>
-              <span class="block font-normal text-xs leading-6 text-gray-500 dark:text-neutral-500">
+              <span class="font-normal text-xs text-gray-500 dark:text-neutral-500">
                 Thu, May 8, 9:00 AM
               </span>
             </label>
             <!-- End Checkbox -->
 
             <!-- Checkbox -->
-            <label for="hs-pro-chhsnrt4" class="py-2 px-3 flex items-center bg-white rounded-lg cursor-pointer rounded-md hover:bg-gray-200 has-[:checked]:bg-gray-200 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700">
+            <label for="hs-pro-chhsnrt4" class="py-2 px-3 flex items-center rounded-lg cursor-pointer rounded-md hover:bg-gray-100 has-[:checked]:bg-gray-100 has-[:disabled]:opacity-50 has-[:disabled]:pointer-events-none dark:hover:bg-neutral-700 dark:has-[:checked]:bg-neutral-700 ">
               <input type="radio" id="hs-pro-chhsnrt4" class="hidden" value="Next week" name="hs-pro-chhsnrt">
               <span class="grow">
-                <span class="block font-medium text-sm text-gray-800 dark:text-neutral-200">
+                <span class="block text-sm text-gray-800 dark:text-neutral-200">
                   Next week
                 </span>
               </span>
-              <span class="block font-normal text-xs leading-6 text-gray-500 dark:text-neutral-500">
+              <span class="font-normal text-xs text-gray-500 dark:text-neutral-500">
                 Mon, May 13, 9:00 AM
               </span>
             </label>
@@ -10856,7 +10894,7 @@
 
           <div class="mt-1">
             <!-- Button -->
-            <button type="button" class="w-full flex justify-between items-center gap-x-3 py-2 px-3 text-start font-medium text-sm text-gray-800 hover:bg-gray-200 rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chhsncs">
+            <button type="button" class="w-full flex justify-between items-center gap-x-3 py-2 px-3 text-start font-medium text-sm text-gray-800 hover:bg-gray-100 rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chhsncs">
               Custom
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6" />
@@ -12465,54 +12503,16 @@
   <!-- Clipboard -->
   <script src="../assets/vendor/clipboard/dist/clipboard.min.js"></script>
   <script src="../assets/js/hs-copy-clipboard-helper.js"></script>
-  <!-- Textarea Auto Height Helpers -->
-  <script src="../assets/js/hs-textarea-autoheight.js"></script>
 
-  <!-- Autoheight Textarea -->
-  <script>
-  	window.addEventListener('load', () => {
-  	  // TEXTAREA AUTO HEIGHT
-  	  // =======================================================
-  	  (function () {
-  	    const tabs = HSTabs.getInstance('#hs-pro-tabs-chsn-all > [role="tablist"]', true);
-  	    const textAreas = [
-  	      '#hs-chat-autoheight-textarea-1',
-  	      '#hs-chat-autoheight-textarea-2',
-  	      '#hs-chat-autoheight-textarea-3',
-  	      '#hs-chat-autoheight-textarea-4',
-  	      '#hs-chat-autoheight-textarea-5',
-  	      '#hs-chat-autoheight-textarea-6',
-  	      '#hs-chat-autoheight-textarea-7',
-  	      '#hs-chat-autoheight-textarea-8',
-  	      '#hs-chat-autoheight-textarea-9',
-  	      '#hs-chat-autoheight-textarea-10',
-  	      '#hs-chat-autoheight-textarea-11'
-  	    ];
-
-  	    textareaAutoHeight(textAreas);
-
-  	    window.addEventListener('change.hs.tab', (evt) => {
-  	      if (!evt.target.closest('#hs-pro-tabs-chsn-all')) return false;
-
-  	      const currentTab = document.querySelector(evt.detail.payload.current);
-  	      const currentTextarea = currentTab.querySelector('footer textarea');
-
-  	      textareaAutoHeight([`#${currentTextarea.id}`]);
-  	    });
-  	  })();
-  	});
-  </script>
   <!-- Close Sidebar -->
-  <span id="hs-resoulution-value" class="hidden">1024</span>
-
   <script>
   	window.addEventListener('load', () => {
   	  // CLOSE SIDEBAR ON MOBILE
   	  // =======================================================
   	  (function () {
+  			const resolution = '1024';
   	    const sidebar = HSOverlay.getInstance('#hs-pro-chat-sidebar', true);
   	    const tabs = HSTabs.getInstance('#hs-pro-tabs-chsn-all > [role="tablist"]', true);
-  	    const resolution = document.querySelector('#hs-resoulution-value').textContent;
 
   	    window.addEventListener('change.hs.tab', (evt) => {
   	      if (!evt.target.closest('#hs-pro-tabs-chsn-all')) return false;

@@ -50,10 +50,11 @@
 
 <body class="dark:bg-neutral-900">
   <!-- ========== HEADER ========== -->
-  <header class="lg:hidden flex flex-wrap md:justify-start md:flex-nowrap z-50">
-    <div class="max-w-4xl mx-auto flex justify-between basis-full items-center w-full py-2.5 px-5 md:px-8 2xl:px-5">
+
+  <header class="lg:hidden flex flex-wrap md:justify-start md:flex-nowrap z-50 bg-white dark:bg-neutral-900">
+    <div class="max-w-4xl mx-auto flex justify-between items-center basis-full w-full py-2.5 px-5 md:px-8 2xl:px-5">
       <!-- Logo & Sidebar Toggle -->
-      <div class="flex items-center gap-x-3">
+      <div class=" flex items-center gap-x-3">
         <!-- Logo -->
         <a class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" href="../../pro/payment/index.html" aria-label="Preline">
           <svg class="w-28 h-auto" width="116" height="32" viewBox="0 0 116 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +78,7 @@
       </div>
       <!-- End Logo & Sidebar Toggle -->
 
-      <div class="flex justify-end items-center gap-x-1.5">
+      <div class=" flex justify-end items-center gap-x-1.5">
         <!-- Dark Mode -->
         <button type="button" class="hs-dark-mode-active:hidden flex hs-dark-mode group size-[38px] justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-hs-theme-click-value="dark">
           <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -101,20 +102,18 @@
 
         <!-- Notifications Button Icon -->
         <div class="hs-dropdown [--auto-close:inside] relative inline-flex">
-          <div class="hs-tooltip [--placement:bottom] inline-block">
-            <button id="hs-pro-dnnd" type="button" class="size-[38px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-              <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-              </svg>
-              <span class="flex absolute top-0 end-0 z-10 -mt-1.5 -me-1.5">
-                <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>
-                <span class="relative min-w-[18px] min-h-[18px] inline-flex justify-center items-center text-[10px] bg-red-500 text-white rounded-full px-1">
-                  2
-                </span>
+          <button id="hs-pro-dnnd" type="button" class="size-[38px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+            <span class="flex absolute top-0 end-0 z-10 -mt-1.5 -me-1.5">
+              <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>
+              <span class="relative min-w-[18px] min-h-[18px] inline-flex justify-center items-center text-[10px] bg-red-500 text-white rounded-full px-1">
+                2
               </span>
-            </button>
-          </div>
+            </span>
+          </button>
           <!-- End Notifications Button Icon -->
 
           <!-- Notifications Dropdown -->
@@ -123,10 +122,10 @@
             <div class="px-5 pt-3 flex justify-between items-center border-b border-gray-200 dark:border-neutral-700">
               <!-- Nav Tab -->
               <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
-                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-dnn-1-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-dnn-1-all" aria-controls="hs-pro-tabs-dnn-1-all" role="tab">
+                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-pnn-1-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-pnn-1-all" aria-controls="hs-pro-tabs-pnn-1-all" role="tab">
                   All
                 </button>
-                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-dnn-1-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dnn-1-archived" aria-controls="hs-pro-tabs-dnn-1-archived" role="tab">
+                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-pnn-2-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-pnn-2-archived" aria-controls="hs-pro-tabs-pnn-2-archived" role="tab">
                   Archived
                 </button>
               </nav>
@@ -149,7 +148,7 @@
             <!-- End Header -->
 
             <!-- Tab Content -->
-            <div id="hs-pro-tabs-dnn-1-all" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-1-item-all">
+            <div id="hs-pro-tabs-pnn-1-all" role="tabpanel" aria-labelledby="hs-pro-tabs-pnn-1-item-all">
               <div class="h-[480px] overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                 <ul class="divide-y divide-gray-200 dark:divide-neutral-800">
                   <!-- List Item -->
@@ -491,7 +490,7 @@
             <!-- End Tab Content -->
 
             <!-- Tab Content -->
-            <div id="hs-pro-tabs-dnn-1-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-1-item-archived">
+            <div id="hs-pro-tabs-pnn-2-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-pnn-2-item-archived">
               <!-- Empty State -->
               <div class="p-5 min-h-[533px] flex flex-col justify-center items-center text-center">
                 <svg class="w-48 mx-auto mb-4" width="178" height="90" viewBox="0 0 178 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -547,13 +546,9 @@
         <!-- End Notifications Dropdown -->
 
         <!-- More Dropdown -->
-        <div class="hs-dropdown relative inline-flex">
+        <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
           <button id="hs-pro-pnnmd" type="button" class="size-[38px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="12" cy="5" r="1" />
-              <circle cx="12" cy="19" r="1" />
-            </svg>
+            <img class="shrink-0 size-[38px] rounded-md" src="https://images.unsplash.com/photo-1724037231939-c4fa9bd69a84?q=80&w=180&h=180&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Avatar">
           </button>
 
           <!-- Account Dropdown -->
@@ -639,10 +634,10 @@
             <div class="px-5 pt-3 flex justify-between items-center border-b border-gray-200 dark:border-neutral-700">
               <!-- Nav Tab -->
               <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
-                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-dnn-2-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-dnn-2-all" aria-controls="hs-pro-tabs-dnn-2-all" role="tab">
+                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-psn-1-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-psn-1-all" aria-controls="hs-pro-tabs-psn-1-all" role="tab">
                   All
                 </button>
-                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-dnn-2-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dnn-2-archived" aria-controls="hs-pro-tabs-dnn-2-archived" role="tab">
+                <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-psn-2-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-psn-2-archived" aria-controls="hs-pro-tabs-psn-2-archived" role="tab">
                   Archived
                 </button>
               </nav>
@@ -665,7 +660,7 @@
             <!-- End Header -->
 
             <!-- Tab Content -->
-            <div id="hs-pro-tabs-dnn-2-all" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-2-item-all">
+            <div id="hs-pro-tabs-psn-1-all" role="tabpanel" aria-labelledby="hs-pro-tabs-psn-1-item-all">
               <div class="h-[480px] overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                 <ul class="divide-y divide-gray-200 dark:divide-neutral-800">
                   <!-- List Item -->
@@ -1007,7 +1002,7 @@
             <!-- End Tab Content -->
 
             <!-- Tab Content -->
-            <div id="hs-pro-tabs-dnn-2-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-2-item-archived">
+            <div id="hs-pro-tabs-psn-2-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-psn-2-item-archived">
               <!-- Empty State -->
               <div class="p-5 min-h-[533px] flex flex-col justify-center items-center text-center">
                 <svg class="w-48 mx-auto mb-4" width="178" height="90" viewBox="0 0 178 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1066,18 +1061,18 @@
       <!-- Header -->
       <div class="p-5 text-center">
         <div class="flex size-24 rounded-full mx-auto mb-2">
-          <img class="object-cover size-full rounded-full" src="https://images.unsplash.com/photo-1659482634023-2c4fda99ac0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">
+          <img class="object-cover size-full rounded-full" src="https://images.unsplash.com/photo-1724037231939-c4fa9bd69a84?q=80&w=180&h=180&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Avatar">
         </div>
 
         <p class="lg:hidden font-semibold text-gray-800 dark:text-neutral-200">
-          Amanda Harvey
+          Isabella Cruz
         </p>
 
         <div class="hidden lg:block">
           <!-- More Dropdown -->
-          <div class="hs-dropdown relative inline-flex">
+          <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
             <button id="hs-pro-dnsmd" type="button" class="py-1 px-2 inline-flex justify-center items-center gap-x-1 font-semibold rounded-lg text-gray-800 hover:text-purple-600 focus:outline-none focus:text-purple-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 dark:hover:text-purple-500 dark:focus:text-purple-500" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-              Amanda Harvey
+              Isabella Cruz
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6" />
               </svg>
@@ -1144,131 +1139,442 @@
       <div class="h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         <!-- Nav -->
         <nav class="hs-accordion-group pt-0 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
-          <ul class="p-4 space-y-1.5 border-y border-gray-200 dark:border-neutral-700">
+          <ul class="p-4 space-y-1 border-y border-gray-200 dark:border-neutral-700">
             <!-- Link -->
             <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/payment/index.html">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/index.html">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                </span>
                 Home
               </a>
             </li>
             <!-- End Link -->
 
-            <!-- Link -->
-            <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="20" height="14" x="2" y="5" rx="2" />
-                  <line x1="2" x2="22" y1="10" y2="10" />
+            <!-- Balances -->
+            <li class="hs-accordion " id="balances-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="balances-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                    <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                    <path d="M7 21h10" />
+                    <path d="M12 3v18" />
+                    <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+                  </svg>
+                </span>
+                Balances
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
                 </svg>
+              </button>
+
+              <div id="balances-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="balances-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/balances.html">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/balances-empty-content.html">
+                      Empty Content
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/balances-open-new.html">
+                      Open New
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Balances -->
+
+            <!-- Transactions -->
+            <li class="hs-accordion " id="transactions-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="transactions-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3 4 7l4 4" />
+                    <path d="M4 7h16" />
+                    <path d="m16 21 4-4-4-4" />
+                    <path d="M20 17H4" />
+                  </svg>
+                </span>
+                Transactions
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="transactions-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="transactions-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/transactions.html">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/transactions-details.html">
+                      Details
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Transactions -->
+
+            <!-- Add Money -->
+            <li class="hs-accordion " id="add-money-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="add-money-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14" />
+                    <path d="M12 5v14" />
+                  </svg>
+                </span>
+                Add Money
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="add-money-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="add-money-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/add-money.html">
+                      Calculator
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/add-money-amount.html">
+                      Amount
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/add-money-payment.html">
+                      Payment
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/add-money-success-message.html">
+                      Success Message
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Add Money -->
+
+            <!-- Send -->
+            <li class="hs-accordion " id="send-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="send-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 7h10v10" />
+                    <path d="M7 17 17 7" />
+                  </svg>
+                </span>
+                Send
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="send-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="send-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send.html">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-method.html">
+                      Method
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-search-recipient.html">
+                      Search Recipient
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-to-myself.html">
+                      To Myself
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-to-someone-else.html">
+                      To Seomeone Else
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-calculator.html">
+                      Calculator
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-amount.html">
+                      Amount
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-review.html">
+                      Review
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-pay.html">
+                      Pay
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/send-success-message.html">
+                      Success Message
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Send -->
+
+            <!-- Request -->
+            <li class="hs-accordion " id="request-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="request-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 7 7 17" />
+                    <path d="M17 17H7V7" />
+                  </svg>
+                </span>
+                Request
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="request-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="request-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/request.html">
+                      Request
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/request-amount.html">
+                      Amount
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/request-share.html">
+                      Share
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Request -->
+
+            <!-- Payments -->
+            <li class="hs-accordion " id="payments-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="payments-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
+                    <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+                    <path d="m2 16 6 6" />
+                    <circle cx="16" cy="9" r="2.9" />
+                    <circle cx="6" cy="5" r="3" />
+                  </svg>
+                </span>
+                Payments
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="payments-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="payments-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/payments.html">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/payments-details.html">
+                      Details
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/requested-payment-details.html">
+                      Requested Payment Details
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Payments -->
+
+            <!-- Cards -->
+            <li class="hs-accordion " id="cards-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="cards-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                    <line x1="2" x2="22" y1="10" y2="10" />
+                  </svg>
+                </span>
                 Cards
-              </a>
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="cards-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="cards-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/cards.html">
+                      Cards
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/card-details.html">
+                      Details
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/new-card-order-details.html">
+                      New Card Order Details
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
-            <!-- End Link -->
+            <!-- End Cards -->
+
+            <!-- Order Card -->
+            <li class="hs-accordion " id="order-card-accordion">
+              <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-200 w-full text-start flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-600 dark:text-neutral-300 dark:focus:bg-neutral-600" aria-expanded="false" aria-controls="order-card-accordion-sub">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M8 12h8" />
+                    <path d="M12 8v8" />
+                  </svg>
+                </span>
+                Order Card
+
+                <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div id="order-card-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden " role="region" aria-labelledby="order-card-accordion">
+                <ul class="hs-accordion-group ps-8 mt-1 space-y-1 relative before:absolute before:top-0 before:start-5 before:w-0.5 before:h-full before:bg-gray-200 dark:before:bg-neutral-700" data-hs-accordion-always-open>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card.html">
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card-address.html">
+                      Address
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card-payment.html">
+                      Payment
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card-verification.html">
+                      Verification
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card-upload-identity.html">
+                      Upload Identity
+                    </a>
+                  </li>
+                  <li>
+                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/order-card-success-message.html">
+                      Success Message
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- End Order Card -->
 
             <!-- Link -->
             <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m3 16 4 4 4-4" />
-                  <path d="M7 20V4" />
-                  <path d="m21 8-4-4-4 4" />
-                  <path d="M17 4v16" />
-                </svg>
-                Transfers
-              </a>
-            </li>
-            <!-- End Link -->
-
-            <!-- Link -->
-            <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-                Activity
-              </a>
-            </li>
-            <!-- End Link -->
-
-            <!-- Link -->
-            <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 12 20 22 4 22 4 12" />
-                  <rect width="20" height="5" x="2" y="7" />
-                  <line x1="12" x2="12" y1="22" y2="7" />
-                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-                </svg>
-                Earn $25
-                <div class="ms-auto">
-                  <span class="inline-flex items-center gap-1.5 py-px px-1.5 rounded-md text-[10px] leading-4 font-medium bg-purple-100 text-purple-800 dark:bg-purple-800/30 dark:text-purple-500">
-                    New
-                  </span>
-                </div>
-              </a>
-            </li>
-            <!-- End Link -->
-
-            <!-- Link -->
-            <li>
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-200 focus:bg-gray-300 dark:bg-neutral-700 dark:focus:bg-neutral-600 " href="../../pro/payment/empty-states.html">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-                </svg>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-200 focus:bg-gray-300 dark:bg-neutral-700 dark:focus:bg-neutral-600" href="../../pro/payment/empty-states.html">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                  </svg>
+                </span>
                 Empty Contents
               </a>
             </li>
             <!-- End Link -->
           </ul>
 
-          <ul class="p-4 space-y-0.5">
+          <ul class="p-4 space-y-1">
             <!-- Link -->
-            <li class="hs-accordion active" id="projects-accordion">
-              <button type="button" class="hs-accordion-toggle py-1 px-3 flex justify-center items-center gap-x-1 text-xs text-gray-500 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-expanded="true" aria-controls="projects-accordion-sub">
-                <svg class="hs-accordion-active:rotate-90 shrink-0 size-3 transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-                Recent contacts
-              </button>
+            <li>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="../../pro/payment/recipients.html">
+                <span class="w-5 me-3">
+                  <svg class="shrink-0 mt-0.5 size-4 mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </span>
+                Recipients
+              </a>
+            </li>
+            <!-- End Link -->
 
-              <div id="projects-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="projects-accordion">
-                <ul class="hs-accordion-group mt-1 space-y-1.5" data-hs-accordion-always-open>
-                  <!-- Link -->
-                  <li>
-                    <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                      <img class="shrink-0 size-5 rounded-full" src="https://images.unsplash.com/photo-1601935111741-ae98b2b230b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80" alt="Avatar">
-                      Costa Quinn
-                    </a>
-                  </li>
-                  <!-- End Link -->
+            <!-- Link -->
+            <li>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 " href="recipient-details.html">
+                <img class="shrink-0 size-5 rounded-full me-3" src="https://images.unsplash.com/photo-1724037231939-c4fa9bd69a84?q=80&w=180&h=180&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Avatar">
+                Isabella Cruz
+              </a>
+            </li>
+            <!-- End Link -->
 
-                  <!-- Link -->
-                  <li>
-                    <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                      <span class="flex justify-center items-center size-5 text-[10px] font-semibold uppercase bg-purple-500 text-white rounded-full">
-                        M
-                      </span>
-                      Mark Doe
-                    </a>
-                  </li>
-                  <!-- End Link -->
+            <!-- Link -->
+            <li>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="recipient-details.html">
+                <span class="flex justify-center items-center me-3 size-5 text-[10px] font-semibold uppercase bg-indigo-500 text-white rounded-full">
+                  M
+                </span>
+                Mark Doe
+              </a>
+            </li>
+            <!-- End Link -->
 
-                  <!-- Link -->
-                  <li>
-                    <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                      <img class="shrink-0 size-5 rounded-full" src="https://images.unsplash.com/photo-1570654639102-bdd95efeca7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80" alt="Avatar">
-                      Anna Richard
-                    </a>
-                  </li>
-                  <!-- End Link -->
-                </ul>
-              </div>
+            <!-- Link -->
+            <li>
+              <a class="flex py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="recipient-details.html">
+                <img class="shrink-0 size-5 rounded-full me-3" src="https://images.unsplash.com/photo-1570654639102-bdd95efeca7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80" alt="Avatar">
+                Anna Richard
+              </a>
             </li>
             <!-- End Link -->
           </ul>
@@ -1338,48 +1644,48 @@
     <!-- Content -->
     <div class="max-w-4xl mx-auto py-5 sm:py-10 px-5 md:px-8 2xl:px-5">
       <!-- Header -->
-      <div class="mb-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+      <div class="mb-5 flex flex-wrap justify-between items-center gap-3">
         <!-- Heading -->
-        <div>
-          <p class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white">
-            0 USD
-          </p>
-          <h1 class="text-gray-500 dark:text-neutral-500">
-            Total balance
-          </h1>
+        <div class="flex items-center gap-x-4">
+
+          <div class="grow">
+            <p class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white">
+              0.00 USD
+            </p>
+            <h1 class="text-gray-500 dark:text-neutral-500">
+              Total balance
+            </h1>
+          </div>
         </div>
         <!-- End Heading -->
 
         <!-- Button Group -->
-        <div class="flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-2">
           <!-- Button -->
-          <button type="button" class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-violet-600">
-            <svg class="hidden sm:block shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <a class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-xl border border-transparent bg-purple-500 text-white hover:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-purple-600" href="../../pro/payment/send.html">
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 7h10v10" />
               <path d="M7 17 17 7" />
-            </svg>
-            Send
-          </button>
+            </svg> Send
+          </a>
           <!-- End Button -->
 
           <!-- Button -->
-          <button type="button" class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+          <a class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-xl border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="../../pro/payment/add-money.html">
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14" />
               <path d="M12 5v14" />
-            </svg>
-            Add money
-          </button>
+            </svg> Add money
+          </a>
           <!-- End Button -->
 
           <!-- Button -->
-          <button type="button" class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+          <a class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-xl border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="../../pro/payment/request.html">
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 7 7 17" />
               <path d="M17 17H7V7" />
-            </svg>
-            Request
-          </button>
+            </svg> Request
+          </a>
           <!-- End Button -->
         </div>
         <!-- End Button Group -->
@@ -1389,8 +1695,8 @@
       <!-- Card Group -->
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <!-- Card -->
-        <a class="col-span-full sm:col-span-1 block py-2 px-3 sm:p-4 group bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
-          <div class="flex gap-x-2 sm:gap-x-4">
+        <a class="col-span-full sm:col-span-1 block py-2 px-3 sm:p-4 group bg-white border border-gray-200 text-start rounded-2xl hover:bg-gray-50 focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800/50 dark:focus:bg-neutral-800/50" href="../../pro/payment/balances-open-new.html">
+          <span class="flex gap-x-2 sm:gap-x-4">
             <!-- Icon -->
             <span class="mt-1 shrink-0 size-8 flex justify-center items-center bg-gray-100 text-gray-800 rounded-full group-hover:bg-gray-200 dark:bg-neutral-700 dark:text-white dark:group-hover:bg-neutral-600">
               <svg class="size-5 rounded-full" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1401,16 +1707,16 @@
             <!-- End Icon -->
 
             <!-- Body -->
-            <div class="grow">
-              <p class="font-semibold text-lg text-gray-800 dark:text-white">
+            <span class="grow">
+              <span class="block font-semibold text-lg text-gray-800 dark:text-white">
                 Open
-              </p>
-              <p class="text-sm text-gray-500 dark:text-neutral-500">
+              </span>
+              <span class="block text-sm text-gray-500 dark:text-neutral-500">
                 Open a new balance
-              </p>
-            </div>
+              </span>
+            </span>
             <!-- End Body -->
-          </div>
+          </span>
         </a>
         <!-- End Card -->
       </div>
@@ -1520,7 +1826,7 @@
           Upcoming subscriptions
         </h2>
 
-        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
+        <a class="inline-flex items-center gap-x-1 font-medium text-sm text-start text-purple-600 underline underline-offset-4 hover:text-purple-700 focus:outline-none dark:text-purple-500 dark:hover:text-purple-600" href="#">
           View all
           <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6" />
