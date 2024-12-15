@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 import PricingCards from "./_components/PriceCards"
@@ -6,6 +6,8 @@ import ComparisonTable from "./_components/ComparisionTable"
 import FAQ from "./_components/FAQ"
 
 const Route = () => {
+  const [isAnnual, setIsAnnual] = useState(false);
+
   return (
     <>
       <Suspense fallback="">
@@ -33,24 +35,35 @@ const Route = () => {
                     {/* Title */}
                     <div className="text-center mb-12">
                       <h1 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-                        Preline Plans
+                        AIYA Plans
                       </h1>
                     </div>
                     {/* End Title */}
-                    {/* Toggle */}
-                    <div className="flex justify-center mb-6">
-                      <div id="hs-pro-toggle-count" className="p-0.5 inline-block bg-gray-100 rounded-full dark:bg-neutral-900">
-                        <label htmlFor="toggle-count-by-card" className="relative inline-block py-1.5 px-3.5">
-                          <input id="toggle-count-by-card" name="hs-pro-toggle-count" type="radio" className="peer absolute top-0 end-0 size-full border-transparent bg-transparent bg-none text-transparent rounded-full cursor-pointer disabled:opacity-50 disabled:pointer-events-none before:absolute before:inset-0 before:size-full before:rounded-full focus:ring-offset-0 checked:before:bg-white checked:before:shadow-sm checked:bg-none focus:ring-transparent dark:checked:before:bg-neutral-800 dark:focus:ring-offset-transparent" defaultChecked />
-                          <span className="relative z-10 inline-flex justify-center items-center gap-x-2 text-sm font-medium text-gray-800 cursor-pointer peer-disabled:cursor-default dark:text-neutral-200">
+
+                    {/* Billing Toggle */}
+                    <div className="flex justify-center mb-8">
+                      <div id="hs-pro-toggle-count" className="inline-block bg-gray-100 rounded-full dark:bg-neutral-900">
+                        <label htmlFor="toggle-count-by-card" className="relative inline-block py-1.5 px-2">
+                          <button
+                            onClick={() => setIsAnnual(false)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium round ${!isAnnual
+                              ? "bg-white text-gray-800 shadow dark:bg-neutral-700 dark:text-neutral-200"
+                              : "text-gray-600 dark:text-neutral-400"
+                              }`}
+                          >
                             Monthly
-                          </span>
+                          </button>
                         </label>
-                        <label htmlFor="toggle-count-with-paypal" className="relative inline-block py-1.5 px-3.5">
-                          <input id="toggle-count-with-paypal" name="hs-pro-toggle-count" type="radio" className="peer absolute top-0 end-0 size-full border-transparent bg-transparent bg-none text-transparent rounded-full cursor-pointer disabled:opacity-50 disabled:pointer-events-none before:absolute before:inset-0 before:size-full before:rounded-full focus:ring-offset-0 checked:before:bg-white checked:before:shadow-sm checked:bg-none focus:ring-transparent dark:checked:before:bg-neutral-800 dark:focus:ring-offset-transparent" />
-                          <span className="relative z-10 inline-flex justify-center items-center gap-x-2 text-sm font-medium text-gray-800 cursor-pointer peer-disabled:cursor-default dark:text-neutral-200">
+                        <label htmlFor="toggle-count-with-paypal" className="relative inline-block py-1.5 px-2">
+                          <button
+                            onClick={() => setIsAnnual(true)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium ${isAnnual
+                              ? "bg-white text-gray-800 shadow dark:bg-neutral-700 dark:text-neutral-200"
+                              : "text-gray-600 dark:text-neutral-400"
+                              }`}
+                          >
                             Annual
-                          </span>
+                          </button>
                           <span className="absolute -top-6 start-10">
                             <span className="flex items-center -mt-5">
                               <svg className="shrink-0 -mr-6 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 99.3 57" width={48}>
@@ -59,16 +72,15 @@ const Route = () => {
                               </svg>
                               <span className="block mt-3">
                                 <span className="inline-flex items-center gap-1.5 py-1 px-2 whitespace-nowrap text-xs font-medium bg-blue-600 text-white rounded-full dark:bg-blue-500">
-                                  Save up to 10%
+                                  Save up to 15% and Get +20% extra credits
                                 </span>
                               </span>
                             </span>
-                          </span>
-                        </label>
+                          </span></label>
                       </div>
                     </div>
-                    {/* End Toggle */}
-                    <PricingCards />
+
+                    <PricingCards isAnnual={isAnnual} />
                     {/* End Pricing Cards Grid */}
                     <div className="mt-6 flex justify-center items-center gap-x-3">
                       <p className="text-sm text-gray-500 dark:text-neutral-500">
@@ -81,7 +93,7 @@ const Route = () => {
                   </div>
                   {/* End Pricing */}
 
-                  <ComparisonTable />
+                  <ComparisonTable isAnnual={isAnnual}/>
 
                   <FAQ />
                 </div>

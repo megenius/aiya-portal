@@ -20,20 +20,21 @@ const FAQ = () => {
     },
     {
       question: "What kind of support do you provide?",
-      answer: "Support varies by tier - from community support (Free) to 24/7 dedicated support (Pro). Response times are guaranteed by SLA, ranging from 48 hours to 4 hours based on your plan."
+      answer: "Support varies by tier - from community support (Free) to Priority support (Pro). Response times are guaranteed by SLA, ranging from 48 hours to 4 hours based on your plan."
     },
-    {
-      question: "Is there a refund policy?",
-      answer: "Yes, we offer a 30-day money-back guarantee for paid plans. If you're not satisfied, contact our support team at support@aiya.ai for a full refund."
-    },
+    // {
+    //   question: "Is there a refund policy?",
+    //   answer: "Yes, we offer a 30-day money-back guarantee for paid plans. If you're not satisfied, contact our support team at support@aiya.ai for a full refund."
+    // },
     {
       question: "How do I integrate the chatbot with my website?",
-      answer: "We provide simple integration options including direct JavaScript snippet, WordPress plugin, and REST API access (available in Growth and Pro plans). Our documentation covers all integration methods."
+      answer: "Not now"
+      // answer: "We provide simple integration options including direct JavaScript snippet, WordPress plugin, and REST API access (available in Growth and Pro plans). Our documentation covers all integration methods."
     },
-    {
-      question: "Do you offer custom AI training?",
-      answer: "Custom AI training is available in the Pro plan. This allows you to train the AI on your specific business data, terminology, and use cases for more accurate responses."
-    },
+    // {
+    //   question: "Do you offer custom AI training?",
+    //   answer: "Custom AI training is available in the Pro plan. This allows you to train the AI on your specific business data, terminology, and use cases for more accurate responses."
+    // },
     {
       question: "Do you offer team discounts?",
       answer: "Yes, we offer volume discounts for larger teams and annual billing options. Contact our sales team for custom enterprise pricing and features."
