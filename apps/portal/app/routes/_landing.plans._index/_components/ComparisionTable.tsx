@@ -34,8 +34,8 @@ const ComparisonTable = ({ isAnnual }) => {
     },
     {
       name: "Starter",
-      monthlyPrice: "990",
-      annualPrice: getAnnualPrice(990),
+      monthlyPrice: "1490",
+      annualPrice: getAnnualPrice(1490),
       monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
       annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
       period: !isAnnual ? 'monthly' : 'yearly',
@@ -44,8 +44,8 @@ const ComparisonTable = ({ isAnnual }) => {
     },
     {
       name: "Growth",
-      monthlyPrice: "1,890",
-      annualPrice: getAnnualPrice(1890),
+      monthlyPrice: "2,990",
+      annualPrice: getAnnualPrice(2990),
       monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
       annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
       period: !isAnnual ? 'monthly' : 'yearly',

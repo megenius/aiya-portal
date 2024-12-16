@@ -20,7 +20,9 @@ const plans = [
       "100MB Storage",
       "2 Team Members per Workspace",
       "Text, Image, Link, Document (PDF)",
-      "Community Support"
+      "Community Support",
+      "Unlimited LINE integration",
+      "Unlimited Facebook Page integration"
     ],
     button: {
       text: "Start Free",
@@ -30,8 +32,9 @@ const plans = [
   },
   {
     name: "Starter",
-    monthlyPrice: "990",
-    annualPrice: "10,098",
+    monthlyPrice: "1,490",
+    annualPrice: "15,198",
+    annualSavePrice: "2,382",
     monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
     annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
     icon: {
@@ -42,17 +45,19 @@ const plans = [
     },
     popular: true,
     features: monthly => [
-      `${monthly ? "1,500" : "1,800"} Smart Replies/mo`,
-      `${monthly ? "400" : "480"} Generative Replies/mo`,
-      `${monthly ? "150" : "180"} Slip Recognition/mo`,
+      `${monthly ? "3,000" : "3,600 (+20%)"} Smart Replies/mo`,
+      `${monthly ? "1,200" : "1,440 (+20%)"} Generative Replies/mo`,
+      `${monthly ? "300" : "360 (+20%)"} Slip Recognition/mo`,
       "3 Workspaces",
       "3 Bots per Workspace",
       "5 Knowledge Bases per Bot",
-      "500MB Storage",
+      "2G Storage",
       "3 Team Members per Workspace",
       "Text, Image, Link, Document (PDF, Word, Excel), Video",
       "Email Support",
-      "Basic Analytics"
+      "Basic Analytics",
+      "Unlimited LINE integration",
+      "Unlimited Facebook Page integration"
     ],
     button: {
       text: "Choose Starter",
@@ -62,8 +67,9 @@ const plans = [
   },
   {
     name: "Growth",
-    monthlyPrice: "1,890",
-    annualPrice: "19,278",
+    monthlyPrice: "2,990",
+    annualPrice: "30,498",
+    annualSavePrice: "5,382",
     monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
     annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
     icon: {
@@ -74,17 +80,19 @@ const plans = [
       ]
     },
     features: monthly => [
-      `${monthly ? "4,000" : "4,800"} Smart Replies/mo`,
-      `${monthly ? "1,500" : "1,800"} Generative Replies/mo`,
-      `${monthly ? "400" : "480"} Slip Recognition/mo`,
+      `${monthly ? "8,000" : "9,600"} Smart Replies/mo`,
+      `${monthly ? "3,000" : "3,600"} Generative Replies/mo`,
+      `${monthly ? "900" : "1,080"} Slip Recognition/mo`,
       "5 Workspaces",
       "5 Bots per Workspace",
       "10 Knowledge Bases per Bot",
-      "2GB Storage",
+      "5G Storage",
       "5 Team Members per Workspace",
       "Text, Image, Link, Document (PDF, Word, Excel), Video",
       "Priority Support",
-      "Advanced Analytics"
+      "Advanced Analytics",
+      "Unlimited LINE integration",
+      "Unlimited Facebook Page integration"
     ],
     button: {
       text: "Choose Growth",
