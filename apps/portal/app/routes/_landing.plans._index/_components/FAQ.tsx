@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FAQ = () => {
-  const faqs = [
+  const faqsEn = [
     {
       question: "How do Smart Reply and Generative Reply credits work?",
       answer: "Smart Reply uses Gemini for quick, context-aware responses, while Generative Reply uses Claude for more complex, detailed responses. Credits refresh monthly, and additional credits can be purchased at any time based on your tier's rates."
@@ -41,6 +41,37 @@ const FAQ = () => {
     }
   ];
 
+  const faqs = [
+    {
+      question: "เครดิต Smart Reply และ Generative Reply ทำงานอย่างไร?",
+      answer: "Smart Reply ใช้ Gemini สำหรับการตอบกลับแบบรวดเร็วตามบริบท ในขณะที่ Generative Reply ใช้ Claude สำหรับการตอบที่ซับซ้อนและมีรายละเอียดมากขึ้น เครดิตจะรีเซ็ตทุกเดือน และสามารถซื้อเครดิตเพิ่มเติมได้ตลอดเวลาตามอัตราของแต่ละแพ็คเกจ"
+    },
+    {
+      question: "สามารถเปลี่ยนแพ็คเกจได้หรือไม่?",
+      answer: "ได้ คุณสามารถอัพเกรดหรือดาวน์เกรดแพ็คเกจได้ตลอดเวลา การเปลี่ยนแปลงจะมีผลในรอบบิลถัดไป เครดิตที่ไม่ได้ใช้จะไม่ถูกโอนไปเมื่อเปลี่ยนแพ็คเกจ"
+    },
+    {
+      question: "รับชำระเงินผ่านช่องทางใดบ้าง?",
+      answer: "เรารับชำระผ่านบัตรเครดิต/เดบิต การโอนเงินผ่านธนาคาร และ QR PromptPay สำหรับลูกค้าในประเทศไทย ราคาทั้งหมดเป็นสกุลเงินบาทไทย (THB) และเราออกใบกำกับภาษีให้กับลูกค้าธุรกิจ"
+    },
+    {
+      question: "ระบบราคาทำงานอย่างไร?",
+      answer: "ราคาของเราแบ่งตามการใช้งานและฟีเจอร์ แต่ละแพ็คเกจจะมีจำนวนเครดิตรายเดือน พื้นที่จัดเก็บ และฟีเจอร์ที่กำหนด สามารถซื้อเครดิตเพิ่มเติมได้ในราคาพิเศษตามแพ็คเกจของคุณ"
+    },
+    {
+      question: "มีการสนับสนุนลูกค้าในรูปแบบใดบ้าง?",
+      answer: "การสนับสนุนแตกต่างกันตามแพ็คเกจ - ตั้งแต่การสนับสนุนผ่านชุมชน (ฟรี) จนถึงการสนับสนุนแบบเร่งด่วน (Pro) เวลาตอบกลับรับประกันด้วย SLA ตั้งแต่ 48 ชั่วโมงถึง 4 ชั่วโมงขึ้นอยู่กับแพ็คเกจของคุณ"
+    },
+    {
+      question: "จะนำแชทบอทไปใช้กับเว็บไซต์ได้อย่างไร?",
+      answer: "ยังไม่เปิดให้บริการ"
+    },
+    {
+      question: "มีส่วนลดสำหรับทีมหรือไม่?",
+      answer: "มี เรามีส่วนลดสำหรับทีมขนาดใหญ่และตัวเลือกการชำระเงินรายปี ติดต่อทีมขายของเราสำหรับราคาและฟีเจอร์แบบองค์กร"
+    }
+  ];
+
   return (
     <div className="space-y-5">
       <div className="pt-16 text-center">
@@ -66,8 +97,8 @@ const FAQ = () => {
         <p className="text-sm text-gray-500 dark:text-neutral-500">
           Still have questions?
         </p>
-        <a 
-          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" 
+        <a
+          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
           href="#"
         >
           Contact Support

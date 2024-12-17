@@ -1,23 +1,22 @@
-import React from "react"
-import { Suspense } from "react"
-import { ClientOnly } from "remix-utils/client-only"
+import React from 'react';
+import AffiliateTiers from './_components/AffiliateTiers';
+import AffiliateHero from './_components/AffiliateHero';
+import AffiliateFaqPayment from './_components/AffiliateFaqPayment';
+import AffiliateIncomeCalculator from './_components/AffiliateIncomeCalculator';
 
-const Route = () => {
-  return (
-    <>
-      <Suspense fallback="">
-        <ClientOnly>
-          {() =>
-            <main id="content" className="pb-[40px] sm:pb-[64px] ">
-              Affilates
-            </main>
-          }
-        </ClientOnly>
-      </Suspense>
-    </>
-  )
+interface routeProps {
+
 }
 
-export default Route
+const route: React.FC<routeProps> = () => {
+  return (
+    <>
+      <AffiliateHero />
+      <AffiliateTiers />
+      <AffiliateIncomeCalculator />
+      <AffiliateFaqPayment />
+    </>
+  );
+};
 
-
+export default route;

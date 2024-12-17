@@ -22,7 +22,7 @@ const ComparisonTable = ({ isAnnual }) => {
     return bonus;
   };
 
-  const plans = [
+  const plansEn = [
     {
       name: "Free Trial",
       monthlyPrice: "0",
@@ -53,7 +53,7 @@ const ComparisonTable = ({ isAnnual }) => {
     }
   ];
 
-  const categories = [
+  const categoriesEn = [
     {
       title: "Usage Limits",
       features: [
@@ -154,6 +154,143 @@ const ComparisonTable = ({ isAnnual }) => {
         {
           name: "Analytics",
           values: [false, "Basic", "Advanced"]
+        }
+      ]
+    }
+  ];
+
+  const plans = [
+    {
+      name: "ทดลองใช้ฟรี",
+      monthlyPrice: "0",
+      annualPrice: "0",
+      monthlyPriceId: "",
+      annualPriceId: "",
+      period: "ฟรีตลอดไป",
+      buttonText: "เริ่มใช้ฟรี"
+    },
+    {
+      name: "Starter",
+      monthlyPrice: "1890",
+      annualPrice: getAnnualPrice(1890),
+      monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
+      annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
+      period: !isAnnual ? 'รายเดือน' : 'รายปี',
+      buttonText: "เลือกแพ็คเกจ Starter",
+      popular: true
+    },
+    {
+      name: "Growth",
+      monthlyPrice: "3490",
+      annualPrice: getAnnualPrice(3490),
+      monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
+      annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
+      period: !isAnnual ? 'รายเดือน' : 'รายปี',
+      buttonText: "เลือกแพ็คเกจ Growth"
+    }
+  ];
+
+  const categories = [
+    {
+      title: "ขีดจำกัดการใช้งาน",
+      features: [
+        {
+          name: "เวิร์กสเปซ",
+          values: ["1", "3", "5"]
+        },
+        {
+          name: "เครดิต Smart Reply",
+          baseValues: [150, 1500, 4000],
+          get values() {
+            return this.baseValues.map(value =>
+              `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
+            );
+          }
+        },
+        {
+          name: "เครดิต Generative Reply",
+          baseValues: [20, 400, 1500],
+          get values() {
+            return this.baseValues.map(value =>
+              `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
+            );
+          }
+        },
+        {
+          name: "เครดิตการตรวจจับสลิป",
+          baseValues: [15, 150, 400],
+          get values() {
+            return this.baseValues.map(value =>
+              `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
+            );
+          }
+        },
+        {
+          name: "บอทต่อเวิร์กสเปซ",
+          values: ["1", "3", "5"]
+        },
+        {
+          name: "ฐานความรู้ต่อบอท",
+          values: ["3", "5", "10"]
+        }
+      ]
+    },
+    {
+      title: "พื้นที่จัดเก็บและทีม",
+      features: [
+        {
+          name: "ขีดจำกัดพื้นที่จัดเก็บ",
+          values: ["100MB", "500MB", "2GB"]
+        },
+        {
+          name: "สมาชิกทีมต่อเวิร์กสเปซ",
+          values: ["2", "3", "5"]
+        }
+      ]
+    },
+    {
+      title: "ประเภทเนื้อหา",
+      features: [
+        {
+          name: "ข้อความ",
+          values: [true, true, true]
+        },
+        {
+          name: "รูปภาพ",
+          values: [true, true, true]
+        },
+        {
+          name: "ลิงก์",
+          values: [true, true, true]
+        },
+        {
+          name: "เอกสาร PDF",
+          values: [true, true, true]
+        },
+        {
+          name: "เอกสาร Word",
+          values: [false, true, true]
+        },
+        {
+          name: "เอกสาร Excel",
+          values: [false, true, true]
+        },
+        {
+          name: "วิดีโอ",
+          values: [false, true, true]
+        }
+      ]
+    },
+    {
+      title: "การสนับสนุนและการวิเคราะห์",
+      features: [
+        {
+          name: "ระดับการสนับสนุน",
+          values: ["ชุมชน", "อีเมล", "เร่งด่วน"]
+        },
+        {
+          name: "การวิเคราะห์",
+          values: [false, "พื้นฐาน", "ขั้นสูง"]
         }
       ]
     }
