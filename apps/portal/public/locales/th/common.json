@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "workspaces": "เวิร์กสเปซ",
+    "my_account": "บัญชีของฉัน",
+    "plans": "แพ็กเกจ",
+    "billing": "การเรียกเก็บเงิน",
+    "credits": "เครดิต",
+    "affiliates": "โปรแกรมพันธมิตร"
+  },
+  "welcome": "ยินดีต้อนรับ",
+  "description": "นี่คือคำอธิบายภาษาไทย",
+  "loginTitle": "เข้าสู่ระบบบัญชี AIYA ของคุณ",
+  "loginSubtitle": "สร้าง AI ด้วย AIYA"
+}

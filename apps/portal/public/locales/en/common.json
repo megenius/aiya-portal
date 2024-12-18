@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "workspaces": "Workspaces",
+    "my_account": "My Account",
+    "plans": "Plans",
+    "billing": "Billing",
+    "credits": "Credits",
+    "affiliates": "Affiliates Program"
+  },
+  "welcome": "Welcome",
+  "description": "This is an English description.",
+  "loginTitle": "Log in to your AIYA account",
+  "loginSubtitle": "Build AI with AIYA."
+}

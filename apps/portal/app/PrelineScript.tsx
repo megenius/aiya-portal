@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 // import {IStaticMethods, HSOverlay, HSDropdown, HSAccordion } from "preline/preline";
-import { type IStaticMethods, HSOverlay, HSDropdown, HSAccordion, HSTogglePassword } from "preline/preline";
+import { type IStaticMethods, HSOverlay, HSDropdown, HSAccordion, HSTogglePassword, HSSelect } from "preline/preline";
 import { useLocation } from "@remix-run/react";
 
 declare global {
@@ -22,7 +22,7 @@ export default function PrelineScript() {
 
   useEffect(() => {
     async function initializePreline() {
-      await import('preline/preline').then(({ HSOverlay, HSStaticMethods, HSDropdown, HSAccordion, HSTogglePassword }) => {
+      await import('preline/preline').then(({ HSOverlay, HSStaticMethods, HSDropdown, HSAccordion, HSTogglePassword, HSSelect }) => {
         setTimeout(() => {
           // HSStaticMethods.autoInit();
           HSOverlay.autoInit();
@@ -30,6 +30,8 @@ export default function PrelineScript() {
           HSAccordion.autoInit()
           HSTogglePassword.autoInit()
         }, 1000)
+
+        HSSelect.autoInit()
       });
     }
 

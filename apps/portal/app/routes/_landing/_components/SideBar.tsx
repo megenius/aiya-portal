@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "@remix-run/react";
 import { LogoAiya } from "@repo/ui/LogoAiya";
-import { sidebarLinks } from "./SidebarConfig";
+import { useSidebarLinks } from "./SidebarConfig";
 import React from "react";
 import { cn } from "@repo/ui/utils";
 
@@ -10,6 +10,7 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const sidebarLinks = useSidebarLinks();
 
   const getIconClass = (linkTo: string) => {
     const isActive = location.pathname === linkTo;

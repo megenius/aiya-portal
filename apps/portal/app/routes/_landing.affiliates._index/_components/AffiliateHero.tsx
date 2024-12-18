@@ -1,56 +1,75 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrendingUp, Users, DollarSign, Award, ArrowRight, Zap, Target, Gift } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { startTransition, useState } from 'react';
 
 const AffiliateHero = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { t, ready } = useTranslation('affiliate');
+
   const highlights = [
     {
       icon: <DollarSign className="w-6 h-6 text-blue-500" />,
-      title: 'รายได้สูงสุด 15%',
-      description: 'รับคอมมิชชันสูงสุด 15% ต่อการแนะนำ พร้อม Recurring Payment 6 เดือน'
+      title: t('highlights.commission.title'),
+      description: t('highlights.commission.description')
     },
     {
       icon: <Gift className="w-6 h-6 text-green-500" />,
-      title: 'โบนัสเลื่อนระดับ',
-      description: 'รับโบนัสสูงสุด 3,000 บาท เมื่อเลื่อนระดับเป็น Advanced และ Master'
+      title: t('highlights.bonus.title'),
+      description: t('highlights.bonus.description')
     },
     {
       icon: <Zap className="w-6 h-6 text-yellow-500" />,
-      title: 'เริ่มต้นได้ทันที',
-      description: 'ไม่มีค่าใช้จ่ายในการสมัคร ไม่มีเงื่อนไขขั้นต่ำสำหรับผู้เริ่มต้น'
+      title: t('highlights.start.title'),
+      description: t('highlights.start.description')
     },
     {
       icon: <Target className="w-6 h-6 text-red-500" />,
-      title: 'รายได้ไม่จำกัด',
-      description: 'ไม่จำกัดจำนวนลูกค้าที่แนะนำ ยิ่งแนะนำมาก รายได้ยิ่งเพิ่ม'
+      title: t('highlights.unlimited.title'),
+      description: t('highlights.unlimited.description')
     }
   ];
 
   const benefits = [
     {
-      title: 'คอมมิชชันที่ยุติธรรม',
+      title: t('benefits.commission.title'),
       points: [
-        'First Payment ทันทีที่แนะนำลูกค้าสำเร็จ',
-        'Recurring Payment ต่อเนื่อง 6 เดือน',
-        'โบนัสพิเศษเมื่อเลื่อนระดับ'
+        t('benefits.commission.points.first'),
+        t('benefits.commission.points.recurring'),
+        t('benefits.commission.points.bonus')
       ]
     },
     {
-      title: 'เครื่องมือครบครัน',
+      title: t('benefits.tools.title'),
       points: [
-        'Dashboard ติดตามผลแบบเรียลไทม์',
-        'ลิงก์แนะนำที่ไม่ซ้ำใคร',
-        'รายงานสถิติแบบละเอียด'
+        t('benefits.tools.points.dashboard'),
+        t('benefits.tools.points.links'),
+        t('benefits.tools.points.reports')
       ]
     },
     {
-      title: 'การสนับสนุน',
+      title: t('benefits.support.title'),
       points: [
-        'ทีมซัพพอร์ตพร้อมช่วยเหลือ 24/7',
-        'คู่มือและวิดีโอสอนการใช้งาน',
-        'ชุมชน Affiliate ให้คำแนะนำ'
+        t('benefits.support.points.team'),
+        t('benefits.support.points.guides'),
+        t('benefits.support.points.community')
       ]
     }
   ];
+
+
+  // Update loading state when translations are ready
+  useEffect(() => {
+    setIsLoading(!ready);
+  }, [ready]);
+
+  // Show loading state
+  if (isLoading) {
+    return <div className="max-w-[1200px] mx-auto p-4">Loading...</div>;
+  }
+
+
+
 
   return (
     <div className="max-w-[1200px] mx-auto p-4">
@@ -58,19 +77,18 @@ const AffiliateHero = () => {
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 md:p-12 mb-8">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-            สร้างรายได้ไม่จำกัดกับ<br/>
-            <span className="text-blue-600">Affiliate Program</span>
+            {t('hero.title')}<br />
+            <span className="text-blue-600">{t('hero.programName')}</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8">
-            เริ่มต้นธุรกิจของคุณวันนี้ ด้วยระบบ Affiliate ที่ให้ผลตอบแทนสูงสุด 
-            พร้อมเครื่องมือที่จะช่วยให้คุณประสบความสำเร็จ
+            {t('hero.subtitle')}
           </p>
           <div className="flex justify-center gap-4">
             <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-              สมัครเลย
+              {t('hero.buttons.register')}
             </button>
             <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium border border-blue-600 hover:bg-blue-50 transition-colors">
-              ดูรายละเอียด
+              {t('hero.buttons.details')}
             </button>
           </div>
         </div>
@@ -91,7 +109,7 @@ const AffiliateHero = () => {
 
       {/* Benefits Section */}
       <div className="bg-white border rounded-xl p-8">
-        <h2 className="text-2xl font-bold text-center mb-8">ทำไมต้องเลือกเรา?</h2>
+        <h2 className="text-2xl font-bold text-center mb-8">{t('benefits.title')}</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
             <div key={index} className="space-y-4">
@@ -111,20 +129,20 @@ const AffiliateHero = () => {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 bg-gray-50 rounded-lg p-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">15%</div>
-            <div className="text-sm text-gray-600">คอมมิชชันสูงสุด</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">{t('stats.commission.value')}</div>
+            <div className="text-sm text-gray-600">{t('stats.commission.label')}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">6 เดือน</div>
-            <div className="text-sm text-gray-600">Recurring Payment</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">{t('stats.recurring.value')}</div>
+            <div className="text-sm text-gray-600">{t('stats.recurring.label')}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">3,000฿</div>
-            <div className="text-sm text-gray-600">โบนัสเลื่อนระดับ</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">{t('stats.bonus.value')}</div>
+            <div className="text-sm text-gray-600">{t('stats.bonus.label')}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">24/7</div>
-            <div className="text-sm text-gray-600">ทีมซัพพอร์ต</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">{t('stats.support.value')}</div>
+            <div className="text-sm text-gray-600">{t('stats.support.label')}</div>
           </div>
         </div>
       </div>

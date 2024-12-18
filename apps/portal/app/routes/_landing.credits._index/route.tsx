@@ -19,7 +19,7 @@ const CreditsTable = () => {
   // Mock data
   const credits = [
     {
-      creditName: "Starter Package - Smart Replies",
+      creditName: "Get Friend - Smart Replies",
       status: CreditStatus.AVAILABLE,
       percentRemaining: 99,
       remainingValue: 2970,
@@ -35,7 +35,7 @@ const CreditsTable = () => {
       ]
     },
     {
-      creditName: "Starter Package - Generative Replies",
+      creditName: "Get Friend - Generative Replies",
       status: CreditStatus.EXPIRING_SOON,
       percentRemaining: 45,
       remainingValue: 540,

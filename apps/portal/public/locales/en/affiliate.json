@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "title": "Create Unlimited Income with",
+    "programName": "Affiliate Program",
+    "subtitle": "Start your business today with our high-paying Affiliate system and tools that will help you succeed",
+    "buttons": {
+      "register": "Register Now",
+      "details": "View Details"
+    }
+  },
+  "highlights": {
+    "commission": {
+      "title": "Up to 15% Commission",
+      "description": "Earn up to 15% commission per referral with 6-month Recurring Payment"
+    },
+    "bonus": {
+      "title": "Level-up Bonus",
+      "description": "Get bonuses up to 3,000 THB when advancing to Advanced and Master levels"
+    },
+    "start": {
+      "title": "Start Immediately",
+      "description": "No registration fees, no minimum requirements for beginners"
+    },
+    "unlimited": {
+      "title": "Unlimited Income",
+      "description": "No limit on customer referrals - the more you refer, the more you earn"
+    }
+  },
+  "benefits": {
+    "title": "Why Choose Us?",
+    "commission": {
+      "title": "Fair Commission",
+      "points": {
+        "first": "Immediate First Payment upon successful referral",
+        "recurring": "6-month Recurring Payment",
+        "bonus": "Special bonus upon level advancement"
+      }
+    },
+    "tools": {
+      "title": "Complete Tools",
+      "points": {
+        "dashboard": "Real-time tracking dashboard",
+        "links": "Unique referral links",
+        "reports": "Detailed statistical reports"
+      }
+    },
+    "support": {
+      "title": "Support",
+      "points": {
+        "team": "24/7 support team ready to help",
+        "guides": "User guides and tutorial videos",
+        "community": "Affiliate community for guidance"
+      }
+    }
+  },
+  "stats": {
+    "commission": {
+      "value": "15%",
+      "label": "Maximum Commission"
+    },
+    "recurring": {
+      "value": "6 months",
+      "label": "Recurring Payment"
+    },
+    "bonus": {
+      "value": "3,000฿",
+      "label": "Level-up Bonus"
+    },
+    "support": {
+      "value": "24/7",
+      "label": "Support Team"
+    }
+  }
+}

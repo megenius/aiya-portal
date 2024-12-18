@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 import { useLogin } from '~/hooks/useLogin';
 import { useAppSelector } from '~/store';
 import { randomHexString } from '~/utils/random';
-
+import { store } from "~/store";
+import { setUser } from '~/store/slices/userSlice';
+import { useTranslation } from "react-i18next";
 interface MainContentProps {
 
 }
@@ -12,6 +14,7 @@ const MainContent: React.FC<MainContentProps> = () => {
   const login = useLogin();
   const [search] = useSearchParams()
   const token = search.get('token')
+  const { t } = useTranslation();
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -67,10 +70,10 @@ const MainContent: React.FC<MainContentProps> = () => {
         {/* Title */}
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
-            Log in to your AIYA account
+            {t("loginTitle")}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            Build AI with AIYA.
+            {t("loginSubtitle")}
           </p>
         </div>
         {/* End Title */}
