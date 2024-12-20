@@ -1,5 +1,5 @@
 {
-  "name": "affiliate-api",
+  "name": "referral-api",
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14110 --inspector-port 24110",
     "deploy": "wrangler deploy --minify src/index.ts",
