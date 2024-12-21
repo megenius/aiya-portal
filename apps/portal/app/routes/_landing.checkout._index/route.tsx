@@ -4,7 +4,7 @@ import { ClientOnly } from "remix-utils/client-only"
 
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { checkout } from "~/services/billings"
+import { createCheckoutSession } from "~/services/billings"
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
 
@@ -58,9 +58,9 @@ const Route = () => {
 
   useEffect(() => {
     // Create PaymentIntent on component mount
-    checkout({ amount: 2000 })
+    createCheckoutSession({ amount: 2000 })
       .then(res => res.data)
-      .then(data => setClientSecret(data.clientSecret))
+      .then(data => setClientSecret(data.sessionId))
   }, [])
 
   if (!clientSecret) return <div>Loading...</div>
