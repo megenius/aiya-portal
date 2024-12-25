@@ -1,10 +1,20 @@
+import { Loading } from '@repo/preline';
+import { formatDate } from 'date-fns';
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
+import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 
 interface PlanProps {
 
 }
 
 const Plan: React.FC<PlanProps> = () => {
+  const { data, isLoading } = useCurrentBillingPlan()
+
+  if (!data) {
+    return <Loading />
+  }
+
   return (
     <>
       {/* Card */}
@@ -21,7 +31,7 @@ const Plan: React.FC<PlanProps> = () => {
             <div>
               <div className="flex items-center gap-x-2">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-                  Startup
+                  {data.product?.name}
                 </h2>
                 <span className="inline-flex items-center gap-1.5 py-1.5 px-2 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">
                   <span className="size-1.5 inline-block bg-blue-800 rounded-full dark:bg-blue-500" />
@@ -29,35 +39,26 @@ const Plan: React.FC<PlanProps> = () => {
                 </span>
               </div>
               <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
-                Renews on March 25th, 2023
+                {/* Renews on March 25th, 2023 */}
+                Renews on {formatDate(data.subscription.current_period_end, 'MMMM do, yyyy')}
               </p>
             </div>
             {/* End Col */}
             <div className="text-end">
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-                $39
+                <NumericFormat value={data.subscription?.amount} displayType="text" thousandSeparator={true} prefix={data.subscription?.currency?.toLocaleUpperCase() + " "} />
               </h2>
               <p className="text-sm text-gray-500 dark:text-neutral-500">
-                monthly
+                {data.subscription?.interval}ly
               </p>
             </div>
             {/* End Col */}
           </div>
           {/* End Grid */}
           {/* Progress */}
-          <div className="my-4">
-            <div className="flex justify-between items-center gap-x-2 mb-1">
-              <h4 className="font-medium text-gray-800 dark:text-neutral-200">
-                Seats
-              </h4>
-              <p className="text-sm text-gray-500 dark:text-neutral-500">
-                5 of 20 used
-              </p>
-            </div>
-            <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={25} aria-valuemin={0} aria-valuemax={100}>
-              <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: '25%' }} />
-            </div>
-          </div>
+          <UsageIndicator title="Smart Replies" used={100} total={data.product?.features?.smart_replies_per_month} />
+          <UsageIndicator title="Generative Replies" used={100} total={data.product?.features?.generative_replies_per_month} />
+          <UsageIndicator title="Checks" used={100} total={data.product?.features?.checks_per_month} />
           {/* End Progress */}
           <div className="flex justify-end items-center gap-x-2">
             <div className="hs-tooltip inline-block">
@@ -97,3 +98,35 @@ const Plan: React.FC<PlanProps> = () => {
 };
 
 export default Plan;
+
+
+const UsageIndicator: React.FC<{ title: string, used: number, total: number }> = ({ title, used, total }) => {
+  return (
+    <div className="my-4">
+      <div className="flex justify-between items-center gap-x-2 mb-1">
+        <h4 className="font-medium text-gray-800 dark:text-neutral-200">
+          {title}
+        </h4>
+        <p className="text-sm text-gray-500 dark:text-neutral-500">
+          {used} of {total} used
+        </p>
+      </div>
+      <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={used} aria-valuemin={0} aria-valuemax={total}>
+        <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: `${used / total * 100}%` }} />
+      </div>
+    </div>
+    // <div className="my-4">
+    //   <div className="flex justify-between items-center gap-x-2 mb-1">
+    //     <h4 className="font-medium text-gray-800 dark:text-neutral-200">
+    //       {title}
+    //     </h4>
+    //     <p className="text-sm text-gray-500 dark:text-neutral-500">
+    //       {used} of {total} used
+    //     </p>
+    //     <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={25} aria-valuemin={0} aria-valuemax={100}>
+    //       <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: '25%' }} />
+    //     </div>
+    //   </div>
+    // </div>
+  );
+}

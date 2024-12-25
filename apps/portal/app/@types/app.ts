@@ -2,6 +2,7 @@ import { ResponseElement } from "@repo/shared";
 import { components } from "./directus";
 import { BotsSlips } from "./modules/slips";
 import { CAPIEvents } from "./modules/capi";
+import { PlanFeatures } from "./plans.type";
 
 export type { BotsSlips, CAPIEvents };
 
@@ -51,6 +52,10 @@ export type FacebookAdAccount = components["schemas"]["ItemsAdAccounts"] & {
   };
 };
 
+export type SaasSubscription = components["schemas"]["ItemsSaasSubscriptions"];
+export type SaasProduct = components["schemas"]["ItemsSaasProducts"] & {
+  features: PlanFeatures
+}
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
 

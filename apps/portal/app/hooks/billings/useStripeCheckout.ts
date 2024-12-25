@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { loadStripe } from "@stripe/stripe-js";
-import { createCheckoutSession } from "~/services/billings";
+import { createCheckoutSession } from "~/services/billing.service";
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);

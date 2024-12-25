@@ -29,7 +29,7 @@ billingsRoutes.post(
 );
 
 billingsRoutes.get(
-  "/current-billing-plan",
+  "/current",
   directusMiddleware,
   userMiddleware,
   ...BillingHandler.getCurrentBillingPlan

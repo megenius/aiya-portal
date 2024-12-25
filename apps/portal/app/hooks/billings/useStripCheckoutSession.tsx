@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getCheckoutSession } from '~/services/billings'
+import { getCheckoutSession } from '~/services/billing.service'
 import { useAppSelector } from '~/store'
 
 const useStripeCheckoutSession = (

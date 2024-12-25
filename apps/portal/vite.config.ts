@@ -31,7 +31,7 @@ export default ({ mode }) => {
         "/api/shops": getEndpoint("http://localhost:14107", ""),
         "/api/partners": getEndpoint("http://localhost:14108", ""),
         "/api/ai": getEndpoint("http://localhost:14109", ""),
-        "/api/affiliate": getEndpoint("http://localhost:14110", ""),
+        "/api/billing": getEndpoint("http://localhost:14110", ""),
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),
         "/ws/provider": getEndpoint("http://localhost:14102", "", {

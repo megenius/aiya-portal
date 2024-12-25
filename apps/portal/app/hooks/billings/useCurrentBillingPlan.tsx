@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getCurrentBillingPlan } from '~/services/billings'
+import { getCurrentBillingPlan } from '~/services/billing.service'
 import { useAppSelector } from '~/store'
 import { useMe } from '../useMe'
 

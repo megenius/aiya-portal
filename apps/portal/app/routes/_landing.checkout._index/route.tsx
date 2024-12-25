@@ -4,7 +4,7 @@ import { ClientOnly } from "remix-utils/client-only"
 
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { createCheckoutSession } from "~/services/billings"
+import { createCheckoutSession } from "~/services/billing.service"
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
 
