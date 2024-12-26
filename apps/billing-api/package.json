@@ -1,7 +1,7 @@
 {
   "name": "billing-api",
   "scripts": {
-    "dev": "wrangler dev src/index.ts --port 14110 --inspector-port 24110",
+    "dev": "wrangler dev src/index.ts --port 14110 --inspector-port 24110 & stripe listen --forward-to localhost:14110/api/billing/stripe/webhook",
     "deploy": "wrangler deploy --minify src/index.ts",
     "typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
   },

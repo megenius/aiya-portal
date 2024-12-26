@@ -13,10 +13,10 @@ const MainContent: React.FC<MainContentProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    const user = searchParams.get("user")
-    if (user) {
-      const userInfo = JSON.parse(user)
-      
+    const q = searchParams.get("q")
+    if (q) {
+      const userInfo = JSON.parse(atob(q))
+
       if (userInfo.external_identifier) {
         login.mutateAsync({
           email: userInfo.email,

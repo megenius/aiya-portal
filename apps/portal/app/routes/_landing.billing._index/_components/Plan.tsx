@@ -1,7 +1,12 @@
 import { Loading } from '@repo/preline';
-import { formatDate } from 'date-fns';
+import { format, formatDate } from 'date-fns';
+import { enUS, th } from 'date-fns/locale';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
+import { toast } from 'react-toastify';
+import DeleteModal from '~/components/DeleteModal';
+import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 
 interface PlanProps {
@@ -10,6 +15,20 @@ interface PlanProps {
 
 const Plan: React.FC<PlanProps> = () => {
   const { data, isLoading } = useCurrentBillingPlan()
+  const cancelSubscription = useCancelSubscription()
+
+  const { t } = useTranslation()
+  const { i18n } = useTranslation();
+  const locales = {
+    th: th,
+    en: enUS
+  };
+
+  const handleCancel = () => {
+    cancelSubscription.mutateAsync().then(() => {
+      toast.success(t('billing.subscription.cancel.success'))
+    })
+  }
 
   if (!data) {
     return <Loading />
@@ -35,32 +54,55 @@ const Plan: React.FC<PlanProps> = () => {
                 </h2>
                 <span className="inline-flex items-center gap-1.5 py-1.5 px-2 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">
                   <span className="size-1.5 inline-block bg-blue-800 rounded-full dark:bg-blue-500" />
-                  Active
+                  {t('billing.plan.active')}
                 </span>
               </div>
-              <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
-                {/* Renews on March 25th, 2023 */}
-                Renews on {formatDate(data.subscription.current_period_end, 'MMMM do, yyyy')}
-              </p>
+              {data.subscription.cancel_at_period_end ? (
+                <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
+                  {t('billing.plan.cancelled_on', {
+                    date: formatDate(data.subscription.current_period_end, 'PPP', {
+                      locale: locales[i18n.language] || enUS
+                    })
+                  })}
+                </p>
+              ) : (
+                <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
+                  {t('billing.plan.renews_on', {
+                    date: format(data.subscription.current_period_end, 'PPP', {
+                      locale: locales[i18n.language] || enUS
+                    })
+                  })}
+                </p>
+              )}
             </div>
             {/* End Col */}
             <div className="text-end">
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-                <NumericFormat value={data.subscription?.amount} displayType="text" thousandSeparator={true} prefix={data.subscription?.currency?.toLocaleUpperCase() + " "} />
+                {data.subscription?.status === 'trialing' ? (
+                  <>
+                    {t('billing.plan.trial')}
+                  </>
+                ) :
+                  (<>
+                    <NumericFormat value={data.subscription?.amount} displayType="text" thousandSeparator={true} prefix={data.subscription?.currency?.toLocaleUpperCase() + " "} />
+                    <p className="text-sm text-gray-500 dark:text-neutral-500">
+                      {data.subscription?.interval}ly
+                    </p>
+                  </>
+                  )
+                }
               </h2>
-              <p className="text-sm text-gray-500 dark:text-neutral-500">
-                {data.subscription?.interval}ly
-              </p>
+
             </div>
             {/* End Col */}
           </div>
           {/* End Grid */}
           {/* Progress */}
-          <UsageIndicator title="Smart Replies" used={100} total={data.product?.features?.smart_replies_per_month} />
-          <UsageIndicator title="Generative Replies" used={100} total={data.product?.features?.generative_replies_per_month} />
-          <UsageIndicator title="Checks" used={100} total={data.product?.features?.checks_per_month} />
+          <UsageIndicator title={t("billing.plan.features.smart_replies")} used={100} total={data.product?.features?.smart_replies_per_month} />
+          <UsageIndicator title={t("billing.plan.features.generative_replies")} used={100} total={data.product?.features?.generative_replies_per_month} />
+          <UsageIndicator title={t("billing.plan.features.checks")} used={100} total={data.product?.features?.checks_per_month} />
           {/* End Progress */}
-          <div className="flex justify-end items-center gap-x-2">
+          <div className="hidden flex justify-end items-center gap-x-2">
             <div className="hs-tooltip inline-block">
               <svg className="shrink-0 size-5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx={12} cy={12} r={10} />
@@ -78,21 +120,34 @@ const Plan: React.FC<PlanProps> = () => {
         </div>
         {/* End Body */}
         {/* Footer */}
-        <div className="flex -space-x-px border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-          <button type="button" className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dlcsam">
-            Cancel subscription
-          </button>
-          <a className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="/plans">
-            Upgrade plan
-            <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M7 7h10v10" />
-              <path d="M7 17 17 7" />
-            </svg>
-          </a>
-        </div>
+        {!data.subscription.cancel_at_period_end && (
+          <div className="flex -space-x-px border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+            {data.product?.name?.startsWith('Starter') ? (
+              <button type="button" className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dlcsam"
+              >
+                {t('billing.plan.actions.cancel')}
+              </button>
+            ) : (
+              <a className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-ee-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="/plans">
+                {t('billing.plan.actions.upgrade')}
+                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 7h10v10" />
+                  <path d="M7 17 17 7" />
+                </svg>
+              </a>
+            )}
+          </div>
+        )}
         {/* End Footer */}
       </div>
       {/* End Card */}
+      <DeleteModal id="hs-pro-dlcsam"
+        title={t("billing.subscription.cancel.title")}
+        warning={t("billing.subscription.cancel.warning")}
+        confirmButton={t("billing.subscription.cancel.confirmButton")}
+        cancelButton={t("billing.subscription.cancel.cancelButton")}
+        onOk={handleCancel}
+      />
     </>
   );
 };
@@ -101,6 +156,7 @@ export default Plan;
 
 
 const UsageIndicator: React.FC<{ title: string, used: number, total: number }> = ({ title, used, total }) => {
+  const { t } = useTranslation()
   return (
     <div className="my-4">
       <div className="flex justify-between items-center gap-x-2 mb-1">
@@ -108,7 +164,8 @@ const UsageIndicator: React.FC<{ title: string, used: number, total: number }> =
           {title}
         </h4>
         <p className="text-sm text-gray-500 dark:text-neutral-500">
-          {used} of {total} used
+          {t('billing.plan.features.used_of_total', { used: used.toLocaleString(), total: total.toLocaleString() })}
+          {/* <NumericFormat value={used} displayType="text" thousandSeparator={true} /> of <NumericFormat value={total} displayType="text" thousandSeparator={true} /> used */}
         </p>
       </div>
       <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={used} aria-valuemin={0} aria-valuemax={total}>

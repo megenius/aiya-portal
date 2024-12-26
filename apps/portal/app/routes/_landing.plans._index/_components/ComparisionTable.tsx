@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+import { useLanguage } from '~/hooks/useLanguage';
 
 const ComparisonTable = ({ isAnnual }) => {
   const checkout = useStripeCheckout();
+  const { currentLanguage } = useLanguage()
 
   const handleCheckout = async (priceId: string) => {
     checkout.mutate({ priceId })
@@ -34,8 +36,8 @@ const ComparisonTable = ({ isAnnual }) => {
     },
     {
       name: "Starter",
-      monthlyPrice: "1490",
-      annualPrice: getAnnualPrice(1490),
+      monthlyPrice: "1890",
+      annualPrice: getAnnualPrice(1890),
       monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
       annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
       period: !isAnnual ? 'monthly' : 'yearly',
@@ -63,7 +65,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "Smart Reply Credits",
-          baseValues: [150, 1500, 4000],
+          baseValues: [150, 3000, 4000],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/mo`
@@ -72,7 +74,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "Generative Reply Credits",
-          baseValues: [20, 400, 1500],
+          baseValues: [20, 1200, 1500],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/mo`
@@ -81,7 +83,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "Slip Recognition Credits",
-          baseValues: [15, 150, 400],
+          baseValues: [15, 300, 400],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/mo`
@@ -103,7 +105,7 @@ const ComparisonTable = ({ isAnnual }) => {
       features: [
         {
           name: "Storage Limit",
-          values: ["100MB", "500MB", "2GB"]
+          values: ["100MB", "2GB", "5GB"]
         },
         {
           name: "Team Members per Workspace",
@@ -128,7 +130,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "PDF Documents",
-          values: [true, true, true]
+          values: [false, true, true]
         },
         {
           name: "Word Documents",
@@ -159,7 +161,7 @@ const ComparisonTable = ({ isAnnual }) => {
     }
   ];
 
-  const plans = [
+  const plansTh = [
     {
       name: "ทดลองใช้ฟรี",
       monthlyPrice: "0",
@@ -190,7 +192,7 @@ const ComparisonTable = ({ isAnnual }) => {
     }
   ];
 
-  const categories = [
+  const categoriesTh = [
     {
       title: "ขีดจำกัดการใช้งาน",
       features: [
@@ -200,7 +202,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "เครดิต Smart Reply",
-          baseValues: [150, 1500, 4000],
+          baseValues: [150, 3000, 4000],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
@@ -209,7 +211,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "เครดิต Generative Reply",
-          baseValues: [20, 400, 1500],
+          baseValues: [20, 1200, 1500],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
@@ -218,7 +220,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "เครดิตการตรวจจับสลิป",
-          baseValues: [15, 150, 400],
+          baseValues: [15, 100, 400],
           get values() {
             return this.baseValues.map(value =>
               `${getCredits(value, isAnnual).toLocaleString()}/เดือน`
@@ -265,7 +267,7 @@ const ComparisonTable = ({ isAnnual }) => {
         },
         {
           name: "เอกสาร PDF",
-          values: [true, true, true]
+          values: [false, true, true]
         },
         {
           name: "เอกสาร Word",
@@ -296,6 +298,9 @@ const ComparisonTable = ({ isAnnual }) => {
     }
   ];
 
+  const plans = currentLanguage === 'th' ? plansTh : plansEn;
+  const categories = currentLanguage === 'th' ? categoriesTh : categoriesEn;
+
   return (
     <div className="relative">
       {/* Title and Billing Toggle */}
@@ -307,10 +312,10 @@ const ComparisonTable = ({ isAnnual }) => {
 
       {/* Header */}
       <div className="hidden lg:block sticky top-14 start-0 py-2 bg-white dark:bg-neutral-800 z-10">
-        <div className="grid lg:grid-cols-5 lg:gap-x-6">
+        <div className="grid lg:grid-cols-4 lg:gap-x-6">
           <div className="col-span-2">
           </div>
-          {plans.map((plan, index) => (
+          {plans.slice(0, 2).map((plan, index) => (
             <div key={index} className="col-span-1">
               <div className="p-4 h-full flex flex-col justify-between text-center relative">
                 {plan.popular && (
@@ -354,7 +359,7 @@ const ComparisonTable = ({ isAnnual }) => {
       {categories.map((category, categoryIndex) => (
         <div key={categoryIndex} className="space-y-4 lg:space-y-0">
           {/* Category Title */}
-          <ul className="grid lg:grid-cols-5 lg:gap-x-6">
+          <ul className="grid lg:grid-cols-3 lg:gap-x-6">
             <li className="lg:col-span-2 lg:py-3">
               <span className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
                 {category.title}
@@ -367,13 +372,13 @@ const ComparisonTable = ({ isAnnual }) => {
 
           {/* Features */}
           {category.features.map((feature, featureIndex) => (
-            <ul key={featureIndex} className="grid lg:grid-cols-5 lg:gap-x-6">
+            <ul key={featureIndex} className="grid lg:grid-cols-4 lg:gap-x-6">
               <li className="lg:col-span-2 pb-1.5 lg:py-2">
                 <span className="text-sm font-medium lg:font-normal text-gray-800 dark:text-neutral-200">
                   {feature.name}
                 </span>
               </li>
-              {feature.values.map((value, valueIndex) => (
+              {feature.values.slice(0,2).map((value, valueIndex) => (
                 <li key={valueIndex} className="col-span-1 py-0.5 lg:py-2 lg:text-center">
                   <div className="grid grid-cols-2 lg:block">
                     <span className="lg:hidden text-sm text-gray-500 dark:text-neutral-200">

@@ -17,3 +17,5 @@ export const getCurrentBillingPlan = (userId: string) =>
     subscription: SaasSubscription;
     product: SaasProduct;
   }>(`/billing/current`);
+
+export const cancelSubscription = () => api.post("/billing/cancel-subscription");

@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { useLogin } from '~/hooks/useLogin';
 import { useAppSelector } from '~/store';
 import { randomHexString } from '~/utils/random';
-import { store } from "~/store";
-import { setUser } from '~/store/slices/userSlice';
 import { useTranslation } from "react-i18next";
 interface MainContentProps {
 
@@ -70,10 +68,10 @@ const MainContent: React.FC<MainContentProps> = () => {
         {/* Title */}
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
-            {t("loginTitle")}
+            {t("auth.login.title")}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            {t("loginSubtitle")}
+            {t("auth.login.subtitle")}
           </p>
         </div>
         {/* End Title */}
@@ -121,14 +119,17 @@ const MainContent: React.FC<MainContentProps> = () => {
                 </clipPath>
               </defs>
             </svg>
-            Sign in with Google
+            {t("auth.login.sign_in_with.google")}
           </button>
           <button
             type="button"
             className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
             onClick={signInWithLine}
           >
-            Sign in with LINE
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
+              <path fill="#00c300" d="M12.5,42h23c3.59,0,6.5-2.91,6.5-6.5v-23C42,8.91,39.09,6,35.5,6h-23C8.91,6,6,8.91,6,12.5v23C6,39.09,8.91,42,12.5,42z"></path><path fill="#fff" d="M37.113,22.417c0-5.865-5.88-10.637-13.107-10.637s-13.108,4.772-13.108,10.637c0,5.258,4.663,9.662,10.962,10.495c0.427,0.092,1.008,0.282,1.155,0.646c0.132,0.331,0.086,0.85,0.042,1.185c0,0-0.153,0.925-0.187,1.122c-0.057,0.331-0.263,1.296,1.135,0.707c1.399-0.589,7.548-4.445,10.298-7.611h-0.001C36.203,26.879,37.113,24.764,37.113,22.417z M18.875,25.907h-2.604c-0.379,0-0.687-0.308-0.687-0.688V20.01c0-0.379,0.308-0.687,0.687-0.687c0.379,0,0.687,0.308,0.687,0.687v4.521h1.917c0.379,0,0.687,0.308,0.687,0.687C19.562,25.598,19.254,25.907,18.875,25.907z M21.568,25.219c0,0.379-0.308,0.688-0.687,0.688s-0.687-0.308-0.687-0.688V20.01c0-0.379,0.308-0.687,0.687-0.687s0.687,0.308,0.687,0.687V25.219z M27.838,25.219c0,0.297-0.188,0.559-0.47,0.652c-0.071,0.024-0.145,0.036-0.218,0.036c-0.215,0-0.42-0.103-0.549-0.275l-2.669-3.635v3.222c0,0.379-0.308,0.688-0.688,0.688c-0.379,0-0.688-0.308-0.688-0.688V20.01c0-0.296,0.189-0.558,0.47-0.652c0.071-0.024,0.144-0.035,0.218-0.035c0.214,0,0.42,0.103,0.549,0.275l2.67,3.635V20.01c0-0.379,0.309-0.687,0.688-0.687c0.379,0,0.687,0.308,0.687,0.687V25.219z M32.052,21.927c0.379,0,0.688,0.308,0.688,0.688c0,0.379-0.308,0.687-0.688,0.687h-1.917v1.23h1.917c0.379,0,0.688,0.308,0.688,0.687c0,0.379-0.309,0.688-0.688,0.688h-2.604c-0.378,0-0.687-0.308-0.687-0.688v-2.603c0-0.001,0-0.001,0-0.001c0,0,0-0.001,0-0.001v-2.601c0-0.001,0-0.001,0-0.002c0-0.379,0.308-0.687,0.687-0.687h2.604c0.379,0,0.688,0.308,0.688,0.687s-0.308,0.687-0.688,0.687h-1.917v1.23H32.052z"></path>
+            </svg>
+            {t("auth.login.sign_in_with.line")}
           </button>
           <button
             type="button"
@@ -148,12 +149,12 @@ const MainContent: React.FC<MainContentProps> = () => {
                 fill="currentColor"
               />
             </svg>
-            Sign in with Apple
+            {t("auth.login.sign_in_with.apple")}
           </button>
         </div>
         {/* End Button Group */}
         <div className="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
-          Or
+          {t("auth.login.or")}
         </div>
         <form onSubmit={handleSubmit}>
           <div className="space-y-5">
@@ -162,7 +163,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 htmlFor="hs-pro-dale"
                 className="block mb-2 text-sm font-medium text-gray-800"
               >
-                Email
+                {t("auth.login.email")}
               </label>
               <input
                 type="email"
@@ -179,13 +180,13 @@ const MainContent: React.FC<MainContentProps> = () => {
                   htmlFor="hs-pro-dalp"
                   className="block text-sm font-medium text-gray-800"
                 >
-                  Password
+                  {t("auth.login.password")}
                 </label>
                 <a
                   className="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline"
                   href="/auth/reset-password"
                 >
-                  I forgot my password
+                  {t("auth.login.forgot_password")}
                 </a>
               </div>
               <div className="relative">
@@ -253,18 +254,20 @@ const MainContent: React.FC<MainContentProps> = () => {
               disabled={login.isPending}
               className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
             >
-              {login.isPending ? 'Signing in...' : 'Sign in'}
+              {login.isPending ? t('auth.login.sigining_in') : t("auth.login.sign_in")}
             </button>
-            {login.isError && <p>Login failed. Please try again.</p>}
+            {login.isError && <p>
+              {t("auth.login.login_failed")}
+            </p>}
           </div>
         </form>
         <p className="text-sm text-gray-500">
-          New to Preline?
+          {t("auth.login.new_user")}
           <Link
-            className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
+            className="inline-flex ms-1 items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
             to={"../sign-up"}
           >
-            Sign up
+            {t("auth.login.sign_up")}
             <svg
               className="shrink-0 size-4"
               xmlns="http://www.w3.org/2000/svg"

@@ -9,6 +9,63 @@
   },
   "welcome": "Welcome",
   "description": "This is an English description.",
-  "loginTitle": "Log in to your AIYA account",
-  "loginSubtitle": "Build AI with AIYA."
+  "auth": {
+    "login": {
+      "title": "Log in to your AIYA account",
+      "subtitle": "Build AI with AIYA.",
+      "email": "Email",
+      "email_placeholder": "you@email.com",
+      "password": "Password",
+      "password_placeholder": "********",
+      "forgot_password": "I forgot my password",
+      "sign_in": "Sign in",
+      "signing_in": "Signing in...",
+      "login_failed": "Login failed. Please try again.",
+      "new_user": "New to AIYA?",
+      "sign_up": "Sign up",
+      "sign_in_with": {
+        "google": "Sign in with Google",
+        "line": "Sign in with LINE",
+        "apple": "Sign in with Apple"
+      },
+      "or": "Or"
+    }
+  },
+  "billing": {
+    "title": "Plan & Billing",
+    "subtitle": "View your plan information or switch plans according to your needs.",
+    "affiliate_program": "Affiliate program",
+    "plan": {
+      "active": "Active",
+      "renews_on": "Renews on {{date}}",
+      "monthly": "monthly",
+      "yearly": "yearly",
+      "trial": "Trial",
+      "features": {
+        "smart_replies": "Smart Replies",
+        "generative_replies": "Generative Replies",
+        "checks": "Checks",
+        "used_of_total": "{{used}} of {{total}} used"
+      },
+      "manage_seats": {
+        "button": "Manage seats",
+        "tooltip": "Upgrade your plan to unlock the Manage Seats feature"
+      },
+      "actions": {
+        "cancel": "Cancel subscription",
+        "upgrade": "Upgrade plan"
+      },
+      "subscription": {
+        "cancel": {
+          "title": "Cancel Subscription",
+          "confirm": "Cancel Your Subscription?",
+          "warning": "You will lose access to premium features after cancellation",
+          "confirmButton": "Confirm Cancellation",
+          "cancelButton": "Cancel",
+          "loading": "Cancelling...",
+          "success": "Your subscription has been cancelled. You'll have access until the end of your billing period"
+        }
+      }
+    }
+  }
 }

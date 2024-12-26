@@ -1,6 +1,9 @@
 import React from 'react';
+import { useLanguage } from '~/hooks/useLanguage';
 
 const FAQ = () => {
+  const { currentLanguage } = useLanguage();
+
   const faqsEn = [
     {
       question: "How do Smart Reply and Generative Reply credits work?",
@@ -41,7 +44,7 @@ const FAQ = () => {
     }
   ];
 
-  const faqs = [
+  const faqsTh = [
     {
       question: "เครดิต Smart Reply และ Generative Reply ทำงานอย่างไร?",
       answer: "Smart Reply ใช้ Gemini สำหรับการตอบกลับแบบรวดเร็วตามบริบท ในขณะที่ Generative Reply ใช้ Claude สำหรับการตอบที่ซับซ้อนและมีรายละเอียดมากขึ้น เครดิตจะรีเซ็ตทุกเดือน และสามารถซื้อเครดิตเพิ่มเติมได้ตลอดเวลาตามอัตราของแต่ละแพ็คเกจ"
@@ -71,6 +74,9 @@ const FAQ = () => {
       answer: "มี เรามีส่วนลดสำหรับทีมขนาดใหญ่และตัวเลือกการชำระเงินรายปี ติดต่อทีมขายของเราสำหรับราคาและฟีเจอร์แบบองค์กร"
     }
   ];
+
+  const faqs = currentLanguage === 'th' ? faqsTh : faqsEn;
+
 
   return (
     <div className="space-y-5">

@@ -182,10 +182,8 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     ): "free" | "starter" | "growth" {
       // Map your Stripe product IDs to plan types
       const planMap: Record<string, "free" | "starter" | "growth"> = {
-        price_1QX8BlA5269BY7h7wOpWHd3j: "starter",
-        price_1QX8C9A5269BY7h74rvZmMQf: "starter",
-        price_1QX8CfA5269BY7h741nZw3F9: "growth",
-        price_1QX8CrA5269BY7h7IQZkZkEw: "growth",
+        prod_RP7pmXwz5V8EMs: "starter",
+        prod_RP99HiA5pw6xa8: "growth",
       };
       return planMap[productId] || "free";
     }
@@ -229,15 +227,62 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     await onSubscriptionCreated(user.id, subscription);
   };
 
-  switch (event.type) {
-    case "checkout.session.completed":
-      const checkoutSessionCompleted = event.data.object;
-      await onCheckoutSessionCompleted(checkoutSessionCompleted);
-      // Then define and call a function to handle the event charge.succeeded
-      break;
-    // ... handle other event types
-    // default:
-    //   console.log(`Unhandled event type ${event.type}`);
+  const onSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
+
+    const subscriptions = await directus.request(
+      readItems("saas_subscriptions", {
+        filter: {
+          stripe_subscription_id: {
+            _eq: subscription.id,
+          },
+        },
+      })
+    );
+
+    if (subscriptions.length === 0) {
+      console.error(`Subscription with ID ${subscription.id} not found`);
+      return;
+    }
+
+    const _subscription = subscriptions[0];
+
+    const subscriptionUpdated = await directus.request(
+      updateItem("saas_subscriptions", _subscription.id, {
+        status: subscription.status,
+        current_period_start: new Date(
+          subscription.current_period_start * 1000
+        ).toISOString(),
+        current_period_end: new Date(
+          subscription.current_period_end * 1000
+        ).toISOString(),
+        canceled_at: subscription.canceled_at
+          ? new Date(subscription.canceled_at * 1000).toISOString()
+          : null,
+        cancel_at_period_end: subscription.cancel_at_period_end,
+        metadata: subscription.metadata,
+      })
+    );
+    console.log("Subscription was updated!", subscriptionUpdated);
+  };
+  try {
+    switch (event.type) {
+      case "checkout.session.completed":
+        const checkoutSessionCompleted = event.data.object;
+        await onCheckoutSessionCompleted(checkoutSessionCompleted);
+        // Then define and call a function to handle the event charge.succeeded
+        break;
+
+      case "customer.subscription.updated":
+        const subscriptionUpdated = event.data.object;
+        await onSubscriptionUpdated(subscriptionUpdated);
+        break;
+      // ... handle other event types
+      // default:
+      //   console.log(`Unhandled event type ${event.type}`);
+    }
+  } catch (error) {
+    console.error("Error handling event:", error);
+    throw error;
   }
 
   return c.json({});
@@ -266,17 +311,14 @@ export const cancelSubscription = factory.createHandlers(
     const subscription = subscriptions[0];
     const stripe = c.get("stripe");
 
-    await stripe.subscriptions.del(
-      subscription.stripe_subscription_id as string
+    await stripe.subscriptions.update(
+      subscription.stripe_subscription_id as string,
+      {
+        cancel_at_period_end: true,
+      }
     );
 
-    const updatedSubscription = await directus.request(
-      updateItem("saas_subscriptions", subscription.id, {
-        status: "canceled",
-      })
-    );
-
-    return c.json(updatedSubscription);
+    return c.json({});
   }
 );
 

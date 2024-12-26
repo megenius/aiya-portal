@@ -25,6 +25,8 @@ billingsRoutes.get(
 billingsRoutes.post(
   "/cancel-subscription",
   directusMiddleware,
+  userMiddleware,
+  stripeMiddleware,
   ...BillingHandler.cancelSubscription
 );
 

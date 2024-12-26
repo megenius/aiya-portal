@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+import { useLanguage } from '~/hooks/useLanguage';
 
 
 const getAnnualPrice = (monthlyPrice) => {
@@ -26,12 +27,12 @@ const plansEn = [
       "150 Smart Replies/mo",
       "20 Generative Replies/mo",
       "15 Slip Recognition/mo",
-      "2 Workspace",
+      "1 Workspace",
       "1 Bot per Workspace",
       "3 Knowledge Base per Bot",
       "100MB Storage",
       "2 Team Members per Workspace",
-      "Text, Image, Link, Document (PDF)",
+      "Text, Image, Link",
       "Community Support",
       "Unlimited LINE integration",
       "Unlimited Facebook Page integration"
@@ -114,7 +115,7 @@ const plansEn = [
   }
 ];
 
-const plans = [
+const plansTh = [
   {
     name: "Free Trial",
     price: "0",
@@ -127,12 +128,12 @@ const plans = [
       "150 Smart Replies/เดือน",
       "20 Generative Replies/เดือน",
       "15 ตรวจสลิป/เดือน",
-      "2 เวิร์กสเปซ",
+      "1 เวิร์กสเปซ",
       "1 บอทต่อเวิร์กสเปซ",
       "3 ฐานความรู้ต่อบอท",
       "พื้นที่จัดเก็บ 100MB",
       "2 สมาชิกทีมต่อเวิร์กสเปซ",
-      "ข้อความ, รูปภาพ, ลิงก์, เอกสาร (PDF)",
+      "ข้อความ, รูปภาพ, ลิงก์",
       "การสนับสนุนผ่านชุมชน",
       "ไม่จำกัดการเชื่อมต่อ LINE",
       "ไม่จำกัดการเชื่อมต่อเพจ Facebook"
@@ -218,17 +219,20 @@ const plans = [
 
 const PricingCards = ({ isAnnual }) => {
   const checkout = useStripeCheckout();
+  const { currentLanguage } = useLanguage()
 
   const handleCheckout = async (priceId: string) => {
     checkout.mutate({ priceId })
   }
 
+  const plans = currentLanguage === 'en' ? plansEn : plansTh;
+
   return (
     <>
       <div className="max-w-[85rem] px-4 py-2 sm:px-6 lg:px-8 lg:py-4 mx-auto">
         {/* Price Cards */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {plans.map((plan, index) => (
+        <div className="grid lg:grid-cols-2 gap-6">
+          {plans.slice(0,2).map((plan, index) => (
             <div
               key={index}
               className={`p-4 sm:p-6 bg-white border ${plan.popular ? 'border-blue-500' : 'border-gray-200'

@@ -96,7 +96,7 @@ export const callback = factory.createHandlers(honoLogger(), async (c) => {
     };
 
     return c.redirect(
-      `${c.env.PORTAL_URL}/auth/callback?user=${JSON.stringify(user)}`
+      `${c.env.PORTAL_URL}/auth/callback?q=${btoa(JSON.stringify(user))}`
     );
   } catch (error) {
     console.error(error);

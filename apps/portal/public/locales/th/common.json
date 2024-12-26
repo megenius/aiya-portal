@@ -9,6 +9,64 @@
   },
   "welcome": "ยินดีต้อนรับ",
   "description": "นี่คือคำอธิบายภาษาไทย",
-  "loginTitle": "เข้าสู่ระบบบัญชี AIYA ของคุณ",
-  "loginSubtitle": "สร้าง AI ด้วย AIYA"
+  "auth": {
+    "login": {
+      "title": "เข้าสู่ระบบบัญชี AIYA ของคุณ",
+      "subtitle": "สร้าง AI กับ AIYA",
+      "email": "อีเมล",
+      "email_placeholder": "you@email.com",
+      "password": "รหัสผ่าน",
+      "password_placeholder": "********",
+      "forgot_password": "ลืมรหัสผ่าน",
+      "sign_in": "เข้าสู่ระบบ",
+      "signing_in": "กำลังเข้าสู่ระบบ...",
+      "login_failed": "เข้าสู่ระบบไม่สำเร็จ โปรดลองอีกครั้ง",
+      "new_user": "ใหม่กับ AIYA?",
+      "sign_up": "ลงทะเบียน",
+      "sign_in_with": {
+        "google": "เข้าสู่ระบบด้วย Google",
+        "line": "เข้าสู่ระบบด้วย LINE",
+        "apple": "เข้าสู่ระบบด้วย Apple"
+      },
+      "or": "หรือ"
+    }
+  },
+  "billing": {
+    "title": "แผนและการเรียกเก็บเงิน",
+    "subtitle": "ดูข้อมูลแผนของคุณหรือเปลี่ยนแผนตามความต้องการของคุณ",
+    "affiliate_program": "โปรแกรมพันธมิตร",
+    "plan": {
+      "active": "ใช้งานอยู่",
+      "renews_on": "ต่ออายุอัตโนมัติเมื่อ {{date}}",
+      "cancelled_on": "จะถูกยกเลิกในวันที่ {{date}}",
+      "monthly": "รายเดือน",
+      "yearly": "รายปี",
+      "trial": "ทดลองใช้",
+      "features": {
+        "smart_replies": "การตอบกลับอัจฉริยะ",
+        "generative_replies": "การตอบกลับเชิงสร้างสรรค์",
+        "checks": "การตรวจสอบ",
+        "used_of_total": "ใช้ไป {{used}} จาก {{total}}"
+      },
+      "manage_seats": {
+        "button": "จัดการที่นั่ง",
+        "tooltip": "อัพเกรดแผนของคุณเพื่อปลดล็อกฟีเจอร์การจัดการที่นั่ง"
+      },
+      "actions": {
+        "cancel": "ยกเลิกการสมัครสมาชิก",
+        "upgrade": "อัพเกรดแผน"
+      }
+    },
+    "subscription": {
+      "cancel": {
+        "title": "ยกเลิก Subscription",
+        "confirm": "ยืนยันการยกเลิก Subscription?",
+        "warning": "คุณจะไม่สามารถเข้าถึงฟีเจอร์พิเศษได้หลังจากยกเลิก",
+        "confirmButton": "ยืนยันการยกเลิก",
+        "cancelButton": "ยกเลิก",
+        "loading": "กำลังยกเลิก...",
+        "success": "ยกเลิก Subscription เรียบร้อยแล้ว คุณจะสามารถใช้งานได้จนถึงสิ้นรอบบิล"
+      }
+    }
+  }
 }
