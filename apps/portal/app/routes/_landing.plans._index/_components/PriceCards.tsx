@@ -1,7 +1,11 @@
+import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
+import { toast } from 'react-toastify';
+import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
 import { useLanguage } from '~/hooks/useLanguage';
+import { useMe } from '~/hooks/useMe';
 
 
 const getAnnualPrice = (monthlyPrice) => {
@@ -220,9 +224,16 @@ const plansTh = [
 const PricingCards = ({ isAnnual }) => {
   const checkout = useStripeCheckout();
   const { currentLanguage } = useLanguage()
+  const { data: currentPlan } = useCurrentBillingPlan()
+  const { data: user } = useMe()
 
   const handleCheckout = async (priceId: string) => {
-    checkout.mutate({ priceId })
+    if (!user?.email) {
+      toast.error(t('billing.plan.error.email_required'));
+      return;
+    }
+
+    checkout.mutate({ priceId, email: user?.email });
   }
 
   const plans = currentLanguage === 'en' ? plansEn : plansTh;
@@ -232,7 +243,7 @@ const PricingCards = ({ isAnnual }) => {
       <div className="max-w-[85rem] px-4 py-2 sm:px-6 lg:px-8 lg:py-4 mx-auto">
         {/* Price Cards */}
         <div className="grid lg:grid-cols-2 gap-6">
-          {plans.slice(0,2).map((plan, index) => (
+          {plans.slice(0, 2).map((plan, index) => (
             <div
               key={index}
               className={`p-4 sm:p-6 bg-white border ${plan.popular ? 'border-blue-500' : 'border-gray-200'
@@ -278,21 +289,45 @@ const PricingCards = ({ isAnnual }) => {
 
               {/* CTA Button */}
               <div className="mt-5">
-                <button
-                  type="button"
-                  className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
-                    ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                    }`}
-                  disabled={plan.button.disabled || checkout.isPending}
-                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
-                >
-                  {plan.button.text}
-                </button>
+                {!currentPlan?.subscription ? (
+                  <button
+                    type="button"
+                    className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
+                      ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      }`}
+                    disabled={
+                      plan.button.disabled ||
+                      checkout.isPending ||
+                      currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() ||
+                      (plan.name === "Free Trial" && currentPlan?.subscription?.plan_type === "starter")
+                    }
+                    onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
+                  >
+                    {plan.button.text}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
+                      ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      }`}
+                    disabled={
+                      plan.button.disabled ||
+                      checkout.isPending ||
+                      currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ||
+                      (plan.name === "Free Trial" && currentPlan?.subscription.plan_type === "starter")
+                    }
+                    onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
+                  >
+                    {currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
+                  </button>
+                )}
               </div>
 
               {/* Features List */}
-              <ul className="mt-5 space-y-2.5">
+              < ul className="mt-5 space-y-2.5" >
                 {(typeof plan.features === 'function' ? plan.features(!isAnnual) : plan.features).map((feature, idx) => (
                   <li key={idx} className="flex gap-x-2">
                     <svg className="flex-shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -306,15 +341,17 @@ const PricingCards = ({ isAnnual }) => {
               </ul>
             </div>
           ))}
-        </div>
+        </div >
 
         {/* Annual Savings Note */}
-        {isAnnual && (
-          <div className="mt-6 text-center text-sm text-gray-500 dark:text-neutral-500">
-            Save 15% with annual billing and get 20% extra credits monthly
-          </div>
-        )}
-      </div>
+        {
+          isAnnual && (
+            <div className="mt-6 text-center text-sm text-gray-500 dark:text-neutral-500">
+              Save 15% with annual billing and get 20% extra credits monthly
+            </div>
+          )
+        }
+      </div >
     </>
   );
 };

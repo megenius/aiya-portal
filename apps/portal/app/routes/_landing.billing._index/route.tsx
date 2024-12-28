@@ -6,10 +6,18 @@ import PaymentMethod from "./_components/PaymentMethod"
 import BillingTable from "./_components/BillingTable"
 import { useNavigate } from "@remix-run/react"
 import { useTranslation } from "react-i18next"
+import WebSocketDemo from "./_components/WebSocketDemo"
+import useCurrentBillingPlan from "~/hooks/billings/useCurrentBillingPlan"
+import { Loading } from "@repo/preline"
 
 const Route = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const { data, refetch } = useCurrentBillingPlan()
+
+  if (!data?.subscription) {
+    return <Loading />
+  }
 
   return (
     <>
@@ -48,7 +56,7 @@ const Route = () => {
                   <div className="space-y-11">
                     {/* Grid */}
                     <div className="grid xl:grid-cols-1 gap-6">
-                      <Plan />
+                      <Plan subscription={data?.subscription} />
                       {/* <PaymentMethod /> */}
                     </div>
                     {/* End Grid */}

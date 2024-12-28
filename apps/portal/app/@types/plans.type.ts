@@ -15,9 +15,10 @@ export interface PlansConfig {
 }
 
 export interface PlanFeatures {
-  smart_replies_per_month: number;
-  generative_replies_per_month: number;
-  checks_per_month: number;
+  auto_replies: number;
+  smart_replies: number;
+  generative_replies: number;
+  check_slips: number;
   service_hours: number;
   notifications_per_service: number;
   knowledge_bases: number;

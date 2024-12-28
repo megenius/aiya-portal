@@ -1,21 +1,43 @@
 import { Loading } from '@repo/preline';
 import { format, formatDate } from 'date-fns';
 import { enUS, th } from 'date-fns/locale';
-import React from 'react';
+import * as _ from 'lodash';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
+import { SaasSubscription } from '~/@types/app';
 import DeleteModal from '~/components/DeleteModal';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
+import useCurrentBillingUsage from '~/hooks/billings/useCurrentBillingUsage';
 
 interface PlanProps {
-
+  subscription: SaasSubscription;
 }
 
-const Plan: React.FC<PlanProps> = () => {
-  const { data, isLoading } = useCurrentBillingPlan()
+const Config = {
+  "free": {
+    rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }],
+  },
+  "starter": {
+    rects: [
+      { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
+      { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" },
+    ],
+  },
+  "growth": {
+    rects: [
+      { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
+      { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
+      { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" },
+    ],
+  }
+}
+
+const Plan: React.FC<PlanProps> = ({ subscription }) => {
   const cancelSubscription = useCancelSubscription()
+  const { data } = useCurrentBillingUsage({ subscription });
 
   const { t } = useTranslation()
   const { i18n } = useTranslation();
@@ -25,9 +47,36 @@ const Plan: React.FC<PlanProps> = () => {
   };
 
   const handleCancel = () => {
-    cancelSubscription.mutateAsync().then(() => {
-      toast.success(t('billing.subscription.cancel.success'))
-    })
+    // cancelSubscription.mutateAsync().then(() => {
+    //   toast.success(t('billing.subscription.cancel.success'))
+    //   setTimeout(() => {
+    //     refetch()
+    //   }, 1000)
+    // })
+  }
+
+  const ShowTime = ({ subscription }: { subscription: SaasSubscription }) => {
+
+    if (subscription?.cancel_at_period_end) {
+      return (
+        <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
+          {t('billing.plan.cancelled_on', {
+            date: formatDate(subscription?.current_period_end, 'PPP', {
+              locale: locales[i18n.language] || enUS
+            })
+          })}
+        </p>)
+    }
+
+    return (
+      <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
+        {t('billing.plan.renews_on', {
+          date: format(subscription?.current_period_end, 'PPP', {
+            locale: locales[i18n.language] || enUS
+          })
+        })}
+      </p>
+    )
   }
 
   if (!data) {
@@ -40,53 +89,48 @@ const Plan: React.FC<PlanProps> = () => {
       <div className="flex flex-col bg-white border border-gray-200 rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         {/* Body */}
         <div className="h-full p-6">
-          <svg className="w-[34px] h-[30px] " width={34} height={30} viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x={7} width={20} height={20} rx={10} fill="currentColor" className="fill-blue-200 dark:fill-blue-500" />
-            <rect y={10} width={20} height={20} rx={10} fill="currentColor" className="fill-blue-300 dark:fill-blue-600" />
-            <rect x={14} y={10} width={20} height={20} rx={10} fill="currentColor" className="fill-blue-500 dark:fill-blue-700" />
+          <svg className="w-[34px] h-[30px]" width={34} height={30} viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {Config[subscription?.plan_type as string || "free"].rects.map((rect, idx) => (
+              <rect
+                key={idx}
+                x={rect.x || 0}
+                y={rect.y || 0}
+                width={20}
+                height={20}
+                rx={10}
+                fill="currentColor"
+                className={rect.fill}
+              />
+            ))}
           </svg>
           {/* Grid */}
           <div className="mt-3 grid grid-cols-2 gap-x-2">
             <div>
               <div className="flex items-center gap-x-2">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-                  {data.product?.name}
+                  {_.capitalize(subscription?.plan_type || "free plan")}
                 </h2>
                 <span className="inline-flex items-center gap-1.5 py-1.5 px-2 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">
                   <span className="size-1.5 inline-block bg-blue-800 rounded-full dark:bg-blue-500" />
                   {t('billing.plan.active')}
                 </span>
               </div>
-              {data.subscription.cancel_at_period_end ? (
-                <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
-                  {t('billing.plan.cancelled_on', {
-                    date: formatDate(data.subscription.current_period_end, 'PPP', {
-                      locale: locales[i18n.language] || enUS
-                    })
-                  })}
-                </p>
-              ) : (
-                <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
-                  {t('billing.plan.renews_on', {
-                    date: format(data.subscription.current_period_end, 'PPP', {
-                      locale: locales[i18n.language] || enUS
-                    })
-                  })}
-                </p>
+              {subscription && (
+                <ShowTime subscription={subscription} />
               )}
             </div>
             {/* End Col */}
             <div className="text-end">
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-                {data.subscription?.status === 'trialing' ? (
+                {subscription?.status === 'trialing' ? (
                   <>
                     {t('billing.plan.trial')}
                   </>
                 ) :
                   (<>
-                    <NumericFormat value={data.subscription?.amount} displayType="text" thousandSeparator={true} prefix={data.subscription?.currency?.toLocaleUpperCase() + " "} />
+                    <NumericFormat value={subscription?.amount} displayType="text" thousandSeparator={true} prefix={subscription?.currency?.toLocaleUpperCase() + " "} />
                     <p className="text-sm text-gray-500 dark:text-neutral-500">
-                      {data.subscription?.interval}ly
+                      {subscription?.interval ? subscription?.interval + "ly" : ""}
                     </p>
                   </>
                   )
@@ -96,11 +140,13 @@ const Plan: React.FC<PlanProps> = () => {
             </div>
             {/* End Col */}
           </div>
+
           {/* End Grid */}
           {/* Progress */}
-          <UsageIndicator title={t("billing.plan.features.smart_replies")} used={100} total={data.product?.features?.smart_replies_per_month} />
-          <UsageIndicator title={t("billing.plan.features.generative_replies")} used={100} total={data.product?.features?.generative_replies_per_month} />
-          <UsageIndicator title={t("billing.plan.features.checks")} used={100} total={data.product?.features?.checks_per_month} />
+          <UsageIndicator title={t("billing.plan.features.auto_replies")} remaining={(subscription?.features?.auto_replies || 10000) - data?.autoReply} total={subscription?.features?.auto_replies || 10000} />
+          <UsageIndicator title={t("billing.plan.features.smart_replies")} remaining={(subscription?.features?.smart_replies || 150) - data?.smartReply} total={subscription?.features?.smart_replies || 150} />
+          <UsageIndicator title={t("billing.plan.features.generative_replies")} remaining={(subscription?.features?.generative_replies || 20) - data?.generativeReply} total={subscription?.features?.generative_replies || 20} />
+          <UsageIndicator title={t("billing.plan.features.check_slips")} remaining={(subscription?.features?.check_slips || 15) - data?.checkSlips} total={subscription?.features?.check_slips || 15} />
           {/* End Progress */}
           <div className="hidden flex justify-end items-center gap-x-2">
             <div className="hs-tooltip inline-block">
@@ -120,9 +166,9 @@ const Plan: React.FC<PlanProps> = () => {
         </div>
         {/* End Body */}
         {/* Footer */}
-        {!data.subscription.cancel_at_period_end && (
+        {!subscription?.cancel_at_period_end && (
           <div className="flex -space-x-px border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-            {data.product?.name?.startsWith('Starter') ? (
+            {subscription ? (
               <button type="button" className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dlcsam"
               >
                 {t('billing.plan.actions.cancel')}
@@ -155,7 +201,7 @@ const Plan: React.FC<PlanProps> = () => {
 export default Plan;
 
 
-const UsageIndicator: React.FC<{ title: string, used: number, total: number }> = ({ title, used, total }) => {
+const UsageIndicator: React.FC<{ title: string, remaining: number, total: number }> = ({ title, remaining, total }) => {
   const { t } = useTranslation()
   return (
     <div className="my-4">
@@ -164,12 +210,11 @@ const UsageIndicator: React.FC<{ title: string, used: number, total: number }> =
           {title}
         </h4>
         <p className="text-sm text-gray-500 dark:text-neutral-500">
-          {t('billing.plan.features.used_of_total', { used: used.toLocaleString(), total: total.toLocaleString() })}
-          {/* <NumericFormat value={used} displayType="text" thousandSeparator={true} /> of <NumericFormat value={total} displayType="text" thousandSeparator={true} /> used */}
+          {t('billing.plan.features.remaining_of_total', { remaining: remaining?.toLocaleString(), total: total?.toLocaleString() })}
         </p>
       </div>
-      <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={used} aria-valuemin={0} aria-valuemax={total}>
-        <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: `${used / total * 100}%` }} />
+      <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={remaining} aria-valuemin={0} aria-valuemax={total}>
+        <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: `${remaining / total * 100}%` }} />
       </div>
     </div>
     // <div className="my-4">
@@ -178,7 +223,7 @@ const UsageIndicator: React.FC<{ title: string, used: number, total: number }> =
     //       {title}
     //     </h4>
     //     <p className="text-sm text-gray-500 dark:text-neutral-500">
-    //       {used} of {total} used
+    //       {remaining} of {total} remaining
     //     </p>
     //     <div className="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow={25} aria-valuemin={0} aria-valuemax={100}>
     //       <div className="flex flex-col justify-center overflow-hidden bg-blue-600 text-xs text-white text-center rounded-full whitespace-nowrap" style={{ width: '25%' }} />

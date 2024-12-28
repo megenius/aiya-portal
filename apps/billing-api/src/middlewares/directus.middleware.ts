@@ -6,7 +6,7 @@ const factory = createFactory<Env>();
 
 export const directusMiddleware = factory.createMiddleware(async (c, next) => {
   const directus = getDirectusClient(c.env.DIRECTUS_URL);
-  console.log("Directus Token: ", c.get("token"));
+  // console.log("Directus Token: ", c.get("token"));
   
   directus.setToken(c.get("token"));
   c.set("directus", directus);

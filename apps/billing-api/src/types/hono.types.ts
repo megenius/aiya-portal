@@ -6,9 +6,10 @@ import {
 } from "@cloudflare/workers-types";
 import { DirectusUser } from "@directus/sdk";
 import Stripe from "stripe";
+import { CounterDurable } from "~/durables/CounterDurable";
 import { AdminClientType, ClientType } from "~/utils/directus";
-
-
+import { WorkerEnv } from "./worker-configuration";
+import { SubscriptionDurable } from "~/durables/SubscriptionDurable";
 export interface Env {
   Bindings: WorkerEnv;
   Variables: {
@@ -17,5 +18,7 @@ export interface Env {
     directAdmin: AdminClientType;
     stripe: Stripe;
     user: DirectusUser;
+    counterDurable: DurableObjectStub<CounterDurable>;
+    subscriptionDurable: DurableObjectStub<SubscriptionDurable>;
   };
 }

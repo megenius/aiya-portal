@@ -4,9 +4,12 @@ import { Env } from "./types/hono.types";
 import { cache } from "hono/cache";
 import { billingsRoutes } from "./routes/billings";
 import { authMiddleware } from "./middlewares/auth.middleware";
+import { WorkerEnv } from "./types/worker-configuration";
+import { websocketRoutes } from "./routes/websocket.route";
+export * from "./durables/SubscriptionDurable";
+export * from "./durables/CounterDurable";
 
 const app = new Hono<Env>()
-  .basePath("/api")
   // .get(
   //   "*",
   //   cache({
@@ -15,16 +18,21 @@ const app = new Hono<Env>()
   //   })
   // )
   .use("*", async (c, next) => {
+    console.log("c.req.path", c.req.path);
     if (
-      !c.req.path.startsWith("/api/billing/stripe/webhook")
+      c.req.path.startsWith("/api/billing/stripe/webhook") ||
+      c.req.path.startsWith("/api/billing/health") ||
+      c.req.path.startsWith("/websocket")
     ) {
+      await next();
+    } else {
       return authMiddleware(c, next);
     }
-    await next();
   })
-  .route("/billing", billingsRoutes)
+  .route("/websocket/billing", websocketRoutes)
+  .route("/api/billing", billingsRoutes)
   // .route("/billing/setup", setupRoutes)
-  .get("/billing/health", async (c) => {
+  .get("/api/billing/health", async (c) => {
     return c.json({ status: "ok" });
   });
 

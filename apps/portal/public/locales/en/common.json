@@ -38,14 +38,17 @@
     "plan": {
       "active": "Active",
       "renews_on": "Renews on {{date}}",
+      "cancelled_on": "Cancelled on {{date}}",
       "monthly": "monthly",
       "yearly": "yearly",
       "trial": "Trial",
+      "current": "Current Plan",
       "features": {
+        "auto_replies": "Auto Replies",
         "smart_replies": "Smart Replies",
         "generative_replies": "Generative Replies",
-        "checks": "Checks",
-        "used_of_total": "{{used}} of {{total}} used"
+        "check_slips": "Checks",
+        "remaining_of_total": "{{remaining}} / {{total}} Remaining"
       },
       "manage_seats": {
         "button": "Manage seats",
@@ -55,16 +58,19 @@
         "cancel": "Cancel subscription",
         "upgrade": "Upgrade plan"
       },
-      "subscription": {
-        "cancel": {
-          "title": "Cancel Subscription",
-          "confirm": "Cancel Your Subscription?",
-          "warning": "You will lose access to premium features after cancellation",
-          "confirmButton": "Confirm Cancellation",
-          "cancelButton": "Cancel",
-          "loading": "Cancelling...",
-          "success": "Your subscription has been cancelled. You'll have access until the end of your billing period"
-        }
+      "error": {
+        "email_required": "Email is required"
+      }
+    },
+    "subscription": {
+      "cancel": {
+        "title": "Cancel Subscription",
+        "confirm": "Cancel Your Subscription?",
+        "warning": "You will lose access to premium features after cancellation",
+        "confirmButton": "Confirm Cancellation",
+        "cancelButton": "Cancel",
+        "loading": "Cancelling...",
+        "success": "Your subscription has been cancelled. You'll have access until the end of your billing period"
       }
     }
   }

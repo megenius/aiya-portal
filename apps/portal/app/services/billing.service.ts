@@ -12,10 +12,18 @@ export const createCheckoutSession = (data: any) =>
 export const getCheckoutSession = (sessionId: string) =>
   api.get<Stripe.Checkout.Session>(`/billing/checkout-session/${sessionId}`);
 
-export const getCurrentBillingPlan = (userId: string) =>
+export const getCurrentBillingPlan = () =>
   api.get<{
     subscription: SaasSubscription;
-    product: SaasProduct;
   }>(`/billing/current`);
 
-export const cancelSubscription = () => api.post("/billing/cancel-subscription");
+export const getCurrentBillingUsage = (subscriptionId: string) =>
+  api.get<{
+    smartReply: number;
+    generativeReply: number;
+    autoReply: number;
+    checkSlips: number;
+  }>(`/billing/${subscriptionId}/current-usage`);
+
+export const cancelSubscription = () =>
+  api.post("/billing/cancel-subscription");

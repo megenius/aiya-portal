@@ -34,11 +34,30 @@ function getTrialPeriodDays() {
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   // const { amount, currency, description, success_url, cancel_url } = await c.req.json();
   const { PORTAL_URL } = c.env;
-  const { priceId, customerEmail } = await c.req.json();
+  const { priceId, email } = await c.req.json();
   const stripe = c.get("stripe");
+  const directus = c.get("directAdmin");
 
-  const trialDays = getTrialPeriodDays();
+  let trialDays = getTrialPeriodDays();
   console.log(`Creating checkout session with ${trialDays} days trial period`);
+
+  // check if user already subscribed
+  const user = c.get("user") as DirectusUser;
+
+  const subscriptions = await directus.request(
+    readItems("saas_subscriptions", {
+      filter: {
+        user_id: {
+          _eq: user.id,
+        },
+      },
+      sort: ["-date_created"],
+    })
+  );
+
+  if (subscriptions.length > 0) {
+    trialDays = 0;
+  }
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -49,19 +68,21 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       },
     ],
     mode: "subscription",
-    subscription_data: {
-      trial_period_days: 45,
-      trial_settings: {
-        end_behavior: {
-          missing_payment_method: "cancel",
-        },
-      },
-    },
+    subscription_data: trialDays
+      ? {
+          trial_period_days: trialDays,
+          trial_settings: {
+            end_behavior: {
+              missing_payment_method: "cancel",
+            },
+          },
+        }
+      : {},
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
     // customer: customerId,
-    customer_email: customerEmail,
+    customer_email: email,
     phone_number_collection: {
       enabled: true,
     },
@@ -134,6 +155,10 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     const item = subscription.items.data[0];
     const plan = item.plan as Stripe.Plan;
 
+    const price = await directus.request(
+      readItem("saas_prices", item.price.id)
+    );
+
     const subscriptionCreated = await directus
       .request(
         createItem("saas_subscriptions", {
@@ -167,6 +192,7 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
           cancel_at_period_end: subscription.cancel_at_period_end,
           metadata: subscription.metadata, // ไม่ต้อง JSON.stringify เพราะ field เป็น jsonb
           interval: plan.interval,
+          features: price.features,
         })
       )
       .catch((error) => {
@@ -208,8 +234,12 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
         company_name: customer?.name as string,
         email: customer?.email as string,
         phone: customer?.phone as string,
-        tax_id: customer?.tax_ids ? (customer.tax_ids[0].value as string) : "",
-        tax_type: customer?.tax_ids ? (customer.tax_ids[0].type as string) : "",
+        tax_id: customer?.tax_ids?.length
+          ? (customer.tax_ids[0].value as string)
+          : "",
+        tax_type: customer?.tax_ids?.length
+          ? (customer.tax_ids[0].type as string)
+          : "",
         address_line1: customer?.address?.line1 as string,
         address_line2: customer?.address?.line2 as string,
         city: customer?.address?.city as string,
@@ -228,7 +258,6 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
   };
 
   const onSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
-
     const subscriptions = await directus.request(
       readItems("saas_subscriptions", {
         filter: {
@@ -264,6 +293,34 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     );
     console.log("Subscription was updated!", subscriptionUpdated);
   };
+
+  const onSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
+    const subscriptions = await directus.request(
+      readItems("saas_subscriptions", {
+        filter: {
+          stripe_subscription_id: {
+            _eq: subscription.id,
+          },
+        },
+      })
+    );
+
+    if (subscriptions.length === 0) {
+      console.error(`Subscription with ID ${subscription.id} not found`);
+      return;
+    }
+
+    const _subscription = subscriptions[0];
+
+    const subscriptionDeleted = await directus.request(
+      updateItem("saas_subscriptions", _subscription.id, {
+        status: subscription.status,
+        ended_at: subscription.ended_at,
+      })
+    );
+    console.log("Subscription was deleted!", subscriptionDeleted);
+  };
+
   try {
     switch (event.type) {
       case "checkout.session.completed":
@@ -275,6 +332,11 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
       case "customer.subscription.updated":
         const subscriptionUpdated = event.data.object;
         await onSubscriptionUpdated(subscriptionUpdated);
+        break;
+
+      case "customer.subscription.deleted":
+        const subscriptionDeleted = event.data.object;
+        await onSubscriptionDeleted(subscriptionDeleted);
         break;
       // ... handle other event types
       // default:
@@ -328,16 +390,23 @@ export const getCurrentBillingPlan = factory.createHandlers(
     const directus = c.get("directus");
     const user = c.get("user") as DirectusUser;
 
+    // console.log("directus", await directus.getToken());
+    // console.log("user", user);
+
     const subscriptions = await directus.request(
       readItems("saas_subscriptions", {
         filter: {
           user_id: {
             _eq: user.id,
           },
+          status: {
+            _neq: "canceled",
+          },
         },
         sort: ["-date_created"],
       })
     );
+    // console.log("subscriptions", subscriptions);
 
     if (subscriptions.length === 0) {
       const product = await directus.request(
@@ -350,14 +419,99 @@ export const getCurrentBillingPlan = factory.createHandlers(
       });
     }
 
-    const product = await directus.request(
-      readItem("saas_products", subscriptions[0].stripe_product_id)
-    );
+    const stripe_product_id = subscriptions[0].stripe_product_id;
+    // console.log("stripe_product_id", stripe_product_id);
+
+    // const product = await directus.request(
+    //   readItem("saas_products", stripe_product_id)
+    // );
 
     const subscription = subscriptions[0];
     return c.json({
       subscription,
-      product,
+      // product,
     });
   }
 );
+
+export const getCurrentUsage = factory.createHandlers(logger(), async (c) => {
+  const subscriptionDurable = c.get("subscriptionDurable");
+  return c.json(await subscriptionDurable.get());
+});
+
+export const recordUsage = factory.createHandlers(logger(), async (c) => {
+  const { bot: botId, usage } = await c.req.json();
+  const directus = c.get("directAdmin");
+
+  const bot = await directus.request(
+    readItem("bots", botId, {
+      fields: ["id", "name", "user_created"],
+    })
+  );
+
+  const subscriptions = await directus.request(
+    readItems("saas_subscriptions", {
+      filter: {
+        user_id: {
+          _eq: bot.user_created,
+        },
+        status: {
+          _neq: "canceled",
+        },
+      },
+      sort: ["-date_created"],
+    })
+  );
+
+  if (subscriptions.length === 0) {
+    throw new Error("No subscriptions found for this user");
+  }
+
+  const id = c.env.SUBSCRIPTION_DURABLE.idFromName(subscriptions[0].id);
+  const subscriptionDurable = c.env.SUBSCRIPTION_DURABLE.get(id);
+
+  if (usage.smart_reply) {
+    await subscriptionDurable.incrementSmartReply(usage.smart_reply);
+  }
+
+  if (usage.generative_reply) {
+    await subscriptionDurable.incrementGenerativeReply(usage.generative_reply);
+  }
+
+  if (usage.auto_reply) {
+    await subscriptionDurable.incrementAutoReply(usage.auto_reply);
+  }
+
+  if (usage.check_slips) {
+    await subscriptionDurable.incrementCheckSlips(usage.check_slips);
+  }
+
+  return c.json(bot);
+});
+
+export const getCounter = factory.createHandlers(logger(), async (c) => {
+  const counterDurable = c.get("counterDurable");
+  const count = await counterDurable.get();
+  return c.json({ count });
+});
+
+export const incrementCounter = factory.createHandlers(logger(), async (c) => {
+  const counterDurable = c.get("counterDurable");
+  const count = await counterDurable.increment();
+  return c.json({ count });
+});
+
+export const decrementCounter = factory.createHandlers(logger(), async (c) => {
+  const counterDurable = c.get("counterDurable");
+  const count = await counterDurable.decrement();
+  return c.json({ count });
+});
+
+export const connectCounter = factory.createHandlers(logger(), async (c) => {
+  console.log("Upgrade: websocket");
+  const counterDurable = c.get("counterDurable");
+  if (c.req.header("upgrade") !== "websocket") {
+    return c.text("Expected Upgrade: websocket", 426);
+  }
+  return counterDurable.fetch(c.req.raw);
+});

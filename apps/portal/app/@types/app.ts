@@ -52,10 +52,13 @@ export type FacebookAdAccount = components["schemas"]["ItemsAdAccounts"] & {
   };
 };
 
-export type SaasSubscription = components["schemas"]["ItemsSaasSubscriptions"];
+export type SaasSubscription =
+  components["schemas"]["ItemsSaasSubscriptions"] & {
+    features: PlanFeatures;
+  };
 export type SaasProduct = components["schemas"]["ItemsSaasProducts"] & {
-  features: PlanFeatures
-}
+  features: PlanFeatures;
+};
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
 

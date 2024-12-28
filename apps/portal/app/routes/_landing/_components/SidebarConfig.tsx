@@ -1,5 +1,6 @@
 import { Layout, User, ArrowUpCircle, CreditCard, Gift, DollarSign } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 
 interface SidebarLink {
   to: string;
@@ -11,8 +12,9 @@ interface SidebarLink {
 
 export const useSidebarLinks = (): SidebarLink[] => {
   const { t } = useTranslation('common');
+  const { data: plan } = useCurrentBillingPlan()
 
-  return [
+  const menu = [
     {
       to: "/",
       label: t('sidebar.workspaces'),
@@ -48,4 +50,10 @@ export const useSidebarLinks = (): SidebarLink[] => {
       icon: <DollarSign className="flex-shrink-0 mt-0.5 size-4" />,
     },
   ];
+
+  if (plan?.subscription) {
+    return menu.filter((item) => item.to !== "/plans");
+  }
+
+  return menu;
 };
