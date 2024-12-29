@@ -27,6 +27,7 @@ import "yet-another-react-lightbox/styles.css";
 
 import i18n from "./i18n";
 import { I18nextProvider } from "react-i18next";
+import { Loader2 } from "lucide-react";
 
 
 export const links: LinksFunction = () => [
@@ -43,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-    {/* <html lang={language}> */}
+      {/* <html lang={language}> */}
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -80,7 +81,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <Suspense fallback="">
       <PrelineScript />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -90,7 +91,8 @@ export default function App() {
         </PersistGate>
       </Provider>
       <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
-    </>
+    </Suspense>
+
   )
 
   // return (
@@ -111,5 +113,6 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return <div></div>
+  // return <p>Loading...</p>;
 }
