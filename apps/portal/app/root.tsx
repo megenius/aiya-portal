@@ -39,12 +39,11 @@ export const links: LinksFunction = () => [
 
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  // const language = store.getState().user.language;
-  // i18n.changeLanguage(language); // โหลดภาษาเริ่มต้นจาก Redux
+  const language = store.getState().user.language;
+  i18n.changeLanguage(language); // โหลดภาษาเริ่มต้นจาก Redux
 
   return (
-    <html lang="en">
-      {/* <html lang={language}> */}
+    <html lang={language}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -81,38 +80,27 @@ export default function App() {
   }, []);
 
   return (
-    <Suspense fallback="">
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+      </div>
+    }>
       <PrelineScript />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <QueryClientProvider client={queryClient}>
-            <Outlet />
-          </QueryClientProvider>
+          <I18nextProvider i18n={i18n}>
+            <QueryClientProvider client={queryClient}>
+              <Outlet />
+            </QueryClientProvider>
+          </I18nextProvider>
         </PersistGate>
       </Provider>
       <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
     </Suspense>
 
   )
-
-  // return (
-  //   <>
-  //     <PrelineScript />
-  //     <Provider store={store}>
-  //       <PersistGate loading={null} persistor={persistor}>
-  //         <QueryClientProvider client={queryClient}>
-  //           <I18nextProvider i18n={i18n}>
-  //             <Outlet />
-  //           </I18nextProvider>
-  //         </QueryClientProvider>
-  //       </PersistGate>
-  //     </Provider>
-  //     <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
-  //   </>
-  // )
 }
 
 export function HydrateFallback() {
-  return <div></div>
-  // return <p>Loading...</p>;
+  return <p>Loading...</p>;
 }
