@@ -32,11 +32,8 @@ const useCurrentBillingUsage = ({ subscription }) => {
     },
     onMessage: (data: BillingUpdate) => {
       if (data.type === "billing_usage_updated") {
-        // Option 1: Invalidate the query (will trigger a refetch)
-        queryClient.invalidateQueries({ queryKey: BILLING_USAGE_QUERY_KEY });
-
         // Option 2: Update the cache directly (no refetch needed)
-        // queryClient.setQueryData(BILLING_USAGE_QUERY_KEY, data.data)
+        queryClient.setQueryData(BILLING_USAGE_QUERY_KEY, data.data);
       }
     },
     onError: (error) => {

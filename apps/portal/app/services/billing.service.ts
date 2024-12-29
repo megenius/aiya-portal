@@ -19,10 +19,10 @@ export const getCurrentBillingPlan = () =>
 
 export const getCurrentBillingUsage = (subscriptionId: string) =>
   api.get<{
-    smartReply: number;
-    generativeReply: number;
-    autoReply: number;
-    checkSlips: number;
+    smart_reploy: number;
+    generative_reply: number;
+    auto_reply: number;
+    check_slips: number;
   }>(`/billing/${subscriptionId}/current-usage`);
 
 export const cancelSubscription = () =>

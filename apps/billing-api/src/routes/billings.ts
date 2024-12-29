@@ -6,6 +6,7 @@ import { stripeMiddleware } from "~/middlewares/stripe.middeware";
 import { userMiddleware } from "~/middlewares/user.middleware";
 import { counterDurableMiddleware } from "~/middlewares/couter-durable.middleware";
 import { subscriptionDurableMiddleware } from "~/middlewares/subscription-durable.middleware";
+import { cache } from "hono/cache";
 
 const billingsRoutes = new Hono<Env>();
 
@@ -42,11 +43,19 @@ billingsRoutes.get(
 
 billingsRoutes.get(
   "/:subscriptionId/current-usage",
+  cache({
+    cacheName: "subscription-usage",
+    cacheControl: "max-age=60", // 1 minute
+  }),
   subscriptionDurableMiddleware,
   ...BillingHandler.getCurrentUsage
 );
 
-billingsRoutes.post("/record", directusMiddleware, ...BillingHandler.recordUsage);
+billingsRoutes.post(
+  "/record",
+  directusMiddleware,
+  ...BillingHandler.recordUsage
+);
 
 billingsRoutes.post(
   "/stripe/webhook",
@@ -56,10 +65,30 @@ billingsRoutes.post(
 );
 
 // websockets have to be at the top
-billingsRoutes.get("/counter/:counterId", counterDurableMiddleware, ...BillingHandler.getCounter);
-billingsRoutes.get("/counter/:counterId/increment", counterDurableMiddleware, ...BillingHandler.incrementCounter);
-billingsRoutes.get("/counter/:counterId/decrement", counterDurableMiddleware, ...BillingHandler.decrementCounter);
-billingsRoutes.get("/counter/:counterId/websocket", counterDurableMiddleware, ...BillingHandler.connectCounter);
-billingsRoutes.get("/websocket/counter/:counterId", counterDurableMiddleware, ...BillingHandler.connectCounter);
+billingsRoutes.get(
+  "/counter/:counterId",
+  counterDurableMiddleware,
+  ...BillingHandler.getCounter
+);
+billingsRoutes.get(
+  "/counter/:counterId/increment",
+  counterDurableMiddleware,
+  ...BillingHandler.incrementCounter
+);
+billingsRoutes.get(
+  "/counter/:counterId/decrement",
+  counterDurableMiddleware,
+  ...BillingHandler.decrementCounter
+);
+billingsRoutes.get(
+  "/counter/:counterId/websocket",
+  counterDurableMiddleware,
+  ...BillingHandler.connectCounter
+);
+billingsRoutes.get(
+  "/websocket/counter/:counterId",
+  counterDurableMiddleware,
+  ...BillingHandler.connectCounter
+);
 
 export { billingsRoutes };

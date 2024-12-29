@@ -47,7 +47,7 @@
         "auto_replies": "การตอบกลับอัตโนมัติ",
         "smart_replies": "การตอบกลับอัจฉริยะ",
         "generative_replies": "การตอบกลับเชิงสร้างสรรค์",
-        "check_slips": "การตรวจสอบ",
+        "check_slips": "การตรวจสอบสลิป",
         "remaining_of_total": "คงเหลือ {{remaining}} / {{total}}"
       },
       "manage_seats": {

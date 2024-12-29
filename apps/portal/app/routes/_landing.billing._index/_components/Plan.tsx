@@ -143,10 +143,10 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
 
           {/* End Grid */}
           {/* Progress */}
-          <UsageIndicator title={t("billing.plan.features.auto_replies")} remaining={(subscription?.features?.auto_replies || 10000) - data?.autoReply} total={subscription?.features?.auto_replies || 10000} />
-          <UsageIndicator title={t("billing.plan.features.smart_replies")} remaining={(subscription?.features?.smart_replies || 150) - data?.smartReply} total={subscription?.features?.smart_replies || 150} />
-          <UsageIndicator title={t("billing.plan.features.generative_replies")} remaining={(subscription?.features?.generative_replies || 20) - data?.generativeReply} total={subscription?.features?.generative_replies || 20} />
-          <UsageIndicator title={t("billing.plan.features.check_slips")} remaining={(subscription?.features?.check_slips || 15) - data?.checkSlips} total={subscription?.features?.check_slips || 15} />
+          <UsageIndicator title={t("billing.plan.features.auto_replies")} remaining={(subscription?.features?.auto_replies || 10000) - data?.auto_reply} total={subscription?.features?.auto_replies || 10000} />
+          <UsageIndicator title={t("billing.plan.features.smart_replies")} remaining={(subscription?.features?.smart_replies || 150) - data?.smart_reploy} total={subscription?.features?.smart_replies || 150} />
+          <UsageIndicator title={t("billing.plan.features.generative_replies")} remaining={(subscription?.features?.generative_replies || 20) - data?.generative_reply} total={subscription?.features?.generative_replies || 20} />
+          <UsageIndicator title={t("billing.plan.features.check_slips")} remaining={(subscription?.features?.check_slips || 15) - data?.check_slips} total={subscription?.features?.check_slips || 15} />
           {/* End Progress */}
           <div className="hidden flex justify-end items-center gap-x-2">
             <div className="hs-tooltip inline-block">

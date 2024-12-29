@@ -24,6 +24,9 @@ export class SubscriptionDurable extends DurableObject {
 
       const autoReply = await this.ctx.storage?.get<number>("autoReply");
       this.autoReply = autoReply || 0;
+
+      const checkSlips = await this.ctx.storage?.get<number>("checkSlips");
+      this.checkSlips = checkSlips || 0;
     });
   }
 
@@ -66,12 +69,13 @@ export class SubscriptionDurable extends DurableObject {
     return newValue;
   }
 
+
   get() {
     return {
-      smartReply: this.smartReply,
-      generativeReply: this.generativeReply,
-      autoReply: this.autoReply,
-      checkSlips: this.checkSlips,
+      smart_reploy: this.smartReply,
+      generative_reply: this.generativeReply,
+      auto_reply: this.autoReply,
+      check_slips: this.checkSlips,
     };
   }
 
