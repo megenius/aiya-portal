@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import * as BillingHandler from "../handlers/billing.handler";
+import * as StripeHandler from "../handlers/stripe.handler";
 import { Env } from "~/types/hono.types";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { stripeMiddleware } from "~/middlewares/stripe.middeware";
@@ -75,7 +76,7 @@ billingsRoutes.post(
   "/stripe/webhook",
   directusMiddleware,
   stripeMiddleware,
-  ...BillingHandler.stripeWebhook
+  ...StripeHandler.webhook
 );
 
 export { billingsRoutes };

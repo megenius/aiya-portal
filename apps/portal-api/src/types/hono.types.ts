@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { ClientType, AdminClientType } from "~/utils/directus";
 
 export type Env = {
-  Bindings: Bindings;
+  Bindings: WorkerEnv;
   Variables: Variables;
 };
 

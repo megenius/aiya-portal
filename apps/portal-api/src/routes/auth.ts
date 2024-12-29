@@ -5,10 +5,9 @@ import { Env } from "~/types/hono.types";
 import * as AuthHandler from "../handlers/auth.hanlder";
 import * as GoogleOAuthHandler from "../handlers/auth/google.handler";
 import * as LineOAuthHandler from "../handlers/auth/line.handler";
-import { stripeMiddleware } from "~/middleware/stripe.middeware";
 
 const authRoutes = new Hono<Env>()
-  .post("/login", stripeMiddleware, ...AuthHandler.login)
+  .post("/login", ...AuthHandler.login)
   .post("/refresh", ...AuthHandler.refresh)
   .post("/logout", ...AuthHandler.logout)
   .post("/signup", ...AuthHandler.registerUser)

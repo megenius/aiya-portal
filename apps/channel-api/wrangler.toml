@@ -13,16 +13,20 @@ routes = [
 mode = "smart"
 
 
-[durable_objects]
-bindings = [
-  { name = "FOLLOWERS", class_name = "FollowerDO" },
-  { name = "PROVIDERS", class_name = "ProviderDO" },
-]
+[vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
 
 
-[[migrations]]
-tag = "v1"
-new_classes = ["FollowerDO", "ProviderDO"]
+# [durable_objects]
+# bindings = [
+#   { name = "FOLLOWERS", class_name = "FollowerDO" },
+#   { name = "PROVIDERS", class_name = "ProviderDO" },
+# ]
+
+
+# [[migrations]]
+# tag = "v1"
+# new_classes = ["FollowerDO", "ProviderDO"]
 
 
 [[kv_namespaces]]
@@ -59,7 +63,6 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "portal.aiya.me/api/channels/*", zone_name = "aiya.me" },
-  # { pattern = "portal.aiya.me/api/channels/*", zone_name = "aiya.me" },
   { pattern = "lambda-api.aiya.me/api/channels/*", zone_name = "aiya.me" },
 ]
 

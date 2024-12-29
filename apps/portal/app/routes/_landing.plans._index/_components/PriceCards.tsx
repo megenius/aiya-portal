@@ -305,8 +305,8 @@ const PricingCards = ({ isAnnual }) => {
                   disabled={
                     plan.button.disabled ||
                     checkout.isPending ||
-                    currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ||
-                    (plan.name === "Free Trial" && currentPlan?.subscription.plan_type === "starter")
+                    currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() ||
+                    (plan.name === "Free Trial" && currentPlan?.subscription?.plan_type === "starter")
                   }
                   onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
                 >

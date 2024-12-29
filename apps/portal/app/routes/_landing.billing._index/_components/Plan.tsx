@@ -79,6 +79,11 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
     )
   }
 
+
+  if (!data) {
+    return <Loading />
+  }
+
   return (
     <>
       {/* Card */}

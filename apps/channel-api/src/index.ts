@@ -6,8 +6,8 @@ import { lambdaAuthMiddleware } from "./middlewares/lambda-auth";
 import { Env } from "@repo/shared";
 import { cache } from "hono/cache";
 import { wsRoutes } from "./routes/ws";
-export * from "./durables/FollowerDO";
-export * from "./durables/ProviderDO";
+// export * from "./durables/FollowerDO";
+// export * from "./durables/ProviderDO";
 
 const app = new Hono<Env>()
   .get("/health", (c) => {

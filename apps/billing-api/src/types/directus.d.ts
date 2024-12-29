@@ -4607,6 +4607,7 @@ export interface components {
       ended_at?: string | null;
       features?: unknown;
       customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
+      stripe_customer_id?: string | null;
     };
     ItemsAdCampaigns: {
       /** Format: uuid */

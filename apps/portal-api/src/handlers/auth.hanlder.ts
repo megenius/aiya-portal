@@ -16,8 +16,6 @@ export const login = factory.createHandlers(
   honoLogger(),
   directusMiddleware,
   async (c) => {
-    const stripe = c.get("stripe");
-
     const {
       email,
       password,
@@ -36,46 +34,6 @@ export const login = factory.createHandlers(
       avatar,
       external_identifier
     );
-
-    const createFreePlan = async (user: {
-      id: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-    }) => {
-      const prices = await stripe.prices.list({
-        lookup_keys: ["aibots_free_plan"],
-        active: true,
-      });
-
-      // get free plan price id from prices
-      if (prices.data?.length === 0) {
-        throw new Error("Free plan not found");
-      }
-
-      if (user.email === undefined) {
-        throw new Error("User email not found");
-      }
-      const price = prices.data[0];
-
-      // create stripe customer
-      const customer = await stripe.customers.create({
-        email: user.email as string,
-        name: user.first_name + " " + user.last_name,
-        metadata: {
-          user_id: user.id,
-        },
-      });
-
-      // create stripe subscription
-      const sub = await stripe.subscriptions.create({
-        customer: customer.id,
-        items: [{ price: price.id }],
-        metadata: {
-          user_id: user.id,
-        },
-      });
-    };
 
     try {
       if (external_identifier) {
@@ -108,26 +66,6 @@ export const login = factory.createHandlers(
             })
           );
           userId = user.id;
-
-          await createFreePlan({
-            id: userId,
-            email,
-            first_name,
-            last_name,
-          });
-        }
-
-        const customer = await directAdmin
-          .request(sdk.readItem("saas_customers", userId as string))
-          .catch((e) => null);
-          
-        if (!customer) {
-          await createFreePlan({
-            id: userId as string,
-            email,
-            first_name,
-            last_name,
-          });
         }
 
         // Generate JWT token for the user
@@ -152,6 +90,16 @@ export const login = factory.createHandlers(
           c.env.DIRECTUS_SECRET_KEY
         );
 
+        await c.env.BillingService.fetch(
+          `${c.env.SERVICE_BILLING_API}/api/billing/create-free-plan`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${directusToken}`,
+            },
+          }
+        );
+
         // console.log("directusToken", directusToken);
 
         return c.json({
@@ -167,6 +115,16 @@ export const login = factory.createHandlers(
       const expiresAt =
         auth.expires_at ||
         addMilliseconds(new Date(), Number(auth.expires) - 60000).valueOf();
+
+      // await c.env.BillingService.fetch(
+      //   `${c.env.SERVICE_BILLING_API}/api/billing/create-free-plan`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       Authorization: `Bearer ${auth.access_token}`,
+      //     },
+      //   }
+      // );
 
       return c.json(
         camelcaseKeys({

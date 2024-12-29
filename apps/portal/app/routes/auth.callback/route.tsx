@@ -1,24 +1,27 @@
 import { Link, useNavigate, useSearchParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { useLogin } from '~/hooks/useLogin';
-import { useAppSelector } from '~/store';
 
-interface MainContentProps {
-
-}
+interface MainContentProps {}
 
 const MainContent: React.FC<MainContentProps> = () => {
   const login = useLogin();
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams();
+  const hasAttemptedLogin = useRef(false);
 
-  useEffect(() => {
-    const q = searchParams.get("q")
-    if (q) {
-      const userInfo = JSON.parse(atob(q))
+  const handleLogin = useCallback(async () => {
+    if (hasAttemptedLogin.current) return;
 
+    const q = searchParams.get("q");
+    if (!q) return;
+
+    try {
+      const userInfo = JSON.parse(atob(q));
+      
       if (userInfo.external_identifier) {
-        login.mutateAsync({
+        hasAttemptedLogin.current = true;
+        await login.mutateAsync({
           email: userInfo.email,
           first_name: userInfo.first_name,
           last_name: userInfo.last_name || "",
@@ -26,10 +29,17 @@ const MainContent: React.FC<MainContentProps> = () => {
           external_identifier: userInfo.external_identifier,
         });
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      hasAttemptedLogin.current = false; // Reset flag in case retry is needed
     }
-  }, [searchParams])
+  }, [searchParams, login]);
 
-  return <Loading />
+  useEffect(() => {
+    handleLogin();
+  }, [handleLogin]);
+
+  return <Loading />;
 };
 
 export default MainContent;
