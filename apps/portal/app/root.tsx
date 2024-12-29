@@ -26,9 +26,7 @@ import 'apexcharts/dist/apexcharts.css';
 import "yet-another-react-lightbox/styles.css";
 
 import i18n from "./i18n";
-import i18next from "i18next";
-import { I18nextProvider, initReactI18next } from "react-i18next";
-import { useTranslation } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 
 
 export const links: LinksFunction = () => [
@@ -40,11 +38,12 @@ export const links: LinksFunction = () => [
 
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const language = store.getState().user.language;
-  i18n.changeLanguage(language); // โหลดภาษาเริ่มต้นจาก Redux
+  // const language = store.getState().user.language;
+  // i18n.changeLanguage(language); // โหลดภาษาเริ่มต้นจาก Redux
 
   return (
-    <html lang={language}>
+    <html lang="en">
+    {/* <html lang={language}> */}
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,8 +71,6 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-
-
   useEffect(() => {
     const state = store.getState().auth;
     if (state.refreshToken && state.expiresAt) {
@@ -88,15 +85,29 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient}>
-            <I18nextProvider i18n={i18n}>
-              <Outlet />
-            </I18nextProvider>
+            <Outlet />
           </QueryClientProvider>
         </PersistGate>
       </Provider>
       <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
     </>
   )
+
+  // return (
+  //   <>
+  //     <PrelineScript />
+  //     <Provider store={store}>
+  //       <PersistGate loading={null} persistor={persistor}>
+  //         <QueryClientProvider client={queryClient}>
+  //           <I18nextProvider i18n={i18n}>
+  //             <Outlet />
+  //           </I18nextProvider>
+  //         </QueryClientProvider>
+  //       </PersistGate>
+  //     </Provider>
+  //     <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
+  //   </>
+  // )
 }
 
 export function HydrateFallback() {
