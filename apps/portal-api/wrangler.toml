@@ -29,7 +29,7 @@ GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleuse
 GOOGLE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/google/callback"
 LINE_CLIENT_ID = "1660709265"
 LINE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/line/callback"
-SERVICE_BILLING_API = "http://localhost:14110"
+SERVICE_BILLING_API = "https://portal-dev.aiya.me"
 
 
 [[kv_namespaces]]

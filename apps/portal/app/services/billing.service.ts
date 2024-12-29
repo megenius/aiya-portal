@@ -19,7 +19,7 @@ export const getCurrentBillingPlan = () =>
 
 export const getCurrentBillingUsage = (subscriptionId: string) =>
   api.get<{
-    smart_reploy: number;
+    smart_reply: number;
     generative_reply: number;
     auto_reply: number;
     check_slips: number;

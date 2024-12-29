@@ -91,7 +91,7 @@ export const login = factory.createHandlers(
         );
 
         await c.env.BillingService.fetch(
-          `${c.env.SERVICE_BILLING_API}/api/billing/create-free-plan`,
+          `${c.env.PORTAL_URL}/api/billing/create-free-plan`,
           {
             method: "POST",
             headers: {
@@ -116,15 +116,15 @@ export const login = factory.createHandlers(
         auth.expires_at ||
         addMilliseconds(new Date(), Number(auth.expires) - 60000).valueOf();
 
-      // await c.env.BillingService.fetch(
-      //   `${c.env.SERVICE_BILLING_API}/api/billing/create-free-plan`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       Authorization: `Bearer ${auth.access_token}`,
-      //     },
-      //   }
-      // );
+      await c.env.BillingService.fetch(
+        `${c.env.PORTAL_URL}/api/billing/create-free-plan`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${auth.access_token}`,
+          },
+        }
+      );
 
       return c.json(
         camelcaseKeys({

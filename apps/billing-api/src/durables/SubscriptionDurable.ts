@@ -72,7 +72,7 @@ export class SubscriptionDurable extends DurableObject {
 
   get() {
     return {
-      smart_reploy: this.smartReply,
+      smart_reply: this.smartReply,
       generative_reply: this.generativeReply,
       auto_reply: this.autoReply,
       check_slips: this.checkSlips,
