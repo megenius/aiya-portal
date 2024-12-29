@@ -9,11 +9,10 @@ import { toast } from 'react-toastify';
 import { SaasSubscription } from '~/@types/app';
 import DeleteModal from '~/components/DeleteModal';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
-import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 import useCurrentBillingUsage from '~/hooks/billings/useCurrentBillingUsage';
 
 interface PlanProps {
-  subscription?: SaasSubscription;
+  subscription: SaasSubscription;
 }
 
 const Config = {
@@ -36,6 +35,7 @@ const Config = {
 }
 
 const Plan: React.FC<PlanProps> = ({ subscription }) => {
+
   const cancelSubscription = useCancelSubscription()
   const { data } = useCurrentBillingUsage({ subscription });
 
@@ -77,10 +77,6 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
         })}
       </p>
     )
-  }
-
-  if (!data) {
-    return <Loading />
   }
 
   return (
@@ -168,7 +164,7 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
         {/* Footer */}
         {!subscription?.cancel_at_period_end && (
           <div className="flex -space-x-px border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
-            {subscription ? (
+            {subscription && subscription.plan_type !== 'free' ? (
               <button type="button" className="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-es-xl bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dlcsam"
               >
                 {t('billing.plan.actions.cancel')}

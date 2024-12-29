@@ -4,13 +4,21 @@ import { Env } from "~/types/hono.types";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { stripeMiddleware } from "~/middlewares/stripe.middeware";
 import { userMiddleware } from "~/middlewares/user.middleware";
-import { counterDurableMiddleware } from "~/middlewares/couter-durable.middleware";
 import { subscriptionDurableMiddleware } from "~/middlewares/subscription-durable.middleware";
 import { cache } from "hono/cache";
 
 const billingsRoutes = new Hono<Env>();
 
-billingsRoutes.get("/", directusMiddleware, ...BillingHandler.getBillings);
+// create free plan
+billingsRoutes.post(
+  "/create-free-plan",
+  directusMiddleware,
+  userMiddleware,
+  stripeMiddleware,
+  ...BillingHandler.createFreePlan
+);
+
+// checkout for a plan
 billingsRoutes.post(
   "/checkout",
   directusMiddleware,
@@ -19,6 +27,7 @@ billingsRoutes.post(
   ...BillingHandler.createCheckout
 );
 
+// get checkout session
 billingsRoutes.get(
   "/checkout-session/:sessionId",
   directusMiddleware,
@@ -26,6 +35,7 @@ billingsRoutes.get(
   ...BillingHandler.getCheckoutSession
 );
 
+// cancel subscription
 billingsRoutes.post(
   "/cancel-subscription",
   directusMiddleware,
@@ -34,6 +44,7 @@ billingsRoutes.post(
   ...BillingHandler.cancelSubscription
 );
 
+// get current billing plan
 billingsRoutes.get(
   "/current",
   directusMiddleware,
@@ -41,6 +52,7 @@ billingsRoutes.get(
   ...BillingHandler.getCurrentBillingPlan
 );
 
+// get current usage
 billingsRoutes.get(
   "/:subscriptionId/current-usage",
   cache({
@@ -51,44 +63,19 @@ billingsRoutes.get(
   ...BillingHandler.getCurrentUsage
 );
 
+// create usage history
 billingsRoutes.post(
   "/record",
   directusMiddleware,
   ...BillingHandler.recordUsage
 );
 
+// handle stripe webhook
 billingsRoutes.post(
   "/stripe/webhook",
   directusMiddleware,
   stripeMiddleware,
   ...BillingHandler.stripeWebhook
-);
-
-// websockets have to be at the top
-billingsRoutes.get(
-  "/counter/:counterId",
-  counterDurableMiddleware,
-  ...BillingHandler.getCounter
-);
-billingsRoutes.get(
-  "/counter/:counterId/increment",
-  counterDurableMiddleware,
-  ...BillingHandler.incrementCounter
-);
-billingsRoutes.get(
-  "/counter/:counterId/decrement",
-  counterDurableMiddleware,
-  ...BillingHandler.decrementCounter
-);
-billingsRoutes.get(
-  "/counter/:counterId/websocket",
-  counterDurableMiddleware,
-  ...BillingHandler.connectCounter
-);
-billingsRoutes.get(
-  "/websocket/counter/:counterId",
-  counterDurableMiddleware,
-  ...BillingHandler.connectCounter
 );
 
 export { billingsRoutes };

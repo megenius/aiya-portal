@@ -12,7 +12,7 @@ interface SidebarLink {
 
 export const useSidebarLinks = (): SidebarLink[] => {
   const { t } = useTranslation('common');
-  const { data: plan } = useCurrentBillingPlan()
+  // const { data: plan } = useCurrentBillingPlan()
 
   const menu = [
     {
@@ -51,9 +51,9 @@ export const useSidebarLinks = (): SidebarLink[] => {
     },
   ];
 
-  if (plan?.subscription) {
-    return menu.filter((item) => item.to !== "/plans");
-  }
+  // if (plan?.subscription) {
+  //   return menu.filter((item) => item.to !== "/plans");
+  // }
 
   return menu;
 };

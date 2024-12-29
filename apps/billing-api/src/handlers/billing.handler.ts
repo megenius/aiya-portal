@@ -4,6 +4,7 @@ import {
   readItem,
   readItems,
   readMe,
+  readUser,
   readUsers,
   updateItem,
 } from "@directus/sdk";
@@ -17,10 +18,49 @@ import * as yaml from "js-yaml";
 
 const factory = createFactory<Env>();
 
-export const getBillings = factory.createHandlers(logger(), async (c) => {
-  const directus = c.get("directus");
-  // const billings = await directus.request(readItems("billings"));
-  return c.json({});
+// createFreePlan
+export const createFreePlan = factory.createHandlers(logger(), async (c) => {
+  const user = c.get("user") as DirectusUser;
+  const stripe = c.get("stripe");
+  try {
+    // First check if free price already exists
+    const prices = await stripe.prices.list({
+      lookup_keys: ["aibots_free_plan"],
+      active: true,
+    });
+
+    // get free plan price id from prices
+    if (prices.data?.length === 0) {
+      throw new Error("Free plan not found");
+    }
+
+    if (user.email === undefined) {
+      throw new Error("User email not found");
+    }
+    const price = prices.data[0];
+
+    // create stripe customer
+    const customer = await stripe.customers.create({
+      email: user.email as string,
+      name: user.first_name + " " + user.last_name,
+      metadata: {
+        user_id: user.id,
+      },
+    });
+
+    // create stripe subscription
+    const sub = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: price.id }],
+      metadata: {
+        user_id: user.id,
+      },
+    });
+
+    return c.json(sub);
+  } catch (error: any) {
+    return c.json({ error: error.message });
+  }
 });
 
 function getTrialPeriodDays() {
@@ -32,11 +72,10 @@ function getTrialPeriodDays() {
 }
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
-  // const { amount, currency, description, success_url, cancel_url } = await c.req.json();
   const { PORTAL_URL } = c.env;
-  const { priceId, email } = await c.req.json();
+  const { priceId, email, customerId } = await c.req.json();
   const stripe = c.get("stripe");
-  const directus = c.get("directAdmin");
+  const directus = c.get("directus");
 
   let trialDays = getTrialPeriodDays();
   console.log(`Creating checkout session with ${trialDays} days trial period`);
@@ -47,7 +86,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const subscriptions = await directus.request(
     readItems("saas_subscriptions", {
       filter: {
-        user_id: {
+        customer: {
           _eq: user.id,
         },
       },
@@ -81,13 +120,16 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
-    // customer: customerId,
-    customer_email: email,
+    customer: customerId,
+    // customer_email: email,
     phone_number_collection: {
       enabled: true,
     },
     tax_id_collection: {
       enabled: true,
+    },
+    metadata: {
+      user_id: user.id,
     },
   });
 
@@ -148,10 +190,60 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     }
   };
 
-  const onSubscriptionCreated = async (
-    userId: string,
-    subscription: Stripe.Subscription
+  const onCustomerCreated = async (customer: Stripe.Customer) => {
+    const user = await directus.request(readUser(customer.metadata?.user_id));
+    if (!user) {
+      console.error(`User with ID ${customer.metadata?.user_id} not found`);
+      return;
+    }
+
+    const customerCreated = await directus.request(
+      createItem("saas_customers", {
+        id: user.id,
+        stripe_customer_id: customer.id,
+        name: customer.name as string,
+        email: customer.email as string,
+      })
+    );
+
+    console.log("Customer was created!", customerCreated);
+  };
+
+  const onCheckoutSessionCompleted = async (
+    session: Stripe.Checkout.Session
   ) => {
+    const email = session.customer_email as string;
+    const user = await getUserByEmail(email);
+    if (!user) {
+      console.error(`User with email ${email} not found`);
+      return;
+    }
+
+    const customer = session.customer_details;
+    const customerUpdated = await directus.request(updateItem("saas_customers", user.id, {
+      stripe_customer_id: session.customer as string,
+      company_name: customer?.name as string,
+      email: customer?.email as string,
+      phone: customer?.phone as string,
+      tax_id: customer?.tax_ids?.length
+        ? (customer.tax_ids[0].value as string)
+        : "",
+      tax_type: customer?.tax_ids?.length
+        ? (customer.tax_ids[0].type as string)
+        : "",
+      address_line1: customer?.address?.line1 as string,
+      address_line2: customer?.address?.line2 as string,
+      city: customer?.address?.city as string,
+      state: customer?.address?.state as string,
+      postal_code: customer?.address?.postal_code as string,
+      country: customer?.address?.country as string,
+      metadata: session.metadata,
+    }));
+
+    console.log("Customer was updated!", customerUpdated);
+  };
+
+  const onSubscriptionCreated = async (subscription: Stripe.Subscription) => {
     const item = subscription.items.data[0];
     const plan = item.plan as Stripe.Plan;
 
@@ -162,7 +254,7 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
     const subscriptionCreated = await directus
       .request(
         createItem("saas_subscriptions", {
-          user_id: userId,
+          customer: subscription.metadata?.user_id,
           stripe_subscription_id: subscription.id,
           stripe_price_id: item.price.id,
           stripe_product_id: plan.product as string,
@@ -214,47 +306,6 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
       return planMap[productId] || "free";
     }
     console.log("Subscription was successful!", subscription);
-  };
-
-  const onCheckoutSessionCompleted = async (
-    session: Stripe.Checkout.Session
-  ) => {
-    const email = session.customer_email as string;
-    const user = await getUserByEmail(email);
-    if (!user) {
-      console.error(`User with email ${email} not found`);
-      return;
-    }
-
-    const customer = session.customer_details;
-    const customerCreated = await directus.request(
-      createItem("saas_customers", {
-        user_id: user.id,
-        stripe_customer_id: session.customer as string,
-        company_name: customer?.name as string,
-        email: customer?.email as string,
-        phone: customer?.phone as string,
-        tax_id: customer?.tax_ids?.length
-          ? (customer.tax_ids[0].value as string)
-          : "",
-        tax_type: customer?.tax_ids?.length
-          ? (customer.tax_ids[0].type as string)
-          : "",
-        address_line1: customer?.address?.line1 as string,
-        address_line2: customer?.address?.line2 as string,
-        city: customer?.address?.city as string,
-        state: customer?.address?.state as string,
-        postal_code: customer?.address?.postal_code as string,
-        country: customer?.address?.country as string,
-        metadata: session.metadata,
-      })
-    );
-    console.log("Customer was created!", customerCreated);
-
-    const subscription = await stripe.subscriptions.retrieve(
-      session.subscription as string
-    );
-    await onSubscriptionCreated(user.id, subscription);
   };
 
   const onSubscriptionUpdated = async (subscription: Stripe.Subscription) => {
@@ -329,6 +380,16 @@ export const stripeWebhook = factory.createHandlers(logger(), async (c) => {
         // Then define and call a function to handle the event charge.succeeded
         break;
 
+      case "customer.created":
+        const customerCreated = event.data.object;
+        await onCustomerCreated(customerCreated);
+        break;
+
+      case "customer.subscription.created":
+        const subscriptionCreated = event.data.object;
+        await onSubscriptionCreated(subscriptionCreated);
+        break;
+
       case "customer.subscription.updated":
         const subscriptionUpdated = event.data.object;
         await onSubscriptionUpdated(subscriptionUpdated);
@@ -359,7 +420,7 @@ export const cancelSubscription = factory.createHandlers(
     const subscriptions = await directus.request(
       readItems("saas_subscriptions", {
         filter: {
-          user_id: {
+          customer: {
             _eq: user.id,
           },
         },
@@ -389,48 +450,43 @@ export const getCurrentBillingPlan = factory.createHandlers(
   async (c) => {
     const directus = c.get("directus");
     const user = c.get("user") as DirectusUser;
-
     // console.log("directus", await directus.getToken());
     // console.log("user", user);
-
-    const subscriptions = await directus.request(
-      readItems("saas_subscriptions", {
-        filter: {
-          user_id: {
-            _eq: user.id,
+    try {
+      const subscriptions = await directus.request(
+        readItems("saas_subscriptions", {
+          filter: {
+            customer: {
+              _eq: user.id,
+            },
+            status: {
+              _neq: "canceled",
+            },
           },
-          status: {
-            _neq: "canceled",
-          },
-        },
-        sort: ["-date_created"],
-      })
-    );
-    // console.log("subscriptions", subscriptions);
-
-    if (subscriptions.length === 0) {
-      const product = await directus.request(
-        readItem("saas_products", "free_plan")
+          sort: ["-date_created"],
+        })
       );
+      // console.log("subscriptions", subscriptions);
 
+      // if (subscriptions.length === 0) {
+      //   const product = await directus.request(
+      //     readItem("saas_products", "free_plan")
+      //   );
+
+      //   return c.json({
+      //     subscription: null,
+      //     product,
+      //   });
+      // }
+
+      const subscription = subscriptions[0];
       return c.json({
-        subscription: null,
-        product,
+        subscription,
+        // product,
       });
+    } catch (error:any) {
+      return c.json(error);
     }
-
-    const stripe_product_id = subscriptions[0].stripe_product_id;
-    // console.log("stripe_product_id", stripe_product_id);
-
-    // const product = await directus.request(
-    //   readItem("saas_products", stripe_product_id)
-    // );
-
-    const subscription = subscriptions[0];
-    return c.json({
-      subscription,
-      // product,
-    });
   }
 );
 
@@ -452,7 +508,7 @@ export const recordUsage = factory.createHandlers(logger(), async (c) => {
   const subscriptions = await directus.request(
     readItems("saas_subscriptions", {
       filter: {
-        user_id: {
+        customer: {
           _eq: bot.user_created,
         },
         status: {
@@ -487,31 +543,4 @@ export const recordUsage = factory.createHandlers(logger(), async (c) => {
   }
 
   return c.json(bot);
-});
-
-export const getCounter = factory.createHandlers(logger(), async (c) => {
-  const counterDurable = c.get("counterDurable");
-  const count = await counterDurable.get();
-  return c.json({ count });
-});
-
-export const incrementCounter = factory.createHandlers(logger(), async (c) => {
-  const counterDurable = c.get("counterDurable");
-  const count = await counterDurable.increment();
-  return c.json({ count });
-});
-
-export const decrementCounter = factory.createHandlers(logger(), async (c) => {
-  const counterDurable = c.get("counterDurable");
-  const count = await counterDurable.decrement();
-  return c.json({ count });
-});
-
-export const connectCounter = factory.createHandlers(logger(), async (c) => {
-  console.log("Upgrade: websocket");
-  const counterDurable = c.get("counterDurable");
-  if (c.req.header("upgrade") !== "websocket") {
-    return c.text("Expected Upgrade: websocket", 426);
-  }
-  return counterDurable.fetch(c.req.raw);
 });

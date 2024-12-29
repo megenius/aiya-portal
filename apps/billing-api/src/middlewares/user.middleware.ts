@@ -7,11 +7,14 @@ const factory = createFactory<Env>();
 
 export const userMiddleware = factory.createMiddleware(async (c, next) => {
   const directus = c.get("directus");
+  
   const user = await directus.request(
     readMe({
       fields: ["id", "email", "first_name", "last_name", "avatar"],
     })
   );
+  console.log("user", user);
+  
   c.set("user", user as DirectusUser);
 
   await next();

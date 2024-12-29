@@ -4478,22 +4478,23 @@ export interface components {
     ItemsSaasCustomers: {
       /** Format: uuid */
       id: string;
-      user_id: string | components["schemas"]["Users"];
       /** @description Stripe customer reference */
       stripe_customer_id: string;
-      company_name: string;
-      email: string;
-      phone: string;
+      company_name?: string | null;
+      email?: string | null;
+      phone?: string | null;
       /** @description VAT ID or Tax ID */
-      tax_id: string;
-      tax_type: string;
-      address_line1: string;
+      tax_id?: string | null;
+      tax_type?: string | null;
+      address_line1?: string | null;
       address_line2?: string | null;
-      city: string;
-      state: string;
-      postal_code: string;
-      country?: string;
+      city?: string | null;
+      state?: string | null;
+      postal_code?: string | null;
+      country?: string | null;
       metadata?: unknown;
+      name?: string | null;
+      subscriptions?: ((string | components["schemas"]["ItemsSaasSubscriptions"])[]) | null;
     };
     ItemsAdAds: {
       /** Format: uuid */
@@ -4556,7 +4557,6 @@ export interface components {
       user_updated?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
-      user_id?: string | components["schemas"]["Users"] | null;
       /** @description Stripe subscription reference */
       stripe_subscription_id: string;
       /** @description Stripe price reference */
@@ -4606,6 +4606,7 @@ export interface components {
       /** Format: date-time */
       ended_at?: string | null;
       features?: unknown;
+      customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
     };
     ItemsAdCampaigns: {
       /** Format: uuid */

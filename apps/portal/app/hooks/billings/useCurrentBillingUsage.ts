@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCurrentBillingUsage } from "~/services/billing.service";
 import { useAppSelector } from "~/store";
 import useWebSocket from "../useWebSocket";
+import { SaasSubscription } from "~/@types/app";
 
 const BILLING_USAGE_QUERY_KEY = ["current-billing-usage"];
 
@@ -16,7 +17,11 @@ interface BillingUpdate {
   };
 }
 
-const useCurrentBillingUsage = ({ subscription }) => {
+interface CurrentBillingUsage {
+  subscription: SaasSubscription;
+}
+
+const useCurrentBillingUsage = ({ subscription }: CurrentBillingUsage) => {
   const queryClient = useQueryClient();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const baseUrl = import.meta.env.VITE_WS_URL as string;
@@ -50,7 +55,6 @@ const useCurrentBillingUsage = ({ subscription }) => {
   });
 
   // Cleanup on unmount is handled by the useWebSocket hook
-
   return {
     ...query,
     wsStatus: status, // Export WebSocket status for potential UI feedback

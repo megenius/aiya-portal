@@ -12,7 +12,11 @@ import { Loading } from "@repo/preline"
 const Route = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { data, refetch } = useCurrentBillingPlan()
+  const { data } = useCurrentBillingPlan()
+
+  if (!data) {
+    return <Loading />
+  }
 
   return (
     <>

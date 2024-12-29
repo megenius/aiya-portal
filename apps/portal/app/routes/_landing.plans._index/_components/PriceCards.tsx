@@ -1,3 +1,4 @@
+import { pl } from 'date-fns/locale';
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
@@ -21,6 +22,7 @@ const getSavePrice = (monthlyPrice, annualPrice) => {
 const plansEn = [
   {
     name: "Free Trial",
+    plan_type: "free",
     price: "0",
     monthlyPriceId: "",
     annualPriceId: "",
@@ -49,6 +51,7 @@ const plansEn = [
   },
   {
     name: "Starter",
+    plan_type: "starter",
     monthlyPrice: "1,890",
     annualPrice: "15,198",
     annualSavePrice: "2,382",
@@ -84,6 +87,7 @@ const plansEn = [
   },
   {
     name: "Growth",
+    plan_type: "growth",
     monthlyPrice: "2,990",
     annualPrice: "30,498",
     annualSavePrice: "5,382",
@@ -122,6 +126,7 @@ const plansEn = [
 const plansTh = [
   {
     name: "Free Trial",
+    plan_type: "free",
     price: "0",
     monthlyPriceId: "",
     annualPriceId: "",
@@ -150,6 +155,7 @@ const plansTh = [
   },
   {
     name: "Starter",
+    plan_type: "starter",
     monthlyPrice: 1890,
     annualPrice: getAnnualPrice(1890),
     annualSavePrice: getSavePrice(1890, getAnnualPrice(1890)),
@@ -185,6 +191,7 @@ const plansTh = [
   },
   {
     name: "Growth",
+    plan_type: "growth",
     monthlyPrice: 3490,
     annualPrice: getAnnualPrice(3490),
     annualSavePrice: getSavePrice(3490, getAnnualPrice(3490)),
@@ -289,7 +296,23 @@ const PricingCards = ({ isAnnual }) => {
 
               {/* CTA Button */}
               <div className="mt-5">
-                {!currentPlan?.subscription ? (
+                <button
+                  type="button"
+                  className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
+                    ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                    }`}
+                  disabled={
+                    plan.button.disabled ||
+                    checkout.isPending ||
+                    currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ||
+                    (plan.name === "Free Trial" && currentPlan?.subscription.plan_type === "starter")
+                  }
+                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
+                >
+                  {currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
+                </button>
+                {/* {!currentPlan?.subscription ? (
                   <button
                     type="button"
                     className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
@@ -323,7 +346,7 @@ const PricingCards = ({ isAnnual }) => {
                   >
                     {currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
                   </button>
-                )}
+                )} */}
               </div>
 
               {/* Features List */}
