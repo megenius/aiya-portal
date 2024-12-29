@@ -27,15 +27,7 @@ GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleuse
 GOOGLE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/google/callback"
 LINE_CLIENT_ID = "1660709265"
 LINE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/line/callback"
-# PORTAL_URL = "https://portal-dev.aiya.me"
-# FB_API_URL = "https://graph.facebook.com/v20.0"
-# FB_APP_ID = "788582819272015"
-# BOT_MESSAGE_BUCKET_CDN = "https://pub-07ce3c07d08e416caec26bf7a9128170.r2.dev"
-# LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
-# GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
-# GOOGLE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/google/callback"
-# LINE_CLIENT_ID = "1660709265"
-# LINE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/line/callback"
+
 
 [[kv_namespaces]]
 binding = "CACHING"
