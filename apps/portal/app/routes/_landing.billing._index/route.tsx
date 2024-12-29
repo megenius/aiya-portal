@@ -6,7 +6,6 @@ import PaymentMethod from "./_components/PaymentMethod"
 import BillingTable from "./_components/BillingTable"
 import { useNavigate } from "@remix-run/react"
 import { useTranslation } from "react-i18next"
-import WebSocketDemo from "./_components/WebSocketDemo"
 import useCurrentBillingPlan from "~/hooks/billings/useCurrentBillingPlan"
 import { Loading } from "@repo/preline"
 
@@ -14,10 +13,6 @@ const Route = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { data, refetch } = useCurrentBillingPlan()
-
-  if (!data?.subscription) {
-    return <Loading />
-  }
 
   return (
     <>

@@ -13,7 +13,7 @@ import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 import useCurrentBillingUsage from '~/hooks/billings/useCurrentBillingUsage';
 
 interface PlanProps {
-  subscription: SaasSubscription;
+  subscription?: SaasSubscription;
 }
 
 const Config = {

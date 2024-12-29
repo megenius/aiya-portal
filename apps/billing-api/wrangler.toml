@@ -4,7 +4,9 @@ compatibility_flags = ["nodejs_compat"]
 
 # Development environment
 routes = [
+  { pattern = "realtime-dev.aiya.me", zone_name = "aiya.me", custom_domain=true },
   { pattern = "portal-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
+  { pattern = "realtime-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
 ]
 
 [placement]

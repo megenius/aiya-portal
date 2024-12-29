@@ -72,7 +72,7 @@ export const callback = factory.createHandlers(honoLogger(), async (c) => {
       `${c.env.PORTAL_URL}/auth/callback?q=${btoa(JSON.stringify(user))}`
     );
   } catch (error) {
-    console.error(error);
+    console.error("google callback error", error);
     return c.json({ error: "googleCallback failed" }, 500);
   }
 });

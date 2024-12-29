@@ -46,16 +46,6 @@ export const login = factory.createHandlers(
               email: {
                 _eq: email,
               },
-              // _or: [
-              //   {
-              //     email: {
-              //       _eq: email,
-              //     },
-              //     external_identifier: {
-              //       _eq: external_identifier,
-              //     },
-              //   },
-              // ],
             },
           })
         );
@@ -80,24 +70,6 @@ export const login = factory.createHandlers(
           userId = user.id;
         }
 
-        // const refreshToken = randomString(64);
-        // await directAdmin.request(
-        //   // @ts-ignore
-        //   sdk.createItem("directus_sessions", {
-        //     token: randomHexString(64),
-        //     user: userId,
-        //     expires: addDays(new Date(), 1).toISOString(),
-        //     ip: c.req.ip,
-        //     user_agent: c.req.header("User-Agent"),
-        //     share: false,
-        //     origin: c.req.header("Origin"),
-        //     next_token: refreshToken,
-        //   })
-        // );
-
-        // SELECT token, "user", expires, ip, user_agent, share, origin, next_token
-        // FROM public.directus_sessions
-
         // Generate JWT token for the user
         const payload = {
           id: userId,
@@ -111,13 +83,18 @@ export const login = factory.createHandlers(
           iss: "directus",
         };
 
-        // console.log("payload", payload);
+        console.log("payload", payload);
 
+        console.log("DIRECTUS_SECRET_KEY", c.env.DIRECTUS_SECRET_KEY);
+        
         // Sign JWT with your Directus secret
         const directusToken = await jwt.sign(
           payload,
           c.env.DIRECTUS_SECRET_KEY
         );
+
+        console.log("directusToken", directusToken);
+        
 
         return c.json({
           token: directusToken,
@@ -142,7 +119,7 @@ export const login = factory.createHandlers(
         })
       );
     } catch (error) {
-      console.error(error);
+      console.error("auth.login.error", error);
       return c.json({ error: "Invalid email or password" }, 401);
     }
   }
