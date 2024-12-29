@@ -68,13 +68,13 @@ mode = "smart"
 
 ######## PREVIEW environment config ########
 
-[env.preview.vars]
-LIFF_ID = "2002725621-gLXwMPzZ"
-VITE_FB_APP_ID = "3714459305432334"
-VITE_FB_APP_LOGIN_ID = "1161949228234307"
-VITE_FB_APP_CONVERSION_LOGIN_ID = "2284888945209119"
-VITE_BASE_URL = "https://portal.aiya.me"
-VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
+# [env.preview.vars]
+# LIFF_ID = "2002725621-gLXwMPzZ"
+# VITE_FB_APP_ID = "3714459305432334"
+# VITE_FB_APP_LOGIN_ID = "1161949228234307"
+# VITE_FB_APP_CONVERSION_LOGIN_ID = "2284888945209119"
+# VITE_BASE_URL = "https://portal.aiya.me"
+# VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
 
 # [[env.preview.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
@@ -82,15 +82,15 @@ VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
 
 ######## PRODUCTION environment config ########
 
-[env.production.vars]
-LIFF_ID = "2002725621-9BveAB1M"
-VITE_FB_APP_ID = "879998535846224"
-# VITE_FB_APP_LOGIN_ID = "1241725043635802"
-# VITE_FB_APP_CONVERSION_LOGIN_ID = "881846220485854"
-VITE_BASE_URL = "https://portal.aiya.me"
-VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
-VITE_GOOGLE_CLIENT_ID="263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
-VITE_LINE_CLIENT_ID="1660709265"
+# [env.production.vars]
+# LIFF_ID = "2002725621-9BveAB1M"
+# VITE_FB_APP_ID = "879998535846224"
+# # VITE_FB_APP_LOGIN_ID = "1241725043635802"
+# # VITE_FB_APP_CONVERSION_LOGIN_ID = "881846220485854"
+# VITE_BASE_URL = "https://portal.aiya.me"
+# VITE_LINE_WEBHOOK_ENDPOINT="https://webhook.aiya.me/api/v2/line/webhook"
+# VITE_GOOGLE_CLIENT_ID="263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
+# VITE_LINE_CLIENT_ID="1660709265"
 
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

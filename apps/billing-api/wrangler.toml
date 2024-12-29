@@ -44,3 +44,14 @@ DIRECTUS_URL = "https://console.portal.aiya.ai"
 [[env.prod.kv_namespaces]]
 binding = "CACHING"
 id = "b494201ff6b74231a02c94891f805ba7"
+
+
+[env.prod.durable_objects]
+bindings = [
+  { name = "SUBSCRIPTION_DURABLE", class_name = "SubscriptionDurable" },
+  { class_name = "CounterDurable", name = "COUNTER_DURABLE" },
+]
+
+[[env.prod.migrations]]
+tag = "v1"
+new_classes = ["SubscriptionDurable", "CounterDurable"]
