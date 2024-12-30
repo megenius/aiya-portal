@@ -92,7 +92,10 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     trialDays = 0;
   }
 
-  console.log(`Creating checkout session with ${trialDays} days trial period`, language);
+  console.log(
+    `Creating checkout session with ${trialDays} days trial period`,
+    language
+  );
 
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
@@ -117,13 +120,13 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
           },
           metadata: {
             user_id: user.id,
-          }
+          },
         }
       : {
-        metadata: {
-          user_id: user.id,
-        }
-      },
+          metadata: {
+            user_id: user.id,
+          },
+        },
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
@@ -298,51 +301,7 @@ export const getCurrentUsage = factory.createHandlers(logger(), async (c) => {
 });
 
 export const recordUsage = factory.createHandlers(logger(), async (c) => {
-  const { bot: botId, usage } = await c.req.json();
-  const directus = c.get("directAdmin");
-
-  const bot = await directus.request(
-    readItem("bots", botId, {
-      fields: ["id", "name", "user_created"],
-    })
-  );
-
-  const subscriptions = await directus.request(
-    readItems("saas_subscriptions", {
-      filter: {
-        customer: {
-          _eq: bot.user_created,
-        },
-        status: {
-          _neq: "canceled",
-        },
-      },
-      sort: ["-date_created"],
-    })
-  );
-
-  if (subscriptions.length === 0) {
-    throw new Error("No subscriptions found for this user");
-  }
-
-  const id = c.env.SUBSCRIPTION_DURABLE.idFromName(subscriptions[0].id);
-  const subscriptionDurable = c.env.SUBSCRIPTION_DURABLE.get(id);
-
-  if (usage.smart_reply) {
-    await subscriptionDurable.incrementSmartReply(usage.smart_reply);
-  }
-
-  if (usage.generative_reply) {
-    await subscriptionDurable.incrementGenerativeReply(usage.generative_reply);
-  }
-
-  if (usage.auto_reply) {
-    await subscriptionDurable.incrementAutoReply(usage.auto_reply);
-  }
-
-  if (usage.check_slips) {
-    await subscriptionDurable.incrementCheckSlips(usage.check_slips);
-  }
-
-  return c.json(bot);
+  const body = await c.req.json();
+  await c.env.BILLING_QUEUE.send(body);
+  return c.json({});
 });

@@ -6,19 +6,18 @@ import { botsRoutes } from "./routes/bots";
 // import { webhookRoutes } from "./routes/webhook";
 import { handleQueueMessage } from "./handlers/queue.handler";
 import { Env } from "./types/hono.types";
-import { authMiddleware } from "@repo/shared/middlewares/auth";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth.middleware";
 import { knowledgesRoutes } from "./routes/knowledges";
+import { authMiddleware } from "./middlewares/auth.middleware";
 
 const app = new Hono<Env>()
   .basePath("/api")
   .use("*", (c: any, next) => {
     const hostname = new URL(c.req.url).hostname;
-
     console.log("hostname", hostname);
-    if (hostname.includes("lambda-api")) {
-      return lambdaAuthMiddleware(c, next);
-    }
+    // if (hostname.includes("lambda-api")) {
+    //   return lambdaAuthMiddleware(c, next);
+    // }
 
     return authMiddleware(c, next);
   })

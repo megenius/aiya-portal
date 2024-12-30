@@ -5,7 +5,7 @@ export class SubscriptionDurable extends DurableObject {
   autoReply: number = 0;
   smartReply: number = 0;
   generativeReply: number = 0;
-  checkSlips: number = 0;
+  checkSlip: number = 0;
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -13,7 +13,7 @@ export class SubscriptionDurable extends DurableObject {
   }
 
   private initialize() {
-    console.log("Initializing SubscriptionDurable");
+    // console.log("Initializing SubscriptionDurable");
     this.ctx.blockConcurrencyWhile(async () => {
       const autoReply = await this.ctx.storage?.get<number>("autoReply");
       this.autoReply = autoReply || 0;
@@ -25,8 +25,8 @@ export class SubscriptionDurable extends DurableObject {
         await this.ctx.storage?.get<number>("generativeReply");
       this.generativeReply = generativeReply || 0;
 
-      const checkSlips = await this.ctx.storage?.get<number>("checkSlips");
-      this.checkSlips = checkSlips || 0;
+      const checkSlip = await this.ctx.storage?.get<number>("checkSlip");
+      this.checkSlip = checkSlip || 0;
     });
   }
 
@@ -63,8 +63,8 @@ export class SubscriptionDurable extends DurableObject {
   }
 
   async incrementCheckSlips(usage: number) {
-    const newValue = (this.checkSlips += usage);
-    await this.ctx.storage?.put("checkSlips", newValue);
+    const newValue = (this.checkSlip += usage);
+    await this.ctx.storage?.put("checkSlip", newValue);
     this.broadcast();
     return newValue;
   }
@@ -75,7 +75,7 @@ export class SubscriptionDurable extends DurableObject {
       auto_reply: this.autoReply,
       smart_reply: this.smartReply,
       generative_reply: this.generativeReply,
-      check_slips: this.checkSlips,
+      check_slip: this.checkSlip,
     };
   }
 

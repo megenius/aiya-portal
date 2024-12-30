@@ -22,7 +22,7 @@ export const getCurrentBillingUsage = (subscriptionId: string) =>
     smart_reply: number;
     generative_reply: number;
     auto_reply: number;
-    check_slips: number;
+    check_slip: number;
   }>(`/billing/${subscriptionId}/current-usage`);
 
 export const cancelSubscription = () =>

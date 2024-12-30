@@ -18,7 +18,7 @@ export interface PlanFeatures {
   auto_replies: number;
   smart_replies: number;
   generative_replies: number;
-  check_slips: number;
+  check_slip: number;
   service_hours: number;
   notifications_per_service: number;
   knowledge_bases: number;

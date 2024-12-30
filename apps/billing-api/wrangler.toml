@@ -32,6 +32,16 @@ tag = "v1"
 new_classes = ["SubscriptionDurable", "CounterDurable"]
 
 
+[[queues.producers]]
+binding = "BILLING_QUEUE"
+queue = "billing-queue"
+
+[[queues.consumers]]
+queue = "billing-queue"
+max_batch_size = 1     # optional: defaults to 10
+max_batch_timeout = 60   # optional: defaults to 5 seconds
+
+
 # Production environment
 [env.prod]
 name = "billing-api_prod"
@@ -59,3 +69,13 @@ bindings = [
 [[env.prod.migrations]]
 tag = "v1"
 new_classes = ["SubscriptionDurable", "CounterDurable"]
+
+[[env.prod.queues.producers]]
+binding = "BILLING_QUEUE"
+queue = "billing-queue"
+
+[[env.prod.queues.consumers]]
+queue = "billing-queue"
+max_batch_size = 100   # optional: defaults to 10
+max_batch_timeout = 60 # optional: defaults to 5 seconds
+

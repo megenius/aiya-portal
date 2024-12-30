@@ -32,6 +32,7 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
   const token = authHeader.slice(BEARER_PREFIX.length);
 
   if (!token) {
+    console.error("Token is missing");
     return c.json({ error: "Token is missing" }, 401);
   }
 
@@ -44,12 +45,16 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   try {
     const payload = await verify(token, secretKey);
+    console.log(payload);
+    
     if (DEBUG_MODE) {
       debugToken(payload);
     }
 
-    // Additional checks based on the Directus payload
-    if (payload.iss !== "directus") {
+    const allowedIssuers = ["directus", "lambda"];
+    const issuer = payload.iss as string;
+    if (allowedIssuers.indexOf(issuer) === -1) {
+      console.error("Invalid token issuer"); 
       return c.json({ error: "Invalid token issuer" }, 401);
     }
 

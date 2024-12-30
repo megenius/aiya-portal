@@ -18,15 +18,7 @@ const app = new Hono<Env>()
   .use("*", async (c, next) => {
     const hostname = new URL(c.req.url).hostname;
     console.log("hostname", hostname);
-
-    if (hostname.includes("webhook-dev.aiya.me")) {
-      return await next();
-    }
-
-    if (hostname.includes("lambda-api") || hostname.includes("channel-api")) {
-      return lambdaAuthMiddleware(c, next);
-    }
-
+    
     return authMiddleware(c, next);
   })
   // .get(

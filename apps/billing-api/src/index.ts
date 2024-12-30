@@ -4,8 +4,8 @@ import { Env } from "./types/hono.types";
 import { cache } from "hono/cache";
 import { billingsRoutes } from "./routes/billings";
 import { authMiddleware } from "./middlewares/auth.middleware";
-import { WorkerEnv } from "./types/worker-configuration";
 import { websocketRoutes } from "./routes/websocket.route";
+import { handleBillingQueueMessage } from "./handlers/queue.handler";
 export * from "./durables/SubscriptionDurable";
 export * from "./durables/CounterDurable";
 
@@ -38,5 +38,9 @@ const app = new Hono<Env>()
 
 export default {
   fetch: app.fetch,
-  async queue(batch: MessageBatch, env: WorkerEnv) {},
+  async queue(batch: MessageBatch, env: WorkerEnv) {
+    if (batch.queue === "billing-queue") {
+      await handleBillingQueueMessage(batch, env);
+    }
+  },
 };
