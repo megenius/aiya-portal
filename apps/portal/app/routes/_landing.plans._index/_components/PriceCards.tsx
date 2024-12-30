@@ -240,13 +240,17 @@ const PricingCards = ({ isAnnual }) => {
   const { data: currentPlan } = useCurrentBillingPlan()
   const { data: user } = useMe()
 
-  const handleCheckout = async (priceId: string, isAnnual: boolean) => {
+  const handleCheckout = async (priceId: string) => {
     if (!user?.email) {
       toast.error(t('billing.plan.error.email_required'));
       return;
     }
 
     checkout.mutate({ priceId, email: user?.email, annual: isAnnual });
+  }
+
+  const isCurrent = (plan) => {
+    return currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() && currentPlan?.subscription?.interval === (isAnnual ? 'year' : 'month')
   }
 
   const plans = currentLanguage === 'en' ? plansEn : plansTh;
@@ -311,48 +315,13 @@ const PricingCards = ({ isAnnual }) => {
                   disabled={
                     plan.button.disabled ||
                     checkout.isPending ||
-                    currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() ||
-                    (plan.name === "Free Trial" && currentPlan?.subscription?.plan_type === "starter")
+                    isCurrent(plan)
                   }
-                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId, isAnnual)}
+                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
                 >
-                  {currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
+                  { isCurrent(plan) ? t('billing.plan.current') : plan.button.text }
                 </button>
-                {/* {!currentPlan?.subscription ? (
-                  <button
-                    type="button"
-                    className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
-                      ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                      }`}
-                    disabled={
-                      plan.button.disabled ||
-                      checkout.isPending ||
-                      currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() ||
-                      (plan.name === "Free Trial" && currentPlan?.subscription?.plan_type === "starter")
-                    }
-                    onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
-                  >
-                    {plan.button.text}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
-                      ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                      }`}
-                    disabled={
-                      plan.button.disabled ||
-                      checkout.isPending ||
-                      currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ||
-                      (plan.name === "Free Trial" && currentPlan?.subscription.plan_type === "starter")
-                    }
-                    onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
-                  >
-                    {currentPlan?.subscription.plan_type === plan.name?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
-                  </button>
-                )} */}
+
               </div>
 
               {/* Features List */}
