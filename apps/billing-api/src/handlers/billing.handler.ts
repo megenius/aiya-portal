@@ -83,12 +83,13 @@ function getTrialPeriodDays() {
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language, annual } = await c.req.json();
+  const { priceId, language, annual, price } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
 
   let trialDays = getTrialPeriodDays();
-  if (annual) {
+  
+  if (annual || price === 0) {
     trialDays = 0;
   }
 

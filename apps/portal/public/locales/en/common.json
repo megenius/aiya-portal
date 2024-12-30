@@ -43,6 +43,8 @@
       "yearly": "yearly",
       "trial": "Trial",
       "current": "Current Plan",
+      "upgrade": "Upgrade Plan",
+      "downgrade": "Downgrade Plan",
       "features": {
         "auto_replies": "Auto Replies",
         "smart_replies": "Smart Replies",

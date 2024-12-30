@@ -100,6 +100,6 @@ export const callback = factory.createHandlers(honoLogger(), async (c) => {
     );
   } catch (error) {
     console.error(error);
-    return c.json({ error: "googleCallback failed" }, 500);
+    return c.json({ error: "line auth callback failed" }, 500);
   }
 });

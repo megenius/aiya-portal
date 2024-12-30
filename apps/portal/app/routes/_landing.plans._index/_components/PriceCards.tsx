@@ -3,6 +3,7 @@ import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
+import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
 import { useLanguage } from '~/hooks/useLanguage';
@@ -23,9 +24,11 @@ const plansEn = [
   {
     name: "Free Tier",
     plan_type: "free",
-    price: "0",
-    monthlyPriceId: "",
-    annualPriceId: "",
+    monthlyPrice: 0,
+    annualPrice: 0,
+    annualSavePrice: 0,
+    monthlyPriceId: import.meta.env.VITE_STRIPE_FREE_PRICE_ID,
+    annualPriceId: import.meta.env.VITE_STRIPE_FREE_PRICE_ID,
     icon: {
       rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
     },
@@ -46,7 +49,7 @@ const plansEn = [
     ],
     button: {
       text: "Current Plan",
-      disabled: true,
+      disabled: false,
       primary: false
     }
   },
@@ -130,7 +133,9 @@ const plansTh = [
   {
     name: "Free Tier",
     plan_type: "free",
-    price: "0",
+    monthlyPrice: 0,
+    annualPrice: 0,
+    annualSavePrice: 0,
     monthlyPriceId: "",
     annualPriceId: "",
     icon: {
@@ -240,18 +245,41 @@ const PricingCards = ({ isAnnual }) => {
   const { data: currentPlan } = useCurrentBillingPlan()
   const { data: user } = useMe()
 
-  const handleCheckout = async (priceId: string) => {
+  const handleCheckout = async (priceId: string, price: number) => {
     if (!user?.email) {
       toast.error(t('billing.plan.error.email_required'));
       return;
     }
 
-    checkout.mutate({ priceId, email: user?.email, annual: isAnnual });
+    checkout.mutate({ priceId, email: user?.email, annual: isAnnual, price });
   }
 
 
   const isCurrent = (plan) => {
-    return currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() && currentPlan?.subscription?.interval === (isAnnual ? 'year' : 'month')
+    if (isAnnual) {
+      if (plan.plan_type === 'free') {
+        return currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase()
+      }
+    }
+
+    return currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase() && currentPlan?.subscription?.interval === (isAnnual ? 'year' : 'month')
+  }
+
+  const getButtonText = (plan) => {
+    if (isCurrent(plan)) {
+      return t('billing.plan.current');
+    }
+
+    const planAmount = isAnnual ? plan.annualPrice : plan.monthlyPrice
+    const currentAmount = Number(currentPlan?.subscription?.amount || 0)
+
+    // if subscription price is higher than the plan price then show "Upgrade" text
+    if (currentAmount < planAmount) {
+      return t('billing.plan.upgrade');
+    } else if (currentAmount > planAmount) {
+      return t('billing.plan.downgrade');
+    }
+    return plan.button.text;
   }
 
   const plans = currentLanguage === 'en' ? plansEn : plansTh;
@@ -320,9 +348,9 @@ const PricingCards = ({ isAnnual }) => {
                     checkout.isPending ||
                     isCurrent(plan)
                   }
-                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
+                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId, isAnnual ? plan.annualPrice : plan.monthlyPrice)}
                 >
-                  {isCurrent(plan) ? t('billing.plan.current') : plan.button.text}
+                  {getButtonText(plan)}
                 </button>
 
               </div>

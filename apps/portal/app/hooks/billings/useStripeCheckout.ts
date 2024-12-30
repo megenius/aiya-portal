@@ -9,6 +9,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 interface CheckoutSessionRequest {
   priceId: string;
   annual: boolean;
+  price: number;
   email?: string;
   quantity?: number;
   successUrl?: string;
