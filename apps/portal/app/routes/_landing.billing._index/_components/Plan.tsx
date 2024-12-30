@@ -13,6 +13,7 @@ import useCurrentBillingUsage from '~/hooks/billings/useCurrentBillingUsage';
 
 interface PlanProps {
   subscription: SaasSubscription;
+  onCanceled?: () => void;
 }
 
 const Config = {
@@ -34,9 +35,7 @@ const Config = {
   }
 }
 
-const Plan: React.FC<PlanProps> = ({ subscription }) => {
-
-  const cancelSubscription = useCancelSubscription()
+const Plan: React.FC<PlanProps> = ({ subscription, onCanceled }) => {
   const { data } = useCurrentBillingUsage({ subscription });
 
   const { t } = useTranslation()
@@ -45,15 +44,6 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
     th: th,
     en: enUS
   };
-
-  const handleCancel = () => {
-    // cancelSubscription.mutateAsync().then(() => {
-    //   toast.success(t('billing.subscription.cancel.success'))
-    //   setTimeout(() => {
-    //     refetch()
-    //   }, 1000)
-    // })
-  }
 
   const ShowTime = ({ subscription }: { subscription: SaasSubscription }) => {
 
@@ -193,7 +183,7 @@ const Plan: React.FC<PlanProps> = ({ subscription }) => {
         warning={t("billing.subscription.cancel.warning")}
         confirmButton={t("billing.subscription.cancel.confirmButton")}
         cancelButton={t("billing.subscription.cancel.cancelButton")}
-        onOk={handleCancel}
+        onOk={onCanceled}
       />
     </>
   );

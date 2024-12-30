@@ -14,6 +14,7 @@ mode = "smart"
 
 [vars]
 DIRECTUS_URL = "https://console.portal.aiya.ai"
+PORTAL_URL = "https://portal-dev.aiya.me"
 
 [[kv_namespaces]]
 binding = "CACHING"
@@ -42,6 +43,7 @@ mode = "smart"
 
 [env.prod.vars]
 DIRECTUS_URL = "https://console.portal.aiya.ai"
+PORTAL_URL = "https://portal-dev.aiya.me"
 
 [[env.prod.kv_namespaces]]
 binding = "CACHING"

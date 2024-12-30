@@ -8,11 +8,23 @@ import { useNavigate } from "@remix-run/react"
 import { useTranslation } from "react-i18next"
 import useCurrentBillingPlan from "~/hooks/billings/useCurrentBillingPlan"
 import { Loading } from "@repo/preline"
+import { useCancelSubscription } from "~/hooks/billings/useCancelSubscription"
+import { toast } from "react-toastify"
 
 const Route = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { data } = useCurrentBillingPlan()
+  const { data, refetch } = useCurrentBillingPlan()
+  const cancelSubscription = useCancelSubscription()
+
+  const handleCancel = () => {
+    cancelSubscription.mutateAsync().then(() => {
+      toast.success(t('billing.subscription.cancel.success'))
+      setTimeout(() => {
+        refetch()
+      }, 1000)
+    })
+  }
 
   if (!data) {
     return <Loading />
@@ -55,7 +67,9 @@ const Route = () => {
                   <div className="space-y-11">
                     {/* Grid */}
                     <div className="grid xl:grid-cols-1 gap-6">
-                      <Plan subscription={data?.subscription} />
+                      <Plan subscription={data?.subscription}
+                        onCanceled={handleCancel}
+                      />
                       {/* <PaymentMethod /> */}
                     </div>
                     {/* End Grid */}
