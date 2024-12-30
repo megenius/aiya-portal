@@ -97,16 +97,11 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
   const onCheckoutSessionCompleted = async (
     session: Stripe.Checkout.Session
   ) => {
-    const email = session.customer_email as string;
-    const user = await getUserByEmail(email);
-    if (!user) {
-      console.error(`User with email ${email} not found`);
-      return;
-    }
-
+    const userId = session.metadata?.user_id as string;
     const customer = session.customer_details;
+    
     const customerUpdated = await directus.request(
-      updateItem("saas_customers", user.id, {
+      updateItem("saas_customers", userId, {
         stripe_customer_id: session.customer as string,
         company_name: customer?.name as string,
         email: customer?.email as string,

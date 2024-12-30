@@ -21,10 +21,10 @@ const FAQ = () => {
       question: "How does the pricing work?",
       answer: "Our pricing is tiered based on usage and features. Each tier includes a set number of monthly credits, storage, and features. Additional credits can be purchased at preferential rates based on your tier."
     },
-    {
-      question: "What kind of support do you provide?",
-      answer: "Support varies by tier - from community support (Free) to Priority support (Pro). Response times are guaranteed by SLA, ranging from 48 hours to 4 hours based on your plan."
-    },
+    // {
+    //   question: "What kind of support do you provide?",
+    //   answer: "Support varies by tier - from community support (Free) to Priority support (Pro). Response times are guaranteed by SLA, ranging from 48 hours to 4 hours based on your plan."
+    // },
     // {
     //   question: "Is there a refund policy?",
     //   answer: "Yes, we offer a 30-day money-back guarantee for paid plans. If you're not satisfied, contact our support team at support@aiya.ai for a full refund."
@@ -61,10 +61,10 @@ const FAQ = () => {
       question: "ระบบราคาทำงานอย่างไร?",
       answer: "ราคาของเราแบ่งตามการใช้งานและฟีเจอร์ แต่ละแพ็คเกจจะมีจำนวนเครดิตรายเดือน พื้นที่จัดเก็บ และฟีเจอร์ที่กำหนด สามารถซื้อเครดิตเพิ่มเติมได้ในราคาพิเศษตามแพ็คเกจของคุณ"
     },
-    {
-      question: "มีการสนับสนุนลูกค้าในรูปแบบใดบ้าง?",
-      answer: "การสนับสนุนแตกต่างกันตามแพ็คเกจ - ตั้งแต่การสนับสนุนผ่านชุมชน (ฟรี) จนถึงการสนับสนุนแบบเร่งด่วน (Pro) เวลาตอบกลับรับประกันด้วย SLA ตั้งแต่ 48 ชั่วโมงถึง 4 ชั่วโมงขึ้นอยู่กับแพ็คเกจของคุณ"
-    },
+    // {
+    //   question: "มีการสนับสนุนลูกค้าในรูปแบบใดบ้าง?",
+    //   answer: "การสนับสนุนแตกต่างกันตามแพ็คเกจ - ตั้งแต่การสนับสนุนผ่านชุมชน (ฟรี) จนถึงการสนับสนุนแบบเร่งด่วน (Pro) เวลาตอบกลับรับประกันด้วย SLA ตั้งแต่ 48 ชั่วโมงถึง 4 ชั่วโมงขึ้นอยู่กับแพ็คเกจของคุณ"
+    // },
     {
       question: "จะนำแชทบอทไปใช้กับเว็บไซต์ได้อย่างไร?",
       answer: "ยังไม่เปิดให้บริการ"
@@ -105,7 +105,7 @@ const FAQ = () => {
         </p>
         <a
           className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-          href="#"
+          href="mailto:support@aiya.ai"
         >
           Contact Support
         </a>

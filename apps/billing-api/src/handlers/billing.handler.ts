@@ -83,11 +83,15 @@ function getTrialPeriodDays() {
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language } = await c.req.json();
+  const { priceId, language, annual } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
 
   let trialDays = getTrialPeriodDays();
+  if (annual) {
+    trialDays = 0;
+  }
+
   console.log(`Creating checkout session with ${trialDays} days trial period`, language);
 
   // check if user already subscribed
@@ -115,7 +119,11 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
             user_id: user.id,
           }
         }
-      : {},
+      : {
+        metadata: {
+          user_id: user.id,
+        }
+      },
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",

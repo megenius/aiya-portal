@@ -30,6 +30,7 @@ const plansEn = [
       rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
     },
     features: [
+      "5,000 Auto Replies/mo",
       "150 Smart Replies/mo",
       "20 Generative Replies/mo",
       "15 Slip Recognition/mo",
@@ -65,6 +66,7 @@ const plansEn = [
     },
     popular: true,
     features: monthly => [
+      `${monthly ? "50,000" : "72,000 (+20%)"} Auto Replies/mo`,
       `${monthly ? "3,000" : "3,600 (+20%)"} Smart Replies/mo`,
       `${monthly ? "1,200" : "1,440 (+20%)"} Generative Replies/mo`,
       `${monthly ? "300" : "360 (+20%)"} Slip Recognition/mo`,
@@ -101,6 +103,7 @@ const plansEn = [
       ]
     },
     features: monthly => [
+      `${monthly ? "200,000" : "240,000 (+20%)"} Auto Replies/mo`,
       `${monthly ? "8,000" : "9,600"} Smart Replies/mo`,
       `${monthly ? "3,000" : "3,600"} Generative Replies/mo`,
       `${monthly ? "900" : "1,080"} Slip Recognition/mo`,
@@ -134,6 +137,7 @@ const plansTh = [
       rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
     },
     features: [
+      "5,000 Auto Replies/เดือน",
       "150 Smart Replies/เดือน",
       "20 Generative Replies/เดือน",
       "15 ตรวจสลิป/เดือน",
@@ -169,6 +173,7 @@ const plansTh = [
     },
     popular: true,
     features: monthly => [
+      `${monthly ? "50,000" : "72,000 (+20%)"} Auto Replies/เดือน`,
       `${monthly ? "3,000" : "3,600 (+20%)"} Smart Replies/เดือน`,
       `${monthly ? "1,200" : "1,440 (+20%)"} Generative Replies/เดือน`,
       `${monthly ? "100" : "120 (+20%)"} ตรวจสลิป/เดือน`,
@@ -205,6 +210,7 @@ const plansTh = [
       ]
     },
     features: monthly => [
+      `${monthly ? "200,000" : "240,000 (+20%)"} Auto Replies/เดือน`,
       `${monthly ? "8,000" : "9,600 (+20%)"} Smart Replies/เดือน`,
       `${monthly ? "3,000" : "3,600 (+20%)"} Generative Replies/เดือน`,
       `${monthly ? "300" : "360 (+20%)"} ตรวจสลิป/เดือน`,
@@ -234,13 +240,13 @@ const PricingCards = ({ isAnnual }) => {
   const { data: currentPlan } = useCurrentBillingPlan()
   const { data: user } = useMe()
 
-  const handleCheckout = async (priceId: string) => {
+  const handleCheckout = async (priceId: string, isAnnual: boolean) => {
     if (!user?.email) {
       toast.error(t('billing.plan.error.email_required'));
       return;
     }
 
-    checkout.mutate({ priceId, email: user?.email });
+    checkout.mutate({ priceId, email: user?.email, annual: isAnnual });
   }
 
   const plans = currentLanguage === 'en' ? plansEn : plansTh;
@@ -308,7 +314,7 @@ const PricingCards = ({ isAnnual }) => {
                     currentPlan?.subscription?.plan_type === plan.name?.toLowerCase() ||
                     (plan.name === "Free Trial" && currentPlan?.subscription?.plan_type === "starter")
                   }
-                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
+                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId, isAnnual)}
                 >
                   {currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase() ? t('billing.plan.current') : plan.button.text}
                 </button>

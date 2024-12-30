@@ -15,15 +15,15 @@ export class SubscriptionDurable extends DurableObject {
   private initialize() {
     console.log("Initializing SubscriptionDurable");
     this.ctx.blockConcurrencyWhile(async () => {
+      const autoReply = await this.ctx.storage?.get<number>("autoReply");
+      this.autoReply = autoReply || 0;
+
       const smartReply = await this.ctx.storage?.get<number>("smartReply");
       this.smartReply = smartReply || 0;
 
       const generativeReply =
         await this.ctx.storage?.get<number>("generativeReply");
       this.generativeReply = generativeReply || 0;
-
-      const autoReply = await this.ctx.storage?.get<number>("autoReply");
-      this.autoReply = autoReply || 0;
 
       const checkSlips = await this.ctx.storage?.get<number>("checkSlips");
       this.checkSlips = checkSlips || 0;
@@ -72,9 +72,9 @@ export class SubscriptionDurable extends DurableObject {
 
   get() {
     return {
+      auto_reply: this.autoReply,
       smart_reply: this.smartReply,
       generative_reply: this.generativeReply,
-      auto_reply: this.autoReply,
       check_slips: this.checkSlips,
     };
   }
