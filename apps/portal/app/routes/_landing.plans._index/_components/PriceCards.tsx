@@ -21,7 +21,7 @@ const getSavePrice = (monthlyPrice, annualPrice) => {
 
 const plansEn = [
   {
-    name: "Free Trial",
+    name: "Free Tier",
     plan_type: "free",
     price: "0",
     monthlyPriceId: "",
@@ -54,8 +54,8 @@ const plansEn = [
     name: "Starter",
     plan_type: "starter",
     monthlyPrice: "1,890",
-    annualPrice: "15,198",
-    annualSavePrice: "2,382",
+    annualPrice: getAnnualPrice(1890),
+    annualSavePrice: getSavePrice(1890, getAnnualPrice(1890)),
     monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
     annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
     icon: {
@@ -90,9 +90,9 @@ const plansEn = [
   {
     name: "Growth",
     plan_type: "growth",
-    monthlyPrice: "2,990",
-    annualPrice: "30,498",
-    annualSavePrice: "5,382",
+    monthlyPrice: 3490,
+    annualPrice: getAnnualPrice(3490),
+    annualSavePrice: getSavePrice(3490, getAnnualPrice(3490)),
     monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
     annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
     icon: {
@@ -128,7 +128,7 @@ const plansEn = [
 
 const plansTh = [
   {
-    name: "Free Trial",
+    name: "Free Tier",
     plan_type: "free",
     price: "0",
     monthlyPriceId: "",
@@ -297,7 +297,9 @@ const PricingCards = ({ isAnnual }) => {
                 <span className="text-xl font-normal text-gray-800 dark:text-neutral-200">฿</span>
                 <p className="text-gray-800 font-semibold text-3xl dark:text-neutral-200">
                   <NumericFormat thousandSeparator="," value={plan.price || (isAnnual ? plan.annualPrice : plan.monthlyPrice)} displayType="text" />
-
+                  {isAnnual && plan.plan_type !== 'free' && <span className="ms-2 text-sm font-medium text-emerald-700">
+                    (Save <NumericFormat thousandSeparator="," value={plan.annualSavePrice} displayType="text" prefix='฿' />)
+                  </span>}
                 </p>
               </div>
               <p className="mt-1 text-xs text-gray-500 dark:text-neutral-500">
@@ -319,7 +321,7 @@ const PricingCards = ({ isAnnual }) => {
                   }
                   onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId)}
                 >
-                  { isCurrent(plan) ? t('billing.plan.current') : plan.button.text }
+                  {isCurrent(plan) ? t('billing.plan.current') : plan.button.text}
                 </button>
 
               </div>
