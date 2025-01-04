@@ -1,12 +1,28 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
 import PricingCards from "./_components/PriceCards"
 import ComparisonTable from "./_components/ComparisionTable"
 import FAQ from "./_components/FAQ"
+import usePlans from "~/hooks/billings/usePlans"
+import PricingCards2 from "./_components/PriceCards2"
+import { useLanguage } from "~/hooks/useLanguage"
 
 const Route = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+  const { lang } = useLanguage();
+  const { data: plans, refetch } = usePlans({
+    lang,
+    interval: isAnnual ? "year" : "month",
+  })
+
+  useEffect(() => {
+    refetch()
+  }, [isAnnual])
+
+  if (!plans) {
+    return null
+  }
 
   return (
     <>
@@ -80,7 +96,9 @@ const Route = () => {
                       </div>
                     </div>
 
-                    <PricingCards isAnnual={isAnnual} />
+
+                    <PricingCards isAnnual={isAnnual} plans={plans} />
+                    {/* <PricingCards2 isAnnual={isAnnual}/> */}
                     {/* End Pricing Cards Grid */}
                     <div className="mt-6 flex justify-center items-center gap-x-3">
                       <p className="text-sm text-gray-500 dark:text-neutral-500">

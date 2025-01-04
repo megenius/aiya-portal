@@ -14,11 +14,14 @@ const billingsRoutes = new Hono<Env>();
 // get plans
 billingsRoutes.get(
   "/plans",
+  // cache({
+  //   cacheName: "plans-v2",
+  //   cacheControl: "max-age=3600", // 1 minute
+  // }),
   directusMiddleware,
-  userMiddleware,
+  stripeMiddleware,
   ...BillingHandler.getPlans
 );
-
 
 // create free plan
 billingsRoutes.post(
@@ -66,10 +69,10 @@ billingsRoutes.get(
 // get current usage
 billingsRoutes.get(
   "/:subscriptionId/current-usage",
-  cache({
-    cacheName: "subscription-usage",
-    cacheControl: "max-age=60", // 1 minute
-  }),
+  // cache({
+  //   cacheName: "subscription-usage",
+  //   cacheControl: "max-age=60", // 1 minute
+  // }),
   subscriptionDurableMiddleware,
   ...BillingHandler.getCurrentUsage
 );

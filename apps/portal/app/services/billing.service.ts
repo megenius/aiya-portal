@@ -1,4 +1,9 @@
-import { Product, SaasProduct, SaasSubscription } from "~/@types/app";
+import {
+  Product,
+  SaasPrice,
+  SaasProduct,
+  SaasSubscription,
+} from "~/@types/app";
 import api from "./api";
 import Stripe from "stripe";
 
@@ -27,3 +32,12 @@ export const getCurrentBillingUsage = (subscriptionId: string) =>
 
 export const cancelSubscription = () =>
   api.post("/billing/cancel-subscription");
+
+// plans
+export const getPlans = ({
+  lang,
+  interval,
+}: {
+  lang: string;
+  interval: string;
+}) => api.get<SaasPrice>(`/billing/plans?lang=${lang}&interval=${interval}`);

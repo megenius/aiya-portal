@@ -1,247 +1,28 @@
 import { pl } from 'date-fns/locale';
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
+import { SaasPrice } from '~/@types/app';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
+import usePlans from '~/hooks/billings/usePlans';
 import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
 import { useLanguage } from '~/hooks/useLanguage';
 import { useMe } from '~/hooks/useMe';
+import { cn } from '@repo/ui/utils';
 
-
-const getAnnualPrice = (monthlyPrice) => {
-  const annual = monthlyPrice * 12;
-  const discount = 0.15; // 15% discount for annual
-  return Math.floor(annual * (1 - discount));
-};
-
-const getSavePrice = (monthlyPrice, annualPrice) => {
-  return monthlyPrice * 12 - annualPrice;
+interface PricingCardProps {
+  isAnnual: boolean;
+  plans: SaasPrice[]
 }
 
-const plansEn = [
-  {
-    name: "Free Tier",
-    plan_type: "free",
-    monthlyPrice: 0,
-    annualPrice: 0,
-    annualSavePrice: 0,
-    monthlyPriceId: import.meta.env.VITE_STRIPE_FREE_PRICE_ID,
-    annualPriceId: import.meta.env.VITE_STRIPE_FREE_PRICE_ID,
-    icon: {
-      rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
-    },
-    features: [
-      "5,000 Auto Replies/mo",
-      "150 Smart Replies/mo",
-      "20 Generative Replies/mo",
-      "15 Slip Recognition/mo",
-      "1 Workspace",
-      "3 Bot per Workspace",
-      "3 Knowledge Base per Bot",
-      "100MB Storage",
-      "2 Team Members per Workspace",
-      "Text, Image, Link",
-      "Community Support",
-      "Unlimited LINE integration",
-      "Unlimited Facebook Page integration"
-    ],
-    button: {
-      text: "Current Plan",
-      disabled: false,
-      primary: false
-    }
-  },
-  {
-    name: "Starter",
-    plan_type: "starter",
-    monthlyPrice: "1,890",
-    annualPrice: getAnnualPrice(1890),
-    annualSavePrice: getSavePrice(1890, getAnnualPrice(1890)),
-    monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
-    annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
-    icon: {
-      rects: [
-        { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
-        { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" }
-      ]
-    },
-    popular: true,
-    features: monthly => [
-      `${monthly ? "50,000" : "72,000 (+20%)"} Auto Replies/mo`,
-      `${monthly ? "3,000" : "3,600 (+20%)"} Smart Replies/mo`,
-      `${monthly ? "1,200" : "1,440 (+20%)"} Generative Replies/mo`,
-      `${monthly ? "300" : "360 (+20%)"} Slip Recognition/mo`,
-      "3 Workspaces",
-      "5 Bots per Workspace",
-      "5 Knowledge Bases per Bot",
-      "2G Storage",
-      "3 Team Members per Workspace",
-      "Text, Image, Link, Document (PDF, Word, Excel), Video",
-      "Email Support",
-      "Basic Analytics",
-      "Unlimited LINE integration",
-      "Unlimited Facebook Page integration"
-    ],
-    button: {
-      text: "Choose Starter",
-      disabled: false,
-      primary: true
-    }
-  },
-  {
-    name: "Growth",
-    plan_type: "growth",
-    monthlyPrice: 3490,
-    annualPrice: getAnnualPrice(3490),
-    annualSavePrice: getSavePrice(3490, getAnnualPrice(3490)),
-    monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
-    annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
-    icon: {
-      rects: [
-        { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
-        { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
-        { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" }
-      ]
-    },
-    features: monthly => [
-      `${monthly ? "200,000" : "240,000 (+20%)"} Auto Replies/mo`,
-      `${monthly ? "8,000" : "9,600"} Smart Replies/mo`,
-      `${monthly ? "3,000" : "3,600"} Generative Replies/mo`,
-      `${monthly ? "900" : "1,080"} Slip Recognition/mo`,
-      "5 Workspaces",
-      "10 Bots per Workspace",
-      "10 Knowledge Bases per Bot",
-      "5G Storage",
-      "5 Team Members per Workspace",
-      "Text, Image, Link, Document (PDF, Word, Excel), Video",
-      "Priority Support",
-      "Advanced Analytics",
-      "Unlimited LINE integration",
-      "Unlimited Facebook Page integration"
-    ],
-    button: {
-      text: "Choose Growth",
-      disabled: false,
-      primary: true
-    }
-  }
-];
+const ANNUAL_DISCOUNT = 0.15
 
-const plansTh = [
-  {
-    name: "Free Tier",
-    plan_type: "free",
-    monthlyPrice: 0,
-    annualPrice: 0,
-    annualSavePrice: 0,
-    monthlyPriceId: "",
-    annualPriceId: "",
-    icon: {
-      rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }]
-    },
-    features: [
-      "5,000 Auto Replies/เดือน",
-      "150 Smart Replies/เดือน",
-      "20 Generative Replies/เดือน",
-      "15 ตรวจสลิป/เดือน",
-      "1 เวิร์กสเปซ",
-      "3 บอทต่อเวิร์กสเปซ",
-      "3 ฐานความรู้ต่อบอท",
-      "พื้นที่จัดเก็บ 100MB",
-      "2 สมาชิกทีมต่อเวิร์กสเปซ",
-      "ข้อความ, รูปภาพ, ลิงก์",
-      "การสนับสนุนผ่านชุมชน",
-      "ไม่จำกัดการเชื่อมต่อ LINE",
-      "ไม่จำกัดการเชื่อมต่อเพจ Facebook"
-    ],
-    button: {
-      text: "แพ็คเกจปัจจุบัน",
-      disabled: true,
-      primary: false
-    }
-  },
-  {
-    name: "Starter",
-    plan_type: "starter",
-    monthlyPrice: 1890,
-    annualPrice: getAnnualPrice(1890),
-    annualSavePrice: getSavePrice(1890, getAnnualPrice(1890)),
-    monthlyPriceId: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID,
-    annualPriceId: import.meta.env.VITE_STRIPE_STARTER_ANNUAL_PRICE_ID,
-    icon: {
-      rects: [
-        { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
-        { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" }
-      ]
-    },
-    popular: true,
-    features: monthly => [
-      `${monthly ? "50,000" : "72,000 (+20%)"} Auto Replies/เดือน`,
-      `${monthly ? "3,000" : "3,600 (+20%)"} Smart Replies/เดือน`,
-      `${monthly ? "1,200" : "1,440 (+20%)"} Generative Replies/เดือน`,
-      `${monthly ? "100" : "120 (+20%)"} ตรวจสลิป/เดือน`,
-      "3 เวิร์กสเปซ",
-      "5 บอทต่อเวิร์กสเปซ",
-      "5 ฐานความรู้ต่อบอท",
-      "พื้นที่จัดเก็บ 2GB",
-      "3 สมาชิกทีมต่อเวิร์กสเปซ",
-      "ข้อความ, รูปภาพ, ลิงก์, เอกสาร (PDF, Word, Excel), วิดีโอ",
-      "การสนับสนุนทางอีเมล",
-      "การวิเคราะห์ขั้นพื้นฐาน",
-      "ไม่จำกัดการเชื่อมต่อ LINE",
-      "ไม่จำกัดการเชื่อมต่อเพจ Facebook"
-    ],
-    button: {
-      text: "เลือกแพ็คเกจ Starter",
-      disabled: false,
-      primary: true
-    }
-  },
-  {
-    name: "Growth",
-    plan_type: "growth",
-    monthlyPrice: 3490,
-    annualPrice: getAnnualPrice(3490),
-    annualSavePrice: getSavePrice(3490, getAnnualPrice(3490)),
-    monthlyPriceId: import.meta.env.VITE_STRIPE_GROWTH_MONTHLY_PRICE_ID,
-    annualPriceId: import.meta.env.VITE_STRIPE_GROWTH_ANNUAL_PRICE_ID,
-    icon: {
-      rects: [
-        { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
-        { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
-        { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" }
-      ]
-    },
-    features: monthly => [
-      `${monthly ? "200,000" : "240,000 (+20%)"} Auto Replies/เดือน`,
-      `${monthly ? "8,000" : "9,600 (+20%)"} Smart Replies/เดือน`,
-      `${monthly ? "3,000" : "3,600 (+20%)"} Generative Replies/เดือน`,
-      `${monthly ? "300" : "360 (+20%)"} ตรวจสลิป/เดือน`,
-      "5 เวิร์กสเปซ",
-      "10 บอทต่อเวิร์กสเปซ",
-      "10 ฐานความรู้ต่อบอท",
-      "พื้นที่จัดเก็บ 5GB",
-      "5 สมาชิกทีมต่อเวิร์กสเปซ",
-      "ข้อความ, รูปภาพ, ลิงก์, เอกสาร (PDF, Word, Excel), วิดีโอ",
-      "การสนับสนุนแบบเร่งด่วน",
-      "การวิเคราะห์ขั้นสูง",
-      "ไม่จำกัดการเชื่อมต่อ LINE",
-      "ไม่จำกัดการเชื่อมต่อเพจ Facebook"
-    ],
-    button: {
-      text: "เลือกแพ็คเกจ Growth",
-      disabled: false,
-      primary: true
-    }
-  }
-];
-
-
-const PricingCards = ({ isAnnual }) => {
+const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
   const checkout = useStripeCheckout();
-  const { currentLanguage } = useLanguage()
   const { data: currentPlan } = useCurrentBillingPlan()
   const { data: user } = useMe()
 
@@ -256,13 +37,7 @@ const PricingCards = ({ isAnnual }) => {
 
 
   const isCurrent = (plan) => {
-    if (isAnnual) {
-      if (plan.plan_type === 'free') {
-        return currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase()
-      }
-    }
-
-    return currentPlan?.subscription?.plan_type === plan.plan_type?.toLowerCase() && currentPlan?.subscription?.interval === (isAnnual ? 'year' : 'month')
+    return currentPlan?.subscription.stripe_price_id === plan.id
   }
 
   const getButtonText = (plan) => {
@@ -270,7 +45,7 @@ const PricingCards = ({ isAnnual }) => {
       return t('billing.plan.current');
     }
 
-    const planAmount = isAnnual ? plan.annualPrice : plan.monthlyPrice
+    const planAmount = plan.unit_amount
     const currentAmount = Number(currentPlan?.subscription?.amount || 0)
 
     // if subscription price is higher than the plan price then show "Upgrade" text
@@ -279,10 +54,8 @@ const PricingCards = ({ isAnnual }) => {
     } else if (currentAmount > planAmount) {
       return t('billing.plan.downgrade');
     }
-    return plan.button.text;
+    return t('billing.plan.choose');
   }
-
-  const plans = currentLanguage === 'en' ? plansEn : plansTh;
 
   return (
     <>
@@ -297,20 +70,7 @@ const PricingCards = ({ isAnnual }) => {
             >
               {/* Icon and Popular Badge */}
               <div className="flex justify-between items-center gap-x-2 mb-3">
-                <svg className="w-[34px] h-[30px]" width={34} height={30} viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {plan.icon.rects.map((rect, idx) => (
-                    <rect
-                      key={idx}
-                      x={rect.x || 0}
-                      y={rect.y || 0}
-                      width={20}
-                      height={20}
-                      rx={10}
-                      fill="currentColor"
-                      className={rect.fill}
-                    />
-                  ))}
-                </svg>
+                {plan.svg_icon && <div dangerouslySetInnerHTML={{ __html: plan.svg_icon }} />}
                 {plan.popular && (
                   <span className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                     Most popular
@@ -323,51 +83,39 @@ const PricingCards = ({ isAnnual }) => {
                 {plan.name}
               </h3>
               <div className="mt-4 flex items-center gap-x-0.5">
-                <span className="text-xl font-normal text-gray-800 dark:text-neutral-200">฿</span>
+                <span className="text-xl font-normal text-gray-800 dark:text-neutral-200">{plan.currency}</span>
                 <p className="text-gray-800 font-semibold text-3xl dark:text-neutral-200">
-                  <NumericFormat thousandSeparator="," value={plan.price || (isAnnual ? plan.annualPrice : plan.monthlyPrice)} displayType="text" />
-                  {isAnnual && plan.plan_type !== 'free' && <span className="ms-2 text-sm font-medium text-emerald-700">
-                    (Save <NumericFormat thousandSeparator="," value={plan.annualSavePrice} displayType="text" prefix='฿' />)
-                  </span>}
+                  <NumericFormat thousandSeparator="," value={plan.unit_amount} displayType="text" />
                 </p>
               </div>
               <p className="mt-1 text-xs text-gray-500 dark:text-neutral-500">
-                {plan.price === "0" ? "forever free" : `${isAnnual ? "per year incl. VAT" : "per month incl. VAT"}`}
+                {plan.unit_amount === 0 && "forever free"}
+                {plan.unit_amount !== 0 && `per ${plan.pricing_plan_interval} incl. VAT`}
               </p>
 
               {/* CTA Button */}
               <div className="mt-5">
                 <button
                   type="button"
-                  className={`w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg ${plan.button.primary
-                    ? "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    : "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                    }`}
+
+                  className={
+                    cn("w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg", {
+                      "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500": !isCurrent(plan),
+                      "border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700": isCurrent(plan)
+                    })
+                  }
                   disabled={
-                    plan.button.disabled ||
                     checkout.isPending ||
                     isCurrent(plan)
                   }
-                  onClick={() => handleCheckout(isAnnual ? plan.annualPriceId : plan.monthlyPriceId, isAnnual ? plan.annualPrice : plan.monthlyPrice)}
+                  onClick={() => handleCheckout(plan.id, plan.unit_amount)}
                 >
                   {getButtonText(plan)}
                 </button>
 
               </div>
 
-              {/* Features List */}
-              < ul className="mt-5 space-y-2.5" >
-                {(typeof plan.features === 'function' ? plan.features(!isAnnual) : plan.features).map((feature, idx) => (
-                  <li key={idx} className="flex gap-x-2">
-                    <svg className="flex-shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span className="text-sm text-gray-800 dark:text-neutral-200">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <FeatureList markdownContent={plan.description} />
             </div>
           ))}
         </div >
@@ -386,3 +134,44 @@ const PricingCards = ({ isAnnual }) => {
 };
 
 export default PricingCards;
+
+
+const FeatureList = ({ markdownContent }) => {
+
+  const parseCheckbox = (content) => {
+    const isChecked = content.startsWith("[x] ");
+    const text = content.replace(/^\[.\]\s*/, "");
+    return { isChecked, text };
+  };
+
+  return (
+    <ReactMarkdown
+      components={{
+        ul: ({ node, ...props }) => (
+          <ul className="mt-5 space-y-2.5" {...props} />
+        ),
+        li: ({ children, ...props }) => {
+          const { isChecked, text } = parseCheckbox(children);
+
+          return (
+            <li {...props} className="flex gap-x-2">
+              <svg
+                className={cn("flex-shrink-0 mt-0.5 size-4",
+                  { "text-blue-600 dark:text-blue-500": isChecked, "text-gray-400 dark:text-neutral-600": !isChecked }
+                )}
+                xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span className="text-sm text-gray-800 dark:text-neutral-200">
+                {text}
+              </span>
+            </li>
+          )
+        },
+      }}
+    >
+      {markdownContent}
+    </ReactMarkdown>
+  );
+};
+

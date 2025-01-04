@@ -21,11 +21,11 @@ interface CheckoutSessionResponse {
 }
 
 export const useStripeCheckout = () => {
-  const { currentLanguage } = useLanguage();
+  const { currentLanguage, currency } = useLanguage();
 
   return useMutation({
     mutationFn: async (data: CheckoutSessionRequest) =>
-      createCheckoutSession({ ...data, language: currentLanguage }).then(
+      createCheckoutSession({ ...data, language: currentLanguage, currency }).then(
         (res) => res.data
       ),
     onSuccess: async (data) => {

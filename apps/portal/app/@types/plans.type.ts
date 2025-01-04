@@ -15,20 +15,14 @@ export interface PlansConfig {
 }
 
 export interface PlanFeatures {
-  auto_replies: number;
-  smart_replies: number;
-  generative_replies: number;
-  check_slip: number;
-  service_hours: number;
-  notifications_per_service: number;
-  knowledge_bases: number;
-  storage: string;
-  team_members_per_service: number;
-  supported_formats: string[];
-  support_type: string;
-  integrations: {
-    line: boolean;
-    facebook: boolean;
-  };
+  auto_reply: number
+  smart_reply: number
+  generative_reply: number
+  check_slip: number
+  workspace: number
+  bot: number
+  knowledge_base: number
+  storage: string
+  team_members: number
 }
 

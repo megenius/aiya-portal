@@ -13,5 +13,20 @@ export const useLanguage = () => {
     store.dispatch(setUser({ ...(user as any), language: lang })); // เปลี่ยนภาษาใน Redux
   };
 
-  return { currentLanguage: user.language, changeLanguage };
+  const mapLanguage = {
+    en: "en-US",
+    th: "th-TH",
+  };
+
+  const mapCurrency = {
+    en: "usd",
+    th: "thb",
+  };
+
+  return {
+    currentLanguage: user.language,
+    changeLanguage,
+    lang: mapLanguage[user.language as string],
+    currency: mapCurrency[user.language as string],
+  };
 };

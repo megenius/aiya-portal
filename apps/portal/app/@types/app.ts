@@ -59,6 +59,13 @@ export type SaasSubscription =
 export type SaasProduct = components["schemas"]["ItemsSaasProducts"] & {
   features: PlanFeatures;
 };
+
+export type SaasPrice = components["schemas"]["ItemsSaasPrices"] & {
+  description: string;
+  unit_amount: number;
+  currency: string;
+};
+
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
 

@@ -6,6 +6,7 @@ import {
   readMe,
   readUser,
   readUsers,
+  sleep,
   updateItem,
 } from "@directus/sdk";
 import { createFactory } from "hono/factory";
@@ -60,6 +61,7 @@ export const createFreePlan = factory.createHandlers(logger(), async (c) => {
 
     // create stripe subscription
     const sub = await stripe.subscriptions.create({
+      currency: "thb",
       customer: customer.id,
       items: [{ price: price.id }],
       metadata: {
@@ -83,20 +85,51 @@ function getTrialPeriodDays() {
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language, annual, price } = await c.req.json();
+  const { priceId, language, annual, price, currency } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
 
-  let trialDays = getTrialPeriodDays();
+  // cancel stripe subscription
+  const cancelFreePlanSubscription = async () => {
+    const user = c.get("user") as DirectusUser;
+    const subscriptions = await directus.request(
+      readItems("saas_subscriptions", {
+        filter: {
+          customer: {
+            _eq: user.id,
+          },
+          status: {
+            _neq: "canceled",
+          },
+        },
+        sort: ["-date_created"],
+      })
+    );
 
-  if (annual || price === 0) {
-    trialDays = 0;
-  }
+    if (subscriptions.length === 0) {
+      throw new Error("No subscriptions found for this user");
+    }
 
-  console.log(
-    `Creating checkout session with ${trialDays} days trial period`,
-    language
-  );
+    const subscription = subscriptions[0];
+    console.log("Cancelling subscription", subscription.stripe_subscription_id);
+
+    await stripe.subscriptions.cancel(
+      subscription.stripe_subscription_id as string,
+    );
+  };
+
+  // let trialDays = getTrialPeriodDays();
+
+  // if (annual || price === 0) {
+  //   trialDays = 0;
+  // }
+
+  // console.log(
+  //   `Creating checkout session with ${trialDays} days trial period`,
+  //   language
+  // );
+
+  await cancelFreePlanSubscription();
 
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
@@ -120,9 +153,9 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
 
   const alreayTrialed = await everTrialed();
 
-  if (alreayTrialed) {
-    trialDays = 0;
-  }
+  // if (alreayTrialed) {
+  //   trialDays = 0;
+  // }
 
   const subscription = subscriptions.data[0];
 
@@ -133,6 +166,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
+    currency,
     line_items: [
       {
         price: priceId,
@@ -140,19 +174,22 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       },
     ],
     mode: "subscription",
-    subscription_data: trialDays
-      ? {
-          trial_period_days: trialDays,
-          trial_settings: {
-            end_behavior: {
-              missing_payment_method: "cancel",
-            },
-          },
-          metadata,
-        }
-      : {
-          metadata,
-        },
+    subscription_data: {
+      metadata,
+    },
+    // subscription_data: trialDays
+    //   ? {
+    //       trial_period_days: trialDays,
+    //       trial_settings: {
+    //         end_behavior: {
+    //           missing_payment_method: "cancel",
+    //         },
+    //       },
+    //       metadata,
+    //     }
+    //   : {
+    //       metadata,
+    //     },
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
@@ -275,4 +312,75 @@ export const recordUsage = factory.createHandlers(logger(), async (c) => {
   return c.json({});
 });
 
+export const getPlans = factory.createHandlers(logger(), async (c) => {
+  const stripe = c.get("stripe");
+  const directus = c.get("directus");
+  const { lang = "en-US", interval = "month" } = c.req.query();
 
+  const freePlan = await directus.request(
+    readItems("saas_prices", {
+      filter: {
+        lookup_key: {
+          _eq: "aibots_free_plan",
+        },
+      },
+      fields: ["*", { translations: ["*"] }],
+    })
+  );
+
+  const _prices = await directus.request(
+    readItems("saas_prices", {
+      deep: {
+        translations: {
+          _filter: {
+            languages_code: {
+              _eq: lang,
+            },
+          },
+        },
+      },
+      fields: ["*", { translations: ["*"] }],
+      filter: {
+        active: {
+          _eq: true,
+        },
+        env: {
+          _eq: c.env.NODE_ENV,
+        },
+        pricing_plan_interval: {
+          _eq: interval,
+        },
+      },
+    })
+  );
+
+  const prices = [...freePlan, ..._prices].map((item) => {
+    const mappedItem = { ...item } as any;
+
+    if (item.translations?.length === 0) {
+      return {
+        ...item,
+        description: "",
+        unit_amount: 0,
+        currency: "usd",
+      };
+    }
+
+    const translation = item.translations?.[0] as {
+      description: string;
+      unit_amount: number;
+      currency: string;
+    };
+
+    mappedItem.description = translation.description;
+    mappedItem.unit_amount = translation.unit_amount / 100;
+    mappedItem.currency = translation.currency;
+
+    // Remove the translations property
+    delete mappedItem.translations;
+
+    return mappedItem;
+  });
+
+  return c.json(prices);
+});
