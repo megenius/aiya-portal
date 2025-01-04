@@ -10,6 +10,16 @@ import { cache } from "hono/cache";
 
 const billingsRoutes = new Hono<Env>();
 
+// write function to
+// get plans
+billingsRoutes.get(
+  "/plans",
+  directusMiddleware,
+  userMiddleware,
+  ...BillingHandler.getPlans
+);
+
+
 // create free plan
 billingsRoutes.post(
   "/create-free-plan",

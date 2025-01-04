@@ -288,8 +288,8 @@ const PricingCards = ({ isAnnual }) => {
     <>
       <div className="max-w-[85rem] px-4 py-2 sm:px-6 lg:px-8 lg:py-4 mx-auto">
         {/* Price Cards */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          {plans.slice(0, 2).map((plan, index) => (
+        <div className="grid lg:grid-cols-3 gap-6">
+          {plans.slice(0, 3).map((plan, index) => (
             <div
               key={index}
               className={`p-4 sm:p-6 bg-white border ${plan.popular ? 'border-blue-500' : 'border-gray-200'

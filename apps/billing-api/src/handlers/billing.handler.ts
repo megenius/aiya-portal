@@ -88,7 +88,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const directus = c.get("directus");
 
   let trialDays = getTrialPeriodDays();
-  
+
   if (annual || price === 0) {
     trialDays = 0;
   }
@@ -101,6 +101,35 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
   const customer = await directus.request(readItem("saas_customers", user.id));
+
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customer.stripe_customer_id,
+    status: "active",
+    limit: 1,
+  });
+
+  const everTrialed = async () => {
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customer.stripe_customer_id,
+      status: "trialing",
+      limit: 1,
+    });
+
+    return subscriptions.data.length > 0;
+  };
+
+  const alreayTrialed = await everTrialed();
+
+  if (alreayTrialed) {
+    trialDays = 0;
+  }
+
+  const subscription = subscriptions.data[0];
+
+  const metadata = {
+    user_id: user.id,
+    old_subscription_id: subscription?.id,
+  };
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -119,14 +148,10 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
               missing_payment_method: "cancel",
             },
           },
-          metadata: {
-            user_id: user.id,
-          },
+          metadata,
         }
       : {
-          metadata: {
-            user_id: user.id,
-          },
+          metadata,
         },
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
@@ -143,68 +168,11 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       name: "auto",
       address: "auto",
     },
-    metadata: {
-      user_id: user.id,
-    },
+    metadata,
     locale: language,
   });
 
   return c.json({ sessionId: session.id });
-
-  // check if user already subscribed
-  // const user = c.get("user") as DirectusUser;
-
-  // const subscriptions = await directus.request(
-  //   readItems("saas_subscriptions", {
-  //     filter: {
-  //       customer: {
-  //         _eq: user.id,
-  //       },
-  //     },
-  //     sort: ["-date_created"],
-  //   })
-  // );
-
-  // if (subscriptions.length > 0) {
-  //   trialDays = 0;
-  // }
-
-  // const session = await stripe.checkout.sessions.create({
-  //   payment_method_types: ["card"],
-  //   line_items: [
-  //     {
-  //       price: priceId,
-  //       quantity: 1,
-  //     },
-  //   ],
-  //   mode: "subscription",
-  //   subscription_data: trialDays
-  //     ? {
-  //         trial_period_days: trialDays,
-  //         trial_settings: {
-  //           end_behavior: {
-  //             missing_payment_method: "cancel",
-  //           },
-  //         },
-  //       }
-  //     : {},
-  //   success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
-  //   cancel_url: `${PORTAL_URL}/plans`,
-  //   billing_address_collection: "required",
-  //   customer: customerId,
-  //   // customer_email: email,
-  //   phone_number_collection: {
-  //     enabled: true,
-  //   },
-  //   tax_id_collection: {
-  //     enabled: true,
-  //   },
-  //   metadata: {
-  //     user_id: user.id,
-  //   },
-  // });
-
-  // return c.json({ sessionId: session.id });
 });
 
 export const getCheckoutSession = factory.createHandlers(
@@ -306,3 +274,5 @@ export const recordUsage = factory.createHandlers(logger(), async (c) => {
   await c.env.BILLING_QUEUE.send(body);
   return c.json({});
 });
+
+

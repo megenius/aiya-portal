@@ -99,7 +99,27 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
   ) => {
     const userId = session.metadata?.user_id as string;
     const customer = session.customer_details;
-    
+
+    // Get the new subscription ID from the session
+    const newSubscription = await stripe.subscriptions.retrieve(
+      session.subscription as string
+    );
+
+    // Get the old subscription ID from metadata
+    const oldSubscriptionId = newSubscription.metadata.old_subscription_id;
+
+    if (oldSubscriptionId) {
+      // Cancel the old subscription
+      try {
+        await stripe.subscriptions.cancel(oldSubscriptionId);
+        console.log(
+          `Successfully cancelled old subscription: ${oldSubscriptionId}`
+        );
+      } catch (error) {
+        console.error("Error cancelling old subscription:", error);
+      }
+    }
+
     const customerUpdated = await directus.request(
       updateItem("saas_customers", userId, {
         stripe_customer_id: session.customer as string,

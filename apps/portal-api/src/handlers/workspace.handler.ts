@@ -1,4 +1,3 @@
-// File: src/routes/items.ts
 import { Hono } from "hono";
 import { getDirectusClient } from "../config/directus";
 import {

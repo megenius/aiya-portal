@@ -2,7 +2,7 @@
 
 import { Hono } from "hono";
 import { Env } from "~/types/hono.types";
-import * as AuthHandler from "../handlers/auth.hanlder";
+import * as AuthHandler from "../handlers/auth.handler";
 import * as GoogleOAuthHandler from "../handlers/auth/google.handler";
 import * as LineOAuthHandler from "../handlers/auth/line.handler";
 
