@@ -78,9 +78,12 @@ export const createFreePlan = factory.createHandlers(logger(), async (c) => {
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language, annual, currency } = await c.req.json();
+  const { priceId, language, currency } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
+
+  console.log(priceId, language, currency);
+  
 
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
@@ -95,12 +98,14 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const metadata = {
     user_id: user.id,
     old_subscription_id: "",
+    rollback_subscription_id: "",
   };
 
   if (subscriptions.data.length > 0) {
     const subscription = subscriptions.data[0];
     if (subscription.currency !== currency) {
       await stripe.subscriptions.cancel(subscription.id as string);
+      metadata["rollback_subscription_id"] = subscription.id;
     } else {
       metadata["old_subscription_id"] = subscription.id;
     }

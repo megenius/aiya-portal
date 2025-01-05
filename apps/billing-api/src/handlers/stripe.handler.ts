@@ -277,7 +277,9 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const subscriptionDeleted = await directus.request(
       updateItem("saas_subscriptions", _subscription.id, {
         status: subscription.status,
-        ended_at: subscription.ended_at,
+        ended_at: new Date(
+          (subscription.ended_at as number) * 1000
+        ).toISOString(),
       })
     );
     console.log("Subscription was deleted!", subscriptionDeleted);
