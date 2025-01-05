@@ -75,61 +75,12 @@ export const createFreePlan = factory.createHandlers(logger(), async (c) => {
   }
 });
 
-function getTrialPeriodDays() {
-  const currentDate = new Date();
-  const newYear2025 = new Date("2025-01-01");
-
-  // If current date is before 2025, return 45 days, otherwise 15 days
-  return currentDate < newYear2025 ? 45 : 15;
-}
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language, annual, price, currency } = await c.req.json();
+  const { priceId, language, annual, currency } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
-
-  // cancel stripe subscription
-  const cancelFreePlanSubscription = async () => {
-    const user = c.get("user") as DirectusUser;
-    const subscriptions = await directus.request(
-      readItems("saas_subscriptions", {
-        filter: {
-          customer: {
-            _eq: user.id,
-          },
-          status: {
-            _neq: "canceled",
-          },
-        },
-        sort: ["-date_created"],
-      })
-    );
-
-    if (subscriptions.length === 0) {
-      throw new Error("No subscriptions found for this user");
-    }
-
-    const subscription = subscriptions[0];
-    console.log("Cancelling subscription", subscription.stripe_subscription_id);
-
-    await stripe.subscriptions.cancel(
-      subscription.stripe_subscription_id as string,
-    );
-  };
-
-  // let trialDays = getTrialPeriodDays();
-
-  // if (annual || price === 0) {
-  //   trialDays = 0;
-  // }
-
-  // console.log(
-  //   `Creating checkout session with ${trialDays} days trial period`,
-  //   language
-  // );
-
-  await cancelFreePlanSubscription();
 
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
@@ -141,28 +92,19 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     limit: 1,
   });
 
-  const everTrialed = async () => {
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customer.stripe_customer_id,
-      status: "trialing",
-      limit: 1,
-    });
-
-    return subscriptions.data.length > 0;
-  };
-
-  const alreayTrialed = await everTrialed();
-
-  // if (alreayTrialed) {
-  //   trialDays = 0;
-  // }
-
-  const subscription = subscriptions.data[0];
-
   const metadata = {
     user_id: user.id,
-    old_subscription_id: subscription?.id,
+    old_subscription_id: "",
   };
+
+  if (subscriptions.data.length > 0) {
+    const subscription = subscriptions.data[0];
+    if (subscription.currency !== currency) {
+      await stripe.subscriptions.cancel(subscription.id as string);
+    } else {
+      metadata["old_subscription_id"] = subscription.id;
+    }
+  }
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -177,19 +119,6 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     subscription_data: {
       metadata,
     },
-    // subscription_data: trialDays
-    //   ? {
-    //       trial_period_days: trialDays,
-    //       trial_settings: {
-    //         end_behavior: {
-    //           missing_payment_method: "cancel",
-    //         },
-    //       },
-    //       metadata,
-    //     }
-    //   : {
-    //       metadata,
-    //     },
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
@@ -245,10 +174,19 @@ export const cancelSubscription = factory.createHandlers(
     const subscription = subscriptions[0];
     const stripe = c.get("stripe");
 
-    await stripe.subscriptions.update(
+    // await stripe.subscriptions.update(
+    //   subscription.stripe_subscription_id as string,
+    //   {
+    //     cancel_at_period_end: true,
+    //   }
+    // );
+
+    await stripe.subscriptions.cancel(
       subscription.stripe_subscription_id as string,
       {
-        cancel_at_period_end: true,
+        cancellation_details: {
+          feedback: "unused",
+        },
       }
     );
 

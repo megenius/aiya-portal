@@ -149,8 +149,14 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const item = subscription.items.data[0];
     const plan = item.plan as Stripe.Plan;
 
-    const price = await directus.request(
-      readItem("saas_prices", item.price.id)
+    console.log("Subscription was created!", subscription);
+
+    const price = await stripe.prices.retrieve(item.price.id, {
+      expand: ["product", "currency_options"],
+    });
+
+    const { features } = await directus.request(
+      readItem("saas_prices", price.id)
     );
 
     const subscriptionCreated = await directus
@@ -162,7 +168,9 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
           stripe_price_id: item.price.id,
           stripe_product_id: plan.product as string,
           plan_type: getPlanTypeFromProductId(plan.product as string), // function แปลง product id เป็น plan_type
-          amount: (plan.amount as number) / 100, // แปลงจาก cents เป็นหน่วยเงิน
+          amount:
+            (price.currency_options?.[subscription.currency]
+              ?.unit_amount as number) / 100, // แปลงจาก cents เป็นหน่วยเงิน
           currency: subscription.currency,
           status: subscription.status,
           collection_method: subscription.collection_method,
@@ -187,7 +195,7 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
           cancel_at_period_end: subscription.cancel_at_period_end,
           metadata: subscription.metadata, // ไม่ต้อง JSON.stringify เพราะ field เป็น jsonb
           interval: plan.interval,
-          features: price.features,
+          features: features,
         })
       )
       .catch((error) => {
