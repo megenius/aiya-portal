@@ -11,11 +11,11 @@ export const meta: MetaFunction = () => {
     },
     {
       property: "og:title",
-      content: 'ห้ามพลาด! Business Webinar สุดพิเศษ "AI-Powered Customer Experience รับฟรี Voucher 3,000 บาท"',
+      content: 'ห้ามพลาด! รับฟรี Voucher 3,000 บาท Business Webinar สุดพิเศษ',
     },
     {
       property: "og:description",
-      content: 'ห้ามพลาด! Business Webinar สุดพิเศษ "AI-Powered Customer Experience รับฟรี Voucher 3,000 บาท"',
+      content: '"ยกระดับธุรกิจบริการด้วย Generative AI: AI-Powered Customer Experience"',
     },
     {
       property: "og:image",

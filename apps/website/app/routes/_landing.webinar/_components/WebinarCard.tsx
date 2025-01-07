@@ -77,7 +77,7 @@ const WebinarCard = () => {
       {/* Registration Button */}
       <div className="flex flex-col items-center gap-4">
         <a 
-          href="https://liff.line.me/1660709265-p9Boo2X1" 
+          href="https://bit.ly/aiya-webinar-2025" 
           target="_blank" 
           rel="noopener noreferrer"
           className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
