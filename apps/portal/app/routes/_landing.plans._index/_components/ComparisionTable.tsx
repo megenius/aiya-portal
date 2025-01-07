@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { NumericFormat } from 'react-number-format';
-import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+import { useStripeCreateCheckoutSession } from '~/hooks/billings/useStripeCreateCheckoutSession';
 import { useLanguage } from '~/hooks/useLanguage';
 
 const ComparisonTable = ({ isAnnual }) => {
-  const checkout = useStripeCheckout();
+  const checkout = useStripeCreateCheckoutSession();
   const { currentLanguage } = useLanguage()
 
   const handleCheckout = async (priceId: string) => {

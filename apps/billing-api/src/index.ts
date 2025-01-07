@@ -6,6 +6,7 @@ import { billingsRoutes } from "./routes/billings";
 import { authMiddleware } from "./middlewares/auth.middleware";
 import { websocketRoutes } from "./routes/websocket.route";
 import { handleBillingQueueMessage } from "./handlers/queue.handler";
+import { WorkerEnv } from "./types/worker-configuration";
 export * from "./durables/SubscriptionDurable";
 export * from "./durables/CounterDurable";
 
@@ -31,14 +32,21 @@ const app = new Hono<Env>()
   })
   .route("/websocket/billing", websocketRoutes)
   .route("/api/billing", billingsRoutes)
-  // .route("/billing/setup", setupRoutes)
+  .route("/api/billing/setup", setupRoutes)
   .get("/api/billing/health", async (c) => {
     return c.json({ status: "ok" });
   });
 
 export default {
   fetch: app.fetch,
-  async queue(batch: MessageBatch, env: WorkerEnv) {
+  async queue(
+    batch: MessageBatch<{
+      bot: string;
+      type: string;
+      count: number;
+    }>,
+    env: WorkerEnv
+  ) {
     if (batch.queue === "billing-queue") {
       await handleBillingQueueMessage(batch, env);
     }

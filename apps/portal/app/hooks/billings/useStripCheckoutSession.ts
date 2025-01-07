@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getCheckoutSession } from '~/services/billing.service'
 import { useAppSelector } from '~/store'
 
-const useStripeCheckoutSession = (
+const useStripeGetCheckoutSession = (
   { sessionId }: { sessionId: string }
 ) => {
   return useQuery({
@@ -13,4 +13,4 @@ const useStripeCheckoutSession = (
 }
 
 
-export default useStripeCheckoutSession
+export default useStripeGetCheckoutSession

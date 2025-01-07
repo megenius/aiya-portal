@@ -18,7 +18,9 @@ const Route = () => {
   const cancelSubscription = useCancelSubscription()
 
   const handleCancel = () => {
-    cancelSubscription.mutateAsync().then(() => {
+    cancelSubscription.mutateAsync({
+      stripeSubscriptionId: data?.subscription.id as string
+    }).then(() => {
       toast.success(t('billing.subscription.cancel.success'))
       setTimeout(() => {
         refetch()
@@ -67,9 +69,12 @@ const Route = () => {
                   <div className="space-y-11">
                     {/* Grid */}
                     <div className="grid xl:grid-cols-1 gap-6">
-                      <Plan subscription={data?.subscription}
-                        onCanceled={handleCancel}
-                      />
+                      {data?.subscription && data?.subscription.status === 'active' &&
+                        <Plan
+                          subscription={data?.subscription}
+                          plan={data?.plan}
+                          onCanceled={handleCancel}
+                        />}
                       {/* <PaymentMethod /> */}
                     </div>
                     {/* End Grid */}

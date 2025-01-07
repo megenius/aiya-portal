@@ -20,6 +20,7 @@ export const getCheckoutSession = (sessionId: string) =>
 export const getCurrentBillingPlan = () =>
   api.get<{
     subscription: SaasSubscription;
+    plan: SaasPrice;
   }>(`/billing/current`);
 
 export const getCurrentBillingUsage = (subscriptionId: string) =>
@@ -30,8 +31,8 @@ export const getCurrentBillingUsage = (subscriptionId: string) =>
     check_slip: number;
   }>(`/billing/${subscriptionId}/current-usage`);
 
-export const cancelSubscription = () =>
-  api.post("/billing/cancel-subscription");
+export const cancelSubscription = (subscriptionId) =>
+  api.post("/billing/cancel-subscription?id=" + subscriptionId);
 
 // plans
 export const getPlans = ({

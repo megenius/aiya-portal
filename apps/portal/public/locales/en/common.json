@@ -45,6 +45,7 @@
       "current": "Current Plan",
       "upgrade": "Upgrade Plan",
       "downgrade": "Downgrade Plan",
+      "cancelling": "Cancelling on {{date}}",
       "features": {
         "auto_replies": "Auto Replies",
         "smart_replies": "Smart Replies",

@@ -1,14 +1,13 @@
 import { useSearchParams } from "@remix-run/react"
 import { Loading } from "@repo/preline"
 import React, { useEffect, useState } from "react"
-import PaymentSuccess from "./_components/PaymentSuccess"
-import useStripeCheckoutSession from "~/hooks/billings/useStripCheckoutSession"
+import useStripeGetCheckoutSession from "~/hooks/billings/useStripCheckoutSession"
 import { CheckCircle, ArrowRight, Download } from 'lucide-react';
 
 const Route = () => {
   const [error, setError] = useState<string>('')
   const [search] = useSearchParams()
-  const checkoutSession = useStripeCheckoutSession({ sessionId: search.get('session_id') as string })
+  const checkoutSession = useStripeGetCheckoutSession({ sessionId: search.get('session_id') as string })
 
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const Route = () => {
         {/* Support Section */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600">
-            Need help? <a href="/support" className="text-blue-600 hover:text-blue-700 font-medium">Contact our support</a>
+            Need help? <a href="mailto:support@aiya.ai" className="text-blue-600 hover:text-blue-700 font-medium">Contact our support</a>
           </p>
         </div>
       </div>

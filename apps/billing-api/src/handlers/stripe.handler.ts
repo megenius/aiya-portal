@@ -20,6 +20,7 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
   const rawBody = await c.req.text(); // Get raw body as string
   const directus = c.get("directAdmin");
   const stripe = c.get("stripe");
+  const billingAdminService = c.get("billingAdminService");
   const sig = c.req.header("stripe-signature") as string;
   console.log("sig", sig);
 
@@ -37,27 +38,6 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     throw new Error(`Webhook Error: ${err.message}`);
   }
 
-  const getUserByEmail = async (email: string) => {
-    try {
-      const users = await directus.request(
-        readUsers({
-          fields: ["id"],
-          filter: {
-            email: {
-              _eq: email,
-            },
-          },
-          limit: 1,
-        })
-      );
-
-      // Return the first user or null if none found
-      return users.length > 0 ? users[0] : null;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw error;
-    }
-  };
 
   const onCustomerCreated = async (customer: Stripe.Customer) => {
     const user = await directus.request(readUser(customer.metadata?.user_id));
@@ -162,9 +142,9 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const subscriptionCreated = await directus
       .request(
         createItem("saas_subscriptions", {
+          id: subscription.id,
           customer: subscription.metadata?.user_id,
           stripe_customer_id: subscription.customer as string,
-          stripe_subscription_id: subscription.id,
           stripe_price_id: item.price.id,
           stripe_product_id: plan.product as string,
           plan_type: getPlanTypeFromProductId(plan.product as string), // function แปลง product id เป็น plan_type
@@ -223,7 +203,7 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const subscriptions = await directus.request(
       readItems("saas_subscriptions", {
         filter: {
-          stripe_subscription_id: {
+          id: {
             _eq: subscription.id,
           },
         },
@@ -260,7 +240,7 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const subscriptions = await directus.request(
       readItems("saas_subscriptions", {
         filter: {
-          stripe_subscription_id: {
+          id: {
             _eq: subscription.id,
           },
         },
@@ -277,9 +257,9 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     const subscriptionDeleted = await directus.request(
       updateItem("saas_subscriptions", _subscription.id, {
         status: subscription.status,
-        ended_at: new Date(
-          (subscription.ended_at as number) * 1000
-        ).toISOString(),
+        ended_at: subscription.ended_at
+          ? new Date((subscription.ended_at as number) * 1000).toISOString()
+          : null,
       })
     );
     console.log("Subscription was deleted!", subscriptionDeleted);
@@ -289,13 +269,14 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
     switch (event.type) {
       case "checkout.session.completed":
         const checkoutSessionCompleted = event.data.object;
-        await onCheckoutSessionCompleted(checkoutSessionCompleted);
+        await billingAdminService.onCheckoutSessionCompleted(checkoutSessionCompleted);
+        // await onCheckoutSessionCompleted(checkoutSessionCompleted);
         // Then define and call a function to handle the event charge.succeeded
         break;
 
       case "customer.created":
         const customerCreated = event.data.object;
-        await onCustomerCreated(customerCreated);
+        await billingAdminService.onCustomerCreated(customerCreated);
         break;
 
       // case "customer.updated":
@@ -305,17 +286,30 @@ export const webhook = factory.createHandlers(logger(), async (c) => {
 
       case "customer.subscription.created":
         const subscriptionCreated = event.data.object;
-        await onSubscriptionCreated(subscriptionCreated);
+        await billingAdminService.onCustomerSubscriptionCreated(subscriptionCreated);
+        // await onSubscriptionCreated(subscriptionCreated);
         break;
 
       case "customer.subscription.updated":
         const subscriptionUpdated = event.data.object;
-        await onSubscriptionUpdated(subscriptionUpdated);
+        await billingAdminService.onCustomerSubscriptionUpdated(subscriptionUpdated);
+        // await onSubscriptionUpdated(subscriptionUpdated);
         break;
 
       case "customer.subscription.deleted":
         const subscriptionDeleted = event.data.object;
-        await onSubscriptionDeleted(subscriptionDeleted);
+        await billingAdminService.onCustomerSubscriptionDeleted(subscriptionDeleted);
+        // await onSubscriptionDeleted(subscriptionDeleted);
+        break;
+
+      case "invoice.created":
+        const invoiceCreated = event.data.object;
+        await billingAdminService.onInvoiceCreated(invoiceCreated);
+        break;
+
+      case "invoice.paid":
+        const invoicePaid = event.data.object;
+        await billingAdminService.onInvoicePaid(invoicePaid);
         break;
       // ... handle other event types
       // default:

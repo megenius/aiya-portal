@@ -6,44 +6,21 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
-import { SaasSubscription } from '~/@types/app';
+import { SaasPrice, SaasSubscription } from '~/@types/app';
 import DeleteModal from '~/components/DeleteModal';
-import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingUsage from '~/hooks/billings/useCurrentBillingUsage';
+import { useLanguage } from '~/hooks/useLanguage';
 
 interface PlanProps {
   subscription: SaasSubscription;
+  plan: SaasPrice;
   onCanceled?: () => void;
 }
 
-const Config = {
-  "free": {
-    rects: [{ y: 5, fill: "fill-blue-300 dark:fill-blue-600" }],
-  },
-  "starter": {
-    rects: [
-      { y: 5, fill: "fill-blue-300 dark:fill-blue-600" },
-      { x: 14, y: 5, fill: "fill-blue-500 dark:fill-blue-700" },
-    ],
-  },
-  "growth": {
-    rects: [
-      { x: 7, y: 0, fill: "fill-blue-200 dark:fill-blue-500" },
-      { y: 10, fill: "fill-blue-300 dark:fill-blue-600" },
-      { x: 14, y: 10, fill: "fill-blue-500 dark:fill-blue-700" },
-    ],
-  }
-}
-
-const Plan: React.FC<PlanProps> = ({ subscription, onCanceled }) => {
+const Plan: React.FC<PlanProps> = ({ subscription, plan, onCanceled }) => {
   const { data } = useCurrentBillingUsage({ subscription });
-
+  const { locale } = useLanguage()
   const { t } = useTranslation()
-  const { i18n } = useTranslation();
-  const locales = {
-    th: th,
-    en: enUS
-  };
 
   const ShowTime = ({ subscription }: { subscription: SaasSubscription }) => {
 
@@ -52,7 +29,7 @@ const Plan: React.FC<PlanProps> = ({ subscription, onCanceled }) => {
         <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
           {t('billing.plan.cancelled_on', {
             date: formatDate(subscription?.current_period_end, 'PPP', {
-              locale: locales[i18n.language] || enUS
+              locale
             })
           })}
         </p>)
@@ -62,13 +39,12 @@ const Plan: React.FC<PlanProps> = ({ subscription, onCanceled }) => {
       <p className="mt-1.5 text-sm text-gray-500 dark:text-neutral-500">
         {t('billing.plan.renews_on', {
           date: format(subscription?.current_period_end, 'PPP', {
-            locale: locales[i18n.language] || enUS
+            locale,
           })
         })}
       </p>
     )
   }
-
 
   if (!data) {
     return <Loading />
@@ -80,26 +56,13 @@ const Plan: React.FC<PlanProps> = ({ subscription, onCanceled }) => {
       <div className="flex flex-col bg-white border border-gray-200 rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         {/* Body */}
         <div className="h-full p-6">
-          <svg className="w-[34px] h-[30px]" width={34} height={30} viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {Config[subscription?.plan_type as string || "free"].rects.map((rect, idx) => (
-              <rect
-                key={idx}
-                x={rect.x || 0}
-                y={rect.y || 0}
-                width={20}
-                height={20}
-                rx={10}
-                fill="currentColor"
-                className={rect.fill}
-              />
-            ))}
-          </svg>
+          {plan.svg_icon && <div dangerouslySetInnerHTML={{ __html: plan.svg_icon }} />}
           {/* Grid */}
           <div className="mt-3 grid grid-cols-2 gap-x-2">
             <div>
               <div className="flex items-center gap-x-2">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-                  {_.capitalize(subscription?.plan_type || "free plan")}
+                  {plan?.name}
                 </h2>
                 <span className="inline-flex items-center gap-1.5 py-1.5 px-2 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">
                   <span className="size-1.5 inline-block bg-blue-800 rounded-full dark:bg-blue-500" />

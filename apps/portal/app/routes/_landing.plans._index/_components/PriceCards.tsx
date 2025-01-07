@@ -1,6 +1,6 @@
 import { pl } from 'date-fns/locale';
 import { t } from 'i18next';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { NumericFormat } from 'react-number-format';
@@ -9,10 +9,11 @@ import { SaasPrice } from '~/@types/app';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 import usePlans from '~/hooks/billings/usePlans';
-import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+import { useStripeCreateCheckoutSession } from '~/hooks/billings/useStripeCreateCheckoutSession';
 import { useLanguage } from '~/hooks/useLanguage';
 import { useMe } from '~/hooks/useMe';
 import { cn } from '@repo/ui/utils';
+import { formatDate } from 'date-fns';
 
 interface PricingCardProps {
   isAnnual: boolean;
@@ -22,25 +23,45 @@ interface PricingCardProps {
 const ANNUAL_DISCOUNT = 0.15
 
 const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
-  const checkout = useStripeCheckout();
-  const { data: currentPlan } = useCurrentBillingPlan()
+  const checkout = useStripeCreateCheckoutSession();
+  const { locale } = useLanguage();
+  const { data: currentPlan, isLoading } = useCurrentBillingPlan()
   const { data: user } = useMe()
 
-  const handleCheckout = async (priceId: string, price: number) => {
+  const handleCheckout = async (priceId: string, price: number, action: string) => {
     if (!user?.email) {
       toast.error(t('billing.plan.error.email_required'));
       return;
     }
 
-    checkout.mutate({ priceId, email: user?.email, annual: isAnnual, price });
+    checkout.mutate({ priceId, email: user?.email, annual: isAnnual, price, action });
   }
 
 
-  const isCurrent = (plan) => {
-    return currentPlan?.subscription.stripe_price_id === plan.id
+  const isCurrent = (plan: SaasPrice) => {
+    return currentPlan?.subscription?.stripe_price_id === plan.id
+  }
+
+  const isUpgrade = (plan: SaasPrice) => {
+    const planAmount = plan.unit_amount
+    const currentAmount = Number(currentPlan?.subscription?.amount || 0)
+    // if subscription price is higher than the plan price then show "Upgrade" text
+    return currentAmount < planAmount
   }
 
   const getButtonText = (plan) => {
+    if (currentPlan?.subscription?.cancel_at_period_end) {
+      if (isCurrent(plan)) {
+        return t('billing.plan.cancelling', {
+          date: formatDate(new Date(currentPlan.subscription.current_period_end), 'PPP', {
+            locale
+          })
+        });
+      }
+
+      return t('billing.plan.choose');
+    }
+
     if (isCurrent(plan)) {
       return t('billing.plan.current');
     }
@@ -54,15 +75,71 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
     } else if (currentAmount > planAmount) {
       return t('billing.plan.downgrade');
     }
+
     return t('billing.plan.choose');
+  }
+
+  const getButtonStatus = (plan) => {
+    if (currentPlan?.subscription?.cancel_at_period_end) {
+      return isCurrent(plan) ? false : true
+    }
+
+    if (isCurrent(plan)) {
+      return false;
+    }
+
+    return false;
+  }
+
+  const filteredPlans = useMemo(() => {
+    return plans.filter(plan => {
+      if (currentPlan?.subscription) {
+        return plan.pricing_type !== 'free'
+      }
+
+      return true
+    })
+  }, [plans, isAnnual, currentPlan])
+
+  if (isLoading) {
+    return (
+      <div>
+        <ul className="mt-5 space-y-3">
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+          <li className="w-full h-4 bg-gray-200 rounded-full" />
+        </ul>
+      </div>
+    )
   }
 
   return (
     <>
       <div className="max-w-[85rem] px-4 py-2 sm:px-6 lg:px-8 lg:py-4 mx-auto">
         {/* Price Cards */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {plans.slice(0, 3).map((plan, index) => (
+        <div className={`grid lg:grid-cols-${filteredPlans.length} gap-6`}>
+          {filteredPlans.map((plan, index) => (
             <div
               key={index}
               className={`p-4 sm:p-6 bg-white border ${plan.popular ? 'border-blue-500' : 'border-gray-200'
@@ -106,9 +183,10 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
                   }
                   disabled={
                     checkout.isPending ||
-                    isCurrent(plan)
+                    isCurrent(plan) ||
+                    getButtonStatus(plan)
                   }
-                  onClick={() => handleCheckout(plan.id, plan.unit_amount)}
+                  onClick={() => handleCheckout(plan.id, plan.unit_amount, isUpgrade(plan) ? 'upgrade' : 'downgrade')}
                 >
                   {getButtonText(plan)}
                 </button>

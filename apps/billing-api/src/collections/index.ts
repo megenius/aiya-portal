@@ -5,3 +5,4 @@ export * from './commissionRulesCollection';
 export * from './referralsCollection';
 export * from './subscriptionsCollection';
 export * from './customersCollection';
+export * from './invoicesCollection';

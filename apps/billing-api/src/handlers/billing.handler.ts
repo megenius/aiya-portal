@@ -14,76 +14,63 @@ import { logger } from "hono/logger";
 import { Env } from "~/types/hono.types";
 import * as _ from "lodash";
 import Stripe from "stripe";
-import { formatDate, sub } from "date-fns";
+import { differenceInDays, formatDate, sub } from "date-fns";
+import { StripeService } from "~/services/stripe.service";
 
 const factory = createFactory<Env>();
 
 // createFreePlan
-export const createFreePlan = factory.createHandlers(logger(), async (c) => {
-  const directus = c.get("directus");
-  const user = c.get("user") as DirectusUser;
-  const stripe = c.get("stripe");
-  try {
-    const existCustomer = await directus
-      .request(readItem("saas_customers", user.id))
-      .catch((e) => null);
+export const createOnboardFreePlan = factory.createHandlers(
+  logger(),
+  async (c) => {
+    const directus = c.get("directus");
+    const user = c.get("user") as DirectusUser;
+    const stripe = c.get("stripe");
+    const stripeService = c.get("stripeService");
 
-    if (existCustomer) {
-      console.log("Customer already exists");
+    try {
+      const existCustomer = await directus
+        .request(readItem("saas_customers", user.id))
+        .catch((e) => null);
 
-      return c.json({ error: "Customer already exists" });
+      if (existCustomer) {
+        console.log("Customer already exists");
+        return c.json({ error: "Customer already exists" });
+      }
+
+      // First check if free price already exists
+      const prices = await stripe.prices.list({
+        lookup_keys: ["aibots_free_plan"],
+        active: true,
+      });
+
+      // get free plan price id from prices
+      if (prices.data?.length === 0) {
+        throw new Error("Free plan not found");
+      }
+
+      if (user.email === undefined) {
+        throw new Error("User email not found");
+      }
+
+      // create stripe customer
+      const customer = await stripeService.createCustomer(user);
+      const sub = await stripeService.createFreePlan(customer.id, user.id);
+
+      return c.json(sub);
+    } catch (error: any) {
+      return c.json({ error: error.message });
     }
-
-    // First check if free price already exists
-    const prices = await stripe.prices.list({
-      lookup_keys: ["aibots_free_plan"],
-      active: true,
-    });
-
-    // get free plan price id from prices
-    if (prices.data?.length === 0) {
-      throw new Error("Free plan not found");
-    }
-
-    if (user.email === undefined) {
-      throw new Error("User email not found");
-    }
-    const price = prices.data[0];
-
-    // create stripe customer
-    const customer = await stripe.customers.create({
-      email: user.email as string,
-      name: user.first_name + " " + user.last_name,
-      metadata: {
-        user_id: user.id,
-      },
-    });
-
-    // create stripe subscription
-    const sub = await stripe.subscriptions.create({
-      currency: "thb",
-      customer: customer.id,
-      items: [{ price: price.id }],
-      metadata: {
-        user_id: user.id,
-      },
-    });
-
-    return c.json(sub);
-  } catch (error: any) {
-    return c.json({ error: error.message });
   }
-});
-
+);
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
   const { PORTAL_URL } = c.env;
-  const { priceId, language, currency } = await c.req.json();
+  const { priceId, language, currency, action } = await c.req.json();
   const stripe = c.get("stripe");
   const directus = c.get("directus");
 
   console.log(priceId, language, currency);
-  
 
   // check if user already subscribed
   const user = c.get("user") as DirectusUser;
@@ -99,8 +86,10 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     user_id: user.id,
     old_subscription_id: "",
     rollback_subscription_id: "",
+    action,
   };
 
+  let discounts: any = [];
   if (subscriptions.data.length > 0) {
     const subscription = subscriptions.data[0];
     if (subscription.currency !== currency) {
@@ -108,6 +97,41 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       metadata["rollback_subscription_id"] = subscription.id;
     } else {
       metadata["old_subscription_id"] = subscription.id;
+
+      // Calculate remaining time and create a discount
+      const remainingDays = differenceInDays(
+        new Date(subscription.current_period_end * 1000),
+        new Date()
+      )
+
+      if (remainingDays > 0) {
+        // Calculate prorated amount
+        const oldSubscriptionAmount =
+          subscription.items.data[0].price.unit_amount || 0;
+        const proratedAmount = Math.floor(
+          (oldSubscriptionAmount * remainingDays) / 30
+        );
+
+        if (proratedAmount > 0) {
+          // Create a coupon with the prorated amount
+          const coupon = await stripe.coupons.create({
+            amount_off: proratedAmount,
+            duration: "once",
+            currency: currency,
+            name: `Proration credit`,
+            metadata: {
+              old_subscription_id: subscription.id,
+              remaining_days: remainingDays.toString(),
+            },
+          });
+
+          discounts = [
+            {
+              coupon: coupon.id,
+            },
+          ];
+        }
+      }
     }
   }
 
@@ -124,11 +148,11 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     subscription_data: {
       metadata,
     },
+    discounts, // Apply the calculated discount
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
     customer: customer.stripe_customer_id,
-    // customer_email: email,
     phone_number_collection: {
       enabled: true,
     },
@@ -139,12 +163,88 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       name: "auto",
       address: "auto",
     },
-    metadata,
+    metadata: {
+      ...metadata,
+      discount_applied: discounts.length > 0 ? "true" : "false",
+    },
     locale: language,
   });
 
-  return c.json({ sessionId: session.id });
+  return c.json({
+    sessionId: session.id,
+    hasDiscount: discounts.length > 0,
+  });
 });
+
+// export const createCheckout = factory.createHandlers(logger(), async (c) => {
+//   const { PORTAL_URL } = c.env;
+//   const { priceId, language, currency, action } = await c.req.json();
+//   const stripe = c.get("stripe");
+//   const directus = c.get("directus");
+
+//   console.log(priceId, language, currency);
+
+//   // check if user already subscribed
+//   const user = c.get("user") as DirectusUser;
+//   const customer = await directus.request(readItem("saas_customers", user.id));
+
+//   const subscriptions = await stripe.subscriptions.list({
+//     customer: customer.stripe_customer_id,
+//     status: "active",
+//     limit: 1,
+//   });
+
+//   const metadata = {
+//     user_id: user.id,
+//     old_subscription_id: "",
+//     rollback_subscription_id: "",
+//     action,
+//   };
+
+//   if (subscriptions.data.length > 0) {
+//     const subscription = subscriptions.data[0];
+//     if (subscription.currency !== currency) {
+//       await stripe.subscriptions.cancel(subscription.id as string);
+//       metadata["rollback_subscription_id"] = subscription.id;
+//     } else {
+//       metadata["old_subscription_id"] = subscription.id;
+//     }
+//   }
+
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ["card"],
+//     currency,
+//     line_items: [
+//       {
+//         price: priceId,
+//         quantity: 1,
+//       },
+//     ],
+//     mode: "subscription",
+//     subscription_data: {
+//       metadata,
+//     },
+//     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
+//     cancel_url: `${PORTAL_URL}/plans`,
+//     billing_address_collection: "required",
+//     customer: customer.stripe_customer_id,
+//     // customer_email: email,
+//     phone_number_collection: {
+//       enabled: true,
+//     },
+//     tax_id_collection: {
+//       enabled: true,
+//     },
+//     customer_update: {
+//       name: "auto",
+//       address: "auto",
+//     },
+//     metadata,
+//     locale: language,
+//   });
+
+//   return c.json({ sessionId: session.id });
+// });
 
 export const getCheckoutSession = factory.createHandlers(
   logger(),
@@ -159,42 +259,9 @@ export const getCheckoutSession = factory.createHandlers(
 export const cancelSubscription = factory.createHandlers(
   logger(),
   async (c) => {
-    const directus = c.get("directus");
-    const user = c.get("user") as DirectusUser;
-
-    const subscriptions = await directus.request(
-      readItems("saas_subscriptions", {
-        filter: {
-          customer: {
-            _eq: user.id,
-          },
-        },
-      })
-    );
-
-    if (subscriptions.length === 0) {
-      throw new Error("No subscriptions found for this user");
-    }
-
-    const subscription = subscriptions[0];
-    const stripe = c.get("stripe");
-
-    // await stripe.subscriptions.update(
-    //   subscription.stripe_subscription_id as string,
-    //   {
-    //     cancel_at_period_end: true,
-    //   }
-    // );
-
-    await stripe.subscriptions.cancel(
-      subscription.stripe_subscription_id as string,
-      {
-        cancellation_details: {
-          feedback: "unused",
-        },
-      }
-    );
-
+    const stripeSubscriptionId = c.req.query("id") as string;
+    const stripeService = c.get("stripeService");
+    await stripeService.cancelSubscription(stripeSubscriptionId);
     return c.json({});
   }
 );
@@ -204,8 +271,7 @@ export const getCurrentBillingPlan = factory.createHandlers(
   async (c) => {
     const directus = c.get("directus");
     const user = c.get("user") as DirectusUser;
-    // console.log("directus", await directus.getToken());
-    // console.log("user", user);
+
     try {
       const subscriptions = await directus.request(
         readItems("saas_subscriptions", {
@@ -214,29 +280,25 @@ export const getCurrentBillingPlan = factory.createHandlers(
               _eq: user.id,
             },
             status: {
-              _neq: "canceled",
+              _eq: "active",
             },
           },
           sort: ["-date_created"],
         })
       );
-      // console.log("subscriptions", subscriptions);
 
-      // if (subscriptions.length === 0) {
-      //   const product = await directus.request(
-      //     readItem("saas_products", "free_plan")
-      //   );
-
-      //   return c.json({
-      //     subscription: null,
-      //     product,
-      //   });
-      // }
+      if (subscriptions.length === 0) {
+        return c.json({});
+      }
 
       const subscription = subscriptions[0];
+      const plan = await directus.request(
+        readItem("saas_prices", subscription.stripe_price_id)
+      );
+
       return c.json({
         subscription,
-        // product,
+        plan,
       });
     } catch (error: any) {
       return c.json(error);
@@ -256,74 +318,12 @@ export const recordUsage = factory.createHandlers(logger(), async (c) => {
 });
 
 export const getPlans = factory.createHandlers(logger(), async (c) => {
-  const stripe = c.get("stripe");
-  const directus = c.get("directus");
   const { lang = "en-US", interval = "month" } = c.req.query();
-
-  const freePlan = await directus.request(
-    readItems("saas_prices", {
-      filter: {
-        lookup_key: {
-          _eq: "aibots_free_plan",
-        },
-      },
-      fields: ["*", { translations: ["*"] }],
-    })
-  );
-
-  const _prices = await directus.request(
-    readItems("saas_prices", {
-      deep: {
-        translations: {
-          _filter: {
-            languages_code: {
-              _eq: lang,
-            },
-          },
-        },
-      },
-      fields: ["*", { translations: ["*"] }],
-      filter: {
-        active: {
-          _eq: true,
-        },
-        env: {
-          _eq: c.env.NODE_ENV,
-        },
-        pricing_plan_interval: {
-          _eq: interval,
-        },
-      },
-    })
-  );
-
-  const prices = [...freePlan, ..._prices].map((item) => {
-    const mappedItem = { ...item } as any;
-
-    if (item.translations?.length === 0) {
-      return {
-        ...item,
-        description: "",
-        unit_amount: 0,
-        currency: "usd",
-      };
-    }
-
-    const translation = item.translations?.[0] as {
-      description: string;
-      unit_amount: number;
-      currency: string;
-    };
-
-    mappedItem.description = translation.description;
-    mappedItem.unit_amount = translation.unit_amount / 100;
-    mappedItem.currency = translation.currency;
-
-    // Remove the translations property
-    delete mappedItem.translations;
-
-    return mappedItem;
+  const billingService = c.get("billingService");
+  const plan = await billingService.getPlans({
+    lang,
+    interval,
+    env: c.env.NODE_ENV,
   });
-
-  return c.json(prices);
+  return c.json(plan);
 });

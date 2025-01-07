@@ -7,6 +7,7 @@ import { stripeMiddleware } from "~/middlewares/stripe.middeware";
 import { userMiddleware } from "~/middlewares/user.middleware";
 import { subscriptionDurableMiddleware } from "~/middlewares/subscription-durable.middleware";
 import { cache } from "hono/cache";
+import { billingAdminMiddleware, billingMiddleware } from "~/middlewares/billing.middleware";
 
 const billingsRoutes = new Hono<Env>();
 
@@ -20,6 +21,7 @@ billingsRoutes.get(
   // }),
   directusMiddleware,
   stripeMiddleware,
+  billingMiddleware,
   ...BillingHandler.getPlans
 );
 
@@ -29,7 +31,7 @@ billingsRoutes.post(
   directusMiddleware,
   userMiddleware,
   stripeMiddleware,
-  ...BillingHandler.createFreePlan
+  ...BillingHandler.createOnboardFreePlan
 );
 
 // checkout for a plan
@@ -89,6 +91,7 @@ billingsRoutes.post(
   "/stripe/webhook",
   directusMiddleware,
   stripeMiddleware,
+  billingAdminMiddleware,
   ...StripeHandler.webhook
 );
 

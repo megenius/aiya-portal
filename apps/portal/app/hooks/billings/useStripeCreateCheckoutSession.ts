@@ -14,13 +14,14 @@ interface CheckoutSessionRequest {
   quantity?: number;
   successUrl?: string;
   cancelUrl?: string;
+  action?: string;
 }
 
 interface CheckoutSessionResponse {
   sessionId: string;
 }
 
-export const useStripeCheckout = () => {
+export const useStripeCreateCheckoutSession = () => {
   const { currentLanguage, currency } = useLanguage();
 
   return useMutation({

@@ -5,7 +5,7 @@ import { NumericFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
-import { useStripeCheckout } from '~/hooks/billings/useStripeCheckout';
+import { useStripeCreateCheckoutSession } from '~/hooks/billings/useStripeCreateCheckoutSession';
 import { useLanguage } from '~/hooks/useLanguage';
 import { useMe } from '~/hooks/useMe';
 
@@ -240,7 +240,7 @@ const plansTh = [
 
 
 const PriceCards2 = ({ isAnnual }) => {
-  const checkout = useStripeCheckout();
+  const checkout = useStripeCreateCheckoutSession();
   const { currentLanguage } = useLanguage()
   const { data: currentPlan } = useCurrentBillingPlan()
   const { data: user } = useMe()

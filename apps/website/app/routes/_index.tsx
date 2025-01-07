@@ -35,7 +35,7 @@ export default function LandingPage() {
                   </div>
                   <div className="flex items-center">
                     <Check className="h-4 w-4 text-green-500 mr-2" />
-                    14-day free trial
+                    Free forever plan
                   </div>
                   <div className="flex items-center">
                     <Check className="h-4 w-4 text-green-500 mr-2" />
@@ -49,7 +49,7 @@ export default function LandingPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="bg-white py-12">
+      <div className="bg-white py-12 hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
@@ -140,7 +140,7 @@ export default function LandingPage() {
       </div>
 
       {/* Testimonials */}
-      <div className="bg-white py-24">
+      <div className="bg-white py-24 hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">

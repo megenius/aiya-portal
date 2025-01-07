@@ -4,10 +4,12 @@ import {
   createRelation,
   deleteCollection,
   readCollection,
+  readCollections,
   readFields,
   readFieldsByCollection,
   readItem,
   readItems,
+  readRelationByCollection,
 } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -27,6 +29,8 @@ import {
   saas_referralsReferrerFieldRelationship as referralsReferrerFieldRelationship,
   saas_subscriptionsCollection as subscriptionsCollection,
   saas_subscriptionsUserFieldRelationship as subscriptionsUserFieldRelationship,
+  saas_invoicesCollection as invoicesCollection,
+  saas_invoicesCustomerFiledRelationships as invoicesCustomerFieldRelationships,
   // subscriptionUserField,
 } from "../collections";
 import {
@@ -163,6 +167,21 @@ export const setupCollection = factory.createHandlers(logger(), async (c) => {
   try {
     // 0. Delete all collections first by reverse order
     // console.log("Deleting existing collections...");
+    await directus.request(deleteCollection("saas_invoices"));
+
+    // console.log("Creating invocies collection...");
+    await directus.request(createCollection(invoicesCollection));
+    await directus.request(createRelation(invoicesCustomerFieldRelationships));
+
+    return c.json({ message: "Collections created successfully!" });
+  } catch (error) {
+    console.error("Error creating collections:", error);
+    throw error;
+  }
+
+  try {
+    // 0. Delete all collections first by reverse order
+    // console.log("Deleting existing collections...");
     await directus.request(deleteCollection("saas_commission_rules"));
     await directus.request(deleteCollection("saas_commission_payments"));
     await directus.request(deleteCollection("saas_affiliate_monthly_stats"));
@@ -201,13 +220,19 @@ export const setupCollection = factory.createHandlers(logger(), async (c) => {
     // 4. Create affiliate monthly stats collection (depends on affiliates)
     console.log("Creating affiliate monthly stats collection...");
     await directus.request(createCollection(affiliateMonthlyStatsCollection));
-    await directus.request(createRelation(affiliateMonthlyStatsAffiliateFieldRelationship));
+    await directus.request(
+      createRelation(affiliateMonthlyStatsAffiliateFieldRelationship)
+    );
 
     // 5. Create commission payments collection (depends on affiliates and referrals)
     console.log("Creating commission payments collection...");
     await directus.request(createCollection(commissionPaymentsCollection));
-    await directus.request(createRelation(commissionPaymentsAffiliateFieldRelationship));
-    await directus.request(createRelation(commissionPaymentsReferralFieldRelationship));
+    await directus.request(
+      createRelation(commissionPaymentsAffiliateFieldRelationship)
+    );
+    await directus.request(
+      createRelation(commissionPaymentsReferralFieldRelationship)
+    );
 
     // 6. Create commission rules collection (independent)
     console.log("Creating commission rules collection...");
@@ -217,6 +242,52 @@ export const setupCollection = factory.createHandlers(logger(), async (c) => {
     return c.json({ message: "Collections created successfully!" });
   } catch (error) {
     console.error("Error creating collections:", error);
+    throw error;
+  }
+});
+
+export const getCollection = factory.createHandlers(logger(), async (c) => {
+  const directus = c.get("directAdmin");
+  const { collection } = c.req.param();
+
+  try {
+    const collectionData = await directus.request(readCollection(collection));
+    return c.json(collectionData);
+    // let collections = await directus.request(readCollections());
+    // const names = [collection];
+    // collections = collections.filter((collection) =>
+    //   names.includes(collection.collection)
+    // );
+
+    // return c.json(collections);
+  } catch (error) {
+    console.error("Error reading collections:", error);
+    throw error;
+  }
+});
+
+export const getFields = factory.createHandlers(logger(), async (c) => {
+  const directus = c.get("directAdmin");
+  const { collection } = c.req.param();
+
+  try {
+    const fields = await directus.request(readFieldsByCollection(collection));
+    return c.json(fields);
+  } catch (error) {
+    console.error("Error reading fields:", error);
+    throw error;
+  }
+});
+
+export const getRelations = factory.createHandlers(logger(), async (c) => {
+  const directus = c.get("directAdmin");
+  const { collection } = c.req.param();
+
+  try {
+    const relations = await directus.request(readRelationByCollection(collection));
+    return c.json(relations);
+  } catch (error) {
+    console.error("Error reading fields:", error);
     throw error;
   }
 });
