@@ -1,4 +1,4 @@
-import { Layout, User, ArrowUpCircle, CreditCard, Gift, DollarSign } from 'lucide-react';
+import { Layout, User, ArrowUpCircle, CreditCard, Gift, DollarSign, Circle, CircleHelp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
 
@@ -48,6 +48,11 @@ export const useSidebarLinks = (): SidebarLink[] => {
       to: "/affiliates",
       label: t('sidebar.affiliates'),
       icon: <DollarSign className="flex-shrink-0 mt-0.5 size-4" />,
+    },
+    {
+      to: "/helpdesk",
+      label: t('sidebar.helpdesk'),
+      icon: <CircleHelp className="flex-shrink-0 mt-0.5 size-4" />,
     },
   ];
 

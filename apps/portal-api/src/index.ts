@@ -8,6 +8,7 @@ import { fileRoutes } from "./routes/file";
 import { workspacesRoutes } from "./routes/workspaces";
 import { facebookRoutes } from "./routes/facebook";
 import { voucherRoutes } from "./routes/voucher";
+import { publicRoutes } from "./routes/public.route";
 
 import { cache } from "hono/cache";
 import { Env } from "./types/hono.types";
@@ -18,26 +19,20 @@ import { webhookRoutes } from "./routes/webhoook";
 
 const app = new Hono<Env>()
   .basePath("/api")
+  
+
   .use("*", async (c, next) => {
-  if (
-    !c.req.path.startsWith("/api/auth") &&
-    !c.req.path.startsWith("/api/files") &&
-    !c.req.path.startsWith("/api/users") &&
-    !c.req.path.startsWith("/api/billings/stripe/webhook") &&
-    !c.req.path.startsWith("/api/webhook")
-  ) {
-    return authMiddleware(c, next);
-  }
-  await next();
-});
-// .get(
-//   '*',
-//   cache({
-//     cacheName: 'portal-api',
-//     cacheControl: 'max-age=15',
-//   })
-// )
-app
+    if (
+      !c.req.path.startsWith("/api/auth") &&
+      !c.req.path.startsWith("/api/files") &&
+      !c.req.path.startsWith("/api/users") &&
+      !c.req.path.startsWith("/api/billings/stripe/webhook") &&
+      !c.req.path.startsWith("/api/webhook")
+    ) {
+      return authMiddleware(c, next);
+    }
+    await next();
+  })
   .use(
     "/*",
     cors({
@@ -49,6 +44,7 @@ app
       credentials: true,
     })
   )
+  .route("/", publicRoutes)
   .route("/auth", authRoutes)
   .route("/items", itemRoutes)
   .route("/admin", adminRoutes)
