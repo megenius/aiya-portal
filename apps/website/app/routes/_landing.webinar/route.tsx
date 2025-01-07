@@ -7,7 +7,7 @@ import { MetaFunction } from '@remix-run/cloudflare';
 export const meta: MetaFunction = () => {
   return [
     {
-      title: 'ห้ามพลาด! Business Webinar สุดพิเศษ "AI-Powered Customer Experience รับฟรี Voucher 3,000 บาท"',
+      title: 'AI-Powered Customer Experience: ยกระดับธุรกิจบริการด้วย Generative AI',
     },
     {
       property: "og:title",
