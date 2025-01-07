@@ -1,6 +1,6 @@
 import React from 'react';
 import { MessageSquare, Users, Zap, BarChart3, ArrowRight, Check, Shield, Globe, Bot } from 'lucide-react';
-import Header from '~/components/header';
+import Header from '~/components/Header';
 
 export default function LandingPage() {
   return (
