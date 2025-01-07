@@ -22,7 +22,7 @@ interface WebhookEvent {
   replyToken?: string;
 }
 
-const LINE_CHANNEL_ACCESS_TOKEN = ""
+const LINE_CHANNEL_ACCESS_TOKEN = "FLumfnjTBd3XaXv4hxYiRQbRJRILCusGiPR19fYqXHGjezmAHDpSadtsr0B3NqlriZwH5jINy/3JDvTmQfF+CNDLiJhkPtizYCjXw0xGGGP/IyZ5Xmpzc/KkzHxugITVbvPpKPEq3NcnDDwgYgO50AdB04t89/1O/w1cDnyilFU="
 
 async function sendLineReply(replyToken: string, messages: any[]) {
   const response = await fetch("https://api.line.me/v2/bot/message/reply", {

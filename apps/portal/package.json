@@ -9,7 +9,7 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "preview": "vite preview",
     "typecheck": "tsc",
-    "tunnel": "cloudflared tunnel --url http://localhost:4000"
+    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
