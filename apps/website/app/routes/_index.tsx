@@ -21,7 +21,7 @@ export default function LandingPage() {
                   Build intelligent chatbots, manage conversations across channels, and analyze customer interactions - all from one powerful platform.
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <a href="#" className="rounded-lg bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+                  <a href="https://portal-dev.aiya.me/" className="rounded-lg bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
                     Start Free Trial
                   </a>
                   <a href="#" className="text-base font-semibold leading-6 text-gray-900 flex items-center hover:text-blue-600">
@@ -177,7 +177,7 @@ export default function LandingPage() {
               Join thousands of companies already using AIYA to deliver exceptional customer experiences.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href="#" className="rounded-lg bg-white px-8 py-4 text-base font-semibold text-blue-600 shadow-sm hover:bg-blue-50 transition-all">
+              <a href="https://portal-dev.aiya.me/" className="rounded-lg bg-white px-8 py-4 text-base font-semibold text-blue-600 shadow-sm hover:bg-blue-50 transition-all">
                 Start your free trial
               </a>
               <a href="#" className="text-base font-semibold leading-6 text-white flex items-center hover:text-blue-100 transition-colors">
