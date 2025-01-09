@@ -31,6 +31,7 @@ billingsRoutes.post(
   directusMiddleware,
   userMiddleware,
   stripeMiddleware,
+  billingMiddleware,
   ...BillingHandler.createOnboardFreePlan
 );
 
@@ -51,12 +52,22 @@ billingsRoutes.get(
   ...BillingHandler.getCheckoutSession
 );
 
+// change plan
+billingsRoutes.post(
+  "/change-plan",
+  directusMiddleware,
+  userMiddleware,
+  stripeMiddleware,
+  ...BillingHandler.changePlan
+);
+
 // cancel subscription
 billingsRoutes.post(
   "/cancel-subscription",
   directusMiddleware,
   userMiddleware,
   stripeMiddleware,
+  billingMiddleware,
   ...BillingHandler.cancelSubscription
 );
 

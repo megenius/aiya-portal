@@ -34,7 +34,12 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
       return;
     }
 
-    checkout.mutate({ priceId, email: user?.email, annual: isAnnual, price, action });
+    checkout.mutate({
+      currentSubscriptionId: currentPlan?.subscription?.id,
+      currentPriceId: currentPlan?.subscription?.stripe_price_id,
+      newPriceId: priceId,
+      email: user?.email, annual: isAnnual, price, action
+    });
   }
 
 

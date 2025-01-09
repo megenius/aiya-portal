@@ -51,6 +51,22 @@ export class StripeService {
     return subscription;
   }
 
+  async getAiBotFreePlan() {
+    const prices = await this.stripe.prices.list({
+      lookup_keys: ["aibots_free_plan"],
+      active: true,
+    });
+
+    console.log(prices);
+    
+
+    if (prices.data?.length === 0) {
+      throw new Error("Free plan not found");
+    }
+
+    return prices.data[0];
+  }
+
   async getPrice(priceId: string) {
     return this.stripe.prices.retrieve(priceId, {
       expand: ["product", "currency_options"],
@@ -72,7 +88,6 @@ export class StripeService {
   async cancelSubscription(
     subscriptionId: string,
     opts?: {
-      isFreePlan?: boolean;
       feedback?: Stripe.SubscriptionUpdateParams.CancellationDetails.Feedback;
     }
   ) {
@@ -91,5 +106,17 @@ export class StripeService {
     //     feedback: opts?.feedback,
     //   },
     // });
+  }
+
+  async upgradeSubscription(subscriptionId: string, priceId: string) {
+    return this.stripe.subscriptions.update(subscriptionId, {
+      items: [{ id: subscriptionId, price: priceId }],
+    });
+  }
+
+  async downgradeSubscription(subscriptionId: string, priceId: string) {
+    return this.stripe.subscriptions.update(subscriptionId, {
+      items: [{ id: subscriptionId, price: priceId }],
+    });
   }
 }

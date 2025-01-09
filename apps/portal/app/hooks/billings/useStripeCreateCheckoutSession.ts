@@ -7,7 +7,9 @@ import { useLanguage } from "../useLanguage";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 interface CheckoutSessionRequest {
-  priceId: string;
+  currentSubscriptionId?: string;
+  currentPriceId?: string;
+  newPriceId: string;
   annual: boolean;
   price: number;
   email?: string;
@@ -26,9 +28,11 @@ export const useStripeCreateCheckoutSession = () => {
 
   return useMutation({
     mutationFn: async (data: CheckoutSessionRequest) =>
-      createCheckoutSession({ ...data, language: currentLanguage, currency }).then(
-        (res) => res.data
-      ),
+      createCheckoutSession({
+        ...data,
+        language: currentLanguage,
+        currency,
+      }).then((res) => res.data),
     onSuccess: async (data) => {
       const stripe = await stripePromise;
       if (!stripe) throw new Error("Stripe failed to initialize");

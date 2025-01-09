@@ -100,6 +100,62 @@ export class BillingService {
     return prices;
   }
 
+  async getCurrentPlan(user: Stripe.Customer) {
+    const subscription = await this.directus.request(
+      readItems("saas_subscriptions", {
+        filter: {
+          customer: {
+            _eq: user.id,
+          },
+          status: {
+            _eq: "active",
+          },
+        },
+        sort: ["-date_created"],
+      })
+    );
+
+    if (subscription.length === 0) {
+      return null;
+    }
+
+    const plan = await this.directus.request(
+      readItem("saas_prices", subscription[0].stripe_price_id)
+    );
+
+    return { subscription: subscription[0], plan };
+  }
+
+  async changePlan(subscriptionId: string, newPriceId: string) {
+    const subscription = await this.directus.request(
+      readItem("saas_subscriptions", subscriptionId)
+    );
+    const plan = await this.directus.request(
+      readItem("saas_prices", subscription.stripe_price_id)
+    );
+    const newPlan = await this.directus.request(
+      readItem("saas_prices", newPriceId)
+    );
+
+    const isFreePlan = plan.pricing_type === "free";
+    const isFreePlanUpgrade = newPlan.pricing_type === "free";
+
+    if (isFreePlan && !isFreePlanUpgrade) {
+      // Upgrade from free plan to paid plan
+      await this.stripeService.upgradeSubscription(subscriptionId, newPriceId);
+    } else if (!isFreePlan && !isFreePlanUpgrade) {
+      // Upgrade from paid plan to paid plan
+      await this.stripeService.upgradeSubscription(subscriptionId, newPriceId);
+    } else if (!isFreePlan && isFreePlanUpgrade) {
+      // Downgrade from paid plan to free plan
+      await this.stripeService.cancelSubscription(subscriptionId);
+      await this.stripeService.createFreePlan(
+        subscription.stripe_customer_id as string,
+        subscription.customer as string
+      );
+    }
+  }
+
   async onCustomerCreated(customer: Stripe.Customer) {
     const user = await this.directus.request(
       readUser(customer.metadata?.user_id)
@@ -269,17 +325,19 @@ export class BillingService {
     );
 
     const subscriptionUpdated = await this.directus.request(
-      updateItem(
-        "saas_subscriptions",
-        newSubscription.id,
-        {
-          status: "active",
-        }
-      )
-    )
+      updateItem("saas_subscriptions", newSubscription.id, {
+        status: "active",
+      })
+    );
 
-    console.log("onCheckoutSessionCompleted:Customer was updated!", customerUpdated);
-    console.log("onCheckoutSessionCompleted:Subscription was updated!", subscriptionUpdated);
+    console.log(
+      "onCheckoutSessionCompleted:Customer was updated!",
+      customerUpdated
+    );
+    console.log(
+      "onCheckoutSessionCompleted:Subscription was updated!",
+      subscriptionUpdated
+    );
   }
 
   async onInvoiceCreated(invoice: Stripe.Invoice) {
@@ -327,8 +385,12 @@ export class BillingService {
       )
     );
 
-    console.log('Subscription was updated!', subscriptionUpdated);
+    console.log("Subscription was updated!", subscriptionUpdated);
     console.log("Invoice was paid!", invoicePaid);
+  }
+
+  async getAiBotFreePlan() {
+    return await this.stripeService.getAiBotFreePlan();
   }
 }
 

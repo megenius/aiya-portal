@@ -16,20 +16,31 @@ const Route = () => {
   const { t } = useTranslation()
   const { data, refetch } = useCurrentBillingPlan()
   const cancelSubscription = useCancelSubscription()
+  const [isCanceling, setIsCanceling] = React.useState(false)
 
   const handleCancel = () => {
+    setIsCanceling(true)
     cancelSubscription.mutateAsync({
       stripeSubscriptionId: data?.subscription.id as string
     }).then(() => {
-      toast.success(t('billing.subscription.cancel.success'))
       setTimeout(() => {
+        toast.success(t('billing.subscription.cancel.success'))
         refetch()
-      }, 1000)
+        setIsCanceling(false)
+      }, 3000)
     })
   }
 
   if (!data) {
     return <Loading />
+  }
+
+  if (isCanceling) {
+    return (
+      <>
+        <Loading />
+      </>
+    )
   }
 
   return (
