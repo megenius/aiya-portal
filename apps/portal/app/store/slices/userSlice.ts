@@ -14,7 +14,7 @@ const initialState: UserState = {
   firstName: "",
   lastName: "",
   avatar: "",
-  language: "en", // ภาษาหลักเริ่มต้น
+  language: "th", // ภาษาหลักเริ่มต้น
 };
 
 const userSlice = createSlice({

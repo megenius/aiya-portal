@@ -24,14 +24,13 @@ export default function PrelineScript() {
     async function initializePreline() {
       await import('preline/preline').then(({ HSOverlay, HSStaticMethods, HSDropdown, HSAccordion, HSTogglePassword, HSSelect }) => {
         setTimeout(() => {
-          // HSStaticMethods.autoInit();
+          HSStaticMethods.autoInit();
           HSOverlay.autoInit();
           HSDropdown.autoInit()
           HSAccordion.autoInit()
           HSTogglePassword.autoInit()
-        }, 1000)
-
-        HSSelect.autoInit()
+          HSSelect.autoInit()
+        }, 500)
       });
     }
 

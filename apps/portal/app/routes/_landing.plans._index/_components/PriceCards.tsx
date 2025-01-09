@@ -225,10 +225,16 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
                     isCurrent(plan) ||
                     getButtonStatus(plan)
                   }
-                  data-hs-overlay={plan.pricing_type === 'free' ? "#hs-pro-dlcsam" : ""}
+                  // data-hs-overlay={plan.pricing_type === 'free' ? "#hs-pro-cancel-subscription" : ""}
+                  // data-hs-overlay="#hs-pro-cancel-subscription"
                   onClick={() => {
                     if (plan.pricing_type !== 'free') {
                       handleCheckout(plan, isUpgrade(plan) ? 'upgrade' : 'downgrade')
+                    } else {
+                      const modal = document.getElementById('hs-pro-cancel-subscription')
+                      if (modal) {
+                        window.HSOverlay.open(modal);
+                      }
                     }
                   }}
                 >
@@ -251,7 +257,7 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
           )
         }
       </div >
-      <DeleteModal id="hs-pro-dlcsam"
+      <DeleteModal id="hs-pro-cancel-subscription"
         title={t("billing.subscription.cancel.title")}
         warning={t("billing.subscription.cancel.warning")}
         confirmButton={t("billing.subscription.cancel.confirmButton")}

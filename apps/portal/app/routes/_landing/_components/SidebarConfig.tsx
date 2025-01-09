@@ -39,16 +39,16 @@ export const useSidebarLinks = (): SidebarLink[] => {
       label: t('sidebar.billing'),
       icon: <CreditCard className="flex-shrink-0 mt-0.5 size-4" />,
     },
-    {
-      to: "/credits",
-      label: t('sidebar.credits'),
-      icon: <Gift className="flex-shrink-0 mt-0.5 size-4" />,
-    },
-    {
-      to: "/affiliates",
-      label: t('sidebar.affiliates'),
-      icon: <DollarSign className="flex-shrink-0 mt-0.5 size-4" />,
-    },
+    // {
+    //   to: "/credits",
+    //   label: t('sidebar.credits'),
+    //   icon: <Gift className="flex-shrink-0 mt-0.5 size-4" />,
+    // },
+    // {
+    //   to: "/affiliates",
+    //   label: t('sidebar.affiliates'),
+    //   icon: <DollarSign className="flex-shrink-0 mt-0.5 size-4" />,
+    // },
     {
       to: "/helpdesk",
       label: t('sidebar.helpdesk'),
