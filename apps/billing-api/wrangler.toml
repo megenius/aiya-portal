@@ -13,6 +13,7 @@ routes = [
 mode = "smart"
 
 [vars]
+NODE_ENV = "development"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal-dev.aiya.me"
 
@@ -52,6 +53,7 @@ routes = [{ pattern = "portal.aiya.me/api/billing/*", zone_name = "aiya.me" }]
 mode = "smart"
 
 [env.prod.vars]
+NODE_ENV = "production"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal-dev.aiya.me"
 
