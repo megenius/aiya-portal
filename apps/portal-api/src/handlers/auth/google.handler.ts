@@ -11,9 +11,24 @@ import { Context } from "hono";
 
 const factory = createFactory<Env>();
 
-async function getGoogleUserInfo(code: string, c: Context<Env>) {
+async function getGoogleUserInfo(
+  code: string,
+  c: Context<Env>
+): Promise<{
+  email: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  id: string;
+}> {
   const state = c.req.query("state");
   const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, PORTAL_URL } = c.env;
+
+  console.log({
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    PORTAL_URL,
+  });
 
   try {
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
@@ -37,7 +52,11 @@ async function getGoogleUserInfo(code: string, c: Context<Env>) {
       );
     }
 
-    const tokenData = await tokenResponse.json();
+    const tokenData = await tokenResponse.json<{
+      access_token: string;
+      expires_in: number;
+      refresh_token: string;
+    }>();
 
     const userResponse = await fetch(
       "https://www.googleapis.com/oauth2/v2/userinfo",
