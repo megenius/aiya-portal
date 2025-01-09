@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 
 # Development environment
 routes = [
-  { pattern = "realtime-dev.aiya.me", zone_name = "aiya.me", custom_domain=true },
+  { pattern = "realtime-dev.aiya.me", zone_name = "aiya.me", custom_domain = true },
   { pattern = "portal-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
   { pattern = "realtime-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
 ]
@@ -39,15 +39,19 @@ queue = "billing-queue"
 
 [[queues.consumers]]
 queue = "billing-queue"
-max_batch_size = 1     # optional: defaults to 10
-max_batch_timeout = 60   # optional: defaults to 5 seconds
+max_batch_size = 1      # optional: defaults to 10
+max_batch_timeout = 60  # optional: defaults to 5 seconds
 
 
 # Production environment
 [env.prod]
 name = "billing-api_prod"
 
-routes = [{ pattern = "portal.aiya.me/api/billing/*", zone_name = "aiya.me" }]
+routes = [
+  { pattern = "realtime.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "portal.aiya.me/api/billing/*", zone_name = "aiya.me" },
+  { pattern = "realtime.aiya.me/api/billing/*", zone_name = "aiya.me" },
+]
 
 [env.prod.placement]
 mode = "smart"
@@ -55,7 +59,7 @@ mode = "smart"
 [env.prod.vars]
 NODE_ENV = "production"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
-PORTAL_URL = "https://portal-dev.aiya.me"
+PORTAL_URL = "https://portal.aiya.me"
 
 [[env.prod.kv_namespaces]]
 binding = "CACHING"
@@ -78,6 +82,5 @@ queue = "billing-queue"
 
 [[env.prod.queues.consumers]]
 queue = "billing-queue"
-max_batch_size = 100   # optional: defaults to 10
-max_batch_timeout = 60 # optional: defaults to 5 seconds
-
+max_batch_size = 100    # optional: defaults to 10
+max_batch_timeout = 60  # optional: defaults to 5 seconds
