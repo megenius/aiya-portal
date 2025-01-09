@@ -7,7 +7,8 @@ const factory = createFactory<Env>();
 export const billingMiddleware = factory.createMiddleware(async (c, next) => {
   const billingService = new BillingService(
     c.get("stripeService"),
-    c.get("directus")
+    c.get("directus"),
+    c.env.NODE_ENV
   );
   c.set("billingService", billingService);
 
@@ -18,7 +19,8 @@ export const billingAdminMiddleware = factory.createMiddleware(
   async (c, next) => {
     const billingAdminService = new BillingService(
       c.get("stripeService"),
-      c.get("directAdmin")
+      c.get("directAdmin"),
+      c.env.NODE_ENV
     );
 
     c.set("billingAdminService", billingAdminService);

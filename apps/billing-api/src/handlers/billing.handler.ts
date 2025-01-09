@@ -45,6 +45,7 @@ export const createOnboardFreePlan = factory.createHandlers(
       );
 
       if (subscriptions.length > 0) {
+        console.error("User already subscribed");
         return c.json({ error: "User already subscribed" });
       }
 
@@ -56,10 +57,12 @@ export const createOnboardFreePlan = factory.createHandlers(
 
       // get free plan price id from prices
       if (prices.data?.length === 0) {
+        console.error("Free plan not found");
         throw new Error("Free plan not found");
       }
 
       if (user.email === undefined) {
+        console.error("User email not found");
         throw new Error("User email not found");
       }
 
@@ -67,8 +70,11 @@ export const createOnboardFreePlan = factory.createHandlers(
         .request(readItem("saas_customers", user.id))
         .catch((e) => null);
 
+      console.log("existCustomer", existCustomer);
+
       if (!existCustomer) {
         // create stripe customer
+
         const customer = await stripeService.createCustomer(user);
         const sub = await stripeService.createFreePlan(customer.id, user.id);
         return c.json(sub);
@@ -87,7 +93,8 @@ export const createOnboardFreePlan = factory.createHandlers(
 );
 
 export const createCheckout = factory.createHandlers(logger(), async (c) => {
-  const { PORTAL_URL } = c.env;
+  const { PORTAL_URL, STRIPE_API_KEY, STRIPE_WEBHOOK_SECRET } = c.env;
+
   const {
     currentSubscriptionId,
     currentPriceId,
@@ -96,6 +103,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     currency,
     action,
   } = await c.req.json();
+  const stripeService = c.get("stripeService");
   const stripe = c.get("stripe");
   const directus = c.get("directus");
 
@@ -138,9 +146,17 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       );
 
       if (remainingDays > 0) {
+        const price = await stripeService.getPrice(
+          subscription.items.data[0].price.id
+        );
+        let old_unit_amount = price.unit_amount;
+
+        if (price.currency_options) {
+          old_unit_amount = price.currency_options[currency].unit_amount;
+        }
+
         // Calculate prorated amount
-        const oldSubscriptionAmount =
-          subscription.items.data[0].price.unit_amount || 0;
+        const oldSubscriptionAmount = old_unit_amount || 0;
         const proratedAmount = Math.floor(
           (oldSubscriptionAmount * remainingDays) / 30
         );
@@ -208,76 +224,6 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     hasDiscount: discounts.length > 0,
   });
 });
-
-// export const createCheckout = factory.createHandlers(logger(), async (c) => {
-//   const { PORTAL_URL } = c.env;
-//   const { priceId, language, currency, action } = await c.req.json();
-//   const stripe = c.get("stripe");
-//   const directus = c.get("directus");
-
-//   console.log(priceId, language, currency);
-
-//   // check if user already subscribed
-//   const user = c.get("user") as DirectusUser;
-//   const customer = await directus.request(readItem("saas_customers", user.id));
-
-//   const subscriptions = await stripe.subscriptions.list({
-//     customer: customer.stripe_customer_id,
-//     status: "active",
-//     limit: 1,
-//   });
-
-//   const metadata = {
-//     user_id: user.id,
-//     old_subscription_id: "",
-//     rollback_subscription_id: "",
-//     action,
-//   };
-
-//   if (subscriptions.data.length > 0) {
-//     const subscription = subscriptions.data[0];
-//     if (subscription.currency !== currency) {
-//       await stripe.subscriptions.cancel(subscription.id as string);
-//       metadata["rollback_subscription_id"] = subscription.id;
-//     } else {
-//       metadata["old_subscription_id"] = subscription.id;
-//     }
-//   }
-
-//   const session = await stripe.checkout.sessions.create({
-//     payment_method_types: ["card"],
-//     currency,
-//     line_items: [
-//       {
-//         price: priceId,
-//         quantity: 1,
-//       },
-//     ],
-//     mode: "subscription",
-//     subscription_data: {
-//       metadata,
-//     },
-//     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
-//     cancel_url: `${PORTAL_URL}/plans`,
-//     billing_address_collection: "required",
-//     customer: customer.stripe_customer_id,
-//     // customer_email: email,
-//     phone_number_collection: {
-//       enabled: true,
-//     },
-//     tax_id_collection: {
-//       enabled: true,
-//     },
-//     customer_update: {
-//       name: "auto",
-//       address: "auto",
-//     },
-//     metadata,
-//     locale: language,
-//   });
-
-//   return c.json({ sessionId: session.id });
-// });
 
 export const getCheckoutSession = factory.createHandlers(
   logger(),

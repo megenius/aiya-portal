@@ -14,13 +14,16 @@ import Stripe from "stripe";
 export class BillingService {
   private stripeService: StripeService;
   private directus: ClientType | AdminClientType;
+  private env: string;
 
   constructor(
     stripeService: StripeService,
-    directus: ClientType | AdminClientType
+    directus: ClientType | AdminClientType,
+    env: string
   ) {
     this.stripeService = stripeService;
     this.directus = directus;
+    this.env = env;
   }
 
   async getPlans({
@@ -174,6 +177,7 @@ export class BillingService {
         stripe_customer_id: customer.id,
         name: customer.name as string,
         email: customer.email as string,
+        env: this.env,
       })
     );
 
@@ -229,6 +233,7 @@ export class BillingService {
           metadata: subscription.metadata, // ไม่ต้อง JSON.stringify เพราะ field เป็น jsonb
           interval: plan.interval,
           features: features,
+          env: this.env,
         })
       )
       .catch((error) => {
