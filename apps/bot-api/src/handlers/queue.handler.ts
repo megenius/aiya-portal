@@ -27,6 +27,9 @@ export async function handleQueueMessage(batch: MessageBatch, env: WorkerEnv) {
   } else if (batch.queue === "capi-queue") {
     await handleCapiEvents(batch, env);
   }
+
+  console.log("batch", batch);
+  
 }
 
 async function handleSentenceEmbeddings(batch: MessageBatch, env: WorkerEnv) {

@@ -1,0 +1,33 @@
+{
+  "title": "Profile",
+  "subtitle": "Manage your name, password and account settings.",
+  "avatar": {
+    "label": "Avatar",
+    "upload": "Upload photo",
+    "uploading": "Uploading...",
+    "delete": "Delete",
+    "help_text": "Pick a photo up to 1MB."
+  },
+  "personal_info": "Personal info",
+  "name": {
+    "label": "Name",
+    "placeholder": "Enter full name",
+    "help_text": "Enter your full name, or a display name you are comfortable with."
+  },
+  "email": {
+    "label": "Email",
+    "placeholder": "Enter email address",
+    "help_text": "Enter the email address you want to use to log in with AIYA."
+  },
+  "language": {
+    "label": "Language",
+    "help_text": "Change the language used in the user interface."
+  },
+  "buttons": {
+    "save": "Save changes",
+    "cancel": "Cancel"
+  },
+  "toast": {
+    "success": "Success"
+  }
+}

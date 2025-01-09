@@ -1,6 +1,3 @@
-// File: src/routes/items.ts
-import { Hono } from "hono";
-import { getDirectusClient } from "../config/directus";
 import {
   readItems,
   createItem,
@@ -367,7 +364,7 @@ export const getWorkspaceChannels = factory.createHandlers(
             "name",
             "logo",
             "expired_at",
-            "dataset"
+            "dataset",
           ],
           sort: ["-date_updated"],
         })
@@ -493,7 +490,6 @@ export const createWorkspaceChannelFacebooks = factory.createHandlers(
       );
 
       console.log("datasetIds", datasetIds);
-      
 
       // Download and import logos
       const fileIds = await Promise.all(

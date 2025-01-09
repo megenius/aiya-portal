@@ -4,9 +4,11 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "portal-dev.aiya.me/api/*", zone_name = "aiya.me" },
-  { pattern = "liff-dev.aiya.me/api/files/*", zone_name = "aiya.me" }, 
+  { pattern = "liff-dev.aiya.me/api/files/*", zone_name = "aiya.me" },
   { pattern = "liff2-dev.aiya.me/api/files/*", zone_name = "aiya.me" },
 ]
+
+services = [{ binding = "BillingService", service = "billing-api_dev" }]
 
 [placement]
 mode = "smart"
@@ -17,26 +19,28 @@ bucket_name = "bot-message"
 preview_bucket_name = "preview-bot-message"
 
 [vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal-dev.aiya.me"
 FB_API_URL = "https://graph.facebook.com/v20.0"
-FB_APP_ID = "788582819272015"
-BOT_MESSAGE_BUCKET_CDN = "https://pub-07ce3c07d08e416caec26bf7a9128170.r2.dev"
-LINE_WEBHOOK_ENDPOINT = "https://webhook-dev.aiya.me/api/v2/line/webhook"
+FB_APP_ID = "879998535846224"
+BOT_MESSAGE_BUCKET_CDN = "https://cdn-bot.aiya.me"
+LINE_WEBHOOK_ENDPOINT = "https://webhook.aiya.me/api/v2/line/webhook"
 GOOGLE_CLIENT_ID = "263564006399-jba2i6vddgnu8r9nlsir2m1v3a44op33.apps.googleusercontent.com"
-GOOGLE_REDIRECT_URI = "https://portal.aiya.me/api/auth/google/callback"
+GOOGLE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/google/callback"
 LINE_CLIENT_ID = "1660709265"
-LINE_REDIRECT_URI = "https://portal.aiya.me/api/auth/line/callback"
+LINE_REDIRECT_URI = "https://portal-dev.aiya.me/api/auth/line/callback"
 
 [[kv_namespaces]]
 binding = "CACHING"
-id = "5e314082400b4a1dac3ec0a2937a8dd8"
+id = "b494201ff6b74231a02c94891f805ba7"
+
 
 [env.prod]
 name = "portal-api_prod"
 
 routes = [
   { pattern = "portal.aiya.me/api/*", zone_name = "aiya.me" },
-  { pattern = "liff.aiya.me/api/files/*", zone_name = "aiya.me" }, 
+  { pattern = "liff.aiya.me/api/files/*", zone_name = "aiya.me" },
   { pattern = "liff2.aiya.me/api/files/*", zone_name = "aiya.me" },
 ]
 

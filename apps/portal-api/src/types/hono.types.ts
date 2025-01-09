@@ -1,8 +1,9 @@
 import { KVNamespace, Queue, Vectorize, R2Bucket } from "@cloudflare/workers-types";
+import Stripe from "stripe";
 import { ClientType, AdminClientType } from "~/utils/directus";
 
 export type Env = {
-  Bindings: Bindings;
+  Bindings: WorkerEnv;
   Variables: Variables;
 };
 
@@ -10,6 +11,7 @@ type Variables = {
   token: string;
   directus: ClientType;
   directAdmin: AdminClientType;
+  stripe: Stripe;
 };
 
 export type Bindings = {
@@ -33,5 +35,8 @@ export type Bindings = {
   LINE_CLIENT_ID: string
   LINE_CLIENT_SECRET: string
   LINE_REDIRECT_URI: string
+
+  STRIPE_API_KEY: string
+  STRIPE_WEBHOOK_SECRET: string
 }
 

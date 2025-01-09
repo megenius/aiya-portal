@@ -16,6 +16,8 @@ botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 
 botsRoutes.get("/:id/knowledges", ...BotsHandler.searchBotKnowledgesHandler);
 botsRoutes.post("/:id/knowledges", ...BotsHandler.createBotKnowledgeHandler);
+
+// search
 botsRoutes.get("/:id/search", ...BotsHandler.searchBotHandler);
 
 //get channels

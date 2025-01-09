@@ -1,4 +1,5 @@
 import { LogoAiya } from "@repo/ui/LogoAiya";
+import LanguageSelector from "./LanguageSelector";
 
 export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl:w-[430px] bg-gray-100 lg:flex flex-col justify-between p-6">
   {/* Header */}
@@ -12,91 +13,16 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
       <LogoAiya />
     </a>
     {/* End Logo */}
-    {/* Language Select */}
-    <div className="relative">
-      <select
-        id="hs-pro-select-language"
-        data-hs-select='{
-"placeholder": "Select country",
-"toggleTag": "<button type=\"button\" aria-expanded=\"false\"><div data-icon></div></button>",
-"toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-3 pe-7 flex items-center gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm text-gray-800 hover:border-gray-300 focus:outline-none focus:border-gray-300",
-"dropdownClasses": "end-0 w-full min-w-[180px] max-h-72 p-1 space-y-0.5 z-50 w-full overflow-hidden overflow-y-auto bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-"optionClasses": "hs-selected:bg-gray-100 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100",
-"optionTemplate": "<div><div class=\"flex items-center gap-x-2\"><div data-icon></div><div class=\"text-gray-800" data-title></div><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div></div>"
-}'
-        className="hidden"
-      >
-        <option value="">Choose</option>
-        <option
-          value="English-us"
-          selected=""
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><g fillRule=\"evenodd\"><g stroke-width=\"1pt\"><path fill=\"#bd3d44\" d=\"M0 0h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z\" transform=\"scale(3.9385)\"/><path fill=\"#fff\" d=\"M0 10h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z\" transform=\"scale(3.9385)\"/></g><path fill=\"#192f5d\" d=\"M0 0h98.8v70H0z\" transform=\"scale(3.9385)\"/><path fill=\"#fff\" d=\"M8.2 3l1 2.8H12L9.7 7.5l.9 2.7-2.4-1.7L6 10.2l.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7L74 8.5l-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 7.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 24.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 21.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 38.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 35.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 52.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 49.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 66.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 63.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9z\" transform=\"scale(3.9385)\"/></g></svg>"}'
-        >
-          English (US)
-        </option>
-        <option
-          value="English-uk"
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" id=\"flag-icon-css-gb\" viewBox=\"0 0 512 512\"><path fill=\"#012169\" d=\"M0 0h512v512H0z\"/><path fill=\"#FFF\" d=\"M512 0v64L322 256l190 187v69h-67L254 324 68 512H0v-68l186-187L0 74V0h62l192 188L440 0z\"/><path fill=\"#C8102E\" d=\"M184 324l11 34L42 512H0v-3l184-185zm124-12l54 8 150 147v45L308 312zM512 0L320 196l-4-44L466 0h46zM0 1l193 189-59-8L0 49V1z\"/><path fill=\"#FFF\" d=\"M176 0v512h160V0H176zM0 176v160h512V176H0z\"/><path fill=\"#C8102E\" d=\"M0 208v96h512v-96H0zM208 0v512h96V0h-96z\"/></svg>"}'
-        >
-          English (UK)
-        </option>
-        <option
-          value="Deutsch"
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" id=\"flag-icon-css-de\" viewBox=\"0 0 512 512\"><path fill=\"#ffce00\" d=\"M0 341.3h512V512H0z\"/><path d=\"M0 0h512v170.7H0z\"/><path fill=\"#d00\" d=\"M0 170.7h512v170.6H0z\"/></svg>"}'
-        >
-          Deutsch
-        </option>
-        <option
-          value="Dansk"
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" id=\"flag-icon-css-dk\" viewBox=\"0 0 512 512\"><path fill=\"#c8102e\" d=\"M0 0h512.1v512H0z\"/><path fill=\"#fff\" d=\"M144 0h73.1v512H144z\"/><path fill=\"#fff\" d=\"M0 219.4h512.1v73.2H0z\"/></svg>"}'
-        >
-          Dansk
-        </option>
-        <option
-          value="Italiano"
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" id=\"flag-icon-css-it\" viewBox=\"0 0 512 512\"><g fillRule=\"evenodd\" stroke-width=\"1pt\"><path fill=\"#fff\" d=\"M0 0h512v512H0z\"/><path fill=\"#009246\" d=\"M0 0h170.7v512H0z\"/><path fill=\"#ce2b37\" d=\"M341.3 0H512v512H341.3z\"/></g></svg>"}'
-        >
-          Italiano
-        </option>
-        <option
-          value="中文-繁體"
-          data-hs-select-option='{
-"icon": "<svg class=\"shrink-0 size-4 rounded-full\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" id=\"flag-icon-css-cn\" viewBox=\"0 0 512 512\"><defs><path id=\"a\" fill=\"#ffde00\" d=\"M1-.3L-.7.8 0-1 .6.8-1-.3z\"/></defs><path fill=\"#de2910\" d=\"M0 0h512v512H0z\"/><use width=\"30\" height=\"20\" transform=\"matrix(76.8 0 0 76.8 128 128)\" xlink:href=\"#a\"/><use width=\"30\" height=\"20\" transform=\"rotate(-121 142.6 -47) scale(25.5827)\" xlink:href=\"#a\"/><use width=\"30\" height=\"20\" transform=\"rotate(-98.1 198 -82) scale(25.6)\" xlink:href=\"#a\"/><use width=\"30\" height=\"20\" transform=\"rotate(-74 272.4 -114) scale(25.6137)\" xlink:href=\"#a\"/><use width=\"30\" height=\"20\" transform=\"matrix(16 -19.968 19.968 16 256 230.4)\" xlink:href=\"#a\"/></svg>"}'
-        >
-          中文 (繁體)
-        </option>
-      </select>
-      <div className="absolute top-1/2 end-2.5 -translate-y-1/2">
-        <svg
-          className="shrink-0 size-3.5 text-gray-500"
-          xmlns="http://www.w3.org/2000/svg"
-          width={24}
-          height={24}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m7 15 5 5 5-5" />
-          <path d="m7 9 5-5 5 5" />
-        </svg>
-      </div>
-      {/* End Header */}
-    </div>
-    {/* End Language Select */}
+
+
+    <LanguageSelector />
+
   </div>
   {/* End Header */}
   {/* Body */}
   <div>
     <span className="text-2xl font-medium text-gray-800">
-      The simplest way to manage your workforce
+      The simplest way to manage your AI Chatbot
     </span>
     <img
       className=""
@@ -112,6 +38,12 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
   {/* End Body */}
   {/* Footer */}
   <div className="flex justify-center gap-x-8">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40px" height="40px"><path d="M20,13.89A.77.77,0,0,0,19,13.73l-7,5.14v.22a.72.72,0,1,1,0,1.43v0a.74.74,0,0,0,.45-.15l7.41-5.47A.76.76,0,0,0,20,13.89Z" style={{ fill: '#669df6' }} /><path d="M12,20.52a.72.72,0,0,1,0-1.43h0v-.22L5,13.73a.76.76,0,0,0-1,.16.74.74,0,0,0,.16,1l7.41,5.47a.73.73,0,0,0,.44.15v0Z" style={{ fill: '#aecbfa' }} /><path d="M12,18.34a1.47,1.47,0,1,0,1.47,1.47A1.47,1.47,0,0,0,12,18.34Zm0,2.18a.72.72,0,1,1,.72-.71A.71.71,0,0,1,12,20.52Z" style={{ fill: '#4285f4' }} /><path d="M6,6.11a.76.76,0,0,1-.75-.75V3.48a.76.76,0,1,1,1.51,0V5.36A.76.76,0,0,1,6,6.11Z" style={{ fill: '#aecbfa' }} /><circle cx="5.98" cy={12} r="0.76" style={{ fill: '#aecbfa' }} /><circle cx="5.98" cy="9.79" r="0.76" style={{ fill: '#aecbfa' }} /><circle cx="5.98" cy="7.57" r="0.76" style={{ fill: '#aecbfa' }} /><path d="M18,8.31a.76.76,0,0,1-.75-.76V5.67a.75.75,0,1,1,1.5,0V7.55A.75.75,0,0,1,18,8.31Z" style={{ fill: '#4285f4' }} /><circle cx="18.02" cy="12.01" r="0.76" style={{ fill: '#4285f4' }} /><circle cx="18.02" cy="9.76" r="0.76" style={{ fill: '#4285f4' }} /><circle cx="18.02" cy="3.48" r="0.76" style={{ fill: '#4285f4' }} /><path d="M12,15a.76.76,0,0,1-.75-.75V12.34a.76.76,0,0,1,1.51,0v1.89A.76.76,0,0,1,12,15Z" style={{ fill: '#669df6' }} /><circle cx={12} cy="16.45" r="0.76" style={{ fill: '#669df6' }} /><circle cx={12} cy="10.14" r="0.76" style={{ fill: '#669df6' }} /><circle cx={12} cy="7.92" r="0.76" style={{ fill: '#669df6' }} /><path d="M15,10.54a.76.76,0,0,1-.75-.75V7.91a.76.76,0,1,1,1.51,0V9.79A.76.76,0,0,1,15,10.54Z" style={{ fill: '#4285f4' }} /><circle cx="15.01" cy="5.69" r="0.76" style={{ fill: '#4285f4' }} /><circle cx="15.01" cy="14.19" r="0.76" style={{ fill: '#4285f4' }} /><circle cx="15.01" cy="11.97" r="0.76" style={{ fill: '#4285f4' }} /><circle cx="8.99" cy="14.19" r="0.76" style={{ fill: '#aecbfa' }} /><circle cx="8.99" cy="7.92" r="0.76" style={{ fill: '#aecbfa' }} /><circle cx="8.99" cy="5.69" r="0.76" style={{ fill: '#aecbfa' }} /><path d="M9,12.73A.76.76,0,0,1,8.24,12V10.1a.75.75,0,1,1,1.5,0V12A.75.75,0,0,1,9,12.73Z" style={{ fill: '#aecbfa' }} /></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><defs><style dangerouslySetInnerHTML={{__html: ".cls-1{fill:#4285f4;}.cls-1,.cls-2{fill-rule:evenodd;}.cls-2{fill:#669df6;}" }} /></defs><title>Icon_24px_MLEngine_Color</title><g data-name="Product Icons"><g><polygon className="cls-1" points="16.64 15.13 17.38 13.88 20.91 13.88 22 12 19.82 8.25 16.75 8.25 15.69 6.39 14.5 6.39 14.5 5.13 16.44 5.13 17.5 7 19.09 7 16.9 3.25 12.63 3.25 12.63 8.25 14.36 8.25 15.09 9.5 12.63 9.5 12.63 12 14.89 12 15.94 10.13 18.75 10.13 19.47 11.38 16.67 11.38 15.62 13.25 12.63 13.25 12.63 17.63 16.03 17.63 15.31 18.88 12.63 18.88 12.63 20.75 16.9 20.75 20.18 15.13 18.09 15.13 17.36 16.38 14.5 16.38 14.5 15.13 16.64 15.13" /><polygon className="cls-2" points="7.36 15.13 6.62 13.88 3.09 13.88 2 12 4.18 8.25 7.25 8.25 8.31 6.39 9.5 6.39 9.5 5.13 7.56 5.13 6.5 7 4.91 7 7.1 3.25 11.38 3.25 11.38 8.25 9.64 8.25 8.91 9.5 11.38 9.5 11.38 12 9.11 12 8.06 10.13 5.25 10.13 4.53 11.38 7.33 11.38 8.38 13.25 11.38 13.25 11.38 17.63 7.97 17.63 8.69 18.88 11.38 18.88 11.38 20.75 7.1 20.75 3.82 15.13 5.91 15.13 6.64 16.38 9.5 16.38 9.5 15.13 7.36 15.13" /></g></g></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><defs><style dangerouslySetInnerHTML={{__html: ".cls-1{fill:#aecbfa;}.cls-1,.cls-2{fill-rule:evenodd;}.cls-2{fill:#4285f4;}" }} /></defs><title>Icon_24px_CloudRun_Color</title><g data-name="Product Icons"><g><polygon className="cls-1" points="8.9 2.63 12.02 12 21.38 12 8.9 2.63" /><polygon className="cls-2" points="21.38 12 12.02 12 8.9 21.38 21.38 12" /><polygon className="cls-2" points="3.44 21.38 6.57 19.81 8.9 12 5.78 12 3.44 21.38" /><polygon className="cls-1" points="3.44 2.63 5.78 12 8.9 12 6.57 4.19 3.44 2.63" /></g></g></svg>
+    <svg height={40} viewBox="0 0 24 24" width={40} xmlns="http://www.w3.org/2000/svg"><path d="m8.22677983.18378138 6.20620697 3.62387112c.4093837.23904142.6607632.67519487.6607632 1.14654078v7.95708642c0 .4713802-.2513795.9075337-.6607632 1.1465819l-6.8861118 4.0208496-.0198277-.0113767.01427046.0113767-2.97027162 1.7496168c-.15917732.0937552-.36481594.0417375-.45930282-.1161659-.03062659-.0511953-.04683865-.1095867-.04696214-.1691431l-.00712151-3.5017009-3.39692116-1.9834565c-.40938847-.2390482-.66073851-.6752017-.66073851-1.1465819v-7.95708642c0-.47134591.25135004-.90749936.66073851-1.14654078l6.20623166-3.62387112c.41960625-.24504189.94020341-.24504189 1.35980966 0zm-.67990483 3.92828759c-2.27320794 0-4.11647727 1.75760107-4.11647727 3.92517543v3.0528685c0 .7239983.61289544 1.3083918 1.37215909 1.3083918h1.37215909v-3.48902194h-1.82954774v-.74579224c0-1.67472233 1.35386821-3.13138849 3.10565569-3.17936263 1.81584674-.04797414 3.29777854 1.33455142 3.29777854 3.05291651v.87223836h-1.82956831v3.48902194h1.82956831v.4361535h-2.74431817v.8722384h2.74431817c.5031021 0 .9147499-.392497.9147499-.8722384v-4.7974138c0-2.16757436-1.84328994-3.92517543-4.1164773-3.92517543zm-2.28692953 5.66965215v1.74454528h-.45738865c-.25156479 0-.45738865-.1962828-.45738865-.4361535v-1.30839178zm5.48865693 0v1.74454528h-.91481845v-1.74454528z" fill="#4285f4" transform="translate(4.453125 2.0625)" /></svg>
+
+    {/* <div className="flex justify-center gap-x-8">
     <svg
       className="w-20"
       width={81}
@@ -138,7 +70,7 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
           />
         </clipPath>
       </defs>
-    </svg>
+    </svg> */}
     {/* <svg
       className="w-20"
       width={81}

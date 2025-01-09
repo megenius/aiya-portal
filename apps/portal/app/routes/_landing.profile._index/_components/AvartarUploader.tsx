@@ -1,5 +1,6 @@
 import { Avatar } from '@repo/preline/Avatar';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { User } from '~/@types/app';
 import { useFileDelete } from '~/hooks/useFileDelete';
 import { useFileUpload } from '~/hooks/useFileUpload';
@@ -7,25 +8,25 @@ import useUpdateMe from '~/hooks/useUpdateMe';
 import { getDirectusFileUrl } from '~/utils/files';
 
 interface AvatarProps {
-  // Define the props for the Avatar component here
   user?: User
 }
 
-const AvartarUploader: React.FC<AvatarProps> = ({ user }) => {
-  const updateMe = useUpdateMe()
-  const fileUpload = useFileUpload()
-  const fileDelete = useFileDelete()
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [avatar, setAvatar] = useState(user?.avatar)
+const AvatarUploader: React.FC<AvatarProps> = ({ user }) => {
+  const { t } = useTranslation('profile');
+  const updateMe = useUpdateMe();
+  const fileUpload = useFileUpload();
+  const fileDelete = useFileDelete();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [avatar, setAvatar] = useState(user?.avatar);
 
   const removeAvatar = useCallback(() => {
     if (user?.avatar) {
-      setAvatar(null)
+      setAvatar(null);
       updateMe.mutateAsync({ ...user, avatar: null }).then(() => {
-        fileDelete.mutateAsync(user?.avatar as string)
-      })
+        fileDelete.mutateAsync(user?.avatar as string);
+      });
     }
-  }, [user, updateMe])
+  }, [user, updateMe]);
 
   const PreviewAvatar = () => {
     return avatar ?
@@ -48,14 +49,14 @@ const AvartarUploader: React.FC<AvatarProps> = ({ user }) => {
           <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
         </svg>
       </span>
-  }
+  };
 
   const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     if (user?.avatar) {
-      await fileDelete.mutateAsync(user?.avatar as string)
+      await fileDelete.mutateAsync(user?.avatar as string);
     }
 
     fileUpload.mutateAsync(file, {
@@ -65,28 +66,25 @@ const AvartarUploader: React.FC<AvatarProps> = ({ user }) => {
     });
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+      fileInputRef.current.value = '';
     }
   }, [user, updateMe]);
 
   useEffect(() => {
     if (user) {
-      setAvatar(user.avatar)
+      setAvatar(user.avatar);
     }
-  }, [user])
+  }, [user]);
   
   return (
     <div className="py-6 sm:py-8 space-y-5 border-t border-gray-200 first:border-t-0 dark:border-neutral-700">
-      {/* Grid */}
       <div className="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
         <div className="sm:col-span-4 xl:col-span-3 2xl:col-span-2">
           <label className="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
-            Avatar
+            {t('avatar.label')}
           </label>
         </div>
-        {/* End Col */}
         <div className="sm:col-span-8 xl:col-span-4">
-          {/* Logo Upload Group */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-5">
             <PreviewAvatar />
             <div className="grow">
@@ -109,7 +107,7 @@ const AvartarUploader: React.FC<AvatarProps> = ({ user }) => {
                     <polyline points="17 8 12 3 7 8" />
                     <line x1={12} x2={12} y1={3} y2={15} />
                   </svg>
-                  {fileUpload.isPending ? 'Uploading...' : 'Upload photo'}
+                  {fileUpload.isPending ? t('avatar.uploading') : t('avatar.upload')}
                 </label>
                 <button
                   type="button"
@@ -117,21 +115,18 @@ const AvartarUploader: React.FC<AvatarProps> = ({ user }) => {
                   disabled={!!!user?.avatar}
                   onClick={removeAvatar}
                 >
-                  Delete
+                  {t('avatar.delete')}
                 </button>
               </div>
               <p className="mt-2 text-xs text-gray-500 dark:text-neutral-500">
-                Pick a photo up to 1MB.
+                {t('avatar.help_text')}
               </p>
             </div>
           </div>
-          {/* End Logo Upload Group */}
         </div>
-        {/* End Col */}
       </div>
-      {/* End Grid */}
     </div>
   );
 };
 
-export default AvartarUploader;
+export default AvatarUploader;

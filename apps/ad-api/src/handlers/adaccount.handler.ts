@@ -143,6 +143,8 @@ export const getPerformanceCampaignsTop10 = async (c: Context<Env>) => {
     const FB_API_URL = c.env["FB_API_URL"];
     const adAccount = c.get("ad_account");
 
+    console.log("FB_API_URL", FB_API_URL);
+    
     const url = new URL(`${FB_API_URL}/${adAccount.ad_account_id}/campaigns`);
     url.searchParams.append(
       "fields",

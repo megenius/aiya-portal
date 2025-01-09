@@ -14,6 +14,8 @@ export default ({ mode }) => {
           v3_fetcherPersist: true,
           v3_relativeSplatPath: true,
           v3_throwAbortReason: true,
+          v3_singleFetch: true,
+          v3_lazyRouteDiscovery: true,
         },
       }),
       tsconfigPaths(),
@@ -30,9 +32,17 @@ export default ({ mode }) => {
 
         "/api/shops": getEndpoint("http://localhost:14107", ""),
         "/api/partners": getEndpoint("http://localhost:14108", ""),
+        "/api/ai": getEndpoint("http://localhost:14109", ""),
+        "/api/billing": getEndpoint("http://localhost:14110", ""),
+        "/api/billing/websocket": getEndpoint("http://localhost:14110", "", {
+          ws: true,
+        }),
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),
         "/ws/provider": getEndpoint("http://localhost:14102", "", {
+          ws: true,
+        }),
+        "/websocket/billing": getEndpoint("http://localhost:14110", "", {
           ws: true,
         }),
       },

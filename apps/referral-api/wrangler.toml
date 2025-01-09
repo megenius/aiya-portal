@@ -1,0 +1,37 @@
+name = "referral-api_dev"
+compatibility_date = "2024-08-21"
+compatibility_flags = ["nodejs_compat"]
+
+# Development environment
+routes = [
+  { pattern = "portal-dev.aiya.me/api/referral/*", zone_name = "aiya.me" }, 
+]
+
+[placement]
+mode = "smart"
+
+[vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+
+[[kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
+
+
+# Production environment
+[env.prod]
+name = "referral-api_prod"
+
+routes = [
+  { pattern = "portal.aiya.me/api/referral/*", zone_name = "aiya.me" }, 
+]
+
+[env.prod.placement]
+mode = "smart"
+
+[env.prod.vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+
+[[env.prod.kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"

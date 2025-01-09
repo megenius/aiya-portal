@@ -1,0 +1,79 @@
+{
+  "sidebar": {
+    "workspaces": "เวิร์กสเปซ",
+    "my_account": "บัญชีของฉัน",
+    "plans": "แพ็กเกจ",
+    "billing": "การเรียกเก็บเงิน",
+    "credits": "เครดิต",
+    "affiliates": "โปรแกรมพันธมิตร",
+    "helpdesk": "ช่วยเหลือ"
+  },
+  "welcome": "ยินดีต้อนรับ",
+  "description": "นี่คือคำอธิบายภาษาไทย",
+  "auth": {
+    "login": {
+      "title": "เข้าสู่ระบบบัญชี AIYA ของคุณ",
+      "subtitle": "สร้าง AI กับ AIYA",
+      "email": "อีเมล",
+      "email_placeholder": "you@email.com",
+      "password": "รหัสผ่าน",
+      "password_placeholder": "********",
+      "forgot_password": "ลืมรหัสผ่าน",
+      "sign_in": "เข้าสู่ระบบ",
+      "signing_in": "กำลังเข้าสู่ระบบ...",
+      "login_failed": "เข้าสู่ระบบไม่สำเร็จ โปรดลองอีกครั้ง",
+      "new_user": "ใหม่กับ AIYA?",
+      "sign_up": "ลงทะเบียน",
+      "sign_in_with": {
+        "google": "เข้าสู่ระบบด้วย Google",
+        "line": "เข้าสู่ระบบด้วย LINE",
+        "apple": "เข้าสู่ระบบด้วย Apple"
+      },
+      "or": "หรือ"
+    }
+  },
+  "billing": {
+    "title": "แพลนและการเรียกเก็บเงิน",
+    "subtitle": "ดูข้อมูลแพลนของคุณหรือเปลี่ยนแพลนตามความต้องการของคุณ",
+    "affiliate_program": "โปรแกรมพันธมิตร",
+    "plan": {
+      "active": "ใช้งานอยู่",
+      "renews_on": "ต่ออายุอัตโนมัติเมื่อ {{date}}",
+      "cancelled_on": "จะถูกยกเลิกในวันที่ {{date}}",
+      "monthly": "รายเดือน",
+      "yearly": "รายปี",
+      "trial": "ทดลองใช้",
+      "current": "กำลังใช้งานแพลนนี้",
+      "upgrade": "อัพเกรดแพลน",
+      "downgrade": "ลดระดับแพลน",
+      "cancelling": "จะถูกยกเลิกในวันที่ {{date}}",
+      "choose": "เลือกแพลนนี้", 
+      "features": {
+        "auto_replies": "การตอบกลับอัตโนมัติ",
+        "smart_replies": "การตอบกลับอัจฉริยะ",
+        "generative_replies": "การตอบกลับเชิงสร้างสรรค์",
+        "check_slip": "การตรวจสอบสลิป",
+        "remaining_of_total": "คงเหลือ {{remaining}} / {{total}}"
+      },
+      "manage_seats": {
+        "button": "จัดการที่นั่ง",
+        "tooltip": "อัพเกรดแพลนของคุณเพื่อปลดล็อกฟีเจอร์การจัดการที่นั่ง"
+      },
+      "actions": {
+        "cancel": "ยกเลิกการสมัครสมาชิก",
+        "upgrade": "อัพเกรดแพลน"
+      }
+    },
+    "subscription": {
+      "cancel": {
+        "title": "ยกเลิก Subscription",
+        "confirm": "ยืนยันการยกเลิก Subscription?",
+        "warning": "คุณจะไม่สามารถเข้าถึงฟีเจอร์พิเศษได้หลังจากยกเลิก",
+        "confirmButton": "ยืนยันการยกเลิก",
+        "cancelButton": "ยกเลิก",
+        "loading": "กำลังยกเลิก...",
+        "success": "ยกเลิก Subscription เรียบร้อยแล้ว คุณจะสามารถใช้งานได้จนถึงสิ้นรอบบิล"
+      }
+    }
+  }
+}

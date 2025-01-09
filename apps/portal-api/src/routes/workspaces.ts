@@ -22,7 +22,6 @@ const workspacesRoutes = new Hono<Env>()
   .post("/:id/channels/facebooks", ...WorkspaceHandler.createWorkspaceChannelFacebooks)
   .get("/:id/chats", ...WorkspaceHandler.getWorkspaceChats)
   .get("/:id/products", ...WorkspaceHandler.getWorkspaceProducts)
-  .get("/:id/orderbots", ...WorkspaceHandler.getWorkspaceOrderbots);
-
+  .get("/:id/orderbots", ...WorkspaceHandler.getWorkspaceOrderbots)
 
 export { workspacesRoutes };

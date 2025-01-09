@@ -1,7 +1,8 @@
 import { Link, useNavigate, useLocation } from "@remix-run/react";
 import { LogoAiya } from "@repo/ui/LogoAiya";
-import { sidebarLinks } from "./SidebarConfig";
+import { useSidebarLinks } from "./SidebarConfig";
 import React from "react";
+import { cn } from "@repo/ui/utils";
 
 interface SideBarProps {
 }
@@ -9,12 +10,12 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const sidebarLinks = useSidebarLinks();
 
   const getIconClass = (linkTo: string) => {
     const isActive = location.pathname === linkTo;
-    return `flex-shrink-0 mt-0.5 size-4 ${
-      isActive ? 'text-blue-600 dark:text-blue-500' : ''
-    }`;
+    return `flex-shrink-0 mt-0.5 size-4 ${isActive ? 'text-blue-600 dark:text-blue-500' : ''
+      }`;
   };
 
   return (
@@ -43,7 +44,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               className="hs-accordion-group pb-3 w-full flex flex-col flex-wrap"
               data-hs-accordion-always-open=""
             >
-              <ul>
+              <ul className="flex flex-col gap-y-1">
                 {sidebarLinks.map((link) => {
                   const IconComponent = () => {
                     const iconElement = link.icon as React.ReactElement;
@@ -54,13 +55,20 @@ const SideBar: React.FC<SideBarProps> = () => {
 
                   return (
                     <li key={link.to}
-                      className="hs-accordion px-5 mb-1.5" id={link.label}>
+                      className="hs-accordion px-5 mb-1.5" id={link.to}
+                    >
                       <button
                         type="button"
-                        className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                        className={
+                          cn("hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700", {
+                            "text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 ": location.pathname === link.to,
+                          })
+                        }
+
                         onClick={() => navigate(link.to)}
                       >
-                        <IconComponent />
+                        {/* <IconComponent /> */}
+                        {link.icon}
                         {link.label}
 
                         {link.subLinks && (

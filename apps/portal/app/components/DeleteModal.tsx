@@ -5,13 +5,22 @@ import React, { ReactNode, useEffect, useRef } from 'react';
 interface DeleteModalProps {
   id: string;
   title: string;
+  warning?: string;
+  confirmButton?: string;
+  cancelButton?: string;
   className?: string;
   onOk?: (values: Record<string, string>) => void;
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, className }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, warning, confirmButton, cancelButton, onOk, className }) => {
 
   const handleOk = () => {
+    if (onOk) {
+      onOk({});
+    }
+
+    const modal = document.getElementById(id)
+    modal?.dispatchEvent(new Event('click'))
   }
 
   return (
@@ -30,7 +39,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, className }) => {
               type="button"
               className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200"
               aria-label="Close"
-              data-hs-overlay="#hs-pro-chhdl"
+              data-hs-overlay={`#${id}`}
             >
               <span className="sr-only">Close</span>
               <svg
@@ -57,13 +66,13 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, className }) => {
               id="hs-pro-chhdl-label"
               className="text-lg font-medium text-gray-800"
             >
-              Are you sure?
+              {title || 'Are you sure?'}
             </h3>
             <p className="mt-1 text-sm text-gray-600">
-              Are you sure you want to delete this message?
+              {warning || 'Are you sure you want to delete this item?'}
             </p>
             {/* Checkbox */}
-            <div className="mt-5 flex items-center">
+            {/* <div className="mt-5 flex items-center">
               <input
                 type="checkbox"
                 className="shrink-0 size-3.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
@@ -75,23 +84,23 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, className }) => {
               >
                 Don't show me this again
               </label>
-            </div>
+            </div> */}
             {/* End Checkbox */}
             {/* Button Group */}
             <div className="mt-5 flex flex-wrap justify-end gap-2">
               <button
                 type="button"
                 className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
-                data-hs-overlay="#hs-pro-chhdl"
+                data-hs-overlay={`#${id}`}
               >
-                Cancel
+                {cancelButton || 'Cancel'}
               </button>
               <button
                 type="button"
                 className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none"
                 onClick={handleOk}
               >
-                Yes, I’m sure
+                {confirmButton || 'Yes, I am sure'}
               </button>
             </div>
             {/* End Button Group */}

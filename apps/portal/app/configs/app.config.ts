@@ -16,11 +16,11 @@ const appConfig: AppConfig = {
   authenticatedEntryPath: "/test",
   unAuthenticatedEntryPath: "/auth/sign-in",
   tourPath: "/app/account/kyc-form",
-  locale: "en",
+  locale: "th",
   enableMock: false,
   languages: [
-    { code: "en-US", name: "English (US)", flag: "us", enabled: true },
     { code: "th-TH", name: "ไทย (ประเทศไทย)", flag: "th", enabled: true },
+    { code: "en-US", name: "English (US)", flag: "us", enabled: true },
   ],
 };
 

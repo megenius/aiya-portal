@@ -74,6 +74,12 @@ export const getProvider = factory.createHandlers(
                     : [],
               };
             }),
+          quota: {
+            auto_reply: 0,
+            smart_reply: 1,
+            generative_reply: 1,
+            check_slip: 0
+          },
         };
 
         return c.json(response);

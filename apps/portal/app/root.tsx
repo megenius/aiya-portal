@@ -19,11 +19,15 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { store, persistor } from './store';
-import { Suspense, useCallback, useEffect } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { renewToken } from "./store/slices/authSlice";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'apexcharts/dist/apexcharts.css';
 import "yet-another-react-lightbox/styles.css";
+
+import i18n from "./i18n";
+import { I18nextProvider } from "react-i18next";
+import { Loader2 } from "lucide-react";
 
 
 export const links: LinksFunction = () => [
@@ -33,9 +37,13 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: globalCss },
 ];
 
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const language = store.getState().user.language;
+  i18n.changeLanguage(language); // โหลดภาษาเริ่มต้นจาก Redux
+
   return (
-    <html lang="en">
+    <html>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -63,8 +71,6 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-
-
   useEffect(() => {
     const state = store.getState().auth;
     if (state.refreshToken && state.expiresAt) {
@@ -74,17 +80,24 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+      </div>
+    }>
       <PrelineScript />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <QueryClientProvider client={queryClient}>
-            <Outlet />
-          </QueryClientProvider>
+          <I18nextProvider i18n={i18n}>
+            <QueryClientProvider client={queryClient}>
+              <Outlet />
+            </QueryClientProvider>
+          </I18nextProvider>
         </PersistGate>
       </Provider>
       <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
-    </>
+    </Suspense>
+
   )
 }
 

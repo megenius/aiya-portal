@@ -1,0 +1,86 @@
+name = "billing-api_dev"
+compatibility_date = "2024-08-21"
+compatibility_flags = ["nodejs_compat"]
+
+# Development environment
+routes = [
+  { pattern = "realtime-dev.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "portal-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
+  { pattern = "realtime-dev.aiya.me/api/billing/*", zone_name = "aiya.me" },
+]
+
+[placement]
+mode = "smart"
+
+[vars]
+NODE_ENV = "development"
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+PORTAL_URL = "https://portal-dev.aiya.me"
+
+[[kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
+
+
+[durable_objects]
+bindings = [
+  { name = "SUBSCRIPTION_DURABLE", class_name = "SubscriptionDurable" },
+  { class_name = "CounterDurable", name = "COUNTER_DURABLE" },
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["SubscriptionDurable", "CounterDurable"]
+
+
+[[queues.producers]]
+binding = "BILLING_QUEUE"
+queue = "billing-queue"
+
+[[queues.consumers]]
+queue = "billing-queue"
+max_batch_size = 1      # optional: defaults to 10
+max_batch_timeout = 60  # optional: defaults to 5 seconds
+
+
+# Production environment
+[env.prod]
+name = "billing-api_prod"
+
+routes = [
+  { pattern = "realtime.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "portal.aiya.me/api/billing/*", zone_name = "aiya.me" },
+  { pattern = "realtime.aiya.me/api/billing/*", zone_name = "aiya.me" },
+]
+
+[env.prod.placement]
+mode = "smart"
+
+[env.prod.vars]
+NODE_ENV = "production"
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+PORTAL_URL = "https://portal.aiya.me"
+
+[[env.prod.kv_namespaces]]
+binding = "CACHING"
+id = "b494201ff6b74231a02c94891f805ba7"
+
+
+[env.prod.durable_objects]
+bindings = [
+  { name = "SUBSCRIPTION_DURABLE", class_name = "SubscriptionDurable" },
+  { class_name = "CounterDurable", name = "COUNTER_DURABLE" },
+]
+
+[[env.prod.migrations]]
+tag = "v1"
+new_classes = ["SubscriptionDurable", "CounterDurable"]
+
+[[env.prod.queues.producers]]
+binding = "BILLING_QUEUE"
+queue = "billing-queue"
+
+[[env.prod.queues.consumers]]
+queue = "billing-queue"
+max_batch_size = 100    # optional: defaults to 10
+max_batch_timeout = 60  # optional: defaults to 5 seconds

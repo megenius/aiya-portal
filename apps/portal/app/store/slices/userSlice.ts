@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface UserState {
   id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  language?: string;
 }
 
 const initialState: UserState = {
@@ -12,7 +13,8 @@ const initialState: UserState = {
   email: "",
   firstName: "",
   lastName: "",
-  avatar: "", 
+  avatar: "",
+  language: "th", // ภาษาหลักเริ่มต้น
 };
 
 const userSlice = createSlice({
@@ -27,6 +29,7 @@ const userSlice = createSlice({
         first_name: string;
         last_name: string;
         avatar: string;
+        language?: string;
       }>
     ) => {
       state.id = action.payload.id;
@@ -34,6 +37,7 @@ const userSlice = createSlice({
       state.firstName = action.payload.first_name;
       state.lastName = action.payload.last_name;
       state.avatar = action.payload.avatar;
+      state.language = action.payload.language || state.language;
     }
   },
 });

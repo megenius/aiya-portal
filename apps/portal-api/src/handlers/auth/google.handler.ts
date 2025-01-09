@@ -39,13 +39,16 @@ async function getGoogleUserInfo(code: string, c: Context<Env>) {
 
     const tokenData = await tokenResponse.json();
 
-    const userResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: {
-        'Authorization': `Bearer ${tokenData.access_token}`
+    const userResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${tokenData.access_token}`,
+        },
       }
-    });
+    );
 
-    return userResponse.json();;
+    return userResponse.json();
   } catch (error) {
     console.error("Google OAuth token exchange failed:", error);
     throw new Error("Failed to authenticate with Google");
@@ -63,11 +66,13 @@ export const callback = factory.createHandlers(honoLogger(), async (c) => {
       last_name: userInfo.family_name,
       avatar: userInfo.picture,
       external_identifier: userInfo.id,
-    }
-    
-    return c.redirect(`${c.env.PORTAL_URL}/auth/callback?user=${JSON.stringify(user)}`);
+    };
+
+    return c.redirect(
+      `${c.env.PORTAL_URL}/auth/callback?q=${btoa(JSON.stringify(user))}`
+    );
   } catch (error) {
-    console.error(error);
-    return c.json({ error: "googleCallback failed" }, 500);
+    console.error("google callback error", error);
+    return c.json({ error: "google authen callback failed" }, 500);
   }
 });

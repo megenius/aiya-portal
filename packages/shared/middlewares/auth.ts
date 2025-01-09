@@ -29,7 +29,7 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
     return c.json({ error: "Invalid Authorization header format" }, 401);
   }
 
-  const token = authHeader.slice(BEARER_PREFIX.length);
+  let token = authHeader.slice(BEARER_PREFIX.length);
 
   if (!token) {
     return c.json({ error: "Token is missing" }, 401);
@@ -49,9 +49,14 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
     }
     console.log(payload);
     
-    // Additional checks based on the Directus payload
-    if (payload.iss !== "directus") {
+    const allowedIssuers = ["directus", "lambda"];
+    const issuer = payload.iss as string;
+    if (allowedIssuers.indexOf(issuer) === -1) {
       return c.json({ error: "Invalid token issuer" }, 401);
+    }
+
+    if (issuer === "lambda") {
+      token = c.env.DIRECTUS_SERVICE_TOKEN;
     }
 
     c.set("jwtPayload", payload);

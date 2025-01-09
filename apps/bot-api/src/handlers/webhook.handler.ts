@@ -1,35 +1,11 @@
-import {
-  createItem,
-  deleteItem,
-  readItem,
-  readItems,
-  updateItem,
-} from "@directus/sdk";
-import { Context } from "hono";
+import { readItems } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import {
-  Bot,
-  BotIntent,
-  BotKnowledge,
-  Channel,
-  ImageMessageResponse,
-  TextMessageResponse,
-  ResponseElementType,
-} from "~/types/app";
+
 import { Env } from "~/types/hono.types";
-import { getDirectusClient } from "~/utils/directus";
-import { DirectusError } from "@repo/shared/exceptions/directus";
-import { randomHexString } from "@repo/shared/utils";
 import * as _ from "lodash";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { cachingMiddleware } from "~/middlewares/cache-get.middleware";
-import { hasItemUpdated } from "~/utils/kv";
-import { getKnowledge } from "~/services/knowledge.service";
-import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
-import { transformData } from "~/utils/datasource";
 import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
-import { sendEventToCapi } from "~/services/facebook.service";
 
 const factory = createFactory<Env>();
 
@@ -41,7 +17,6 @@ export const webhookHandler = factory.createHandlers(
   async (c) => {
     const body = await c.req.json();
     console.log("webhookHandler", JSON.stringify(body, null, 2));
-    let sendCapi = false;
     const opensearch = c.get("opensearch");
     const event_type = body.event_type;
     let payload = _.omit(body, ["event_type"]) as any;
@@ -70,8 +45,40 @@ export const webhookHandler = factory.createHandlers(
     try {
       if (event_type === "bots_logs") {
         await opensearch.index(event_type, payload, crypto.randomUUID());
+
+        await c.env.BillingService.fetch(
+          `${c.env.PORTAL_URL}/api/billing/record`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${c.get("token")}`,
+            },
+            body: JSON.stringify({
+              bot: payload.bot_id,
+              type: payload.reply_type,
+              count: 1,
+            }),
+          }
+        );
       } else if (event_type === "bots_slips") {
         await opensearch.index(event_type, payload, crypto.randomUUID());
+
+        await c.env.BillingService.fetch(
+          `${c.env.PORTAL_URL}/api/billing/record`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${c.get("token")}`,
+            },
+            body: JSON.stringify({
+              bot: payload.bot_id,
+              type: "slip",
+              count: 1,
+            }),
+          }
+        );
         if (payload.metadata?.platform === "facebook") {
           const {
             metadata: { provider_id, user_id },

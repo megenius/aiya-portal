@@ -28,7 +28,7 @@ export const login = factory.createHandlers(
     console.log(
       "login",
       email,
-      password,
+      // password,
       first_name,
       last_name,
       avatar,
@@ -46,21 +46,9 @@ export const login = factory.createHandlers(
               email: {
                 _eq: email,
               },
-              // _or: [
-              //   {
-              //     email: {
-              //       _eq: email,
-              //     },
-              //     external_identifier: {
-              //       _eq: external_identifier,
-              //     },
-              //   },
-              // ],
             },
           })
         );
-
-        console.log("users", users);
 
         let userId = users.length > 0 ? users[0].id : null;
 
@@ -80,24 +68,6 @@ export const login = factory.createHandlers(
           userId = user.id;
         }
 
-        // const refreshToken = randomString(64);
-        // await directAdmin.request(
-        //   // @ts-ignore
-        //   sdk.createItem("directus_sessions", {
-        //     token: randomHexString(64),
-        //     user: userId,
-        //     expires: addDays(new Date(), 1).toISOString(),
-        //     ip: c.req.ip,
-        //     user_agent: c.req.header("User-Agent"),
-        //     share: false,
-        //     origin: c.req.header("Origin"),
-        //     next_token: refreshToken,
-        //   })
-        // );
-
-        // SELECT token, "user", expires, ip, user_agent, share, origin, next_token
-        // FROM public.directus_sessions
-
         // Generate JWT token for the user
         const payload = {
           id: userId,
@@ -112,12 +82,25 @@ export const login = factory.createHandlers(
         };
 
         // console.log("payload", payload);
+        // console.log("DIRECTUS_SECRET_KEY", c.env.DIRECTUS_SECRET_KEY);
 
         // Sign JWT with your Directus secret
         const directusToken = await jwt.sign(
           payload,
           c.env.DIRECTUS_SECRET_KEY
         );
+
+        await c.env.BillingService.fetch(
+          `${c.env.PORTAL_URL}/api/billing/create-free-plan`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${directusToken}`,
+            },
+          }
+        );
+
+        // console.log("directusToken", directusToken);
 
         return c.json({
           token: directusToken,
@@ -133,6 +116,16 @@ export const login = factory.createHandlers(
         auth.expires_at ||
         addMilliseconds(new Date(), Number(auth.expires) - 60000).valueOf();
 
+      await c.env.BillingService.fetch(
+        `${c.env.PORTAL_URL}/api/billing/create-free-plan`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${auth.access_token}`,
+          },
+        }
+      );
+
       return c.json(
         camelcaseKeys({
           token: auth.access_token,
@@ -142,7 +135,7 @@ export const login = factory.createHandlers(
         })
       );
     } catch (error) {
-      console.error(error);
+      console.error("auth.login.error", error);
       return c.json({ error: "Invalid email or password" }, 401);
     }
   }
