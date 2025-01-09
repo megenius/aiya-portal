@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 import { SaasPrice } from '~/@types/app';
 import { useCancelSubscription } from '~/hooks/billings/useCancelSubscription';
 import useCurrentBillingPlan from '~/hooks/billings/useCurrentBillingPlan';
-import usePlans from '~/hooks/billings/usePlans';
 import { useStripeCreateCheckoutSession } from '~/hooks/billings/useStripeCreateCheckoutSession';
 import { useLanguage } from '~/hooks/useLanguage';
 import { useMe } from '~/hooks/useMe';
 import { cn } from '@repo/ui/utils';
 import { formatDate } from 'date-fns';
+import DeleteModal from '~/components/DeleteModal';
 
 interface PricingCardProps {
   isAnnual: boolean;
@@ -24,24 +24,53 @@ const ANNUAL_DISCOUNT = 0.15
 
 const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
   const checkout = useStripeCreateCheckoutSession();
+  const cancelSubscription = useCancelSubscription()
   const { locale } = useLanguage();
-  const { data: currentPlan, isLoading } = useCurrentBillingPlan()
+  const { data: currentPlan, isLoading, refetch } = useCurrentBillingPlan()
   const { data: user } = useMe()
+  const [isCanceling, setIsCanceling] = React.useState(false)
 
-  const handleCheckout = async (priceId: string, price: number, action: string) => {
-    if (!user?.email) {
-      toast.error(t('billing.plan.error.email_required'));
-      return;
+  const handleCheckout = async (plan: SaasPrice, action: string) => {
+    if (plan.pricing_type === 'free') {
+      cancelSubscription.mutateAsync({
+        stripeSubscriptionId: currentPlan?.subscription?.id as string
+      }).then(() => {
+        setTimeout(() => {
+          toast.success(t('billing.subscription.cancel.success'))
+          refetch()
+          setIsCanceling(false)
+        }, 3000)
+      })
+    } else {
+
+      if (!user?.email) {
+        toast.error(t('billing.plan.error.email_required'));
+        return;
+      }
+
+      checkout.mutate({
+        currentSubscriptionId: currentPlan?.subscription?.id,
+        currentPriceId: currentPlan?.subscription?.stripe_price_id,
+        newPriceId: plan.id,
+        email: user?.email, annual: isAnnual,
+        price: plan.unit_amount,
+        action
+      });
     }
-
-    checkout.mutate({
-      currentSubscriptionId: currentPlan?.subscription?.id,
-      currentPriceId: currentPlan?.subscription?.stripe_price_id,
-      newPriceId: priceId,
-      email: user?.email, annual: isAnnual, price, action
-    });
   }
 
+  const handleCancel = () => {
+    setIsCanceling(true)
+    cancelSubscription.mutateAsync({
+      stripeSubscriptionId: currentPlan?.subscription?.id as string
+    }).then(() => {
+      setTimeout(() => {
+        toast.success(t('billing.subscription.cancel.success'))
+        refetch()
+        setIsCanceling(false)
+      }, 3000)
+    })
+  }
 
   const isCurrent = (plan: SaasPrice) => {
     return currentPlan?.subscription?.stripe_price_id === plan.id
@@ -69,6 +98,8 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
 
     if (isCurrent(plan)) {
       return t('billing.plan.current');
+    } else if (currentPlan?.plan?.pricing_type === 'free') {
+      return t('billing.plan.choose');
     }
 
     const planAmount = plan.unit_amount
@@ -78,6 +109,9 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
     if (currentAmount < planAmount) {
       return t('billing.plan.upgrade');
     } else if (currentAmount > planAmount) {
+      if (plan.unit_amount === 0) {
+        return t('billing.plan.actions.cancel')
+      }
       return t('billing.plan.downgrade');
     }
 
@@ -97,13 +131,14 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
   }
 
   const filteredPlans = useMemo(() => {
-    return plans.filter(plan => {
-      if (currentPlan?.subscription) {
-        return plan.pricing_type !== 'free'
-      }
+    // return plans.filter(plan => {
+    //   if (currentPlan?.subscription) {
+    //     return plan.pricing_type !== 'free'
+    //   }
 
-      return true
-    })
+    //   return true
+    // })
+    return plans
   }, [plans, isAnnual, currentPlan])
 
   if (isLoading) {
@@ -144,7 +179,7 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
       <div className="max-w-[85rem] px-4 py-2 sm:px-6 lg:px-8 lg:py-4 mx-auto">
         {/* Price Cards */}
         <div className={`grid lg:grid-cols-${filteredPlans.length} gap-6`}>
-          {filteredPlans.map((plan, index) => (
+          {plans.map((plan, index) => (
             <div
               key={index}
               className={`p-4 sm:p-6 bg-white border ${plan.popular ? 'border-blue-500' : 'border-gray-200'
@@ -179,7 +214,6 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
               <div className="mt-5">
                 <button
                   type="button"
-
                   className={
                     cn("w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg", {
                       "border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500": !isCurrent(plan),
@@ -191,7 +225,12 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
                     isCurrent(plan) ||
                     getButtonStatus(plan)
                   }
-                  onClick={() => handleCheckout(plan.id, plan.unit_amount, isUpgrade(plan) ? 'upgrade' : 'downgrade')}
+                  data-hs-overlay={plan.pricing_type === 'free' ? "#hs-pro-dlcsam" : ""}
+                  onClick={() => {
+                    if (plan.pricing_type !== 'free') {
+                      handleCheckout(plan, isUpgrade(plan) ? 'upgrade' : 'downgrade')
+                    }
+                  }}
                 >
                   {getButtonText(plan)}
                 </button>
@@ -212,6 +251,13 @@ const PricingCards: React.FC<PricingCardProps> = ({ isAnnual, plans }) => {
           )
         }
       </div >
+      <DeleteModal id="hs-pro-dlcsam"
+        title={t("billing.subscription.cancel.title")}
+        warning={t("billing.subscription.cancel.warning")}
+        confirmButton={t("billing.subscription.cancel.confirmButton")}
+        cancelButton={t("billing.subscription.cancel.cancelButton")}
+        onOk={handleCancel}
+      />
     </>
   );
 };

@@ -122,7 +122,9 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
 
   let discounts: any = [];
   if (currentSubscriptionId) {
-    const subscription = await stripe.subscriptions.retrieve(currentSubscriptionId);
+    const subscription = await stripe.subscriptions.retrieve(
+      currentSubscriptionId
+    );
     if (subscription.currency !== currency) {
       await stripe.subscriptions.cancel(subscription.id as string);
       metadata["rollback_subscription_id"] = subscription.id;

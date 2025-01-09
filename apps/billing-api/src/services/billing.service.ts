@@ -28,15 +28,18 @@ export class BillingService {
     interval = "month",
     env = "production",
   }: {
-    lang: string;
-    interval: string;
-    env: string;
+    lang?: string;
+    interval?: string;
+    env?: string;
   }) {
     const freePlan = await this.directus.request(
       readItems("saas_prices", {
         filter: {
           lookup_key: {
             _eq: "aibots_free_plan",
+          },
+          env: {
+            _eq: env,
           },
         },
         fields: ["*", { translations: ["*"] }],
