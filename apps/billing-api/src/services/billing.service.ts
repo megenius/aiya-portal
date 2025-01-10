@@ -190,6 +190,7 @@ export class BillingService {
     console.log("Subscription was created!", subscription);
 
     const price = await this.stripeService.getPrice(item.price.id);
+
     const product = await this.stripeService.getProduct(plan.product as string);
 
     const { features } = await this.directus.request(

@@ -31,7 +31,9 @@ import {
   saas_subscriptionsUserFieldRelationship as subscriptionsUserFieldRelationship,
   saas_invoicesCollection as invoicesCollection,
   saas_invoicesCustomerFiledRelationships as invoicesCustomerFieldRelationships,
-  // subscriptionUserField,
+  saas_couponsCollection as couponsCollection,
+  saas_coupon_campaignsCollection as couponsCampaignCollection,
+  saas_couponsCampaignFieldRelationships as couponsCampaignFieldRelationships,
 } from "../collections";
 import {
   saas_customersCollection,
@@ -165,13 +167,17 @@ export const setupCollection = factory.createHandlers(logger(), async (c) => {
   // const result = await directus.request(createCollection(testCollection));
 
   try {
-    // 0. Delete all collections first by reverse order
-    // console.log("Deleting existing collections...");
-    await directus.request(deleteCollection("saas_invoices"));
+    // 0. coupon
+    await directus.request(deleteCollection("saas_coupons"));
+    await directus.request(deleteCollection("saas_coupon_campaigns"));
 
-    // console.log("Creating invocies collection...");
-    await directus.request(createCollection(invoicesCollection));
-    await directus.request(createRelation(invoicesCustomerFieldRelationships));
+    // 1. Create independent collections first
+    console.log("Creating coupons collection...");
+    await directus.request(createCollection(couponsCollection));
+    await directus.request(createCollection(couponsCampaignCollection));
+
+    console.log("Creating coupons relationships...");
+    await directus.request(createRelation(couponsCampaignFieldRelationships));
 
     return c.json({ message: "Collections created successfully!" });
   } catch (error) {
@@ -237,6 +243,14 @@ export const setupCollection = factory.createHandlers(logger(), async (c) => {
     // 6. Create commission rules collection (independent)
     console.log("Creating commission rules collection...");
     await directus.request(createCollection(commissionRulesCollection));
+
+
+    // 7. Create invoices collection (depends on customers)
+    await directus.request(deleteCollection("saas_invoices"));
+
+    // console.log("Creating invocies collection...");
+    await directus.request(createCollection(invoicesCollection));
+    await directus.request(createRelation(invoicesCustomerFieldRelationships));
 
     console.log("All collections created successfully!");
     return c.json({ message: "Collections created successfully!" });

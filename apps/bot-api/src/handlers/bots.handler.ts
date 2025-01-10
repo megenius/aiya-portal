@@ -232,12 +232,17 @@ export const searchBotHandler = factory.createHandlers(
     if (!query) {
       return c.json({ message: "q is required" });
     }
-    // console.log("searchBotHandler", query, k, platform);
+    
+    console.log("searchBotHandler", query, k, platform);
+    
     const textEmbedding = c.get("textEmbedding");
     const response = await textEmbedding.search(query, {
       topK: k,
       filters: { bot_id: c.req.param("id"), status: "published" },
     });
+
+    console.log("searchBotHandler", JSON.stringify(response, null, 2));
+    
 
     try {
       const matches = await Promise.all(
@@ -311,7 +316,10 @@ export const searchBotHandler = factory.createHandlers(
 
       const messages = matches[0]?.messages || [];
 
-      return c.json({ messages, matches });
+      const result = { messages, matches, best_match: matches.length > 0 ? matches[0] : null };
+      console.log("searchBotHandler", JSON.stringify(result, null, 2));
+
+      return c.json(result);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }

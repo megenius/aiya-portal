@@ -4,8 +4,9 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   # { pattern = "lambda-api-local.aiya.me/api/bots/*", zone_name = "aiya.me" },
+  # { pattern = "lambda-api-dev.aiya.me", zone_name = "aiya.me", custom_domain = true },
   { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
-  { pattern = "lambda-api-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
+  # { pattern = "lambda-api-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
 ]
 
 services = [{ binding = "BillingService", service = "billing-api_dev" }]
@@ -14,10 +15,11 @@ services = [{ binding = "BillingService", service = "billing-api_dev" }]
 mode = "smart"
 
 [vars]
+PORTAL_URL = "https://portal-dev.aiya.me"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 SUPABASE_URL = "https://app-api.aiya.ai"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhibHhpaHZjbnNrdHdqaWNzeXJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzMjg0ODksImV4cCI6MjAwODkwNDQ4OX0.MElXtyFRyjfyMlCNyqdf-iAI7xpPk0dCrzxH9Qe2RVY"
-
+OPENSEARCH_ENDPOINT="https://search-aiya-r7veshyx2dzr6d3iliibciqorq.ap-southeast-1.es.amazonaws.com"
 
 # [[vectorize]]
 # binding = "VECTOR_SENTENCES"
@@ -25,19 +27,19 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 [[queues.producers]]
 binding = "SENTENCE_EMBEDINGS_QUEUE"
-queue = "sentences-embeddings"
+queue = "sentences-embeddings-dev"
 
 [[queues.consumers]]
-queue = "sentences-embeddings"
+queue = "sentences-embeddings-dev"
 max_batch_size = 10            # optional: defaults to 10
 max_batch_timeout = 3          # optional: defaults to 5 seconds
 
 [[queues.producers]]
 binding = "CAPI_QUEUE"
-queue = "capi-queue"
+queue = "capi-queue-dev"
 
 [[queues.consumers]]
-queue = "capi-queue"
+queue = "capi-queue-dev"
 max_batch_size = 10   # optional: defaults to 10
 max_batch_timeout = 5 # optional: defaults to 5 seconds
 
@@ -51,50 +53,49 @@ name = "bot-api_prod"
 
 routes = [
   { pattern = "portal.aiya.me/api/bots/*", zone_name = "aiya.me" },
-  { pattern = "portal.aiya.me/api/aws/*", zone_name = "aiya.me" },
   { pattern = "lambda-api.aiya.me/api/bots/*", zone_name = "aiya.me" },
 ]
 
+services = [{ binding = "BillingService", service = "billing-api_prod" }]
+
 [env.prod.vars]
+PORTAL_URL = "https://portal.aiya.me"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 SUPABASE_URL = "https://app-api.aiya.ai"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhibHhpaHZjbnNrdHdqaWNzeXJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzMjg0ODksImV4cCI6MjAwODkwNDQ4OX0.MElXtyFRyjfyMlCNyqdf-iAI7xpPk0dCrzxH9Qe2RVY"
+OPENSEARCH_ENDPOINT="https://search-aiya-r7veshyx2dzr6d3iliibciqorq.ap-southeast-1.es.amazonaws.com"
 
 [env.prod.placement]
 mode = "smart"
 
-# [[env.prod.vectorize]]
-# binding = "VECTOR_SENTENCES"
-# index_name = "sentences_embeddings"
-
 [[env.prod.queues.producers]]
 binding = "SENTENCE_EMBEDINGS_QUEUE"
-queue = "sentences-embeddings_prod"
+queue = "sentences-embeddings-prod"
 
 [[env.prod.queues.consumers]]
-queue = "sentences-embeddings_prod"
+queue = "sentences-embeddings-prod"
 max_batch_size = 10                 # optional: defaults to 10
 max_batch_timeout = 3               # optional: defaults to 5 seconds
 
 
 [[env.prod.queues.producers]]
 binding = "CAPI_QUEUE"
-queue = "capi-queue_prod"
+queue = "capi-queue-prod"
 
 [[env.prod.queues.consumers]]
-queue = "capi-queue_prod"
+queue = "capi-queue-prod"
 max_batch_size = 10       # optional: defaults to 10
 max_batch_timeout = 5     # optional: defaults to 5 seconds
 
 
 [[env.prod.queues.producers]]
 binding = "BILLING_QUEUE"
-queue = "billing-queue_prod"
+queue = "billing-queue-prod"
 
-[[env.prod.queues.consumers]]
-queue = "billing-queue_prod"
-max_batch_size = 10          # optional: defaults to 10
-max_batch_timeout = 5        # optional: defaults to 5 seconds
+# [[env.prod.queues.consumers]]
+# queue = "billing-queue-prod"
+# max_batch_size = 10          # optional: defaults to 10
+# max_batch_timeout = 5        # optional: defaults to 5 seconds
 
 
 [[env.prod.kv_namespaces]]

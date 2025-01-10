@@ -75,12 +75,16 @@ export const getProvider = factory.createHandlers(
               };
             }),
           quota: {
-            auto_reply: 0,
+            auto_reply: 1,
             smart_reply: 1,
             generative_reply: 1,
-            check_slip: 0
+            check_slip: 1
           },
         };
+
+
+        console.log(response);
+        
 
         return c.json(response);
       }

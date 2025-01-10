@@ -15,10 +15,6 @@ const billingsRoutes = new Hono<Env>();
 // get plans
 billingsRoutes.get(
   "/plans",
-  // cache({
-  //   cacheName: "plans-v2",
-  //   cacheControl: "max-age=3600", // 1 minute
-  // }),
   directusMiddleware,
   stripeMiddleware,
   billingMiddleware,

@@ -47,7 +47,7 @@ export default {
     }>,
     env: WorkerEnv
   ) {
-    if (batch.queue === "billing-queue") {
+    if (batch.queue === "billing-queue" || batch.queue === "billing-queue-prod") {
       await handleBillingQueueMessage(batch, env);
     }
   },

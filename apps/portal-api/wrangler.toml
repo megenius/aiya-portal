@@ -44,6 +44,8 @@ routes = [
   { pattern = "liff2.aiya.me/api/files/*", zone_name = "aiya.me" },
 ]
 
+services = [{ binding = "BillingService", service = "billing-api_prod" }]
+
 [env.prod.placement]
 mode = "smart"
 

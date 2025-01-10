@@ -18,9 +18,7 @@ interface DirectusJwtPayload {
 export const authMiddleware = createMiddleware<Env>(async (c, next) => {
   const DEBUG_MODE = c.env.NODE_ENV === "development";
   const authHeader = c.req.header("Authorization");
-
-  // console.log("authMiddleware:authHeader", authHeader);
-
+  
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);
   }
@@ -39,7 +37,7 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   if (!secretKey) {
     console.error("DIRECTUS_SECRET_KEY is not set");
-    return c.json({ error: "Server configuration error" }, 500);
+    return c.json({ error: "Server configuration error: SECRET_KEY is not set" }, 500);
   }
 
   try {

@@ -293,6 +293,7 @@ export const getCurrentUsage = factory.createHandlers(logger(), async (c) => {
 
 export const recordUsage = factory.createHandlers(logger(), async (c) => {
   const body = await c.req.json();
+  console.log("recordUsage:body", body);
   await c.env.BILLING_QUEUE.send(body);
   return c.json({});
 });

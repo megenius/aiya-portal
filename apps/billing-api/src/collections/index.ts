@@ -6,3 +6,4 @@ export * from './referralsCollection';
 export * from './subscriptionsCollection';
 export * from './customersCollection';
 export * from './invoicesCollection';
+export * from './couponsCollection';

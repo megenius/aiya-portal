@@ -254,7 +254,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               disabled={login.isPending}
               className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
             >
-              {login.isPending ? t('auth.login.sigining_in') : t("auth.login.sign_in")}
+              {login.isPending ? t('auth.login.signing_in') : t("auth.login.sign_in")}
             </button>
             {login.isError && <p>
               {t("auth.login.login_failed")}

@@ -39,7 +39,7 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   if (!secretKey) {
     console.error("DIRECTUS_SECRET_KEY is not set");
-    return c.json({ error: "Server configuration error" }, 500);
+    return c.json({ error: "Server configuration error: DIRECTUS_SECRET_KEY is not set" }, 500);
   }
 
   try {

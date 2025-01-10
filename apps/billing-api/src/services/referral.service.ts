@@ -9,7 +9,7 @@ export class ReferralService {
   async createReferral(data: ReferralPayload) {
     try {
       const referral = await this.directus.request(
-        createItems('referrals', [{
+        createItems("saas_referrals", [{
           referrer_id: data.referrer_id,
           program_type: data.program_type,
           status: 'pending',

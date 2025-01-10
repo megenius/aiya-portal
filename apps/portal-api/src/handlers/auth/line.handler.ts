@@ -45,7 +45,12 @@ async function getUserInfo(code: string, c: Context<Env>) {
       );
     }
 
-    const tokenData = await tokenResponse.json();
+    const tokenData = await tokenResponse.json<{
+      access_token: string;
+      expires_in: number;
+      refresh_token: string;
+      id_token: string;
+    }>();
     console.log("LINE OAuth token exchange success:", tokenData);
     
     const jwtData = jwt.decode(tokenData.id_token) as {

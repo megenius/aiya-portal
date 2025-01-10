@@ -5,7 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "portal-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
-  { pattern = "lambda-api-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
+  # { pattern = "lambda-api-dev.aiya.me/api/channels/*", zone_name = "aiya.me" },
   { pattern = "webhook-dev.aiya.me/api/v2/line/channels/*", zone_name = "aiya.me" },
 ]
 
