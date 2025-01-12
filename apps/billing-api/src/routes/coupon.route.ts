@@ -11,104 +11,104 @@ const couponRoutes = new Hono<Env>();
 
 // Get all coupons
 couponRoutes.get(
-  "/coupons",
+  "/",
   directusMiddleware,
   stripeMiddleware,
   billingAdminMiddleware,
   ...CouponHandler.getCoupons
 );
 
-// Get coupon by ID
-couponRoutes.get(
-  "/coupons/:id",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.getCouponById
-);
+// // Get coupon by ID
+// couponRoutes.get(
+//   "/:id",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.getCouponById
+// );
 
 // Create single coupon
 couponRoutes.post(
-  "/coupons",
+  "/",
   directusMiddleware,
   stripeMiddleware,
   billingAdminMiddleware,
-  ...CouponHandler.createCoupon
+  ...CouponHandler.createCouponWithPromocodes
 );
 
-// Create bulk coupons
-couponRoutes.post(
-  "/coupons/bulk",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.createBulkCoupons
-);
+// // Create bulk coupons
+// couponRoutes.post(
+//   "/bulk",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.createBulkCoupons
+// );
 
-// Get bulk creation status
-couponRoutes.get(
-  "/coupons/bulk/:batchId",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.getBulkCreationStatus
-);
+// // Get bulk creation status
+// couponRoutes.get(
+//   "/bulk/:batchId",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.getBulkCreationStatus
+// );
 
-// Export bulk creation results
-couponRoutes.get(
-  "/coupons/bulk/:batchId/export",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.exportBulkCreationResults
-);
+// // Export bulk creation results
+// couponRoutes.get(
+//   "/bulk/:batchId/export",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.exportBulkCreationResults
+// );
 
-// Validate coupon
-couponRoutes.post(
-  "/coupons/validate",
-  directusMiddleware,
-  stripeMiddleware,
-  ...CouponHandler.validateCoupon
-);
+// // Validate coupon
+// couponRoutes.post(
+//   "/validate",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   ...CouponHandler.validateCoupon
+// );
 
-// Get coupon usage statistics
-couponRoutes.get(
-  "/coupons/:id/stats",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  cache({
-    cacheName: "coupon-stats",
-    cacheControl: "public, max-age=300", // Cache for 5 minutes
-  }),
-  ...CouponHandler.getCouponStats
-);
+// // Get coupon usage statistics
+// couponRoutes.get(
+//   "/:id/stats",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   cache({
+//     cacheName: "coupon-stats",
+//     cacheControl: "public, max-age=300", // Cache for 5 minutes
+//   }),
+//   ...CouponHandler.getCouponStats
+// );
 
-// Get coupon usage history
-couponRoutes.get(
-  "/coupons/:id/history",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.getCouponHistory
-);
+// // Get coupon usage history
+// couponRoutes.get(
+//   "/:id/history",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.getCouponHistory
+// );
 
-// Update coupon
-couponRoutes.patch(
-  "/coupons/:id",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.updateCoupon
-);
+// // Update coupon
+// couponRoutes.patch(
+//   "/:id",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.updateCoupon
+// );
 
-// Delete coupon
-couponRoutes.delete(
-  "/coupons/:id",
-  directusMiddleware,
-  stripeMiddleware,
-  billingAdminMiddleware,
-  ...CouponHandler.deleteCoupon
-);
+// // Delete coupon
+// couponRoutes.delete(
+//   "/:id",
+//   directusMiddleware,
+//   stripeMiddleware,
+//   billingAdminMiddleware,
+//   ...CouponHandler.deleteCoupon
+// );
 
 export { couponRoutes };

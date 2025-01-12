@@ -42,3 +42,7 @@ export const getPlans = ({
   lang: string;
   interval: string;
 }) => api.get<SaasPrice>(`/billing/plans?lang=${lang}&interval=${interval}`);
+
+// coupons
+export const getCoupons = ({ lang }) =>
+  api.get(`/billing/coupons?lang=${lang}`);

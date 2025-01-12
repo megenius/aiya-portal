@@ -1,6 +1,9 @@
+import { useParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
 import React, { useEffect } from 'react';
-import { useGetHelpDesks } from '~/hooks/useGetHelpDesks';
+import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from './_components/MarkdownRenderer';
+import { useGetTerm } from '~/hooks/useGetTerm';
 import { useLanguage } from '~/hooks/useLanguage';
 
 interface routeProps {
@@ -8,8 +11,9 @@ interface routeProps {
 }
 
 const route: React.FC<routeProps> = () => {
+  const { id } = useParams()
   const { lang } = useLanguage()
-  const { data, isLoading, refetch } = useGetHelpDesks({ lang })
+  const { data, isLoading, refetch } = useGetTerm({ id, lang })
 
   useEffect(() => {
     refetch()
@@ -28,27 +32,17 @@ const route: React.FC<routeProps> = () => {
         {/* Account Card */}
         <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Title */}
-          <div className="flex justify-between gap-x-3 mb-4 xl:mb-8">
+          {/* <div className="flex justify-between gap-x-3 mb-4 xl:mb-8">
             <div>
               <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-                Help Desk
+                {data.name}
               </h1>
               <p className="text-sm text-gray-500 dark:text-neutral-500">
               </p>
             </div>
-          </div>
+          </div> */}
           {/* End Title */}
-
-
-          {data?.map((item, index) => (
-            <div key={index} className="space-y-3">
-              <a href={`/helpdesk/${item.id}`} className='block'>
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-                  {item.name}
-                </h2>
-              </a>
-            </div>
-          ))}
+          <MarkdownRenderer markdown={data.content} />
         </div>
       </div>
     </main>
@@ -56,3 +50,15 @@ const route: React.FC<routeProps> = () => {
 };
 
 export default route;
+
+const HelpDesk = ({ markdownContent }) => {
+  return (
+    <ReactMarkdown
+      components={{
+
+      }}
+    >
+      {markdownContent}
+    </ReactMarkdown>
+  );
+};

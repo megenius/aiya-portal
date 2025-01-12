@@ -66,6 +66,12 @@ export type SaasPrice = components["schemas"]["ItemsSaasPrices"] & {
   currency: string;
 };
 
+export type SaasCoupon = components["schemas"]["ItemsSaasCoupons"] & {
+  discount: string
+  description: string
+  terms: string
+}
+
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
 

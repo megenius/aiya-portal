@@ -31,8 +31,8 @@ import {
   saas_subscriptionsUserFieldRelationship as subscriptionsUserFieldRelationship,
   saas_invoicesCollection as invoicesCollection,
   saas_invoicesCustomerFiledRelationships as invoicesCustomerFieldRelationships,
-  saas_couponsCollection as couponsCollection,
-  saas_coupon_campaignsCollection as couponsCampaignCollection,
+  saas_couponsWithTracking as couponsCollection,
+  saas_coupon_campaignsWithTracking as couponsCampaignCollection,
   saas_couponsCampaignFieldRelationships as couponsCampaignFieldRelationships,
 } from "../collections";
 import {

@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "~/store";
-import { fetchBot } from "~/services/orderbots";
-import { fetchHelpdesks } from "~/services/helpdesk";
+import { fetchHelpdesks } from "~/services/helpdesk.service";
 
-export const useGetHelpDesks = () => {
+export const useGetHelpDesks = ({ lang }) => {
   return useQuery({
-    queryKey: ["helpdesks"],
-    queryFn: () => fetchHelpdesks().then((res) => res.data),
+    queryKey: ["helpdesks", lang],
+    queryFn: () => fetchHelpdesks(lang).then((res) => res.data),
     enabled: useAppSelector((state) => state.auth.isAuthenticated),
   });
 };

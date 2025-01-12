@@ -514,8 +514,107 @@ const saas_couponsCampaignFieldRelationships = {
   },
 };
 
+
+// Tracking fields to be added to both collections
+const trackingFields = [
+  {
+    field: "user_created",
+    type: "uuid",
+    meta: {
+      special: ["user-created"],
+      interface: "select-dropdown-m2o",
+      readonly: true,
+      hidden: true,
+      width: "full",
+      required: true,
+    },
+    schema: {
+      data_type: "uuid",
+      is_nullable: false,
+      foreign_key_schema: "public",
+      foreign_key_table: "directus_users",
+      foreign_key_column: "id",
+    }
+  },
+  {
+    field: "date_created",
+    type: "timestamp",
+    meta: {
+      special: ["date-created"],
+      interface: "datetime",
+      readonly: true,
+      hidden: true,
+      width: "full",
+      required: true,
+    },
+    schema: {
+      data_type: "timestamp with time zone",
+      is_nullable: false,
+    }
+  },
+  {
+    field: "user_updated",
+    type: "uuid",
+    meta: {
+      special: ["user-updated"],
+      interface: "select-dropdown-m2o",
+      readonly: true,
+      hidden: true,
+      width: "full",
+      required: true,
+    },
+    schema: {
+      data_type: "uuid",
+      is_nullable: false,
+      foreign_key_schema: "public",
+      foreign_key_table: "directus_users",
+      foreign_key_column: "id",
+    }
+  },
+  {
+    field: "date_updated",
+    type: "timestamp",
+    meta: {
+      special: ["date-updated"],
+      interface: "datetime",
+      readonly: true,
+      hidden: true,
+      width: "full",
+      required: true,
+    },
+    schema: {
+      data_type: "timestamp with time zone",
+      is_nullable: false,
+    }
+  }
+];
+
+// Add tracking fields to saas_coupons collection
+const saas_couponsWithTracking = {
+  ...saas_couponsCollection,
+  fields: [
+    ...saas_couponsCollection.fields,
+    ...trackingFields.map(field => ({
+      ...field,
+      collection: "saas_coupons"
+    }))
+  ]
+};
+
+// Add tracking fields to saas_coupon_campaigns collection
+const saas_coupon_campaignsWithTracking = {
+  ...saas_coupon_campaignsCollection,
+  fields: [
+    ...saas_coupon_campaignsCollection.fields,
+    ...trackingFields.map(field => ({
+      ...field,
+      collection: "saas_coupon_campaigns"
+    }))
+  ]
+};
+
 export {
-  saas_couponsCollection,
-  saas_coupon_campaignsCollection,
-  saas_couponsCampaignFieldRelationships,
+  saas_couponsWithTracking,
+  saas_coupon_campaignsWithTracking,
+  saas_couponsCampaignFieldRelationships
 };

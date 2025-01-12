@@ -3,6 +3,7 @@ import AffiliateTiers from './_components/AffiliateTiers';
 import AffiliateHero from './_components/AffiliateHero';
 import AffiliateFaqPayment from './_components/AffiliateFaqPayment';
 import AffiliateIncomeCalculator from './_components/AffiliateIncomeCalculator';
+import Container from '../_landing/_components/Container';
 
 interface routeProps {
 
@@ -11,10 +12,12 @@ interface routeProps {
 const route: React.FC<routeProps> = () => {
   return (
     <>
-      <AffiliateHero />
-      <AffiliateTiers />
-      <AffiliateIncomeCalculator />
-      <AffiliateFaqPayment />
+      <Container>
+        <AffiliateHero />
+        <AffiliateTiers />
+        <AffiliateIncomeCalculator />
+        <AffiliateFaqPayment />
+      </Container>
     </>
   );
 };

@@ -184,7 +184,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     }
   }
 
-  const session = await stripe.checkout.sessions.create({
+  const payload = {
     payment_method_types: ["card"],
     currency,
     line_items: [
@@ -197,7 +197,6 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
     subscription_data: {
       metadata,
     },
-    discounts, // Apply the calculated discount
     success_url: `${PORTAL_URL}/payment/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${PORTAL_URL}/plans`,
     billing_address_collection: "required",
@@ -217,7 +216,17 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
       discount_applied: discounts.length > 0 ? "true" : "false",
     },
     locale: language,
-  });
+    // discounts, // Apply the calculated discount
+    // allow_promotion_codes: discounts.length < 1,
+  } as any;
+
+  if (discounts.length > 0) {
+    payload["discounts"] = discounts;
+  } else {
+    payload["allow_promotion_codes"] = true;
+  }
+
+  const session = await stripe.checkout.sessions.create(payload);
 
   return c.json({
     sessionId: session.id,
@@ -315,4 +324,14 @@ export const changePlan = factory.createHandlers(logger(), async (c) => {
   const user = c.get("user") as DirectusUser;
   await billingService.changePlan(currentPlanId, newPlanId);
   return c.json({});
+});
+
+export const getCoupons = factory.createHandlers(logger(), async (c) => {
+  const { lang, env } = c.req.query();
+  const billingService = c.get("billingService");
+  const coupons = await billingService.getCoupons({
+    lang,
+    env,
+  });
+  return c.json(coupons);
 });

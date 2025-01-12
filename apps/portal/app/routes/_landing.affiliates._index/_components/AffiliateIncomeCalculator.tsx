@@ -108,112 +108,114 @@ const AffiliateIncomeCalculator = () => {
   ];
 
   return (
-    <div className="max-w-[1200px] mx-auto p-4">
-      <div className="bg-white border shadow-sm rounded-xl p-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">ตัวอย่างการคำนวณรายได้</h2>
-          <p className="text-gray-600">
-            ตัวอย่างการคำนวณรายได้ในสถานการณ์ต่างๆ เพื่อให้เห็นภาพรวมของรายได้ที่เป็นไปได้
-          </p>
-        </div>
+    <>
+      <div className="max-w-[1200px] mx-auto p-4">
+        <div className="bg-white border shadow-sm rounded-xl p-6">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-4">ตัวอย่างการคำนวณรายได้</h2>
+            <p className="text-gray-600">
+              ตัวอย่างการคำนวณรายได้ในสถานการณ์ต่างๆ เพื่อให้เห็นภาพรวมของรายได้ที่เป็นไปได้
+            </p>
+          </div>
 
-        {/* Scenarios */}
-        <div className="space-y-8">
-          {scenarios.map((scenario, index) => (
-            <div key={index} className="border rounded-xl p-6">
-              {/* Scenario Header */}
-              <div className="flex items-start gap-4 mb-6">
-                <div className="p-2 bg-blue-50 rounded-lg">
-                  {index === 0 ? (
-                    <Users className="w-6 h-6 text-blue-500" />
-                  ) : index === 1 ? (
-                    <TrendingUp className="w-6 h-6 text-green-500" />
-                  ) : (
-                    <Calculator className="w-6 h-6 text-yellow-500" />
-                  )}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{scenario.title}</h3>
-                  <p className="text-gray-600">{scenario.description}</p>
-                  <p className="text-sm font-medium mt-2 text-blue-600">{scenario.tier}</p>
-                </div>
-              </div>
-
-              {/* Cases */}
-              <div className="space-y-6">
-                {scenario.cases.map((case_, caseIndex) => (
-                  <div key={caseIndex} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium mb-4">{case_.title}</h4>
-                    
-                    {/* Calculations */}
-                    <div className="space-y-4">
-                      {case_.calculations.map((calc, calcIndex) => (
-                        <div key={calcIndex} className="bg-white rounded-lg p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium">{calc.label}</span>
-                            <span className="font-bold text-blue-600">{calc.result}</span>
-                          </div>
-                          {Array.isArray(calc.detail) ? (
-                            <div className="text-sm text-gray-600 space-y-1">
-                              {calc.detail.map((detail, detailIndex) => (
-                                <p key={detailIndex}>{detail}</p>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-sm text-gray-600">{calc.detail}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Case Note if exists */}
-                    {case_.note && (
-                      <div className="mt-4 bg-blue-50 rounded-lg p-3">
-                        <p className="text-sm text-blue-600">{case_.note}</p>
-                      </div>
+          {/* Scenarios */}
+          <div className="space-y-8">
+            {scenarios.map((scenario, index) => (
+              <div key={index} className="border rounded-xl p-6">
+                {/* Scenario Header */}
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    {index === 0 ? (
+                      <Users className="w-6 h-6 text-blue-500" />
+                    ) : index === 1 ? (
+                      <TrendingUp className="w-6 h-6 text-green-500" />
+                    ) : (
+                      <Calculator className="w-6 h-6 text-yellow-500" />
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">{scenario.title}</h3>
+                    <p className="text-gray-600">{scenario.description}</p>
+                    <p className="text-sm font-medium mt-2 text-blue-600">{scenario.tier}</p>
+                  </div>
+                </div>
 
-        {/* Tips Section */}
-        <div className="mt-8 bg-gray-50 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">เคล็ดลับเพิ่มรายได้:</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-3">สำหรับแพ็กเกจรายเดือน</h4>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-green-500" />
-                  <span>พยายามรักษาลูกค้าให้ใช้บริการต่อเนื่อง 6 เดือน</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-green-500" />
-                  <span>แนะนำแพ็กเกจ Growth Plan เพื่อรายได้ที่มากขึ้น</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3">สำหรับแพ็กเกจรายปี</h4>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-green-500" />
-                  <span>รับรายได้ก้อนใหญ่ทันทีโดยไม่ต้องรอ Recurring</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-green-500" />
-                  <span>ลูกค้าได้ส่วนลด 15% ช่วยปิดการขายได้ง่ายขึ้น</span>
-                </li>
-              </ul>
+                {/* Cases */}
+                <div className="space-y-6">
+                  {scenario.cases.map((case_, caseIndex) => (
+                    <div key={caseIndex} className="bg-gray-50 rounded-lg p-4">
+                      <h4 className="font-medium mb-4">{case_.title}</h4>
+
+                      {/* Calculations */}
+                      <div className="space-y-4">
+                        {case_.calculations.map((calc, calcIndex) => (
+                          <div key={calcIndex} className="bg-white rounded-lg p-4">
+                            <div className="flex justify-between items-start mb-2">
+                              <span className="font-medium">{calc.label}</span>
+                              <span className="font-bold text-blue-600">{calc.result}</span>
+                            </div>
+                            {Array.isArray(calc.detail) ? (
+                              <div className="text-sm text-gray-600 space-y-1">
+                                {calc.detail.map((detail, detailIndex) => (
+                                  <p key={detailIndex}>{detail}</p>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-600">{calc.detail}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Case Note if exists */}
+                      {case_.note && (
+                        <div className="mt-4 bg-blue-50 rounded-lg p-3">
+                          <p className="text-sm text-blue-600">{case_.note}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Tips Section */}
+          <div className="mt-8 bg-gray-50 rounded-xl p-6">
+            <h3 className="font-semibold mb-4">เคล็ดลับเพิ่มรายได้:</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-medium mb-3">สำหรับแพ็กเกจรายเดือน</h4>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-green-500" />
+                    <span>พยายามรักษาลูกค้าให้ใช้บริการต่อเนื่อง 6 เดือน</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-green-500" />
+                    <span>แนะนำแพ็กเกจ Growth Plan เพื่อรายได้ที่มากขึ้น</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium mb-3">สำหรับแพ็กเกจรายปี</h4>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-green-500" />
+                    <span>รับรายได้ก้อนใหญ่ทันทีโดยไม่ต้องรอ Recurring</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-green-500" />
+                    <span>ลูกค้าได้ส่วนลด 15% ช่วยปิดการขายได้ง่ายขึ้น</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

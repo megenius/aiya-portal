@@ -102,4 +102,14 @@ billingsRoutes.post(
   ...StripeHandler.webhook
 );
 
+
+// coupons
+billingsRoutes.get(
+  "/coupons",
+  directusMiddleware,
+  stripeMiddleware,
+  billingMiddleware,
+  ...BillingHandler.getCoupons
+);
+
 export { billingsRoutes };

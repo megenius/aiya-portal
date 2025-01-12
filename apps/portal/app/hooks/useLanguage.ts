@@ -9,11 +9,6 @@ import { th, enUS } from "date-fns/locale";
 export const useLanguage = () => {
   const user = useSelector((state: RootState) => state.user);
 
-  const locales = {
-    th: th,
-    en: enUS,
-  };
-
   // ฟังก์ชันสำหรับเปลี่ยนภาษา
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang); // เปลี่ยนภาษาใน i18next
@@ -28,6 +23,11 @@ export const useLanguage = () => {
   const mapCurrency = {
     en: "usd",
     th: "thb",
+  };
+
+  const locales = {
+    th: th,
+    en: enUS,
   };
 
   return {

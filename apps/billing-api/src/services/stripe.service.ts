@@ -58,7 +58,6 @@ export class StripeService {
     });
 
     console.log(prices);
-    
 
     if (prices.data?.length === 0) {
       throw new Error("Free plan not found");
@@ -118,5 +117,13 @@ export class StripeService {
     return this.stripe.subscriptions.update(subscriptionId, {
       items: [{ id: subscriptionId, price: priceId }],
     });
+  }
+
+  async createCoupon(params: Stripe.CouponCreateParams) {
+    return this.stripe.coupons.create(params);
+  }
+
+  async createPromotionCode(params: Stripe.PromotionCodeCreateParams) {
+    return this.stripe.promotionCodes.create(params);
   }
 }

@@ -1,9 +1,10 @@
 import { useParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useGetHelpDesk } from '~/hooks/useGetHelpDesk';
 import MarkdownRenderer from './_components/MarkdownRenderer';
+import { useLanguage } from '~/hooks/useLanguage';
 
 interface routeProps {
 
@@ -11,7 +12,12 @@ interface routeProps {
 
 const route: React.FC<routeProps> = () => {
   const { id } = useParams()
-  const { data, isLoading } = useGetHelpDesk({ id })
+  const { lang } = useLanguage()
+  const { data, isLoading, refetch } = useGetHelpDesk({ id, lang })
+
+  useEffect(() => {
+    refetch()
+  }, [lang])
 
   if (isLoading) {
     return <Loading />

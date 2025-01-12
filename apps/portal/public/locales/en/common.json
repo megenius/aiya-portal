@@ -5,8 +5,10 @@
     "plans": "Plans",
     "billing": "Billing",
     "credits": "Credits",
+    "coupons": "Coupons",
     "affiliates": "Affiliates Program",
-    "helpdesk": "Help"
+    "helpdesk": "Help",
+    "terms": "Terms & Conditions"
   },
   "welcome": "Welcome",
   "description": "This is an English description.",
@@ -78,5 +80,9 @@
         "success": "Your subscription has been cancelled. You'll have access until the end of your billing period"
       }
     }
+  },
+  "coupons": {
+    "title": "Power Up Your Business with AI Discounts",
+    "terms": "Discounts cannot be combined with other offers. See terms and conditions for full details."
   }
 }

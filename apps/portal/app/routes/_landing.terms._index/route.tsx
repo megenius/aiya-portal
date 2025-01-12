@@ -1,6 +1,6 @@
 import { Loading } from '@repo/preline';
 import React, { useEffect } from 'react';
-import { useGetHelpDesks } from '~/hooks/useGetHelpDesks';
+import { useGetTerms } from '~/hooks/useGetTerms';
 import { useLanguage } from '~/hooks/useLanguage';
 
 interface routeProps {
@@ -9,7 +9,8 @@ interface routeProps {
 
 const route: React.FC<routeProps> = () => {
   const { lang } = useLanguage()
-  const { data, isLoading, refetch } = useGetHelpDesks({ lang })
+  const { data, isLoading, refetch } = useGetTerms({lang})
+
 
   useEffect(() => {
     refetch()
@@ -31,7 +32,7 @@ const route: React.FC<routeProps> = () => {
           <div className="flex justify-between gap-x-3 mb-4 xl:mb-8">
             <div>
               <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-                Help Desk
+                Terms and Conditions
               </h1>
               <p className="text-sm text-gray-500 dark:text-neutral-500">
               </p>
@@ -42,7 +43,7 @@ const route: React.FC<routeProps> = () => {
 
           {data?.map((item, index) => (
             <div key={index} className="space-y-3">
-              <a href={`/helpdesk/${item.id}`} className='block'>
+              <a href={`/terms/${item.id}`} className='block'>
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
                   {item.name}
                 </h2>

@@ -37,6 +37,15 @@ export class BillingService {
   }) {
     const freePlan = await this.directus.request(
       readItems("saas_prices", {
+        deep: {
+          translations: {
+            _filter: {
+              languages_code: {
+                _eq: lang,
+              },
+            },
+          },
+        },
         filter: {
           lookup_key: {
             _eq: "aibots_free_plan",
@@ -160,6 +169,55 @@ export class BillingService {
         subscription.customer as string
       );
     }
+  }
+
+  async getCoupons({ lang = "th-TH" }: { lang?: string; customer?: string }) {
+    const coupons = await this.directus.request(
+      readItems("saas_coupons", {
+        deep: {
+          translations: {
+            _filter: {
+              languages_code: {
+                _eq: lang,
+              },
+            },
+          },
+        },
+        filter: {
+          env: {
+            _eq: this.env,
+          },
+        },
+        fields: ["*", { translations: ["*"] }],
+      })
+    );
+
+    return coupons.map((item) => {
+      let mappedItem = { ...item } as any;
+
+      const translation = item.translations?.[0]
+        ? (item.translations?.[0] as {
+            metadata: {
+              discount: string;
+              desciption: string;
+              terms: string;
+            };
+          })
+        : null;
+
+      if (translation) {
+        mappedItem = { ...mappedItem, ...translation.metadata };
+      }
+
+      // Remove the translations property
+      delete mappedItem.translations;
+
+      return mappedItem;
+    });
+  }
+
+  async getCoupon(couponId: string) {
+    return this.directus.request(readItem("saas_coupons", couponId));
   }
 
   async onCustomerCreated(customer: Stripe.Customer) {

@@ -7,6 +7,7 @@ import { authMiddleware } from "./middlewares/auth.middleware";
 import { websocketRoutes } from "./routes/websocket.route";
 import { handleBillingQueueMessage } from "./handlers/queue.handler";
 import { WorkerEnv } from "./types/worker-configuration";
+import { couponRoutes } from "./routes/coupon.route";
 export * from "./durables/SubscriptionDurable";
 export * from "./durables/CounterDurable";
 
@@ -33,6 +34,7 @@ const app = new Hono<Env>()
   .route("/websocket/billing", websocketRoutes)
   .route("/api/billing", billingsRoutes)
   .route("/api/billing/setup", setupRoutes)
+  // .route("/api/billing/coupons", couponRoutes)
   .get("/api/billing/health", async (c) => {
     return c.json({ status: "ok" });
   });
