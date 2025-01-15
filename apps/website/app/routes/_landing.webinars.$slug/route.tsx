@@ -11,17 +11,29 @@ export const meta: MetaFunction<typeof loader> = ({
   data
 }) => {
   const url = `${location.pathname}${location.search}${location.hash}`;
-  return [
-    ...data?.webinar?.metadata,
-    {
-      "property": "og:image",
-      "content": data?.webinar?.cover
-    },
-    {
-      "property": "og:url",
-      "content": url
-    },
-  ]
+  // Basic meta tags
+  const metaTags = [
+    { title: data?.webinar?.name || 'Webinar' },
+    { description: data?.webinar?.description || 'Join our webinar' },
+
+    // Essential Open Graph tags
+    { property: 'og:title', content: data?.webinar?.name },
+    { property: 'og:description', content: data?.webinar?.description },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: url },
+    { property: 'og:image', content: data?.webinar?.cover },
+
+    // LINE specific meta tags
+    { property: 'line:card', content: 'summary_large_image' },
+    { property: 'line:title', content: data?.webinar?.name },
+    { property: 'line:description', content: data?.webinar?.description },
+    { property: 'line:image', content: data?.webinar?.cover },
+
+    // Additional tags from webinar metadata if they exist
+    ...(data?.webinar?.metadata || [])
+  ];
+
+  return metaTags;
 }
 
 export async function loader({

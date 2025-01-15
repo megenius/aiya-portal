@@ -8,6 +8,7 @@ export type Webinar = {
   date_updated: any;
   content: Content;
   name: string;
+  description: string;
   start_date: string;
   end_date: string;
   cover: string;
