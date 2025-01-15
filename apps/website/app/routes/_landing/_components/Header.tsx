@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = () => {
                 Get Started
               </a> */}
 
-              <a className="p-2 flex items-center text-sm text-white hover:text-white focus:outline-none focus:text-white" href="/webinar">
+              <a className="p-2 flex items-center text-sm text-white hover:text-white focus:outline-none focus:text-white" href="/webinars/2">
                 Webinar
               </a>
               {/* <a className="p-2 flex items-center text-sm text-white/80 hover:text-white focus:outline-none focus:text-white" href="#">

@@ -1,7 +1,17 @@
 import React from 'react';
 import { Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
 
-const WebinarCard = () => {
+interface Webinar {
+  name: string;
+  content: string;
+  cover: string;
+}
+
+const WebinarCard: React.FC<Webinar> = ({
+  name,
+  content,
+  cover
+}) => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg">
       {/* Header */}
@@ -76,9 +86,9 @@ const WebinarCard = () => {
 
       {/* Registration Button */}
       <div className="flex flex-col items-center gap-4">
-        <a 
-          href="https://bit.ly/aiya-webinar-2025" 
-          target="_blank" 
+        <a
+          href="https://bit.ly/aiya-webinar-2025"
+          target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
         >

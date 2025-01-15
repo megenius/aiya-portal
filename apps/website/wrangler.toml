@@ -1,0 +1,11 @@
+name = "aiya-portal-website"
+
+routes = [
+  { pattern = "aiya.me", zone_name = "aiya.me" },
+  { pattern = "www.aiya.me", zone_name = "aiya.me" },
+]
+
+[vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+PORTAL_URL = "https://portal.aiya.me"
+

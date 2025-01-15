@@ -25,4 +25,15 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  server: {
+    port: 5173,
+    proxy: {
+      "/api": {
+        target: "https://console.portal.aiya.ai",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path: string) => path.replace(new RegExp(`^/api`), ""),
+      },
+    },
+  },
 });
