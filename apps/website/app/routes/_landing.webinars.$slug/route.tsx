@@ -11,7 +11,7 @@ export const meta: MetaFunction<typeof loader> = ({
   data,
 }) => {
   const url = `https://aiya.me${location.pathname}${location.search}${location.hash}`;
-  const webinar = data?.webinar2
+  const webinar = data?.webinar
   console.log("url", url);
   console.log("og:image", webinar?.cover);
 
@@ -38,12 +38,10 @@ export async function loader({
   params,
 }: LoaderFunctionArgs) {
   const { slug } = params;
-  const webinar = fetchWebinar(slug as string);
-  const webinar2 = await fetchWebinar(slug as string);
+  const webinar = await fetchWebinar(slug as string);
 
   return {
     webinar,
-    webinar2
   };
 }
 
