@@ -1,43 +1,47 @@
-export type Webinar = {
-  id: number;
-  status: string;
-  sort: any;
-  user_created: string;
-  date_created: string;
-  user_updated: any;
-  date_updated: any;
-  content: Content;
-  name: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  cover: string;
-  og_image: string;
-  metadata: any;
-  tags: Array<string>;
-  register_link: string;
-};
-
-type Content = {
-  speakersTitle: string;
-  speakers: Speaker[];
-  specialOffersTitle: string;
-  specialOffers: string[];
-  topicsTitle: string;
-  topics: string[];
-  targetAudienceTitle: string;
-  targetAudience: string[];
-};
-
-export interface Speaker {
+interface Speaker {
   name: string;
   title: string;
   expertise: string;
 }
 
-export interface SpecialOffer {
-  type: string;
-  value: number;
-  currency: string;
-  condition: string;
+interface WebinarContent {
+  speakersTitle: string;
+  speakers: Speaker[];
+  topicsTitle: string;
+  topics: string[];
+  targetAudienceTitle: string;
+  targetAudience: string[];
+  specialOffersTitle: string;
+  specialOffers: string[];
+}
+
+export interface Webinar {
+  name: string;
+  start_date: Date;
+  end_date: Date;
+  register_link: string;
+  tags?: string[];
+  content: WebinarContent;
+  description: string;
+  cover: string;
+  og_image: string;
+}
+
+// components/WebinarCard/types.ts
+export interface SpeakerSectionProps {
+  speakers: Speaker[];
+  title: string;
+}
+
+export interface ListSectionProps {
+  title: string;
+  items: string[];
+}
+
+export interface TagsSectionProps {
+  tags: string[];
+}
+
+export interface WebinarCardProps {
+  webinar: Webinar;
 }
