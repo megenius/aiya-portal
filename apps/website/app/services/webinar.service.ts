@@ -1,7 +1,7 @@
 import { Webinar } from "~/types/webinar.type";
 import api from "./api";
 
-const PORTAL_URL = process.env.PORTAL_URL;
+const PORTAL_URL = "https://portal.aiya.me";
 
 export const fetchWebinars = () =>
   api.get<Array<Webinar>>(`/items/saas_webinars`);
