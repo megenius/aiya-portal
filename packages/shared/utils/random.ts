@@ -16,3 +16,13 @@ export const randomString = (length: number): string => {
     () => chars[Math.floor(Math.random() * chars.length)]
   ).join("");
 };
+
+
+export const randomNumber = (length: number): string => {
+  const chars =
+    "0123456789";
+  return Array.from(
+    { length },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+};

@@ -29,11 +29,11 @@ couponRoutes.get(
 
 // Create single coupon
 couponRoutes.post(
-  "/",
+  "/promo-codes",
   directusMiddleware,
   stripeMiddleware,
   billingAdminMiddleware,
-  ...CouponHandler.createCouponWithPromocodes
+  ...CouponHandler.createPromocodes
 );
 
 // // Create bulk coupons

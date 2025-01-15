@@ -16,6 +16,7 @@ mode = "smart"
 NODE_ENV = "development"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal-dev.aiya.me"
+STRIPE_WELCOME_COUPON = "O6r4lWK8"
 
 [[kv_namespaces]]
 binding = "CACHING"
@@ -60,6 +61,7 @@ mode = "smart"
 NODE_ENV = "production"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 PORTAL_URL = "https://portal.aiya.me"
+STRIPE_WELCOME_COUPON = "mYB34Hzv"
 
 [[env.prod.kv_namespaces]]
 binding = "CACHING"
@@ -82,5 +84,5 @@ queue = "billing-queue-prod"
 
 [[env.prod.queues.consumers]]
 queue = "billing-queue-prod"
-max_batch_size = 1      # optional: defaults to 10
-max_batch_timeout = 60  # optional: defaults to 5 seconds
+max_batch_size = 1           # optional: defaults to 10
+max_batch_timeout = 60       # optional: defaults to 5 seconds

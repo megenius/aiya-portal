@@ -107,6 +107,7 @@ billingsRoutes.post(
 billingsRoutes.get(
   "/coupons",
   directusMiddleware,
+  userMiddleware,
   stripeMiddleware,
   billingMiddleware,
   ...BillingHandler.getCoupons

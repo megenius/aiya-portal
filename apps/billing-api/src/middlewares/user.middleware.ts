@@ -13,7 +13,6 @@ export const userMiddleware = factory.createMiddleware(async (c, next) => {
       fields: ["id", "email", "first_name", "last_name", "avatar"],
     })
   );
-  console.log("user", user);
   
   c.set("user", user as DirectusUser);
 

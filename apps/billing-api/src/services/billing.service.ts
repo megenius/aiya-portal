@@ -171,7 +171,13 @@ export class BillingService {
     }
   }
 
-  async getCoupons({ lang = "th-TH" }: { lang?: string; customer?: string }) {
+  async getCoupons({
+    lang = "th-TH",
+    customer,
+  }: {
+    lang?: string;
+    customer?: string;
+  }) {
     const coupons = await this.directus.request(
       readItems("saas_coupons", {
         deep: {
@@ -186,6 +192,9 @@ export class BillingService {
         filter: {
           env: {
             _eq: this.env,
+          },
+          customer: {
+            _eq: customer,
           },
         },
         fields: ["*", { translations: ["*"] }],

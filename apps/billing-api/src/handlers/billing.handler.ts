@@ -14,8 +14,9 @@ import { logger } from "hono/logger";
 import { Env } from "~/types/hono.types";
 import * as _ from "lodash";
 import Stripe from "stripe";
-import { differenceInDays, formatDate, sub } from "date-fns";
+import { addDays, addMonths, differenceInDays, format, formatDate, sub } from "date-fns";
 import { StripeService } from "~/services/stripe.service";
+import { randomNumber, randomString } from "@repo/shared/utils";
 
 const factory = createFactory<Env>();
 
@@ -24,10 +25,10 @@ export const createOnboardFreePlan = factory.createHandlers(
   logger(),
   async (c) => {
     const directus = c.get("directus");
+    const directAdmin = c.get("directAdmin");
     const user = c.get("user") as DirectusUser;
     const stripe = c.get("stripe");
     const stripeService = c.get("stripeService");
-    const billingService = c.get("billingService");
 
     try {
       // check if user already subscribed
@@ -77,6 +78,51 @@ export const createOnboardFreePlan = factory.createHandlers(
 
         const customer = await stripeService.createCustomer(user);
         const sub = await stripeService.createFreePlan(customer.id, user.id);
+
+        const promoCode = `WELCOME-${randomString(8).toUpperCase()}`;
+        // create welcome promo code
+        const promo = await stripeService.createPromotionCode({
+          coupon: c.env.STRIPE_WELCOME_COUPON,
+          code: promoCode,
+          expires_at: Math.ceil(addDays(new Date(), 30).getTime() / 1000),
+          max_redemptions: 1,
+          customer: customer.id,
+          metadata: {
+            user_id: user.id,
+          }
+        });
+
+        const coupon = await directAdmin.request(
+          createItem("saas_coupons", {
+            customer: user.id,
+            code: promoCode,
+            start_date: format(new Date(), "yyyy-MM-dd"),
+            end_date: format(
+              new Date((promo.expires_at as number) * 1000),
+              "yyyy-MM-dd"
+            ),
+            env: c.env.NODE_ENV,
+            translations: [
+              {
+                languages_code: "en-US",
+                metadata: {
+                  discount: "$30 OFF",
+                  description: "Launch your first AI chatbot",
+                  terms: "For any plans with $30 discount",
+                },
+              },
+              {
+                languages_code: "th-TH",
+                metadata: {
+                  discount: "ส่วนลด ฿1,000",
+                  description: "เปิดตัวแชทบอท AI ตัวแรกของคุณ",
+                  terms: "ส่วนลด 1,000 บาท ในทุกแพลน",
+                },
+              },
+            ],
+          })
+        );
+
         return c.json(sub);
       }
 
@@ -87,6 +133,7 @@ export const createOnboardFreePlan = factory.createHandlers(
       );
       return c.json(sub);
     } catch (error: any) {
+      console.error(error);
       return c.json({ error: error.message });
     }
   }
@@ -225,6 +272,7 @@ export const createCheckout = factory.createHandlers(logger(), async (c) => {
   } else {
     payload["allow_promotion_codes"] = true;
   }
+  // payload["allow_promotion_codes"] = true;
 
   const session = await stripe.checkout.sessions.create(payload);
 
@@ -327,11 +375,14 @@ export const changePlan = factory.createHandlers(logger(), async (c) => {
 });
 
 export const getCoupons = factory.createHandlers(logger(), async (c) => {
-  const { lang, env } = c.req.query();
+  const { lang } = c.req.query();
   const billingService = c.get("billingService");
+  const user = c.get("user");
+
   const coupons = await billingService.getCoupons({
     lang,
-    env,
+    customer: user.id,
   });
+
   return c.json(coupons);
 });

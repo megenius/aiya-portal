@@ -12,7 +12,8 @@ import { Env } from "~/types/hono.types";
 import * as _ from "lodash";
 import { StripeCouponService } from "~/services/stripe-coupon.service";
 import { StripeService } from "~/services/stripe.service";
-import { addMonths } from "date-fns";
+import { addDays, addMonths, endOfDay } from "date-fns";
+import { randomString } from "@repo/shared/utils";
 
 const factory = createFactory<Env>();
 
@@ -79,63 +80,54 @@ export const createCoupon = factory.createHandlers(logger(), async (c) => {
   }
 });
 
-export const createCouponWithPromocodes = factory.createHandlers(
-  logger(),
-  async (c) => {
-    const directus = c.get("directus");
-    const stripe = c.get("stripe");
-    const stripeService = new StripeService(stripe);
-    const user = c.get("user") as DirectusUser;
+export const createPromocodes = factory.createHandlers(logger(), async (c) => {
+  const directus = c.get("directus");
+  const stripe = c.get("stripe");
+  const stripeService = new StripeService(stripe);
+  const user = c.get("user") as DirectusUser;
 
-    try {
-      const body = await c.req.json();
-      const coupon = await stripeService.createCoupon({
-        name: body.name,
-        duration: body.duration,
-        currency: body.currency,
-        amount_off: body.amount_off,
-        percent_off: body.percent_off,
-        redeem_by: body.redeem_by,
-      });
+  try {
+    const {
+      coupon,
+      quantity = 1,
+      expiration_in_days = 30,
+      max_redemptions = 1,
+      prefix,
+    } = await c.req.json();
+    // const coupon = await stripeService.createCoupon({
+    //   name: body.name,
+    //   duration: body.duration,
+    //   currency: body.currency,
+    //   amount_off: body.amount_off,
+    //   percent_off: body.percent_off,
+    //   redeem_by: body.redeem_by,
+    // });
 
-      const totalPromotionCodes = body.quantity || 1;
+    const results = await Promise.all(
+      Array.from({ length: quantity }).map(async (_, index) => {
+        const promotionCode = await stripeService.createPromotionCode({
+          coupon: coupon,
+          code: prefix
+            ? `${prefix}-${randomString(8).toUpperCase()}`
+            : randomString(8).toUpperCase(),
+          expires_at: expiration_in_days
+            ? Math.ceil(
+                endOfDay(addDays(new Date(), expiration_in_days)).getTime() / 1000
+              )
+            : undefined,
+          max_redemptions,
+        });
 
-      await Promise.all(
-        Array.from({ length: totalPromotionCodes }).map(async (_, index) => {
-          const promotionCode = await stripeService.createPromotionCode({
-            coupon: coupon.id,
-            // code: `${body.prefix || "PROMO"}-${index + 1}`,
-            expires_at: body.expiration_in_months
-              ? Math.ceil(
-                  addMonths(new Date(), body.expiration_in_months).getTime() /
-                    1000
-                )
-              : undefined,
-            max_redemptions: body.max_redemptions,
-          });
+        return promotionCode;
+      })
+    );
 
-          return promotionCode;
-        })
-      );
-
-      // const promotionCodes = await stripeService.createPromotionCode({
-      //   coupon: coupon.id,
-      //   code: body.code,
-      //   expires_at: body.expiration_in_months
-      //     ? Math.ceil(
-      //         addMonths(new Date(), body.expiration_in_months).getTime() / 1000
-      //       )
-      //     : undefined,
-      //   max_redemptions: body.max_redemptions,
-      // });
-
-      return c.json({ coupon });
-    } catch (error: any) {
-      console.error("Error creating coupon:", error);
-      return c.json({ error: error.message }, 400);
-    }
+    return c.json(results.map((promo) => promo.code));
+  } catch (error: any) {
+    console.error("Error creating coupon:", error);
+    return c.json({ error: error.message }, 400);
   }
-);
+});
 
 // Create bulk coupons
 export const createBulkCoupons = factory.createHandlers(logger(), async (c) => {

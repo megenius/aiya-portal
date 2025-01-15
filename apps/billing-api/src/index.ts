@@ -34,7 +34,7 @@ const app = new Hono<Env>()
   .route("/websocket/billing", websocketRoutes)
   .route("/api/billing", billingsRoutes)
   .route("/api/billing/setup", setupRoutes)
-  // .route("/api/billing/coupons", couponRoutes)
+  .route("/api/billing/coupons", couponRoutes)
   .get("/api/billing/health", async (c) => {
     return c.json({ status: "ok" });
   });
