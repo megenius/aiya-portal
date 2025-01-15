@@ -43,7 +43,7 @@ export default function LandingPage() {
       <div className='pb-10'>
         <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
           <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
-            <img className="w-full" src={data.webinar.cover} alt="AIYA Chatbot" />
+            <img className="w-full" src={data.webinar.cover} alt={data?.webinar?.name} />
           </div>
         </div>
 

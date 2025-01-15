@@ -2,6 +2,7 @@ import { Webinar } from "~/types/webinar.type";
 import api from "./api";
 
 const PORTAL_URL = "https://portal.aiya.me";
+const BASE_URL = "https://aiya.me";
 
 export const fetchWebinars = () =>
   api.get<Array<Webinar>>(`/items/saas_webinars`);
@@ -13,8 +14,8 @@ export const fetchWebinar = (id: string) =>
 
     return {
       ...res.data.data,
-      cover: `/images/${coverId}.jpg`,
-      og_image: `/images/${ogImageId}.jpg`
+      cover: `${BASE_URL}/images/${coverId}.jpg`,
+      og_image: `${BASE_URL}/images/${ogImageId}.jpg`,
       // og_image: `${PORTAL_URL}/api/files/${ogImageId}.jpg`,
     };
   });
