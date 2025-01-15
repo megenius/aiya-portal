@@ -11,24 +11,24 @@ export const meta: MetaFunction<typeof loader> = ({
   data,
 }) => {
   const url = `https://aiya.me${location.pathname}${location.search}${location.hash}`;
+  const webinar = data?.webinar2
   console.log("url", url);
-  console.log("og:image", data?.webinar?.cover);
-  
-  
+  console.log("og:image", webinar?.cover);
+
   // Basic meta tags
   const metaTags = [
-      // Additional tags from webinar metadata if they exist
-      ...(data?.webinar?.metadata || []),
+    // Additional tags from webinar metadata if they exist
+    ...(webinar?.metadata || []),
 
-    { title: data?.webinar?.name || 'Webinar' },
-    { description: data?.webinar?.description || 'Join our webinar' },
+    { title: webinar?.name || 'Webinar' },
+    { description: webinar?.description || 'Join our webinar' },
 
     // Essential Open Graph tags
-    { property: 'og:title', content: data?.webinar?.name },
-    { property: 'og:description', content: data?.webinar?.description },
+    { property: 'og:title', content: webinar?.name },
+    { property: 'og:description', content: webinar?.description },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: url },
-    { property: 'og:image', content: data?.webinar?.cover },
+    { property: 'og:image', content: webinar?.cover },
   ];
 
   return metaTags;
@@ -38,10 +38,12 @@ export async function loader({
   params,
 }: LoaderFunctionArgs) {
   const { slug } = params;
-  const webinar = await fetchWebinar(slug as string);
+  const webinar = fetchWebinar(slug as string);
+  const webinar2 = await fetchWebinar(slug as string);
 
   return {
-    webinar
+    webinar,
+    webinar2
   };
 }
 
@@ -49,14 +51,31 @@ export default function LandingPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className='pb-10'>
-      <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
-        <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
-          <img className="w-full" src={data.webinar.cover} alt={data?.webinar?.name} />
-        </div>
-      </div>
+    <>
+      <Suspense fallback={<Loader />}>
+        <Await resolve={data.webinar}>
+          {(webinar) => (
+            <div className='pb-10'>
+              <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
+                <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
+                  <img className="w-full" src={webinar.cover} alt={webinar?.name} />
+                </div>
+              </div>
 
-      <WebinarCard webinar={data.webinar} />
-    </div>
+              <WebinarCard webinar={webinar} />
+            </div>
+          )}
+        </Await>
+      </Suspense>
+      {/* <div className='pb-10'>
+        <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
+          <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
+            <img className="w-full" src={data.webinar.cover} alt={data?.webinar?.name} />
+          </div>
+        </div>
+
+        <WebinarCard webinar={data.webinar} />
+      </div> */}
+    </>
   )
 }
