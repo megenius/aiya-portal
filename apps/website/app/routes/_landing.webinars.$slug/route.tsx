@@ -8,11 +8,18 @@ import { fetchWebinar } from '~/services/webinar.service';
 export const meta: MetaFunction<typeof loader> = ({
   location,
   params,
-  data
+  data,
 }) => {
-  const url = `${location.pathname}${location.search}${location.hash}`;
+  const url = `https://aiya.me${location.pathname}${location.search}${location.hash}`;
+  console.log("url", url);
+  console.log("og:image", data?.webinar?.cover);
+  
+  
   // Basic meta tags
   const metaTags = [
+      // Additional tags from webinar metadata if they exist
+      ...(data?.webinar?.metadata || []),
+
     { title: data?.webinar?.name || 'Webinar' },
     { description: data?.webinar?.description || 'Join our webinar' },
 
@@ -22,15 +29,6 @@ export const meta: MetaFunction<typeof loader> = ({
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: url },
     { property: 'og:image', content: data?.webinar?.cover },
-
-    // LINE specific meta tags
-    { property: 'line:card', content: 'summary_large_image' },
-    { property: 'line:title', content: data?.webinar?.name },
-    { property: 'line:description', content: data?.webinar?.description },
-    { property: 'line:image', content: data?.webinar?.cover },
-
-    // Additional tags from webinar metadata if they exist
-    ...(data?.webinar?.metadata || [])
   ];
 
   return metaTags;
@@ -51,16 +49,14 @@ export default function LandingPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <>
-      <div className='pb-10'>
-        <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
-          <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
-            <img className="w-full" src={data.webinar.cover} alt={data?.webinar?.name} />
-          </div>
+    <div className='pb-10'>
+      <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white mb-8">
+        <div className='relative z-10 max-w-7xl mx-auto lg:px-4 sm:px-6 lg:px-8 lg:py-12'>
+          <img className="w-full" src={data.webinar.cover} alt={data?.webinar?.name} />
         </div>
-
-        <WebinarCard webinar={data.webinar} />
       </div>
-    </>
+
+      <WebinarCard webinar={data.webinar} />
+    </div>
   )
 }
