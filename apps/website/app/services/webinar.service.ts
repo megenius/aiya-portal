@@ -13,8 +13,9 @@ export const fetchWebinar = (id: string) =>
 
     return {
       ...res.data.data,
-      cover: `${PORTAL_URL}/api/files/${coverId}.jpg`,
-      og_image: `${PORTAL_URL}/api/files/${ogImageId}.jpg`,
+      cover: `/images/${coverId}.jpg`,
+      og_image: `/images/${ogImageId}.jpg`
+      // og_image: `${PORTAL_URL}/api/files/${ogImageId}.jpg`,
     };
   });
 
