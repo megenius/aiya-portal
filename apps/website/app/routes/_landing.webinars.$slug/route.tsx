@@ -15,7 +15,7 @@ export const meta: MetaFunction<typeof loader> = ({
     ...data?.webinar?.metadata,
     {
       "property": "og:image",
-      "content": data?.webinar?.og_image
+      "content": data?.webinar?.cover
     },
     {
       "property": "og:url",
