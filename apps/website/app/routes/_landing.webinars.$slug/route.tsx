@@ -98,7 +98,7 @@ export default function LandingPage() {
                     className="w-full rounded-lg shadow-lg"
                     src={resolvedWebinar.cover}
                     alt={resolvedWebinar.name || 'Webinar cover'}
-                    loading="eager"
+                    // loading="eager"
                   />
                 )}
               </div>
