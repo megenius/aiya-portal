@@ -3,6 +3,7 @@ import api from "./api";
 
 const PORTAL_URL = "https://portal.aiya.me";
 const BASE_URL = "https://aiya.me";
+// const BASE_URL = "http://localhost:5173";
 
 export const fetchWebinars = () =>
   api.get<Array<Webinar>>(`/items/saas_webinars`);
@@ -14,8 +15,8 @@ export const fetchWebinar = (id: string) =>
 
     return {
       ...res.data.data,
-      cover: `${BASE_URL}/images/${coverId}.jpg`,
-      og_image: `${BASE_URL}/images/${ogImageId}.jpg`,
+      cover: `${BASE_URL}/images/${coverId}.webp`,
+      og_image: `${BASE_URL}/images/${ogImageId}.webp`,
       // og_image: `${PORTAL_URL}/api/files/${ogImageId}.jpg`,
     };
   });

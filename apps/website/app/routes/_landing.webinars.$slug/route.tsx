@@ -12,8 +12,6 @@ export const meta: MetaFunction<typeof loader> = ({
 }) => {
   const url = `https://aiya.me${location.pathname}${location.search}${location.hash}`;
   const webinar = data?.webinar
-  console.log("url", url);
-  console.log("og:image", webinar?.cover);
 
   // Basic meta tags
   const metaTags = [
