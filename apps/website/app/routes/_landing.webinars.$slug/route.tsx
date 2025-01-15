@@ -52,7 +52,7 @@ export const meta: MetaFunction<typeof loader> = ({
     },
     {
       "property": 'og:image',
-      "content": "https://aiya.me/images/8d5538df-4ec2-49c4-9de6-589e371ce620.jpg" //webinar?.cover
+      "content": "https://aiya.me/images/8d5538df-4ec2-49c4-9de6-589e371ce620.webp" //webinar?.cover
     },
     {
       "property": 'og:type',
