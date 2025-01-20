@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
-import { th } from 'date-fns/locale'; 
+import { th } from 'date-fns/locale';
 import { ListSectionProps, SpeakerSectionProps, TagsSectionProps, WebinarCardProps } from '~/types/webinar.type';
 
 const SpeakerSection: React.FC<SpeakerSectionProps> = React.memo(({ speakers, title }) => (
@@ -10,6 +10,7 @@ const SpeakerSection: React.FC<SpeakerSectionProps> = React.memo(({ speakers, ti
     {speakers?.map((speaker, index) => (
       <div key={`${speaker.name}-${index}`} className="mb-2">
         <p className="text-indigo-800">{speaker.name}</p>
+        {speaker.credentials && <p className="text-gray-600">{speaker.credentials}</p>}
         <p className="text-gray-600">{speaker.title} - {speaker.expertise}</p>
       </div>
     ))}
@@ -32,8 +33,8 @@ const ListSection: React.FC<ListSectionProps> = React.memo(({ title, items }) =>
 const TagsSection: React.FC<TagsSectionProps> = React.memo(({ tags }) => (
   <div className="mt-6 flex flex-wrap gap-2 justify-center">
     {tags?.map((tag, index) => (
-      <span 
-        key={`${tag}-${index}`} 
+      <span
+        key={`${tag}-${index}`}
         className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm"
       >
         #{tag}
@@ -43,7 +44,7 @@ const TagsSection: React.FC<TagsSectionProps> = React.memo(({ tags }) => (
 ));
 
 export const WebinarCard: React.FC<WebinarCardProps> = ({ webinar }) => {
-  const formattedDate = useMemo(() => 
+  const formattedDate = useMemo(() =>
     format(webinar.start_date, 'PPP', { locale: th }),
     [webinar.start_date]
   );
@@ -76,24 +77,24 @@ export const WebinarCard: React.FC<WebinarCardProps> = ({ webinar }) => {
         </div>
       </div>
 
-      <SpeakerSection 
-        speakers={webinar.content.speakers} 
-        title={webinar.content.speakersTitle} 
+      <SpeakerSection
+        speakers={webinar.content.speakers}
+        title={webinar.content.speakersTitle}
       />
 
-      <ListSection 
-        title={webinar.content.topicsTitle} 
-        items={webinar.content.topics} 
+      <ListSection
+        title={webinar.content.topicsTitle}
+        items={webinar.content.topics}
       />
 
-      <ListSection 
-        title={webinar.content.targetAudienceTitle} 
-        items={webinar.content.targetAudience} 
+      <ListSection
+        title={webinar.content.targetAudienceTitle}
+        items={webinar.content.targetAudience}
       />
 
-      <ListSection 
-        title={webinar.content.specialOffersTitle} 
-        items={webinar.content.specialOffers} 
+      <ListSection
+        title={webinar.content.specialOffersTitle}
+        items={webinar.content.specialOffers}
       />
 
       <div className="flex flex-col items-center gap-4">

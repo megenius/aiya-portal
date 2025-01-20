@@ -2,6 +2,7 @@ interface Speaker {
   name: string;
   title: string;
   expertise: string;
+  credentials: string;
 }
 
 interface WebinarContent {
