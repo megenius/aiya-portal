@@ -33,6 +33,7 @@ import { sendEventToCapi } from "~/services/facebook.service";
 import OpenAI from "openai";
 import { createParser } from "eventsource-parser";
 import { stream, streamText, streamSSE } from "hono/streaming";
+import { addDays } from "date-fns";
 
 const factory = createFactory<Env>();
 
@@ -232,9 +233,9 @@ export const searchBotHandler = factory.createHandlers(
     if (!query) {
       return c.json({ message: "q is required" });
     }
-    
+
     console.log("searchBotHandler", query, k, platform);
-    
+
     const textEmbedding = c.get("textEmbedding");
     const response = await textEmbedding.search(query, {
       topK: k,
@@ -242,7 +243,6 @@ export const searchBotHandler = factory.createHandlers(
     });
 
     console.log("searchBotHandler", JSON.stringify(response, null, 2));
-    
 
     try {
       const matches = await Promise.all(
@@ -316,7 +316,11 @@ export const searchBotHandler = factory.createHandlers(
 
       const messages = matches[0]?.messages || [];
 
-      const result = { messages, matches, best_match: matches.length > 0 ? matches[0] : null };
+      const result = {
+        messages,
+        matches,
+        best_match: matches.length > 0 ? matches[0] : null,
+      };
       console.log("searchBotHandler", JSON.stringify(result, null, 2));
 
       return c.json(result);
@@ -675,5 +679,62 @@ export const chatsHandler = factory.createHandlers(
     //     Connection: "keep-alive",
     //   },
     // });
+  }
+);
+
+export const serviceHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  async (c: Context<Env>) => {
+    const body = await c.req.json();
+    console.log("serviceHandler", JSON.stringify(body, null, 2));
+    const directus = c.get("directus");
+    const textEmbedding = c.get("textEmbedding");
+
+    const knowledges = await directus.request<BotKnowledge[]>(
+      readItems("bots_knowledges", {
+        filter: {
+          date_created: {
+            _gte: addDays(new Date(), -10).toISOString(),
+          },
+        },
+      })
+    );
+
+    for (const knowledge of knowledges) {
+      // for (let index = 0; index < knowledge.intents.length; index++) {
+      //   const data = knowledge.intents[index];
+
+      //   const questions = [
+      //     { id: randomHexString(8), question: data.intent },
+      //     ...data.questions,
+      //   ];
+
+      //   await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(
+      //     questions.map((question) => {
+      //       return {
+      //         body: {
+      //           operation: "addQuestion",
+      //           text: question.question,
+      //           bot_id: knowledge.bot,
+      //           knowledge_id: knowledge.id,
+      //           intent_id: data.id,
+      //           id: question.id,
+      //         },
+      //       };
+      //     })
+      //   );
+      // }
+      if (knowledge.status === "published") {
+        await textEmbedding.enableDocumentByMetadata({
+          knowledge_id: knowledge.id,
+        });
+      }
+    }
+
+    return c.json({
+      total: knowledges.length,
+    });
   }
 );

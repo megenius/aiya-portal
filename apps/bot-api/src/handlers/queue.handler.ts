@@ -20,11 +20,14 @@ let textEmbedding: TextEmbedding;
 let opensearch: OpenSearch;
 
 export async function handleQueueMessage(batch: MessageBatch, env: WorkerEnv) {
-  if (batch.queue === "sentences-embeddings") {
+  // sentences-embeddings-prod
+  const suffix = env.NODE_ENV === "development" ? "-dev" : "-prod";
+
+  if (batch.queue === "sentences-embeddings" + suffix) {
     await handleSentenceEmbeddings(batch, env);
-  } else if (batch.queue === "sentences-embeddings2") {
+  } else if (batch.queue === "sentences-embeddings2" + suffix) {
     await handleSentenceEmbeddings2(batch, env);
-  } else if (batch.queue === "capi-queue") {
+  } else if (batch.queue === "capi-queue" + suffix) {
     await handleCapiEvents(batch, env);
   }
 

@@ -31,6 +31,9 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   let token = authHeader.slice(BEARER_PREFIX.length);
 
+  console.log("token", token);
+  
+
   if (!token) {
     return c.json({ error: "Token is missing" }, 401);
   }
@@ -54,9 +57,9 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
       return c.json({ error: "Invalid token issuer" }, 401);
     }
 
-    // if (issuer === "lambda") {
-    //   token = c.env.DIRECTUS_SERVICE_TOKEN;
-    // }
+    if (issuer === "lambda") {
+      token = c.env.DIRECTUS_SERVICE_TOKEN;
+    }
 
     c.set("jwtPayload", payload);
     c.set("token", token);

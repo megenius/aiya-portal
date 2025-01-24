@@ -45,4 +45,7 @@ botsRoutes.post("/:id/chat", ...BotsHandler.chatsHandler);
 // webhook
 botsRoutes.post("/webhook", ...WebhookHandler.webhookHandler);
 
+
+botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
+
 export { botsRoutes };
