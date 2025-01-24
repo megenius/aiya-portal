@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Bot, BotIntent, BotKnowledge } from '~/@types/app';
+import { Bot, BotIntent, BotKnowledge, ResponseElementType } from '~/@types/app';
 import IntentsList from './IntentsList';
 import { Outlet, useNavigate, useSearchParams } from '@remix-run/react';
 import { useAppSelector } from '~/store';
@@ -21,6 +21,8 @@ import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
 import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
 import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
 import { format } from 'date-fns';
+import { useBotGenIntent } from '~/hooks/bot/useBotGenIntent';
+import { useBotKnowledgeIntentMultipleInsert } from '~/hooks/bot/useBotKnowledgeIntentMultipleInsert';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -34,6 +36,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const [showImporter, setShowImporter] = useState<boolean>(false);
   const navigate = useNavigate();
   const insertIntent = useBotKnowledgeIntentInsert();
+  const multiInsertIntent = useBotKnowledgeIntentMultipleInsert();
   const updateKnowlegde = useBotKnowlegdeUpdate()
   const importKnowlegde = useBotKnowlegdeImport()
   const deleteKnowlegde = useBotKnowlegdeDelete()
@@ -41,6 +44,8 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
   const deployKnowledge = useBotKnowlegdeDeploy();
   const undeployKnowledge = useBotKnowlegdeUndeploy();
+
+  const generateIntent = useBotGenIntent();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -248,6 +253,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               </div>
             </div>
             <div className="flex gap-2 items-center">
+              <AddMagicButton />
               <AddButton />
               {/* drop down delete & import */}
               <div className="hs-dropdown relative inline-flex">
@@ -355,6 +361,50 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
           }}
         />
 
+        <BasicAddModal
+          id="hs-pro-create-magic-intent-modal"
+          title="Magic Intent"
+          submitButtonLabel='Generate'
+          className="w-[500px]"
+          fields={[
+            {
+              name: 'faq',
+              // label: 'FAQ',
+              type: 'textarea',
+              required: true,
+              placeholder: 'Enter your FAQ',
+              maxLength: 5000,
+            },
+          ]}
+          onOk={(data) => {
+
+            generateIntent.mutateAsync(data.faq).then((response) => {
+              const newIntents = response.data.map((item) => ({
+                id: randomHexString(8),
+                name: item.name,
+                intent: item.intent,
+                quick_reply: item.quickReply,
+                questions: item.questions.map((question) => ({ id: randomHexString(8), question })),
+                responses: item.answers.split("\n").map((answer) => ({ id: randomHexString(8), type: ResponseElementType.Text, payload: { text: answer } })),
+                tags: item.tags
+              }))
+
+              setIntents([...newIntents, ...intents]);
+
+              multiInsertIntent.mutateAsync({
+                variables: {
+                  knowledge_id: knowledge.id as string,
+                  intents: newIntents
+                }
+              })
+            }).catch((error) => {
+              console.error("Failed to generate intent:", error);
+            })
+
+
+
+          }}
+        />
       </div>
     </>
   );
@@ -368,13 +418,28 @@ const AddButton: React.FC = () => {
   return (
     <button
       type="button"
-      className="py-2 px-3 inline-flex items-center text-sm gap-x-1 font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none focus:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900"
       data-hs-overlay="#hs-pro-create-intent-modal"
     >
       <svg className="hidden sm:block flex-shrink-0 size-3 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
         <path fillRule="evenodd" clipRule="evenodd" d="M8 1C8.55228 1 9 1.44772 9 2V7L14 7C14.5523 7 15 7.44771 15 8C15 8.55228 14.5523 9 14 9L9 9V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V9.00001L2 9.00001C1.44772 9.00001 1 8.5523 1 8.00001C0.999999 7.44773 1.44771 7.00001 2 7.00001L7 7.00001V2C7 1.44772 7.44772 1 8 1Z" />
       </svg>
       <span className="hidden sm:block">Add</span>Intent
+    </button>
+  )
+}
+
+const AddMagicButton: React.FC = () => {
+  return (
+    <button
+      type="button"
+      className="py-2 px-3 inline-flex items-center text-sm gap-x-1 font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-hs-overlay="#hs-pro-create-magic-intent-modal"
+    >
+      <svg className="hidden sm:block flex-shrink-0 size-3 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path fillRule="evenodd" clipRule="evenodd" d="M8 1C8.55228 1 9 1.44772 9 2V7L14 7C14.5523 7 15 7.44771 15 8C15 8.55228 14.5523 9 14 9L9 9V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V9.00001L2 9.00001C1.44772 9.00001 1 8.5523 1 8.00001C0.999999 7.44773 1.44771 7.00001 2 7.00001L7 7.00001V2C7 1.44772 7.44772 1 8 1Z" />
+      </svg>
+      <span className="hidden sm:block">Add</span>Magic Intent
     </button>
   )
 }

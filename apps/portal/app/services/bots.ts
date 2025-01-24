@@ -11,6 +11,7 @@ import {
   CAPIEvents,
   Channel,
   ChannelBot,
+  GenerationResponse,
   IntentQuestion,
   IntentResponse,
   OrderTemplate,
@@ -103,6 +104,14 @@ export const insertBotKnowledgeIntent = (data: {
   api.post(`/bots/knowledges/${data.knowledge_id}/intents`, {
     intent: data.intent,
     name: data.name,
+  });
+
+export const insertBotKnowledgeMultipleIntent = (data: {
+  knowledge_id: string;
+  intents: Array<BotIntent>;
+}) =>
+  api.post(`/bots/knowledges/${data.knowledge_id}/multi-intents`, {
+    intents: data.intents,
   });
 
 // delete intent
@@ -273,3 +282,54 @@ export const streamBotChat = (
       },
     }
   );
+
+// --------------- generate ---------------
+export const generateBotIntent = (text: string) =>
+  api.post<GenerationResponse.GenerationResponse>(`/bots/gemini/generate`, {
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text,
+          },
+        ],
+      },
+    ],
+    systemInstruction: {
+      parts: [
+        {
+          text: 'You are an expert intent analyst. Analyze the provided document or subtitle extract and generate all relevant intents suitable for a chatbot, excluding any author/speaker biographical information. Format the output as a JSON object compatible with the following Pydantic Intent and Attachment classes:\n\n---\n\n### **Pydantic Models:**  \n\npython\nfrom pydantic import BaseModel, Field\nfrom typing import List, Optional\n\nclass Attachment(BaseModel):\n  """Represents an attachment with clear descriptions."""\n  type: str = Field(..., description="Type of the attachment. Possible values: image, video, document, file.")\n  title: str = Field(..., description="Title of the attachment. (up to 25 characters)")\n  description: str = Field(..., description="Attachment description (up to 256 characters)")\n  attachment_url: str = Field(..., description="URL of the attachment.")\n\nclass Intent(BaseModel):\n  intent: str = Field(description="The main topic or purpose of the answer, which may differ from the original input question. Summarize the core intent clearly and succinctly. Max 35 characters.")\n  name:str = Field(description="The name of intent, you can use same value as intent or may differ but It should be unique, human readable (no snake_case) and same language as intent. Max 35 characters.")\n  questions: List[str] = Field(description="A list of 3-5 sample user queries that could trigger this intent. Each query should contain relevant keywords and be phrased uniquely.")\n  quick_reply: str = Field(description="A concise label summarizing the intent for quick reply display. Max 25 characters.")\n  tags: List[str] = Field(description="4-5 relevant tags categorizing the intent, including both broad and specific terms.")\n  answers: str = Field(description="A detailed response that thoroughly explains the intent. Expand key points with sufficient detail to provide clear and actionable information. Avoid overly brief responses. **Do not use Markdown formatting.**")\n\n---\n\n### **Instructions:**  \n1. **Extract All Relevant Intents:**  \n  - Ensure **no content-related intent is missed.**\n  - Analyze the entire document or subtitle file carefully to identify every relevant intent.\n  - Focus on the actual content, ideas, concepts, and information presented.\n\n2. **Maintain Language Consistency:**  \n  - Always match the language of the document. If the content is in Thai, output everything in Thai.\n\n3. **Provide Detailed Content-Focused Answers:**  \n  - Expand key points thoroughly. Avoid overly brief summaries.\n  - Include supporting details, explanations, and relevant context.\n  - Focus on the substance of the content rather than who wrote or spoke it.\n\n4. **Correct Formatting:**  \n  - **Do not use Markdown** (e.g., no `*`, `**`, or `_`).  \n  - Use plain text for emphasis.  \n\n5. **Mobile-Friendly Format:**  \n  - Use bullet points or numbered lists **without Markdown symbols.**  \n  - Use line breaks to separate different topics or ideas.\n\n6. **Content Focus:**\n  - Keep intents focused on the actual content, ideas, and information presented.\n  - Exclude biographical details about authors/speakers unless directly relevant to understanding the content.\n  - Emphasize concepts, arguments, examples, and explanations rather than who presented them.\n\n**IMPORANT** Always match the language of the document. If the content is in Thai, output everything in Thai, If the content is in English, output everything in English.',
+        },
+      ],
+    },
+    generationConfig: {
+      responseModalities: ["TEXT"],
+      temperature: 0,
+      maxOutputTokens: 8192,
+      topP: 0.95,
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "OBJECT",
+        properties: { response: { type: "STRING" } },
+      },
+    },
+    safetySettings: [
+      {
+        category: "HARM_CATEGORY_HATE_SPEECH",
+        threshold: "OFF",
+      },
+      {
+        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+        threshold: "OFF",
+      },
+      {
+        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        threshold: "OFF",
+      },
+      {
+        category: "HARM_CATEGORY_HARASSMENT",
+        threshold: "OFF",
+      },
+    ],
+  });

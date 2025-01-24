@@ -13,6 +13,7 @@ export interface ISingleOption {
 
 export interface IApiFieldMap {
 	id: string;
+	val: string;
 	title: string;
 	icon?: string | null;
 	description?: string | null;
@@ -24,6 +25,7 @@ export interface ISelectOptions {
 	isOpened?: boolean;
 	placeholder?: string;
 	hasSearch?: boolean;
+	minSearchLength?: number;
 	preventSearchFocus?: boolean;
 	mode?: string;
 
@@ -45,7 +47,12 @@ export interface ISelectOptions {
 		items?: string;
 		betweenItemsAndCounter?: string;
 	};
-	toggleCountText?: string;
+	toggleCountText?: string | null;
+	toggleCountTextPlacement?:
+		| 'postfix'
+		| 'prefix'
+		| 'postfix-no-space'
+		| 'prefix-no-space';
 	toggleCountTextMinItems?: number;
 	toggleCountTextMode?: string;
 
@@ -62,6 +69,7 @@ export interface ISelectOptions {
 	};
 	dropdownSpace: number;
 	dropdownPlacement: string | null;
+	dropdownVerticalFixedPlacement: 'top' | 'bottom' | null;
 	dropdownScope: 'window' | 'parent';
 
 	extraMarkup?: string | string[] | null;
@@ -77,6 +85,7 @@ export interface ISelectOptions {
 	searchNoResultTemplate?: string | null;
 	searchNoResultText?: string | null;
 	searchNoResultClasses?: string | null;
+	optionAllowEmptyOption?: boolean;
 
 	optionTemplate?: string;
 	optionTag?: string;
@@ -92,10 +101,11 @@ export interface ISelectOptions {
 export interface ISelect {
 	options?: ISelectOptions;
 
-	destroy(): void;
+	setValue(val: string | string[]): void;
 	open(): void;
 	close(): void;
 	addOption(items: ISingleOption | ISingleOption[]): void;
 	removeOption(values: string | string[]): void;
 	recalculateDirection(): void;
+	destroy(): void;
 }

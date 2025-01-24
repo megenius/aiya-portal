@@ -61,16 +61,10 @@
 
     .tiptap p.is-editor-empty:first-child::before
     {
-      font-size: 14px;
       content: attr(data-placeholder);
       float: left;
       height: 0;
       pointer-events: none;
-    }
-
-    .dark .tiptap p.is-editor-empty:first-child::before
-    {
-      color: #737373;
     }
   </style>
   <style>
@@ -1227,7 +1221,7 @@
   </header>
   <!-- ========== END HEADER ========== -->
 
-  <div id="hs-main-layout-splitter" class="lg:ps-[260px]" data-hs-layout-splitter='{"isSplittersAddedManually": true}'>
+  <div id="hs-main-layout-splitter" class="lg:ps-[260px] " data-hs-layout-splitter='{"isSplittersAddedManually": true}'>
     <div class="pt-[59px]">
       <!-- ========== MAIN SIDEBAR ========== -->
       <aside id="hs-pro-sidebar" class="hs-overlay [--auto-close:lg]
@@ -1240,7 +1234,7 @@
         lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
         dark:bg-neutral-800 dark:border-neutral-700" tabindex="-1" aria-label="Sidebar">
         <div class="relative flex flex-col h-full max-h-full pt-3">
-          <header class="h-[46px] px-8">
+          <header class="h-[46px] ps-5 pe-2 lg:ps-8 flex items-center gap-x-1">
             <!-- Logo -->
             <a class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" href="../../pro/inbox/index.html" aria-label="Preline">
               <svg class="w-28 h-auto" width="116" height="32" viewBox="0 0 116 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1251,6 +1245,19 @@
               </svg>
             </a>
             <!-- End Logo -->
+
+            <div class="lg:hidden ms-auto">
+              <!-- Sidebar Close -->
+              <button type="button" class="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-sidebar">
+                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="7 8 3 12 7 16" />
+                  <line x1="21" x2="11" y1="12" y2="12" />
+                  <line x1="21" x2="11" y1="6" y2="6" />
+                  <line x1="21" x2="11" y1="18" y2="18" />
+                </svg>
+              </button>
+              <!-- End Sidebar Close -->
+            </div>
           </header>
 
           <!-- Content -->
@@ -1259,7 +1266,7 @@
             <nav class="hs-accordion-group pb-3  w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
               <ul class="flex flex-col gap-y-1">
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/index.html">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -1271,7 +1278,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="hs-accordion px-5  " id="users-accordion">
+                <li class="hs-accordion px-2 lg:px-5  " id="users-accordion">
                   <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="users-accordion-sub">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -1286,7 +1293,7 @@
                     </svg>
                   </button>
 
-                  <div id="users-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="users-accordion">
+                  <div id="users-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="users-accordion" style="display: none;">
                     <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                       <li>
                         <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/users.html">
@@ -1304,7 +1311,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="hs-accordion px-5  " id="user-profile-accordion">
+                <li class="hs-accordion px-2 lg:px-5  " id="user-profile-accordion">
                   <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="user-profile-accordion-sub">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10" />
@@ -1318,7 +1325,7 @@
                     </svg>
                   </button>
 
-                  <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="user-profile-accordion">
+                  <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="user-profile-accordion" style="display: none;">
                     <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                       <li>
                         <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-my-profile.html">
@@ -1366,7 +1373,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="hs-accordion px-5  " id="account-accordion">
+                <li class="hs-accordion px-2 lg:px-5  " id="account-accordion">
                   <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="account-accordion-sub">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="18" cy="15" r="3" />
@@ -1388,7 +1395,7 @@
                     </svg>
                   </button>
 
-                  <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="account-accordion">
+                  <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="account-accordion" style="display: none;">
                     <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                       <li>
                         <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/account-profile.html">
@@ -1431,16 +1438,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <!-- <li class="px-5">
-                  <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/projects.html">
-                    <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 7v7"/><path d="M12 7v4"/><path d="M16 7v9"/></svg>
-                    Projects <span class="py-0.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">New</span>
-                  </a>
-                </li> -->
-                <!-- End Link -->
-
-                <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/welcome-page.html">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
@@ -1452,7 +1450,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/empty-states.html">
                     <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
@@ -1464,7 +1462,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/plans.html">
                     <svg class="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10" />
@@ -1479,7 +1477,7 @@
                 <!-- End Link -->
 
                 <!-- Divider -->
-                <li class="pt-5 px-8 mt-5 border-t border-gray-200 first:border-transparent first:pt-0 dark:border-neutral-700 dark:first:border-transparent">
+                <li class="pt-5 px-5 lg:px-8 mt-5 border-t border-gray-200 first:border-transparent first:pt-0 dark:border-neutral-700 dark:first:border-transparent">
                   <span class="block text-xs uppercase text-gray-500 dark:text-neutral-500">
                     Apps
                   </span>
@@ -1487,7 +1485,7 @@
                 <!-- End Divider -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/chat.html">
                     <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1500,7 +1498,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/inbox.html">
                     <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1514,7 +1512,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/calendar-month.html">
                     <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1530,7 +1528,7 @@
                 <!-- End Link -->
 
                 <!-- Link -->
-                <li class="px-5">
+                <li class="px-2 lg:px-5">
                   <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/kanban-board.html">
                     <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                       <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1663,19 +1661,6 @@
             </div>
             <!-- End Project Dropdown -->
           </footer>
-
-          <div class="lg:hidden absolute top-3 -end-3 z-10">
-            <!-- Sidebar Close -->
-            <button type="button" class="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-sidebar">
-              <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="7 8 3 12 7 16" />
-                <line x1="21" x2="11" y1="12" y2="12" />
-                <line x1="21" x2="11" y1="6" y2="6" />
-                <line x1="21" x2="11" y1="18" y2="18" />
-              </svg>
-            </button>
-            <!-- End Sidebar Close -->
-          </div>
         </div>
       </aside>
       <!-- ========== END MAIN SIDEBAR ========== -->
@@ -3006,7 +2991,7 @@
                   </div>
                   <!-- End Tags Dropdown -->
 
-                  <div class="relative ps-2 ms-1 before:block before:absolute before:top-1/2 before:start-0 before:w-px before:h-4 before:bg-gray-200 before:-translate-y-1/2 dark:before:bg-neutral-700">
+                  <div class="relative ps-1.5 ms-0.5 before:block before:absolute before:top-1/2 before:start-0 before:w-px before:h-4 before:bg-gray-200 before:-translate-y-1/2 dark:before:bg-neutral-700">
                     <!-- More Dropdown -->
                     <div class="hs-dropdown [--strategy:absolute] [--placement:top-right] relative inline-flex">
                       <button id="hs-pro-inthmid1" type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
@@ -3131,9 +3116,10 @@
                     Project Timeline Update
                   </h1>
 
+                  <!-- Dropdown Group -->
                   <div class="flex flex-wrap items-center gap-1">
                     <!-- Tag Dropdown -->
-                    <div class="hs-dropdown relative inline-flex">
+                    <div class="hs-dropdown @@tag1.tag.dropdown.position.value relative inline-flex">
                       <button id="hs-pro-intbtwtaddid1" type="button" class="py-1 ps-2 pe-3 group inline-flex items-center gap-1.5 bg-white border border-gray-200 text-gray-800 text-sm rounded-full hover:bg-gray-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">
                         <svg class="shrink-0 size-4 text-orange-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
@@ -3180,7 +3166,7 @@
                     <!-- End Tag Dropdown -->
 
                     <!-- Tag Dropdown -->
-                    <div class="hs-dropdown relative inline-flex">
+                    <div class="hs-dropdown @@tag2.tag.dropdown.position.value relative inline-flex">
                       <button id="hs-pro-intbtwtaddid2" type="button" class="py-1 ps-2 pe-3 group inline-flex items-center gap-1.5 bg-white border border-gray-200 text-gray-800 text-sm rounded-full hover:bg-gray-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">
                         <svg class="shrink-0 size-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
@@ -3226,6 +3212,7 @@
                     </div>
                     <!-- End Tag Dropdown -->
                   </div>
+                  <!-- End Dropdown Group -->
                 </div>
                 <!-- End Heading -->
 
@@ -5742,7 +5729,6 @@
   </div>
 
   <!-- ========== SECONDARY CONTENT ========== -->
-
   <!-- Archive Message Modal -->
   <div id="hs-pro-chhcntm" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto [--close-when-click-inside:true] pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-pro-chhcntm-label">
     <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-sm sm:w-full m-3 sm:mx-auto h-[calc(100%-3.5rem)] min-h-[calc(100%-3.5rem)] flex items-center">
@@ -8603,7 +8589,11 @@
     {
       "imports": {
         "https://esm.sh/v135/prosemirror-model@1.19.3/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs",
-        "https://esm.sh/v135/prosemirror-model@1.19.4/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs"
+        "https://esm.sh/v135/prosemirror-model@1.19.4/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs",
+        "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs",
+        "https://esm.sh/v135/prosemirror-model@1.21.0/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs",
+        "https://esm.sh/v135/prosemirror-model@1.22.1/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs",
+        "https://esm.sh/v135/prosemirror-model@1.23.0/es2022/prosemirror-model.mjs": "https://esm.sh/v135/prosemirror-model@1.20.0/es2022/prosemirror-model.mjs"
       }
     }
   </script>
@@ -8632,11 +8622,13 @@
           }
         },
         extensions: [
+          StarterKit.configure({
+            history: false
+          }),
           Placeholder.configure({
             placeholder: 'Add a message...',
-            emptyNodeClass: 'absolute top-0 bottom-0 start-0 end-0 !text-gray-400 p-4'
+            emptyNodeClass: 'before:text-gray-400'
           }),
-          StarterKit,
           Paragraph.configure({
             HTMLAttributes: {
               class: 'text-sm text-gray-800 dark:text-neutral-200'
@@ -8663,10 +8655,14 @@
               class: 'list-decimal list-inside text-gray-800 dark:text-white'
             }
           }),
-          ListItem,
+          ListItem.configure({
+            HTMLAttributes: {
+              class: 'marker:text-sm'
+            }
+          }),
           Blockquote.configure({
             HTMLAttributes: {
-              class: 'text-gray-800 sm:text-xl dark:text-neutral-200'
+              class: 'relative border-s-4 ps-4 sm:ps-6 dark:border-neutral-700 [&>p]:sm:text-lg'
             }
           })
         ]

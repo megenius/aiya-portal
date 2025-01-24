@@ -49,6 +49,13 @@ knowledgesRoutes.post(
   ...KnowledgesHandler.createIntentHandler
 );
 
+// multiple create intent
+knowledgesRoutes.post(
+  "/:knowledgeId/multi-intents",
+  ...KnowledgesHandler.createMultipleIntentHandler
+);
+
+
 // delete intent
 knowledgesRoutes.delete(
   "/:knowledgeId/intents/:intentId",

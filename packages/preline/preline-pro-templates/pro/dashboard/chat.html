@@ -1181,7 +1181,7 @@
     lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
     dark:bg-neutral-800 dark:border-neutral-700" tabindex="-1" aria-label="Sidebar">
     <div class="relative flex flex-col h-full max-h-full pt-3">
-      <header class="h-[46px] px-8">
+      <header class="h-[46px] ps-5 pe-2 lg:ps-8 flex items-center gap-x-1">
         <!-- Logo -->
         <a class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" href="../../pro/chat/index.html" aria-label="Preline">
           <svg class="w-28 h-auto" width="116" height="32" viewBox="0 0 116 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1192,6 +1192,19 @@
           </svg>
         </a>
         <!-- End Logo -->
+
+        <div class="lg:hidden ms-auto">
+          <!-- Sidebar Close -->
+          <button type="button" class="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-sidebar">
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="7 8 3 12 7 16" />
+              <line x1="21" x2="11" y1="12" y2="12" />
+              <line x1="21" x2="11" y1="6" y2="6" />
+              <line x1="21" x2="11" y1="18" y2="18" />
+            </svg>
+          </button>
+          <!-- End Sidebar Close -->
+        </div>
       </header>
 
       <!-- Content -->
@@ -1200,7 +1213,7 @@
         <nav class="hs-accordion-group pb-3  w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
           <ul class="flex flex-col gap-y-1">
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/index.html">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -1212,7 +1225,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="hs-accordion px-5  " id="users-accordion">
+            <li class="hs-accordion px-2 lg:px-5  " id="users-accordion">
               <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="users-accordion-sub">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -1227,7 +1240,7 @@
                 </svg>
               </button>
 
-              <div id="users-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="users-accordion">
+              <div id="users-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="users-accordion" style="display: none;">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/users.html">
@@ -1245,7 +1258,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="hs-accordion px-5  " id="user-profile-accordion">
+            <li class="hs-accordion px-2 lg:px-5  " id="user-profile-accordion">
               <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="user-profile-accordion-sub">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10" />
@@ -1259,7 +1272,7 @@
                 </svg>
               </button>
 
-              <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="user-profile-accordion">
+              <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="user-profile-accordion" style="display: none;">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/user-profile-my-profile.html">
@@ -1307,7 +1320,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="hs-accordion px-5  " id="account-accordion">
+            <li class="hs-accordion px-2 lg:px-5  " id="account-accordion">
               <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="account-accordion-sub">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="15" r="3" />
@@ -1329,7 +1342,7 @@
                 </svg>
               </button>
 
-              <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="account-accordion">
+              <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="account-accordion" style="display: none;">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/account-profile.html">
@@ -1372,16 +1385,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <!-- <li class="px-5">
-              <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/projects.html">
-                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 7v7"/><path d="M12 7v4"/><path d="M16 7v9"/></svg>
-                Projects <span class="py-0.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">New</span>
-              </a>
-            </li> -->
-            <!-- End Link -->
-
-            <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/welcome-page.html">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
@@ -1393,7 +1397,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/empty-states.html">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
@@ -1405,7 +1409,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/plans.html">
                 <svg class="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10" />
@@ -1420,7 +1424,7 @@
             <!-- End Link -->
 
             <!-- Divider -->
-            <li class="pt-5 px-8 mt-5 border-t border-gray-200 first:border-transparent first:pt-0 dark:border-neutral-700 dark:first:border-transparent">
+            <li class="pt-5 px-5 lg:px-8 mt-5 border-t border-gray-200 first:border-transparent first:pt-0 dark:border-neutral-700 dark:first:border-transparent">
               <span class="block text-xs uppercase text-gray-500 dark:text-neutral-500">
                 Apps
               </span>
@@ -1428,7 +1432,7 @@
             <!-- End Divider -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/chat.html">
                 <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                   <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1441,7 +1445,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/inbox.html">
                 <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                   <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1455,7 +1459,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/calendar-month.html">
                 <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                   <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1471,7 +1475,7 @@
             <!-- End Link -->
 
             <!-- Link -->
-            <li class="px-5">
+            <li class="px-2 lg:px-5">
               <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/kanban-board.html">
                 <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
                   <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1604,44 +1608,31 @@
         </div>
         <!-- End Project Dropdown -->
       </footer>
-
-      <div class="lg:hidden absolute top-3 -end-3 z-10">
-        <!-- Sidebar Close -->
-        <button type="button" class="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-sidebar">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="7 8 3 12 7 16" />
-            <line x1="21" x2="11" y1="12" y2="12" />
-            <line x1="21" x2="11" y1="6" y2="6" />
-            <line x1="21" x2="11" y1="18" y2="18" />
-          </svg>
-        </button>
-        <!-- End Sidebar Close -->
-      </div>
     </div>
   </aside>
   <!-- ========== END MAIN SIDEBAR ========== -->
 
   <!-- ========== CHAT SIDEBAR ========== -->
   <aside class="relative">
-    <div id="hs-pro-chat-sidebar" class="hs-overlay [--auto-close:xl]
+    <div id="hs-pro-chat-sidebar" class="hs-overlay [--auto-close:lg] sm:w-72 lg:start-[260px] lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
       hs-overlay-open:translate-x-0
       -translate-x-full transition-all duration-300 transform
-      sm:w-72 size-full
+      size-full
       hidden
-      fixed inset-y-0 start-0 xl:start-64 z-[60]
-      bg-gray-100
-      lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 lg:start-[259px] xl:start-[259px] lg:top-[59px]
-      dark:bg-neutral-900" tabindex="-1" aria-labelledby="hs-pro-chat-sidebar-label">
+      fixed inset-y-0 start-0 z-[59]
+      bg-gray-200
+      lg:start-[259px] xl:start-[259px] lg:top-[59px]
+      dark:bg-neutral-950" tabindex="-1">
       <div class="h-full flex">
 
-        <!-- Secondary Content -->
+        <!-- Chat Threads -->
         <div class="sm:w-72 size-full truncate bg-white border-x border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
           <div class="h-full lg:h-[calc(100%-59px)] flex flex-col">
             <!-- Header -->
             <div class="py-2 px-5 flex justify-between items-center gap-x-2 border-b border-gray-200 dark:border-neutral-700">
-              <h1 id="hs-pro-chat-sidebar-label" class="truncate font-semibold text-gray-800 dark:text-neutral-200">
+              <span id="hs-pro-chat-sidebar-label" class="block truncate font-semibold text-gray-800 dark:text-neutral-200">
                 Inbox
-              </h1>
+              </span>
 
               <div class="flex items-center">
                 <!-- Select -->
@@ -2136,7 +2127,7 @@
                           <div class="flex items-center gap-x-1.5">
                             <img class="shrink-0 size-5 rounded object-cover" src="../assets/img/mockups/img10.jpg" alt="Attachment Image">
                             <div class="grow truncate">
-                              <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">When using open method, const select = new HSSelect(document.querySelector('#select'));</p>
+                              <p class="truncate font-semibold text-gray-800 dark:text-neutral-200 text-xs">2. Using the static method causes an error in the console.</p>
                             </div>
                           </div>
                         </div>
@@ -2165,7 +2156,12 @@
                           </div>
                         </div>
                         <div class="truncate me-5">
-                          <p class="truncate text-gray-500 dark:text-neutral-500 text-xs">How's these all free? 🤯</p>
+                          <div class="flex items-center gap-x-1.5">
+                            <img class="shrink-0 size-5 rounded object-cover" src="../assets/img/examples/img9.jpg" alt="Attachment Image">
+                            <div class="grow truncate">
+                              <p class="truncate text-gray-500 dark:text-neutral-500 text-xs">How's these all free? 🤯</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2204,7 +2200,7 @@
                       <div class="shrink-0">
                         <div class="relative size-8">
                           <span class="flex shrink-0 justify-center items-center size-8 text-xs font-medium uppercase bg-pink-500 text-white rounded-full">
-                            R
+                            B
                           </span>
                         </div>
                       </div>
@@ -2548,7 +2544,7 @@
             </div>
           </div>
         </div>
-        <!-- End Secondary Content -->
+        <!-- End Chat Threads -->
       </div>
     </div>
   </aside>
@@ -2564,11 +2560,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -2759,7 +2754,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Hi, I'd like to ask some questions. Can I use Preline UI on a client project?
                             <a class="group block mt-3 mb-1 focus:outline-none" href="https://preline.co/" target="_blank">
@@ -2847,8 +2842,8 @@
                             Hi Costa,
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">12:44</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">12:44</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -2917,8 +2912,8 @@
                             Yes, you can!
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">12:44</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">12:44</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -2999,7 +2994,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -3008,7 +3003,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -3020,13 +3015,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -3037,7 +3033,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -3065,9 +3061,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds1-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds1-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -3254,7 +3250,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc1-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc1">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -3279,11 +3275,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -3478,7 +3473,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Hello
 
@@ -3537,7 +3532,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <img class="mb-2 rounded-lg" src="../assets/img/mockups/img12.jpg" alt="Download Image">
                             When using open method,<br><code>const select = new</code><br>it creates another instance of the select.
@@ -3597,7 +3592,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <img class="mb-2 rounded-lg" src="../assets/img/mockups/img10.jpg" alt="Download Image">
                             2. Using the static method causes an error in the console.
@@ -3677,7 +3672,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -3686,7 +3681,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -3698,13 +3693,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -3715,7 +3711,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -3743,9 +3739,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds2-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds2-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -3894,7 +3890,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc2-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc2">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <div class="grid grid-cols-3 gap-px">
                       <img class="shrink-0 size-[110px] rounded-lg object-cover" src="../assets/img/mockups/img10.jpg" alt="Media Image">
                       <img class="shrink-0 size-[110px] rounded-lg object-cover" src="../assets/img/mockups/img12.jpg" alt="Media Image">
@@ -3920,11 +3916,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -4115,7 +4110,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <div class="mb-1 grid grid-cols-2 gap-x-1">
                               <img class="shrink-0 size-[10.25rem] rounded-s-md object-cover" src="../assets/img/examples/img9.jpg" alt="Media Image">
@@ -4194,27 +4189,6 @@
         <footer class="sticky bottom-0 inset-x-0 z-[9] bg-white border-t border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
           <label for="hs-chat-autoheight-textarea-3" class="sr-only">Message</label>
 
-          <!-- Reply -->
-          <div id="hs-ch1trc" class="hs-removing:opacity-0 transition duration-100 py-2.5 px-[26px] border-b border-gray-100 dark:border-neutral-700">
-            <div class="flex justify-between items-center gap-x-3 border-s-2 border-blue-600 ps-2">
-              <div class="w-full">
-                <p class="font-medium text-xs text-blue-600">Reply to @@name</p>
-                <p class="text-xs text-gray-800 dark:text-neutral-200">How's these all free? 🤯</p>
-              </div>
-              <div class="grow">
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" aria-label="Close" data-hs-remove-element="#hs-ch1trc">
-                  <span class="sr-only">Close</span>
-                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="m15 9-6 6" />
-                    <path d="m9 9 6 6" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- End Reply -->
-
           <div class="pb-2 ps-2">
             <textarea id="hs-chat-autoheight-textarea-3" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis" data-hs-textarea-auto-height>This is little appreciation to community! 🤭</textarea>
 
@@ -4222,7 +4196,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -4231,7 +4205,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -4243,13 +4217,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -4260,7 +4235,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -4288,9 +4263,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds3-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds3-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -4459,7 +4434,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc3-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc3">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -4484,11 +4459,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -4679,7 +4653,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Hello everyone
 
@@ -4755,8 +4729,8 @@
                             Hi Lousie
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">18:39</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">18:39</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -4818,8 +4792,8 @@
                             How are you?
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">18:40</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">18:40</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -4908,7 +4882,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             you guys I need your help
 
@@ -4967,7 +4941,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <div class="flex items-center gap-x-2">
                               <button type="button" class="flex justify-center items-center size-9 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 text-white rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
@@ -5126,8 +5100,8 @@
                             </div>
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">09:52</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">09:52</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -5206,7 +5180,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Hi
 
@@ -5265,7 +5239,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             After the purchase, user should receive two emails, one from us with the details to create an account for Preline Pro and another one from Paddle with the user purchase details including invoice.<br><br>Also need to check the spam folders just in case
 
@@ -5324,7 +5298,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Looks like user entered the wrong email <a class="break-all text-blue-600 underline dark:text-blue-500" href="#">annarichard@gmail.cm</a> (typo at <a class="break-all text-blue-600 underline dark:text-blue-500" href="#">gmail.cm</a>) - we will send a new email to <a class="break-all text-blue-600 underline dark:text-blue-500" href="#">annarichard@gmail.com</a> with a link to create an account in a moment.
 
@@ -5411,7 +5385,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             ohh I didn't notice that typo 🙃
 
@@ -5470,7 +5444,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             big thanks 😊
 
@@ -5547,7 +5521,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             You're welcome
 
@@ -5623,8 +5597,8 @@
                             Great! 👍️
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">18:39</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">18:39</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -5705,7 +5679,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -5714,7 +5688,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -5726,13 +5700,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -5743,7 +5718,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -5771,9 +5746,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds4-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds4-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -5831,7 +5806,6 @@
           <!-- Body -->
           <div class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div class="hs-accordion-group" data-hs-accordion-always-open>
-
               <!-- Members -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsm1">
                 <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm1-collapse">
@@ -5938,7 +5912,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc4-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc4">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -5963,11 +5937,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -6162,7 +6135,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <div class="flex items-center gap-x-2">
                               <img class="shrink-0 mb-2 size-16 rounded-md object-cover" src="../assets/img/mockups/img8.jpg" alt="Download Image">
@@ -6248,7 +6221,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -6257,7 +6230,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -6269,13 +6242,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -6286,7 +6260,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -6314,9 +6288,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds5-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds5-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -6505,7 +6479,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc5-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc5">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <div class="grid grid-cols-3 gap-px">
                       <img class="shrink-0 size-[110px] rounded-lg object-cover" src="../assets/img/mockups/img8.jpg" alt="Media Image">
                     </div>
@@ -6530,11 +6504,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -6728,7 +6701,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             How do I share my team license with the rest of my team?
 
@@ -6816,8 +6789,8 @@
                             </a>
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">13:02</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">13:02</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -6908,7 +6881,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Ah cool, thanks! Any idea when that will be available?
 
@@ -6984,8 +6957,8 @@
                             We can’t give ETA but we will prioritize and do our best to include in few weeks.
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">12:25</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">12:25</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -7076,7 +7049,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Thanks, that would be really useful!
 
@@ -7194,8 +7167,8 @@
                             </div>
 
                             <span>
-                              <span class="text-[11px] text-end text-blue-600 dark:text-blue-500 italic">09:52</span>
-                              <svg class="inline-block shrink-0 size-4 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <span class="text-[11px] text-end text-gray-400 dark:text-neutral-600 italic">09:52</span>
+                              <svg class="inline-block shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 7 17l-5-5" />
                                 <path d="m22 10-7.5 7.5L13 16" />
                               </svg>
@@ -7276,7 +7249,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -7285,7 +7258,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -7297,13 +7270,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -7314,7 +7288,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -7342,9 +7316,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds6-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds6-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -7493,7 +7467,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc6-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc6">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -7518,11 +7492,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -7713,7 +7686,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             For some strange reasons, my navbar mega menu displays not properly placed. here's the source file
 
@@ -7772,7 +7745,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             <div class="flex items-center gap-x-2">
                               <button type="button" class="flex justify-center items-center size-9 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 text-white rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
@@ -7862,7 +7835,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -7871,7 +7844,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -7883,13 +7856,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -7900,7 +7874,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -7928,9 +7902,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds7-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds7-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -8077,7 +8051,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc7-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc7">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -8102,11 +8076,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -8296,7 +8269,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             I found a bug: Combobox selection of ahref items using keyboard #353
                             <a class="group block mt-3 mb-1 focus:outline-none" href="https://github.com/" target="_blank">
@@ -8387,7 +8360,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -8396,7 +8369,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -8408,13 +8381,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -8425,7 +8399,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -8453,9 +8427,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds8-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds8-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -8513,7 +8487,6 @@
           <!-- Body -->
           <div class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div class="hs-accordion-group" data-hs-accordion-always-open>
-
               <!-- Members -->
               <div class="hs-accordion border-b border-gray-100 dark:border-neutral-800 active" id="hs-pro-chdsm2">
                 <button type="button" class="hs-accordion-toggle p-5 pb-2 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-pro-chdsm2-collapse">
@@ -8612,7 +8585,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc8-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc8">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -8637,11 +8610,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -8835,7 +8807,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             I love Preline Pro! What can we expect in the next update?
 
@@ -8907,27 +8879,6 @@
         <footer class="sticky bottom-0 inset-x-0 z-[9] bg-white border-t border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
           <label for="hs-chat-autoheight-textarea-9" class="sr-only">Message</label>
 
-          <!-- Reply -->
-          <div id="hs-ch9trc" class="hs-removing:opacity-0 transition duration-100 py-2.5 px-[26px] border-b border-gray-100 dark:border-neutral-700">
-            <div class="flex justify-between items-center gap-x-3 border-s-2 border-blue-600 ps-2">
-              <div class="w-full">
-                <p class="font-medium text-xs text-blue-600">Reply to Alex</p>
-                <p class="text-xs text-gray-800 dark:text-neutral-200">I love Preline Pro! What can we expect in the next update?</p>
-              </div>
-              <div class="grow">
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" aria-label="Close" data-hs-remove-element="#hs-ch9trc">
-                  <span class="sr-only">Close</span>
-                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="m15 9-6 6" />
-                    <path d="m9 9 6 6" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- End Reply -->
-
           <div class="pb-2 ps-2">
             <textarea id="hs-chat-autoheight-textarea-9" class="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" placeholder="Message Lewis" data-hs-textarea-auto-height>A brand new Chat demo. 🙂</textarea>
 
@@ -8935,7 +8886,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -8944,7 +8895,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -8956,13 +8907,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -8973,7 +8925,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -9001,9 +8953,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds9-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds9-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -9134,7 +9086,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc9-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc9">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <div class="grid grid-cols-3 gap-px">
                       <img class="shrink-0 size-[110px] rounded-lg object-cover" src="../assets/img/examples/img9.jpg" alt="Media Image">
                       <img class="shrink-0 size-[110px] rounded-lg object-cover" src="../assets/img/examples/img6.jpg" alt="Media Image">
@@ -9161,11 +9113,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -9356,7 +9307,7 @@
                     <div class="space-y-1">
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Hello! I'm looking through Preline Pro and curious if Figma files the templates are also included to your pricing plans?
 
@@ -9415,7 +9366,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Ah, I found an answer on your FAQ, not included. Nevermind
 
@@ -9474,7 +9425,7 @@
 
                       <!-- Message -->
                       <div class="group flex justify-start gap-x-2" style="word-break: break-word;">
-                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div class="order-1 bg-white shadow-sm dark:bg-neutral-800 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div class="text-sm text-gray-800 dark:text-neutral-200">
                             Thanks!
 
@@ -9553,7 +9504,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -9562,7 +9513,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -9574,13 +9525,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -9591,7 +9543,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -9619,9 +9571,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds10-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds10-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -9768,7 +9720,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc10-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc10">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -9793,11 +9745,10 @@
           <div class="lg:hidden w-20 sm:w-auto flex items-center">
             <!-- Sidebar Toggle -->
             <div class="sm:-ms-2.5 ">
-              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
+              <button type="button" class="flex justify-center items-center gap-x-1 py-1.5 px-2 min-h-8 text-xs text-gray-600 bg-white hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200" data-hs-overlay="#hs-pro-chat-sidebar" aria-controls="hs-pro-chat-sidebar" aria-label="Toggle navigation">
                 <svg class="shrink-0 size-4 -ms-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6" />
-                </svg>
-                Chat
+                </svg> Chat
               </button>
             </div>
             <!-- End Sidebar Toggle -->
@@ -10023,7 +9974,7 @@
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
@@ -10032,7 +9983,7 @@
                 <!-- End Button -->
 
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11v1a10 10 0 1 1-9-10" />
                     <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -10044,13 +9995,14 @@
                   <span class="sr-only">Add emoji</span>
                 </button>
                 <!-- End Button -->
+
               </div>
               <!-- End Button Group -->
 
               <!-- Button Group -->
               <div class="flex items-center gap-x-1">
                 <!-- Button -->
-                <button type="button" class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                <button type="button" class="flex justify-center items-center gap-x-1.5 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -10061,7 +10013,7 @@
                 <!-- End Button -->
 
                 <!-- Send Button -->
-                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" class="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600">
                   <span class="sr-only">Send</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m5 12 7-7 7 7" />
@@ -10089,9 +10041,9 @@
         <div class="h-full flex flex-col">
           <!-- Header -->
           <div class="py-3 px-4 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
-            <h3 id="hs-pro-chhds11-label" class="font-semibold text-gray-800 dark:text-neutral-200">
+            <span id="hs-pro-chhds11-label" class="block font-semibold text-gray-800 dark:text-neutral-200">
               Details
-            </h3>
+            </span>
 
             <!-- Close Button -->
             <div class="absolute top-2 end-4 z-10">
@@ -10240,7 +10192,7 @@
                 </button>
 
                 <div id="hs-pro-chdssmc11-collapse" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-pro-chdssmc11">
-                  <div class="pb-5 px-5">
+                  <div class="px-5 pb-5">
                     <p class="text-sm text-gray-500 dark:text-neutral-500">
                       Only shared images appear here
                     </p>
@@ -10260,7 +10212,6 @@
   <!-- ========== END MAIN CONTENT ========== -->
 
   <!-- ========== SECONDARY CONTENT ========== -->
-
   <!-- Compose Modal -->
   <div id="hs-pro-chhcp" class="hs-overlay [--close-when-click-inside:true] hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-pro-chhcp-label">
     <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-sm sm:w-full m-3 sm:mx-auto h-[calc(100%-3.5rem)] min-h-[calc(100%-3.5rem)] flex items-center">

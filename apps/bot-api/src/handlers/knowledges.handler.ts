@@ -60,13 +60,17 @@ export const deleteBotKnowledgeHandler = factory.createHandlers(
     const knowledgeId = c.req.param("knowledgeId");
     const directus = c.get("directus");
     const textEmbedding = c.get("textEmbedding");
-    const item = await directus.request(
-      readItem("bots_knowledges", knowledgeId, {
-        fields: ["bot"],
-      })
-    ).catch(() => {});
+    const item = await directus
+      .request(
+        readItem("bots_knowledges", knowledgeId, {
+          fields: ["bot"],
+        })
+      )
+      .catch(() => {});
 
-    await directus.request(deleteItem("bots_knowledges", knowledgeId)).catch(() => {})
+    await directus
+      .request(deleteItem("bots_knowledges", knowledgeId))
+      .catch(() => {});
 
     await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
 
@@ -220,32 +224,15 @@ export const createIntentHandler = factory.createHandlers(
     const directus = c.get("directus");
     const knowledge = c.get("knowledge") as BotKnowledge;
     const textEmbedding = c.get("textEmbedding");
-    const body = await c.req.json<{
-      name: string;
-      intent: string;
-      quick_reply: string;
-      questions: string[];
-      responses: string[];
-      tags: string[];
-    }>();
+    const body = await c.req.json<BotIntent>();
 
     const data = {
       id: randomHexString(8),
       name: body.name,
       intent: body.intent,
       quick_reply: body.quick_reply,
-      questions: (body.questions || []).map((question) => {
-        return {
-          id: randomHexString(8),
-          question,
-        };
-      }),
-      responses: (body.responses || []).map((response) => {
-        return {
-          id: randomHexString(8),
-          response,
-        };
-      }),
+      questions: (body.questions || []),
+      responses: (body.responses || []),
       tags: body.tags || [],
     };
 
@@ -285,6 +272,77 @@ export const createIntentHandler = factory.createHandlers(
         };
       })
     );
+
+    return c.json(item);
+  }
+);
+
+// create multiple intents
+export const createMultipleIntentHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  knowledgeMiddleware,
+  textEmbeddingMiddleware,
+  async (c) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const directus = c.get("directus");
+    const knowledge = c.get("knowledge") as BotKnowledge;
+    const textEmbedding = c.get("textEmbedding");
+    const body = await c.req.json<{
+      intents: BotIntent[];
+    }>();
+
+    const intents = (body.intents || []).map((intent) => {
+      return {
+        id: intent.id || randomHexString(8),
+        name: intent.name,
+        intent: intent.intent,
+        quick_reply: intent.quick_reply,
+        questions: intent.questions || [],
+        responses: intent.responses || [],
+        tags: intent.tags,
+      };
+    });
+
+    const updatedIntents = _.uniqBy(
+      [...knowledge.intents, ...intents],
+      "intent"
+    );
+
+    const item = await directus.request(
+      updateItem("bots_knowledges", knowledgeId, {
+        intents: updatedIntents,
+        total_intent: updatedIntents.length,
+        date_updated: new Date().toISOString(),
+      })
+    );
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", knowledgeId].join("|"),
+      JSON.stringify(item)
+    );
+
+    for (const intent of intents) {
+      const questions = [
+        { id: randomHexString(8), question: intent.intent },
+        ...intent.questions,
+      ];
+
+      await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(
+        questions.map((question) => {
+          return {
+            body: {
+              operation: "addQuestion",
+              text: question.question,
+              bot_id: knowledge.bot,
+              knowledge_id: knowledgeId,
+              intent_id: intent.id,
+              id: question.id,
+            },
+          };
+        })
+      );
+    }
 
     return c.json(item);
   }

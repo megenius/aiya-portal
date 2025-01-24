@@ -4,7 +4,6 @@ interface WorkerEnv {
 	CACHING: KVNamespace;
 	NODE_ENV: string;
 	PORT: string;
-	LAMBDA_SECRET_KEY: string;
 	DIRECTUS_URL: string;
 	DIRECTUS_SECRET_KEY: string;
 	DIRECTUS_SERVICE_TOKEN: string;
@@ -20,6 +19,12 @@ interface WorkerEnv {
 	SUPABASE_URL: string;
 	SUPABASE_ANON_KEY: string;
 	OPENAI_API_KEY: string;
+	GOOGLE_AI_PROJECT_ID: string;
+	GOOGLE_AI_LOCATION_ID: string;
+	GOOGLE_AI_API_ENDPOINT: string;
+	GOOGLE_AI_MODEL_ID: string;
+	GOOGLE_AI_GENERATE_CONTENT_API: string;
+	GOOGLE_AI_ACCESS_TOKEN: string;
 	BillingService: Fetcher;
 	SENTENCE_EMBEDINGS_QUEUE: Queue;
 	CAPI_QUEUE: Queue;

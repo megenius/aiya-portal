@@ -1,6 +1,6 @@
 // hooks/useBotKnowledgeIntentInsert.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BotKnowledge } from "~/@types/app";
+import { BotIntent, BotKnowledge } from "~/@types/app";
 import { insertBotKnowledgeIntent } from "~/services/bots";
 
 interface MutationFn {
@@ -11,6 +11,7 @@ interface Variables {
   knowledge_id: string;
   name: string;
   intent: string;
+  intents: BotIntent[];
 }
 
 export const useBotKnowledgeIntentInsert = () => {

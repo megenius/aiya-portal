@@ -67,10 +67,10 @@ export type SaasPrice = components["schemas"]["ItemsSaasPrices"] & {
 };
 
 export type SaasCoupon = components["schemas"]["ItemsSaasCoupons"] & {
-  discount: string
-  description: string
-  terms: string
-}
+  discount: string;
+  description: string;
+  terms: string;
+};
 
 export type Product = components["schemas"]["ItemsProducts"];
 export type Orderbot = components["schemas"]["ItemsOrderbots"];
@@ -429,5 +429,34 @@ export namespace stats {
       startTime: string;
       endTime: string;
     };
+  }
+}
+
+export namespace GenerationResponse {
+  export interface GenerationResponse {
+    success: boolean;
+    data: Daum[];
+    metadata: Metadata;
+  }
+
+  export interface Daum {
+    intent: string;
+    name: string;
+    questions: string[];
+    quickReply: string;
+    tags: string[];
+    answers: string;
+  }
+
+  export interface Metadata {
+    modelVersion: string;
+    createTime: string;
+    tokenCounts: TokenCounts;
+  }
+
+  export interface TokenCounts {
+    prompt: number;
+    response: number;
+    total: number;
   }
 }

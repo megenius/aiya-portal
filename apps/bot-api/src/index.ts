@@ -9,6 +9,7 @@ import { Env } from "./types/hono.types";
 import { lambdaAuthMiddleware } from "./middlewares/lambda-auth.middleware";
 import { knowledgesRoutes } from "./routes/knowledges";
 import { authMiddleware } from "./middlewares/auth.middleware";
+import geminiRoutes from "./routes/gemini";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -23,7 +24,8 @@ const app = new Hono<Env>()
   })
   // .use("*", errorHandler)
   .route("/bots", botsRoutes)
-  .route("/bots/knowledges", knowledgesRoutes);
+  .route("/bots/knowledges", knowledgesRoutes)
+  .route("/bots/gemini", geminiRoutes)
 // .route("/bots/embedding", textEmbeddingRoutes)
 // .route("/webhook", webhookRoutes);
 
