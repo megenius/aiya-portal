@@ -21,6 +21,13 @@ SUPABASE_URL = "https://app-api.aiya.ai"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhibHhpaHZjbnNrdHdqaWNzeXJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzMjg0ODksImV4cCI6MjAwODkwNDQ4OX0.MElXtyFRyjfyMlCNyqdf-iAI7xpPk0dCrzxH9Qe2RVY"
 OPENSEARCH_ENDPOINT="https://search-aiya-r7veshyx2dzr6d3iliibciqorq.ap-southeast-1.es.amazonaws.com"
 
+GOOGLE_AI_PROJECT_ID="aiya-x"
+GOOGLE_AI_LOCATION_ID="us-central1"
+GOOGLE_AI_API_ENDPOINT="us-central1-aiplatform.googleapis.com"
+GOOGLE_AI_MODEL_ID="gemini-2.0-flash-exp"
+GOOGLE_AI_GENERATE_CONTENT_API="generateContent"
+
+
 # [[vectorize]]
 # binding = "VECTOR_SENTENCES"
 # index_name = "sentences_embeddings"
@@ -64,6 +71,12 @@ DIRECTUS_URL = "https://console.portal.aiya.ai"
 SUPABASE_URL = "https://app-api.aiya.ai"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhibHhpaHZjbnNrdHdqaWNzeXJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzMjg0ODksImV4cCI6MjAwODkwNDQ4OX0.MElXtyFRyjfyMlCNyqdf-iAI7xpPk0dCrzxH9Qe2RVY"
 OPENSEARCH_ENDPOINT="https://search-aiya-r7veshyx2dzr6d3iliibciqorq.ap-southeast-1.es.amazonaws.com"
+
+GOOGLE_AI_PROJECT_ID="aiya-x"
+GOOGLE_AI_LOCATION_ID="us-central1"
+GOOGLE_AI_API_ENDPOINT="us-central1-aiplatform.googleapis.com"
+GOOGLE_AI_MODEL_ID="gemini-2.0-flash-exp"
+GOOGLE_AI_GENERATE_CONTENT_API="generateContent"
 
 [env.prod.placement]
 mode = "smart"

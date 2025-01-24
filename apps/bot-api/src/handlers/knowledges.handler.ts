@@ -227,7 +227,7 @@ export const createIntentHandler = factory.createHandlers(
     const body = await c.req.json<BotIntent>();
 
     const data = {
-      id: randomHexString(8),
+      id: body.id || randomHexString(8),
       name: body.name,
       intent: body.intent,
       quick_reply: body.quick_reply,

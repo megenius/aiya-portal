@@ -9,9 +9,9 @@ interface MutationFn {
 
 interface Variables {
   knowledge_id: string;
+  id?: string;
   name: string;
   intent: string;
-  intents: BotIntent[];
 }
 
 export const useBotKnowledgeIntentInsert = () => {
@@ -21,11 +21,11 @@ export const useBotKnowledgeIntentInsert = () => {
       insertBotKnowledgeIntent(variables).then((response) => response.data),
     onSuccess: (item: BotKnowledge) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({
-        queryKey: ["bots", "knowledges", item.id],
-        exact: true,
-        refetchType: "active",
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["bots", "knowledges", item.id],
+      //   exact: true,
+      //   refetchType: "active",
+      // });
 
       queryClient.invalidateQueries({
         queryKey: ["bots", item.bot, "knowledges"],

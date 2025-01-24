@@ -98,10 +98,12 @@ export const undeployBotKnowledge = (knowledgeId: string) =>
 // insert intent
 export const insertBotKnowledgeIntent = (data: {
   knowledge_id: string;
+  id?: string;
   intent: string;
   name: string;
 }) =>
   api.post(`/bots/knowledges/${data.knowledge_id}/intents`, {
+    id: data.id,
     intent: data.intent,
     name: data.name,
   });

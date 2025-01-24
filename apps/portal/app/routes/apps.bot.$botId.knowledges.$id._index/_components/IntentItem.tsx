@@ -25,7 +25,7 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
   const updateQuestion = useBotKnowledgeIntentQuestionUpdate();
   const deleteQuestion = useBotKnowledgeIntentQuestionDelete();
 
-  const [questions, setQuestions] = React.useState(intent.questions);
+  const [questions, setQuestions] = React.useState(intent.questions || []);
 
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this intent?')) {
@@ -34,8 +34,8 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
   };
 
   useEffect(() => {
-    setQuestions(intent.questions);
-  }, [intent.questions])
+    setQuestions(intent?.questions || []);
+  }, [intent, intent?.questions])
 
   return (
     <div className={cn("hs-accordion", { "active": isActive })} id={`hs-basic-heading-${intent.id}`}>
@@ -84,6 +84,11 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                     intent_id: intent.id,
                     questions: updatedQuestions
                   }
+                }).then((res) => { 
+                  console.log('res', res);
+                  
+                  const newQuestions = [...questions, ...updatedQuestions];
+                  setQuestions(newQuestions);
                 })
               } else if (action === 'update') {
                 updateQuestion.mutateAsync({
@@ -103,7 +108,7 @@ const IntentItem: React.FC<IntentItemProps> = ({ bot, knowledgeId, intent, searc
                     bot_id: bot.id as string,
                     knowledge_id: knowledgeId,
                     intent_id: intent.id,
-                    question_id: intent.questions[index].id
+                    question_id: questions[index].id
                   }
                 }).then((res) => {
                   const newQuestions = questions.filter((_, i) => i !== index);

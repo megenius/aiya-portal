@@ -354,8 +354,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             insertIntent.mutateAsync({
               variables: {
                 knowledge_id: knowledge.id as string,
-                intent: data.intent,
-                name: data.name
+                ...newIntent
               }
             })
           }}
@@ -365,7 +364,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
           id="hs-pro-create-magic-intent-modal"
           title="Magic Intent"
           submitButtonLabel='Generate'
-          className="w-[500px]"
+          className="lg:max-w-4xl lg:w-full lg:mx-auto"
           fields={[
             {
               name: 'faq',
