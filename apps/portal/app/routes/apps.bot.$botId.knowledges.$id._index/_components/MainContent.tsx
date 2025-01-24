@@ -23,6 +23,7 @@ import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
 import { format } from 'date-fns';
 import { useBotGenIntent } from '~/hooks/bot/useBotGenIntent';
 import { useBotKnowledgeIntentMultipleInsert } from '~/hooks/bot/useBotKnowledgeIntentMultipleInsert';
+import BasicModal from '~/components/BasicModal';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -48,6 +49,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   const generateIntent = useBotGenIntent();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [generateLoading, setGenerateLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setSearchIntent(searchParams.get('q') || '');
@@ -201,6 +203,10 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   }, [knowledge?.intents])
 
   if (loading) {
+    return <Loading />
+  }
+
+  if (generateLoading) {
     return <Loading />
   }
 
@@ -376,6 +382,8 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
             },
           ]}
           onOk={(data) => {
+            // setGenerateLoading(true)
+            window.HSOverlay.open('#hs-static-backdrop-modal')
 
             generateIntent.mutateAsync(data.faq).then((response) => {
               const newIntents = response.data.map((item) => ({
@@ -395,6 +403,10 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                   knowledge_id: knowledge.id as string,
                   intents: newIntents
                 }
+              }).then(() => {
+                // setGenerateLoading(false)
+                window.HSOverlay.close('#hs-static-backdrop-modal')
+                toast.success('Intents generated successfully');
               })
             }).catch((error) => {
               console.error("Failed to generate intent:", error);
@@ -404,6 +416,9 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
           }}
         />
+
+        <GenerateWaitModal />
+
       </div>
     </>
   );
@@ -434,6 +449,9 @@ const AddMagicButton: React.FC = () => {
       type="button"
       className="py-2 px-3 inline-flex items-center text-sm gap-x-1 font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
       data-hs-overlay="#hs-pro-create-magic-intent-modal"
+    // onClick={() => {
+    //   window.HSOverlay.open('#hs-static-backdrop-modal')
+    // }}
     >
       <svg className="hidden sm:block flex-shrink-0 size-3 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
         <path fillRule="evenodd" clipRule="evenodd" d="M8 1C8.55228 1 9 1.44772 9 2V7L14 7C14.5523 7 15 7.44771 15 8C15 8.55228 14.5523 9 14 9L9 9V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V9.00001L2 9.00001C1.44772 9.00001 1 8.5523 1 8.00001C0.999999 7.44773 1.44771 7.00001 2 7.00001L7 7.00001V2C7 1.44772 7.44772 1 8 1Z" />
@@ -459,3 +477,26 @@ const ImportButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     </button>
   );
 };
+
+
+const GenerateWaitModal: React.FC<{}> = ({ }) => {
+  return (
+    <div id="hs-static-backdrop-modal" className="hs-overlay [--overlay-backdrop:static] hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-static-backdrop-modal-label" data-hs-overlay-keyboard="false">
+      <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500  mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+        <div className="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+          <div className="flex justify-between items-center py-3 px-4 border-b">
+            <h3 id="hs-static-backdrop-modal-label" className="font-bold text-gray-800">
+              AI Magic Intent
+            </h3>
+          </div>
+          <div className="p-4 overflow-y-auto">
+            <p className="mt-1 text-gray-800">
+              Generating intents, may be take up to 5 mins. Please do not close this window.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  )
+}
