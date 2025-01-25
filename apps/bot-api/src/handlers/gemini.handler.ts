@@ -1,4 +1,5 @@
 import { createFactory } from "hono/factory";
+import { sign } from "hono/jwt";
 import { logger } from "hono/logger";
 import { GeminiGenerationResponse, GeminiRequest } from "~/types/gemini.type";
 import { Env } from "~/types/hono.types";
@@ -8,9 +9,7 @@ const factory = createFactory<Env>();
 export const generateHandler = factory.createHandlers(logger(), async (c) => {
   const body = (await c.req.json()) as GeminiRequest;
   const env = c.env;
-
-  console.log("GOOGLE_AI_ACCESS_TOKEN", env.GOOGLE_AI_ACCESS_TOKEN);
-  
+  const accessToken = c.get("gcloudToken");
   // Construct Gemini API URL
   const url = `https://${env.GOOGLE_AI_API_ENDPOINT}/v1/projects/${env.GOOGLE_AI_PROJECT_ID}/locations/${env.GOOGLE_AI_LOCATION_ID}/publishers/google/models/${env.GOOGLE_AI_MODEL_ID}:${env.GOOGLE_AI_GENERATE_CONTENT_API}`;
 
@@ -19,7 +18,7 @@ export const generateHandler = factory.createHandlers(logger(), async (c) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${env.GOOGLE_AI_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),
   });

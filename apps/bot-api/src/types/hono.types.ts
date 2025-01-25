@@ -21,5 +21,6 @@ export interface Env {
     directAdmin: AdminClientType;
     supabase: SupabaseClient;
     opensearch: OpenSearch;
+    gcloudToken: string;
   };
 }

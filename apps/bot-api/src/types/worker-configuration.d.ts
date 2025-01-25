@@ -24,7 +24,7 @@ interface WorkerEnv {
 	GOOGLE_AI_API_ENDPOINT: string;
 	GOOGLE_AI_MODEL_ID: string;
 	GOOGLE_AI_GENERATE_CONTENT_API: string;
-	GOOGLE_AI_ACCESS_TOKEN: string;
+	GOOGLE_AI_SERVICE_ACCOUNT: string;
 	BillingService: Fetcher;
 	SENTENCE_EMBEDINGS_QUEUE: Queue;
 	CAPI_QUEUE: Queue;
