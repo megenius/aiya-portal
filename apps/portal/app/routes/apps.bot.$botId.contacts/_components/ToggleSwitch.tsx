@@ -15,7 +15,6 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ onToggle, initialChecked = 
   };
 
   return (
-    <div className="flex items-center">
       <button
         className={`relative w-14 h-7 rounded-full cursor-pointer transition-colors ease-in-out duration-200 ${isChecked ? 'bg-blue-600' : 'bg-gray-300'}`}
         onClick={handleChange}
@@ -24,7 +23,6 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ onToggle, initialChecked = 
           className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow transition-transform -translate-y-[2px] duration-200 ${isChecked ? 'translate-x-[1.5rem]' : ''}`}
         ></div>
       </button>
-    </div>
   );
 };
 

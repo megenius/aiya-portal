@@ -10,6 +10,7 @@ import { Loading } from "@repo/preline";
 import { useBotOrders } from "~/hooks/bot/useBotOrders";
 import { NumericFormat } from "react-number-format";
 import ToggleSwitch from "./ToggleSwitch";
+import { useBotContacts } from "~/hooks/bot/useBotContacts";
 
 interface MainContentProps {
   bot: Bot;
@@ -17,6 +18,7 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   // const { data: orders, isLoading } = useBotOrders({ botId: bot.id as string });
+  const { data: orders, isLoading } = useBotContacts({ id: bot.id as string });
   const [searchValue, setSearchValue] = useState("");
   const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>(
     []
@@ -58,7 +60,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div className="min-w-full inline-block align-middle">
               {/* Loader */}
-              {/* {isLoading && <Loading />} */}
+              {isLoading && <Loading />}
               {/* End Loader */}
               {/* Table */}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
@@ -69,71 +71,71 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                         Avatar
                       </div>
                     </th>
-                    <th scope="col" className="min-w-36">
+                    <th scope="col" className="min-w-48">
                       <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Name
                       </div>
                     </th>
-                    <th scope="col" className="min-w-[400px] ">
+                    <th scope="col" className="min-w-[350px]">
                       <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Recent Message
                       </div>
                     </th>
-                    <th scope="col" className="min-w-[250px] ">
+                    <th scope="col" className="min-w-[200px] ">
                       <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Received Time
                       </div>
                     </th>
-                    <th scope="col" className="min-w-[250px] ">
-                      <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                    <th scope="col" className="min-w-[200px] ">
+                      <div className="py-3 flex justify-center items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                         Bot
                       </div>
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                  <tr>
-                    <td className="size-px whitespace-nowrap px-4 py-3">
-                      <Avatar src={""} firstName={"T"} />
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="w-full flex items-center gap-x-3">
-                        <div className="grow">
-                          <span className="text-sm font-medium text-gray-800">
-                            AIYA X AIYA
-                          </span>
+                  {orders?.map((order) => (
+                    <tr key={order.id}>
+                      <td className="size-px whitespace-nowrap px-4 py-3">
+                        <Avatar src={""} firstName={"T"} />
+                      </td>
+                      <td className="size-px whitespace-nowrap pe-4 py-3">
+                        <div className="w-full flex items-center gap-x-3">
+                          <div className="grow">
+                            <span className="text-sm font-medium text-gray-800">
+                              {order.social_id}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="w-full flex items-center gap-x-3">
-                        <div className="grow">
-                          <span className="text-sm text-gray-600">
-                            มีเบอร์ติดต่อไหม
-                          </span>
+                      </td>
+                      <td className="size-px pe-4 py-3">
+                        <div className="w-full flex items-center gap-x-3">
+                          <div className="grow">
+                            <span className="text-sm text-gray-600">
+                              {order.sentence}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="w-full flex items-center gap-x-3">
-                        <div className="grow">
-                          <span className="text-sm text-gray-600">
-                            {getTimeAgo(1000)}
-                          </span>
+                      </td>
+                      <td className="size-px whitespace-nowrap pe-4 py-3">
+                        <div className="w-full flex items-center gap-x-3">
+                          <div className="grow">
+                            <span className="text-sm text-gray-600">
+                              {calculateTimeAgo(order.created)}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="w-full flex items-center gap-x-3">
-                        <div className="grow">
+                      </td>
+                      <td className="size-px whitespace-nowrap py-3">
+                        <div className="w-full flex justify-center items-center">
                           <ToggleSwitch
                             onToggle={setIsBotActive}
                             initialChecked={isBotActive}
                           />
                         </div>
-                      </div>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  ))}
                   {/* {filteredItems?.map((item) => (
                     <tr key={item.event_id}>
                       <td className="size-px whitespace-nowrap px-4 py-3">
@@ -206,4 +208,13 @@ const getTimeAgo = (seconds: number) => {
     const years = Math.floor(seconds / 31536000);
     return `${years} year${years === 1 ? "" : "s"} ago`;
   }
+};
+
+const calculateTimeAgo = (dateString: string) => {
+  const date = new Date(dateString);
+  const timeDifferenceInMilliseconds = Date.now() - date.getTime();
+
+  const timeDifferenceInSeconds = Math.floor(timeDifferenceInMilliseconds / 1000);
+
+  return getTimeAgo(timeDifferenceInSeconds);
 };
