@@ -232,6 +232,9 @@ export const fetchBotInsightContacts = (botId: string) =>
   api.get<BotLog[]>(`/bots/${botId}/insights/contacts`);
 
 // --------------- muted users ---------------
+export const fetchBotMutedUsers = (botId: string) =>
+  api.get<{uid:string}[]>(`/bots/${botId}/muted-users`);
+
 export const insertBotMutedUser = (data: BotMutedUser) =>
   api.post("/items/bots_muted_users", data);
 

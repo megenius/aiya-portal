@@ -11,6 +11,7 @@ import { useBotOrders } from "~/hooks/bot/useBotOrders";
 import { NumericFormat } from "react-number-format";
 import ToggleSwitch from "./ToggleSwitch";
 import { useBotContacts } from "~/hooks/bot/useBotContacts";
+import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
 
 interface MainContentProps {
   bot: Bot;
@@ -19,6 +20,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   // const { data: orders, isLoading } = useBotOrders({ botId: bot.id as string });
   const { data: orders, isLoading } = useBotContacts({ id: bot.id as string });
+  const { data: mutedBotUsers,isLoading:isMutedBotUsersLoading } = useBotMutedUsers({ botId: bot.id as string });
   const [searchValue, setSearchValue] = useState("");
   const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>(
     []
@@ -28,6 +30,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
   };
+  
 
   // const filteredItems = React.useMemo(() => {
   //   if (!searchValue) return orders ? orders.data : [];
@@ -60,7 +63,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <div className="min-w-full inline-block align-middle">
               {/* Loader */}
-              {isLoading && <Loading />}
+              {(isLoading || isMutedBotUsersLoading) && <Loading />}
               {/* End Loader */}
               {/* Table */}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
@@ -130,7 +133,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                         <div className="w-full flex justify-center items-center">
                           <ToggleSwitch
                             onToggle={setIsBotActive}
-                            initialChecked={isBotActive}
+                            initialChecked={mutedBotUsers?.some(user => user.uid !== order.social_id)}
                           />
                         </div>
                       </td>
