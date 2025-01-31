@@ -4,6 +4,7 @@ import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
 import { Env } from "~/types/hono.types";
 
+import { endOfDay, startOfDay } from "date-fns";
 import * as TodayAnalytics from "~/services/today-analytics.service";
 
 const factory = createFactory<Env>();
@@ -47,7 +48,31 @@ export const getTodayStatsHandler = factory.createHandlers(
   async (c: Context<Env>) => {
     const opensearch = c.get("opensearch");
     const { id } = c.req.param();
+    const {timeUnit, startDate, endDate, } = c.req.query();
+    const now = new Date();
 
+    let start, end;
+    if (startDate && endDate) {
+      start = startOfDay(new Date(startDate));
+      end = endOfDay(new Date(endDate));
+    } else if (timeUnit) {
+      switch (timeUnit) {
+        case 'day':
+          start = startOfDay(now);
+          end = endOfDay(now);
+          break;
+        case 'month':
+          start = new Date(now.getFullYear(), now.getMonth(), 1);
+          end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+          break;
+        case 'lastMonth':
+          start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+          end = new Date(now.getFullYear(), now.getMonth(), 0);
+          break;
+      }
+    }
+    console.log(start,end);
+    
     const query = {
       size: 0,
       query: {
@@ -61,8 +86,10 @@ export const getTodayStatsHandler = factory.createHandlers(
             {
               range: {
                 created_at: {
-                  gte: "now/d",
-                  lt: "now/d+1d",
+                  // gte: "now/d",
+                  // lt: "now/d+1d",
+                  gte: start,
+                  lte: end,
                   time_zone: "Asia/Bangkok",
                 },
               },
@@ -282,10 +309,11 @@ export const getTodayStatsHandler = factory.createHandlers(
     const res = await opensearch.search({
       index: "bots_logs",
       body: query,
+
     });
 
     const transformed = TodayAnalytics.transformESResponse(res as any);
-    console.log(TodayAnalytics.generateReport(transformed));
+    // console.log(TodayAnalytics.generateReport(transformed));
     // const { summary, hourlyData } = transformed;
 
     // return c.json({ ...summary, hourlyData });
@@ -300,7 +328,7 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     .from("bots_logs")
     .select("*")
     .filter("bot_id", "eq", c.req.param("id"))
-    .order("social_id", { ascending: true })  // จัดกลุ่มตาม social_id
+    .order("social_id")  // จัดกลุ่มตาม social_id
     .order("created", { ascending: false }) // เลือกข้อมูลที่ใหม่ที่สุด
 
   if (error) {
