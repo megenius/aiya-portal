@@ -7,7 +7,6 @@ import MemberTableFilter from "./MemberTableFilter";
 import { format, formatDistance } from "date-fns";
 import { useFacebookSDK } from "~/hooks/useFacebookSDK";
 import { Loading } from "@repo/preline";
-import { useBotOrders } from "~/hooks/bot/useBotOrders";
 import { NumericFormat } from "react-number-format";
 import ToggleSwitch from "./ToggleSwitch";
 import { useBotContacts } from "~/hooks/bot/useBotContacts";
@@ -18,9 +17,8 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ bot }) => {
-  // const { data: orders, isLoading } = useBotOrders({ botId: bot.id as string });
-  const { data: orders, isLoading } = useBotContacts({ id: bot.id as string });
-  const { data: mutedBotUsers,isLoading:isMutedBotUsersLoading } = useBotMutedUsers({ botId: bot.id as string });
+  const { data: contacts, isLoading } = useBotContacts({ id: bot.id as string });
+  const { data: mutedBotUsers, isLoading: isMutedBotUsersLoading } = useBotMutedUsers({ botId: bot.id as string });
   const [searchValue, setSearchValue] = useState("");
   const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>(
     []
@@ -30,17 +28,17 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
   };
-  
 
-  // const filteredItems = React.useMemo(() => {
-  //   if (!searchValue) return orders ? orders.data : [];
 
-  //   const searchText = searchValue.toLowerCase().trim();
+  const filteredItems = React.useMemo(() => {
+    if (!searchValue) return contacts ? contacts : [];
 
-  //   return orders?.data.filter((item) => {
-  //     return item.data._name?.toLowerCase().includes(searchText);
-  //   });
-  // }, [orders, searchValue]);
+    const searchText = searchValue.toLowerCase().trim();
+
+    return contacts?.filter((item) => {
+      return item.social_id?.toLowerCase().includes(searchText);
+    });
+  }, [contacts, searchValue]);
 
   return (
     <>
@@ -48,7 +46,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
         {/* Title */}
         <div className="mb-4 xl:mb-8">
           <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-            Orders
+            Contacts
           </h1>
           {/* <p className="text-sm text-gray-500 dark:text-neutral-500">
             Manage slips
@@ -97,7 +95,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                  {orders?.map((order) => (
+                  {filteredItems?.sort((a, b) => b.created.localeCompare(a.created)).map((order) => (
                     <tr key={order.id}>
                       <td className="size-px whitespace-nowrap px-4 py-3">
                         <Avatar src={""} firstName={"T"} />
