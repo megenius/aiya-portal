@@ -75,9 +75,10 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     }).then((response) => {
       getAdAccounts(response.authResponse?.accessToken).then((accounts) => {
         setAds(accounts
-          .filter(acc => !adAccounts?.data?.items.find(ad => ad.ad_account_id === acc.id))
+          .filter(acc => !adAccounts?.data?.items?.find(ad => ad.ad_account_id === acc.id))
           .map(acc => {
             return {
+              id: acc.id,
               name: acc.name,
               ad_account_id: acc.id,
               team: workspace.id,
