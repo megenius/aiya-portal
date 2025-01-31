@@ -1,32 +1,8 @@
-import {
-  createItem,
-  deleteItem,
-  readItem,
-  readItems,
-  updateItem,
-} from "@directus/sdk";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
-import { logger } from "hono/logger";
-import { cachingMiddleware } from "~/middlewares/cache-get.middleware";
-import {
-  Bot,
-  BotIntent,
-  BotIntentImport,
-  BotKnowledge,
-  Channel,
-  IntentQuestion,
-} from "~/types/app";
-import { Env } from "~/types/hono.types";
-import { randomHexString } from "@repo/shared/utils";
-import * as _ from "lodash";
-import { hasItemUpdated } from "~/utils/kv";
-import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { knowledgeMiddleware } from "~/middlewares/knowledge.middleware";
-import { getKnowledge } from "~/services/knowledge.service";
-import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
-import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
 import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
+import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
+import { Env } from "~/types/hono.types";
 
 import * as TodayAnalytics from "~/services/today-analytics.service";
 
@@ -316,3 +292,28 @@ export const getTodayStatsHandler = factory.createHandlers(
     return c.json(transformed);
   }
 );
+
+export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c) => {
+  const supabase = c.get("supabase");
+
+  const { data, error } = await supabase
+    .from("bots_logs")
+    .select("*")
+    .filter("bot_id", "eq", c.req.param("id"))
+    .order("social_id", { ascending: true })  // จัดกลุ่มตาม social_id
+    .order("created", { ascending: false }) // เลือกข้อมูลที่ใหม่ที่สุด
+
+  if (error) {
+    return c.json({ error: error.message }, 400);
+  }
+
+  // ใช้ Map เพื่อเก็บค่าล่าสุดของแต่ละ social_id
+  const latestLogs = new Map();
+  data.forEach((log) => {
+    if (!latestLogs.has(log.social_id)) {
+      latestLogs.set(log.social_id, log);
+    }
+  });
+
+  return c.json(Array.from(latestLogs.values()));
+});
