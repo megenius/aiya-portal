@@ -1,34 +1,39 @@
-import React, { useEffect } from 'react';
-import NavButton from './NavButton';
-import DateSelector from './DateSelector';
-import DateRangeSelector from './DateRangeSelector';
-import { useOutletContext, useSearchParams } from '@remix-run/react';
-import { endOfDay, startOfDay } from 'date-fns';
-import { useBotStatsToday } from '~/hooks/bot/useBotStatsToday';
-import { Bot } from '~/@types/app';
-import { MessageCircle, MessageSquare, UserIcon } from 'lucide-react';
-import TodayBarChart from './TodayBarChart';
-import AnalyaticDashbaord from './AnalyaticDashbaord';
+import React, { useEffect } from "react";
+import NavButton from "./NavButton";
+import DateSelector from "./DateSelector";
+import DateRangeSelector from "./DateRangeSelector";
+import { useOutletContext, useSearchParams } from "@remix-run/react";
+import { endOfDay, startOfDay } from "date-fns";
+import { useBotStatsToday } from "~/hooks/bot/useBotStatsToday";
+import { Bot } from "~/@types/app";
+import { MessageCircle, MessageSquare, UserIcon } from "lucide-react";
+import TodayBarChart from "./TodayBarChart";
+import AnalyaticDashbaord from "./AnalyaticDashbaord";
+import { Loading } from "@repo/preline";
 
-interface MainContentProps {
-
-}
+interface MainContentProps {}
 
 const MainContent: React.FC<MainContentProps> = () => {
   const { bot } = useOutletContext<{ bot: Bot }>();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [startDate, setStartDate] = React.useState<Date>(startOfDay(new Date()));
+  const [startDate, setStartDate] = React.useState<Date>(
+    startOfDay(new Date())
+  );
   const [endDate, setEndDate] = React.useState<Date>(endOfDay(new Date()));
 
-  const [activeTab, setActiveTab] = React.useState<'Conversations' | 'Users'>('Conversations');
+  const [activeTab, setActiveTab] = React.useState<"Conversations" | "Users">(
+    "Conversations"
+  );
 
-  const { data: stats, isLoading } = useBotStatsToday({ variables: { id: bot.id as string } });
+  const { data: stats, isLoading: isStatsLoading } = useBotStatsToday({
+    variables: { id: bot.id as string },
+  });
 
   useEffect(() => {
-    const start_date = searchParams.get('start');
-    const end_date = searchParams.get('end');
-    const tab = searchParams.get('tab');
+    const start_date = searchParams.get("start");
+    const end_date = searchParams.get("end");
+    const tab = searchParams.get("tab");
 
     if (start_date && end_date) {
       setStartDate(startOfDay(new Date(start_date)));
@@ -36,10 +41,13 @@ const MainContent: React.FC<MainContentProps> = () => {
     }
 
     if (tab) {
-      setActiveTab(tab as 'Conversations' | 'Users');
+      setActiveTab(tab as "Conversations" | "Users");
     }
+  }, [searchParams]);
 
-  }, [searchParams])
+  if (isStatsLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="p-2 sm:p-5 sm:py-0 sm:py-5 space-y-5">
@@ -64,14 +72,18 @@ const MainContent: React.FC<MainContentProps> = () => {
           aria-orientation="horizontal"
         >
           <NavButton
-            icon={<MessageSquare size={24} color='gray' />}
-            label='Total Conversations' value={stats?.summary.conversations.total || 0} active={activeTab === 'Conversations'}
-            onClick={() => setActiveTab('Conversations')}
+            icon={<MessageSquare size={24} color="gray" />}
+            label="Total Conversations"
+            value={stats?.summary.conversations.total || 0}
+            active={activeTab === "Conversations"}
+            onClick={() => setActiveTab("Conversations")}
           />
           <NavButton
-            icon={<UserIcon size={24} color='gray' />}
-            label='Active Users' value={stats?.summary.users.total || 0} active={activeTab === 'Users'}
-            onClick={() => setActiveTab('Users')}
+            icon={<UserIcon size={24} color="gray" />}
+            label="Active Users"
+            value={stats?.summary.users.total || 0}
+            active={activeTab === "Users"}
+            onClick={() => setActiveTab("Users")}
           />
         </nav>
         {/* End Tab Nav */}
@@ -83,21 +95,28 @@ const MainContent: React.FC<MainContentProps> = () => {
             role="tabpanel"
             aria-labelledby="bar-with-underline-item-1"
           >
-            <TodayBarChart title={activeTab === 'Conversations' ? 'Hourly Chat Conversations' : 'Hourly Active Users'} data={stats?.hourlyActivity.map(d => {
-              return {
-                hour: d.hour,
-                value: activeTab === 'Conversations' ? d.conversations : d.uniqueUsers
+            <TodayBarChart
+              title={
+                activeTab === "Conversations"
+                  ? "Hourly Chat Conversations"
+                  : "Hourly Active Users"
               }
-            })} />
+              data={stats?.hourlyActivity.map((d) => {
+                return {
+                  hour: d.hour,
+                  value:
+                    activeTab === "Conversations"
+                      ? d.conversations
+                      : d.uniqueUsers,
+                };
+              })}
+            />
           </div>
         </div>
         {/* End Tab Content */}
       </div>
       {/* End Audience */}
-      {stats &&
-        <AnalyaticDashbaord stats={stats} />
-      }
-
+      {stats && <AnalyaticDashbaord stats={stats} />}
     </div>
   );
 };
