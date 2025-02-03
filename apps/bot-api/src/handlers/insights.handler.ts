@@ -5,7 +5,9 @@ import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
 import { Env } from "~/types/hono.types";
 
 import { endOfDay, startOfDay } from "date-fns";
+import * as MonthAnalytics from "~/services/month-analytics.service";
 import * as TodayAnalytics from "~/services/today-analytics.service";
+
 
 const factory = createFactory<Env>();
 
@@ -52,9 +54,13 @@ export const getTodayStatsHandler = factory.createHandlers(
     const now = new Date();
 
     let start, end;
+    let interval="hour";
+    let breakdown ="hourly_breakdown"
     if (startDate && endDate) {
       start = startOfDay(new Date(startDate));
       end = endOfDay(new Date(endDate));
+      interval="day"
+      breakdown ="daily_breakdown"
     } else if (timeUnit) {
       switch (timeUnit) {
         case 'day':
@@ -64,15 +70,250 @@ export const getTodayStatsHandler = factory.createHandlers(
         case 'month':
           start = new Date(now.getFullYear(), now.getMonth(), 1);
           end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+          interval = "day"
+          breakdown = "daily_breakdown"
           break;
         case 'lastMonth':
           start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
           end = new Date(now.getFullYear(), now.getMonth(), 0);
+          interval = "day"
+          breakdown = "daily_breakdown"
           break;
       }
     }
-    console.log(start,end);
     
+    // const query = {
+    //   size: 0,
+    //   query: {
+    //     bool: {
+    //       filter: [
+    //         {
+    //           term: {
+    //             "bot_id.keyword": id,
+    //           },
+    //         },
+    //         {
+    //           range: {
+    //             created_at: {
+    //               // gte: "now/d",
+    //               // lt: "now/d+1d",
+    //               gte: start,
+    //               lte: end,
+    //               time_zone: "Asia/Bangkok",
+    //             },
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    //   aggs: {
+    //     total_conversations: {
+    //       value_count: {
+    //         field: "_id",
+    //       },
+    //     },
+    //     confidence_summary: {
+    //       stats: {
+    //         script: {
+    //           source: "doc['confidence'].value",
+    //         },
+    //       },
+    //     },
+    //     total_stats: {
+    //       stats_bucket: {
+    //         buckets_path: "hourly_breakdown>_count",
+    //       },
+    //     },
+    //     platform_metrics: {
+    //       terms: {
+    //         field: "platform.keyword",
+    //         missing: "unknown",
+    //         size: 10,
+    //         order: {
+    //           _count: "desc",
+    //         },
+    //       },
+    //       aggs: {
+    //         unique_users: {
+    //           cardinality: {
+    //             field: "social_id.keyword",
+    //           },
+    //         },
+    //         avg_confidence: {
+    //           avg: {
+    //             field: "confidence",
+    //           },
+    //         },
+    //         fallback_rate: {
+    //           filter: {
+    //             term: {
+    //               fallback: 1,
+    //             },
+    //           },
+    //         },
+    //         top_intents: {
+    //           terms: {
+    //             field: "intent.keyword",
+    //             size: 5,
+    //           },
+    //         },
+    //       },
+    //     },
+    //     intent_analysis: {
+    //       terms: {
+    //         field: "intent.keyword",
+    //         missing: "unknown",
+    //         size: 20,
+    //         order: {
+    //           _count: "desc",
+    //         },
+    //       },
+    //       aggs: {
+    //         avg_confidence: {
+    //           avg: {
+    //             field: "confidence",
+    //           },
+    //         },
+    //         platforms: {
+    //           terms: {
+    //             field: "platform.keyword",
+    //             size: 5,
+    //           },
+    //         },
+    //         success_rate: {
+    //           avg: {
+    //             script: {
+    //               source: "doc['fallback'].value == 0 ? 1 : 0",
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     knowledge_usage: {
+    //       terms: {
+    //         field: "knowledge_id.keyword",
+    //         missing: "unknown",
+    //         size: 20,
+    //         order: {
+    //           _count: "desc",
+    //         },
+    //       },
+    //       aggs: {
+    //         avg_confidence: {
+    //           avg: {
+    //             field: "confidence",
+    //           },
+    //         },
+    //         platforms: {
+    //           terms: {
+    //             field: "platform.keyword",
+    //             size: 5,
+    //           },
+    //         },
+    //         top_intents: {
+    //           terms: {
+    //             field: "intent.keyword",
+    //             size: 5,
+    //           },
+    //         },
+    //       },
+    //     },
+    //     hourly_breakdown: {
+    //       date_histogram: {
+    //         field: "created_at",
+    //         calendar_interval: "hour",
+    //         time_zone: "Asia/Bangkok",
+    //         min_doc_count: 0,
+    //         extended_bounds: {
+    //           min: "now/d",
+    //           max: "now/d+1d",
+    //         },
+    //       },
+    //       aggs: {
+    //         platforms: {
+    //           terms: {
+    //             field: "platform.keyword",
+    //             size: 10,
+    //           },
+    //         },
+    //         unique_users: {
+    //           cardinality: {
+    //             field: "social_id.keyword",
+    //           },
+    //         },
+    //         avg_confidence: {
+    //           avg: {
+    //             field: "confidence.keyword",
+    //           },
+    //         },
+    //         fallback_rate: {
+    //           filter: {
+    //             term: {
+    //               fallback: 1,
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     fallback_analysis: {
+    //       filter: {
+    //         term: {
+    //           fallback: 1,
+    //         },
+    //       },
+    //       aggs: {
+    //         by_platform: {
+    //           terms: {
+    //             field: "platform.keyword",
+    //             size: 10,
+    //           },
+    //         },
+    //         by_intent: {
+    //           terms: {
+    //             field: "intent.keyword",
+    //             size: 20,
+    //           },
+    //         },
+    //         low_confidence: {
+    //           range: {
+    //             field: "confidence",
+    //             ranges: [
+    //               { to: 0.3 },
+    //               { from: 0.3, to: 0.5 },
+    //               { from: 0.5, to: 0.7 },
+    //               { from: 0.7 },
+    //             ],
+    //           },
+    //         },
+    //       },
+    //     },
+    //     confidence_distribution: {
+    //       range: {
+    //         field: "confidence",
+    //         ranges: [
+    //           { to: 0.2 },
+    //           { from: 0.2, to: 0.4 },
+    //           { from: 0.4, to: 0.6 },
+    //           { from: 0.6, to: 0.8 },
+    //           { from: 0.8 },
+    //         ],
+    //       },
+    //     },
+    //     rag_intent_analysis: {
+    //       nested: {
+    //         path: "rag_intents.keyword",
+    //       },
+    //       aggs: {
+    //         top_rag_intents: {
+    //           terms: {
+    //             field: "rag_intents.keyword",
+    //             size: 20,
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // };
     const query = {
       size: 0,
       query: {
@@ -86,8 +327,6 @@ export const getTodayStatsHandler = factory.createHandlers(
             {
               range: {
                 created_at: {
-                  // gte: "now/d",
-                  // lt: "now/d+1d",
                   gte: start,
                   lte: end,
                   time_zone: "Asia/Bangkok",
@@ -112,7 +351,7 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
         total_stats: {
           stats_bucket: {
-            buckets_path: "hourly_breakdown>_count",
+            buckets_path: `${breakdown}>_count`,
           },
         },
         platform_metrics: {
@@ -209,43 +448,6 @@ export const getTodayStatsHandler = factory.createHandlers(
             },
           },
         },
-        hourly_breakdown: {
-          date_histogram: {
-            field: "created_at",
-            calendar_interval: "hour",
-            time_zone: "Asia/Bangkok",
-            min_doc_count: 0,
-            extended_bounds: {
-              min: "now/d",
-              max: "now/d+1d",
-            },
-          },
-          aggs: {
-            platforms: {
-              terms: {
-                field: "platform.keyword",
-                size: 10,
-              },
-            },
-            unique_users: {
-              cardinality: {
-                field: "social_id.keyword",
-              },
-            },
-            avg_confidence: {
-              avg: {
-                field: "confidence.keyword",
-              },
-            },
-            fallback_rate: {
-              filter: {
-                term: {
-                  fallback: 1,
-                },
-              },
-            },
-          },
-        },
         fallback_analysis: {
           filter: {
             term: {
@@ -305,6 +507,83 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
       },
     };
+    if (interval==="day") {
+      query.aggs.daily_breakdown =  {
+        date_histogram: {
+          field: "created_at",
+            calendar_interval: interval,
+              time_zone: "Asia/Bangkok",
+                min_doc_count: 0,
+                  extended_bounds: {
+            min: start,
+              max: end,
+            },
+        },
+        aggs: {
+          platforms: {
+            terms: {
+              field: "platform.keyword",
+                size: 10,
+              },
+          },
+          unique_users: {
+            cardinality: {
+              field: "social_id.keyword",
+              },
+          },
+          avg_confidence: {
+            avg: {
+              field: "confidence",
+              },
+          },
+          fallback_rate: {
+            filter: {
+              term: {
+                fallback: 1,
+                },
+            },
+          },
+        },
+      }
+    }else{
+      query.aggs.hourly_breakdown = {
+        date_histogram: {
+          field: "created_at",
+          calendar_interval: interval,
+          time_zone: "Asia/Bangkok",
+          min_doc_count: 0,
+          extended_bounds: {
+            min: start,
+            max: end,
+          },
+        },
+        aggs: {
+          platforms: {
+            terms: {
+              field: "platform.keyword",
+              size: 10,
+            },
+          },
+          unique_users: {
+            cardinality: {
+              field: "social_id.keyword",
+            },
+          },
+          avg_confidence: {
+            avg: {
+              field: "confidence",
+            },
+          },
+          fallback_rate: {
+            filter: {
+              term: {
+                fallback: 1,
+              },
+            },
+          },
+        },
+      }
+    }
 
     const res = await opensearch.search({
       index: "bots_logs",
@@ -312,7 +591,7 @@ export const getTodayStatsHandler = factory.createHandlers(
 
     });
 
-    const transformed = TodayAnalytics.transformESResponse(res as any);
+    const transformed = interval === "hour" ? TodayAnalytics.transformESResponse(res as any) : MonthAnalytics.transformMonthESResponse(res as any);
     // console.log(TodayAnalytics.generateReport(transformed));
     // const { summary, hourlyData } = transformed;
 
