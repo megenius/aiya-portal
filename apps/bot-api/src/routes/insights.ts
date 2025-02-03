@@ -8,6 +8,7 @@ insightsRoutes.get("/logs", ...InsightHandler.getLogsHandler);
 insightsRoutes.get("/contacts", ...InsightHandler.getLatestLogs)
 
 // 'Today', 'Last 7 days', 'Last 14 days', 'Last 30 days', 'Last Month'
+insightsRoutes.get("/stats", ...InsightHandler.getTodayStatsHandler);
 insightsRoutes.get("/stats/today", ...InsightHandler.getTodayStatsHandler);
 
 
