@@ -239,8 +239,8 @@ export const insertBotMutedUser = (data: BotMutedUser) =>
   api.post("/items/bots_muted_users", data);
 
 // --------------- stats ---------------
-export const fetchBotStatsToday = (botId: string) =>
-  api.get<stats.AnalyticsReport>(`/bots/${botId}/insights/stats/today`);
+export const fetchBotStatsToday = ({botId,timeUnit,startDate,endDate}) =>
+  api.get<stats.AnalyticsReport>(`/bots/${botId}/insights/stats?timeUnit=${timeUnit}&startDate=${startDate}&endDate=${endDate}`);
 
 // --------------- slips ---------------
 export const fetchBotSlips = (botId: string) =>
