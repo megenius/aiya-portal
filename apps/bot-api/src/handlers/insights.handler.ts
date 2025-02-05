@@ -54,8 +54,8 @@ export const getTodayStatsHandler = factory.createHandlers(
     const now = new Date();
 
     let start, end;
-    let interval="hour";
-    let breakdown ="hourly_breakdown"
+    let interval="day";
+    let breakdown ="daily_breakdown"
     if (startDate && endDate) {
       start = startOfDay(new Date(startDate));
       end = endOfDay(new Date(endDate));
@@ -66,6 +66,8 @@ export const getTodayStatsHandler = factory.createHandlers(
         case 'day':
           start = startOfDay(now);
           end = endOfDay(now);
+           interval = "hour";
+           breakdown = "hourly_breakdown"
           break;
         case 'month':
           start = new Date(now.getFullYear(), now.getMonth(), 1);
