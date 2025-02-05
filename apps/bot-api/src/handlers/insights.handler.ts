@@ -640,7 +640,7 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
               },
             })
           );
-          return { ...item, channel: channel[0] };
+          return { ...item, channel: channel.length>0?channel[0]:null };
         } catch (channelError) {
           console.error("Error fetching channel:", channelError);
           return { ...item, channel: null }; // Return null if channel fetch fails
