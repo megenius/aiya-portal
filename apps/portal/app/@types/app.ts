@@ -391,6 +391,17 @@ export namespace stats {
         count: number;
       }>;
     }>;
+    dailyActivity: Array<{
+      date: string;
+      conversations: number;
+      uniqueUsers: number;
+      fallbacks: number;
+      confidence: number | null;
+      platforms: Array<{
+        name: string;
+        count: number;
+      }>;
+    }>;
     intents: {
       top: Array<{
         name: string;
@@ -430,6 +441,7 @@ export namespace stats {
       endTime: string;
     };
   }
+  
 }
 
 export namespace GenerationResponse {
