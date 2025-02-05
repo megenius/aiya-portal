@@ -2,8 +2,8 @@ import React from "react"
 import { Outlet, useNavigate, useOutletContext } from "@remix-run/react"
 import { useEffect } from "react";
 import { useAppSelector } from "~/store";
-import MainContent from "./_components/MainContent";
 import { Bot } from "~/@types/app";
+import MyChatWidget from "~/components/MyChatWidget";
 
 const Route = () => {
   const navigate = useNavigate()
@@ -23,6 +23,7 @@ const Route = () => {
   return (
     <>
       <Outlet context={{ bot }} />
+      {/* <MyChatWidget /> */}
     </>
   )
 }
