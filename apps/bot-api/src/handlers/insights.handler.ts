@@ -4,6 +4,7 @@ import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
 import { Env } from "~/types/hono.types";
 
+import { readItems } from "@directus/sdk";
 import { endOfDay, startOfDay } from "date-fns";
 import * as MonthAnalytics from "~/services/month-analytics.service";
 import * as TodayAnalytics from "~/services/today-analytics.service";
@@ -50,24 +51,24 @@ export const getTodayStatsHandler = factory.createHandlers(
   async (c: Context<Env>) => {
     const opensearch = c.get("opensearch");
     const { id } = c.req.param();
-    const {timeUnit, startDate, endDate, } = c.req.query();
+    const { timeUnit, startDate, endDate, } = c.req.query();
     const now = new Date();
 
     let start, end;
-    let interval="day";
-    let breakdown ="daily_breakdown"
+    let interval = "day";
+    let breakdown = "daily_breakdown"
     if (startDate && endDate) {
       start = startOfDay(new Date(startDate));
       end = endOfDay(new Date(endDate));
-      interval="day"
-      breakdown ="daily_breakdown"
+      interval = "day"
+      breakdown = "daily_breakdown"
     } else if (timeUnit) {
       switch (timeUnit) {
         case 'day':
           start = startOfDay(now);
           end = endOfDay(now);
-           interval = "hour";
-           breakdown = "hourly_breakdown"
+          interval = "hour";
+          breakdown = "hourly_breakdown"
           break;
         case 'month':
           start = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -83,7 +84,7 @@ export const getTodayStatsHandler = factory.createHandlers(
           break;
       }
     }
-    
+
     // const query = {
     //   size: 0,
     //   query: {
@@ -509,45 +510,45 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
       },
     };
-    if (interval==="day") {
-      query.aggs.daily_breakdown =  {
+    if (interval === "day") {
+      query.aggs.daily_breakdown = {
         date_histogram: {
           field: "created_at",
-            calendar_interval: interval,
-              time_zone: "Asia/Bangkok",
-                min_doc_count: 0,
-                  extended_bounds: {
+          calendar_interval: interval,
+          time_zone: "Asia/Bangkok",
+          min_doc_count: 0,
+          extended_bounds: {
             min: start,
-              max: end,
-            },
+            max: end,
+          },
         },
         aggs: {
           platforms: {
             terms: {
               field: "platform.keyword",
-                size: 10,
-              },
+              size: 10,
+            },
           },
           unique_users: {
             cardinality: {
               field: "social_id.keyword",
-              },
+            },
           },
           avg_confidence: {
             avg: {
               field: "confidence",
-              },
+            },
           },
           fallback_rate: {
             filter: {
               term: {
                 fallback: 1,
-                },
+              },
             },
           },
         },
       }
-    }else{
+    } else {
       query.aggs.hourly_breakdown = {
         date_histogram: {
           field: "created_at",
@@ -609,8 +610,8 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     .from("bots_logs")
     .select("*")
     .filter("bot_id", "eq", c.req.param("id"))
-    .order("social_id")  // จัดกลุ่มตาม social_id
-    .order("created", { ascending: false }) // เลือกข้อมูลที่ใหม่ที่สุด
+    .order("created", { ascending: false })
+    .order("social_id")
 
   if (error) {
     return c.json({ error: error.message }, 400);
@@ -624,5 +625,31 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     }
   });
 
-  return c.json(Array.from(latestLogs.values()));
+  const directus = c.get("directus");
+
+  // Fetch channels asynchronously and resolve them properly
+  try {
+    const latestLogsWithChannels = await Promise.all(
+      Array.from(latestLogs.values()).map(async (item) => {
+        try {
+          item.provider_id
+          const channel = await directus.request(
+            readItems("channels", {
+              filter: {
+                provider_id: { _eq: item.provider_id },
+              },
+            })
+          );
+          return { ...item, channel: channel[0] };
+        } catch (channelError) {
+          console.error("Error fetching channel:", channelError);
+          return { ...item, channel: null }; // Return null if channel fetch fails
+        }
+      })
+    );
+
+    return c.json(latestLogsWithChannels);
+  } catch (fetchError) {
+    return c.json({ error: "Failed to fetch channels" }, 500);
+  }
 });
