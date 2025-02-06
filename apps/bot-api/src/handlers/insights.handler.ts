@@ -633,7 +633,7 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     const latestLogsWithChannels = await Promise.all(
       Array.from(latestLogs.values()).map(async (item) => {
         try {
-          item.provider_id          
+          item.provider_id
           const channel = await directus.request(
             readItems("channels", {
               filter: {
@@ -645,21 +645,20 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
             const platform = item.platform.toLowerCase(); // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
             if (platform === "line") {
               const profile = await getLineFollowerProfileMessagingApi(item.social_id, channel[0].provider_access_token!);
-              return { ...item, profile };
-            } else if (platform === "facebook") {                          
+              return { ...item, channel: channel[0], profile };
+            } else if (platform === "facebook") {
               const profile = await getFacebookFollowerProfileGraphApi(item.social_id, channel[0].provider_access_token!);
-              return { ...item, profile };
+              return { ...item, channel: channel[0], profile };
             } else if (platform === "website") {
-              return { ...item, profile: null };
+              return { ...item, channel:channel[0], profile: null };
             }
-          } else {            
-            return { ...item, profile: null };
-
+          } else {
+            return { ...item, channel: null, profile: null };
           }
 
         } catch (channelError) {
           console.error("Error fetching channel:", channelError);
-          return { ...item, profile: null }; // Return null if channel fetch fails
+          return { ...item, channel: null, profile: null }; // Return null if channel fetch fails
         }
       })
     );
