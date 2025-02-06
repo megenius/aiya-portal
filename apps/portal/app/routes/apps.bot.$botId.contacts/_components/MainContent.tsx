@@ -7,9 +7,6 @@ import { useFacebookSDK } from "~/hooks/useFacebookSDK";
 import { Loading } from "@repo/preline";
 import { useBotOrders } from "~/hooks/bot/useBotOrders";
 import { NumericFormat } from "react-number-format";
-import ToggleSwitch from "./ToggleSwitch";
-import { useBotContacts } from "~/hooks/bot/useBotContacts";
-import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
 import ContactTable from "./ContactTable";
 
 interface MainContentProps {
@@ -55,9 +52,9 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <MemberTableFilter onChanged={handleSearchChange} button={<></>} />
           {/* End Filter Group */}
           {/* <MemberStats channels={channels?.items} /> */}
-          
+
           {/* Table Section */}
-          <ContactTable botId={bot.id} />
+          <ContactTable botId={bot.id} searchValue={searchValue} />
           {/* End Table Section */}
         </div>
       </div>

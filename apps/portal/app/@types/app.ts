@@ -360,6 +360,14 @@ export interface BotLog {
   provider_id: string;
   action: string | null;
   channel: Channel;
+  profile: Profile;
+}
+
+export interface Profile {
+  userId: string;
+  displayName: string;
+  pictureUrl: string;
+  language: string;
 }
 
 export namespace stats {

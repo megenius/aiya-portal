@@ -53,13 +53,13 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   return (
     <button
       className={`p-2 rounded-lg ease-in-out duration-500 hover:brightness-90 border flex items-center justify-center ${
-        isChecked ? "bg-white" : "bg-gray-300"
+        isChecked ? "bg-blue-600" : "bg-gray-300"
       }`}
       onClick={handleClick}
     >
       {isLoading && (
         <div
-          className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500"
+          className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full"
           role="status"
           aria-label="loading"
         >
@@ -77,7 +77,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`lucide lucide-bot ${isChecked ? "text-blue-600" : "text-gray-600"}`}
+          className={`lucide lucide-bot ${isChecked ? "text-white" : "text-gray-600"}`}
         >
           {isChecked ? (
             <>

@@ -1,23 +1,29 @@
 // ContactTable.tsx
 import React from "react";
 import ToggleSwitch from "./ToggleSwitch";
-import { getDirectusFileUrl } from "~/utils/files";
 import { useBotContacts } from "~/hooks/bot/useBotContacts";
 import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
 import { Avatar } from "@repo/preline/Avatar";
 
 interface ContactTableProps {
-    botId: string;
+  botId: string;
+  searchValue: string;
 }
 
-const ContactTable: React.FC<ContactTableProps> = ({
-    botId
-}) => {
-const { data: contacts, isLoading } = useBotContacts({
+const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
+  const { data: contacts, isLoading } = useBotContacts({
     id: botId,
   });
   const { data: mutedBotUsers, isLoading: isMutedBotUsersLoading } =
     useBotMutedUsers({ botId });
+
+  const filteredContacts = contacts?.filter(
+    (contact) =>
+      contact.profile?.displayName
+        ?.toLowerCase()
+        .includes(searchValue.toLowerCase()) ||
+      contact.social_id.toLowerCase().includes(searchValue.toLowerCase())
+  );
   return (
     <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
       <div className="min-w-full inline-block align-middle">
@@ -29,7 +35,7 @@ const { data: contacts, isLoading } = useBotContacts({
                   Avatar
                 </div>
               </th>
-              <th scope="col" className="min-w-48">
+              <th scope="col" className="min-w-[280px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Name
                 </div>
@@ -39,7 +45,7 @@ const { data: contacts, isLoading } = useBotContacts({
                   Recent Message
                 </div>
               </th>
-              <th scope="col" className="min-w-[200px]">
+              <th scope="col" className="min-w-28">
                 <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Received Time
                 </div>
@@ -74,16 +80,14 @@ const { data: contacts, isLoading } = useBotContacts({
                     </td>
                   </tr>
                 ))
-              : contacts?.map((contact) => (
+              : filteredContacts?.map((contact) => (
                   <tr key={contact.id}>
                     <td className="size-px whitespace-nowrap px-4 py-3">
-                      {contact.channel ? (
+                      {contact.profile ? (
                         <Avatar
                           className="border"
-                          src={getDirectusFileUrl(
-                            contact.channel.logo as string
-                          )}
-                          firstName={contact.channel.name?.charAt(0)}
+                          src={contact.profile.pictureUrl}
+                          firstName={contact.profile.displayName?.charAt(0)}
                         />
                       ) : (
                         <Avatar firstName={"?"} />
@@ -91,8 +95,8 @@ const { data: contacts, isLoading } = useBotContacts({
                     </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <span className="text-sm font-medium text-gray-800">
-                        {contact?.channel
-                          ? contact.channel.provider_name
+                        {contact?.profile
+                          ? contact.profile.displayName
                           : contact.social_id}
                       </span>
                     </td>
@@ -130,33 +134,33 @@ const { data: contacts, isLoading } = useBotContacts({
 export default ContactTable;
 
 const getTimeAgo = (seconds: number) => {
-    if (seconds < 60) {
-      return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
-    } else if (seconds < 3600) {
-      const minutes = Math.floor(seconds / 60);
-      return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
-    } else if (seconds < 86400) {
-      const hours = Math.floor(seconds / 3600);
-      return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-    } else if (seconds < 2592000) {
-      const days = Math.floor(seconds / 86400);
-      return `${days} day${days === 1 ? "" : "s"} ago`;
-    } else if (seconds < 31536000) {
-      const months = Math.floor(seconds / 2592000);
-      return `${months} month${months === 1 ? "" : "s"} ago`;
-    } else {
-      const years = Math.floor(seconds / 31536000);
-      return `${years} year${years === 1 ? "" : "s"} ago`;
-    }
-  };
-  
-  const calculateTimeAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const timeDifferenceInMilliseconds = Date.now() - date.getTime();
-  
-    const timeDifferenceInSeconds = Math.floor(
-      timeDifferenceInMilliseconds / 1000
-    );
-  
-    return getTimeAgo(timeDifferenceInSeconds);
-  };
+  if (seconds < 60) {
+    return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
+  } else if (seconds < 3600) {
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+  } else if (seconds < 86400) {
+    const hours = Math.floor(seconds / 3600);
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+  } else if (seconds < 2592000) {
+    const days = Math.floor(seconds / 86400);
+    return `${days} day${days === 1 ? "" : "s"} ago`;
+  } else if (seconds < 31536000) {
+    const months = Math.floor(seconds / 2592000);
+    return `${months} month${months === 1 ? "" : "s"} ago`;
+  } else {
+    const years = Math.floor(seconds / 31536000);
+    return `${years} year${years === 1 ? "" : "s"} ago`;
+  }
+};
+
+const calculateTimeAgo = (dateString: string) => {
+  const date = new Date(dateString);
+  const timeDifferenceInMilliseconds = Date.now() - date.getTime();
+
+  const timeDifferenceInSeconds = Math.floor(
+    timeDifferenceInMilliseconds / 1000
+  );
+
+  return getTimeAgo(timeDifferenceInSeconds);
+};
