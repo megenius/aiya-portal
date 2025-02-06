@@ -1,0 +1,162 @@
+// ContactTable.tsx
+import React from "react";
+import ToggleSwitch from "./ToggleSwitch";
+import { getDirectusFileUrl } from "~/utils/files";
+import { useBotContacts } from "~/hooks/bot/useBotContacts";
+import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
+import { Avatar } from "@repo/preline/Avatar";
+
+interface ContactTableProps {
+    botId: string;
+}
+
+const ContactTable: React.FC<ContactTableProps> = ({
+    botId
+}) => {
+const { data: contacts, isLoading } = useBotContacts({
+    id: botId,
+  });
+  const { data: mutedBotUsers, isLoading: isMutedBotUsersLoading } =
+    useBotMutedUsers({ botId });
+  return (
+    <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+      <div className="min-w-full inline-block align-middle">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+          <thead>
+            <tr>
+              <th scope="col" className="min-w-36">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Avatar
+                </div>
+              </th>
+              <th scope="col" className="min-w-48">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Name
+                </div>
+              </th>
+              <th scope="col" className="min-w-[350px]">
+                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Recent Message
+                </div>
+              </th>
+              <th scope="col" className="min-w-[200px]">
+                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Received Time
+                </div>
+              </th>
+              <th scope="col" className="min-w-[200px]">
+                <div className="py-3 flex justify-center items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Bot
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+            {isLoading || isMutedBotUsersLoading
+              ? [...Array(5)].map((_, index) => (
+                  <tr key={index} className="animate-pulse">
+                    <td className="size-px whitespace-nowrap px-4 py-3">
+                      <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px pe-4 py-3">
+                      <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap py-3">
+                      <div className="flex justify-center items-center">
+                        <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              : contacts?.map((contact) => (
+                  <tr key={contact.id}>
+                    <td className="size-px whitespace-nowrap px-4 py-3">
+                      {contact.channel ? (
+                        <Avatar
+                          className="border"
+                          src={getDirectusFileUrl(
+                            contact.channel.logo as string
+                          )}
+                          firstName={contact.channel.name?.charAt(0)}
+                        />
+                      ) : (
+                        <Avatar firstName={"?"} />
+                      )}
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <span className="text-sm font-medium text-gray-800">
+                        {contact?.channel
+                          ? contact.channel.provider_name
+                          : contact.social_id}
+                      </span>
+                    </td>
+                    <td className="size-px pe-4 py-3">
+                      <span className="text-sm text-gray-600">
+                        {contact.sentence}
+                      </span>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <span className="text-sm text-gray-600">
+                        {calculateTimeAgo(contact.created)}
+                      </span>
+                    </td>
+                    <td className="size-px whitespace-nowrap py-3">
+                      <div className="flex justify-center items-center">
+                        <ToggleSwitch
+                          contact={contact}
+                          initialChecked={
+                            !mutedBotUsers?.some(
+                              (user) => user.uid === contact.social_id
+                            )
+                          }
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default ContactTable;
+
+const getTimeAgo = (seconds: number) => {
+    if (seconds < 60) {
+      return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
+    } else if (seconds < 3600) {
+      const minutes = Math.floor(seconds / 60);
+      return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+    } else if (seconds < 86400) {
+      const hours = Math.floor(seconds / 3600);
+      return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+    } else if (seconds < 2592000) {
+      const days = Math.floor(seconds / 86400);
+      return `${days} day${days === 1 ? "" : "s"} ago`;
+    } else if (seconds < 31536000) {
+      const months = Math.floor(seconds / 2592000);
+      return `${months} month${months === 1 ? "" : "s"} ago`;
+    } else {
+      const years = Math.floor(seconds / 31536000);
+      return `${years} year${years === 1 ? "" : "s"} ago`;
+    }
+  };
+  
+  const calculateTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const timeDifferenceInMilliseconds = Date.now() - date.getTime();
+  
+    const timeDifferenceInSeconds = Math.floor(
+      timeDifferenceInMilliseconds / 1000
+    );
+  
+    return getTimeAgo(timeDifferenceInSeconds);
+  };
