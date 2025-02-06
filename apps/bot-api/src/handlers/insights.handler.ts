@@ -6,6 +6,7 @@ import { Env } from "~/types/hono.types";
 
 import { readItems } from "@directus/sdk";
 import { endOfDay, startOfDay } from "date-fns";
+import { getFacebookFollowerProfileGraphApi, getLineFollowerProfileMessagingApi } from "~/services/follow-profile.service";
 import * as MonthAnalytics from "~/services/month-analytics.service";
 import * as TodayAnalytics from "~/services/today-analytics.service";
 
@@ -640,14 +641,27 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
               },
             })
           );
-          return { ...item, channel: channel.length>0?channel[0]:null };
+          if (channel.length > 0) {
+            const platform = item.platform.toLowerCase(); // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+            if (platform === "line") {
+              const profile = await getLineFollowerProfileMessagingApi(item.social_id, channel[0].provider_access_token!);
+              return { ...item, channel: channel[0], profile };
+            } else if (platform === "facebook") {
+              const profile = await getFacebookFollowerProfileGraphApi(item.social_id, channel[0].provider_access_token!);
+              return { ...item, channel: channel[0], profile };
+            } else if (platform === "website") {
+              return { ...item, channel:channel[0], profile: null };
+            }
+          } else {
+            return { ...item, channel: null, profile: null };
+          }
+
         } catch (channelError) {
           console.error("Error fetching channel:", channelError);
-          return { ...item, channel: null }; // Return null if channel fetch fails
+          return { ...item, channel: null, profile: null }; // Return null if channel fetch fails
         }
       })
     );
-
     return c.json(latestLogsWithChannels);
   } catch (fetchError) {
     return c.json({ error: "Failed to fetch channels" }, 500);
