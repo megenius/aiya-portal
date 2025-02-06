@@ -607,18 +607,20 @@ export const getTodayStatsHandler = factory.createHandlers(
 export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c) => {
   const supabase = c.get("supabase");
 
+  // Fetch logs from Supabase
   const { data, error } = await supabase
     .from("bots_logs")
     .select("*")
-    .filter("bot_id", "eq", c.req.param("id"))
+    .eq("bot_id", c.req.param("id"))
     .order("created", { ascending: false })
-    .order("social_id")
+    .order("social_id", { ascending: false });
 
-  if (error) {
-    return c.json({ error: error.message }, 400);
+  if (error || !data) {
+    console.error("❌ Supabase Error:", error?.message);
+    return c.json({ error: error?.message || "Failed to fetch logs" }, 400);
   }
 
-  // ใช้ Map เพื่อเก็บค่าล่าสุดของแต่ละ social_id
+  // Map to store the latest log per social_id
   const latestLogs = new Map();
   data.forEach((log) => {
     if (!latestLogs.has(log.social_id)) {
@@ -628,12 +630,12 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
 
   const directus = c.get("directus");
 
-  // Fetch channels asynchronously and resolve them properly
   try {
+    // Fetch channel & profiles asynchronously
     const latestLogsWithChannels = await Promise.all(
       Array.from(latestLogs.values()).map(async (item) => {
         try {
-          item.provider_id
+          // Fetch channel from Directus
           const channel = await directus.request(
             readItems("channels", {
               filter: {
@@ -641,29 +643,38 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
               },
             })
           );
-          if (channel.length > 0) {
-            const platform = item.platform.toLowerCase(); // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+
+          if (channel?.length > 0) {
+            const platform = item.platform.toLowerCase();
+            let profile = null;
+
+            // Fetch profile based on platform
             if (platform === "line") {
-              const profile = await getLineFollowerProfileMessagingApi(item.social_id, channel[0].provider_access_token!);
-              return { ...item, channel: channel[0], profile };
+              profile = await getLineFollowerProfileMessagingApi(
+                item.social_id,
+                channel[0].provider_access_token!
+              );
             } else if (platform === "facebook") {
-              const profile = await getFacebookFollowerProfileGraphApi(item.social_id, channel[0].provider_access_token!);
-              return { ...item, channel: channel[0], profile };
-            } else if (platform === "website") {
-              return { ...item, channel:channel[0], profile: null };
+              profile = await getFacebookFollowerProfileGraphApi(
+                item.social_id,
+                channel[0].provider_access_token!
+              );
             }
-          } else {
-            return { ...item, channel: null, profile: null };
+
+            return { ...item, channel: channel[0], profile };
           }
 
+          return { ...item, channel: null, profile: null };
         } catch (channelError) {
-          console.error("Error fetching channel:", channelError);
-          return { ...item, channel: null, profile: null }; // Return null if channel fetch fails
+          console.error(`❌ Error fetching channel for provider_id: ${item.provider_id}`, channelError);
+          return { ...item, channel: null, profile: null };
         }
       })
     );
+
     return c.json(latestLogsWithChannels);
   } catch (fetchError) {
+    console.error("❌ Failed to fetch channels:", fetchError);
     return c.json({ error: "Failed to fetch channels" }, 500);
   }
 });
