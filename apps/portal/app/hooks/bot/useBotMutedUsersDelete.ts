@@ -1,18 +1,17 @@
 // hooks/useBots.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BotMutedUser } from "~/@types/app";
-import { insertBotMutedUser } from "~/services/bots";
+import { deleteBotMutedUsers } from "~/services/bots";
 
-interface MutationFn {
-  variables: BotMutedUser;
-}
+// interface MutationFn {
+//   variables: BotMutedUser;
+// }
 
-export const useBotMutedUsersInsert = () => {
+export const useBotMutedUsersDelete = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    // mutationKey: ["bot:insert"],
-    mutationFn: ({variables}: MutationFn) =>
-      insertBotMutedUser(variables).then((response) => response.data),
+    mutationFn: ({ botId, uid }: { botId: string; uid: string }) =>
+      deleteBotMutedUsers({ botId, uid }).then((response) => response.data),
     onSuccess: (res: BotMutedUser) => {
       queryClient.invalidateQueries({
         queryKey: ["bots", res.bot, "muted-users"],
