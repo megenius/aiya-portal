@@ -1,5 +1,5 @@
 // ContactTable.tsx
-import React from "react";
+import React, { useState } from "react";
 import ToggleSwitch from "./ToggleSwitch";
 import { useBotContacts } from "~/hooks/bot/useBotContacts";
 import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
@@ -10,7 +10,7 @@ interface ContactTableProps {
   searchValue: string;
 }
 
-const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
+const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
   const { data: contacts, isLoading } = useBotContacts({
     id: botId,
   });
@@ -30,12 +30,12 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
           <thead>
             <tr>
-              <th scope="col" className="min-w-36">
+              <th scope="col" className="min-w-24">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Avatar
                 </div>
               </th>
-              <th scope="col" className="min-w-[280px]">
+              <th scope="col" className="min-w-[240px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Name
                 </div>
@@ -45,12 +45,17 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
                   Recent Message
                 </div>
               </th>
-              <th scope="col" className="min-w-28">
+              <th scope="col" className="min-w-[200px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Channel
+                </div>
+              </th>
+              <th scope="col" className="min-w-32">
                 <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Received Time
                 </div>
               </th>
-              <th scope="col" className="min-w-[200px]">
+              <th scope="col" className="min-w-[140px]">
                 <div className="py-3 flex justify-center items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Bot
                 </div>
@@ -69,6 +74,9 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
                     </td>
                     <td className="size-px pe-4 py-3">
                       <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
@@ -103,6 +111,13 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId,searchValue }) => {
                     <td className="size-px pe-4 py-3">
                       <span className="text-sm text-gray-600">
                         {contact.sentence}
+                      </span>
+                    </td>
+                    <td className="size-px pe-4 py-3 max-w-[200px] break-words whitespace-normal">
+                      <span className="text-sm font-medium text-gray-800">
+                        {contact?.channel
+                          ? contact.channel.provider_name
+                          : contact.provider_id ?? "-"}
                       </span>
                     </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">

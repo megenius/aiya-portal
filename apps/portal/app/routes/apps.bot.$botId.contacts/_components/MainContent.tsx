@@ -19,7 +19,6 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>(
     []
   );
-  const [isBotActive, setIsBotActive] = useState(false);
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
