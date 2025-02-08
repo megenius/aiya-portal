@@ -235,8 +235,11 @@ export const fetchBotInsightContacts = (botId: string) =>
 export const fetchBotMutedUsers = (botId: string) =>
   api.get<{uid:string}[]>(`/bots/${botId}/muted-users`);
 
-export const insertBotMutedUser = (data: BotMutedUser) =>
-  api.post("/items/bots_muted_users", data);
+export const insertBotMutedUser = (data:BotMutedUser) =>
+  api.post(`/bots/${data.bot}/muted-users`, data);
+
+export const deleteBotMutedUsers = ({botId,uid}) =>
+  api.delete(`/bots/${botId}/muted-users`, { data: { uid: uid } });
 
 // --------------- stats ---------------
 export const fetchBotStatsToday = ({botId,timeUnit,startDate,endDate}) =>

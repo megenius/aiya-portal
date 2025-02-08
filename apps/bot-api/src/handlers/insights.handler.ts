@@ -4,7 +4,9 @@ import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
 import { supabaseMiddleware } from "~/middlewares/supabase.middleware";
 import { Env } from "~/types/hono.types";
 
+import { readItems } from "@directus/sdk";
 import { endOfDay, startOfDay } from "date-fns";
+import { getFacebookFollowerProfileGraphApi, getLineFollowerProfileMessagingApi } from "~/services/follow-profile.service";
 import * as MonthAnalytics from "~/services/month-analytics.service";
 import * as TodayAnalytics from "~/services/today-analytics.service";
 
@@ -50,24 +52,24 @@ export const getTodayStatsHandler = factory.createHandlers(
   async (c: Context<Env>) => {
     const opensearch = c.get("opensearch");
     const { id } = c.req.param();
-    const {timeUnit, startDate, endDate, } = c.req.query();
+    const { timeUnit, startDate, endDate, } = c.req.query();
     const now = new Date();
 
     let start, end;
-    let interval="day";
-    let breakdown ="daily_breakdown"
+    let interval = "day";
+    let breakdown = "daily_breakdown"
     if (startDate && endDate) {
       start = startOfDay(new Date(startDate));
       end = endOfDay(new Date(endDate));
-      interval="day"
-      breakdown ="daily_breakdown"
+      interval = "day"
+      breakdown = "daily_breakdown"
     } else if (timeUnit) {
       switch (timeUnit) {
         case 'day':
           start = startOfDay(now);
           end = endOfDay(now);
-           interval = "hour";
-           breakdown = "hourly_breakdown"
+          interval = "hour";
+          breakdown = "hourly_breakdown"
           break;
         case 'month':
           start = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -83,7 +85,7 @@ export const getTodayStatsHandler = factory.createHandlers(
           break;
       }
     }
-    
+
     // const query = {
     //   size: 0,
     //   query: {
@@ -509,45 +511,45 @@ export const getTodayStatsHandler = factory.createHandlers(
         },
       },
     };
-    if (interval==="day") {
-      query.aggs.daily_breakdown =  {
+    if (interval === "day") {
+      query.aggs.daily_breakdown = {
         date_histogram: {
           field: "created_at",
-            calendar_interval: interval,
-              time_zone: "Asia/Bangkok",
-                min_doc_count: 0,
-                  extended_bounds: {
+          calendar_interval: interval,
+          time_zone: "Asia/Bangkok",
+          min_doc_count: 0,
+          extended_bounds: {
             min: start,
-              max: end,
-            },
+            max: end,
+          },
         },
         aggs: {
           platforms: {
             terms: {
               field: "platform.keyword",
-                size: 10,
-              },
+              size: 10,
+            },
           },
           unique_users: {
             cardinality: {
               field: "social_id.keyword",
-              },
+            },
           },
           avg_confidence: {
             avg: {
               field: "confidence",
-              },
+            },
           },
           fallback_rate: {
             filter: {
               term: {
                 fallback: 1,
-                },
+              },
             },
           },
         },
       }
-    }else{
+    } else {
       query.aggs.hourly_breakdown = {
         date_histogram: {
           field: "created_at",
@@ -605,18 +607,20 @@ export const getTodayStatsHandler = factory.createHandlers(
 export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c) => {
   const supabase = c.get("supabase");
 
+  // Fetch logs from Supabase
   const { data, error } = await supabase
     .from("bots_logs")
     .select("*")
-    .filter("bot_id", "eq", c.req.param("id"))
-    .order("social_id")  // จัดกลุ่มตาม social_id
-    .order("created", { ascending: false }) // เลือกข้อมูลที่ใหม่ที่สุด
+    .eq("bot_id", c.req.param("id"))
+    .order("created", { ascending: false })
+    .order("social_id", { ascending: false });
 
-  if (error) {
-    return c.json({ error: error.message }, 400);
+  if (error || !data) {
+    console.error("❌ Supabase Error:", error?.message);
+    return c.json({ error: error?.message || "Failed to fetch logs" }, 400);
   }
 
-  // ใช้ Map เพื่อเก็บค่าล่าสุดของแต่ละ social_id
+  // Map to store the latest log per social_id
   const latestLogs = new Map();
   data.forEach((log) => {
     if (!latestLogs.has(log.social_id)) {
@@ -624,5 +628,53 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     }
   });
 
-  return c.json(Array.from(latestLogs.values()));
+  const directus = c.get("directus");
+
+  try {
+    // Fetch channel & profiles asynchronously
+    const latestLogsWithChannels = await Promise.all(
+      Array.from(latestLogs.values()).map(async (item) => {
+        try {
+          // Fetch channel from Directus
+          const channel = await directus.request(
+            readItems("channels", {
+              filter: {
+                provider_id: { _eq: item.provider_id },
+              },
+            })
+          );
+
+          if (channel?.length > 0) {
+            const platform = item.platform.toLowerCase();
+            let profile = null;
+
+            // Fetch profile based on platform
+            if (platform === "line") {
+              profile = await getLineFollowerProfileMessagingApi(
+                item.social_id,
+                channel[0].provider_access_token!
+              );
+            } else if (platform === "facebook") {
+              profile = await getFacebookFollowerProfileGraphApi(
+                item.social_id,
+                channel[0].provider_access_token!
+              );
+            }
+
+            return { ...item, channel: channel[0], profile };
+          }
+
+          return { ...item, channel: null, profile: null };
+        } catch (channelError) {
+          console.error(`❌ Error fetching channel for provider_id: ${item.provider_id}`, channelError);
+          return { ...item, channel: null, profile: null };
+        }
+      })
+    );
+
+    return c.json(latestLogsWithChannels);
+  } catch (fetchError) {
+    console.error("❌ Failed to fetch channels:", fetchError);
+    return c.json({ error: "Failed to fetch channels" }, 500);
+  }
 });
