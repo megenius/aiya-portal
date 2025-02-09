@@ -16,11 +16,15 @@ class ProfilePictureHandler {
     private readonly platform: SocialPlatform
   ) {}
 
-  async handleProfilePicture(userId: string, pictureUrl: string): Promise<string | null> {
+  async handleProfilePicture(
+    userId: string,
+    pictureUrl: string
+  ): Promise<string | null> {
     if (!pictureUrl) return null;
 
     try {
-      const { content, size, mimeType } = await this.downloadPicture(pictureUrl);
+      const { content, size, mimeType } =
+        await this.downloadPicture(pictureUrl);
       const contentKey = await this.storePicture(content, userId);
 
       // Log the file to D1
@@ -28,14 +32,14 @@ class ProfilePictureHandler {
         message_id: `profile_${userId}`,
         user_id: userId,
         channel_id: this.channelId,
-        content_type: 'profile',
+        content_type: "profile",
         content_key: contentKey,
         provider: this.platform,
         size,
         mime_type: mimeType,
         metadata: {
-          originalUrl: pictureUrl
-        }
+          originalUrl: pictureUrl,
+        },
       });
 
       this.log.debug("Profile picture handled successfully", {
@@ -53,19 +57,21 @@ class ProfilePictureHandler {
     }
   }
 
-  private async downloadPicture(url: string): Promise<{ 
-    content: ArrayBuffer; 
-    size: number; 
-    mimeType: string; 
+  private async downloadPicture(url: string): Promise<{
+    content: ArrayBuffer;
+    size: number;
+    mimeType: string;
   }> {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Failed to download profile picture: ${response.statusText}`);
+      throw new Error(
+        `Failed to download profile picture: ${response.statusText}`
+      );
     }
 
-    const mimeType = response.headers.get('content-type') ?? 'image/jpeg';
-    const size = parseInt(response.headers.get('content-length') ?? '0', 10);
+    const mimeType = response.headers.get("content-type") ?? "image/jpeg";
+    const size = parseInt(response.headers.get("content-length") ?? "0", 10);
     const content = await response.arrayBuffer();
 
     return { content, size, mimeType };
@@ -73,7 +79,7 @@ class ProfilePictureHandler {
 
   private async storePicture(
     content: ArrayBuffer,
-    userId: string,
+    userId: string
   ): Promise<string> {
     const timestamp = Date.now();
     const contentKey = `${this.platform}/profiles/${userId}.jpg`;
@@ -81,7 +87,7 @@ class ProfilePictureHandler {
     await this.bucket.put(contentKey, content, {
       customMetadata: {
         userId,
-        type: 'profile',
+        type: "profile",
         platform: this.platform,
         timestamp: timestamp.toString(),
       },
@@ -112,12 +118,15 @@ export async function handleUserProfileQueue(
       acc[key].users.add(msg.userId);
       return acc;
     },
-    {} as Record<string, {
-      channelToken: string;
-      platform: SocialPlatform;
-      providerId: string;
-      users: Set<string>;
-    }>
+    {} as Record<
+      string,
+      {
+        channelToken: string;
+        platform: SocialPlatform;
+        providerId: string;
+        users: Set<string>;
+      }
+    >
   );
 
   // Process each group
@@ -136,10 +145,12 @@ export async function handleUserProfileQueue(
 
       // Process users in chunks to avoid rate limits
       const userChunks = chunkArray(Array.from(data.users), 5);
-      
+
       for (const chunk of userChunks) {
         const profiles = await Promise.allSettled(
-          chunk.map(userId => fetchUserProfile(userId, data.channelToken, data.platform))
+          chunk.map((userId) =>
+            fetchUserProfile(userId, data.channelToken, data.platform)
+          )
         );
 
         // Store successful profile fetches
@@ -147,31 +158,32 @@ export async function handleUserProfileQueue(
           const result = profiles[i];
           const userId = chunk[i];
 
-          if (result.status === 'fulfilled') {
+          if (result.status === "fulfilled") {
             try {
               // Handle profile picture if exists
               if (result.value.pictureUrl) {
-                const storedPictureKey = await pictureHandler.handleProfilePicture(
-                  userId,
-                  result.value.pictureUrl
-                );
+                const storedPictureKey =
+                  await pictureHandler.handleProfilePicture(
+                    userId,
+                    result.value.pictureUrl
+                  );
                 if (storedPictureKey) {
                   result.value.pictureUrl = storedPictureKey;
                 }
               }
 
               await channelDO.upsertUser(result.value);
-              log.debug("Updated user profile", { 
+              log.debug("Updated user profile", {
                 userId,
                 providerId: data.providerId,
-                platform: data.platform
+                platform: data.platform,
               });
             } catch (error) {
               log.error("Failed to store user profile", {
                 userId,
                 providerId: data.providerId,
                 platform: data.platform,
-                error
+                error,
               });
             }
           } else {
@@ -179,15 +191,14 @@ export async function handleUserProfileQueue(
               userId,
               providerId: data.providerId,
               platform: data.platform,
-              error: result.reason
+              error: result.reason,
             });
           }
         }
 
         // Add delay between chunks
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
-
     } catch (error) {
       log.error(`Error processing provider ${data.providerId}:`, error);
     }
@@ -195,23 +206,26 @@ export async function handleUserProfileQueue(
 }
 
 async function fetchUserProfile(
-  userId: string, 
-  channelToken: string, 
+  userId: string,
+  channelToken: string,
   platform: SocialPlatform
 ): Promise<LineUser> {
   switch (platform) {
-    case 'line':
+    case "line":
       return fetchLineUserProfile(userId, channelToken);
-    case 'facebook':
+    case "facebook":
       return fetchFacebookUserProfile(userId, channelToken);
-    case 'instagram':
+    case "instagram":
       return fetchInstagramUserProfile(userId, channelToken);
     default:
       throw new Error(`Unsupported platform: ${platform}`);
   }
 }
 
-async function fetchLineUserProfile(userId: string, channelToken: string): Promise<LineUser> {
+async function fetchLineUserProfile(
+  userId: string,
+  channelToken: string
+): Promise<LineUser> {
   const response = await fetch(`https://api.line.me/v2/bot/profile/${userId}`, {
     headers: {
       Authorization: `Bearer ${channelToken}`,
@@ -222,20 +236,32 @@ async function fetchLineUserProfile(userId: string, channelToken: string): Promi
     throw new Error(`Profile fetch failed: ${response.statusText}`);
   }
 
-  const profile = await response.json();
+  const profile = await response.json<{
+    userId: string;
+    displayName: string;
+    pictureUrl: string;
+    statusMessage: string;
+    language: string;
+  }>();
+
   return {
     userId: profile.userId,
     displayName: profile.displayName,
     pictureUrl: profile.pictureUrl,
-    statusMessage: profile.statusMessage,
+    status: profile.statusMessage,
     language: profile.language,
     updatedAt: Date.now(),
   };
 }
 
-async function fetchFacebookUserProfile(userId: string, channelToken: string): Promise<LineUser> {
-  const response = await fetch(`https://graph.facebook.com/${userId}?fields=name,picture,locale&access_token=${channelToken}`);
-  
+async function fetchFacebookUserProfile(
+  userId: string,
+  channelToken: string
+): Promise<LineUser> {
+  const response = await fetch(
+    `https://graph.facebook.com/${userId}?fields=name,picture,locale&access_token=${channelToken}`
+  );
+
   if (!response.ok) {
     throw new Error(`Facebook profile fetch failed: ${response.statusText}`);
   }
@@ -250,9 +276,14 @@ async function fetchFacebookUserProfile(userId: string, channelToken: string): P
   };
 }
 
-async function fetchInstagramUserProfile(userId: string, channelToken: string): Promise<LineUser> {
-  const response = await fetch(`https://graph.instagram.com/${userId}?fields=username&access_token=${channelToken}`);
-  
+async function fetchInstagramUserProfile(
+  userId: string,
+  channelToken: string
+): Promise<LineUser> {
+  const response = await fetch(
+    `https://graph.instagram.com/${userId}?fields=username&access_token=${channelToken}`
+  );
+
   if (!response.ok) {
     throw new Error(`Instagram profile fetch failed: ${response.statusText}`);
   }
@@ -266,8 +297,7 @@ async function fetchInstagramUserProfile(userId: string, channelToken: string): 
 }
 
 function chunkArray<T>(array: T[], size: number): T[][] {
-  return Array.from(
-    { length: Math.ceil(array.length / size) },
-    (_, i) => array.slice(i * size, i * size + size)
+  return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
+    array.slice(i * size, i * size + size)
   );
 }

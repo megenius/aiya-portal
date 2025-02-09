@@ -6,6 +6,7 @@ export interface LineUser {
   pictureUrl?: string;
   language?: string;
   status?: string;
+  updatedAt: number;
 }
 
 export interface LineMessageContent {
