@@ -90,13 +90,28 @@ export interface LineEventBase {
   webhookEventId?: string;
 }
 
-export interface LineMessageEvent extends LineEventBase {
-  type: "message";
-  message?: LineMessageContent;
+export interface BaseLineEvent {
+  type: string;
+  timestamp: number;
+  source: {
+    type: 'user' | 'group' | 'room';
+    userId?: string;
+    groupId?: string;
+    roomId?: string;
+  };
 }
 
-export interface LineFollowEvent extends LineEventBase {
-  type: "follow";
+export interface LineMessageEvent extends BaseLineEvent {
+  type: 'message';
+  message: {
+    id: string;
+    type: 'text' | 'image' | 'video' | 'audio' | 'file' | 'location' | 'sticker';
+    [key: string]: any;
+  };
+}
+
+export interface LineFollowEvent extends BaseLineEvent {
+  type: 'follow';
 }
 
 export interface LineUnfollowEvent extends LineEventBase {

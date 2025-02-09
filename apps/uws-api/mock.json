@@ -1,0 +1,106 @@
+{
+  "id": "uuid",
+  "platform": "line|facebook|instagram|whatsapp|wechat|telegram",
+  "event_type": "message",
+  "timestamp": "2024-02-09T15:30:00Z",
+  "channel_id": "platform_channel_id",
+  "message": {
+      "id": "platform_message_id",
+      "type": "text|image|video|audio|file|sticker|location|template|interactive",
+      "status": "sent|delivered|read|failed",
+      "direction": "inbound|outbound",
+      "template_id": "tm_123",
+      "sender": {
+          "id": "platform_user_id",
+          "type": "user|page|bot",
+          "name": "sender name",
+          "avatar_url": "profile image url",
+          "platform_metadata": {
+              "language": "th",
+              "timezone": "Asia/Bangkok",
+              "app_version": "1.0"
+          }
+      },
+      "recipient": {
+          "id": "platform_recipient_id",
+          "type": "user|group|room",
+          "name": "recipient name",
+          "avatar_url": "profile image url"
+      },
+      "content": {
+          "text": "message text",
+          "language": "th",
+          "translated_text": {
+              "en": "english translation",
+              "source_language": "th"
+          },
+          "attachments": [
+              {
+                  "id": "att_123",
+                  "type": "image|video|audio|file",
+                  "url": "media url",
+                  "thumbnail_url": "preview url",
+                  "name": "file name",
+                  "size": 1024000,
+                  "duration": 30,
+                  "mime_type": "image/jpeg",
+                  "width": 800,
+                  "height": 600,
+                  "preview_url": "thumbnail"
+              }
+          ],
+          "location": {
+              "latitude": 13.756331,
+              "longitude": 100.501765,
+              "address": "location text"
+          },
+          "sticker": {
+              "sticker_id": "123",
+              "package_id": "456",
+              "keywords": [
+                  "happy",
+                  "smile"
+              ]
+          }
+      },
+      "interactive": {
+          "type": "button|list|menu",
+          "payload": {
+              "buttons": [
+                  {
+                      "type": "postback|url|phone",
+                      "title": "button text",
+                      "payload": "button_payload",
+                      "url": "https://..."
+                  }
+              ],
+              "quick_replies": [
+                  {
+                      "type": "text",
+                      "title": "quick reply text",
+                      "payload": "qr_payload"
+                  }
+              ]
+          }
+      },
+      "reply_to": {
+          "message_id": "parent_message_id",
+          "text": "parent message preview"
+      },
+      "mentions": [
+          {
+              "user_id": "mentioned_user_id",
+              "name": "user name",
+              "offset": 10,
+              "length": 5
+          }
+      ],
+      "metadata": {
+          "source": "user|page|bot",
+          "client_message_id": "client_generated_id",
+          "sequence_number": 1,
+          "source_platform": "android|ios|web"
+      }
+  },
+  "raw_event": {}
+}

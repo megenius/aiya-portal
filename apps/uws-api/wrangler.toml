@@ -3,7 +3,20 @@ main = "src/index.ts"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["rpc"]
 
-services = [{ binding = "PUBSUB_API", service = "pubsub-api-dev" }]
+services = [
+  { binding = "PUBSUB_API", service = "pubsub-api-dev" },
+  { binding = "CHANNEL_API", service = "channel-api-dev" }
+]
 
 [vars]
 PUBSUB_TOPIC = "uws-api-dev"
+CHANNEL_API_URL = "http://localhost:14102/api"
+
+[[r2_buckets]]
+bucket_name = "uws"
+binding = "CONTENT_BUCKET"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "uws"
+database_id = "141a6f51-0b14-46eb-bb9c-fe9a1a0ed15b"
