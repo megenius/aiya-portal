@@ -21,9 +21,11 @@ export const channelMiddleware = factory.createMiddleware(async (c, next) => {
   const payload = {
     iss: "lambda",
     iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000) + 60, // 1 min expiration
+    exp: Math.floor(Date.now() / 1000) + (60*60), // 1 hour expiration
   };
   const token = await jwt.sign(payload, c.env.DIRECTUS_SECRET_KEY);
+  console.log("Token:", token);
+  
   const channelService = ChannelService.getInstance(
     channelApi,
     channelApiUrl,

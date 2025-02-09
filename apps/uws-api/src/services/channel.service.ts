@@ -4,11 +4,15 @@ export class ChannelService {
   private static instance: ChannelService;
   private readonly channelApi: Fetcher;
   private readonly baseUrl: string; // Store the base URL
-  private readonly token: string;
+  private token: string;
 
   private constructor(channelApi: Fetcher, baseUrl: string, token: string) {
     this.channelApi = channelApi;
     this.baseUrl = baseUrl;
+    this.token = token;
+  }
+
+  private setToken(token: string) {
     this.token = token;
   }
 
@@ -20,6 +24,7 @@ export class ChannelService {
     if (!ChannelService.instance) {
       ChannelService.instance = new ChannelService(channelApi, baseUrl, token);
     }
+    ChannelService.instance.setToken(token); // Update the token
     return ChannelService.instance;
   }
 
