@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2015"],
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "types": ["@cloudflare/workers-types/2023-07-01"],
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+  }
+}

@@ -1,0 +1,265 @@
+const usersCollection = {
+  collection: "ums_users",
+  meta: {
+    collection: "ums_users",
+    icon: "account_box",
+    note: "Unified Messaging Service - Users/Customers",
+    display_template: "{{name}}",
+    hidden: false,
+    singleton: false,
+    translations: [
+      {
+        language: "en-US",
+        translation: "Users",
+      },
+      {
+        language: "th-TH",
+        translation: "ผู้ใช้",
+      },
+    ],
+    sort: 3,
+  },
+  schema: {
+    name: "ums_users",
+    comment: "Stores user/customer data from various platforms",
+  },
+  fields: [
+    {
+      collection: "ums_users",
+      field: "id",
+      type: "uuid",
+      meta: {
+        collection: "ums_users",
+        field: "id",
+        special: ["uuid"],
+        interface: "input",
+        readonly: true,
+        hidden: true,
+        width: "full",
+        sort: 1,
+        required: false,
+      },
+      schema: {
+        name: "id",
+        table: "ums_users",
+        data_type: "uuid",
+        is_generated: true,
+        is_nullable: false,
+        is_unique: true,
+        is_primary_key: true,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "platform",
+      type: "string",
+      meta: {
+        collection: "ums_users",
+        field: "platform",
+        interface: "select-dropdown",
+        options: {
+          choices: [
+            { text: "LINE", value: "line" },
+            { text: "Facebook", value: "facebook" },
+            { text: "Instagram", value: "instagram" },
+            { text: "Telegram", value: "telegram" },
+          ],
+        },
+        width: "half",
+        sort: 2,
+        required: true,
+      },
+      schema: {
+        name: "platform",
+        table: "ums_users",
+        data_type: "character varying",
+        max_length: 50,
+        is_nullable: false,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "name",
+      type: "string",
+      meta: {
+        collection: "ums_users",
+        field: "name",
+        interface: "input",
+        width: "full",
+        sort: 3,
+        required: true,
+      },
+      schema: {
+        name: "name",
+        table: "ums_users",
+        data_type: "character varying",
+        max_length: 255,
+        is_nullable: false,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "channels",
+      type: "json",
+      meta: {
+        collection: "ums_users",
+        field: "channels",
+        interface: "input-code",
+        options: {
+          language: "json",
+        },
+        width: "full",
+        sort: 4,
+        required: false,
+        note: "List of channels the user is connected to",
+      },
+      schema: {
+        name: "channels",
+        table: "ums_users",
+        data_type: "jsonb",
+        is_nullable: true,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "history",
+      type: "json",
+      meta: {
+        collection: "ums_users",
+        field: "history",
+        interface: "input-code",
+        options: {
+          language: "json",
+        },
+        width: "full",
+        sort: 5,
+        required: false,
+        note: "Chat history summary",
+      },
+      schema: {
+        name: "history",
+        table: "ums_users",
+        data_type: "jsonb",
+        is_nullable: true,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "tags",
+      type: "json",
+      meta: {
+        collection: "ums_users",
+        field: "tags",
+        interface: "tags",
+        width: "full",
+        sort: 6,
+        required: false,
+        note: "Tags for categorizing users",
+      },
+      schema: {
+        name: "tags",
+        table: "ums_users",
+        data_type: "jsonb",
+        is_nullable: true,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "blocklist",
+      type: "boolean",
+      meta: {
+        collection: "ums_users",
+        field: "blocklist",
+        interface: "boolean",
+        options: null,
+        width: "half",
+        sort: 7,
+        required: false,
+        note: "Whether the user is blocked",
+      },
+      schema: {
+        name: "blocklist",
+        table: "ums_users",
+        data_type: "boolean",
+        default_value: false,
+        is_nullable: false,
+      },
+    },
+    {
+      collection: "ums_users",
+      field: "user_created",
+      type: "uuid",
+      meta: {
+        special: ["user-created"],
+        interface: "select-dropdown-m2o",
+        readonly: true,
+        hidden: true,
+        width: "full",
+        required: true,
+      },
+      schema: {
+        data_type: "uuid",
+        is_nullable: false,
+        foreign_key_schema: "public",
+        foreign_key_table: "directus_users",
+        foreign_key_column: "id",
+      }
+    },
+    {
+      collection: "ums_users",
+      field: "date_created",
+      type: "timestamp",
+      meta: {
+        special: ["date-created"],
+        interface: "datetime",
+        readonly: true,
+        hidden: true,
+        width: "full",
+        required: true,
+      },
+      schema: {
+        data_type: "timestamp with time zone",
+        is_nullable: false,
+      }
+    },
+    {
+      collection: "ums_users",
+      field: "user_updated",
+      type: "uuid",
+      meta: {
+        special: ["user-updated"],
+        interface: "select-dropdown-m2o",
+        readonly: true,
+        hidden: true,
+        width: "full",
+        required: true,
+      },
+      schema: {
+        data_type: "uuid",
+        is_nullable: false,
+        foreign_key_schema: "public",
+        foreign_key_table: "directus_users",
+        foreign_key_column: "id",
+      }
+    },
+    {
+      collection: "ums_users",
+      field: "date_updated",
+      type: "timestamp",
+      meta: {
+        special: ["date-updated"],
+        interface: "datetime",
+        readonly: true,
+        hidden: true,
+        width: "full",
+        required: true,
+      },
+      schema: {
+        data_type: "timestamp with time zone",
+        is_nullable: false,
+      }
+    }
+  ],
+};
+
+export { usersCollection };

@@ -1,0 +1,9 @@
+name = "uws-api-dev"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["rpc"]
+
+services = [{ binding = "PUBSUB_API", service = "pubsub-api-dev" }]
+
+[vars]
+PUBSUB_TOPIC = "uws-api-dev"

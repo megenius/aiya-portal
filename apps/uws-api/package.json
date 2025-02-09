@@ -1,0 +1,22 @@
+{
+  "name": "uws-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev  --port 14400 --inspector-port 24400",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "cf-typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv",
+    "tunnel": "cloudflared tunnel run 770e368e-3468-4bb0-b957-8e03b9a9e7eb"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "hono": "^4.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
