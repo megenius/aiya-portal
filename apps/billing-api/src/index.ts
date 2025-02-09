@@ -6,7 +6,6 @@ import { billingsRoutes } from "./routes/billings.route";
 import { authMiddleware } from "./middlewares/auth.middleware";
 import { websocketRoutes } from "./routes/websocket.route";
 import { handleBillingQueueMessage } from "./handlers/queue.handler";
-import { WorkerEnv } from "./types/worker-configuration";
 import { couponRoutes } from "./routes/coupon.route";
 export * from "./durables/SubscriptionDurable";
 export * from "./durables/CounterDurable";

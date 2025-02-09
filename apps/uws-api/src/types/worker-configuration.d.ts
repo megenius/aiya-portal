@@ -4,6 +4,7 @@ interface WorkerEnv {
 	DIRECTUS_SECRET_KEY: string;
 	PUBSUB_TOPIC: string;
 	CHANNEL_API_URL: string;
+	CHANNEL: DurableObjectNamespace /* ChannelDurableObject */;
 	CONTENT_BUCKET: R2Bucket;
 	DB: D1Database;
 	PUBSUB_API: Fetcher;

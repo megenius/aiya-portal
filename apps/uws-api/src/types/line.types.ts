@@ -168,3 +168,11 @@ export interface LineWebhookPayload {
   destination: string;
   events: LineEvent[];
 }
+
+export interface LineUserProfile {
+  userId: string;
+  displayName: string;
+  pictureUrl?: string;
+  statusMessage?: string;
+  language?: string;
+}

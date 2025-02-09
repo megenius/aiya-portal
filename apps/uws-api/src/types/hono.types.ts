@@ -1,7 +1,9 @@
+import { ChannelDurableObject } from "~/durables/channel.durable";
 import { ChannelService } from "~/services/channel.service";
 
 type Variables = {
   channelService: ChannelService;
+  channelDurable: DurableObjectStub<ChannelDurableObject>;
 };
 
 export type Env = {

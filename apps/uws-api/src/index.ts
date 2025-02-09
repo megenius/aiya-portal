@@ -10,6 +10,8 @@ import { shopeeRoutes } from "./routes/shopee.route";
 import { lazadaRoutes } from "./routes/lazada.route";
 import { tiktokRoutes } from "./routes/tiktok.route";
 
+export * from "./durables/channel.durable";
+
 const app = new Hono<Env>();
 
 app.use("*", logger());

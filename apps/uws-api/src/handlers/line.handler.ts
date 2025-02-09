@@ -9,6 +9,7 @@ import { verifyLineSignature } from "~/utils/line";
 import { Logger } from "~/utils/logger";
 import { channelMiddleware } from "~/middlewares/channel.middleware";
 import { FileService } from "~/services/file.service";
+import { channelDurableMiddleware } from "~/middlewares/channel-durable.middleware";
 
 interface DownloadResult {
   success: boolean;
@@ -45,6 +46,7 @@ const log = new Logger("LineWebhook");
 export const webhook = factory.createHandlers(
   logger(),
   channelMiddleware,
+  channelDurableMiddleware,
   async (c) => {
     log.debug("Processing LINE webhook request");
     const botId = c.req.param("botId");
@@ -71,6 +73,8 @@ export const webhook = factory.createHandlers(
       if (!channel) {
         throw new WebhookError("Invalid LINE provider ID", 400);
       }
+
+
       // const rawBody = JSON.stringify(body);
       // const isValid = await verifyLineSignature(rawBody, signature, channel.provider_secret);
       // if (!isValid) {
@@ -162,6 +166,8 @@ export const webhook = factory.createHandlers(
 
         log.info("Content download summary", results);
       }
+
+
 
       log.info(`Processing webhook for bot ${botId}`, {
         events: body.events.length,

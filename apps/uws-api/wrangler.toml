@@ -20,3 +20,11 @@ binding = "CONTENT_BUCKET"
 binding = "DB"
 database_name = "uws"
 database_id = "141a6f51-0b14-46eb-bb9c-fe9a1a0ed15b"
+
+[[durable_objects.bindings]]
+name = "CHANNEL"
+class_name = "ChannelDurableObject"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ChannelDurableObject"]
