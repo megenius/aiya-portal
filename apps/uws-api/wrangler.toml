@@ -3,6 +3,11 @@ main = "src/index.ts"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["rpc"]
 
+routes = [
+  { pattern = "portal-dev.aiya.me/api/uws/*", zone_name = "aiya.me" },
+  { pattern = "realtime-dev.aiya.me/api/uws/*", zone_name = "aiya.me" },
+]
+
 services = [
   { binding = "PUBSUB_API", service = "pubsub-api-dev" },
   { binding = "CHANNEL_API", service = "channel-api-dev" },

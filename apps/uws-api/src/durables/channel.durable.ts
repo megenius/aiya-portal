@@ -1,7 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import { Env } from "~/types/hono.types";
 import { WebhookEvent } from "../types/events";
-import { WorkerEnv } from "~/types/worker-configuration";
 
 interface LineUser {
   userId: string;
@@ -140,14 +139,14 @@ export class ChannelDurableObject extends DurableObject {
       const { limit, cursor } = query;
 
       const cursorClause = cursor 
-        ? 'AND c.updatedAt < $cursor' 
+        ? 'AND c.updatedAt < ?' 
         : '';
 
       const params = cursor 
         ? [limit + 1, cursor] 
         : [limit + 1];
 
-      const resultCursor = this.sql.prepare(`
+      const resultCursor = this.sql.exec(`
         SELECT 
           c.*,
           u.displayName,
@@ -160,7 +159,7 @@ export class ChannelDurableObject extends DurableObject {
         WHERE 1=1 ${cursorClause}
         ORDER BY c.updatedAt DESC
         LIMIT ?
-      `).bind(...params);
+      `, ...params);
 
       const rows = resultCursor.toArray();
       const conversations = rows.slice(0, limit).map(row => ({
@@ -194,61 +193,37 @@ export class ChannelDurableObject extends DurableObject {
 
   private handleWebSocket(request: Request) {
     console.log("[Channel] WebSocket connection requested");
+    
+    if (request.headers.get("Upgrade") !== "websocket") {
+      return new Response("Expected websocket", { status: 400 });
+    }
+
     const [client, server] = Object.values(new WebSocketPair());
 
-    server.accept();
+    // server.accept();
     console.log("[Channel] WebSocket connection established");
-
-    // Handle messages from the client
-    server.addEventListener("message", async (event) => {
-      try {
-        const data = JSON.parse(event.data as string);
-        
-        // Handle different message types
-        switch (data.type) {
-          case "subscribe":
-            // Add any subscription logic here
-            break;
-          case "unsubscribe":
-            // Add any unsubscription logic here
-            break;
-          default:
-            console.warn("[Channel] Unknown message type:", data.type);
-        }
-      } catch (error) {
-        console.error("[Channel] Error handling WebSocket message:", error);
-      }
-    });
-
-    // Handle WebSocket closure
-    server.addEventListener("close", () => {
-      console.log("[Channel] WebSocket connection closed");
-    });
-
-    // Handle WebSocket errors
-    server.addEventListener("error", (error) => {
-      console.error("[Channel] WebSocket error:", error);
-    });
 
     // Store the WebSocket for broadcasting
     this.ctx.acceptWebSocket(server);
 
-    return new Response(null, { 
-      status: 101, 
-      webSocket: client 
+    return new Response(null, {
+      status: 101,
+      statusText: "Switching Protocols",
+      headers: {
+        "Upgrade": "websocket",
+        "Connection": "Upgrade"
+      },
+      webSocket: client
     });
   }
 
-  // Update the fetch method to handle WebSocket requests
   async fetch(request: Request) {
-    const url = new URL(request.url);
-    
-    if (request.headers.get("Upgrade") === "websocket") {
+    try {
       return this.handleWebSocket(request);
+    } catch (error) {
+      console.error("[Channel] Error handling request:", error);
+      return new Response("Internal Server Error", { status: 500 });
     }
-
-    // Handle other HTTP requests...
-    return new Response("Expected WebSocket", { status: 400 });
   }
 
   // Add a broadcast method for sending updates to connected clients

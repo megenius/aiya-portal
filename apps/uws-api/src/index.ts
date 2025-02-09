@@ -14,27 +14,28 @@ import { prettyJSON } from "hono/pretty-json";
 import { handleUserProfileQueue } from "./handlers/user-profile-queue.handler";
 import { QueueMessage, UserProfileMessage } from "./types/app.types";
 import { WorkerEnv } from "./types/worker-configuration";
+import { conversationRoutes } from "./routes/conversation.route";
+import { websocketRoutes } from "./routes/websocket.route";
 
 export * from "./durables/channel.durable";
 
-const app = new Hono<Env>();
-
-app.use("*", logger());
-app.use("*", cors());
-app.use("*", prettyJSON());
-
-app.get("/", (c) => {
-  return c.text("Webhook SaaS API is running!");
-});
-
-app.route("/v1/line", lineRoutes);
-app.route("/v1/facebook", facebookRoutes);
-app.route("/v1/instagram", instagramRoutes);
-app.route("/v1/whatsapp", whatsappRoutes);
-app.route("/v1/wechat", wechatRoutes);
-app.route("/v1/shopee", shopeeRoutes);
-app.route("/v1/lazada", lazadaRoutes);
-app.route("/v1/tiktok", tiktokRoutes);
+const app = new Hono<Env>()
+  // .use("*", logger())
+  // .use("*", cors())
+  // .use("*", prettyJSON())
+  .get("/", (c) => {
+    return c.text("Webhook SaaS API is running!");
+  })
+  .route("/v1/line", lineRoutes)
+  .route("/v1/facebook", facebookRoutes)
+  .route("/v1/instagram", instagramRoutes)
+  .route("/v1/whatsapp", whatsappRoutes)
+  .route("/v1/wechat", wechatRoutes)
+  .route("/v1/shopee", shopeeRoutes)
+  .route("/v1/lazada", lazadaRoutes)
+  .route("/v1/tiktok", tiktokRoutes)
+  .route("/websocket/uws", websocketRoutes)
+  .route("/api/uws", conversationRoutes);
 
 export default {
   fetch: app.fetch,
@@ -42,7 +43,6 @@ export default {
     const { queue } = batch;
 
     console.log(`Processing queue ${queue}`);
-    
 
     try {
       switch (queue) {
