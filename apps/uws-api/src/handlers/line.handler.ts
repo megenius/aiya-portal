@@ -11,6 +11,7 @@ import { channelMiddleware } from "~/middlewares/channel.middleware";
 import { FileService } from "~/services/file.service";
 import { channelDurableMiddleware } from "~/middlewares/channel-durable.middleware";
 import { ChannelDurableObject } from "~/durables/channel.durable";
+import { Context } from "hono";
 
 interface DownloadResult {
   success: boolean;
@@ -216,7 +217,7 @@ export const webhook = factory.createHandlers(
       const processResults = await Promise.allSettled(
         events.map(async (event) => {
           try {
-            await saveEvent(channelDO, event);
+            await saveEvent(c, event);
             return {
               success: true,
               eventId: event.id,
@@ -284,17 +285,33 @@ export const webhook = factory.createHandlers(
   }
 );
 
-async function saveEvent(
-  channelDO: DurableObjectStub<ChannelDurableObject>,
-  event: WebhookEvent
-): Promise<void> {
+async function saveEvent(c: Context<Env>, event: WebhookEvent): Promise<void> {
   log.debug(`Saving event ${event.id}`);
 
-  await channelDO.updateConversation({
-    userId: event.message?.sender?.id ?? "unknown",
-    platform: "line",
-    lastEvent: event,
-  });
+  // Get user ID from event, fallback to "unknown" if not found
+  const userId = event.message?.sender?.id ?? "unknown";
+
+  try {
+    // Send to conversation queue
+    await c.env.CONVERSATION_QUEUE.send({
+      userId,
+      platform: "line",
+      lastEvent: event,
+    });
+
+    log.debug("Event queued successfully", {
+      eventId: event.id,
+      userId,
+      platform: "line",
+    });
+  } catch (error) {
+    log.error("Failed to queue event", {
+      eventId: event.id,
+      userId,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+    throw error;
+  }
 }
 
 class WebhookError extends Error {

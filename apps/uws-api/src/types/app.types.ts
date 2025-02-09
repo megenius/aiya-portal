@@ -1,3 +1,5 @@
+import { WebhookEvent } from "./events";
+
 export interface Channel {
   id: string;
   status: "draft" | "active" | "inactive";
@@ -82,11 +84,19 @@ export interface Channel {
 
 export type SocialPlatform = 'line' | 'facebook' | 'instagram';
 
-export type QueueMessage = { queue: "user-profile-queue"; message: UserProfileMessage };
+export type QueueMessage = UserProfileMessage | ConversationMessage;
+
 export interface UserProfileMessage {
   userId: string;
   providerId: string;
   channelToken: string;
   platform: SocialPlatform;
+  timestamp: number;
+}
+
+export interface ConversationMessage {
+  userId: string;
+  platform: string;
+  lastEvent: WebhookEvent;
   timestamp: number;
 }

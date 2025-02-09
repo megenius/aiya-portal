@@ -11,11 +11,12 @@ import { lazadaRoutes } from "./routes/lazada.route";
 import { tiktokRoutes } from "./routes/tiktok.route";
 import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";
-import { handleUserProfileQueue } from "./handlers/user-profile-queue.handler";
 import { QueueMessage, UserProfileMessage } from "./types/app.types";
 import { WorkerEnv } from "./types/worker-configuration";
 import { conversationRoutes } from "./routes/conversation.route";
 import { websocketRoutes } from "./routes/websocket.route";
+import { handleUserProfileQueue } from "./handlers/user-profile-queue.handler";
+import { handleConversationQueue } from "./handlers/conversation-queue.handler";
 
 export * from "./durables/channel.durable";
 
@@ -49,14 +50,15 @@ export default {
         case "user-profile-queue":
           await handleUserProfileQueue(batch as any, env);
           break;
-
+        case "conversation-queue":
+          await handleConversationQueue(batch as any, env);
+          break;
         default:
           console.error(`Unknown queue: ${queue}`);
           break;
       }
     } catch (error) {
       console.error(`Error processing queue ${queue}:`, error);
-      // You might want to add monitoring or alerting here
     }
   },
 };

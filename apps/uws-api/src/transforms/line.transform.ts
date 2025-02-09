@@ -61,7 +61,7 @@ export class LineTransformer {
         platform: Platform.LINE,
         event_type: this.getEventType(event),
         timestamp: new Date(event.timestamp).getTime(),
-        channel_id: this.getChannelId(event),
+        channel_id: this.providerId,  //this.getChannelId(event),
         message,
         raw_event: event,
       };

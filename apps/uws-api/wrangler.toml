@@ -40,6 +40,16 @@ binding = "USER_PROFILE_QUEUE"
 
 [[queues.consumers]]
 queue = "user-profile-queue"
-max_batch_size = 1
-max_batch_timeout = 30
+max_batch_size = 10
+max_batch_timeout = 10
+
+[[queues.producers]]
+queue = "conversation-queue"
+binding = "CONVERSATION_QUEUE"
+
+[[queues.consumers]]
+queue = "conversation-queue"
+max_batch_size = 10
+max_batch_timeout = 5
+
 
