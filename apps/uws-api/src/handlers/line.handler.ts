@@ -67,19 +67,42 @@ export const webhook = factory.createHandlers(
       const providerId = body.destination;
       const channelService = c.get("channelService");
       const channel = await channelService.getChannel(providerId);
-
-      // log.debug("Processing LINE webhook", { providerId, channel });
+      const channelDO = c.get("channelDurable");
 
       if (!channel) {
         throw new WebhookError("Invalid LINE provider ID", 400);
       }
 
+      // Queue user profile updates instead of processing them directly
+      const userIds = new Set(
+        body.events
+          .map((event) => event.source?.userId)
+          .filter((id): id is string => !!id)
+      );
 
-      // const rawBody = JSON.stringify(body);
-      // const isValid = await verifyLineSignature(rawBody, signature, channel.provider_secret);
-      // if (!isValid) {
-      //   throw new WebhookError("Invalid LINE signature", 401);
-      // }
+      if (userIds.size > 0) {
+        const queue = c.env.USER_PROFILE_QUEUE;
+        const timestamp = Date.now();
+
+        // Queue messages for each user
+        await Promise.all(
+          Array.from(userIds).map(userId =>
+            queue.send({
+              userId,
+              channelToken: channel.provider_access_token,
+              providerId: channel.provider_id,
+              platform: 'line', // Add platform information
+              timestamp
+            })
+          )
+        );
+
+        log.debug("Queued user profile updates", { 
+          count: userIds.size,
+          providerId: channel.provider_id,
+          platform: 'line'
+        });
+      }
 
       let results: Statistics = { succeeded: 0, failed: 0 };
 

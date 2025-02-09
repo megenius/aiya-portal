@@ -79,3 +79,14 @@ export interface Channel {
     check_slip: number;
   };
 }
+
+export type SocialPlatform = 'line' | 'facebook' | 'instagram';
+
+export type QueueMessage = { queue: "user-profile-queue"; message: UserProfileMessage };
+export interface UserProfileMessage {
+  userId: string;
+  providerId: string;
+  channelToken: string;
+  platform: SocialPlatform;
+  timestamp: number;
+}

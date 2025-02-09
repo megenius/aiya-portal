@@ -5,7 +5,7 @@ compatibility_flags = ["rpc"]
 
 services = [
   { binding = "PUBSUB_API", service = "pubsub-api-dev" },
-  { binding = "CHANNEL_API", service = "channel-api-dev" }
+  { binding = "CHANNEL_API", service = "channel-api-dev" },
 ]
 
 [vars]
@@ -22,9 +22,19 @@ database_name = "uws"
 database_id = "141a6f51-0b14-46eb-bb9c-fe9a1a0ed15b"
 
 [[durable_objects.bindings]]
-name = "CHANNEL"
+name = "CHANNEL_DURABLE"
 class_name = "ChannelDurableObject"
 
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["ChannelDurableObject"]
+
+[[queues.producers]]
+queue = "user-profile-queue"
+binding = "USER_PROFILE_QUEUE"
+
+[[queues.consumers]]
+queue = "user-profile-queue"
+max_batch_size = 1
+max_batch_timeout = 30
+
