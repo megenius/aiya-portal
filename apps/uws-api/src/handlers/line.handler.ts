@@ -83,22 +83,36 @@ export const webhook = factory.createHandlers(
       if (userIds.size > 0) {
         const queue = c.env.USER_PROFILE_QUEUE;
         const timestamp = Date.now();
+        const ONE_WEEK = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
-        // Queue messages for each user
+        // Filter users that don't exist or need refresh
+        const usersToUpdate = new Set<string>();
+        for (const userId of Array.from(userIds)) {
+          const userData = await channelDO.getUser(userId);
+          const needsUpdate = !userData || 
+                            (timestamp - userData.updatedAt) > ONE_WEEK;
+          
+          if (needsUpdate) {
+            usersToUpdate.add(userId);
+          }
+        }
+
+        // Only queue users that need updates
         await Promise.all(
-          Array.from(userIds).map(userId =>
+          Array.from(usersToUpdate).map(userId =>
             queue.send({
               userId,
               channelToken: channel.provider_access_token,
               providerId: channel.provider_id,
-              platform: 'line', // Add platform information
+              platform: 'line',
               timestamp
             })
           )
         );
 
         log.debug("Queued user profile updates", { 
-          count: userIds.size,
+          total: userIds.size,
+          needUpdate: usersToUpdate.size,
           providerId: channel.provider_id,
           platform: 'line'
         });

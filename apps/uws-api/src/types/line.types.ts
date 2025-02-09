@@ -5,7 +5,7 @@ export interface LineUser {
   displayName?: string;
   pictureUrl?: string;
   language?: string;
-  status?: string;
+  statusMessage?: string;
   updatedAt: number;
 }
 

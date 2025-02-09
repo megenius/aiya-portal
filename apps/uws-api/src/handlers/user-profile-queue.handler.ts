@@ -29,7 +29,7 @@ class ProfilePictureHandler {
 
       // Log the file to D1
       await this.fileService.createFile({
-        message_id: `profile_${userId}`,
+        message_id: crypto.randomUUID(), 
         user_id: userId,
         channel_id: this.channelId,
         content_type: "profile",
@@ -248,7 +248,7 @@ async function fetchLineUserProfile(
     userId: profile.userId,
     displayName: profile.displayName,
     pictureUrl: profile.pictureUrl,
-    status: profile.statusMessage,
+    statusMessage: profile.statusMessage,
     language: profile.language,
     updatedAt: Date.now(),
   };
