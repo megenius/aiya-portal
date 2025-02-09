@@ -1,6 +1,7 @@
-import { DurableObject, DurableObjectState } from "cloudflare:workers";
+import { DurableObject } from "cloudflare:workers";
 import { Env } from "~/types/hono.types";
 import { WebhookEvent } from "../types/events";
+import { WorkerEnv } from "~/types/worker-configuration";
 
 interface LineUser {
   userId: string;
@@ -14,7 +15,7 @@ interface LineUser {
 export class ChannelDurableObject extends DurableObject {
   sql = this.ctx.storage.sql;
 
-  constructor(private ctx: DurableObjectState, private env: Env) {
+  constructor(protected ctx: DurableObjectState, protected env: Env) {
     super(ctx, env);
     this.initializeTable();
   }
@@ -104,17 +105,22 @@ export class ChannelDurableObject extends DurableObject {
     platform: string;
     lastEvent: WebhookEvent;
   }): Promise<void> {
-    this.sql.exec(
-      `
-      INSERT OR REPLACE INTO conversations 
-      (userId, platform, lastEvent, updatedAt)
-      VALUES (?, ?, ?, ?)
-      `,
+    await this.sql.exec(
+      `INSERT OR REPLACE INTO conversations (userId, platform, lastEvent, updatedAt)
+       VALUES (?, ?, ?, ?)`,
       data.userId,
       data.platform,
       JSON.stringify(data.lastEvent),
-      data.lastEvent.timestamp  // ใช้ timestamp จาก event แทน Date.now()
+      data.lastEvent.timestamp
     );
+
+    // Broadcast the update to all connected clients
+    this.broadcast({
+      type: "conversation_updated",
+      userId: data.userId,
+      platform: data.platform,
+      timestamp: data.lastEvent.timestamp
+    });
   }
 
   async getRecentConversations(query: {
@@ -184,5 +190,80 @@ export class ChannelDurableObject extends DurableObject {
       console.error('Error in getRecentConversations:', error);
       throw new Error('Failed to fetch conversations');
     }
+  }
+
+  private handleWebSocket(request: Request) {
+    console.log("[Channel] WebSocket connection requested");
+    const [client, server] = Object.values(new WebSocketPair());
+
+    server.accept();
+    console.log("[Channel] WebSocket connection established");
+
+    // Handle messages from the client
+    server.addEventListener("message", async (event) => {
+      try {
+        const data = JSON.parse(event.data as string);
+        
+        // Handle different message types
+        switch (data.type) {
+          case "subscribe":
+            // Add any subscription logic here
+            break;
+          case "unsubscribe":
+            // Add any unsubscription logic here
+            break;
+          default:
+            console.warn("[Channel] Unknown message type:", data.type);
+        }
+      } catch (error) {
+        console.error("[Channel] Error handling WebSocket message:", error);
+      }
+    });
+
+    // Handle WebSocket closure
+    server.addEventListener("close", () => {
+      console.log("[Channel] WebSocket connection closed");
+    });
+
+    // Handle WebSocket errors
+    server.addEventListener("error", (error) => {
+      console.error("[Channel] WebSocket error:", error);
+    });
+
+    // Store the WebSocket for broadcasting
+    this.ctx.acceptWebSocket(server);
+
+    return new Response(null, { 
+      status: 101, 
+      webSocket: client 
+    });
+  }
+
+  // Update the fetch method to handle WebSocket requests
+  async fetch(request: Request) {
+    const url = new URL(request.url);
+    
+    if (request.headers.get("Upgrade") === "websocket") {
+      return this.handleWebSocket(request);
+    }
+
+    // Handle other HTTP requests...
+    return new Response("Expected WebSocket", { status: 400 });
+  }
+
+  // Add a broadcast method for sending updates to connected clients
+  private broadcast(data: any) {
+    const message = JSON.stringify({
+      type: "channel_update",
+      data
+    });
+
+    this.ctx.getWebSockets().forEach(ws => {
+      try {
+        ws.send(message);
+      } catch (error) {
+        console.error("[Channel] Error broadcasting message:", error);
+      }
+    });
   }
 }
