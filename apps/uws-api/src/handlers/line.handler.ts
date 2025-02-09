@@ -10,6 +10,7 @@ import { Logger } from "~/utils/logger";
 import { channelMiddleware } from "~/middlewares/channel.middleware";
 import { FileService } from "~/services/file.service";
 import { channelDurableMiddleware } from "~/middlewares/channel-durable.middleware";
+import { ChannelDurableObject } from "~/durables/channel.durable";
 
 interface DownloadResult {
   success: boolean;
@@ -89,9 +90,9 @@ export const webhook = factory.createHandlers(
         const usersToUpdate = new Set<string>();
         for (const userId of Array.from(userIds)) {
           const userData = await channelDO.getUser(userId);
-          const needsUpdate = !userData || 
-                            (timestamp - userData.updatedAt) > ONE_WEEK;
-          
+          const needsUpdate =
+            !userData || timestamp - userData.updatedAt > ONE_WEEK;
+
           if (needsUpdate) {
             usersToUpdate.add(userId);
           }
@@ -99,22 +100,22 @@ export const webhook = factory.createHandlers(
 
         // Only queue users that need updates
         await Promise.all(
-          Array.from(usersToUpdate).map(userId =>
+          Array.from(usersToUpdate).map((userId) =>
             queue.send({
               userId,
               channelToken: channel.provider_access_token,
               providerId: channel.provider_id,
-              platform: 'line',
-              timestamp
+              platform: "line",
+              timestamp,
             })
           )
         );
 
-        log.debug("Queued user profile updates", { 
+        log.debug("Queued user profile updates", {
           total: userIds.size,
           needUpdate: usersToUpdate.size,
           providerId: channel.provider_id,
-          platform: 'line'
+          platform: "line",
         });
       }
 
@@ -133,7 +134,7 @@ export const webhook = factory.createHandlers(
           channel.provider_access_token,
           c.env.CONTENT_BUCKET,
           fileService,
-          channel.provider_id  // Pass channel ID to content handler
+          channel.provider_id // Pass channel ID to content handler
         );
 
         const downloadResults = await Promise.allSettled(
@@ -204,18 +205,18 @@ export const webhook = factory.createHandlers(
         log.info("Content download summary", results);
       }
 
-
+      // Transform events first
+      const events = transformer.toUnified(body);
 
       log.info(`Processing webhook for bot ${botId}`, {
         events: body.events.length,
       });
-      const events = transformer.toUnified(body);
 
       // Process events in parallel with proper typing
       const processResults = await Promise.allSettled(
         events.map(async (event) => {
           try {
-            await saveEvent(event);
+            await saveEvent(channelDO, event);
             return {
               success: true,
               eventId: event.id,
@@ -283,10 +284,17 @@ export const webhook = factory.createHandlers(
   }
 );
 
-async function saveEvent(event: WebhookEvent): Promise<void> {
-  // TODO: Implement event storage
+async function saveEvent(
+  channelDO: DurableObjectStub<ChannelDurableObject>,
+  event: WebhookEvent
+): Promise<void> {
   log.debug(`Saving event ${event.id}`);
-  console.log(event);
+
+  await channelDO.updateConversation({
+    userId: event.message?.sender?.id ?? "unknown",
+    platform: "line",
+    lastEvent: event,
+  });
 }
 
 class WebhookError extends Error {
@@ -338,7 +346,12 @@ class LineContentHandler {
   ): Promise<string> {
     try {
       const { content, size, mimeType } = await this.downloadContent(messageId);
-      const contentKey = await this.storeContent(content, messageId, userId, type);
+      const contentKey = await this.storeContent(
+        content,
+        messageId,
+        userId,
+        type
+      );
 
       // Log the file to D1 with channel_id
       await this.fileService.createFile({
@@ -347,12 +360,12 @@ class LineContentHandler {
         channel_id: this.channelId,
         content_type: type,
         content_key: contentKey,
-        provider: 'line',
+        provider: "line",
         size,
         mime_type: mimeType,
         metadata: {
           channelToken: this.channelToken.slice(-8),
-        }
+        },
       });
 
       this.log.debug("Content handled successfully", {
@@ -374,10 +387,10 @@ class LineContentHandler {
     }
   }
 
-  private async downloadContent(messageId: string): Promise<{ 
-    content: ArrayBuffer; 
-    size: number; 
-    mimeType: string; 
+  private async downloadContent(messageId: string): Promise<{
+    content: ArrayBuffer;
+    size: number;
+    mimeType: string;
   }> {
     log.debug("Downloading content", { messageId, token: this.channelToken });
     //
@@ -404,8 +417,9 @@ class LineContentHandler {
       size: response.headers.get("content-length"),
     });
 
-    const mimeType = response.headers.get('content-type') ?? 'application/octet-stream';
-    const size = parseInt(response.headers.get('content-length') ?? '0', 10);
+    const mimeType =
+      response.headers.get("content-type") ?? "application/octet-stream";
+    const size = parseInt(response.headers.get("content-length") ?? "0", 10);
     const content = await response.arrayBuffer();
 
     return { content, size, mimeType };
