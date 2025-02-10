@@ -34,12 +34,14 @@ export default ({ mode }) => {
         "/api/partners": getEndpoint("http://localhost:14108", ""),
         "/api/ai": getEndpoint("http://localhost:14109", ""),
         "/api/billing": getEndpoint("http://localhost:14110", ""),
+        // uws-api
         "/api/uws": getEndpoint("http://localhost:14400", ""),
         // have to use bottom
         "/api": getEndpoint("http://localhost:14000", ""),
         "/websocket/billing": getEndpoint("http://localhost:14110", "", {
           ws: true,
         }),
+        // uws-api
         "/websocket/uws": getEndpoint("http://localhost:14400", "", {
           ws: true,
         }),

@@ -12,6 +12,7 @@ import { FileService } from "~/services/file.service";
 import { channelDurableMiddleware } from "~/middlewares/channel-durable.middleware";
 import { ChannelDurableObject } from "~/durables/channel.durable";
 import { Context } from "hono";
+import { LineChatService } from "~/services/line-chat.service";
 
 interface DownloadResult {
   success: boolean;
@@ -75,6 +76,7 @@ export const webhook = factory.createHandlers(
         throw new WebhookError("Invalid LINE provider ID", 400);
       }
 
+      const chatService = new LineChatService(channel.provider_access_token);
       // Queue user profile updates instead of processing them directly
       const userIds = new Set(
         body.events
@@ -90,6 +92,7 @@ export const webhook = factory.createHandlers(
         // Filter users that don't exist or need refresh
         const usersToUpdate = new Set<string>();
         for (const userId of Array.from(userIds)) {
+          await chatService.startLoading(userId, 2);
           const userData = await channelDO.getUser(userId);
           const needsUpdate =
             !userData || timestamp - userData.updatedAt > ONE_WEEK;

@@ -35,8 +35,10 @@ const app = new Hono<Env>()
   .route("/v1/shopee", shopeeRoutes)
   .route("/v1/lazada", lazadaRoutes)
   .route("/v1/tiktok", tiktokRoutes)
+
+  .route("/api/uws", conversationRoutes)
   .route("/websocket/uws", websocketRoutes)
-  .route("/api/uws", conversationRoutes);
+
 
 export default {
   fetch: app.fetch,
