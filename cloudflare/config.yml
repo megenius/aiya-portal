@@ -1,0 +1,8 @@
+tunnel: portal-local
+credentials-file: /Users/boy/.cloudflared/64fb1b13-1e24-450b-aad8-67718bb841d8.json
+ingress:
+  - hostname: portal-local.aiya.me
+    service: http://localhost:4000
+  - hostname: uws-local.aiya.me
+    service: http://localhost:14400
+  - service: http_status:404    # Catch-all rule that returns 404 for unmatched requests
