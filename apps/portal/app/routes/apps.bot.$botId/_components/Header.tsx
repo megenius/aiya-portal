@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   if (bot.type === 'chatbot') {
     navItems = [
       { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
-      // { label: 'Contacts', to: `/apps/bot/${botId}/contacts` },
+      { label: 'Contacts', to: `/apps/bot/${botId}/contacts` },
       { label: 'Messages', to: `/apps/bot/${botId}/messages` },
       { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
       // { label: 'Playground', to: `/apps/bot/${botId}/chat` },
