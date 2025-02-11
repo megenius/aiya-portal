@@ -25,7 +25,7 @@ interface ConversationUpdate {
 
 export const useConversations = () => {
   const [search] = useSearchParams();
-  const providerId = search.get("providerId");
+  const providerId = "U46e0f488cb8bc42d234cc0e2de5dc771"; //search.get("providerId");
   const queryClient = useQueryClient();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const baseUrl = import.meta.env.VITE_WS_URL as string;

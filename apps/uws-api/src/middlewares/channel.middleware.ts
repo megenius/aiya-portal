@@ -8,7 +8,7 @@ const factory = createFactory<Env>();
 
 export const channelMiddleware = factory.createMiddleware(async (c, next) => {
   const channelApi = c.env.CHANNEL_API;
-  const channelApiUrl = c.env.CHANNEL_API_URL; // Get the base URL from env
+  const channelApiUrl =  `${c.env.PORTAL_URL}/api/channels` //c.env.CHANNEL_API_URL; // Get the base URL from env
 
   if (!channelApi) {
     throw new Error("CHANNEL_API binding is not configured");
@@ -24,7 +24,6 @@ export const channelMiddleware = factory.createMiddleware(async (c, next) => {
     exp: Math.floor(Date.now() / 1000) + (60*60), // 1 hour expiration
   };
   const token = await jwt.sign(payload, c.env.DIRECTUS_SECRET_KEY);
-  console.log("Token:", token);
   
   const channelService = ChannelService.getInstance(
     channelApi,

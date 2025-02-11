@@ -29,7 +29,7 @@ export class ChannelService {
   }
 
   async getChannel(channelId: string) {
-    const url = `${this.baseUrl}/channels/${channelId}`; // Prepend the base URL
+    const url = `${this.baseUrl}/${channelId}`; // Prepend the base URL
     try {
       const response = await this.channelApi.fetch(url, {
         method: "GET",

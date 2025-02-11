@@ -1,6 +1,5 @@
 import { ChannelDurableObject } from "~/durables/channel.durable";
 import { ChannelService } from "~/services/channel.service";
-import { WorkerEnv } from "./worker-configuration";
 
 type Variables = {
   channelService: ChannelService;

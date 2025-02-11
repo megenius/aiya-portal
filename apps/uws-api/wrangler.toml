@@ -9,13 +9,14 @@ routes = [
 ]
 
 services = [
-  { binding = "PUBSUB_API", service = "pubsub-api-dev" },
+  # { binding = "PUBSUB_API", service = "pubsub-api-dev" },
   { binding = "CHANNEL_API", service = "channel-api-dev" },
 ]
 
 [vars]
-PUBSUB_TOPIC = "uws-api-dev"
-CHANNEL_API_URL = "http://localhost:14102/api"
+# PUBSUB_TOPIC = "uws-api-dev"
+PORTAL_URL = "https://portal-dev.aiya.me"
+# CHANNEL_API_URL = "http://localhost:14102/api"
 
 [[r2_buckets]]
 bucket_name = "uws"
@@ -35,20 +36,20 @@ tag = "v1"
 new_sqlite_classes = ["ChannelDurableObject"]
 
 [[queues.producers]]
-queue = "user-profile-queue"
+queue = "user-profile-queue-dev"
 binding = "USER_PROFILE_QUEUE"
 
 [[queues.consumers]]
-queue = "user-profile-queue"
+queue = "user-profile-queue-dev"
 max_batch_size = 10
 max_batch_timeout = 10
 
 [[queues.producers]]
-queue = "conversation-queue"
+queue = "conversation-queue-dev"
 binding = "CONVERSATION_QUEUE"
 
 [[queues.consumers]]
-queue = "conversation-queue"
+queue = "conversation-queue-dev"
 max_batch_size = 1
 max_batch_timeout = 0
 

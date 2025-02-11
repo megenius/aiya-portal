@@ -2,12 +2,12 @@
 
 interface WorkerEnv {
 	DIRECTUS_SECRET_KEY: string;
+	PORTAL_URL: string;
 	PUBSUB_TOPIC: string;
 	CHANNEL_API_URL: string;
 	CHANNEL_DURABLE: DurableObjectNamespace /* ChannelDurableObject */;
 	CONTENT_BUCKET: R2Bucket;
 	DB: D1Database;
-	PUBSUB_API: Fetcher;
 	CHANNEL_API: Fetcher;
 	USER_PROFILE_QUEUE: Queue;
 	CONVERSATION_QUEUE: Queue;

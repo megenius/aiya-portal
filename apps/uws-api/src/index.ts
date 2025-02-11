@@ -37,8 +37,7 @@ const app = new Hono<Env>()
   .route("/v1/tiktok", tiktokRoutes)
 
   .route("/api/uws", conversationRoutes)
-  .route("/websocket/uws", websocketRoutes)
-
+  .route("/websocket/uws", websocketRoutes);
 
 export default {
   fetch: app.fetch,
@@ -49,10 +48,12 @@ export default {
 
     try {
       switch (queue) {
-        case "user-profile-queue":
+        case "user-profile-queue-dev":
+        case "user-profile-queue-prod":
           await handleUserProfileQueue(batch as any, env);
           break;
-        case "conversation-queue":
+        case "conversation-queue-dev":
+        case "conversation-queue-prod":
           await handleConversationQueue(batch as any, env);
           break;
         default:
