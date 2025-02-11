@@ -4,8 +4,10 @@ compatibility_date = "2024-01-01"
 compatibility_flags = ["rpc"]
 
 routes = [
+  { pattern = "uws-dev.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "uws-dev.aiya.me/*", zone_name = "aiya.me" },
   { pattern = "portal-dev.aiya.me/api/uws/*", zone_name = "aiya.me" },
-  { pattern = "realtime-dev.aiya.me/api/uws/*", zone_name = "aiya.me" },
+  { pattern = "realtime-dev.aiya.me/websocket/uws/*", zone_name = "aiya.me" },
 ]
 
 services = [

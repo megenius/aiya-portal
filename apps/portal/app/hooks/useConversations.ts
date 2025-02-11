@@ -36,6 +36,8 @@ export const useConversations = () => {
     reconnectAttempts: 5,
     reconnectInterval: 3000,
     onOpen: () => {
+      console.log("WebSocket connected");
+      
       sendMessage({ type: "subscribe", channel: "conversations" });
     },
     onMessage: (data: ConversationUpdate) => {
