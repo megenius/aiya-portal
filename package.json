@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8"
+    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8",
+    "teerat-tunnel": "cloudflared tunnel run 078f662d-0731-4f0a-87ca-d4ce90c8f72f"
   },
   "devDependencies": {
     "local-ssl-proxy": "^2.0.5",
