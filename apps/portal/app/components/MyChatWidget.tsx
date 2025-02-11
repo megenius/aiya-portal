@@ -21,7 +21,7 @@ const ChatWidget = () => {
             </button>
           </div>
           <iframe 
-            src="http://localhost:8501/?id=W124&embed=true&compact=true&playground=1"
+            src="https://webchat.aiya.me/?id=W123&embed=true&compact=true&playground=1"
             style={{width: '100%', height: 'calc(100% - 4rem)', border: 0, overflow: 'hidden'}}
             title="Chat Interface"
           />

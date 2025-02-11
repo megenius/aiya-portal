@@ -6,6 +6,7 @@ import { useAppSelector } from "~/store";
 import { useBot } from "~/hooks/bot";
 import { Loading } from "@repo/preline";
 import Header from "./_components/Header";
+import MyChatWidget from "~/components/MyChatWidget";
 
 const Route = () => {
   const { botId } = useParams()
@@ -29,6 +30,7 @@ const Route = () => {
       <main id="content" className="max-w-[85rem] mx-auto pt-[59px] lg:pt-0">
         <Outlet context={{ bot }} />
       </main>
+      <MyChatWidget />
     </>
   )
 }
