@@ -8,17 +8,16 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc",
-    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
     "@hookform/resolvers": "^3.9.0",
     "@preline/select": "^2.4.1",
     "@reduxjs/toolkit": "^2.2.7",
-    "@remix-run/css-bundle": "^2.13.1",
-    "@remix-run/node": "^2.15.2",
-    "@remix-run/react": "^2.15.2",
+    "@remix-run/css-bundle": "^2.15.3",
+    "@remix-run/node": "^2.15.3",
+    "@remix-run/react": "^2.15.3",
     "@repo/editor": "*",
     "@repo/preline": "*",
     "@repo/shared": "*",
@@ -33,6 +32,7 @@
     "axios": "^1.7.4",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "directus-typescript-gen": "^1.0.0",
     "formik": "^2.4.6",
     "isbot": "^4",
     "katex": "^0.16.11",
@@ -52,7 +52,7 @@
     "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
     "remark-gfm": "^4.0.0",
-    "remix-utils": "^7.6.0",
+    "remix-utils": "^8.1.0",
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
@@ -62,7 +62,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.15.2",
+    "@remix-run/dev": "^2.15.3",
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",

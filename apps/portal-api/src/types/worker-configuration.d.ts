@@ -25,9 +25,6 @@ interface WorkerEnv {
 	LINE_CLIENT_ID: string;
 	LINE_CLIENT_SECRET: string;
 	LINE_REDIRECT_URI: string;
-	STRIPE_API_KEY: string;
-	STRIPE_WEBHOOK_SECRET: string;
-	SERVICE_BILLING_API: string;
 	BOT_MESSAGE_BUCKET: R2Bucket;
 	BillingService: Fetcher;
 }

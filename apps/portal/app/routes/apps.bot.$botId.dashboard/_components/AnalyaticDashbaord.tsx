@@ -65,6 +65,12 @@ interface AnalyticsReport {
     uniqueUsers: number;
     fallbacks: number;
   }>;
+  dailyActivity: Array<{
+    date: string;
+    conversations: number;
+    uniqueUsers: number;
+    fallbacks: number;
+  }>;
   metadata: {
     timezone: string;
     queryTime: number;
@@ -77,9 +83,10 @@ interface AnalyticsReport {
 
 interface AnalyaticDashbaordProps {
   stats: stats.AnalyticsReport
+  today: boolean;
 }
 
-const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
+const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) => {
   const [data] = useState<AnalyticsReport>({
     summary: stats.summary,
     knowledge: {
@@ -105,6 +112,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
       topIntents: []
     },
     hourlyActivity: stats.hourlyActivity,
+    dailyActivity: stats.dailyActivity,
     metadata: {
       timezone: stats.metadata.timezone,
       queryTime: stats.metadata.queryTime,
@@ -239,10 +247,10 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats }) => {
       <div className="grid lg:grid-cols-2 gap-4 mb-6">
         {/* Hourly Activity Chart */}
         <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
-          <h3 className="font-semibold text-gray-800 mb-4">Hourly Activity</h3>
+          <h3 className="font-semibold text-gray-800 mb-4">{today ? "Hourly Activity" : "Daily Activity"}</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.hourlyActivity}>
+              <LineChart data={today ? data.hourlyActivity : data.dailyActivity}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="hour" />
                 <YAxis />

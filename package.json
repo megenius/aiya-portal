@@ -5,14 +5,15 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8"
   },
   "devDependencies": {
     "local-ssl-proxy": "^2.0.5",
     "prettier": "^3.2.5",
     "turbo": "^2.2.3",
     "typescript": "^5.4.5",
-    "wrangler": "^3.75.0"
+    "wrangler": "^3.107.3"
   },
   "engines": {
     "node": ">=18"

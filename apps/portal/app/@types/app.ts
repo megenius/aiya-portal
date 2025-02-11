@@ -318,6 +318,25 @@ export interface AdInsight {
   purchase_value: number;
 }
 
+// export interface BotLog {
+//   id: number;
+//   created: string;
+//   bot_id: string;
+//   confidence: number;
+//   intent: string;
+//   sentence: string;
+//   answer: string;
+//   input_tokens: number;
+//   output_tokens: number;
+//   social_id: string;
+//   platform: string;
+//   rag_intents: any[];
+//   lang: any;
+//   fallback: number;
+//   training_intent: string;
+//   training_question: string;
+// }
+
 export interface BotLog {
   id: number;
   created: string;
@@ -335,6 +354,20 @@ export interface BotLog {
   fallback: number;
   training_intent: string;
   training_question: string;
+  muted: number;
+  knowledge_id: string;
+  reply_type: string;
+  provider_id: string;
+  action: string | null;
+  channel: Channel;
+  profile: Profile;
+}
+
+export interface Profile {
+  userId: string;
+  displayName: string;
+  pictureUrl: string;
+  language: string;
 }
 
 export namespace stats {
@@ -391,6 +424,17 @@ export namespace stats {
         count: number;
       }>;
     }>;
+    dailyActivity: Array<{
+      date: string;
+      conversations: number;
+      uniqueUsers: number;
+      fallbacks: number;
+      confidence: number | null;
+      platforms: Array<{
+        name: string;
+        count: number;
+      }>;
+    }>;
     intents: {
       top: Array<{
         name: string;
@@ -430,6 +474,7 @@ export namespace stats {
       endTime: string;
     };
   }
+  
 }
 
 export namespace GenerationResponse {

@@ -8,7 +8,6 @@ import { DirectusUser } from "@directus/sdk";
 import Stripe from "stripe";
 import { CounterDurable } from "~/durables/CounterDurable";
 import { AdminClientType, ClientType } from "~/utils/directus";
-import { WorkerEnv } from "./worker-configuration";
 import { SubscriptionDurable } from "~/durables/SubscriptionDurable";
 import { StripeService } from "~/services/stripe.service";
 import BillingService from "~/services/billing.service";
