@@ -5,35 +5,30 @@ import {
   readItems,
   updateItem,
 } from "@directus/sdk";
+import { DirectusError } from "@repo/shared/exceptions/directus";
+import { randomHexString } from "@repo/shared/utils";
+import { addDays } from "date-fns";
+import { createParser } from "eventsource-parser";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
+import { streamText } from "hono/streaming";
+import OpenAI from "openai";
+import { cachingMiddleware } from "~/middlewares/cache-get.middleware";
+import { directusMiddleware } from "~/middlewares/directus.middleware";
+import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
+import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
+import { getKnowledge } from "~/services/knowledge.service";
 import {
-  Bot,
-  BotIntent,
   BotKnowledge,
   Channel,
   ImageMessageResponse,
-  TextMessageResponse,
   ResponseElementType,
+  TextMessageResponse
 } from "~/types/app";
 import { Env } from "~/types/hono.types";
-import { getDirectusClient } from "~/utils/directus";
-import { DirectusError } from "@repo/shared/exceptions/directus";
-import { randomHexString } from "@repo/shared/utils";
-import * as _ from "lodash";
-import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { cachingMiddleware } from "~/middlewares/cache-get.middleware";
-import { hasItemUpdated } from "~/utils/kv";
-import { getKnowledge } from "~/services/knowledge.service";
-import { textEmbeddingMiddleware } from "~/middlewares/text-embedding.middleware";
 import { transformData } from "~/utils/datasource";
-import { opensearchMiddleware } from "~/middlewares/opensearch.middleware";
-import { sendEventToCapi } from "~/services/facebook.service";
-import OpenAI from "openai";
-import { createParser } from "eventsource-parser";
-import { stream, streamText, streamSSE } from "hono/streaming";
-import { addDays } from "date-fns";
+import { hasItemUpdated } from "~/utils/kv";
 
 const factory = createFactory<Env>();
 
@@ -94,6 +89,45 @@ export const updateBotHandler = factory.createHandlers(
     return c.json(bot);
   }
 );
+
+// insert bot ----------------------------------------------------------
+export const insertBotHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    try {
+      const directus = c.get("directus");
+      const data = await c.req.json();
+      data.id = randomHexString(10);
+      data.slug = randomHexString(8);
+
+      const bot = await directus.request(createItem("bots", data));
+
+      if (!bot || !bot.id) {
+        return c.json({ error: "Failed to create bot" }, 500);
+      }
+
+      const channel = {
+        bot: bot.id,
+        team: bot.team,
+        provider: "Widget",
+        provider_id: randomHexString(32),
+        provider_name: bot.name,
+        name: `${bot.name} (Widget)`,
+        platform: "Website",
+        logo: bot.avatar,
+      }
+
+      await directus.request(createItem("channels", channel));
+
+      return c.json(bot);
+    } catch (error) {
+      console.error("Error inserting bot handler:", error);
+      return c.json({ error: "An error occurred while inserting bot handler" }, 500);
+    }
+  }
+);
+
 
 // Channel ----------------------------------------------------------
 export const getBotChannelsHandler = factory.createHandlers(

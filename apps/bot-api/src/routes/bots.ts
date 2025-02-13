@@ -2,8 +2,8 @@ import { Hono } from "hono";
 import * as BotsHandler from "../handlers/bots.handler";
 import insightsRoutes from "./insights";
 
-import * as WebhookHandler from "../handlers/webhook.handler";
 import { Env } from "~/types/hono.types";
+import * as WebhookHandler from "../handlers/webhook.handler";
 
 const botsRoutes = new Hono<Env>();
 
@@ -45,6 +45,8 @@ botsRoutes.post("/:id/chat", ...BotsHandler.chatsHandler);
 // webhook
 botsRoutes.post("/webhook", ...WebhookHandler.webhookHandler);
 
+// Insert bot
+botsRoutes.post("/", ...BotsHandler.insertBotHandler);
 
 botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
 
