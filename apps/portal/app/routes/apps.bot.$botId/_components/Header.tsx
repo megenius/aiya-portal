@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   }
 
   return (
-    <header className="flex flex-col z-50">
+    <header className="flex flex-col">
       <div className="bg-gray-800 border-b border-gray-700 dark:bg-black dark:border-neutral-800">
         <div className="max-w-[85rem] flex justify-between lg:grid lg:grid-cols-2 basis-full items-center w-full mx-auto py-2.5 px-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-x-3">

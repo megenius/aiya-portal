@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 
-const ChatWidget = () => {
+// กำหนด Props interface
+interface ChatWidgetProps {
+  providerId: string;
+}
+
+const ChatWidget: React.FC<ChatWidgetProps> = ({ providerId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
 
@@ -35,7 +40,7 @@ const ChatWidget = () => {
         aria-label="Chat Sidebar"
       >
         <div className="bg-blue-600 p-4 flex justify-between items-center">
-          <h3 className="text-lg text-white font-semibold">Chat Support</h3>
+          <h3 className="text-lg text-white font-semibold">Playground</h3>
           <button
             onClick={toggleChat}
             className="text-white hover:text-gray-200"
@@ -45,7 +50,7 @@ const ChatWidget = () => {
           </button>
         </div>
         <iframe
-          src="https://webchat.aiya.me/?id=W123&embed=true&compact=true&playground=1"
+          src={`https://webchat.aiya.me/?id=${providerId}&embed=true&compact=true&playground=1`}
           style={{
             width: "100%",
             height: "calc(100% - 4rem)",

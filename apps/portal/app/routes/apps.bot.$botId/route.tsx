@@ -28,11 +28,11 @@ const Route = () => {
     <div className="w-full flex">
       <div className="w-full flex flex-col">
         <Header bot={bot} />
-        <main id="content" className="max-w-[85rem] mx-auto pt-[59px] lg:pt-0">
+        <main id="content" className="w-full max-w-[85rem] mx-auto pt-[59px] lg:pt-0">
           <Outlet context={{ bot }} />
         </main>
       </div>
-        <MyChatWidget />
+        <MyChatWidget providerId={`P${botId}`} />
     </div>
   );
 };
