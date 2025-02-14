@@ -2,10 +2,16 @@ import { Hono } from "hono";
 import * as BotsHandler from "../handlers/bots.handler";
 import insightsRoutes from "./insights";
 
+import { Schema } from "~/types/directus";
 import { Env } from "~/types/hono.types";
 import * as WebhookHandler from "../handlers/webhook.handler";
 
 const botsRoutes = new Hono<Env>();
+function isValidCollection(collection: any): collection is keyof Schema {
+    const validCollections: Array<keyof Schema> = []; // Add valid collection names here
+    return true;
+}
+botsRoutes.get("/test", ...BotsHandler.getTest)
 
 botsRoutes.get("/:id", ...BotsHandler.getBotHandler);
 botsRoutes.patch("/:id", ...BotsHandler.updateBotHandler);
@@ -49,5 +55,6 @@ botsRoutes.post("/webhook", ...WebhookHandler.webhookHandler);
 botsRoutes.post("/", ...BotsHandler.insertBotHandler);
 
 botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
+
 
 export { botsRoutes };

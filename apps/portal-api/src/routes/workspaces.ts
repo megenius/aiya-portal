@@ -1,6 +1,5 @@
 // File: src/routes/items.ts
 import { Hono } from "hono";
-import * as _ from "lodash";
 import { Env } from "~/types/hono.types";
 import * as WorkspaceHandler from "../handlers/workspace.handler";
 
@@ -23,5 +22,6 @@ const workspacesRoutes = new Hono<Env>()
   .get("/:id/chats", ...WorkspaceHandler.getWorkspaceChats)
   .get("/:id/products", ...WorkspaceHandler.getWorkspaceProducts)
   .get("/:id/orderbots", ...WorkspaceHandler.getWorkspaceOrderbots)
+  .get("/:id/hubs", ...WorkspaceHandler.getWorkspaceHubs) // New route for getWorkspaceHubs
 
 export { workspacesRoutes };

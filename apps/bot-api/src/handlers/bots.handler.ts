@@ -32,6 +32,12 @@ import { hasItemUpdated } from "~/utils/kv";
 
 const factory = createFactory<Env>();
 
+export const getTest =factory.createHandlers(logger(),directusMiddleware,async (c)=>{
+  const directus = c.get("directus")
+  const item =await directus.request(readItems("channels_bots",{sort:["-id"]}))
+  return c.json(item)
+})
+
 // list bots ----------------------------------------------------------
 export const getBotHandler = factory.createHandlers(
   // cachingMiddleware({

@@ -1,26 +1,24 @@
 import {
-  readItems,
   createItem,
-  updateItem,
-  deleteItem,
-  readItem,
-  uploadFiles,
-  importFile,
   createItems,
-  readUsers,
+  deleteItem,
+  importFile,
+  readItem,
+  readItems,
+  updateItem
 } from "@directus/sdk";
-import { logger as honoLogger } from "hono/logger";
 import * as line from "@line/bot-sdk";
-import { addDays, addSeconds, format } from "date-fns";
-import * as _ from "lodash";
-import { WorkspaceChannel } from "~/types/app";
-import { parseQuery } from "@repo/shared/utils/query";
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { Logger, LogLevel, randomHexString } from "@repo/shared/utils";
-import { Env } from "~/types/hono.types";
+import { parseQuery } from "@repo/shared/utils/query";
+import { addDays, addSeconds, format } from "date-fns";
 import { createFactory } from "hono/factory";
-import { directusMiddleware } from "~/middleware/directus.middleware";
 import * as jwt from "hono/jwt";
+import { logger as honoLogger } from "hono/logger";
+import * as _ from "lodash";
+import { directusMiddleware } from "~/middleware/directus.middleware";
+import { WorkspaceChannel } from "~/types/app";
+import { Env } from "~/types/hono.types";
 import { getDatasetId } from "./facebook/dataset";
 
 const { MessagingApiClient } = line.messagingApi;
@@ -585,6 +583,32 @@ export const getWorkspaceOrderbots = factory.createHandlers(
       const directus = c.get("directus");
       const items = await directus.request(
         readItems("orderbots", {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+      return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// --------------- WORKSPACE HUBS  ---------------
+// get workspace hubs
+export const getWorkspaceHubs = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const items = await directus.request(
+        readItems("hubs", {
           filter: {
             team: {
               _eq: workspaceId,
