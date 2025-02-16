@@ -109,14 +109,14 @@ const MainContent: React.FC<MainContentProps> = () => {
                   Date
                 </div>
               </th>
-              <th scope="col" className="min-w-[80px] max-w-96">
-                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Intent
-                </div>
-              </th>
-              <th scope="col" className="min-w-[300px]">
+              <th scope="col" className="min-w-[100px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Question
+                </div>
+              </th>
+              <th scope="col" className="min-w-[150px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Intent
                 </div>
               </th>
               {/* <th scope="col" className="min-w-[300px]">
@@ -126,7 +126,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               </th> */}
               <th scope="col" className="max-w-[80px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Social ID
+                  User ID
                 </div>
               </th>
               {/* <th scope="col">
@@ -153,6 +153,14 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </div>
                   </div>
                 </td>
+                <td className="size-px whitespace-nowrap px-4 py-3 text-wrap">
+                  <span className="text-sm text-gray-600 dark:text-neutral-400">
+                    {item.sentence}
+                  </span>
+                  <div className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                    {item.action}
+                  </div>
+                </td>
                 <td className="size-px px-4 py-3">
                   <div className='flex flex-col'>
                     <span className="text-sm text-gray-600 dark:text-neutral-400">
@@ -163,14 +171,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </span>
                   </div>
                 </td>
-                <td className="size-px whitespace-nowrap px-4 py-3 text-wrap">
-                  <span className="text-sm text-gray-600 dark:text-neutral-400">
-                    {item.sentence}
-                  </span>
-                  <div className="text-sm font-medium text-gray-400 dark:text-neutral-200">
-                    {item.action}
-                  </div>
-                </td>
+
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {getUID(item.social_id)}
