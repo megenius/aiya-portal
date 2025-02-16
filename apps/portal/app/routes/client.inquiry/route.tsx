@@ -55,6 +55,7 @@ const Route = () => {
       // Reset form after successful submission
       reset();
       alert('Inquiry submitted successfully');
+      window.location.href = `https://webchat.aiya.me/?id=P${botId}&embed=true&compact=true&playground=true`
     } catch (error) {
       console.error('Error submitting inquiry:', error);
       // Optional: Show error message
