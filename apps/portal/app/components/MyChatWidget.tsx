@@ -8,7 +8,7 @@ interface ChatWidgetProps {
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({ providerId }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(3);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
