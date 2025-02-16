@@ -37,6 +37,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           SocialID: d.social_id,
           Platform: d.platform,
           Fallback: d.fallback,
+          Action: d.action,
           Answer: d.answer,
           TrainingIntent: d.training_intent,
           TrainingQuestion: d.training_question,
@@ -47,6 +48,20 @@ const MainContent: React.FC<MainContentProps> = () => {
         sheetName: 'Logs'
       })
     }
+  }
+
+  const getUID = (socialId: string) => {
+    const isValidUUID = (str) => {
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      return uuidRegex.test(str);
+    };
+
+    if (isValidUUID(socialId)) {
+      const formattedToken = `U${socialId.split('-')[0]}`;
+      return formattedToken;
+    }
+
+    return socialId;
   }
 
 
@@ -104,6 +119,11 @@ const MainContent: React.FC<MainContentProps> = () => {
                   Question
                 </div>
               </th>
+              {/* <th scope="col" className="min-w-[300px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Action
+                </div>
+              </th> */}
               <th scope="col" className="max-w-[80px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Social ID
@@ -147,14 +167,15 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {item.sentence}
                   </span>
+                  <div className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                    {item.action}
+                  </div>
                 </td>
                 <td className="size-px whitespace-nowrap px-4 py-3">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
-                    {item.social_id}
+                    {getUID(item.social_id)}
                   </span>
-                  {/* <div> <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => {
-                    handleMute(item.social_id)
-                  }}>Mute</button></div> */}
+
                 </td>
                 {/* <td className="size-px px-4 py-3">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
