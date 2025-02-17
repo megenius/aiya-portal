@@ -45,8 +45,8 @@ const Route = () => {
           </main>
         </div>
         <div
-          className={`w-1/4 min-w-80 top-0 right-0 h-screen bg-white shadow-lg transition-transform duration-300 ease-in-out transform z-10 ${
-            isOpen ? "fixed translate-x-0" : "absolute translate-x-full"
+          className={`fixed w-1/4 min-w-80 top-0 right-0 h-screen bg-white shadow-lg transition-transform duration-300 ease-in-out transform z-10 ${
+            !isOpen && "hidden"
           }`}
         >
           <ChatWidget providerId={`P${botId}`} toggleChat={toggleChat} />

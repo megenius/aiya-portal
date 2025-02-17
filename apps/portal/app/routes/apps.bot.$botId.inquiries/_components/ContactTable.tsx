@@ -24,6 +24,16 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
           <thead>
             <tr>
+              <th scope="col" className="min-w-[170px]">
+                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Date created
+                </div>
+              </th>
+              <th scope="col" className="min-w-[240px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  User ID
+                </div>
+              </th>
               <th scope="col" className="min-w-[240px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Email
@@ -41,7 +51,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
               </th>
               <th scope="col" className="min-w-[150px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  inquiry Type
+                  Type
                 </div>
               </th>
             </tr>
@@ -50,6 +60,12 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
             {isLoading
               ? [...Array(5)].map((_, index) => (
                   <tr key={index} className="animate-pulse">
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
@@ -62,10 +78,21 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                     <td className="size-px pe-4 py-3">
                       <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
+                    
                   </tr>
                 ))
               : filteredInquiries?.map((inquiry) => (
                   <tr key={inquiry.id}>
+                    <td className="size-px pe-4 py-3">
+                      <span className="text-sm text-gray-600">
+                        {formatDate(inquiry.date_created)}
+                      </span>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <span className="text-sm font-medium text-gray-800">
+                        {inquiry?.uid}
+                      </span>
+                    </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <span className="text-sm font-medium text-gray-800">
                         {inquiry?.email}
@@ -86,6 +113,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                         {inquiry.inquiry_type}
                       </span>
                     </td>
+                    
                   </tr>
                 ))}
           </tbody>
@@ -97,34 +125,17 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
 
 export default ContactTable;
 
-const getTimeAgo = (seconds: number) => {
-  if (seconds < 60) {
-    return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
-  } else if (seconds < 3600) {
-    const minutes = Math.floor(seconds / 60);
-    return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
-  } else if (seconds < 86400) {
-    const hours = Math.floor(seconds / 3600);
-    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-  } else if (seconds < 2592000) {
-    const days = Math.floor(seconds / 86400);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-  } else if (seconds < 31536000) {
-    const months = Math.floor(seconds / 2592000);
-    return `${months} month${months === 1 ? "" : "s"} ago`;
-  } else {
-    const years = Math.floor(seconds / 31536000);
-    return `${years} year${years === 1 ? "" : "s"} ago`;
-  }
-};
+function formatDate(isoString) {
+  const date = new Date(isoString);
 
-const calculateTimeAgo = (dateString: string) => {
-  const date = new Date(dateString);
-  const timeDifferenceInMilliseconds = Date.now() - date.getTime();
+  const options = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
 
-  const timeDifferenceInSeconds = Math.floor(
-    timeDifferenceInMilliseconds / 1000
-  );
-
-  return getTimeAgo(timeDifferenceInSeconds);
-};
+  return date.toLocaleString("en-US", options);
+}
