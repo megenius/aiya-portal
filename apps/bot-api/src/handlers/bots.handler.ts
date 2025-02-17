@@ -739,7 +739,6 @@ export const serviceHandler = factory.createHandlers(
   }
 );
 
-
 export const inquiriesHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
@@ -749,8 +748,11 @@ export const inquiriesHandler = factory.createHandlers(
 
     const items = await directus.request(
       readItems("bots_inquiries", {
-        fields: ["id", "name", "status", "metadata", "date_created"],
+        fields: ["*"],
         filter: { bot: botId },
+        sort: [
+          "-date_created"
+        ],
       })
     );
 
