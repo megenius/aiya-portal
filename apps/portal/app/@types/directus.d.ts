@@ -6117,14 +6117,9 @@ export interface components {
       priority?: string | null;
       status?: string;
       metadata?: unknown;
-      /** Format: uuid */
-      user_created: string;
       /** Format: timestamp */
       date_created: string;
-      /** Format: uuid */
-      user_updated: string;
-      /** Format: timestamp */
-      date_updated: string;
+      uid?: string | null;
     };
     ItemsBotDocuments: {
       id?: number;
