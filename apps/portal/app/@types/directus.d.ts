@@ -2832,6 +2832,45 @@ export interface paths {
      */
     patch: operations["updateSingleItemsBotDocumentsFiles"];
   };
+  "/items/bots_config": {
+    /**
+     * List Items
+     * @description List the bots_config items.
+     */
+    get: operations["readItemsBotsConfig"];
+    /**
+     * Create an Item
+     * @description Create a new bots_config item.
+     */
+    post: operations["createItemsBotsConfig"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing bots_config items.
+     */
+    delete: operations["deleteItemsBotsConfig"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple bots_config items at the same time.
+     */
+    patch: operations["updateItemsBotsConfig"];
+  };
+  "/items/bots_config/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single bots_config item by unique identifier.
+     */
+    get: operations["readSingleItemsBotsConfig"];
+    /**
+     * Delete an Item
+     * @description Delete an existing bots_config item.
+     */
+    delete: operations["deleteSingleItemsBotsConfig"];
+    /**
+     * Update an Item
+     * @description Update an existing bots_config item.
+     */
+    patch: operations["updateSingleItemsBotsConfig"];
+  };
   "/items/saas_features": {
     /**
      * List Items
@@ -5746,6 +5785,19 @@ export interface components {
       id?: number;
       bot_documents_id?: number | components["schemas"]["ItemsBotDocuments"] | null;
       directus_files_id?: string | components["schemas"]["Files"] | null;
+    };
+    ItemsBotsConfig: {
+      id?: number;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      provider?: string | null;
+      model?: string | null;
+      max_output_tokens?: number | null;
+      max_input_tokens?: number | null;
+      temperature?: number | null;
     };
     ItemsSaasFeatures: {
       /** Format: uuid */
@@ -20160,6 +20212,189 @@ export interface operations {
   };
   /**
    * List Items
+   * @description List the bots_config items.
+   */
+  readItemsBotsConfig: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsConfig"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new bots_config item.
+   */
+  createItemsBotsConfig: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsConfig"][] | components["schemas"]["ItemsBotsConfig"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing bots_config items.
+   */
+  deleteItemsBotsConfig: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple bots_config items at the same time.
+   */
+  updateItemsBotsConfig: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsConfig"][] | components["schemas"]["ItemsBotsConfig"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single bots_config item by unique identifier.
+   */
+  readSingleItemsBotsConfig: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsConfig"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing bots_config item.
+   */
+  deleteSingleItemsBotsConfig: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing bots_config item.
+   */
+  updateSingleItemsBotsConfig: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsConfig"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsConfig"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
    * @description List the saas_features items.
    */
   readItemsSaasFeatures: {
@@ -25176,6 +25411,7 @@ export type Schema = {
   mail_outbox: components["schemas"]["ItemsMailOutbox"][];
   chat_hubs_channels_hubs: components["schemas"]["ItemsChatHubsChannelsHubs"][];
   bot_documents_files: components["schemas"]["ItemsBotDocumentsFiles"][];
+  bots_config: components["schemas"]["ItemsBotsConfig"][];
   saas_features: components["schemas"]["ItemsSaasFeatures"][];
   bots_datasources_fields: components["schemas"]["ItemsBotsDatasourcesFields"][];
   tmp: components["schemas"]["ItemsTmp"][];
