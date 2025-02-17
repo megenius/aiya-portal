@@ -1,9 +1,7 @@
 // ContactTable.tsx
 import React, { useState } from "react";
-import ToggleSwitch from "./ToggleSwitch";
-import { useBotContacts } from "~/hooks/bot/useBotContacts";
-import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
 import { Avatar } from "@repo/preline/Avatar";
+import { useBotInquiry } from "~/hooks/bot/useBotInquiries";
 
 interface ContactTableProps {
   botId: string;
@@ -11,18 +9,14 @@ interface ContactTableProps {
 }
 
 const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
-  const { data: contacts, isLoading } = useBotContacts({
+  const { data: inquiries, isLoading } = useBotInquiry({
     id: botId,
   });
-  const { data: mutedBotUsers, isLoading: isMutedBotUsersLoading } =
-    useBotMutedUsers({ botId });
 
-  const filteredContacts = contacts?.filter(
-    (contact) =>
-      contact.profile?.displayName
-        ?.toLowerCase()
-        .includes(searchValue.toLowerCase()) ||
-      contact.social_id.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredInquiries = inquiries?.filter(
+    (inquiry) =>
+      inquiry.email?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      inquiry.name.toLowerCase().includes(searchValue.toLowerCase())
   );
   return (
     <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
@@ -30,113 +24,96 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
           <thead>
             <tr>
-              <th scope="col" className="min-w-24">
-                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Avatar
+              <th scope="col" className="min-w-[170px]">
+                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Date created
                 </div>
               </th>
               <th scope="col" className="min-w-[240px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  User ID
+                </div>
+              </th>
+              <th scope="col" className="min-w-[240px]">
+                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+                  Email
+                </div>
+              </th>
+              <th scope="col" className="min-w-[200px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Name
                 </div>
               </th>
               <th scope="col" className="min-w-[350px]">
                 <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Recent Message
+                  Subject
                 </div>
               </th>
-              <th scope="col" className="min-w-[200px]">
+              <th scope="col" className="min-w-[150px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Channel
-                </div>
-              </th>
-              <th scope="col" className="min-w-32">
-                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Received Time
-                </div>
-              </th>
-              <th scope="col" className="min-w-[140px]">
-                <div className="py-3 flex justify-center items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Bot
+                  Type
                 </div>
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-            {isLoading || isMutedBotUsersLoading
+            {isLoading
               ? [...Array(5)].map((_, index) => (
                   <tr key={index} className="animate-pulse">
-                    <td className="size-px whitespace-nowrap px-4 py-3">
-                      <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                      <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <div className="h-4 w-36 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
                     <td className="size-px pe-4 py-3">
                       <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <td className="size-px pe-4 py-3">
+                      <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap py-3">
-                      <div className="flex justify-center items-center">
-                        <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                      </div>
-                    </td>
+                    
                   </tr>
                 ))
-              : filteredContacts?.map((contact) => (
-                  <tr key={contact.id}>
-                    <td className="size-px whitespace-nowrap px-4 py-3">
-                      {contact.profile ? (
-                        <Avatar
-                          className="border"
-                          src={contact.profile.pictureUrl}
-                          firstName={contact.profile.displayName?.charAt(0)}
-                        />
-                      ) : (
-                        <Avatar firstName={"?"} />
-                      )}
+              : filteredInquiries?.map((inquiry) => (
+                  <tr key={inquiry.id}>
+                    <td className="size-px pe-4 py-3">
+                      <span className="text-sm text-gray-600">
+                        {formatDate(inquiry.date_created)}
+                      </span>
                     </td>
                     <td className="size-px whitespace-nowrap pe-4 py-3">
                       <span className="text-sm font-medium text-gray-800">
-                        {contact?.profile
-                          ? contact.profile.displayName
-                          : contact.social_id}
+                        {inquiry?.uid}
+                      </span>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <span className="text-sm font-medium text-gray-800">
+                        {inquiry?.email}
+                      </span>
+                    </td>
+                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                      <span className="text-sm font-medium text-gray-800">
+                        {inquiry?.name}
                       </span>
                     </td>
                     <td className="size-px pe-4 py-3">
                       <span className="text-sm text-gray-600">
-                        {contact.sentence}
+                        {inquiry.subject}
                       </span>
                     </td>
-                    <td className="size-px pe-4 py-3 max-w-[200px] break-words whitespace-normal">
-                      <span className="text-sm font-medium text-gray-800">
-                        {contact?.channel
-                          ? contact.channel.provider_name
-                          : contact.provider_id ?? "-"}
-                      </span>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <td className="size-px pe-4 py-3">
                       <span className="text-sm text-gray-600">
-                        {calculateTimeAgo(contact.created)}
+                        {inquiry.inquiry_type}
                       </span>
                     </td>
-                    <td className="size-px whitespace-nowrap py-3">
-                      <div className="flex justify-center items-center">
-                        <ToggleSwitch
-                          contact={contact}
-                          initialChecked={
-                            !mutedBotUsers?.some(
-                              (user) => user.uid === contact.social_id
-                            )
-                          }
-                        />
-                      </div>
-                    </td>
+                    
                   </tr>
                 ))}
           </tbody>
@@ -148,34 +125,17 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
 
 export default ContactTable;
 
-const getTimeAgo = (seconds: number) => {
-  if (seconds < 60) {
-    return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
-  } else if (seconds < 3600) {
-    const minutes = Math.floor(seconds / 60);
-    return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
-  } else if (seconds < 86400) {
-    const hours = Math.floor(seconds / 3600);
-    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-  } else if (seconds < 2592000) {
-    const days = Math.floor(seconds / 86400);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-  } else if (seconds < 31536000) {
-    const months = Math.floor(seconds / 2592000);
-    return `${months} month${months === 1 ? "" : "s"} ago`;
-  } else {
-    const years = Math.floor(seconds / 31536000);
-    return `${years} year${years === 1 ? "" : "s"} ago`;
-  }
-};
+function formatDate(isoString) {
+  const date = new Date(isoString);
 
-const calculateTimeAgo = (dateString: string) => {
-  const date = new Date(dateString);
-  const timeDifferenceInMilliseconds = Date.now() - date.getTime();
+  const options = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
 
-  const timeDifferenceInSeconds = Math.floor(
-    timeDifferenceInMilliseconds / 1000
-  );
-
-  return getTimeAgo(timeDifferenceInSeconds);
-};
+  return date.toLocaleString("en-US", options);
+}
