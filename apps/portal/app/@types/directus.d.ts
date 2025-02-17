@@ -6119,6 +6119,7 @@ export interface components {
       metadata?: unknown;
       /** Format: timestamp */
       date_created: string;
+      uid?: string | null;
     };
     ItemsBotDocuments: {
       id?: number;

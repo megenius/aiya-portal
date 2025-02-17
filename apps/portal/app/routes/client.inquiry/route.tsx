@@ -20,6 +20,7 @@ type InquiryFormData = z.infer<typeof inquirySchema>;
 const Route = () => {
   const [search] = useSearchParams();
   const botId = search.get('id')
+  const uid = search.get('uid')
   const insertInquiry = useBotInquiryInsert();
   const { register, reset, handleSubmit, formState: { errors, isSubmitting } } = useForm<InquiryFormData>({
     resolver: zodResolver(inquirySchema),
@@ -46,6 +47,7 @@ const Route = () => {
           data: {
             ...data,
             bot: botId,
+            uid,
             status: 'new',
             // date_created: new Date().toISOString(),
           }
