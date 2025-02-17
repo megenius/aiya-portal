@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { Avatar } from "@repo/preline/Avatar";
 import { useBotInquiry } from "~/hooks/bot/useBotInquiries";
 
-interface ContactTableProps {
+interface InquiriesTableProps {
   botId: string;
   searchValue: string;
 }
 
-const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
+const InquiriesTable: React.FC<InquiriesTableProps> = ({
+  botId,
+  searchValue,
+}) => {
   const { data: inquiries, isLoading } = useBotInquiry({
     id: botId,
   });
@@ -29,17 +32,17 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                   Date created
                 </div>
               </th>
-              <th scope="col" className="min-w-[240px]">
+              <th scope="col" className="min-w-[200px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   User ID
                 </div>
               </th>
-              <th scope="col" className="min-w-[240px]">
+              <th scope="col" className="min-w-[200px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Email
                 </div>
               </th>
-              <th scope="col" className="min-w-[200px]">
+              <th scope="col" className="min-w-[180px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Name
                 </div>
@@ -49,8 +52,8 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                   Subject
                 </div>
               </th>
-              <th scope="col" className="min-w-[150px]">
-                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
+              <th scope="col" className="min-w-[100px]">
+                <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
                   Type
                 </div>
               </th>
@@ -78,7 +81,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                     <td className="size-px pe-4 py-3">
                       <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
                     </td>
-                    
                   </tr>
                 ))
               : filteredInquiries?.map((inquiry) => (
@@ -88,7 +90,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                         {formatDate(inquiry.date_created)}
                       </span>
                     </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <td className="size-px pe-4 py-3">
                       <span className="text-sm font-medium text-gray-800">
                         {inquiry?.uid}
                       </span>
@@ -113,7 +115,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                         {inquiry.inquiry_type}
                       </span>
                     </td>
-                    
                   </tr>
                 ))}
           </tbody>
@@ -123,7 +124,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
   );
 };
 
-export default ContactTable;
+export default InquiriesTable;
 
 function formatDate(isoString) {
   const date = new Date(isoString);

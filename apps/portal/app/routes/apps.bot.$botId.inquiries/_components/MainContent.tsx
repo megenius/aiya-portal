@@ -7,7 +7,7 @@ import { useFacebookSDK } from "~/hooks/useFacebookSDK";
 import { Loading } from "@repo/preline";
 import { useBotOrders } from "~/hooks/bot/useBotOrders";
 import { NumericFormat } from "react-number-format";
-import ContactTable from "./ContactTable";
+import InquiriesTable from "./InquiriesTable";
 
 interface MainContentProps {
   bot: Bot;
@@ -53,7 +53,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           {/* <MemberStats channels={channels?.items} /> */}
 
           {/* Table Section */}
-          <ContactTable botId={bot.id} searchValue={searchValue} />
+          <InquiriesTable botId={bot.id} searchValue={searchValue} />
           {/* End Table Section */}
         </div>
       </div>
