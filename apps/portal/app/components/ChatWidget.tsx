@@ -21,7 +21,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ providerId, toggleChat }) => {
         </button>
       </div>
       <iframe
-        src={`https://webchat.aiya.me/?id=${providerId}&embed=true&compact=true&playground=1`}
+        src={`https://webchat.aiya.me/?id=${providerId}&embed=true&compact=true&playground=1&_t=${Date.now()}`}
         style={{
           width: "100%",
           height: "calc(100% - 4rem)",
