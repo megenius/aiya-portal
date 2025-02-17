@@ -16,10 +16,11 @@ import { s3Routes } from "./routes/s3";
 import { cors } from "hono/cors";
 import { usersRoutes } from "./routes/users";
 import { webhookRoutes } from "./routes/webhoook";
+import { clientRoutes } from "./routes/client.route";
 
 const app = new Hono<Env>()
   .basePath("/api")
-  
+  .route("/client", clientRoutes)
 
   .use("*", async (c, next) => {
     if (

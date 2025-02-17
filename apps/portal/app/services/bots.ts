@@ -1,6 +1,7 @@
 import {
   Bot,
   BotChannelStatus,
+  BotInquiry,
   BotIntent,
   BotKnowledge,
   BotKnowledgeUpdate,
@@ -344,3 +345,9 @@ export const generateBotIntent = (text: string) =>
       },
     ],
   });
+
+
+// --------------- inquiries ---------------
+export const insertBotInquiry = async (botId: string, data: Partial<BotInquiry>) => {
+  return await api.post<BotInquiry>(`/client/inquiry`, data);
+};
