@@ -2,7 +2,9 @@ import { ResponseElement } from "@repo/shared";
 import { components } from "./directus";
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"];
-export type Bot = components["schemas"]["ItemsBots"];
+export type Bot = components["schemas"]["ItemsBots"] & {
+  metadata: BotMetadata;
+};
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
 
@@ -190,7 +192,6 @@ export interface CAPIEventMessage {
 }
 
 export namespace NsCapi {
-
   export interface RequestBody {
     event: Event;
     botId: string;
@@ -220,4 +221,46 @@ export namespace NsCapi {
     currency: string;
     value: number;
   }
+}
+
+export interface BotMetadata {
+  llm: Llm;
+  mode: string;
+  max_search_results: number;
+  min_confidence: number;
+  enabled: number;
+  agent_type: string;
+  temperature: number;
+  embedding_model: string;
+  waiting_message: string;
+  fallback: Fallback;
+  greeting_message_enabled: boolean;
+  routing_enabled: boolean;
+  fallback_enabled: boolean;
+  show_name_enabled: boolean;
+}
+
+export interface Llm {
+  provider: string;
+  model: string;
+  max_input_tokens: number;
+  max_output_tokens: number;
+  temperature: number;
+}
+
+export interface Fallback {
+  mode: string;
+  provider: string;
+  model: string;
+  confidence: number;
+  support_languages: string[];
+  title: string;
+  message: string;
+  notifications: Notification[];
+}
+
+export interface Notification {
+  type: string;
+  email: string;
+  template_id: string;
 }

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Avatar } from "@repo/preline/Avatar";
 import { useBotInquiry } from "~/hooks/bot/useBotInquiries";
+import { format } from "date-fns";
 
 interface InquiriesTableProps {
   botId: string;
@@ -15,6 +16,19 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({
   const { data: inquiries, isLoading } = useBotInquiry({
     id: botId,
   });
+  const isValidUUID = (str) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(str);
+  };
+
+  const getUID = (socialId: string) => {
+    if (isValidUUID(socialId)) {
+      const formattedToken = `U${socialId.split('-')[0]}`;
+      return formattedToken;
+    }
+
+    return socialId;
+  }
 
   const filteredInquiries = inquiries?.filter(
     (inquiry) =>
@@ -34,22 +48,17 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({
               </th>
               <th scope="col" className="min-w-[200px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  User ID
+                  Name/User ID
                 </div>
               </th>
               <th scope="col" className="min-w-[200px]">
                 <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Email
-                </div>
-              </th>
-              <th scope="col" className="min-w-[180px]">
-                <div className="px-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Name
+                  Email/Phone
                 </div>
               </th>
               <th scope="col" className="min-w-[350px]">
                 <div className="pe-4 py-3 text-start flex items-center gap-x-1 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  Subject
+                  Topic
                 </div>
               </th>
               <th scope="col" className="min-w-[100px]">
@@ -62,61 +71,89 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({
           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
             {isLoading
               ? [...Array(5)].map((_, index) => (
-                  <tr key={index} className="animate-pulse">
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-36 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                  </tr>
-                ))
+                <tr key={index} className="animate-pulse">
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-36 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                </tr>
+              ))
               : filteredInquiries?.map((inquiry) => (
-                  <tr key={inquiry.id}>
-                    <td className="size-px pe-4 py-3">
-                      <span className="text-sm text-gray-600">
-                        {formatDate(inquiry.date_created)}
+                <tr key={inquiry.id}>
+                  <td className="size-px pe-4 py-3">
+                    {/* <span className="text-sm text-gray-600">
+                      {formatDate(inquiry.date_created)}
+                    </span> */}
+                    <div className="w-full items-center gap-x-3">
+                      <div className="grow">
+                        <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
+                          {format(inquiry.date_created, "HH:mm:ss")}
+                        </span>
+                      </div>
+                      <div className="grow">
+                        <span className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                          {format(inquiry.date_created, "yyyy-MM-dd")}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <div className="grow">
+                      <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        {inquiry.name}
                       </span>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <span className="text-sm font-medium text-gray-800">
-                        {inquiry?.uid}
+                    </div>
+                    <div className="grow">
+                      <span className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                        {getUID(inquiry?.uid || "")}
                       </span>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <span className="text-sm font-medium text-gray-800">
-                        {inquiry?.email}
+                    </div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="grow">
+                      <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        {inquiry.email}
                       </span>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <span className="text-sm font-medium text-gray-800">
-                        {inquiry?.name}
+                    </div>
+                    <div className="grow">
+                      <span className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                        {inquiry?.phone}
                       </span>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <span className="text-sm text-gray-600">
+                    </div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                  <div className="grow">
+                      <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
                         {inquiry.subject}
                       </span>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <span className="text-sm text-gray-600">
-                        {inquiry.inquiry_type}
+                    </div>
+                    <div className="grow">
+                      <span className="text-sm font-medium text-gray-400 dark:text-neutral-200">
+                        {inquiry.description}
                       </span>
-                    </td>
-                  </tr>
-                ))}
+                    </div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <span className="text-sm text-gray-600">
+                      {inquiry.inquiry_type}
+                    </span>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

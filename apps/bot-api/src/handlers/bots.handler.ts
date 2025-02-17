@@ -750,9 +750,7 @@ export const inquiriesHandler = factory.createHandlers(
       readItems("bots_inquiries", {
         fields: ["*"],
         filter: { bot: botId },
-        sort: [
-          "-date_created"
-        ],
+        sort: ["-date_created"],
       })
     );
 
@@ -773,6 +771,7 @@ export const createInquiryHandler = factory.createHandlers(
         ...data,
       })
     );
+
     return c.json(item);
   }
 );

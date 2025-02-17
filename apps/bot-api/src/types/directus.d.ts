@@ -2832,6 +2832,45 @@ export interface paths {
      */
     patch: operations["updateSingleItemsBotDocumentsFiles"];
   };
+  "/items/bots_model": {
+    /**
+     * List Items
+     * @description List the bots_model items.
+     */
+    get: operations["readItemsBotsModel"];
+    /**
+     * Create an Item
+     * @description Create a new bots_model item.
+     */
+    post: operations["createItemsBotsModel"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing bots_model items.
+     */
+    delete: operations["deleteItemsBotsModel"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple bots_model items at the same time.
+     */
+    patch: operations["updateItemsBotsModel"];
+  };
+  "/items/bots_model/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single bots_model item by unique identifier.
+     */
+    get: operations["readSingleItemsBotsModel"];
+    /**
+     * Delete an Item
+     * @description Delete an existing bots_model item.
+     */
+    delete: operations["deleteSingleItemsBotsModel"];
+    /**
+     * Update an Item
+     * @description Update an existing bots_model item.
+     */
+    patch: operations["updateSingleItemsBotsModel"];
+  };
   "/items/saas_features": {
     /**
      * List Items
@@ -5736,6 +5775,10 @@ export interface components {
       subject?: string | null;
       field3?: string | null;
       field4?: string | null;
+      field5?: string | null;
+      field6?: string | null;
+      field7?: string | null;
+      field8?: string | null;
     };
     ItemsChatHubsChannelsHubs: {
       id?: number;
@@ -5746,6 +5789,18 @@ export interface components {
       id?: number;
       bot_documents_id?: number | components["schemas"]["ItemsBotDocuments"] | null;
       directus_files_id?: string | components["schemas"]["Files"] | null;
+    };
+    ItemsBotsModel: {
+      id?: number;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      model?: string | null;
+      provider?: string | null;
+      max_input_tokens?: number | null;
+      max_output_tokens?: number | null;
     };
     ItemsSaasFeatures: {
       /** Format: uuid */
@@ -6119,6 +6174,7 @@ export interface components {
       metadata?: unknown;
       /** Format: timestamp */
       date_created: string;
+      uid?: string | null;
     };
     ItemsBotDocuments: {
       id?: number;
@@ -20159,6 +20215,189 @@ export interface operations {
   };
   /**
    * List Items
+   * @description List the bots_model items.
+   */
+  readItemsBotsModel: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsModel"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new bots_model item.
+   */
+  createItemsBotsModel: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsModel"][] | components["schemas"]["ItemsBotsModel"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing bots_model items.
+   */
+  deleteItemsBotsModel: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple bots_model items at the same time.
+   */
+  updateItemsBotsModel: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsModel"][] | components["schemas"]["ItemsBotsModel"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single bots_model item by unique identifier.
+   */
+  readSingleItemsBotsModel: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsModel"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing bots_model item.
+   */
+  deleteSingleItemsBotsModel: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing bots_model item.
+   */
+  updateSingleItemsBotsModel: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBotsModel"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBotsModel"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
    * @description List the saas_features items.
    */
   readItemsSaasFeatures: {
@@ -25175,6 +25414,7 @@ export type Schema = {
   mail_outbox: components["schemas"]["ItemsMailOutbox"][];
   chat_hubs_channels_hubs: components["schemas"]["ItemsChatHubsChannelsHubs"][];
   bot_documents_files: components["schemas"]["ItemsBotDocumentsFiles"][];
+  bots_model: components["schemas"]["ItemsBotsModel"][];
   saas_features: components["schemas"]["ItemsSaasFeatures"][];
   bots_datasources_fields: components["schemas"]["ItemsBotsDatasourcesFields"][];
   tmp: components["schemas"]["ItemsTmp"][];
