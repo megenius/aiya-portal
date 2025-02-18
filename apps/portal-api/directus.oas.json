@@ -1723,15 +1723,15 @@
                 ]
             }
         },
-        "/items/hubs": {
+        "/items/chat_hubs": {
             "post": {
                 "summary": "Create an Item",
-                "description": "Create a new hubs item.",
+                "description": "Create a new chat_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "createItemsHubs",
+                "operationId": "createItemsChatHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Meta"
@@ -1745,11 +1745,11 @@
                                     {
                                         "type": "array",
                                         "items": {
-                                            "$ref": "#/components/schemas/ItemsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubs"
                                         }
                                     },
                                     {
-                                        "$ref": "#/components/schemas/ItemsHubs"
+                                        "$ref": "#/components/schemas/ItemsChatHubs"
                                     }
                                 ]
                             }
@@ -1766,7 +1766,7 @@
                                     "properties": {
                                         "data": {
                                             "items": {
-                                                "$ref": "#/components/schemas/ItemsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubs"
                                             }
                                         }
                                     }
@@ -1781,12 +1781,12 @@
             },
             "get": {
                 "summary": "List Items",
-                "description": "List the hubs items.",
+                "description": "List the chat_hubs items.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "readItemsHubs",
+                "operationId": "readItemsChatHubs",
                 "security": [
                     {
                         "Auth": []
@@ -1827,7 +1827,7 @@
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
-                                                "$ref": "#/components/schemas/ItemsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubs"
                                             }
                                         },
                                         "meta": {
@@ -1845,12 +1845,12 @@
             },
             "patch": {
                 "summary": "Update Multiple Items",
-                "description": "Update multiple hubs items at the same time.",
+                "description": "Update multiple chat_hubs items at the same time.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "updateItemsHubs",
+                "operationId": "updateItemsChatHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -1882,11 +1882,11 @@
                                     {
                                         "type": "array",
                                         "items": {
-                                            "$ref": "#/components/schemas/ItemsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubs"
                                         }
                                     },
                                     {
-                                        "$ref": "#/components/schemas/ItemsHubs"
+                                        "$ref": "#/components/schemas/ItemsChatHubs"
                                     }
                                 ]
                             }
@@ -1902,7 +1902,7 @@
                                     "properties": {
                                         "data": {
                                             "items": {
-                                                "$ref": "#/components/schemas/ItemsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubs"
                                             }
                                         }
                                     }
@@ -1914,12 +1914,12 @@
             },
             "delete": {
                 "summary": "Delete Multiple Items",
-                "description": "Delete multiple existing hubs items.",
+                "description": "Delete multiple existing chat_hubs items.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "deleteItemsHubs",
+                "operationId": "deleteItemsChatHubs",
                 "responses": {
                     "200": {
                         "description": "Successful request"
@@ -1931,15 +1931,15 @@
                 "parameters": []
             }
         },
-        "/items/hubs/{id}": {
+        "/items/chat_hubs/{id}": {
             "get": {
                 "summary": "Retrieve an Item",
-                "description": "Retrieve a single hubs item by unique identifier.",
+                "description": "Retrieve a single chat_hubs item by unique identifier.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "readSingleItemsHubs",
+                "operationId": "readSingleItemsChatHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -1981,7 +1981,7 @@
                                     "properties": {
                                         "data": {
                                             "type": "object",
-                                            "$ref": "#/components/schemas/ItemsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubs"
                                         }
                                     }
                                 }
@@ -1998,12 +1998,12 @@
             },
             "patch": {
                 "summary": "Update an Item",
-                "description": "Update an existing hubs item.",
+                "description": "Update an existing chat_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "updateSingleItemsHubs",
+                "operationId": "updateSingleItemsChatHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -2037,7 +2037,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "$ref": "#/components/schemas/ItemsHubs"
+                                "$ref": "#/components/schemas/ItemsChatHubs"
                             }
                         }
                     }
@@ -2052,7 +2052,7 @@
                                     "properties": {
                                         "data": {
                                             "type": "object",
-                                            "$ref": "#/components/schemas/ItemsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubs"
                                         }
                                     }
                                 }
@@ -2069,12 +2069,12 @@
             },
             "delete": {
                 "summary": "Delete an Item",
-                "description": "Delete an existing hubs item.",
+                "description": "Delete an existing chat_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsHubs"
+                    "ItemsChatHubs"
                 ],
-                "operationId": "deleteSingleItemsHubs",
+                "operationId": "deleteSingleItemsChatHubs",
                 "responses": {
                     "200": {
                         "description": "Successful request"
@@ -26101,6 +26101,393 @@
                 ]
             }
         },
+        "/items/channels_hubs": {
+            "post": {
+                "summary": "Create an Item",
+                "description": "Create a new channels_hubs item.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "createItemsChannelsHubs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "items": {
+                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "get": {
+                "summary": "List Items",
+                "description": "List the channels_hubs items.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "readItemsChannelsHubs",
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Offset"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Sort"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/x-metadata"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update Multiple Items",
+                "description": "Update multiple channels_hubs items at the same time.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "updateItemsChannelsHubs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Offset"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Sort"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "items": {
+                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Multiple Items",
+                "description": "Delete multiple existing channels_hubs items.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "deleteItemsChannelsHubs",
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/items/channels_hubs/{id}": {
+            "get": {
+                "summary": "Retrieve an Item",
+                "description": "Retrieve a single channels_hubs item by unique identifier.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "readSingleItemsChannelsHubs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Version"
+                    },
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update an Item",
+                "description": "Update an existing channels_hubs item.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "updateSingleItemsChannelsHubs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an Item",
+                "description": "Delete an existing channels_hubs item.",
+                "tags": [
+                    "Items",
+                    "ItemsChannelsHubs"
+                ],
+                "operationId": "deleteSingleItemsChannelsHubs",
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
         "/items/mail_outbox": {
             "post": {
                 "summary": "Create an Item",
@@ -26488,15 +26875,15 @@
                 ]
             }
         },
-        "/items/channels_hubs": {
+        "/items/chat_hubs_channels_hubs": {
             "post": {
                 "summary": "Create an Item",
-                "description": "Create a new channels_hubs item.",
+                "description": "Create a new chat_hubs_channels_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "createItemsChannelsHubs",
+                "operationId": "createItemsChatHubsChannelsHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Meta"
@@ -26510,11 +26897,11 @@
                                     {
                                         "type": "array",
                                         "items": {
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                         }
                                     },
                                     {
-                                        "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                     }
                                 ]
                             }
@@ -26531,7 +26918,7 @@
                                     "properties": {
                                         "data": {
                                             "items": {
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                             }
                                         }
                                     }
@@ -26546,12 +26933,12 @@
             },
             "get": {
                 "summary": "List Items",
-                "description": "List the channels_hubs items.",
+                "description": "List the chat_hubs_channels_hubs items.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "readItemsChannelsHubs",
+                "operationId": "readItemsChatHubsChannelsHubs",
                 "security": [
                     {
                         "Auth": []
@@ -26592,7 +26979,7 @@
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                             }
                                         },
                                         "meta": {
@@ -26610,12 +26997,12 @@
             },
             "patch": {
                 "summary": "Update Multiple Items",
-                "description": "Update multiple channels_hubs items at the same time.",
+                "description": "Update multiple chat_hubs_channels_hubs items at the same time.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "updateItemsChannelsHubs",
+                "operationId": "updateItemsChatHubsChannelsHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -26647,11 +27034,11 @@
                                     {
                                         "type": "array",
                                         "items": {
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                         }
                                     },
                                     {
-                                        "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                        "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                     }
                                 ]
                             }
@@ -26667,7 +27054,7 @@
                                     "properties": {
                                         "data": {
                                             "items": {
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                                "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                             }
                                         }
                                     }
@@ -26679,12 +27066,12 @@
             },
             "delete": {
                 "summary": "Delete Multiple Items",
-                "description": "Delete multiple existing channels_hubs items.",
+                "description": "Delete multiple existing chat_hubs_channels_hubs items.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "deleteItemsChannelsHubs",
+                "operationId": "deleteItemsChatHubsChannelsHubs",
                 "responses": {
                     "200": {
                         "description": "Successful request"
@@ -26696,15 +27083,15 @@
                 "parameters": []
             }
         },
-        "/items/channels_hubs/{id}": {
+        "/items/chat_hubs_channels_hubs/{id}": {
             "get": {
                 "summary": "Retrieve an Item",
-                "description": "Retrieve a single channels_hubs item by unique identifier.",
+                "description": "Retrieve a single chat_hubs_channels_hubs item by unique identifier.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "readSingleItemsChannelsHubs",
+                "operationId": "readSingleItemsChatHubsChannelsHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -26746,7 +27133,7 @@
                                     "properties": {
                                         "data": {
                                             "type": "object",
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                         }
                                     }
                                 }
@@ -26763,12 +27150,12 @@
             },
             "patch": {
                 "summary": "Update an Item",
-                "description": "Update an existing channels_hubs item.",
+                "description": "Update an existing chat_hubs_channels_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "updateSingleItemsChannelsHubs",
+                "operationId": "updateSingleItemsChatHubsChannelsHubs",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Fields"
@@ -26802,7 +27189,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                             }
                         }
                     }
@@ -26817,7 +27204,7 @@
                                     "properties": {
                                         "data": {
                                             "type": "object",
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs"
+                                            "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                         }
                                     }
                                 }
@@ -26834,12 +27221,12 @@
             },
             "delete": {
                 "summary": "Delete an Item",
-                "description": "Delete an existing channels_hubs item.",
+                "description": "Delete an existing chat_hubs_channels_hubs item.",
                 "tags": [
                     "Items",
-                    "ItemsChannelsHubs"
+                    "ItemsChatHubsChannelsHubs"
                 ],
-                "operationId": "deleteSingleItemsChannelsHubs",
+                "operationId": "deleteSingleItemsChatHubsChannelsHubs",
                 "responses": {
                     "200": {
                         "description": "Successful request"
@@ -36535,393 +36922,6 @@
                     }
                 ]
             }
-        },
-        "/items/channels_hubs_1": {
-            "post": {
-                "summary": "Create an Item",
-                "description": "Create a new channels_hubs_1 item.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "createItemsChannelsHubs1",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Meta"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "oneOf": [
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                        }
-                                    },
-                                    {
-                                        "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "items": {
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    }
-                }
-            },
-            "get": {
-                "summary": "List Items",
-                "description": "List the channels_hubs_1 items.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "readItemsChannelsHubs1",
-                "security": [
-                    {
-                        "Auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Fields"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Meta"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Offset"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Sort"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Filter"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Search"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                            }
-                                        },
-                                        "meta": {
-                                            "$ref": "#/components/schemas/x-metadata"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    }
-                }
-            },
-            "patch": {
-                "summary": "Update Multiple Items",
-                "description": "Update multiple channels_hubs_1 items at the same time.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "updateItemsChannelsHubs1",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Fields"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Meta"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Offset"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Sort"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Filter"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Search"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "oneOf": [
-                                    {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                        }
-                                    },
-                                    {
-                                        "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "items": {
-                                                "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Delete Multiple Items",
-                "description": "Delete multiple existing channels_hubs_1 items.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "deleteItemsChannelsHubs1",
-                "responses": {
-                    "200": {
-                        "description": "Successful request"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    }
-                },
-                "parameters": []
-            }
-        },
-        "/items/channels_hubs_1/{id}": {
-            "get": {
-                "summary": "Retrieve an Item",
-                "description": "Retrieve a single channels_hubs_1 item by unique identifier.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "readSingleItemsChannelsHubs1",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Fields"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Meta"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Version"
-                    },
-                    {
-                        "name": "id",
-                        "description": "Index of the item.",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "description": "Incremental index of the item.",
-                                    "example": 1
-                                },
-                                {
-                                    "type": "string",
-                                    "description": "Unique identifier of the item.",
-                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFoundError"
-                    }
-                }
-            },
-            "patch": {
-                "summary": "Update an Item",
-                "description": "Update an existing channels_hubs_1 item.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "updateSingleItemsChannelsHubs1",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Fields"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Meta"
-                    },
-                    {
-                        "name": "id",
-                        "description": "Index of the item.",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "description": "Incremental index of the item.",
-                                    "example": 1
-                                },
-                                {
-                                    "type": "string",
-                                    "description": "Unique identifier of the item.",
-                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFoundError"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Delete an Item",
-                "description": "Delete an existing channels_hubs_1 item.",
-                "tags": [
-                    "Items",
-                    "ItemsChannelsHubs1"
-                ],
-                "operationId": "deleteSingleItemsChannelsHubs1",
-                "responses": {
-                    "200": {
-                        "description": "Successful request"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFoundError"
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "id",
-                        "description": "Index of the item.",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "description": "Incremental index of the item.",
-                                    "example": 1
-                                },
-                                {
-                                    "type": "string",
-                                    "description": "Unique identifier of the item.",
-                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
         }
     },
     "tags": [
@@ -36966,8 +36966,8 @@
             "x-collection": "saas_helpdesk_translations"
         },
         {
-            "name": "ItemsHubs",
-            "x-collection": "hubs"
+            "name": "ItemsChatHubs",
+            "x-collection": "chat_hubs"
         },
         {
             "name": "Roles",
@@ -37248,12 +37248,16 @@
             "x-collection": "saas_coupons"
         },
         {
+            "name": "ItemsChannelsHubs",
+            "x-collection": "channels_hubs"
+        },
+        {
             "name": "ItemsMailOutbox",
             "x-collection": "mail_outbox"
         },
         {
-            "name": "ItemsChannelsHubs",
-            "x-collection": "channels_hubs"
+            "name": "ItemsChatHubsChannelsHubs",
+            "x-collection": "chat_hubs_channels_hubs"
         },
         {
             "name": "ItemsSaasFeatures",
@@ -37356,10 +37360,6 @@
         {
             "name": "ItemsSaasTermsTranslations",
             "x-collection": "saas_terms_translations"
-        },
-        {
-            "name": "ItemsChannelsHubs1",
-            "x-collection": "channels_hubs_1"
         }
     ],
     "components": {
@@ -38048,7 +38048,7 @@
                 },
                 "x-collection": "saas_helpdesk_translations"
             },
-            "ItemsHubs": {
+            "ItemsChatHubs": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -38114,13 +38114,13 @@
                                     "type": "integer"
                                 },
                                 {
-                                    "$ref": "#/components/schemas/ItemsHubsChannelsHubs"
+                                    "$ref": "#/components/schemas/ItemsChatHubsChannelsHubs"
                                 }
                             ]
                         }
                     }
                 },
-                "x-collection": "hubs"
+                "x-collection": "chat_hubs"
             },
             "Collections": {
                 "type": "object",
@@ -41048,20 +41048,6 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "hubs": {
-                        "nullable": true,
-                        "type": "array",
-                        "items": {
-                            "oneOf": [
-                                {
-                                    "type": "integer"
-                                },
-                                {
-                                    "$ref": "#/components/schemas/ItemsChannelsHubs1"
-                                }
-                            ]
-                        }
-                    },
                     "orderbots": {
                         "nullable": true,
                         "type": "array",
@@ -43144,6 +43130,39 @@
                     "id"
                 ]
             },
+            "ItemsChannelsHubs": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "nullable": false,
+                        "type": "integer"
+                    },
+                    "channel_id": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsChannels"
+                            }
+                        ]
+                    },
+                    "chat_hub_id": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsChatHubs"
+                            }
+                        ]
+                    }
+                },
+                "x-collection": "channels_hubs"
+            },
             "ItemsMailOutbox": {
                 "type": "object",
                 "properties": {
@@ -43236,38 +43255,37 @@
                     "id"
                 ]
             },
-            "ItemsChannelsHubs": {
+            "ItemsChatHubsChannelsHubs": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "nullable": false,
                         "type": "integer"
                     },
-                    "channel_id": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsChannels"
-                            }
-                        ]
-                    },
-                    "hub_id": {
+                    "chat_hubs_id": {
                         "nullable": true,
                         "oneOf": [
                             {
                                 "type": "integer"
                             },
                             {
-                                "$ref": "#/components/schemas/ItemsHubs"
+                                "$ref": "#/components/schemas/ItemsChatHubs"
+                            }
+                        ]
+                    },
+                    "channels_hubs_id": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsChannelsHubs"
                             }
                         ]
                     }
                 },
-                "x-collection": "channels_hubs"
+                "x-collection": "chat_hubs_channels_hubs"
             },
             "ItemsSaasFeatures": {
                 "type": "object",
@@ -44725,17 +44743,6 @@
                         "nullable": false,
                         "type": "integer"
                     },
-                    "hubs_id": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "integer"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsHubs"
-                            }
-                        ]
-                    },
                     "channels_hubs_id": {
                         "nullable": true,
                         "oneOf": [
@@ -44799,39 +44806,6 @@
                     }
                 },
                 "x-collection": "saas_terms_translations"
-            },
-            "ItemsChannelsHubs1": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "nullable": false,
-                        "type": "integer"
-                    },
-                    "channels_id": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsChannels"
-                            }
-                        ]
-                    },
-                    "hubs_id": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "integer"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsHubs"
-                            }
-                        ]
-                    }
-                },
-                "x-collection": "channels_hubs_1"
             }
         },
         "parameters": {

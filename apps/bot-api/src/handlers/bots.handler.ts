@@ -1,5 +1,6 @@
 import {
   createItem,
+  createItems,
   deleteItem,
   readItem,
   readItems,
@@ -134,6 +135,24 @@ export const insertBotHandler = factory.createHandlers(
   }
 );
 
+
+// insert channels_bots ----------------------------------------------------------
+export const insertChannelsBotsHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    try {
+      const directus = c.get("directus");
+      const data = await c.req.json();
+      const item = await directus.request(
+        createItems("channels_bots", data)
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
 
 // Channel ----------------------------------------------------------
 export const getBotChannelsHandler = factory.createHandlers(

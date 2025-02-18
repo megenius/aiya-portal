@@ -56,7 +56,7 @@ const app = new Hono<Env>()
   .route("/vouchers", voucherRoutes)
   .route("/users", usersRoutes)
   .route("/webhook", webhookRoutes)
-  .route("/hubs",hubRoutes)
+  .route("/chathubs",hubRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

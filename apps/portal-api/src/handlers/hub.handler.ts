@@ -12,7 +12,7 @@ export const getHubData = factory.createHandlers(
   async (c) => {
     try {
       const directus = c.get("directus");
-      const hubData = await directus.request(readItems("hubs"));
+      const hubData = await directus.request(readItems("chat_hubs"));
       return c.json(hubData);
     } catch (error) {
       console.error(error);
@@ -29,7 +29,7 @@ export const insertHub = factory.createHandlers(
       const directus = c.get("directus");
       const body = await c.req.json();
       const newHub = await directus.request(
-        createItem("hubs", body)
+        createItem("chat_hubs", body)
       );
       return c.json(newHub, 201);
     } catch (error) {

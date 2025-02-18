@@ -31,6 +31,9 @@ botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 //delete channel
 botsRoutes.delete("/:id/channels", ...BotsHandler.deleteBotChannelHandler);
 
+// Insert channels_bots
+botsRoutes.post("/channelsbots", ...BotsHandler.insertChannelsBotsHandler);
+
 botsRoutes.route("/:id/insights", insightsRoutes);
 
 
