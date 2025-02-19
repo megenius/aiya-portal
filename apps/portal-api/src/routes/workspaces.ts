@@ -22,6 +22,6 @@ const workspacesRoutes = new Hono<Env>()
   .get("/:id/chats", ...WorkspaceHandler.getWorkspaceChats)
   .get("/:id/products", ...WorkspaceHandler.getWorkspaceProducts)
   .get("/:id/orderbots", ...WorkspaceHandler.getWorkspaceOrderbots)
-  .get("/:id/hubs", ...WorkspaceHandler.getWorkspaceHubs) // New route for getWorkspaceHubs
+  .get("/:id/chathubs", ...WorkspaceHandler.getWorkspaceHubs) // New route for getWorkspaceHubs
 
 export { workspacesRoutes };
