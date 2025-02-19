@@ -118,7 +118,7 @@ export const insertBotHandler = factory.createHandlers(
         bot: bot.id,
         team: bot.team,
         provider: "Widget",
-        provider_id: randomHexString(32),
+        provider_id: "P"+bot.id,
         provider_name: bot.name,
         name: `${bot.name} (Widget)`,
         platform: "Website",

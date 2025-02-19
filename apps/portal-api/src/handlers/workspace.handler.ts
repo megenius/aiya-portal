@@ -608,7 +608,7 @@ export const getWorkspaceHubs = factory.createHandlers(
       const workspaceId = c.req.param("id") as string;
       const directus = c.get("directus");
       const items = await directus.request(
-        readItems("hubs", {
+        readItems("chat_hubs", {
           filter: {
             team: {
               _eq: workspaceId,
