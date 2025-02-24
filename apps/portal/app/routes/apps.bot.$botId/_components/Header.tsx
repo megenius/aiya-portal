@@ -35,10 +35,11 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   if (bot.type === 'chatbot') {
     navItems = [
       { label: 'Dashboard', to: `/apps/bot/${botId}/dashboard` },
-      // { label: 'Contacts', to: `/apps/bot/${botId}/contacts` },
+      { label: 'Contacts', to: `/apps/bot/${botId}/contacts` },
       { label: 'Messages', to: `/apps/bot/${botId}/messages` },
       { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
       // { label: 'Playground', to: `/apps/bot/${botId}/chat` },
+      { label: 'Inquiries', to: `/apps/bot/${botId}/inquiries` },
       { label: 'Logs', to: `/apps/bot/${botId}/logs` },
       // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
       { label: 'Settings', to: `/apps/bot/${botId}/settings` },
@@ -54,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
   }
 
   return (
-    <header className="flex flex-col z-50">
+    <header className="flex flex-col">
       <div className="bg-gray-800 border-b border-gray-700 dark:bg-black dark:border-neutral-800">
         <div className="max-w-[85rem] flex justify-between lg:grid lg:grid-cols-2 basis-full items-center w-full mx-auto py-2.5 px-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-x-3">

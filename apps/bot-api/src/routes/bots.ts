@@ -60,4 +60,9 @@ botsRoutes.post("/", ...BotsHandler.insertBotHandler);
 botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
 
 
+// inquiries
+botsRoutes.get("/:id/inquiries", ...BotsHandler.inquiriesHandler);
+botsRoutes.post("/:id/inquiries", ...BotsHandler.inquiriesHandler);
+
+
 export { botsRoutes };

@@ -5,6 +5,8 @@ import { Env } from "./types/hono.types";
 import { knowledgesRoutes } from "./routes/knowledges";
 import { authMiddleware } from "./middlewares/auth.middleware";
 import geminiRoutes from "./routes/gemini";
+import { set } from "date-fns";
+import { setupRoutes } from "./routes/setup.route";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -21,6 +23,7 @@ const app = new Hono<Env>()
   .route("/bots", botsRoutes)
   .route("/bots/knowledges", knowledgesRoutes)
   .route("/bots/gemini", geminiRoutes)
+  .route("/bots/setup", setupRoutes)
 // .route("/bots/embedding", textEmbeddingRoutes)
 // .route("/webhook", webhookRoutes);
 

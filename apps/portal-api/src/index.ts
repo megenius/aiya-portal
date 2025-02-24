@@ -11,6 +11,7 @@ import { voucherRoutes } from "./routes/voucher";
 import { workspacesRoutes } from "./routes/workspaces";
 
 import { cors } from "hono/cors";
+import { clientRoutes } from "./routes/client.route";
 import { hubRoutes } from "./routes/hub";
 import { s3Routes } from "./routes/s3";
 import { usersRoutes } from "./routes/users";
@@ -19,7 +20,7 @@ import { Env } from "./types/hono.types";
 
 const app = new Hono<Env>()
   .basePath("/api")
-  
+  .route("/client", clientRoutes)
 
   .use("*", async (c, next) => {
     if (

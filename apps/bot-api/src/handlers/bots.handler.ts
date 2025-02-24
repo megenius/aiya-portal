@@ -797,3 +797,40 @@ export const serviceHandler = factory.createHandlers(
     });
   }
 );
+
+export const inquiriesHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+
+    const items = await directus.request(
+      readItems("bots_inquiries", {
+        fields: ["*"],
+        filter: { bot: botId },
+        sort: ["-date_created"],
+      })
+    );
+
+    return c.json(items);
+  }
+);
+
+export const createInquiryHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const botId = c.req.param("id");
+    const directus = c.get("directus");
+    const data = await c.req.json();
+    const item = await directus.request(
+      createItem("bots_inquiries", {
+        bot: botId,
+        ...data,
+      })
+    );
+
+    return c.json(item);
+  }
+);
