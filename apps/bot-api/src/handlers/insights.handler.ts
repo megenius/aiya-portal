@@ -606,12 +606,13 @@ export const getTodayStatsHandler = factory.createHandlers(
 
 export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c) => {
   const supabase = c.get("supabase");
+  const botId = c.req.param("id");
 
   // Fetch logs from Supabase
   const { data, error } = await supabase
     .from("bots_logs")
     .select("*")
-    .eq("bot_id", c.req.param("id"))
+    .eq("bot_id", botId)
     .order("created", { ascending: false })
     .order("social_id", { ascending: false });
 
@@ -620,54 +621,46 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
     return c.json({ error: error?.message || "Failed to fetch logs" }, 400);
   }
 
-  // Map to store the latest log per social_id
-  const latestLogs = new Map();
-  data.forEach((log) => {
-    if (!latestLogs.has(log.social_id)) {
-      latestLogs.set(log.social_id, log);
-    }
-  });
+  // Reduce logs to keep only the latest per social_id
+  const latestLogs = Object.values(
+    data.reduce((acc, log) => {
+      if (!acc[log.social_id]) acc[log.social_id] = log;
+      return acc;
+    }, {})
+  );
 
   const directus = c.get("directus");
+  const providerIds = [...new Set(latestLogs.map((log) => log.provider_id))];
 
   try {
-    // Fetch channel & profiles asynchronously
+    // Fetch all channels in one request
+    const channels = await directus.request(
+      readItems("channels", {
+        filter: { provider_id: { _in: providerIds } },
+      })
+    );
+    const channelMap = Object.fromEntries(channels.map((ch) => [ch.provider_id, ch]));
+
+    // Fetch profiles in parallel
     const latestLogsWithChannels = await Promise.all(
-      Array.from(latestLogs.values()).map(async (item) => {
-        try {
-          // Fetch channel from Directus
-          const channel = await directus.request(
-            readItems("channels", {
-              filter: {
-                provider_id: { _eq: item.provider_id },
-              },
-            })
-          );
-
-          if (channel?.length > 0) {
-            const platform = item.platform.toLowerCase();
-            let profile = null;
-
-            // Fetch profile based on platform
-            if (platform === "line") {
-              profile = await getLineFollowerProfileMessagingApi(
-                item.social_id,
-                channel[0].provider_access_token!
-              );
-            } else if (platform === "facebook") {
-              profile = await getFacebookFollowerProfileGraphApi(
-                item.social_id,
-                channel[0].provider_access_token!
-              );
-            }
-            return { ...item, channel: channel[0], profile };
+      latestLogs.map(async (item) => {
+        const channel = channelMap[item.provider_id] || null;
+        let profile = null;
+        if (channel) {
+          const platform = item.platform.toLowerCase();
+          if (platform === "line") {
+            profile = await getLineFollowerProfileMessagingApi(
+              item.social_id,
+              channel.provider_access_token
+            );
+          } else if (platform === "facebook") {
+            profile = await getFacebookFollowerProfileGraphApi(
+              item.social_id,
+              channel.provider_access_token
+            );
           }
-
-          return { ...item, channel: null, profile: null };
-        } catch (channelError) {
-          console.error(`❌ Error fetching channel for provider_id: ${item.provider_id}`, channelError);
-          return { ...item, channel: null, profile: null };
         }
+        return { ...item, channel, profile };
       })
     );
 
