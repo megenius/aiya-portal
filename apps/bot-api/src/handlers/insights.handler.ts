@@ -660,7 +660,6 @@ export const getLatestLogs = factory.createHandlers(supabaseMiddleware, async (c
                 channel[0].provider_access_token!
               );
             }
-
             return { ...item, channel: channel[0], profile };
           }
 
