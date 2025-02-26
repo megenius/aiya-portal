@@ -7,17 +7,17 @@ import { useLineLiff } from "~/hooks/useLineLiff";
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const { data: liff } = useLineLiff();
-  // const myCoupons = [
-  //   {
-  //     id: 1,
-  //     type: "booking",
-  //     store: "ร้านอาหารอร่อยดี",
-  //     category: "food",
-  //     discount: "ส่วนลด 25%",
-  //     expiry: "31 มี.ค. 2025",
-  //     image: "https://placehold.co/200x150",
-  //   },
-  // ];
+  const myCoupons = [
+    {
+      id: 1,
+      type: "booking",
+      store: "ร้านอาหารอร่อยดี",
+      category: "food",
+      discount: "ส่วนลด 25%",
+      expiry: "31 มี.ค. 2025",
+      image: "https://placehold.co/200x150",
+    },
+  ];
 
   // return (
   //   <>{JSON.stringify(page)}</>
