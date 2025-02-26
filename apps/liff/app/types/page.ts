@@ -31,6 +31,12 @@ export interface Metadata {
   scripts: Script[];
   tracking: Tracking;
   layout: Layout;
+  welcomeTextTH: string;
+  welcomeTextEN: string;
+  descriptionTH: string;
+  descriptionEN: string;
+  coupons: Coupon[];
+  categories: Category[];
 }
 
 export interface Condition {
@@ -60,6 +66,8 @@ export interface Tracking {
 export interface Layout {
   showProfile: boolean
   showAIProfile: boolean
+  showCategory: boolean
+  showSearch: boolean
   form: {
     fields: Field[];
   };
@@ -70,4 +78,21 @@ export interface Field {
   type: string;
   label: string;
   required?: boolean
+}
+
+interface Coupon {
+  id: string;
+  to: string;
+  titleTH: string;
+  titleEN: string;
+  category: string;
+  image: string;
+}
+
+export interface Category {
+  id: string;
+  nameTH: string;
+  nameEN: string;
+  image: string;
+  icon: string;
 }
