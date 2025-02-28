@@ -19,17 +19,18 @@ const Route = () => {
     },
   ];
 
-  // return (
-  //   <>{JSON.stringify(page)}</>
-  // )
+  // return <>dd{JSON.stringify(page)}</>;
 
   return (
-    page?.liff_id && (
+    <>
+    {page?.liff_id && (
       <>
         <Header myCouponsCount={myCoupons.length} page={page} />
         <MainContent page={page} />
       </>
-    )
+    )}
+    </>
+    
   );
 };
 

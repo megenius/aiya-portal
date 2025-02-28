@@ -17,9 +17,9 @@ export function Header({ myCouponsCount, page }: HeaderProps) {
   const welcomeText = isThaiLanguage
     ? page.metadata.welcomeTextTH
     : page.metadata.welcomeTextEN;
-  const description = isThaiLanguage
-    ? page.metadata.descriptionTH
-    : page.metadata.descriptionEN;
+  const subWelcomeText = isThaiLanguage
+    ? page.metadata.subWelcomeTextTH
+    : page.metadata.subWelcomeTextEN;
   const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
@@ -53,12 +53,12 @@ export function Header({ myCouponsCount, page }: HeaderProps) {
               <div className="font-semibold">
                 {welcomeText}, {profile?.displayName}
               </div>
-              <div className="text-sm text-gray-500">{description}</div>
+              <div className="text-sm text-gray-500">{subWelcomeText}</div>
             </div>
           </>
         )}
       </div>
-      <button
+      {/* <button
         onClick={navigateToMyCoupon}
         className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 relative"
       >
@@ -66,7 +66,7 @@ export function Header({ myCouponsCount, page }: HeaderProps) {
         <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
           {myCouponsCount}
         </span>
-      </button>
+      </button> */}
     </div>
   );
 }

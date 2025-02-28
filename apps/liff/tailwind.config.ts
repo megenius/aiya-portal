@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 export default {
   content: [
     "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
-    './node_modules/preline/preline.js',
+    "./node_modules/preline/preline.js",
   ],
   theme: {
     extend: {
@@ -18,6 +18,11 @@ export default {
           '"Segoe UI Symbol"',
           '"Noto Color Emoji"',
         ],
+      },
+      colors: {
+        primary: "#2563eb",
+        primaryHover: "#b6554b",
+        secondary: "#bfdbfe",
       },
     },
   },

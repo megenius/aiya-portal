@@ -12,7 +12,7 @@ const Route = () => {
   return (
     <>
       <main id="content" className="min-h-screen">
-        <Outlet context={page}/>
+        <Outlet context={{page}}/>
       </main>
     </>
   );
