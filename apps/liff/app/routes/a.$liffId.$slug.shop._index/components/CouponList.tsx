@@ -1,16 +1,16 @@
 import React from "react";
-import CouponCard from "./CouponCard";
-import { Coupon } from "~/types/page";
+import VoucherCard from "./CouponCard";
+import { Voucher } from "~/types/app";
 
-interface CouponListProps {
-  coupons: Coupon[];
+interface VoucherListProps {
+  vouchers: Voucher[];
   isThaiLanguage: boolean;
   titleTH?: string;
   titleEN?: string;
 }
 
-const CouponList: React.FC<CouponListProps> = ({
-  coupons,
+const VoucherList: React.FC<VoucherListProps> = ({
+  vouchers,
   isThaiLanguage,
   titleTH,
   titleEN,
@@ -27,10 +27,10 @@ const CouponList: React.FC<CouponListProps> = ({
           msOverflowStyle: "none",
         }}
       >
-        {coupons?.map((coupon) => (
-          <CouponCard
-            key={coupon.id}
-            coupon={coupon}
+        {vouchers?.map((voucher) => (
+          <VoucherCard
+            key={voucher.id}
+            voucher={voucher}
             isThaiLanguage={isThaiLanguage}
           />
         ))}
@@ -39,4 +39,4 @@ const CouponList: React.FC<CouponListProps> = ({
   );
 };
 
-export default CouponList;
+export default VoucherList;

@@ -5,7 +5,8 @@ import { PageLiff } from "~/types/page";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import CouponSummary from "./CouponSummary.tsx";
-import CouponList from "./CouponList";
+import VoucherList from "./CouponList";
+import { useVouchers } from "~/hooks/voucher/useVouchers";
 
 interface MainContentProps {
   page: PageLiff;
@@ -15,6 +16,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const {data : vouchers, isLoading : isVouchersLoading} = useVouchers();
 
   const brands = [
     { id: 1, name: "Starbucks", logo: "https://placehold.co/60x60" },
@@ -25,7 +27,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
     { id: 6, name: "UNIQLO", logo: "https://placehold.co/60x60" },
   ];
 
-  if (!isLoggedIn && !page) {
+  if (!isLoggedIn && isVouchersLoading && !page) {
     return <Loading />;
   }
 
@@ -44,8 +46,8 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
         )}
       </div>
 
-      <CouponList
-        coupons={page?.metadata?.coupons}
+      <VoucherList
+        vouchers={vouchers}
         isThaiLanguage={isThaiLanguage}
         titleTH="คูปองยอดนิยม"
         titleEN="Popular Coupons"
@@ -79,8 +81,8 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
         </div>
       </div>
 
-      <CouponList
-        coupons={page?.metadata?.coupons.filter((coupon) => coupon.category === "2" || coupon.category === "3")}
+      <VoucherList
+        vouchers={page?.metadata?.coupons.filter((coupon) => coupon.category === "2" || coupon.category === "3")}
         isThaiLanguage={isThaiLanguage}
         titleTH="อาหารและเครื่องดื่ม"
         titleEN="Food & Beverage"

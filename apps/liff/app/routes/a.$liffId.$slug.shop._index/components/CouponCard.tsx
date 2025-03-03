@@ -1,32 +1,31 @@
 import { useNavigate } from "@remix-run/react";
 import React from "react";
-import { Coupon } from "~/types/page";
+import { Voucher } from "~/types/app";
 
-interface CouponCardProps {
-  coupon: Coupon;
+interface VoucherCardProps {
+  voucher: Voucher;
   isThaiLanguage: boolean;
 }
 
-const CouponCard: React.FC<CouponCardProps> = ({
-  coupon,
+const VoucherCard: React.FC<VoucherCardProps> = ({
+  voucher,
   isThaiLanguage,
 }) => {
     const navigate = useNavigate();
-    const title = isThaiLanguage ? coupon.titleTH : coupon.titleEN;
-    const promotion = isThaiLanguage ? coupon.promotionTH : coupon.promotionEN;
+    const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
 
       const navigateToCollectCoupon = (couponId: string) =>
         navigate(`/a/mockup/coupon/${couponId}`);
   
   return (
     <button
-      onClick={() => navigateToCollectCoupon(coupon.id)}
+      onClick={() => navigateToCollectCoupon(voucher.id)}
       className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer flex flex-col shrink-0 w-36"
     >
       <div className="h-32 relative">
         <img
-          src={coupon.image}
-          alt={title}
+          src={voucher.cover ?? ""}
+          alt={title ?? ""}
           className="w-full h-32 object-cover"
         />
         <div className="absolute bottom-2 left-2">
@@ -45,12 +44,12 @@ const CouponCard: React.FC<CouponCardProps> = ({
       </div>
       <div className="p-3">
         <h3 className="font-medium leading-snug text-start text-sm line-clamp-2">
-          {title}
+          {voucher.name}
         </h3>
         
         <div className="flex items-center justify-between">
           <span className="text-primary text-start text-xs text-pretty font-medium line-clamp-2">
-            {promotion}
+            {title}
           </span>
           {/* {expiry && (
             <span className="text-xs text-gray-500">
@@ -63,4 +62,4 @@ const CouponCard: React.FC<CouponCardProps> = ({
   );
 };
 
-export default CouponCard;
+export default VoucherCard;
