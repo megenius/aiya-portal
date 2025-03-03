@@ -1,30 +1,30 @@
 import React from "react";
 import { Ticket } from "lucide-react";
-import { NavigateFunction, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 
-interface CouponSummaryProps {
+interface VoucherSummaryProps {
   isThaiLanguage: boolean;
-  totalCoupons?: number;
-  availableCoupons?: number;
-  usedCoupons?: number;
+  totalVouchers?: number;
+  availableVouchers?: number;
+  usedVouchers?: number;
   totalSaved?: string;
 }
 
-const CouponSummary: React.FC<CouponSummaryProps> = ({
+const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   isThaiLanguage,
-  totalCoupons = 12,
-  availableCoupons = 8,
-  usedCoupons = 4,
+  totalVouchers = 12,
+  availableVouchers = 8,
+  usedVouchers = 4,
   totalSaved = "฿218.50",
 }) => {
   const navigate = useNavigate();
-  const navigateToMyCoupons = () => {
-    console.log("Navigate to My Coupons");
+  const navigateToMyVouchers = () => {
+    console.log("Navigate to My Vouchers");
 
     navigate("/a/2006392276-1qv3Lnpm/shop-test/myCoupons");
   };
   const availablePercentage =
-    totalCoupons > 0 ? (availableCoupons / totalCoupons) * 100 : 0;
+    totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;
 
   return (
     <div className="bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
@@ -39,16 +39,16 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
             </div>
             <div className="flex-1">
               <h3 className="text-white font-medium text-lg">
-                {isThaiLanguage ? "คูปองของฉัน" : "My Coupons"}
+                {isThaiLanguage ? "วอชเชอร์ของฉัน" : "My Vouchers"}
               </h3>
               <div className="flex items-baseline">
                 <span className="text-xl font-bold text-white">
-                  {totalCoupons}
+                  {totalVouchers}
                 </span>
                 <span className="ml-1 text-white/70 text-sm">
                   {isThaiLanguage
-                    ? "คูปองที่เก็บในเดือนนี้"
-                    : "Coupons collected this month"}
+                    ? "วอชเชอร์ที่เก็บในเดือนนี้"
+                    : "Vouchers collected this month"}
                 </span>
               </div>
             </div>
@@ -60,7 +60,7 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
                 {isThaiLanguage ? "พร้อมใช้งาน" : "Available"}
               </div>
               <div className="text-white/90 text-sm font-medium">
-                {availableCoupons}
+                {availableVouchers}
               </div>
             </div>
             <div className="w-full bg-white/20 rounded-full h-1.5 mb-2">
@@ -71,16 +71,16 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
             </div>
             <div className="flex justify-between">
               <div className="text-white/70 text-xs">
-                {isThaiLanguage ? "ใช้แล้ว" : "Used"}: {usedCoupons}
+                {isThaiLanguage ? "ใช้แล้ว" : "Used"}: {usedVouchers}
               </div>
               {/* <div className="text-white/70 text-xs">Total saved: {totalSaved}</div> */}
             </div>
           </div>
           <button
             className="w-full bg-white/10 border border-white/20 text-white py-2 rounded-lg flex items-center justify-center font-medium relative z-10"
-            onClick={navigateToMyCoupons}
+            onClick={navigateToMyVouchers}
           >
-            {isThaiLanguage ? "คูปองของฉันทั้งหมด" : "View All Coupons"}
+            {isThaiLanguage ? "วอชเชอร์ของฉันทั้งหมด" : "View All Vouchers"}
           </button>
         </div>
       </div>
@@ -88,4 +88,4 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
   );
 };
 
-export default CouponSummary;
+export default VoucherSummary;

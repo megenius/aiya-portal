@@ -1,6 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import React from "react";
 import { Voucher } from "~/types/app";
+import { getDirectusFileUrl } from "~/utils/files";
 
 interface VoucherCardProps {
   voucher: Voucher;
@@ -24,7 +25,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     >
       <div className="h-32 relative">
         <img
-          src={voucher.cover ?? ""}
+          src={getDirectusFileUrl(voucher.cover as string) ?? ""}
           alt={title ?? ""}
           className="w-full h-32 object-cover"
         />

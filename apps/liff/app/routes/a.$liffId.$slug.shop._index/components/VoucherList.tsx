@@ -1,5 +1,5 @@
 import React from "react";
-import VoucherCard from "./CouponCard";
+import VoucherCard from "./VoucherCard";
 import { Voucher } from "~/types/app";
 
 interface VoucherListProps {

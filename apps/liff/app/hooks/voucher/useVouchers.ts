@@ -8,7 +8,7 @@ interface useVouchersProps {
 export function useVouchers() {
   return useQuery({
     queryKey: ["voucher"],
-    queryFn: () => fetchVouchers(),
+    queryFn: () => fetchVouchers().then((res) => res.data),
     // enabled: ,
   });
 }

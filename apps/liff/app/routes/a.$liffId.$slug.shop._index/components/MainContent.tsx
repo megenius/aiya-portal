@@ -4,8 +4,8 @@ import { CategoryList } from "./CategoryList";
 import { PageLiff } from "~/types/page";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
-import CouponSummary from "./CouponSummary.tsx";
-import VoucherList from "./CouponList";
+import VoucherSummary from "./VoucherSummary";
+import VoucherList from "./VoucherList";
 import { useVouchers } from "~/hooks/voucher/useVouchers";
 
 interface MainContentProps {
@@ -30,12 +30,13 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
   if (!isLoggedIn && isVouchersLoading && !page) {
     return <Loading />;
   }
+  
 
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 space-y-3">
         <SearchBar />
-        <CouponSummary isThaiLanguage={isThaiLanguage} />
+        <VoucherSummary isThaiLanguage={isThaiLanguage} />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
             isThaiLanguage={isThaiLanguage}
@@ -47,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
       </div>
 
       <VoucherList
-        vouchers={vouchers}
+        vouchers={vouchers?.slice(1) ?? []}
         isThaiLanguage={isThaiLanguage}
         titleTH="คูปองยอดนิยม"
         titleEN="Popular Coupons"
@@ -81,12 +82,12 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
         </div>
       </div>
 
-      <VoucherList
+      {/* <VoucherList
         vouchers={page?.metadata?.coupons.filter((coupon) => coupon.category === "2" || coupon.category === "3")}
         isThaiLanguage={isThaiLanguage}
         titleTH="อาหารและเครื่องดื่ม"
         titleEN="Food & Beverage"
-      />
+      /> */}
     </div>
   );
 };
