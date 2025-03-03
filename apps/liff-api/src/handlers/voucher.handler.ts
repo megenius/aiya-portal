@@ -11,7 +11,7 @@ const factory = createFactory<Env>();
 export const getVouchers = factory.createHandlers(
   logger(),
   directusMiddleware,
-  async (c) => {
+  async (c) => {    
     const directus = c.get("directAdmin");
     const { status, q } = c.req.query();
 
@@ -37,7 +37,7 @@ export const getVoucher = factory.createHandlers(
     const directus = c.get("directAdmin");
     const voucher = await directus.request(
       readItem("vouchers", id, {
-        fields: ["id", "name", "cover", "ref_code", "status"],
+        // fields: ["id", "name", "cover", "ref_code", "status"],
       })
     );
     return c.json(voucher);
