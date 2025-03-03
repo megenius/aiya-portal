@@ -17,7 +17,7 @@ export const getVouchers = factory.createHandlers(
 
     const filters: any = {};
     if (status) filters.status = { _eq: status };
-    if (q) filters.name = { _contains: q };
+    if (q) filters.name = { _icontains: q };
 
     const vouchers = await directus.request(
       readItems("vouchers", {
