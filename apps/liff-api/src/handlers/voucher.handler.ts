@@ -1,10 +1,9 @@
-import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
+import { createItem, readItem, readItems } from "@directus/sdk";
+import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import { Env } from "~/types/hono.types";
-import * as _ from "lodash";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { addDays, endOfDay, formatDate } from "date-fns";
+import { Env } from "~/types/hono.types";
 
 const factory = createFactory<Env>();
 
@@ -14,7 +13,17 @@ export const getVouchers = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const vouchers = await directus.request(readItems("vouchers"));
+    const { status, q } = c.req.query();
+
+    const filters: any = {};
+    if (status) filters.status = { _eq: status };
+    if (q) filters.name = { _icontains: q };
+
+    const vouchers = await directus.request(
+      readItems("vouchers", {
+        filter: filters,
+      })
+    );
     return c.json(vouchers);
   }
 );
