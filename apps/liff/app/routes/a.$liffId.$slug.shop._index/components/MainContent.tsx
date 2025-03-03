@@ -31,9 +31,9 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
 
   return (
     <div className="bg-white pb-3 space-y-3">
-      <div className="px-4 pb-3 space-y-3">
+      <div className="px-4 space-y-3">
         <SearchBar />
-        <CouponSummary />
+        <CouponSummary isThaiLanguage={isThaiLanguage} />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
             isThaiLanguage={isThaiLanguage}
@@ -55,7 +55,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
         <h3 className="px-4 text-lg font-medium">
           {isThaiLanguage ? "แบรนด์" : "Brands"}
         </h3>
-        <div className="flex overflow-x-auto pb-2 gap-4 px-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <div className="flex overflow-x-auto gap-3 px-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {brands.map((brand) => (
             <div
               key={brand.id}

@@ -12,7 +12,7 @@ export function CategoryList({ isThaiLanguage, categories, selected, onSelect }:
   
   return (
     <div
-      className="flex overflow-x-auto gap-3"
+      className="flex overflow-x-auto pb-2 gap-3"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
       {/* All category button */}
