@@ -1,17 +1,14 @@
 import React from "react";
-import { Ticket } from "lucide-react";
-import { useNavigate } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 
 interface HeaderProps {
-  myCouponsCount: number;
   page: PageLiff;
 }
 
-export function Header({ myCouponsCount, page }: HeaderProps) {
+export function Header({ page }: HeaderProps) {
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
   const welcomeText = isThaiLanguage
@@ -20,12 +17,12 @@ export function Header({ myCouponsCount, page }: HeaderProps) {
   const subWelcomeText = isThaiLanguage
     ? page.metadata.subWelcomeTextTH
     : page.metadata.subWelcomeTextEN;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
-  const navigateToMyCoupon = () => {
-    navigate(`/a/12/shop/12/myCoupons`);
-  };
+  // const navigateToMyCoupon = () => {
+  //   navigate(`/a/12/shop/12/myCoupons`);
+  // };
 
   if (!isLoggedIn && !page) {
     return <Loading />;

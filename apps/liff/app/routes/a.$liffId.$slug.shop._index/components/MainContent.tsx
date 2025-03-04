@@ -16,7 +16,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const {data : vouchers, isLoading : isVouchersLoading} = useVouchers();
+  const {data : vouchers, isLoading : isVouchersLoading} = useVouchers({q: "", status: "published"});
 
   const brands = [
     { id: 1, name: "Starbucks", logo: "https://placehold.co/60x60" },
@@ -48,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
       </div>
 
       <VoucherList
-        vouchers={vouchers?.slice(1) ?? []}
+        vouchers={vouchers ?? []}
         isThaiLanguage={isThaiLanguage}
         titleTH="คูปองยอดนิยม"
         titleEN="Popular Coupons"

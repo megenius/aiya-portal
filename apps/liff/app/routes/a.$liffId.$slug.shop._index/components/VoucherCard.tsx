@@ -1,6 +1,7 @@
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useOutletContext } from "@remix-run/react";
 import React from "react";
 import { Voucher } from "~/types/app";
+import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 
 interface VoucherCardProps {
@@ -12,11 +13,12 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
   isThaiLanguage,
 }) => {
+  const { page } = useOutletContext<{ page: PageLiff }>();
     const navigate = useNavigate();
     const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
 
-      const navigateToCollectCoupon = (couponId: string) =>
-        navigate(`/a/mockup/coupon/${couponId}`);
+      const navigateToCollectCoupon = (voucherId: string) =>
+        navigate(`/a/${page.liff_id}/voucher/${voucherId}`);
   
   return (
     <button

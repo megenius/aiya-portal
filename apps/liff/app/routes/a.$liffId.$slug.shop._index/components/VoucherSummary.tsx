@@ -39,7 +39,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
             </div>
             <div className="flex-1">
               <h3 className="text-white font-medium text-lg">
-                {isThaiLanguage ? "วอชเชอร์ของฉัน" : "My Vouchers"}
+                {isThaiLanguage ? "คูปองของฉัน" : "My Vouchers"}
               </h3>
               <div className="flex items-baseline">
                 <span className="text-xl font-bold text-white">
@@ -47,7 +47,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
                 </span>
                 <span className="ml-1 text-white/70 text-sm">
                   {isThaiLanguage
-                    ? "วอชเชอร์ที่เก็บในเดือนนี้"
+                    ? "คูปองที่เก็บในเดือนนี้"
                     : "Vouchers collected this month"}
                 </span>
               </div>
@@ -80,7 +80,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
             className="w-full bg-white/10 border border-white/20 text-white py-2 rounded-lg flex items-center justify-center font-medium relative z-10"
             onClick={navigateToMyVouchers}
           >
-            {isThaiLanguage ? "วอชเชอร์ของฉันทั้งหมด" : "View All Vouchers"}
+            {isThaiLanguage ? "คูปองของฉันทั้งหมด" : "View All Vouchers"}
           </button>
         </div>
       </div>

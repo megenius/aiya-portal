@@ -1,49 +1,39 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "@remix-run/react";
 import Header from "./Header";
 import NavigationTabs from "./NavigationTabs";
-import CouponCard from "./CouponCard";
+import VoucherCard from "./VoucherCard";
+import { Voucher } from "~/types/app";
+import RedeemModal from "./RedeemModal";
 
-interface MainContentProps {}
+interface MainContentProps {
+  vouchers: Voucher[];
+  isThaiLanguage: boolean;
+}
 
-const MainContent: React.FC<MainContentProps> = () => {
+const MainContent: React.FC<MainContentProps> = ({
+  vouchers,
+  isThaiLanguage,
+}) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("available");
-
-  const navigateToUseCoupon = (couponId: string) =>
-    navigate(`/a/mockup/coupon/${couponId}`);
-
-  const myCoupons = [
-    {
-      id: 1,
-      image: "https://placehold.co/200x150",
-      store: "Store 1",
-      category: "Category 1",
-      discount: "10% off",
-    },
-    {
-      id: 2,
-      image: "https://placehold.co/200x150",
-      store: "Store 2",
-      category: "Category 2",
-      discount: "20% off",
-    },
-  ];
+  const [voucher, setVoucher] = useState<Voucher | null>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="p-4">
-        {myCoupons.map((coupon) => (
-          <CouponCard
-            key={coupon.id}
-            coupon={coupon}
-            onClick={navigateToUseCoupon}
-          />
-        ))}
-      </main>
-    </div>
+    <>
+        <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <main className="p-4">
+          {vouchers.map((voucher) => (
+            <VoucherCard
+              key={voucher.id}
+              voucher={voucher}
+              onClick={() => setVoucher(voucher)}
+              isThaiLanguage={isThaiLanguage}
+            />
+          ))}
+        </main>
+        {voucher && <RedeemModal voucher={voucher} isThaiLanguage={isThaiLanguage} isOpen={voucher != null} onClose={()=> setVoucher(null)}/>}
+    </>
   );
 };
 
