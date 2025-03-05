@@ -33,8 +33,8 @@ export interface Metadata {
   layout: Layout;
   welcomeTextTH: string;
   welcomeTextEN: string;
-  descriptionTH: string;
-  descriptionEN: string;
+  subWelcomeTextTH: string;
+  subWelcomeTextEN: string;
   coupons: Coupon[];
   categories: Category[];
 }
@@ -80,11 +80,13 @@ export interface Field {
   required?: boolean
 }
 
-interface Coupon {
+export interface Coupon {
   id: string;
   to: string;
   titleTH: string;
   titleEN: string;
+  promotionTH: string;
+  promotionEN: string;
   category: string;
   image: string;
 }
