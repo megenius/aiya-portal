@@ -2,9 +2,11 @@ import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
 import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
+import * as _ from "lodash";
 import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
+
 
 const factory = createFactory<Env>();
 
@@ -151,5 +153,50 @@ export const createVoucherCode = factory.createHandlers(
       })
     );
     return c.json(data);
+  }
+);
+
+// getVouchersByUser
+export const getVouchersByUser = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { uid } = c.req.query();
+    const directus = c.get("directAdmin");
+    const vouchers = await directus.request(
+      readItems("vouchers_users", {
+        filter: {
+          collected_by: {
+            _eq: uid,
+          },
+        },
+      })
+    );
+
+    const vouchersUserCode = await Promise.all(
+      vouchers.map(async (voucher: any) => {
+        console.log(voucher.code);
+        
+        const voucherData = await directus.request(
+          readItems("vouchers_codes",  {
+            fields: ["*", { voucher: ["*"] }],
+            filter: {
+              code: {
+                _eq: voucher.code,
+              },
+            },
+            limit: 1,
+          })
+        );
+        voucher = _.omit(voucher, ["code"]);
+
+        return {
+          ...voucher,
+          code: voucherData.length>0 ? voucherData[0] : null,
+        };
+      })
+    );
+
+    return c.json(vouchersUserCode);
   }
 );
