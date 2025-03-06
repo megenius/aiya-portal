@@ -2,6 +2,7 @@ import { createItem, readItem, readItems } from "@directus/sdk";
 import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
+import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 
@@ -112,6 +113,28 @@ export const collectVoucher = factory.createHandlers(
       })
     );
 
+    return c.json(data);
+  }
+);
+
+// createVoucherCode
+export const createVoucherCode = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { voucher_id } = await c.req.json();
+    const directus = c.get("directAdmin");
+
+    const code = nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, ''); // Generate a random code with 12 uppercase letters and numbers
+
+    const data = await directus.request(
+      createItem("vouchers_codes", {
+        voucher: voucher_id,
+        code,
+        status: "draft",
+        code_status: "available",
+      })
+    );
     return c.json(data);
   }
 );
