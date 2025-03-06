@@ -1,4 +1,4 @@
-import { createItem, readItem, readItems } from "@directus/sdk";
+import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
 import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -12,7 +12,7 @@ const factory = createFactory<Env>();
 export const getVouchers = factory.createHandlers(
   logger(),
   directusMiddleware,
-  async (c) => {    
+  async (c) => {
     const directus = c.get("directAdmin");
     const { status, q } = c.req.query();
 
@@ -53,63 +53,78 @@ export const collectVoucher = factory.createHandlers(
       utm_source,
       utm_medium,
       utm_campaign,
-      code,
+      voucher,
       collected_by,
       duration_days,
       end_date,
     } = await c.req.json();
     const directus = c.get("directAdmin");
 
-    if (!code) {
-      // get voucher by ad_code
-      const vouchers = await directus.request(
-        readItems("vouchers", {
-          fields: ["id", "duration_days", "end_date"],
-          filter: {
-            ref_code: {
-              _eq: utm_campaign as string,
-            },
+    // get voucher by ref_code
+    const vouchers = await directus.request(
+      readItems("vouchers", {
+        fields: ["id", "duration_days", "end_date"],
+        filter: {
+          id: {
+            _eq: voucher as string,
           },
-          limit: 1,
-        })
-      );
+          // ref_code: {
+          //   _eq: utm_campaign as string,
+          // },
+        },
+        limit: 1,
+      })
+    );
 
-      if (!vouchers.length) {
-        return c.json({ error: "Voucher not found" }, { status: 404 });
-      }
-
-      const voucher = vouchers[0];
-      end_date = voucher.end_date;
-      duration_days = voucher.duration_days;
-
-      const voucher_code = await directus.request(
-        readItems("vouchers_codes", {
-          fields: ["id", "code"],
-          filter: {
-            voucher: {
-              _eq: voucher.id,
-            },
-            code_status: {
-              _eq: "available",
-            },
-          },
-          limit: 1,
-        })
-      );
+    if (!vouchers.length) {
+      return c.json({ error: "Voucher not found" }, { status: 404 });
     }
+
+    const voucherData = vouchers[0];
+    end_date = voucherData.end_date;
+    duration_days = voucherData.duration_days;
+
+    // get available voucher code
+    const voucherCodes = await directus.request(
+      readItems("vouchers_codes", {
+        fields: ["id", "code"],
+        filter: {
+          voucher: {
+            _eq: voucherData.id,
+          },
+          code_status: {
+            _eq: "available",
+          },
+        },
+        limit: 1,
+      })
+    );
+
+    if (!voucherCodes.length) {
+      return c.json({ error: "No available voucher codes" }, { status: 404 });
+    }
+
+    const voucherCode = voucherCodes[0];
 
     // create voucher user
     const data = await directus.request(
       createItem("vouchers_users", {
         collected_by,
         collected_date: new Date().toISOString(),
-        code,
+        code: voucherCode.code,
         utm_source,
         utm_medium,
         utm_campaign,
         expired_date: duration_days
           ? endOfDay(addDays(new Date(), duration_days)).toISOString()
           : end_date,
+      })
+    );
+
+    // update voucher code status to "collected"
+    await directus.request(
+      updateItem("vouchers_codes", voucherCode.id, {
+        code_status: "collected",
       })
     );
 
