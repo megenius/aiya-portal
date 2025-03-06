@@ -1,9 +1,10 @@
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useParams } from "@remix-run/react";
 
 const Header: React.FC = () => {
+  const { liffId, slug } = useParams();
   const navigate = useNavigate();
-  const navigateToLanding = () => navigate(-1);
+  const navigateToLanding = () => navigate(`/a/${liffId}/${slug}/shop`);
 
   return (
     <header className="bg-white">

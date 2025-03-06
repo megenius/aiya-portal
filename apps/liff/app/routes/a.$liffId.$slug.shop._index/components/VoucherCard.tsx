@@ -18,7 +18,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
 
       const navigateToCollectCoupon = (voucherId: string) =>
-        navigate(`/a/${page.liff_id}/voucher/${voucherId}`);
+        navigate(`/a/${page.liff_id}/${page.slug}/voucher/${voucherId}`);
   
   return (
     <button

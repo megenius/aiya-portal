@@ -23,8 +23,10 @@ const FollowButton: React.FC<FollowButtonProps> = ({
     }, 1000);
   };
 
+  const cursor = isLoading ? "cursor-not-allowed" : "cursor-pointer";
+
   const getButtonStyles = () => {
-    if (isLoading) return "opacity-70 cursor-not-allowed";
+    // if (isLoading) return "opacity-70 cursor-not-allowed";
 
     if (isFollowed) {
       return color ? "" : "bg-primary text-white border-primary";
@@ -53,7 +55,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({
     <button
       onClick={handleClick}
       disabled={isLoading}
-      className={`px-3 py-1 border rounded-lg font-medium transition-colors flex items-center justify-center ${getButtonStyles()} ${className}`}
+      className={`px-3 py-1 border rounded-lg font-medium text-sm transition-colors flex items-center justify-center ${getButtonStyles()} ${cursor} ${className}`}
       style={getButtonStyle()}
     >
       {isLoading ? (

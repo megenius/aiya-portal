@@ -1,45 +1,94 @@
-import React, { useState } from "react";
-import { X, QrCode, Barcode, Check, Share2, Download, Tag } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, QrCode, Barcode, Clock, AlertCircle } from "lucide-react";
 import { Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
+import Tabs from "~/components/Tabs";
+import QRCodeGenerater from "~/components/QRCodeGenerater";
+import BarcodeGenerator from "~/components/BarCodeGenerater";
 
 interface RedeemModalProps {
   voucher: Voucher;
   isThaiLanguage: boolean;
-  isOpen: boolean;
+  primaryColor: string;
   onClose: () => void;
 }
 
 const RedeemModal: React.FC<RedeemModalProps> = ({
   voucher,
-    isThaiLanguage,
-  isOpen,
+  isThaiLanguage,
+  primaryColor,
   onClose,
 }) => {
   const [codeType, setCodeType] = useState("qrcode");
+  const [remainingTime, setRemainingTime] = useState(15 * 60);
+  const [showExpireWarning, setShowExpireWarning] = useState(false);
   const [isCollected, setIsCollected] = useState(false);
   const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
   const description = isThaiLanguage
     ? voucher.descriptionTH?.replace(/\\n/g, "\n")
     : voucher.descriptionEN?.replace(/\\n/g, "\n");
+  const condition = isThaiLanguage
+    ? voucher.conditionTH?.replace(/\\n/g, "\n")
+    : voucher.conditionEN?.replace(/\\n/g, "\n");
 
-  if (!isOpen) return null;
+  const [activeTab, setActiveTab] = useState("details");
+
+  const tabs = [
+    { id: "details", label: "รายละเอียด" },
+    { id: "conditions", label: "เงื่อนไข" },
+    { id: "locations", label: "สาขา" },
+  ];
+
+  // ฟังก์ชันนับถอยหลัง
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        if (prevTime <= 0) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (remainingTime <= 0) {
+      onClose();
+    }
+    if (remainingTime <= 60) {
+      setShowExpireWarning(true);
+    }
+  }, [remainingTime]);
+
+  if (!voucher) return null;
 
   const handleCollect = () => {
     setIsCollected(true);
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
+  const timePercentage = (remainingTime / (15 * 60)) * 100;
+
+  // คำนวณสีของตัวนับเวลา
+  const getTimeColor = () => {
+    if (remainingTime <= 60) return "text-red-600"; // <= 1 นาที: สีแดง
+    if (remainingTime <= 5 * 60) return "text-yellow-400"; // <= 5 นาที: สีเหลือง
+    return "text-primary"; // > 5 นาที: สีน้ำเงิน
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl w-full max-w-sm m-4 overflow-hidden">
-        <div className="flex items-center justify-between bg-blue-800 text-white p-4">
-          <h2 className="text-lg font-semibold">ใช้คูปอง</h2>
-          <button onClick={onClose} className="text-white">
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <div className="p-4 border-b">
+      <div className="p-4 bg-white rounded-2xl w-full max-w-sm m-4 overflow-hidden">
+        <div className="mb-2 flex justify-between">
           <div className="flex items-start gap-3">
             <img
               src={getDirectusFileUrl(voucher.cover as string) ?? ""}
@@ -48,39 +97,76 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
             />
             <div>
               <h3 className="font-medium text-lg">{voucher.name}</h3>
-              <div className="text-primary font-medium text-lg">
+              <h4 className="text-sm text-gray-500">{title}</h4>
+              {/* <div className="text-primary font-medium text-lg">
                 {voucher.discount}
               </div>
               <div className="text-xs text-gray-500 mt-1">
                 หมดอายุ: {voucher.expiry}
-              </div>
+              </div> */}
             </div>
+          </div>
+          <div>
+            <button onClick={onClose} className="text-gray-500">
+              <X className="h-6 w-6" />
+            </button>
           </div>
         </div>
 
         {isCollected ? (
           // แสดงหลังจากรับคูปองแล้ว
-          <div className="p-4">
-            <div className="text-center mb-4">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Check className="h-8 w-8 text-green-600" />
+          <div className="space-y-3">
+            {/* แสดงเวลาที่เหลือ */}
+            <div
+              className={`p-4 rounded-lg ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Clock className={`h-5 w-5 ${getTimeColor()}`} />
+                  <span className="text-sm font-medium text-gray-700">
+                    คูปองนี้จะหมดอายุในอีก
+                  </span>
+                </div>
+                <div className={`font-bold text-xl ${getTimeColor()}`}>
+                  {formatTime(remainingTime)}
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-green-600">
-                รับคูปองสำเร็จ!
-              </h3>
-              <p className="text-gray-600 mt-1">
-                คูปองถูกบันทึกไว้ใน &quot;คูปองของฉัน&quot; แล้ว
-              </p>
+
+              {/* Progress Bar */}
+              <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className={`h-2 rounded-full ${
+                    remainingTime <= 60
+                      ? "bg-red-600"
+                      : remainingTime <= 5 * 60
+                        ? "bg-yellow-400"
+                        : "bg-primary"
+                  }`}
+                  style={{ width: `${timePercentage}%` }}
+                ></div>
+              </div>
+
+              {/* Expire Warning */}
+              {showExpireWarning && (
+                <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที</span>
+                </div>
+              )}
             </div>
 
             {/* Code Type Selection */}
-            <div className="flex border rounded-lg overflow-hidden mb-4">
+            <div className="flex rounded-lg overflow-hidden">
               <button
                 className={`flex-1 py-3 text-center ${
                   codeType === "qrcode"
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-700"
                 }`}
+                style={{
+                  backgroundColor:
+                    codeType === "qrcode" ? primaryColor : undefined,
+                }}
                 onClick={() => setCodeType("qrcode")}
               >
                 <div className="flex items-center justify-center gap-2">
@@ -94,6 +180,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-700"
                 }`}
+                style={{
+                  backgroundColor:
+                    codeType === "barcode" ? primaryColor : undefined,
+                }}
                 onClick={() => setCodeType("barcode")}
               >
                 <div className="flex items-center justify-center gap-2">
@@ -105,46 +195,29 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 
             {/* Code Display */}
             <div className="border rounded-lg p-4 mb-4">
-              {codeType === "qrcode" ? (
-                // QR Code Display
-                <div className="flex flex-col items-center">
-                  <img
+              <div className="flex flex-col items-center">
+                {/* <img
                     src="/api/placeholder/200/200"
                     alt="QR Code"
                     className="w-48 h-48 mb-2"
-                  />
-                  <div className="text-center text-sm text-gray-500 mt-1">
+                  /> */}
+                {codeType === "qrcode" ? (
+                  <QRCodeGenerater text={voucher.id} />
+                ) : (
+                  <BarcodeGenerator text={"dfasdfadsfa"} />
+                )}
+
+                {/* <div className="text-center text-sm text-gray-500 mt-1">
                     แสดง QR Code นี้ให้พนักงาน
-                  </div>
-                  <div className="mt-2 text-center font-mono text-sm text-gray-700">
-                    COUPON-{voucher.id}-
-                    {Math.floor(Math.random() * 10000)
-                      .toString()
-                      .padStart(4, "0")}
-                  </div>
+                  </div> */}
+                <div className="mt-2 text-center font-mono text-xs text-gray-700">
+                  Ref : {voucher.id}
                 </div>
-              ) : (
-                // Barcode Display
-                <div className="flex flex-col items-center">
-                  <img
-                    src="/api/placeholder/240/100"
-                    alt="Barcode"
-                    className="w-full h-20 mb-2"
-                  />
-                  <div className="text-center text-sm text-gray-500 mt-1">
-                    แสดง Barcode นี้ให้พนักงาน
-                  </div>
-                  <div className="mt-2 text-center font-mono text-sm text-gray-700">
-                    {Array.from({ length: 12 }, () =>
-                      Math.floor(Math.random() * 10)
-                    ).join("")}
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <button className="flex-1 flex items-center justify-center gap-2 bg-gray-100 py-3 rounded-lg font-medium text-gray-700">
                 <Share2 className="h-5 w-5" />
                 <span>แชร์</span>
@@ -153,65 +226,43 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <Download className="h-5 w-5" />
                 <span>บันทึก</span>
               </button>
-            </div>
+            </div> */}
           </div>
         ) : (
           // แสดงก่อนรับคูปอง
-          <div className="p-4">
-            <div className="bg-gray-50 rounded-lg p-4 mb-4">
-              <h4 className="font-medium mb-2">รายละเอียดคูปอง</h4>
-              <p className="text-sm text-gray-700 mb-2">
-                {description}
-              </p>
-              <div className="text-sm text-gray-700">
-                <div className="font-medium">เงื่อนไขการใช้</div>
-                <ul className="list-disc list-inside text-sm text-gray-600 mt-1">
-                  <li>ใช้ได้ที่สาขาที่ร่วมรายการเท่านั้น</li>
-                  <li>ไม่สามารถใช้ร่วมกับโปรโมชั่นอื่นได้</li>
-                  <li>1 สิทธิ์ต่อ 1 บิล</li>
-                </ul>
+          <div className="space-y-3">
+            <div>
+              <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                primaryColor={primaryColor}
+              />
+              <div className="pt-2 max-h-48 overflow-y-auto text-sm text-gray-700 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                {activeTab === "details" && (
+                  <p className="whitespace-pre-wrap">{description}</p>
+                )}
+                {activeTab === "conditions" && (
+                  <p className="whitespace-pre-wrap">{condition}</p>
+                )}
+                {activeTab === "locations" && (
+                  <ul className="whitespace-pre-wrap">
+                    <li>• สาขาเซ็นทรัลเวิลด์ ชั้น 7</li>
+                    <li>• สาขาสยามพารากอน ชั้น 4</li>
+                    <li>• สาขาเอ็มควอเทียร์ ชั้น 5</li>
+                  </ul>
+                )}
               </div>
             </div>
 
-            <div className="mb-4">
-              <h4 className="font-medium mb-2">รูปแบบคูปอง</h4>
-              <div className="flex border rounded-lg overflow-hidden">
-                <button
-                  className={`flex-1 py-3 text-center ${
-                    codeType === "qrcode"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
-                  onClick={() => setCodeType("qrcode")}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <QrCode className="h-5 w-5" />
-                    <span>QR Code</span>
-                  </div>
-                </button>
-                <button
-                  className={`flex-1 py-3 text-center ${
-                    codeType === "barcode"
-                      ? "bg-primary text-white"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
-                  onClick={() => setCodeType("barcode")}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <Barcode className="h-5 w-5" />
-                    <span>Barcode</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            <div className="text-sm text-gray-500 mb-4 text-center">
-              คูปองจะถูกบันทึกไว้ใน &quot;คูปองของฉัน&quot; หลังจากรับคูปอง
+            <div className="text-sm text-gray-500 text-center">
+              คูปองมีอายุ 15 นาทีหลังจากกดใช้คูปอง
             </div>
 
             <button
               onClick={handleCollect}
               className="w-full bg-primary text-white py-3 rounded-lg font-medium"
+              style={{ backgroundColor: primaryColor }}
             >
               ใช้คูปอง
             </button>

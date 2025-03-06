@@ -47,8 +47,8 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
                 </span>
                 <span className="ml-1 text-white/70 text-sm">
                   {isThaiLanguage
-                    ? "คูปองที่เก็บในเดือนนี้"
-                    : "Vouchers collected this month"}
+                    ? "คูปองที่เก็บ"
+                    : "Vouchers collected"}
                 </span>
               </div>
             </div>

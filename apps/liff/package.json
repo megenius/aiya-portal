@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "dev": "bun run dev:ssl & remix vite:dev",
+    "dev:ssl": "local-ssl-proxy --source 4243 --target 4200",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "preview": "vite preview",
     "typecheck": "tsc",
@@ -18,9 +19,11 @@
     "@tanstack/react-query": "^5.51.24",
     "date-fns": "^4.1.0",
     "isbot": "^4.1.0",
+    "jsbarcode": "^3.11.6",
     "lodash": "^4.17.21",
     "lucide-react": "^0.447.0",
     "mustache": "^4.2.0",
+    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
