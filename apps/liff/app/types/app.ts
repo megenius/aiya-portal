@@ -5,6 +5,9 @@ export type Voucher = Omit<components["schemas"]["ItemsVouchers"], "metadata"> &
   };
 
 interface Metadata {
+  title: language;
+  description: language;
+  condition: language;
   redemptionType: "instant" | "form";
   form?: Form;
 }
@@ -16,7 +19,12 @@ interface Form {
 
 interface Field {
   name: string;
-  label: string;
+  label: language;
   type: 'text' | 'email' | 'number' | 'tel' | 'textarea';
   required: boolean;
+}
+
+export interface language {
+  th: string;
+  en: string;
 }

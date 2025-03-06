@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface FollowButtonProps {
+  language: string;
   onClick: () => void;
   className?: string;
   color?: string;
@@ -8,12 +9,25 @@ interface FollowButtonProps {
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({
+  language,
   onClick,
   className = "",
   color,
   isFollowed = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const followText = {
+    th: "ติดตาม",
+    en: "Follow",
+  }
+  const unfollowText = {
+    th: "ยกเลิกติดตาม",
+    en: "Unfollow",
+  }
+  const followingText = {
+    th: "กำลังติดตาม",
+    en: "Following",
+  }
 
   const handleClick = () => {
     setIsLoading(true);
@@ -60,7 +74,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({
     >
       {isLoading ? (
         <span className="flex items-center">
-          <h4>{isFollowed ? "Unfollowing..."  : "Following..."}</h4>
+          <h4>{isFollowed ? unfollowText[language]  : `${followingText[language]}...`}</h4>
           <svg
             className={`animate-spin ml-2 h-4 w-4 ${isFollowed ? "text-white" : "text-gray-600"}`}
             xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +97,9 @@ const FollowButton: React.FC<FollowButtonProps> = ({
           </svg>
         </span>
       ) : isFollowed ? (
-        "Following"
+        followingText[language]
       ) : (
-        "Follow"
+        followText[language]
       )}
     </button>
   );

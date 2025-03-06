@@ -1,9 +1,10 @@
 import React from "react";
 import { Ticket } from "lucide-react";
 import { useNavigate } from "@remix-run/react";
+import { th } from "date-fns/locale";
 
 interface VoucherSummaryProps {
-  isThaiLanguage: boolean;
+  language: string;
   totalVouchers?: number;
   availableVouchers?: number;
   usedVouchers?: number;
@@ -11,7 +12,7 @@ interface VoucherSummaryProps {
 }
 
 const VoucherSummary: React.FC<VoucherSummaryProps> = ({
-  isThaiLanguage,
+  language,
   totalVouchers = 12,
   availableVouchers = 8,
   usedVouchers = 4,
@@ -25,6 +26,26 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   };
   const availablePercentage =
     totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;
+  const myVouchersText = {
+    th: "คูปองของฉัน",
+    en: "My Vouchers",
+  }
+  const vouchersCollectedText = {
+    th: "คูปองที่เก็บ",
+    en: "Vouchers collected",
+  }
+  const aviailableText = {
+    th: "พร้อมใช้งาน",
+    en: "Available",
+  }
+  const usedText = {
+    th: "ใช้แล้ว",
+    en: "Used",
+  }
+  const viewAllVouchersText = {
+    th: "ดูคูปองทั้งหมด",
+    en: "View All Vouchers",
+  }
 
   return (
     <div className="bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
@@ -39,16 +60,14 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
             </div>
             <div className="flex-1">
               <h3 className="text-white font-medium text-lg">
-                {isThaiLanguage ? "คูปองของฉัน" : "My Vouchers"}
+                {myVouchersText[language]}
               </h3>
               <div className="flex items-baseline">
                 <span className="text-xl font-bold text-white">
                   {totalVouchers}
                 </span>
                 <span className="ml-1 text-white/70 text-sm">
-                  {isThaiLanguage
-                    ? "คูปองที่เก็บ"
-                    : "Vouchers collected"}
+                  {vouchersCollectedText[language]}
                 </span>
               </div>
             </div>
@@ -57,7 +76,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
           <div className="bg-white/10 rounded-lg p-3">
             <div className="flex justify-between mb-1">
               <div className="text-white/90 text-sm font-medium">
-                {isThaiLanguage ? "พร้อมใช้งาน" : "Available"}
+                {aviailableText[language]}
               </div>
               <div className="text-white/90 text-sm font-medium">
                 {availableVouchers}
@@ -71,7 +90,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
             </div>
             <div className="flex justify-between">
               <div className="text-white/70 text-xs">
-                {isThaiLanguage ? "ใช้แล้ว" : "Used"}: {usedVouchers}
+                {usedText[language]}: {usedVouchers}
               </div>
               {/* <div className="text-white/70 text-xs">Total saved: {totalSaved}</div> */}
             </div>
@@ -80,7 +99,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
             className="w-full bg-white/10 border border-white/20 text-white py-2 rounded-lg flex items-center justify-center font-medium relative z-10"
             onClick={navigateToMyVouchers}
           >
-            {isThaiLanguage ? "คูปองของฉันทั้งหมด" : "View All Vouchers"}
+            {viewAllVouchersText[language]}
           </button>
         </div>
       </div>

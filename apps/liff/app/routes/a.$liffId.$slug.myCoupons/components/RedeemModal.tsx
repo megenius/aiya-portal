@@ -8,14 +8,14 @@ import BarcodeGenerator from "~/components/BarCodeGenerater";
 
 interface RedeemModalProps {
   voucher: Voucher;
-  isThaiLanguage: boolean;
+  language: string;
   primaryColor: string;
   onClose: () => void;
 }
 
 const RedeemModal: React.FC<RedeemModalProps> = ({
   voucher,
-  isThaiLanguage,
+  language,
   primaryColor,
   onClose,
 }) => {
@@ -23,20 +23,31 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const [remainingTime, setRemainingTime] = useState(15 * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
   const [isCollected, setIsCollected] = useState(false);
-  const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
-  const description = isThaiLanguage
-    ? voucher.descriptionTH?.replace(/\\n/g, "\n")
-    : voucher.descriptionEN?.replace(/\\n/g, "\n");
-  const condition = isThaiLanguage
-    ? voucher.conditionTH?.replace(/\\n/g, "\n")
-    : voucher.conditionEN?.replace(/\\n/g, "\n");
+  const title = voucher.metadata.title[language];
+  const description = voucher.metadata.description[language]?.replace(
+    /\\n/g,
+    "\n"
+  );
+  const condition = voucher.metadata.condition[language]?.replace(/\\n/g, "\n");
 
   const [activeTab, setActiveTab] = useState("details");
 
   const tabs = [
-    { id: "details", label: "รายละเอียด" },
-    { id: "conditions", label: "เงื่อนไข" },
-    { id: "locations", label: "สาขา" },
+    {
+      id: "details",
+      label: {
+        th: "รายละเอียด",
+        en: "Details",
+      },
+    },
+    {
+      id: "conditions",
+      label: {
+        th: "เงื่อนไข",
+        en: "Conditions",
+      },
+    },
+    // { id: "locations", label: "สาขา" },
   ];
 
   // ฟังก์ชันนับถอยหลัง
@@ -233,6 +244,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
           <div className="space-y-3">
             <div>
               <Tabs
+                language={language}
                 tabs={tabs}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
@@ -245,13 +257,13 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 {activeTab === "conditions" && (
                   <p className="whitespace-pre-wrap">{condition}</p>
                 )}
-                {activeTab === "locations" && (
+                {/* {activeTab === "locations" && (
                   <ul className="whitespace-pre-wrap">
                     <li>• สาขาเซ็นทรัลเวิลด์ ชั้น 7</li>
                     <li>• สาขาสยามพารากอน ชั้น 4</li>
                     <li>• สาขาเอ็มควอเทียร์ ชั้น 5</li>
                   </ul>
-                )}
+                )} */}
               </div>
             </div>
 

@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({
   collected = false,
 }) => {
   return (
-    <div className="p-4 w-full fixed bottom-0">
+    <div className="px-4 py-2 bg-white w-full border-t bottom-0">
       <button
         onClick={onClick}
         className={`w-full py-4 rounded-xl font-medium transition border border-primary ${collected ? "bg-white text-primary" : "bg-primary text-white"}`}

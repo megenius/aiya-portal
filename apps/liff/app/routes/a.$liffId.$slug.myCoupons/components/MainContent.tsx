@@ -5,13 +5,13 @@ import RedeemModal from "./RedeemModal";
 
 interface MainContentProps {
   vouchers: Voucher[];
-  isThaiLanguage: boolean;
+  language: string;
   primaryColor: string;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
   vouchers,
-  isThaiLanguage,
+  language,
   primaryColor,
 }) => {
   const [voucher, setVoucher] = useState<Voucher | null>(null);
@@ -24,14 +24,14 @@ const MainContent: React.FC<MainContentProps> = ({
             key={voucher.id}
             voucher={voucher}
             onClick={() => setVoucher(voucher)}
-            isThaiLanguage={isThaiLanguage}
+            language={language}
           />
         ))}
       </main>
       {voucher && (
         <RedeemModal
           voucher={voucher}
-          isThaiLanguage={isThaiLanguage}
+          language={language}
           primaryColor={primaryColor}
           onClose={() => setVoucher(null)}
         />

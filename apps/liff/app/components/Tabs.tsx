@@ -1,18 +1,20 @@
 import React from "react";
+import { language } from "~/types/app";
 
 export interface TabItem {
   id: string;
-  label: string;
+  label: language;
 }
 
 interface TabsProps {
+  language: string;
   tabs: TabItem[];
   activeTab: string;
   setActiveTab: (id: string) => void;
   primaryColor: string;
 }
 
-const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, setActiveTab, primaryColor }) => {
+const Tabs: React.FC<TabsProps> = ({ language,tabs, activeTab, setActiveTab, primaryColor }) => {
   return (
     <div className="flex w-full border-b">
       {tabs.map((tab) => (
@@ -26,7 +28,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, setActiveTab, primaryColor
           }}
           onClick={() => setActiveTab(tab.id)}
         >
-          {tab.label}
+          {tab.label[language]}
           <span
             className={`absolute bottom-0 left-0 w-full h-0.5 transition-all duration-300 bg-primary
                 ${activeTab === tab.id ? "transform scale-x-100" : "transform scale-x-0"}`}

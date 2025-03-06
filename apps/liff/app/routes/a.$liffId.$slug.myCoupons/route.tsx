@@ -13,6 +13,7 @@ const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
+  const lang = isThaiLanguage ? "th" : "en";
   const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
     q: "",
     status: "published",
@@ -20,8 +21,8 @@ const Route = () => {
   const [activeTab, setActiveTab] = useState("available");
 
   const tabs = [
-    { id: "available", label: "ใช้ได้" },
-    { id: "used", label: "ใช้แล้ว" },
+    { id: "available", label: { th: "ใช้ได้", en: "Available" } },
+    { id: "used", label: { th: "ใช้แล้ว", en: "Used" } },
   ];
 
   return (
@@ -29,6 +30,7 @@ const Route = () => {
       <div className="bg-white">
         <Header />
         <Tabs
+          language={lang}
           tabs={tabs}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -37,11 +39,11 @@ const Route = () => {
       </div>
 
       {isVouchersLoading ? (
-      <VoucherCardShimmer />
+        <VoucherCardShimmer />
       ) : (
         <MainContent
           vouchers={vouchers ?? []}
-          isThaiLanguage={isThaiLanguage}
+          language={lang}
           primaryColor={page.bg_color}
         />
       )}

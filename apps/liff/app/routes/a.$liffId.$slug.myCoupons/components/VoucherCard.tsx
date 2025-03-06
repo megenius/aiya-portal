@@ -6,15 +6,15 @@ import { getDirectusFileUrl } from "~/utils/files";
 interface VoucherCardProps {
   voucher: Voucher;
   onClick: (couponId: string) => void;
-  isThaiLanguage: boolean;
+  language: string;
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
   onClick,
-  isThaiLanguage,
+  language
 }) => {
-  const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
+  const title = voucher.metadata.title[language];
   return (
     <div className="w-full">
       {/* Ticket outer container */}

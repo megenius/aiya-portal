@@ -10,13 +10,20 @@ import { useVouchers } from "~/hooks/voucher/useVouchers";
 
 interface MainContentProps {
   page: PageLiff;
+  language: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ page }) => {
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
-  const isThaiLanguage = language.startsWith("th");
+const MainContent: React.FC<MainContentProps> = ({ page,language }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const {data : vouchers, isLoading : isVouchersLoading} = useVouchers({q: "", status: "published"});
+  const brandText = {
+    th: "แบรนด์",
+    en: "Brands",
+  };
+  const popularCouponsText = {
+    th: "คูปองยอดนิยม",
+    en: "Popular Coupons",
+  };
 
   const brands = [
     { id: 1, name: "Starbucks", logo: "https://placehold.co/60x60" },
@@ -27,19 +34,18 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
     { id: 6, name: "UNIQLO", logo: "https://placehold.co/60x60" },
   ];
 
-  if (!isLoggedIn && isVouchersLoading && !page) {
+  if (isVouchersLoading) {
     return <Loading />;
   }
-  
 
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 space-y-3">
         <SearchBar />
-        <VoucherSummary isThaiLanguage={isThaiLanguage} />
+        <VoucherSummary language={language} />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
-            isThaiLanguage={isThaiLanguage}
+            language={language}
             categories={page?.metadata?.categories}
             selected={selectedCategory}
             onSelect={setSelectedCategory}
@@ -49,14 +55,13 @@ const MainContent: React.FC<MainContentProps> = ({ page }) => {
 
       <VoucherList
         vouchers={vouchers ?? []}
-        isThaiLanguage={isThaiLanguage}
-        titleTH="คูปองยอดนิยม"
-        titleEN="Popular Coupons"
+        language={language}
+        title={popularCouponsText[language]}
       />
 
       <div className="space-y-2">
         <h3 className="px-4 text-lg font-medium">
-          {isThaiLanguage ? "แบรนด์" : "Brands"}
+          {brandText[language]}
         </h3>
         <div className="flex overflow-x-auto gap-3 px-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {brands.map((brand) => (

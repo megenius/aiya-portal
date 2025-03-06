@@ -4,12 +4,13 @@ import { useNavigate, useParams } from "@remix-run/react";
 import FollowButton from "./FollowButton";
 
 interface HeaderProps {
+  language: string;
   title: string;
   color?: string;
   isFollowed?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, color, isFollowed }) => {
+const Header: React.FC<HeaderProps> = ({ language,title, color, isFollowed }) => {
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
   const [_isFollowed, setIsFollowed] = React.useState(isFollowed || false);
@@ -33,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({ title, color, isFollowed }) => {
         </div>
       </div>
       <FollowButton
+        language={language}
         isFollowed={_isFollowed}
         color={color}
         onClick={handleFollow}

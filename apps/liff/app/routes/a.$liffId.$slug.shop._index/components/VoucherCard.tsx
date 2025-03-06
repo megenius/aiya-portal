@@ -6,16 +6,16 @@ import { getDirectusFileUrl } from "~/utils/files";
 
 interface VoucherCardProps {
   voucher: Voucher;
-  isThaiLanguage: boolean;
+  language: string;
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
-  isThaiLanguage,
+  language,
 }) => {
   const { page } = useOutletContext<{ page: PageLiff }>();
     const navigate = useNavigate();
-    const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
+    const title = voucher.metadata.title[language];
 
       const navigateToCollectCoupon = (voucherId: string) =>
         navigate(`/a/${page.liff_id}/${page.slug}/voucher/${voucherId}`);
