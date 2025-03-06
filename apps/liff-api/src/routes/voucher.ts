@@ -9,5 +9,6 @@ voucherRoutes.get("/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.put("/vouchers/:id", ...VoucherHandler.updateVoucher);
 // voucherRoutes.delete("/vouchers/:id", ...VoucherHandler.deleteVoucher);
 voucherRoutes.post("/collect", ...VoucherHandler.collectVoucher);
+voucherRoutes.post("/voucher-code", ...VoucherHandler.createVoucherCode);
 
 export { voucherRoutes };
