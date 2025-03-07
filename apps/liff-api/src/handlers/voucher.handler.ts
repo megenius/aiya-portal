@@ -268,3 +268,50 @@ export const getStatVoucherCode = factory.createHandlers(
     return c.json({ ...stats, total });
   }
 );
+
+// getStatVoucherUser
+export const getStatVoucherUser = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { collected_by } = c.req.param();
+    const directus = c.get("directAdmin");
+
+    const filters: any = {};
+    if (collected_by) filters.collected_by = { _eq: collected_by };
+
+    const vouchersUsers = await directus.request(
+      readItems("vouchers_users", {
+        filter: filters,
+        fields: ["code"],
+      })
+    );
+
+    const voucherCodes = await Promise.all(
+      vouchersUsers.map(async (voucherUser: any) => {
+        const voucherCode = await directus.request(
+          readItems("vouchers_codes", {
+            filter: {
+              code: {
+                _eq: voucherUser.code,
+              },
+            },
+            limit: 1,
+          })
+        );
+        return { ...voucherUser, code_status: voucherCode[0]?.code_status };
+      })
+    );
+
+    const grouped = _.groupBy(voucherCodes, "code_status");
+    const allStatuses = ["available", "collected", "expired", "used", "reserved"];
+    const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
+
+    _.forEach(grouped, (users, status) => {
+      stats[status] = users.length;
+    });
+
+    const total = voucherCodes.length;
+    return c.json({ ...stats, total });
+  }
+);
