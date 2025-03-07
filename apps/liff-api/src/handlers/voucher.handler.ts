@@ -264,6 +264,7 @@ export const getStatVoucherCode = factory.createHandlers(
       stats[status] = codes.length;
     });
 
-    return c.json(stats);
+    const total = voucherCodes.length;
+    return c.json({ ...stats, total });
   }
 );
