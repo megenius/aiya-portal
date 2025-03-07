@@ -1,30 +1,47 @@
-import { useMutation } from "@tanstack/react-query";
-import { Tracking } from "~/types/page";
-import mustache from "mustache";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CollectVoucher } from "~/types/app";
+import { insertVoucher } from "~/services/vouchers";
 
-interface TrackingMethods {
-  tracking: Tracking;
-  data: any;
+// interface TrackingMethods {
+//   tracking: Tracking;
+//   data: any;
+// }
+interface MutationFn {
+  variables: CollectVoucher;
 }
 
 export function useCollectVoucher() {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ tracking, data }: TrackingMethods) =>
-      sendTracking(tracking, data),
+    mutationFn: ({ variables }: MutationFn) =>
+      insertVoucher(variables).then((response) => response.data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({
+        queryKey: ["vouchersUser",res.collected_by ],
+        exact: true,
+        refetchType: "active",
+      });
+    },
   });
 }
 
-const sendTracking = (tracking: Tracking, data: any) => {
-  const { onClick } = tracking.button;
-  const timestamp = new Date().toISOString();
-  const trackingBody = mustache.render(JSON.stringify(onClick.body), {
-    TIMESTAMP: timestamp,
-    ...data,
-  });
+// export function useCollectVoucher() {
+//   return useMutation({
+//     mutationFn: ({ tracking, data }: TrackingMethods) =>
+//       sendTracking(tracking, data),
+//   });
+// }
 
-  return axios(onClick.url, {
-    method: "POST",
-    data: trackingBody,
-  });
-};
+// const sendTracking = (tracking: Tracking, data: any) => {
+//   const { onClick } = tracking.button;
+//   const timestamp = new Date().toISOString();
+//   const trackingBody = mustache.render(JSON.stringify(onClick.body), {
+//     TIMESTAMP: timestamp,
+//     ...data,
+//   });
+
+//   return axios(onClick.url, {
+//     method: "POST",
+//     data: trackingBody,
+//   });
+// };

@@ -1,39 +1,49 @@
 import React, { useState } from "react";
 import VoucherCard from "./VoucherCard";
-import { Voucher } from "~/types/app";
+import { Voucher, VoucherUser } from "~/types/app";
 import RedeemModal from "./RedeemModal";
 
 interface MainContentProps {
-  vouchers: Voucher[];
+  activeTab: string;
+  vouchers: VoucherUser[];
   language: string;
   primaryColor: string;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
+  activeTab,
   vouchers,
   language,
   primaryColor,
 }) => {
-  const [voucher, setVoucher] = useState<Voucher | null>(null);
+  const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
+  const filteredVouchers = vouchers.filter((voucher) => {
+    if (activeTab === "available") {
+      return voucher.code.code_status === "collected";
+    } else if (activeTab === "used") {
+      return voucher.code.code_status === "used";
+    }
+    return false;
+  });
 
   return (
     <>
       <main className="h-full bg-gray-50 p-4 space-y-2">
-        {vouchers.map((voucher) => (
+        {filteredVouchers.map((voucher) => (
           <VoucherCard
             key={voucher.id}
-            voucher={voucher}
-            onClick={() => setVoucher(voucher)}
+            voucherUser={voucher}
+            onClick={() => setVoucherUser(voucher)}
             language={language}
           />
         ))}
       </main>
-      {voucher && (
+      {voucherUser && (
         <RedeemModal
-          voucher={voucher}
+          voucherUser={voucherUser}
           language={language}
           primaryColor={primaryColor}
-          onClose={() => setVoucher(null)}
+          onClose={() => setVoucherUser(null)}
         />
       )}
     </>

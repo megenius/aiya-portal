@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { X, QrCode, Barcode, Clock, AlertCircle } from "lucide-react";
-import { Voucher } from "~/types/app";
+import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "~/components/Tabs";
 import QRCodeGenerater from "~/components/QRCodeGenerater";
 import BarcodeGenerator from "~/components/BarCodeGenerater";
 
 interface RedeemModalProps {
-  voucher: Voucher;
+  voucherUser: VoucherUser;
   language: string;
   primaryColor: string;
   onClose: () => void;
 }
 
 const RedeemModal: React.FC<RedeemModalProps> = ({
-  voucher,
+  voucherUser,
   language,
   primaryColor,
   onClose,
 }) => {
+  const voucher = voucherUser.code.voucher;
+  const usedDate = voucherUser.used_date;
   const [codeType, setCodeType] = useState("qrcode");
   const [remainingTime, setRemainingTime] = useState(15 * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
-  const [isCollected, setIsCollected] = useState(false);
+  const [isRedeemed, setIsRedeemed] = useState(Boolean(usedDate));
   const title = voucher.metadata.title[language];
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
@@ -49,6 +51,25 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     },
     // { id: "locations", label: "สาขา" },
   ];
+
+  // Initialize remaining time based on usedDate if it exists
+  useEffect(() => {
+    if (usedDate) {
+      const usedDateTime = new Date(usedDate).getTime();
+      const expiryTime = usedDateTime + (15 * 60 * 1000); // 15 minutes after used_date
+      const now = new Date().getTime();
+      const timeLeft = Math.floor((expiryTime - now) / 1000);
+      
+      // If still valid, set the remaining time
+      if (timeLeft > 0) {
+        setRemainingTime(timeLeft);
+      } else {
+        // If already expired
+        setRemainingTime(0);
+        setShowExpireWarning(true);
+      }
+    }
+  }, [usedDate]);
 
   // ฟังก์ชันนับถอยหลัง
   useEffect(() => {
@@ -77,7 +98,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   if (!voucher) return null;
 
   const handleCollect = () => {
-    setIsCollected(true);
+    setIsRedeemed(true);
   };
 
   const formatTime = (seconds) => {
@@ -99,11 +120,11 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="p-4 bg-white rounded-2xl w-full max-w-sm m-4 overflow-hidden">
-        <div className="mb-2 flex justify-between">
+        <div className="mb-3 flex justify-between">
           <div className="flex items-start gap-3">
             <img
               src={getDirectusFileUrl(voucher.cover as string) ?? ""}
-              alt={voucher.titleEN ?? ""}
+              alt={title}
               className="w-20 h-20 object-cover rounded-lg"
             />
             <div>
@@ -124,8 +145,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
           </div>
         </div>
 
-        {isCollected ? (
-          // แสดงหลังจากรับคูปองแล้ว
+        {isRedeemed ? (
+          // แสดงหลังจากใช้คูปองแล้ว
           <div className="space-y-3">
             {/* แสดงเวลาที่เหลือ */}
             <div
@@ -213,16 +234,16 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     className="w-48 h-48 mb-2"
                   /> */}
                 {codeType === "qrcode" ? (
-                  <QRCodeGenerater text={voucher.id} />
+                  <QRCodeGenerater text={voucherUser.code.code!} />
                 ) : (
-                  <BarcodeGenerator text={"dfasdfadsfa"} />
+                  <BarcodeGenerator text={voucherUser.code.code!} />
                 )}
 
                 {/* <div className="text-center text-sm text-gray-500 mt-1">
                     แสดง QR Code นี้ให้พนักงาน
                   </div> */}
                 <div className="mt-2 text-center font-mono text-xs text-gray-700">
-                  Ref : {voucher.id}
+                  Ref : {voucherUser.code.code}
                 </div>
               </div>
             </div>

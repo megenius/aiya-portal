@@ -8,16 +8,20 @@ import { PageLiff } from "~/types/page";
 import Tabs from "~/components/Tabs";
 import { useState } from "react";
 import VoucherCardShimmer from "./components/VoucherCardShimmer";
+import { useLineProfile } from "~/hooks/useLineProfile";
+import { useVouchersUser } from "~/hooks/voucher/useVouchersUser";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
+  const { data: profile, isLoading:isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
   const lang = isThaiLanguage ? "th" : "en";
-  const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
-    q: "",
-    status: "published",
-  });
+  // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
+  //   q: "",
+  //   status: "published",
+  // });
+  const { data: myVouchers, isLoading : isMyVouchersLoading } = useVouchersUser({ userId: profile?.userId || "" });
   const [activeTab, setActiveTab] = useState("available");
 
   const tabs = [
@@ -38,11 +42,12 @@ const Route = () => {
         />
       </div>
 
-      {isVouchersLoading ? (
+      {isMyVouchersLoading && isProfileLoading ? (
         <VoucherCardShimmer />
       ) : (
         <MainContent
-          vouchers={vouchers ?? []}
+        activeTab={activeTab}
+          vouchers={myVouchers || []}
           language={lang}
           primaryColor={page.bg_color}
         />

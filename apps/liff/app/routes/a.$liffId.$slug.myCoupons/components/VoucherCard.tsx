@@ -1,27 +1,47 @@
 import React from "react";
-import { QrCode } from "lucide-react";
-import { Voucher } from "~/types/app";
+import { CheckCircle, QrCode, XCircle } from "lucide-react";
+import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
+import { th } from "date-fns/locale";
 
 interface VoucherCardProps {
-  voucher: Voucher;
-  onClick: (couponId: string) => void;
+  voucherUser: VoucherUser;
+  onClick: (voucherUserId: string) => void;
   language: string;
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
-  voucher,
+  voucherUser,
   onClick,
-  language
+  language,
 }) => {
+  const voucher = voucherUser.code.voucher;
   const title = voucher.metadata.title[language];
+  const voucherText = {
+    collected: {
+      th: "แตะเพื่อใช้คูปอง",
+      en: "Tap to use coupon",
+    },
+    used: {
+      th: "ถูกใช้แล้ว",
+      en: "Used",
+    },
+    expired: {
+      th: "หมดอายุแล้ว",
+      en: "Expired",
+    },
+  };
   return (
     <div className="w-full">
       {/* Ticket outer container */}
       <div className="relative">
         <button
           className="flex w-full border rounded-lg overflow-hidden"
-          onClick={() => onClick(voucher.id.toString())}
+          onClick={() =>
+            voucherUser.code.code_status === "collected"
+              ? onClick(voucherUser.id.toString())
+              : null
+          }
         >
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
@@ -29,19 +49,35 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             <div className="flex">
               <img
                 src={getDirectusFileUrl(voucher.cover as string) ?? ""}
-                alt={voucher.titleEN ?? ""}
+                alt={title}
                 className="w-24 object-cover mr-3"
               />
               <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
                 <div>
-                  <h3 className="w-full text-start max-w-36 text-nowrap truncate font-medium">{voucher.name}</h3>
+                  <h3 className="w-full text-start max-w-36 text-nowrap truncate font-medium">
+                    {voucher.name}
+                  </h3>
                   <div className="flex items-center text-sm text-gray-600">
                     <span>{title}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <QrCode className="h-4 w-4" />
-                  <span>แตะเพื่อใช้คูปอง</span>
+                  {voucherUser.code.code_status === "used" && (
+                    <CheckCircle className="h-4 w-4" />
+                  )}
+                  {voucherUser.code.code_status === "collected" && (
+                    <QrCode className="h-4 w-4" />
+                  )}
+                  {voucherUser.code.code_status === "expired" && (
+                    <XCircle className="h-4 w-4" />
+                  )}
+                  <span>
+                    {
+                      voucherText[voucherUser.code.code_status ?? "collected"][
+                        language
+                      ]
+                    }
+                  </span>
                 </div>
               </div>
             </div>
