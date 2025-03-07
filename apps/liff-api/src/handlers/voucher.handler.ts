@@ -236,3 +236,34 @@ export const getVoucherCodes = factory.createHandlers(
     return c.json(voucherCodes);
   }
 );
+
+// getStatVoucherCode
+export const getStatVoucherCode = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { status, voucher } = c.req.query();
+    const directus = c.get("directAdmin");
+
+    const filters: any = {};
+    if (status) filters.status = { _eq: status };
+    if (voucher) filters.voucher = { _eq: voucher };
+
+    const voucherCodes = await directus.request(
+      readItems("vouchers_codes", {
+        filter: filters,
+        fields: ["code_status"],
+      })
+    );
+
+    const grouped = _.groupBy(voucherCodes, "code_status");
+    const allStatuses = ["available", "collected", "expired", "used","reserved"];
+    const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
+
+    _.forEach(grouped, (codes, status) => {
+      stats[status] = codes.length;
+    });
+
+    return c.json(stats);
+  }
+);
