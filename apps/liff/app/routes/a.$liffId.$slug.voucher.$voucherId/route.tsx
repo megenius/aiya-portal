@@ -9,6 +9,7 @@ import { useCollectVoucher } from "~/hooks/voucher/useCollectVoucher";
 import { CollectVoucher } from "~/types/app";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/voucher/useVouchersUser";
+import { useVoucherCodeStats } from "~/hooks/voucher/useVoucherCodeStats";
 
 const Route = () => {
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
@@ -16,9 +17,12 @@ const Route = () => {
   const { language, isLoggedIn } = useLiff({ liffId: liffId as string });
   const isThaiLanguage = language.startsWith("th");
   const lang = isThaiLanguage ? "th" : "en";
-  const { data: voucher, isLoading } = useVoucher(voucherId ?? "");
+  const { data: voucher, isLoading: isVoucherLoading } = useVoucher(voucherId ?? "");
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
+  });
+  const { data: codeStats, isLoading: isCodeStatsLoading } = useVoucherCodeStats({
+    voucherId: voucherId ?? "",
   });
   const collectVoucher = useCollectVoucher();
   const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucherId);
@@ -44,13 +48,17 @@ const Route = () => {
     expired:{
       th: "หมดอายุแล้ว",
       en: "Expired"
+    },
+    fully_redeemed:{
+      th: "หมดแล้ว",
+      en: "Fully Redeemed"
     }
   };
-  const status = myVoucher ? myVoucher.code.code_status ?? "collected" : voucher?.metadata.redemptionType ?? "instant";
+  const status = myVoucher ? myVoucher.code.code_status ?? "collected" : codeStats?.available === 0 ? "fully_redeemed"  : voucher?.metadata.redemptionType ?? "instant";
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (status === "used" || status === "expired") {
+    if (status === "used" || status === "expired" || status === "fully_redeemed") {
       return;
     }
     if (isCollected) {
@@ -82,7 +90,7 @@ const Route = () => {
     );
   };
 
-  if (isLoading && isProfileLoading && isMyVouchersLoading) {
+  if (isVoucherLoading && isProfileLoading && isMyVouchersLoading && isCodeStatsLoading) {
     return <div>Loading...</div>;
   }
 
@@ -93,8 +101,8 @@ const Route = () => {
         title={voucher?.name}
         color={voucher?.primaryColor ?? ""}
       />
-      {voucher && (
-        <MainContent language={lang} voucher={voucher} pageState={pageState} />
+      {voucher && codeStats && (
+        <MainContent language={lang} voucher={voucher} codeStats={codeStats} pageState={pageState} />
       )}
       <Footer
         color={voucher?.primaryColor ?? ""}

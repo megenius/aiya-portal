@@ -8,7 +8,7 @@ interface VoucherSummaryProps {
   totalVouchers?: number;
   availableVouchers?: number;
   usedVouchers?: number;
-  totalSaved?: string;
+  // totalSaved?: string;
 }
 
 const VoucherSummary: React.FC<VoucherSummaryProps> = ({
@@ -16,7 +16,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   totalVouchers = 12,
   availableVouchers = 8,
   usedVouchers = 4,
-  totalSaved = "฿218.50",
+  // totalSaved = "฿218.50",
 }) => {
   const navigate = useNavigate();
   const navigateToMyVouchers = () => {

@@ -21,6 +21,11 @@ export function useCollectVoucher() {
         exact: true,
         refetchType: "active",
       });
+      queryClient.invalidateQueries({
+        queryKey: ["vouchers","voucher-codes","stats", ],
+        exact: true,
+        refetchType: "active",
+      });
     },
   });
 }

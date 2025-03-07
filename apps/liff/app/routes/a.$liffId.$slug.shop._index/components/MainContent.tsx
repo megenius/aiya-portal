@@ -7,13 +7,15 @@ import Loading from "~/components/Loading";
 import VoucherSummary from "./VoucherSummary";
 import VoucherList from "./VoucherList";
 import { useVouchers } from "~/hooks/voucher/useVouchers";
+import { VoucherStats } from "~/types/app";
 
 interface MainContentProps {
   page: PageLiff;
   language: string;
+  voucherUserStats: VoucherStats;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ page,language }) => {
+const MainContent: React.FC<MainContentProps> = ({ page,language,voucherUserStats }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const {data : vouchers, isLoading : isVouchersLoading} = useVouchers({q: "", status: "published"});
   const brandText = {
@@ -42,7 +44,7 @@ const MainContent: React.FC<MainContentProps> = ({ page,language }) => {
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 space-y-3">
         <SearchBar />
-        <VoucherSummary language={language} />
+        <VoucherSummary totalVouchers={voucherUserStats?.total} availableVouchers={voucherUserStats?.collected} usedVouchers={voucherUserStats?.used + voucherUserStats?.expired} language={language} />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
             language={language}

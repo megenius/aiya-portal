@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { getDirectusFileUrl } from "~/utils/files";
-import { Voucher } from "~/types/app";
+import { Voucher, VoucherStats } from "~/types/app";
 import Tabs from "../../../components/Tabs";
 import VoucherProgressBar from "./VoucherProgressBar";
 import FormField from "./FormField";
 
 interface MainContentProps {
   voucher: Voucher;
+  codeStats: VoucherStats;
   language: string;
   pageState: string;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
   voucher,
+  codeStats,
   language,
   pageState,
 }) => {
@@ -55,8 +57,8 @@ const MainContent: React.FC<MainContentProps> = ({
       {pageState === "landing" && (
         <div className="flex-1 flex flex-col overflow-hidden">
           <VoucherProgressBar
-            totalVouchers={10}
-            collectedVouchers={0}
+            totalVouchers={codeStats?.total}
+            availableVouchers={codeStats?.available}
             language={language}
             primaryColor={voucher?.primaryColor || ""}
           />
