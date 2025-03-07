@@ -78,6 +78,7 @@ export const collectVoucher = factory.createHandlers(
       })
     );
 
+
     if (!vouchers.length) {
       return c.json({ error: "Voucher not found" }, { status: 404 });
     }
@@ -130,7 +131,10 @@ export const collectVoucher = factory.createHandlers(
       })
     );
 
-    return c.json(data);
+    return c.json({
+      ...data,
+      voucher: voucher
+    });
   }
 );
 
@@ -172,6 +176,7 @@ export const getVouchersByUser = factory.createHandlers(
         },
       })
     );
+    
 
     const vouchersUserCode = await Promise.all(
       vouchers.map(async (voucher: any) => {        
