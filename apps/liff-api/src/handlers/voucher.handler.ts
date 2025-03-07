@@ -24,6 +24,7 @@ export const getVouchers = factory.createHandlers(
 
     const vouchers = await directus.request(
       readItems("vouchers", {
+        fields:["*", {voucher_brand_id: ["*"]}],
         filter: filters,
       })
     );
