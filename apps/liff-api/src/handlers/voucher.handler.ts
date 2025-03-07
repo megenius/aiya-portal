@@ -315,3 +315,24 @@ export const getStatVoucherUser = factory.createHandlers(
     return c.json({ ...stats, total });
   }
 );
+
+// getVoucherBrands
+export const getVoucherBrands = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const { status, q } = c.req.query();
+
+    const filters: any = {};
+    if (status) filters.status = { _eq: status };
+    if (q) filters.name = { _icontains: q };
+
+    const voucherBrands = await directus.request(
+      readItems("vouchers_brands", {
+        filter: filters,
+      })
+    );
+    return c.json(voucherBrands);
+  }
+);
