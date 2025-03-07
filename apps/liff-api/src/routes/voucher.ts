@@ -5,11 +5,13 @@ const voucherRoutes = new Hono();
 
 voucherRoutes.get("/", ...VoucherHandler.getVouchers);
 voucherRoutes.get("/voucher-user", ...VoucherHandler.getVouchersByUser);
+voucherRoutes.get("/voucher-codes", ...VoucherHandler.getVoucherCodes);
 voucherRoutes.get("/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.post("/vouchers", ...VoucherHandler.createVoucher);
 // voucherRoutes.put("/vouchers/:id", ...VoucherHandler.updateVoucher);
 // voucherRoutes.delete("/vouchers/:id", ...VoucherHandler.deleteVoucher);
 voucherRoutes.post("/collect", ...VoucherHandler.collectVoucher);
 voucherRoutes.post("/voucher-code", ...VoucherHandler.createVoucherCode);
+voucherRoutes.post("/voucher-user/edit", ...VoucherHandler.updateVoucherUser);
 
 export { voucherRoutes };

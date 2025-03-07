@@ -174,9 +174,7 @@ export const getVouchersByUser = factory.createHandlers(
     );
 
     const vouchersUserCode = await Promise.all(
-      vouchers.map(async (voucher: any) => {
-        console.log(voucher.code);
-        
+      vouchers.map(async (voucher: any) => {        
         const voucherData = await directus.request(
           readItems("vouchers_codes",  {
             fields: ["*", { voucher: ["*"] }],
@@ -198,5 +196,43 @@ export const getVouchersByUser = factory.createHandlers(
     );
 
     return c.json(vouchersUserCode);
+  }
+);
+
+// updateVoucherUser
+export const updateVoucherUser = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const body = await c.req.json();
+    const directus = c.get("directAdmin");
+
+    const data = await directus.request(
+      updateItem("vouchers_users", body.id, body)
+    );
+    return c.json(data);
+  }
+);
+
+// getVoucherCodes
+export const getVoucherCodes = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { code_status, status, voucher } = c.req.query();
+    const directus = c.get("directAdmin");
+
+    const filters: any = {};
+    if (code_status) filters.code_status = { _eq: code_status };
+    if (status) filters.status = { _eq: status };
+    if (voucher) filters.voucher = { _eq: voucher };
+
+    const voucherCodes = await directus.request(
+      readItems("vouchers_codes", {
+        filter: filters,
+      })
+    );
+
+    return c.json(voucherCodes);
   }
 );
