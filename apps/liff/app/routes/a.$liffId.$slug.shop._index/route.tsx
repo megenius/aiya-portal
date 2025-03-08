@@ -5,7 +5,7 @@ import MainContent from "./components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
-import { useVoucherUserStats } from "~/hooks/voucher/useVoucherUserStats";
+import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();

@@ -1,5 +1,6 @@
 import { components } from "./directus";
 
+export type Brand = components["schemas"]["ItemsVouchersBrands"];
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
   "metadata"

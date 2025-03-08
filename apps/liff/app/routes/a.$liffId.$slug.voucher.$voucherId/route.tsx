@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from "@remix-run/react";
 import { useLiff } from "~/hooks/useLiff";
-import { useVoucher } from "~/hooks/voucher/useVoucher";
+import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
 import { useState } from "react";
-import { useCollectVoucher } from "~/hooks/voucher/useCollectVoucher";
+import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { CollectVoucher } from "~/types/app";
 import { useLineProfile } from "~/hooks/useLineProfile";
-import { useVouchersUser } from "~/hooks/voucher/useVouchersUser";
-import { useVoucherCodeStats } from "~/hooks/voucher/useVoucherCodeStats";
+import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
+import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 
 const Route = () => {
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();

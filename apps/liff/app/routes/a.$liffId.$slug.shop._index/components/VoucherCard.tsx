@@ -32,17 +32,11 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           className="w-full h-32 object-cover"
         />
         <div className="absolute bottom-2 left-2">
-          {/* {shopLogo ? (
             <img 
-              src={shopLogo} 
+              src={getDirectusFileUrl(voucher?.voucher_brand_id?.logo as string ?? "")} 
               alt="Shop logo" 
               className="w-7 h-7 rounded-full object-cover border border-white shadow-sm"
             />
-          ) : ( */}
-            <div className="w-7 h-7 flex items-center justify-center rounded-full object-cover bg-white border border-white shadow-sm text-[6px]">
-              LOGO
-            </div>
-          {/* )} */}
         </div>
       </div>
       <div className="p-3">

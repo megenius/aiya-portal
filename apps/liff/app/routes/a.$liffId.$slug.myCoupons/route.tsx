@@ -1,4 +1,4 @@
-import { useVouchers } from "~/hooks/voucher/useVouchers";
+import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import Loading from "~/components/Loading";
@@ -9,7 +9,7 @@ import Tabs from "~/components/Tabs";
 import { useState } from "react";
 import VoucherCardShimmer from "./components/VoucherCardShimmer";
 import { useLineProfile } from "~/hooks/useLineProfile";
-import { useVouchersUser } from "~/hooks/voucher/useVouchersUser";
+import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
