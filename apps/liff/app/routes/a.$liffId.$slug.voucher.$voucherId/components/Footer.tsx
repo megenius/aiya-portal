@@ -13,6 +13,7 @@ const Footer: React.FC<FooterProps> = ({
   color,
   status,
 }) => {
+
   return (
     <div className="px-4 py-2 bg-white w-full border-t bottom-0">
       <button
@@ -23,8 +24,8 @@ const Footer: React.FC<FooterProps> = ({
             status === "collected"
               ? "white"
               : status === "instant" || status === "form"
-                ? color
-                : "",
+              ? color
+              : "",
           color: status === "collected" ? color : "white",
           borderColor: status === "instant" || status === "form" || status === "collected" ? color : "transparent",
         }}

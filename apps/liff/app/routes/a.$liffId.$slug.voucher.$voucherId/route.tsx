@@ -10,6 +10,7 @@ import { CollectVoucher } from "~/types/app";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
+import confetti from "canvas-confetti";
 
 const Route = () => {
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
@@ -18,13 +19,16 @@ const Route = () => {
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
   const lang = "en";
-  const { data: voucher, isLoading: isVoucherLoading } = useVoucher(voucherId ?? "");
+  const { data: voucher, isLoading: isVoucherLoading } = useVoucher(
+    voucherId ?? ""
+  );
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
-  const { data: codeStats, isLoading: isCodeStatsLoading } = useVoucherCodeStats({
-    voucherId: voucherId ?? "",
-  });
+  const { data: codeStats, isLoading: isCodeStatsLoading } =
+    useVoucherCodeStats({
+      voucherId: voucherId ?? "",
+    });
   const collectVoucher = useCollectVoucher();
   const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucherId);
   const [isCollected, setIsCollected] = useState(Boolean(myVoucher));
@@ -38,28 +42,36 @@ const Route = () => {
       th: "จอง",
       en: "Book",
     },
-    collected:{
+    collected: {
       th: "ใช้คูปอง",
-      en: "Use Coupon"
+      en: "Use Coupon",
     },
-    used:{
+    used: {
       th: "ใช้แล้ว",
-      en: "Used"
+      en: "Used",
     },
-    expired:{
+    expired: {
       th: "หมดอายุแล้ว",
-      en: "Expired"
+      en: "Expired",
     },
-    fully_redeemed:{
+    fully_redeemed: {
       th: "หมดแล้ว",
-      en: "Fully Redeemed"
-    }
+      en: "Fully Redeemed",
+    },
   };
-  const status = myVoucher ? myVoucher.code.code_status ?? "collected" : codeStats?.available === 0 ? "fully_redeemed"  : voucher?.metadata.redemptionType ?? "instant";
+  const status = myVoucher
+    ? (myVoucher.code.code_status ?? "collected")
+    : codeStats?.available === 0
+      ? "fully_redeemed"
+      : (voucher?.metadata.redemptionType ?? "instant");
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (status === "used" || status === "expired" || status === "fully_redeemed") {
+    if (
+      status === "used" ||
+      status === "expired" ||
+      status === "fully_redeemed"
+    ) {
       return;
     }
     if (isCollected) {
@@ -86,30 +98,46 @@ const Route = () => {
       {
         onSuccess: () => {
           setIsCollected(true);
+
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.9 },
+          });
         },
       }
     );
   };
 
-  if (isVoucherLoading && isProfileLoading && isMyVouchersLoading && isCodeStatsLoading) {
+  if (
+    isVoucherLoading &&
+    isProfileLoading &&
+    isMyVouchersLoading &&
+    isCodeStatsLoading
+  ) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      {voucher && <Header
-        language={lang}
-        voucher={voucher}
-        color={voucher?.primaryColor ?? ""}
-      />}
+      {voucher && (
+        <Header
+          language={lang}
+          voucher={voucher}
+          color={voucher?.primaryColor ?? ""}
+        />
+      )}
       {voucher && codeStats && (
-        <MainContent language={lang} voucher={voucher} codeStats={codeStats} pageState={pageState} />
+        <MainContent
+          language={lang}
+          voucher={voucher}
+          codeStats={codeStats}
+          pageState={pageState}
+        />
       )}
       <Footer
         color={voucher?.primaryColor ?? ""}
-        buttonText={
-          buttonText[status][lang]
-        }
+        buttonText={buttonText[status][lang]}
         status={status}
         onClick={handleSubmit}
       />

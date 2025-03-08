@@ -17,6 +17,7 @@
     "@remix-run/react": "^2.12.1",
     "@repo/ui": "*",
     "@tanstack/react-query": "^5.51.24",
+    "canvas-confetti": "^1.9.3",
     "date-fns": "^4.1.0",
     "isbot": "^4.1.0",
     "jsbarcode": "^3.11.6",
