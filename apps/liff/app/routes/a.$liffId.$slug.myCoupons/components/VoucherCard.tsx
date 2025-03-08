@@ -31,6 +31,16 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       en: "Expired",
     },
   };
+  let timeLeft = 0;
+  if (voucherUser.used_date) {
+    const usedDateTime = new Date(voucherUser.used_date).getTime();
+    const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+    const now = new Date().getTime();
+    timeLeft = Math.floor((expiryTime - now) / 1000);
+
+    console.log(timeLeft);
+  }
+
   return (
     <div className="w-full">
       {/* Ticket outer container */}
@@ -38,7 +48,8 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
         <button
           className="flex w-full border rounded-lg overflow-hidden"
           onClick={() =>
-            voucherUser.code.code_status === "collected"
+            voucherUser.code.code_status === "collected" ||
+            (voucherUser.code.code_status === "used" && timeLeft > 0)
               ? onClick(voucherUser.id.toString())
               : null
           }
@@ -62,21 +73,21 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  {voucherUser.code.code_status === "used" && (
+                  {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
                     <CheckCircle className="h-4 w-4" />
                   )}
-                  {voucherUser.code.code_status === "collected" && (
-                    <QrCode className="h-4 w-4" />
-                  )}
+                  {voucherUser.code.code_status === "collected" ||
+                    (voucherUser.code.code_status === "used" &&
+                      timeLeft > 0 && <QrCode className="h-4 w-4" />)}
                   {voucherUser.code.code_status === "expired" && (
                     <XCircle className="h-4 w-4" />
                   )}
                   <span>
-                    {
-                      voucherText[voucherUser.code.code_status ?? "collected"][
-                        language
-                      ]
-                    }
+                    {voucherUser.code.code_status === "used" && timeLeft > 0
+                      ? voucherText["collected"][language]
+                      : voucherText[
+                          voucherUser.code.code_status ?? "collected"
+                        ][language]}
                   </span>
                 </div>
               </div>
@@ -92,11 +103,18 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
               <div className="text-center space-y-2 overflow-hidden">
                 {/* <p className="text-xs">COUPON</p> */}
                 <p className="text-base font-medium text-nowrap truncate w-24">
-                  {voucher.name}
+                  {voucher.voucher_brand_id?.name}
                 </p>
-                <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
+                <img
+                  src={getDirectusFileUrl(
+                    (voucher?.voucher_brand_id?.logo as string) ?? ""
+                  )}
+                  alt={voucher?.voucher_brand_id?.name ?? ""}
+                  className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
+                />
+                {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
                   LOGO
-                </div>
+                </div> */}
                 {/* <QrCode className="h-6 w-6 mx-auto mt-1" /> */}
               </div>
             </div>

@@ -16,7 +16,8 @@ const Route = () => {
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const { data: profile, isLoading:isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
-  const lang = isThaiLanguage ? "th" : "en";
+  // const lang = isThaiLanguage ? "th" : "en";
+  const lang = "en";
   // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
   //   q: "",
   //   status: "published",
@@ -32,7 +33,7 @@ const Route = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white">
-        <Header />
+        <Header language={lang}/>
         <Tabs
           language={lang}
           tabs={tabs}

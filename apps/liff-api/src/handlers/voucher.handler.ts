@@ -41,6 +41,7 @@ export const getVoucher = factory.createHandlers(
     const directus = c.get("directAdmin");
     const voucher = await directus.request(
       readItem("vouchers", id, {
+        fields:["*", {voucher_brand_id: ["*"]}],
         // fields: ["id", "name", "cover", "ref_code", "status"],
       })
     );
@@ -183,7 +184,7 @@ export const getVouchersByUser = factory.createHandlers(
       vouchers.map(async (voucher: any) => {        
         const voucherData = await directus.request(
           readItems("vouchers_codes",  {
-            fields: ["*", { voucher: ["*"] }],
+            fields: ["*", { voucher: ["*",{voucher_brand_id: ["*"]}] }],
             filter: {
               code: {
                 _eq: voucher.code,

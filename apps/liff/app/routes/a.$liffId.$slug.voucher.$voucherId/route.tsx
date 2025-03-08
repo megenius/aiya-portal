@@ -16,7 +16,8 @@ const Route = () => {
   const { liffId, slug, voucherId } = useParams();
   const { language, isLoggedIn } = useLiff({ liffId: liffId as string });
   const isThaiLanguage = language.startsWith("th");
-  const lang = isThaiLanguage ? "th" : "en";
+  // const lang = isThaiLanguage ? "th" : "en";
+  const lang = "en";
   const { data: voucher, isLoading: isVoucherLoading } = useVoucher(voucherId ?? "");
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
@@ -96,11 +97,11 @@ const Route = () => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <Header
+      {voucher && <Header
         language={lang}
-        title={voucher?.name}
+        voucher={voucher}
         color={voucher?.primaryColor ?? ""}
-      />
+      />}
       {voucher && codeStats && (
         <MainContent language={lang} voucher={voucher} codeStats={codeStats} pageState={pageState} />
       )}

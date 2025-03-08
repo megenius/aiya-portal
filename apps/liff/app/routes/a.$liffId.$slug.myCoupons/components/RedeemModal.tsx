@@ -51,6 +51,22 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     },
     // { id: "locations", label: "สาขา" },
   ];
+  const warningText = {
+    th: "คูปองมีอายุ 15 นาทีหลังจากกดใช้คูปอง",
+    en: "Voucher will expire in 15 minutes after redeem",
+  };
+  const buttonText = {
+    th: "ใช้คูปอง",
+    en: "Redeem",
+  };
+  const voucherWillExpireInText = {
+    th: "คูปองนี้จะหมดอายุในอีก",
+    en: "This voucher will expire in",
+  };
+  const warningExpireText = {
+    th: "คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที",
+    en: "Voucher is about to expire! Please use it immediately",
+  };
 
   // Initialize remaining time based on usedDate if it exists
   useEffect(() => {
@@ -156,7 +172,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="flex items-center gap-2">
                   <Clock className={`h-5 w-5 ${getTimeColor()}`} />
                   <span className="text-sm font-medium text-gray-700">
-                    คูปองนี้จะหมดอายุในอีก
+                    {voucherWillExpireInText[language]}
                   </span>
                 </div>
                 <div className={`font-bold text-xl ${getTimeColor()}`}>
@@ -182,7 +198,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
               {showExpireWarning && (
                 <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
                   <AlertCircle className="h-4 w-4" />
-                  <span>คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที</span>
+                  <span>{warningExpireText[language]}</span>
                 </div>
               )}
             </div>
@@ -289,7 +305,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
             </div>
 
             <div className="text-sm text-gray-500 text-center">
-              คูปองมีอายุ 15 นาทีหลังจากกดใช้คูปอง
+              {warningText[language]}
             </div>
 
             <button
@@ -297,7 +313,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
               className="w-full bg-primary text-white py-3 rounded-lg font-medium"
               style={{ backgroundColor: primaryColor }}
             >
-              ใช้คูปอง
+              {buttonText[language]}
             </button>
           </div>
         )}

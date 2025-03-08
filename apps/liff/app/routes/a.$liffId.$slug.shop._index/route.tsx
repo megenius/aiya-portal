@@ -11,7 +11,8 @@ const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
-  const lang = isThaiLanguage ? "th" : "en";
+  // const lang = isThaiLanguage ? "th" : "en";
+  const lang = "en";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } = useVoucherUserStats({ userId: profile?.userId || "" });
   // const { data: liff } = useLineLiff();

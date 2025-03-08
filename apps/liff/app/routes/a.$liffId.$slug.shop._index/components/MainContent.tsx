@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { SearchBar } from "./SearchBar";
 import { CategoryList } from "./CategoryList";
 import { PageLiff } from "~/types/page";
 import { useLiff } from "~/hooks/useLiff";
@@ -10,6 +9,7 @@ import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import { VoucherStats } from "~/types/app";
 import { useBrands } from "~/hooks/brands/useBrands";
 import { getDirectusFileUrl } from "~/utils/files";
+import SearchBar from "./SearchBar";
 
 interface MainContentProps {
   page: PageLiff;
@@ -46,7 +46,7 @@ const MainContent: React.FC<MainContentProps> = ({ page,language,voucherUserStat
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 space-y-3">
-        <SearchBar />
+        <SearchBar language={language} />
         <VoucherSummary totalVouchers={voucherUserStats?.total} availableVouchers={voucherUserStats?.collected} usedVouchers={voucherUserStats?.used + voucherUserStats?.expired} language={language} />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
