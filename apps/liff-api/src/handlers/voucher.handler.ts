@@ -350,7 +350,7 @@ export const useVoucher = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { id } = await c.req.param();
+    const { id } = await c.req.query();
     const directus = c.get("directAdmin");
 
     // Update voucher user with used date
