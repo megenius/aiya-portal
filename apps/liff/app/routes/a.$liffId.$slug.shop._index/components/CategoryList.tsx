@@ -1,14 +1,19 @@
+import { ca } from "date-fns/locale";
 import { Category } from "~/types/page";
 
 interface Props {
-  isThaiLanguage: boolean;
+  language: string;
   categories: Category[];
   selected: string;
   onSelect: (id: string) => void;
 }
 
-export function CategoryList({ isThaiLanguage, categories, selected, onSelect }: Props) {
+export function CategoryList({ language, categories, selected, onSelect }: Props) {
   const allCategoryId = "all";
+  const allText = {
+    th: "ทั้งหมด",
+    en: "All",
+  };
   
   return (
     <div
@@ -34,7 +39,7 @@ export function CategoryList({ isThaiLanguage, categories, selected, onSelect }:
             allCategoryId === selected ? "text-white" : "text-gray-700"
           }`}
         >
-          {isThaiLanguage ? "ทั้งหมด" : "All"}
+          {allText[language]}
         </span>
       </button>
       
@@ -58,7 +63,7 @@ export function CategoryList({ isThaiLanguage, categories, selected, onSelect }:
               category.id === selected ? "text-white" : "text-gray-700"
             }`}
           >
-            {isThaiLanguage ? category.nameTH : category.nameEN}
+            {category.name[language]}
           </span>
         </button>
       ))}

@@ -1,49 +1,52 @@
-import { useState } from "react";
-import { useNavigate } from "@remix-run/react";
-import Header from "./Header";
-import NavigationTabs from "./NavigationTabs";
-import CouponCard from "./CouponCard";
+import React, { useState } from "react";
+import VoucherCard from "./VoucherCard";
+import { Voucher, VoucherUser } from "~/types/app";
+import RedeemModal from "./RedeemModal";
 
-interface MainContentProps {}
+interface MainContentProps {
+  activeTab: string;
+  vouchers: VoucherUser[];
+  language: string;
+  primaryColor: string;
+}
 
-const MainContent: React.FC<MainContentProps> = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("available");
-
-  const navigateToUseCoupon = (couponId: string) =>
-    navigate(`/a/mockup/coupon/${couponId}`);
-
-  const myCoupons = [
-    {
-      id: 1,
-      image: "https://placehold.co/200x150",
-      store: "Store 1",
-      category: "Category 1",
-      discount: "10% off",
-    },
-    {
-      id: 2,
-      image: "https://placehold.co/200x150",
-      store: "Store 2",
-      category: "Category 2",
-      discount: "20% off",
-    },
-  ];
+const MainContent: React.FC<MainContentProps> = ({
+  activeTab,
+  vouchers,
+  language,
+  primaryColor,
+}) => {
+  const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
+  const filteredVouchers = vouchers.filter((voucher) => {
+    if (activeTab === "available") {
+      return voucher.code.code_status === "collected";
+    } else if (activeTab === "used") {
+      return voucher.code.code_status === "used";
+    }
+    return false;
+  });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="p-4">
-        {myCoupons.map((coupon) => (
-          <CouponCard
-            key={coupon.id}
-            coupon={coupon}
-            onClick={navigateToUseCoupon}
+    <>
+      <main className="h-full bg-gray-50 p-4 space-y-2">
+        {filteredVouchers.map((voucher) => (
+          <VoucherCard
+            key={voucher.id}
+            voucherUser={voucher}
+            onClick={() => setVoucherUser(voucher)}
+            language={language}
           />
         ))}
       </main>
-    </div>
+      {voucherUser && (
+        <RedeemModal
+          voucherUser={voucherUser}
+          language={language}
+          primaryColor={primaryColor}
+          onClose={() => setVoucherUser(null)}
+        />
+      )}
+    </>
   );
 };
 

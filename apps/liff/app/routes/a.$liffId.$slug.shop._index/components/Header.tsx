@@ -1,38 +1,23 @@
 import React from "react";
-import { Ticket } from "lucide-react";
-import { useNavigate } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import { useLineProfile } from "~/hooks/useLineProfile";
-import { useLiff } from "~/hooks/useLiff";
-import Loading from "~/components/Loading";
-
 interface HeaderProps {
-  myCouponsCount: number;
   page: PageLiff;
+  language: string;
 }
 
-export function Header({ myCouponsCount, page }: HeaderProps) {
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
-  const isThaiLanguage = language.startsWith("th");
-  const welcomeText = isThaiLanguage
-    ? page.metadata.welcomeTextTH
-    : page.metadata.welcomeTextEN;
-  const subWelcomeText = isThaiLanguage
-    ? page.metadata.subWelcomeTextTH
-    : page.metadata.subWelcomeTextEN;
-  const navigate = useNavigate();
+export function Header({ page,language }: HeaderProps) {
+  const welcomeText = page.metadata.welcomeText[language];
+  const subWelcomeText = page.metadata.subWelcomeText[language];
+  // const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
-  const navigateToMyCoupon = () => {
-    navigate(`/a/12/shop/12/myCoupons`);
-  };
-
-  if (!isLoggedIn && !page) {
-    return <Loading />;
-  }
+  // const navigateToMyCoupon = () => {
+  //   navigate(`/a/12/shop/12/myCoupons`);
+  // };
 
   return (
-    <div className="p-4 flex items-center justify-between">
+    <div className="p-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-3">
         {isProfileLoading ? (
           <div className="pt-1 animate-pulse flex items-center gap-3">

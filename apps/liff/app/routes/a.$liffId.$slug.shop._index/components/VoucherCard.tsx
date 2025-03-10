@@ -1,21 +1,24 @@
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useOutletContext } from "@remix-run/react";
 import React from "react";
 import { Voucher } from "~/types/app";
+import { PageLiff } from "~/types/page";
+import { getDirectusFileUrl } from "~/utils/files";
 
 interface VoucherCardProps {
   voucher: Voucher;
-  isThaiLanguage: boolean;
+  language: string;
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
-  isThaiLanguage,
+  language,
 }) => {
+  const { page } = useOutletContext<{ page: PageLiff }>();
     const navigate = useNavigate();
-    const title = isThaiLanguage ? voucher.titleTH : voucher.titleEN;
+    const title = voucher.metadata.title[language];
 
-      const navigateToCollectCoupon = (couponId: string) =>
-        navigate(`/a/mockup/coupon/${couponId}`);
+      const navigateToCollectCoupon = (voucherId: string) =>
+        navigate(`/a/${page.liff_id}/${page.slug}/voucher/${voucherId}`);
   
   return (
     <button
@@ -24,22 +27,16 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     >
       <div className="h-32 relative">
         <img
-          src={voucher.cover ?? ""}
+          src={getDirectusFileUrl(voucher.cover as string) ?? ""}
           alt={title ?? ""}
           className="w-full h-32 object-cover"
         />
         <div className="absolute bottom-2 left-2">
-          {/* {shopLogo ? (
             <img 
-              src={shopLogo} 
-              alt="Shop logo" 
+              src={getDirectusFileUrl(voucher?.voucher_brand_id?.logo as string ?? "")} 
+              alt={voucher?.voucher_brand_id?.name ?? ""} 
               className="w-7 h-7 rounded-full object-cover border border-white shadow-sm"
             />
-          ) : ( */}
-            <div className="w-7 h-7 flex items-center justify-center rounded-full object-cover bg-white border border-white shadow-sm text-[6px]">
-              LOGO
-            </div>
-          {/* )} */}
         </div>
       </div>
       <div className="p-3">

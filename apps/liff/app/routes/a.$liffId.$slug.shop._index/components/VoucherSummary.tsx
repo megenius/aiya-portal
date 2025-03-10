@@ -1,30 +1,51 @@
 import React from "react";
 import { Ticket } from "lucide-react";
-import { NavigateFunction, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
+import { th } from "date-fns/locale";
 
-interface CouponSummaryProps {
-  isThaiLanguage: boolean;
-  totalCoupons?: number;
-  availableCoupons?: number;
-  usedCoupons?: number;
-  totalSaved?: string;
+interface VoucherSummaryProps {
+  language: string;
+  totalVouchers?: number;
+  availableVouchers?: number;
+  usedVouchers?: number;
+  // totalSaved?: string;
 }
 
-const CouponSummary: React.FC<CouponSummaryProps> = ({
-  isThaiLanguage,
-  totalCoupons = 12,
-  availableCoupons = 8,
-  usedCoupons = 4,
-  totalSaved = "฿218.50",
+const VoucherSummary: React.FC<VoucherSummaryProps> = ({
+  language,
+  totalVouchers = 12,
+  availableVouchers = 8,
+  usedVouchers = 4,
+  // totalSaved = "฿218.50",
 }) => {
   const navigate = useNavigate();
-  const navigateToMyCoupons = () => {
-    console.log("Navigate to My Coupons");
+  const navigateToMyVouchers = () => {
+    console.log("Navigate to My Vouchers");
 
     navigate("/a/2006392276-1qv3Lnpm/shop-test/myCoupons");
   };
   const availablePercentage =
-    totalCoupons > 0 ? (availableCoupons / totalCoupons) * 100 : 0;
+    totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;
+  const myVouchersText = {
+    th: "คูปองของฉัน",
+    en: "My Vouchers",
+  }
+  const vouchersCollectedText = {
+    th: "คูปองที่เก็บ",
+    en: "Vouchers collected",
+  }
+  const aviailableText = {
+    th: "พร้อมใช้งาน",
+    en: "Available",
+  }
+  const usedText = {
+    th: "ใช้แล้ว",
+    en: "Used",
+  }
+  const viewAllVouchersText = {
+    th: "ดูคูปองทั้งหมด",
+    en: "View All Vouchers",
+  }
 
   return (
     <div className="bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
@@ -39,16 +60,14 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
             </div>
             <div className="flex-1">
               <h3 className="text-white font-medium text-lg">
-                {isThaiLanguage ? "คูปองของฉัน" : "My Coupons"}
+                {myVouchersText[language]}
               </h3>
               <div className="flex items-baseline">
                 <span className="text-xl font-bold text-white">
-                  {totalCoupons}
+                  {totalVouchers}
                 </span>
                 <span className="ml-1 text-white/70 text-sm">
-                  {isThaiLanguage
-                    ? "คูปองที่เก็บในเดือนนี้"
-                    : "Coupons collected this month"}
+                  {vouchersCollectedText[language]}
                 </span>
               </div>
             </div>
@@ -57,10 +76,10 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
           <div className="bg-white/10 rounded-lg p-3">
             <div className="flex justify-between mb-1">
               <div className="text-white/90 text-sm font-medium">
-                {isThaiLanguage ? "พร้อมใช้งาน" : "Available"}
+                {aviailableText[language]}
               </div>
               <div className="text-white/90 text-sm font-medium">
-                {availableCoupons}
+                {availableVouchers}
               </div>
             </div>
             <div className="w-full bg-white/20 rounded-full h-1.5 mb-2">
@@ -71,16 +90,16 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
             </div>
             <div className="flex justify-between">
               <div className="text-white/70 text-xs">
-                {isThaiLanguage ? "ใช้แล้ว" : "Used"}: {usedCoupons}
+                {usedText[language]}: {usedVouchers}
               </div>
               {/* <div className="text-white/70 text-xs">Total saved: {totalSaved}</div> */}
             </div>
           </div>
           <button
             className="w-full bg-white/10 border border-white/20 text-white py-2 rounded-lg flex items-center justify-center font-medium relative z-10"
-            onClick={navigateToMyCoupons}
+            onClick={navigateToMyVouchers}
           >
-            {isThaiLanguage ? "คูปองของฉันทั้งหมด" : "View All Coupons"}
+            {viewAllVouchersText[language]}
           </button>
         </div>
       </div>
@@ -88,4 +107,4 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
   );
 };
 
-export default CouponSummary;
+export default VoucherSummary;

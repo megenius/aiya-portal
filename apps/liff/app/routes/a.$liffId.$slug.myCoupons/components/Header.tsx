@@ -1,9 +1,18 @@
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useParams } from "@remix-run/react";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  language: string;
+}
+
+const Header: React.FC<HeaderProps> = ({language}) => {
+  const { liffId, slug } = useParams();
   const navigate = useNavigate();
-  const navigateToLanding = () => navigate(-1);
+  const navigateToLanding = () => navigate(`/a/${liffId}/${slug}/shop`);
+  const myVouchersText = {
+    th: "คูปองของฉัน",
+    en: "My Coupons",
+  };
 
   return (
     <header className="bg-white">
@@ -11,7 +20,7 @@ const Header: React.FC = () => {
         <button onClick={navigateToLanding} className="mr-4">
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-semibold">คูปองของฉัน</h1>
+        <h1 className="text-lg font-semibold">{myVouchersText[language]}</h1>
       </div>
     </header>
   );
