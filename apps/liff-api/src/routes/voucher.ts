@@ -9,6 +9,7 @@ voucherRoutes.get("/voucher-codes", ...VoucherHandler.getVoucherCodes);
 voucherRoutes.get("/voucher-codes/stats", ...VoucherHandler.getStatVoucherCode);
 voucherRoutes.get("/voucher-users/stats/:collected_by", ...VoucherHandler.getStatVoucherUser);
 voucherRoutes.get("/voucher-brands", ...VoucherHandler.getVoucherBrands);
+voucherRoutes.get("/use-voucher/:id", ...VoucherHandler.useVoucher);
 voucherRoutes.get("/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.post("/vouchers", ...VoucherHandler.createVoucher);
 // voucherRoutes.put("/vouchers/:id", ...VoucherHandler.updateVoucher);
