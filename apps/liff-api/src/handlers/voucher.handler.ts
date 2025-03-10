@@ -386,6 +386,6 @@ export const useVoucher = factory.createHandlers(
       })
     );
 
-    return c.json({ success: true });
+    return c.json({ collected_by: voucherUser.collected_by });
   }
 );
