@@ -5,6 +5,6 @@ const leadSubmissionsRoutes = new Hono();
 
 leadSubmissionsRoutes.get("/", ...LeadSubmissionHandler.getLeadSubmissions);
 leadSubmissionsRoutes.post("/", ...LeadSubmissionHandler.createLeadSubmission);
-leadSubmissionsRoutes.put("/:id", ...LeadSubmissionHandler.updateLeadSubmission);
+leadSubmissionsRoutes.post("/edit", ...LeadSubmissionHandler.updateLeadSubmission);
 
 export { leadSubmissionsRoutes };

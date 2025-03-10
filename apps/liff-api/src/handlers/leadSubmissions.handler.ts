@@ -38,10 +38,9 @@ export const updateLeadSubmission = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const id = c.req.param("id");
     const data = await c.req.json();
     const directus = c.get("directAdmin");
-    const result = await directus.request(updateItem("lead_submissions", id, data));
+    const result = await directus.request(updateItem("lead_submissions", data.id, data));
     return c.json(result, 200);
   }
 );
