@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CollectVoucher } from "~/types/app";
-import { insertVoucher } from "~/services/vouchers";
+import { collectVoucher } from "~/services/vouchers";
 
 // interface TrackingMethods {
 //   tracking: Tracking;
@@ -14,7 +14,7 @@ export function useCollectVoucher() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ variables }: MutationFn) =>
-      insertVoucher(variables).then((response) => response.data),
+      collectVoucher(variables).then((response) => response.data),
     onSuccess: (res) => {
       queryClient.invalidateQueries({
         queryKey: ["vouchersUser",res.collected_by ],
@@ -23,6 +23,11 @@ export function useCollectVoucher() {
       });
       queryClient.invalidateQueries({
         queryKey: ["vouchers","voucher-codes","stats",res.voucher ],
+        exact: true,
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["vouchers","voucher-users","stats",res.collected_by ],
         exact: true,
         refetchType: "active",
       });

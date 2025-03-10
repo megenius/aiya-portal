@@ -17,13 +17,34 @@ const MainContent: React.FC<MainContentProps> = ({
   primaryColor,
 }) => {
   const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
-  const filteredVouchers = vouchers.filter((voucher) => {
-    if (activeTab === "available") {
-      return voucher.code.code_status === "collected";
-    } else if (activeTab === "used") {
-      return voucher.code.code_status === "used";
+  const filteredVouchers = vouchers
+  .filter((voucher) => {
+    let timeLeft = 0;
+    if (voucher.used_date) {
+      const usedDateTime = new Date(voucher.used_date).getTime();
+      const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+      const now = new Date().getTime();
+      timeLeft = Math.floor((expiryTime - now) / 1000);
     }
-    return false;
+    if (activeTab === "available") {
+      return (
+        voucher.code.code_status === "collected" ||
+        (voucher.code.code_status === "used" && timeLeft > 0)
+      );
+    } else if (activeTab === "used") {
+      return voucher.code.code_status === "used" && timeLeft <= 0;
+    } else if (activeTab === "expired") {
+      return (
+        voucher.code.code_status === "collected" &&
+        voucher.expired_date &&
+        new Date(voucher.expired_date) < new Date()
+      );
+    }
+    return [];
+  }).sort((a, b) => {
+    const dateA = a.used_date ? new Date(a.used_date).getTime() : Infinity;
+    const dateB = b.used_date ? new Date(b.used_date).getTime() : Infinity;
+    return dateA - dateB;
   });
 
   return (

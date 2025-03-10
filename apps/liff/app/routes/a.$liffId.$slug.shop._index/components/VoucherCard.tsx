@@ -41,7 +41,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       </div>
       <div className="p-3">
         <h3 className="font-medium leading-snug text-start text-sm line-clamp-2">
-          {voucher.name}
+          {voucher?.voucher_brand_id?.name}
         </h3>
         
         <div className="flex items-center justify-between">

@@ -6,13 +6,16 @@ import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
 import { useState } from "react";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
-import { CollectVoucher } from "~/types/app";
+import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 import confetti from "canvas-confetti";
+import Loading from "~/components/Loading";
+import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 
 const Route = () => {
+  const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { liffId, slug, voucherId } = useParams();
   const { language, isLoggedIn } = useLiff({ liffId: liffId as string });
@@ -30,9 +33,12 @@ const Route = () => {
       voucherId: voucherId ?? "",
     });
   const collectVoucher = useCollectVoucher();
+  const leadSubmission = useInsertLeadSubmission();
   const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucherId);
   const [isCollected, setIsCollected] = useState(Boolean(myVoucher));
   const [pageState, setPageState] = useState("landing");
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [formData, setFormData] = useState<FieldData[]>([]); // Add state for form data
   const buttonText = {
     instant: {
       th: "เก็บคูปอง",
@@ -44,33 +50,32 @@ const Route = () => {
     },
     collected: {
       th: "ใช้คูปอง",
-      en: "Use Coupon",
+      en: "Redeem",
     },
     used: {
       th: "ใช้แล้ว",
-      en: "Used",
+      en: "Redeemed",
     },
     expired: {
       th: "หมดอายุแล้ว",
       en: "Expired",
     },
-    fully_redeemed: {
+    fully_collected: {
       th: "หมดแล้ว",
-      en: "Fully Redeemed",
+      en: "Fully Collected",
     },
   };
   const status = myVoucher
     ? (myVoucher.code.code_status ?? "collected")
     : codeStats?.available === 0
-      ? "fully_redeemed"
+      ? "fully_collected"
       : (voucher?.metadata.redemptionType ?? "instant");
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (
       status === "used" ||
       status === "expired" ||
-      status === "fully_redeemed"
+      status === "fully_collected"
     ) {
       return;
     }
@@ -96,8 +101,18 @@ const Route = () => {
         variables: collectVoucherData,
       },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           setIsCollected(true);
+          setPageState("landing");
+          const data: Partial<LeadSubmission> = {
+            source: "voucher",
+            source_id: res.id as string,
+            data: { form: { fields: formData } },
+            metadata: voucher?.metadata,
+          };
+          leadSubmission.mutateAsync({
+            variables: data,
+          });
 
           confetti({
             particleCount: 100,
@@ -115,7 +130,7 @@ const Route = () => {
     isMyVouchersLoading &&
     isCodeStatsLoading
   ) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -133,6 +148,8 @@ const Route = () => {
           voucher={voucher}
           codeStats={codeStats}
           pageState={pageState}
+          onFormValidationChange={setIsFormValid}
+          onFormDataChange={setFormData} // Add prop to receive form data
         />
       )}
       <Footer
@@ -140,6 +157,7 @@ const Route = () => {
         buttonText={buttonText[status][lang]}
         status={status}
         onClick={handleSubmit}
+        disabled={pageState === "form" && !isFormValid}
       />
     </div>
   );
