@@ -350,8 +350,8 @@ export const useVoucher = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { id } = await c.req.query();
     const directus = c.get("directAdmin");
+    const {id} =await c.req.json();    
 
     // Update voucher user with used date
     const voucherUser = await directus.request(
@@ -359,6 +359,8 @@ export const useVoucher = factory.createHandlers(
         used_date: formatDateBangkok(),
       })
     );
+    console.log(voucherUser);
+    
 
     if (!voucherUser) {
       return c.json({ error: "Voucher user not found" }, { status: 404 });
