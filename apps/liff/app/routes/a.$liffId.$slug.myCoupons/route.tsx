@@ -28,6 +28,7 @@ const Route = () => {
   const tabs = [
     { id: "available", label: { th: "ใช้ได้", en: "Available" } },
     { id: "used", label: { th: "ใช้แล้ว", en: "Used" } },
+    { id: "expired", label: { th: "หมดอายุ", en: "Expired" } },
   ];
 
   return (

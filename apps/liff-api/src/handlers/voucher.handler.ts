@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
+import { formatDateBangkok } from "~/utils/dateUtils";
 
 
 const factory = createFactory<Env>();
@@ -341,5 +342,52 @@ export const getVoucherBrands = factory.createHandlers(
       })
     );
     return c.json(voucherBrands);
+  }
+);
+
+// useVoucher
+export const useVoucher = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const {id} =await c.req.json();    
+
+    // Update voucher user with used date
+    const voucherUser = await directus.request(
+      updateItem("vouchers_users", id, {
+        used_date: formatDateBangkok(),
+      })
+    );
+    console.log(voucherUser);
+    
+
+    if (!voucherUser) {
+      return c.json({ error: "Voucher user not found" }, { status: 404 });
+    }
+
+    // Update voucher code status to "used"
+    const voucherCode = await directus.request(
+      readItems("vouchers_codes", {
+        filter: {
+          code: {
+            _eq: voucherUser.code,
+          },
+        },
+        limit: 1,
+      })
+    );
+
+    if (!voucherCode.length) {
+      return c.json({ error: "Voucher code not found" }, { status: 404 });
+    }
+
+    await directus.request(
+      updateItem("vouchers_codes", voucherCode[0].id, {
+        code_status: "used",
+      })
+    );
+
+    return c.json({ collected_by: voucherUser.collected_by });
   }
 );

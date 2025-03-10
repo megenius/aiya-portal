@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getDirectusFileUrl } from "~/utils/files";
-import { Voucher, VoucherStats } from "~/types/app";
+import { FieldData, Voucher, VoucherStats } from "~/types/app";
 import Tabs from "../../../components/Tabs";
 import VoucherProgressBar from "./VoucherProgressBar";
 import FormField from "./FormField";
@@ -10,6 +10,8 @@ interface MainContentProps {
   codeStats: VoucherStats;
   language: string;
   pageState: string;
+  onFormValidationChange?: (isValid: boolean) => void;
+  onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -17,6 +19,8 @@ const MainContent: React.FC<MainContentProps> = ({
   codeStats,
   language,
   pageState,
+  onFormValidationChange,
+  onFormDataChange, // Receive new prop
 }) => {
   const title = voucher.metadata.title[language];
   const description = voucher.metadata.description[language]?.replace(
@@ -26,6 +30,53 @@ const MainContent: React.FC<MainContentProps> = ({
   const condition = voucher.metadata.condition[language]?.replace(/\\n/g, "\n");
 
   const [activeTab, setActiveTab] = useState("details");
+  // Add formData state to store form values using FieldData type
+  const [formData, setFormData] = useState<FieldData[]>([]);
+
+  // Handle form field changes
+  const handleFieldChange = (name: string, value: string) => {
+    setFormData((prev) => {
+      const existingFieldIndex = prev.findIndex((field) => field.name === name);
+      if (existingFieldIndex >= 0) {
+        // Update existing field
+        const updatedFields = [...prev];
+        updatedFields[existingFieldIndex] = { name, value };
+        return updatedFields;
+      } else {
+        // Add new field
+        return [...prev, { name, value }];
+      }
+    });
+  };
+
+  // Validate form fields when formData changes
+  useEffect(() => {
+    if (pageState === "form" && onFormValidationChange) {
+      const requiredFields = voucher?.metadata.form?.fields
+        .filter(field => field.required)
+        .map(field => ({ name: field.name, type: field.type }));
+      
+      const isValid = requiredFields?.every(field => {
+        const fieldData = formData.find(data => data.name === field.name);
+        const value = fieldData?.value;
+        
+        // For telephone fields, require exactly 10 digits
+        if (field.type === 'tel') {
+          return value !== undefined && value.length === 10;
+        }
+        
+        // For other field types, just check if they're non-empty
+        return value !== undefined && value.trim() !== '';
+      }) ?? true;
+      
+      onFormValidationChange(isValid);
+    }
+    
+    // Send form data to parent component when it changes
+    if (onFormDataChange) {
+      onFormDataChange(formData);
+    }
+  }, [formData, pageState, voucher?.metadata.form, onFormValidationChange, onFormDataChange]);
 
   const tabs = [
     {
@@ -101,6 +152,9 @@ const MainContent: React.FC<MainContentProps> = ({
               type={field.type}
               required={field.required}
               primaryColor={voucher?.primaryColor || ""}
+              value={formData.find(data => data.name === field.name)?.value || ""}
+              onChange={(value) => handleFieldChange(field.name, value)}
+              name={field.name}
             />
           ))}
         </form>

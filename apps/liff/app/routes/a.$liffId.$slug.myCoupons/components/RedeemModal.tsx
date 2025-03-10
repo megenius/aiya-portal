@@ -5,6 +5,7 @@ import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "~/components/Tabs";
 import QRCodeGenerater from "~/components/QRCodeGenerater";
 import BarcodeGenerator from "~/components/BarCodeGenerater";
+import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 
 interface RedeemModalProps {
   voucherUser: VoucherUser;
@@ -21,6 +22,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 }) => {
   const voucher = voucherUser.code.voucher;
   const usedDate = voucherUser.used_date;
+  const redeemVoucher = useRedeemVoucher();
   const [codeType, setCodeType] = useState("qrcode");
   const [remainingTime, setRemainingTime] = useState(15 * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
@@ -72,10 +74,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   useEffect(() => {
     if (usedDate) {
       const usedDateTime = new Date(usedDate).getTime();
-      const expiryTime = usedDateTime + (15 * 60 * 1000); // 15 minutes after used_date
+      const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
       const now = new Date().getTime();
       const timeLeft = Math.floor((expiryTime - now) / 1000);
-      
+
       // If still valid, set the remaining time
       if (timeLeft > 0) {
         setRemainingTime(timeLeft);
@@ -114,24 +116,17 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   if (!voucher) return null;
 
   const handleCollect = () => {
-    setIsRedeemed(true);
-  };
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    const data: Partial<VoucherUser> = {
+      id: voucherUser.id,
+    };
+    redeemVoucher.mutate(
+      { variables: data },
+      { onSuccess: () => setIsRedeemed(true)}
+    );
   };
 
   // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
   const timePercentage = (remainingTime / (15 * 60)) * 100;
-
-  // คำนวณสีของตัวนับเวลา
-  const getTimeColor = () => {
-    if (remainingTime <= 60) return "text-red-600"; // <= 1 นาที: สีแดง
-    if (remainingTime <= 5 * 60) return "text-yellow-400"; // <= 5 นาที: สีเหลือง
-    return "text-primary"; // > 5 นาที: สีน้ำเงิน
-  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -144,7 +139,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
               className="w-20 h-20 object-cover rounded-lg"
             />
             <div>
-              <h3 className="font-medium text-lg">{voucher.name}</h3>
+              <h3 className="font-medium text-lg">{voucher.voucher_brand_id?.name}</h3>
               <h4 className="text-sm text-gray-500">{title}</h4>
               {/* <div className="text-primary font-medium text-lg">
                 {voucher.discount}
@@ -170,12 +165,14 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Clock className={`h-5 w-5 ${getTimeColor()}`} />
+                  <Clock className={`h-5 w-5 ${getTimeColor(remainingTime)}`} />
                   <span className="text-sm font-medium text-gray-700">
                     {voucherWillExpireInText[language]}
                   </span>
                 </div>
-                <div className={`font-bold text-xl ${getTimeColor()}`}>
+                <div
+                  className={`font-bold text-xl ${getTimeColor(remainingTime)}`}
+                >
                   {formatTime(remainingTime)}
                 </div>
               </div>
@@ -320,6 +317,19 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
       </div>
     </div>
   );
+};
+
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+};
+
+// คำนวณสีของตัวนับเวลา
+const getTimeColor = (remainingTime: number) => {
+  if (remainingTime <= 60) return "text-red-600"; // <= 1 นาที: สีแดง
+  if (remainingTime <= 5 * 60) return "text-yellow-400"; // <= 5 นาที: สีเหลือง
+  return "text-primary"; // > 5 นาที: สีน้ำเงิน
 };
 
 export default RedeemModal;

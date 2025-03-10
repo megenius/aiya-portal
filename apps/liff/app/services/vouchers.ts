@@ -10,8 +10,11 @@ export const fetchVouchers = ({ q,status }) =>
 export const fetchVouchersUser = ({ userId }) =>
   api.get<Array<VoucherUser>>(`/vouchers/voucher-user?uid=${userId}`);
 
-export const insertVoucher = (data: CollectVoucher) =>
+export const collectVoucher = (data: CollectVoucher) =>
   api.post("/vouchers/collect", data);
+
+export const redeemVoucher = (data: Partial<VoucherUser>) =>
+  api.post(`/vouchers/redeem`,data);
 
 export const fetchVoucherCodeStats = ({ voucherId }) =>
   api.get<VoucherStats>(`/vouchers/voucher-codes/stats?voucher=${voucherId}`);

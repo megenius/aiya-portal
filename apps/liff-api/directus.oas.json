@@ -39631,6 +39631,393 @@
                     }
                 ]
             }
+        },
+        "/items/lead_submissions": {
+            "post": {
+                "summary": "Create an Item",
+                "description": "Create a new lead_submissions item.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "createItemsLeadSubmissions",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "items": {
+                                                "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "get": {
+                "summary": "List Items",
+                "description": "List the lead_submissions items.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "readItemsLeadSubmissions",
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Offset"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Sort"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/x-metadata"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update Multiple Items",
+                "description": "Update multiple lead_submissions items at the same time.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "updateItemsLeadSubmissions",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Offset"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Sort"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "items": {
+                                                "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Multiple Items",
+                "description": "Delete multiple existing lead_submissions items.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "deleteItemsLeadSubmissions",
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/items/lead_submissions/{id}": {
+            "get": {
+                "summary": "Retrieve an Item",
+                "description": "Retrieve a single lead_submissions item by unique identifier.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "readSingleItemsLeadSubmissions",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Version"
+                    },
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update an Item",
+                "description": "Update an existing lead_submissions item.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "updateSingleItemsLeadSubmissions",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Fields"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Meta"
+                    },
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "$ref": "#/components/schemas/ItemsLeadSubmissions"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an Item",
+                "description": "Delete an existing lead_submissions item.",
+                "tags": [
+                    "Items",
+                    "ItemsLeadSubmissions"
+                ],
+                "operationId": "deleteSingleItemsLeadSubmissions",
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Index of the item.",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "description": "Incremental index of the item.",
+                                    "example": 1
+                                },
+                                {
+                                    "type": "string",
+                                    "description": "Unique identifier of the item.",
+                                    "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
         }
     },
     "tags": [
@@ -40098,6 +40485,10 @@
         {
             "name": "ItemsBotsDocuments",
             "x-collection": "bots_documents"
+        },
+        {
+            "name": "ItemsLeadSubmissions",
+            "x-collection": "lead_submissions"
         }
     ],
     "components": {
@@ -40178,6 +40569,11 @@
             "Files": {
                 "type": "object",
                 "properties": {
+                    "filesize": {
+                        "description": "Size of the file in bytes.",
+                        "example": 137862,
+                        "type": "integer"
+                    },
                     "focal_point_y": {
                         "nullable": true,
                         "type": "integer"
@@ -40192,19 +40588,6 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "filesize": {
-                        "description": "Size of the file in bytes.",
-                        "example": 137862,
-                        "type": "integer"
-                    },
-                    "tags": {
-                        "description": "Tags for the file. Is automatically populated based on Exif data for images.",
-                        "type": "array",
-                        "nullable": true,
-                        "items": {
-                            "type": "string"
-                        }
-                    },
                     "height": {
                         "description": "Height of the file in pixels. Only applies to images.",
                         "example": 838,
@@ -40217,9 +40600,17 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "metadata": {
-                        "description": "IPTC, Exif, and ICC metadata extracted from file",
-                        "type": "object",
+                    "tags": {
+                        "description": "Tags for the file. Is automatically populated based on Exif data for images.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "location": {
+                        "description": "Where the file was created. Is automatically populated based on Exif data for images.",
+                        "type": "string",
                         "nullable": true
                     },
                     "description": {
@@ -40227,38 +40618,16 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "location": {
-                        "description": "Where the file was created. Is automatically populated based on Exif data for images.",
-                        "type": "string",
+                    "tus_data": {
                         "nullable": true
                     },
-                    "tus_data": {
+                    "metadata": {
+                        "description": "IPTC, Exif, and ICC metadata extracted from file",
+                        "type": "object",
                         "nullable": true
                     },
                     "tus_id": {
                         "nullable": true,
-                        "type": "string"
-                    },
-                    "embed": {
-                        "description": "Where the file was embedded from.",
-                        "example": null,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "charset": {
-                        "description": "Character set of the file.",
-                        "example": "binary",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "type": {
-                        "description": "MIME type of the file.",
-                        "example": "image/jpeg",
-                        "type": "string"
-                    },
-                    "title": {
-                        "description": "Title for the file. Is extracted from the filename on upload, but can be edited by the user.",
-                        "example": "User Avatar",
                         "type": "string"
                     },
                     "filename_download": {
@@ -40266,18 +40635,40 @@
                         "example": "avatar.jpg",
                         "type": "string"
                     },
-                    "filename_disk": {
-                        "description": "Name of the file on disk. By default, Directus uses a random hash for the filename.",
-                        "example": "a88c3b72-ac58-5436-a4ec-b2858531333a.jpg",
+                    "title": {
+                        "description": "Title for the file. Is extracted from the filename on upload, but can be edited by the user.",
+                        "example": "User Avatar",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "MIME type of the file.",
+                        "example": "image/jpeg",
+                        "type": "string"
+                    },
+                    "charset": {
+                        "description": "Character set of the file.",
+                        "example": "binary",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "embed": {
+                        "description": "Where the file was embedded from.",
+                        "example": null,
+                        "type": "string",
+                        "nullable": true
                     },
                     "storage": {
                         "description": "Where the file is stored. Either `local` for the local filesystem or the name of the storage adapter (for example `s3`).",
                         "example": "local",
                         "type": "string"
                     },
-                    "uploaded_on": {
-                        "description": "When the file was last uploaded/replaced.",
+                    "filename_disk": {
+                        "description": "Name of the file on disk. By default, Directus uses a random hash for the filename.",
+                        "example": "a88c3b72-ac58-5436-a4ec-b2858531333a.jpg",
+                        "type": "string"
+                    },
+                    "created_on": {
+                        "description": "When the file was created.",
                         "example": "2019-12-03T00:10:15+00:00",
                         "type": "string",
                         "format": "date-time"
@@ -40287,36 +40678,16 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "created_on": {
-                        "description": "When the file was created.",
+                    "uploaded_on": {
+                        "description": "When the file was last uploaded/replaced.",
                         "example": "2019-12-03T00:10:15+00:00",
                         "type": "string",
                         "format": "date-time"
                     },
-                    "folder": {
-                        "description": "Virtual folder where this file resides in.",
-                        "example": null,
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Folders"
-                            }
-                        ],
-                        "nullable": true
-                    },
-                    "uploaded_by": {
-                        "description": "Who uploaded the file.",
-                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
+                    "id": {
+                        "description": "Unique identifier for the file.",
+                        "example": "8cbb43fe-4cdf-4991-8352-c461779cec02",
+                        "type": "string"
                     },
                     "modified_by": {
                         "nullable": true,
@@ -40330,10 +40701,30 @@
                             }
                         ]
                     },
-                    "id": {
-                        "description": "Unique identifier for the file.",
-                        "example": "8cbb43fe-4cdf-4991-8352-c461779cec02",
-                        "type": "string"
+                    "uploaded_by": {
+                        "description": "Who uploaded the file.",
+                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
+                    },
+                    "folder": {
+                        "description": "Virtual folder where this file resides in.",
+                        "example": null,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Folders"
+                            }
+                        ],
+                        "nullable": true
                     }
                 },
                 "x-collection": "directus_files"
@@ -40481,6 +40872,21 @@
                         "nullable": true,
                         "type": "boolean"
                     },
+                    "description": {
+                        "description": "The user's description.",
+                        "example": null,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "theme_dark_overrides": {
+                        "nullable": true
+                    },
+                    "theme_light_overrides": {
+                        "nullable": true
+                    },
+                    "auth_data": {
+                        "nullable": true
+                    },
                     "tags": {
                         "description": "The user's tags.",
                         "example": null,
@@ -40490,38 +40896,30 @@
                             "type": "string"
                         }
                     },
-                    "theme_dark_overrides": {
-                        "nullable": true
+                    "stripe_customer_id": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "description": {
-                        "description": "The user's description.",
-                        "example": null,
-                        "type": "string",
-                        "nullable": true
+                    "theme_light": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "theme_light_overrides": {
-                        "nullable": true
+                    "theme_dark": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "auth_data": {
-                        "nullable": true
+                    "appearance": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "status": {
-                        "description": "Status of the user.",
-                        "example": "active",
-                        "type": "string",
-                        "enum": [
-                            "active",
-                            "invited",
-                            "draft",
-                            "suspended",
-                            "deleted"
-                        ]
+                    "external_identifier": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "tfa_secret": {
-                        "description": "The 2FA secret string that's used to generate one time passwords.",
-                        "example": null,
-                        "type": "string",
-                        "nullable": true
+                    "first_name": {
+                        "description": "First name of the user.",
+                        "example": "Admin",
+                        "type": "string"
                     },
                     "language": {
                         "description": "The user's language used in Directus.",
@@ -40555,19 +40953,6 @@
                         "example": "User",
                         "type": "string"
                     },
-                    "first_name": {
-                        "description": "First name of the user.",
-                        "example": "Admin",
-                        "type": "string"
-                    },
-                    "stripe_customer_id": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "theme_light": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "last_page": {
                         "description": "Last page that the user was on.",
                         "example": "/my-project/settings/collections/a",
@@ -40579,12 +40964,26 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "theme_dark": {
-                        "nullable": true,
-                        "type": "string"
+                    "status": {
+                        "description": "Status of the user.",
+                        "example": "active",
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "invited",
+                            "draft",
+                            "suspended",
+                            "deleted"
+                        ]
                     },
-                    "appearance": {
-                        "nullable": true,
+                    "tfa_secret": {
+                        "description": "The 2FA secret string that's used to generate one time passwords.",
+                        "example": null,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "provider": {
+                        "nullable": false,
                         "type": "string"
                     },
                     "last_access": {
@@ -40593,14 +40992,6 @@
                         "type": "string",
                         "nullable": true,
                         "format": "date-time"
-                    },
-                    "external_identifier": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "provider": {
-                        "nullable": false,
-                        "type": "string"
                     },
                     "role": {
                         "description": "Unique identifier of the role of this user.",
@@ -40614,6 +41005,11 @@
                             }
                         ]
                     },
+                    "id": {
+                        "description": "Unique identifier for the user.",
+                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
+                        "type": "string"
+                    },
                     "avatar": {
                         "description": "The user's avatar.",
                         "example": null,
@@ -40626,11 +41022,6 @@
                             }
                         ],
                         "nullable": true
-                    },
-                    "id": {
-                        "description": "Unique identifier for the user.",
-                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
-                        "type": "string"
                     },
                     "teams": {
                         "nullable": true,
@@ -40728,7 +41119,7 @@
             "ItemsLanguages": {
                 "type": "object",
                 "properties": {
-                    "name": {
+                    "direction": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -40736,7 +41127,7 @@
                         "nullable": false,
                         "type": "string"
                     },
-                    "direction": {
+                    "name": {
                         "nullable": true,
                         "type": "string"
                     }
@@ -40789,11 +41180,7 @@
             "Collections": {
                 "type": "object",
                 "properties": {
-                    "hidden": {
-                        "nullable": false,
-                        "type": "boolean"
-                    },
-                    "singleton": {
+                    "versioning": {
                         "nullable": false,
                         "type": "boolean"
                     },
@@ -40801,16 +41188,17 @@
                         "nullable": false,
                         "type": "boolean"
                     },
-                    "versioning": {
+                    "singleton": {
+                        "nullable": false,
+                        "type": "boolean"
+                    },
+                    "hidden": {
                         "nullable": false,
                         "type": "boolean"
                     },
                     "sort": {
                         "nullable": true,
                         "type": "integer"
-                    },
-                    "translations": {
-                        "nullable": true
                     },
                     "note": {
                         "nullable": true,
@@ -40819,24 +41207,8 @@
                     "item_duplication_fields": {
                         "nullable": true
                     },
-                    "preview_url": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "collapse": {
-                        "nullable": false,
-                        "type": "string"
-                    },
-                    "group": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Collections"
-                            }
-                        ]
+                    "translations": {
+                        "nullable": true
                     },
                     "display_template": {
                         "nullable": true,
@@ -40849,6 +41221,10 @@
                     "collection": {
                         "description": "The collection key.",
                         "example": "customers",
+                        "type": "string"
+                    },
+                    "archive_field": {
+                        "nullable": true,
                         "type": "string"
                     },
                     "color": {
@@ -40871,9 +41247,24 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "archive_field": {
+                    "preview_url": {
                         "nullable": true,
                         "type": "string"
+                    },
+                    "collapse": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "group": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Collections"
+                            }
+                        ]
                     }
                 },
                 "x-collection": "directus_collections"
@@ -40881,13 +41272,13 @@
             "Presets": {
                 "type": "object",
                 "properties": {
-                    "refresh_interval": {
-                        "nullable": true,
-                        "type": "integer"
-                    },
                     "id": {
                         "description": "Unique identifier for this single collection preset.",
                         "example": 155,
+                        "type": "integer"
+                    },
+                    "refresh_interval": {
+                        "nullable": true,
                         "type": "integer"
                     },
                     "filter": {
@@ -40914,6 +41305,20 @@
                         },
                         "nullable": true
                     },
+                    "icon": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "layout": {
+                        "description": "Key of the layout that is used.",
+                        "type": "string",
+                        "example": null
+                    },
+                    "search": {
+                        "description": "Search query.",
+                        "type": "string",
+                        "nullable": true
+                    },
                     "collection": {
                         "description": "What collection this collection preset is used for.",
                         "example": "articles",
@@ -40934,20 +41339,6 @@
                     "color": {
                         "nullable": true,
                         "type": "string"
-                    },
-                    "icon": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "layout": {
-                        "description": "Key of the layout that is used.",
-                        "type": "string",
-                        "example": null
-                    },
-                    "search": {
-                        "description": "Search query.",
-                        "type": "string",
-                        "nullable": true
                     },
                     "user": {
                         "description": "The unique identifier of the user to whom this collection preset applies.",
@@ -41023,11 +41414,6 @@
                         "type": "object",
                         "nullable": true
                     },
-                    "item": {
-                        "description": "Primary key of updated item.",
-                        "example": "168",
-                        "type": "string"
-                    },
                     "collection": {
                         "description": "Collection of the updated item.",
                         "example": "articles",
@@ -41039,6 +41425,11 @@
                                 "$ref": "#/components/schemas/Collections"
                             }
                         ]
+                    },
+                    "item": {
+                        "description": "Primary key of updated item.",
+                        "example": "168",
+                        "type": "string"
                     },
                     "version": {
                         "description": "Associated version of this revision.",
@@ -41063,11 +41454,6 @@
                         "example": 1,
                         "type": "integer"
                     },
-                    "presets": {
-                        "description": "JSON structure containing the preset value for created/updated items.",
-                        "type": "object",
-                        "nullable": true
-                    },
                     "fields": {
                         "description": "CSV of fields that the user is allowed to interact with.",
                         "type": "array",
@@ -41076,8 +41462,8 @@
                         },
                         "nullable": true
                     },
-                    "permissions": {
-                        "description": "JSON structure containing the permissions checks for this permission.",
+                    "presets": {
+                        "description": "JSON structure containing the preset value for created/updated items.",
                         "type": "object",
                         "nullable": true
                     },
@@ -41085,6 +41471,16 @@
                         "description": "JSON structure containing the validation checks for this permission.",
                         "type": "object",
                         "nullable": true
+                    },
+                    "permissions": {
+                        "description": "JSON structure containing the permissions checks for this permission.",
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "collection": {
+                        "description": "What collection this permission applies to.",
+                        "example": "customers",
+                        "type": "string"
                     },
                     "action": {
                         "description": "What action this permission applies to.",
@@ -41097,11 +41493,6 @@
                             "delete"
                         ]
                     },
-                    "collection": {
-                        "description": "What collection this permission applies to.",
-                        "example": "customers",
-                        "type": "string"
-                    },
                     "policy": {
                         "nullable": false
                     }
@@ -41111,15 +41502,15 @@
             "Fields": {
                 "type": "object",
                 "properties": {
-                    "hidden": {
-                        "nullable": false,
-                        "type": "boolean"
-                    },
                     "required": {
                         "nullable": true,
                         "type": "boolean"
                     },
                     "readonly": {
+                        "nullable": false,
+                        "type": "boolean"
+                    },
+                    "hidden": {
                         "nullable": false,
                         "type": "boolean"
                     },
@@ -41130,14 +41521,6 @@
                     "id": {
                         "nullable": false,
                         "type": "integer"
-                    },
-                    "validation_message": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "note": {
-                        "nullable": true,
-                        "type": "string"
                     },
                     "validation": {
                         "nullable": true
@@ -41154,6 +41537,18 @@
                     "options": {
                         "nullable": true
                     },
+                    "validation_message": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "note": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "width": {
+                        "nullable": true,
+                        "type": "string"
+                    },
                     "group": {
                         "nullable": true,
                         "oneOf": [
@@ -41165,16 +41560,14 @@
                             }
                         ]
                     },
-                    "width": {
-                        "nullable": true,
+                    "collection": {
+                        "description": "Unique name of the collection this field is in.",
+                        "example": "about_us",
                         "type": "string"
                     },
-                    "display": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "interface": {
-                        "nullable": true,
+                    "field": {
+                        "description": "Unique name of the field. Field name is unique within the collection.",
+                        "example": "id",
                         "type": "string"
                     },
                     "special": {
@@ -41184,14 +41577,12 @@
                             "type": "string"
                         }
                     },
-                    "field": {
-                        "description": "Unique name of the field. Field name is unique within the collection.",
-                        "example": "id",
+                    "interface": {
+                        "nullable": true,
                         "type": "string"
                     },
-                    "collection": {
-                        "description": "Unique name of the collection this field is in.",
-                        "example": "about_us",
+                    "display": {
+                        "nullable": true,
                         "type": "string"
                     }
                 },
@@ -41212,11 +41603,23 @@
                             "type": "string"
                         }
                     },
-                    "one_deselect_action": {
-                        "nullable": false,
+                    "many_field": {
+                        "description": "Foreign key. Field that holds the primary key of the related collection.",
+                        "example": "user",
                         "type": "string"
                     },
-                    "sort_field": {
+                    "one_collection": {
+                        "description": "Collection on the _one_ side of the relationship.",
+                        "example": "directus_users",
+                        "type": "string"
+                    },
+                    "one_field": {
+                        "description": "Alias column that serves as the _one_ side of the relationship.",
+                        "example": null,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "one_collection_field": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -41226,24 +41629,12 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "one_collection_field": {
+                    "sort_field": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "one_field": {
-                        "description": "Alias column that serves as the _one_ side of the relationship.",
-                        "example": null,
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "one_collection": {
-                        "description": "Collection on the _one_ side of the relationship.",
-                        "example": "directus_users",
-                        "type": "string"
-                    },
-                    "many_field": {
-                        "description": "Foreign key. Field that holds the primary key of the related collection.",
-                        "example": "user",
+                    "one_deselect_action": {
+                        "nullable": false,
                         "type": "string"
                     },
                     "many_collection": {
@@ -41267,15 +41658,15 @@
                         "example": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/78.0.3904.108 Safari/537.36",
                         "type": "string"
                     },
-                    "origin": {
-                        "description": "Origin of the request when the action took place.",
-                        "example": "https://directus.io",
-                        "type": "string"
-                    },
-                    "item": {
-                        "description": "Unique identifier for the item the action applied to. This is always a string, even for integer primary keys.",
-                        "example": "328",
-                        "type": "string"
+                    "ip": {
+                        "description": "The IP address of the user at the time the action took place.",
+                        "example": "127.0.0.1",
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "ipv4"
+                            }
+                        ]
                     },
                     "collection": {
                         "description": "Collection identifier in which the item resides.",
@@ -41288,15 +41679,15 @@
                             }
                         ]
                     },
-                    "ip": {
-                        "description": "The IP address of the user at the time the action took place.",
-                        "example": "127.0.0.1",
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "ipv4"
-                            }
-                        ]
+                    "item": {
+                        "description": "Unique identifier for the item the action applied to. This is always a string, even for integer primary keys.",
+                        "example": "328",
+                        "type": "string"
+                    },
+                    "origin": {
+                        "description": "Origin of the request when the action took place.",
+                        "example": "https://directus.io",
+                        "type": "string"
                     },
                     "action": {
                         "description": "Action that was performed.",
@@ -41369,12 +41760,21 @@
                         "type": "string",
                         "example": "create articles"
                     },
-                    "collections": {
-                        "nullable": false,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                    "method": {
+                        "description": "Method used in the webhook.",
+                        "type": "string",
+                        "example": "POST"
+                    },
+                    "url": {
+                        "description": "The url of the webhook.",
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "status": {
+                        "description": "The status of the webhook.",
+                        "type": "string",
+                        "example": "inactive"
                     },
                     "actions": {
                         "description": "The actions that triggers this webhook.",
@@ -41385,21 +41785,12 @@
                         "example": null,
                         "nullable": true
                     },
-                    "status": {
-                        "description": "The status of the webhook.",
-                        "type": "string",
-                        "example": "inactive"
-                    },
-                    "url": {
-                        "description": "The url of the webhook.",
-                        "type": "string",
-                        "example": null,
-                        "nullable": true
-                    },
-                    "method": {
-                        "description": "Method used in the webhook.",
-                        "type": "string",
-                        "example": "POST"
+                    "collections": {
+                        "nullable": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     },
                     "migrated_flow": {
                         "nullable": true,
@@ -41419,25 +41810,31 @@
             "Flows": {
                 "type": "object",
                 "properties": {
-                    "description": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "options": {
                         "description": "Options of the selected trigger for the flow.",
                         "type": "object",
                         "example": null,
                         "nullable": true
                     },
-                    "accountability": {
-                        "description": "The permission used during the flow. One of `$public`, `$trigger`, `$full`, or UUID of a role.",
-                        "type": "string",
-                        "example": "$trigger"
+                    "description": {
+                        "nullable": true,
+                        "type": "string"
                     },
-                    "trigger": {
-                        "description": "Type of trigger for the flow. One of `hook`, `webhook`, `operation`, `schedule`, `manual`.",
+                    "name": {
+                        "description": "The name of the flow.",
                         "type": "string",
-                        "example": "manual"
+                        "example": "Update Articles Flow"
+                    },
+                    "icon": {
+                        "description": "Icon displayed in the Admin App for the flow.",
+                        "type": "string",
+                        "example": "bolt"
+                    },
+                    "color": {
+                        "description": "Color of the icon displayed in the Admin App for the flow.",
+                        "type": "string",
+                        "example": "#112233",
+                        "nullable": true
                     },
                     "status": {
                         "description": "Current status of the flow.",
@@ -41449,21 +41846,15 @@
                             "inactive"
                         ]
                     },
-                    "color": {
-                        "description": "Color of the icon displayed in the Admin App for the flow.",
+                    "trigger": {
+                        "description": "Type of trigger for the flow. One of `hook`, `webhook`, `operation`, `schedule`, `manual`.",
                         "type": "string",
-                        "example": "#112233",
-                        "nullable": true
+                        "example": "manual"
                     },
-                    "icon": {
-                        "description": "Icon displayed in the Admin App for the flow.",
+                    "accountability": {
+                        "description": "The permission used during the flow. One of `$public`, `$trigger`, `$full`, or UUID of a role.",
                         "type": "string",
-                        "example": "bolt"
-                    },
-                    "name": {
-                        "description": "The name of the flow.",
-                        "type": "string",
-                        "example": "Update Articles Flow"
+                        "example": "$trigger"
                     },
                     "date_created": {
                         "description": "Timestamp in ISO8601 when the flow was created.",
@@ -41477,18 +41868,6 @@
                         "type": "string",
                         "example": "2f24211d-d928-469a-aea3-3c8f53d4e426"
                     },
-                    "operation": {
-                        "description": "UUID of the operation connected to the trigger in the flow.",
-                        "example": "92e82998-e421-412f-a513-13701e83e4ce",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Operations"
-                            }
-                        ]
-                    },
                     "user_created": {
                         "description": "The user who created the flow.",
                         "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
@@ -41498,6 +41877,18 @@
                             },
                             {
                                 "$ref": "#/components/schemas/Users"
+                            }
+                        ]
+                    },
+                    "operation": {
+                        "description": "UUID of the operation connected to the trigger in the flow.",
+                        "example": "92e82998-e421-412f-a513-13701e83e4ce",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Operations"
                             }
                         ]
                     },
@@ -41522,13 +41913,13 @@
             "Operations": {
                 "type": "object",
                 "properties": {
-                    "position_y": {
-                        "description": "Position of the operation on the Y axis within the flow workspace.",
+                    "position_x": {
+                        "description": "Position of the operation on the X axis within the flow workspace.",
                         "type": "integer",
                         "example": 12
                     },
-                    "position_x": {
-                        "description": "Position of the operation on the X axis within the flow workspace.",
+                    "position_y": {
+                        "description": "Position of the operation on the Y axis within the flow workspace.",
                         "type": "integer",
                         "example": 12
                     },
@@ -41543,15 +41934,15 @@
                         "type": "string",
                         "example": "log"
                     },
-                    "key": {
-                        "description": "Key for the operation. Must be unique within a given flow.",
-                        "type": "string",
-                        "example": "log_console"
-                    },
                     "name": {
                         "description": "The name of the operation.",
                         "type": "string",
                         "example": "Log to Console"
+                    },
+                    "key": {
+                        "description": "Key for the operation. Must be unique within a given flow.",
+                        "type": "string",
+                        "example": "log_console"
                     },
                     "date_created": {
                         "description": "Timestamp in ISO8601 when the operation was created.",
@@ -41560,10 +41951,17 @@
                         "format": "date-time",
                         "nullable": true
                     },
-                    "id": {
-                        "description": "Unique identifier for the operation.",
-                        "type": "string",
-                        "example": "2f24211d-d928-469a-aea3-3c8f53d4e426"
+                    "reject": {
+                        "description": "The operation triggered when the current operation fails (or `otherwise` logic of a condition operation).",
+                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Operations"
+                            }
+                        ]
                     },
                     "resolve": {
                         "description": "The operation triggered when the current operation succeeds (or `then` logic of a condition operation).",
@@ -41577,15 +41975,15 @@
                             }
                         ]
                     },
-                    "reject": {
-                        "description": "The operation triggered when the current operation fails (or `otherwise` logic of a condition operation).",
+                    "user_created": {
+                        "description": "The user who created the operation.",
                         "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
                         "oneOf": [
                             {
                                 "type": "string"
                             },
                             {
-                                "$ref": "#/components/schemas/Operations"
+                                "$ref": "#/components/schemas/Users"
                             }
                         ]
                     },
@@ -41601,17 +41999,10 @@
                             }
                         ]
                     },
-                    "user_created": {
-                        "description": "The user who created the operation.",
-                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
+                    "id": {
+                        "description": "Unique identifier for the operation.",
+                        "type": "string",
+                        "example": "2f24211d-d928-469a-aea3-3c8f53d4e426"
                     }
                 },
                 "x-collection": "directus_operations"
@@ -41635,11 +42026,11 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "name": {
+                    "status": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "status": {
+                    "name": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -41678,12 +42069,12 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "name": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "status": {
                         "nullable": false,
+                        "type": "string"
+                    },
+                    "name": {
+                        "nullable": true,
                         "type": "string"
                     },
                     "due_date": {
@@ -41701,11 +42092,6 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "id": {
-                        "nullable": false,
-                        "type": "string",
-                        "format": "uuid"
-                    },
                     "user_created": {
                         "nullable": true,
                         "oneOf": [
@@ -41718,17 +42104,10 @@
                             }
                         ]
                     },
-                    "user_updated": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
+                    "id": {
+                        "nullable": false,
+                        "type": "string",
+                        "format": "uuid"
                     },
                     "team": {
                         "nullable": true,
@@ -41739,6 +42118,18 @@
                             },
                             {
                                 "$ref": "#/components/schemas/ItemsSaasTeams"
+                            }
+                        ]
+                    },
+                    "user_updated": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
                             }
                         ]
                     },
@@ -41789,11 +42180,11 @@
                         "nullable": false,
                         "type": "boolean"
                     },
-                    "source": {
+                    "folder": {
                         "nullable": false,
                         "type": "string"
                     },
-                    "folder": {
+                    "source": {
                         "nullable": false,
                         "type": "string"
                     },
@@ -41850,6 +42241,16 @@
             "Settings": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "description": "Unique identifier for the setting.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "auth_login_attempts": {
+                        "description": "Allowed authentication login attempts before the user's status is set to blocked.",
+                        "type": "integer",
+                        "example": 25
+                    },
                     "public_registration": {
                         "nullable": false,
                         "description": "$t:fields.directus_settings.public_registration_note",
@@ -41860,19 +42261,21 @@
                         "description": "$t:fields.directus_settings.public_registration_verify_email_note",
                         "type": "boolean"
                     },
-                    "auth_login_attempts": {
-                        "description": "Allowed authentication login attempts before the user's status is set to blocked.",
-                        "type": "integer",
-                        "example": 25
+                    "public_note": {
+                        "description": "Note rendered on the public pages of the app.",
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
                     },
-                    "id": {
-                        "description": "Unique identifier for the setting.",
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "custom_css": {
+                    "public_registration_email_filter": {
                         "nullable": true,
-                        "type": "string"
+                        "description": "$t:fields.directus_settings.public_registration_email_filter_note"
+                    },
+                    "theme_dark_overrides": {
+                        "nullable": true
+                    },
+                    "theme_light_overrides": {
+                        "nullable": true
                     },
                     "custom_aspect_ratios": {
                         "nullable": true
@@ -41964,21 +42367,45 @@
                         "example": null,
                         "nullable": true
                     },
-                    "public_note": {
-                        "description": "Note rendered on the public pages of the app.",
-                        "type": "string",
-                        "example": null,
-                        "nullable": true
-                    },
-                    "public_registration_email_filter": {
+                    "custom_css": {
                         "nullable": true,
-                        "description": "$t:fields.directus_settings.public_registration_email_filter_note"
+                        "type": "string"
                     },
-                    "theme_dark_overrides": {
+                    "auth_password_policy": {
+                        "description": "Authentication password policy.",
+                        "type": "string",
                         "nullable": true
                     },
-                    "theme_light_overrides": {
+                    "mapbox_key": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "storage_asset_transform": {
+                        "description": "What transformations are allowed in the assets endpoint.",
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "none",
+                            "presets"
+                        ],
+                        "example": "all",
                         "nullable": true
+                    },
+                    "default_language": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "project_descriptor": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "default_theme_light": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "default_appearance": {
+                        "nullable": false,
+                        "type": "string"
                     },
                     "report_feature_url": {
                         "nullable": true,
@@ -41996,47 +42423,10 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "default_theme_light": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "default_appearance": {
-                        "nullable": false,
-                        "type": "string"
-                    },
-                    "default_language": {
-                        "nullable": false,
-                        "type": "string"
-                    },
-                    "project_descriptor": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "mapbox_key": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "storage_asset_transform": {
-                        "description": "What transformations are allowed in the assets endpoint.",
+                    "project_name": {
+                        "description": "The name of the project.",
                         "type": "string",
-                        "enum": [
-                            "all",
-                            "none",
-                            "presets"
-                        ],
-                        "example": "all",
-                        "nullable": true
-                    },
-                    "auth_password_policy": {
-                        "description": "Authentication password policy.",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "project_color": {
-                        "description": "The brand color of the project.",
-                        "type": "string",
-                        "example": null,
-                        "nullable": true
+                        "example": "Directus"
                     },
                     "project_url": {
                         "description": "The url of the project.",
@@ -42044,19 +42434,8 @@
                         "example": null,
                         "nullable": true
                     },
-                    "project_name": {
-                        "description": "The name of the project.",
-                        "type": "string",
-                        "example": "Directus"
-                    },
-                    "project_logo": {
-                        "description": "The logo of the project.",
-                        "type": "string",
-                        "example": null,
-                        "nullable": true
-                    },
-                    "public_foreground": {
-                        "description": "The foreground of the project.",
+                    "project_color": {
+                        "description": "The brand color of the project.",
                         "type": "string",
                         "example": null,
                         "nullable": true
@@ -42072,6 +42451,12 @@
                                 "type": "string"
                             }
                         },
+                        "example": null,
+                        "nullable": true
+                    },
+                    "public_foreground": {
+                        "description": "The foreground of the project.",
+                        "type": "string",
                         "example": null,
                         "nullable": true
                     },
@@ -42105,6 +42490,12 @@
                                 "$ref": "#/components/schemas/Roles"
                             }
                         ]
+                    },
+                    "project_logo": {
+                        "description": "The logo of the project.",
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
                     }
                 },
                 "x-collection": "directus_settings"
@@ -42118,6 +42509,15 @@
                             "my_field": "Updated Value"
                         },
                         "type": "object"
+                    },
+                    "key": {
+                        "description": "Key of the Content Version, used as the value for the \"version\" query parameter.",
+                        "example": "draft",
+                        "type": "string"
+                    },
+                    "hash": {
+                        "nullable": true,
+                        "type": "string"
                     },
                     "item": {
                         "description": "The item the Content Version is created on.",
@@ -42141,15 +42541,6 @@
                         "example": "My Draft",
                         "type": "string"
                     },
-                    "key": {
-                        "description": "Key of the Content Version, used as the value for the \"version\" query parameter.",
-                        "example": "draft",
-                        "type": "string"
-                    },
-                    "hash": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "date_updated": {
                         "description": "When the Content Version was last updated.",
                         "type": "string",
@@ -42163,11 +42554,6 @@
                         "example": "2022-05-11T13:14:52Z",
                         "format": "date-time",
                         "nullable": true
-                    },
-                    "id": {
-                        "description": "Primary key of the Content Version.",
-                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
-                        "type": "string"
                     },
                     "user_created": {
                         "description": "User that created the Content Version.",
@@ -42192,6 +42578,11 @@
                                 "$ref": "#/components/schemas/Users"
                             }
                         ]
+                    },
+                    "id": {
+                        "description": "Primary key of the Content Version.",
+                        "example": "63716273-0f29-4648-8a2a-2af2948f6f78",
+                        "type": "string"
                     }
                 },
                 "x-collection": "directus_versions"
@@ -42219,6 +42610,18 @@
                         "type": "string",
                         "format": "timestamp"
                     },
+                    "team": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsSaasTeams"
+                            }
+                        ]
+                    },
                     "id": {
                         "nullable": false,
                         "type": "string",
@@ -42233,18 +42636,6 @@
                             },
                             {
                                 "$ref": "#/components/schemas/Users"
-                            }
-                        ]
-                    },
-                    "team": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsSaasTeams"
                             }
                         ]
                     }
@@ -42282,7 +42673,7 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "team": {
+                    "assigned_to": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -42290,7 +42681,7 @@
                                 "format": "uuid"
                             },
                             {
-                                "$ref": "#/components/schemas/ItemsSaasTeams"
+                                "$ref": "#/components/schemas/Users"
                             }
                         ]
                     },
@@ -42311,7 +42702,7 @@
                             }
                         ]
                     },
-                    "assigned_to": {
+                    "user": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -42323,7 +42714,7 @@
                             }
                         ]
                     },
-                    "user": {
+                    "team": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -42331,7 +42722,7 @@
                                 "format": "uuid"
                             },
                             {
-                                "$ref": "#/components/schemas/Users"
+                                "$ref": "#/components/schemas/ItemsSaasTeams"
                             }
                         ]
                     }
@@ -42414,8 +42805,12 @@
                     "feature_flags": {
                         "nullable": true
                     },
-                    "billing_phone": {
+                    "name": {
                         "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
                         "type": "string"
                     },
                     "stripe_customer_id": {
@@ -42438,12 +42833,8 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "name": {
+                    "billing_phone": {
                         "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": false,
                         "type": "string"
                     },
                     "date_updated": {
@@ -42641,12 +43032,12 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
-                    },
                     "name": {
                         "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
                         "type": "string"
                     },
                     "due_date": {
@@ -42786,19 +43177,23 @@
             "ItemsBotsKnowledges": {
                 "type": "object",
                 "properties": {
-                    "total_intent": {
-                        "nullable": true,
-                        "type": "integer"
-                    },
                     "sort": {
                         "nullable": true,
                         "type": "integer"
                     },
-                    "intents": {
-                        "nullable": true
+                    "total_intent": {
+                        "nullable": true,
+                        "type": "integer"
                     },
                     "source": {
                         "nullable": true
+                    },
+                    "intents": {
+                        "nullable": true
+                    },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
                     },
                     "lang": {
                         "nullable": true,
@@ -42818,10 +43213,6 @@
                                 "$ref": "#/components/schemas/ItemsBots"
                             }
                         ]
-                    },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
                     },
                     "date_updated": {
                         "nullable": true,
@@ -42885,16 +43276,16 @@
             "ItemsSaasPrices": {
                 "type": "object",
                 "properties": {
+                    "popular": {
+                        "nullable": true,
+                        "type": "boolean"
+                    },
                     "active": {
                         "nullable": true,
                         "description": "Is this price active or not?",
                         "type": "boolean"
                     },
-                    "popular": {
-                        "nullable": true,
-                        "type": "boolean"
-                    },
-                    "sort": {
+                    "trial_period_days": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -42902,7 +43293,7 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "trial_period_days": {
+                    "sort": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -42910,10 +43301,10 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "metadata": {
+                    "features": {
                         "nullable": true
                     },
-                    "features": {
+                    "metadata": {
                         "nullable": true
                     },
                     "name": {
@@ -42987,35 +43378,7 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "allowed_topics": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "context": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "guidelines": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "product_description": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "sql_agent_prompt": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "system_prompt_mobile": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "greeting_message_mobile": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "greeting_message": {
+                    "system_prompt": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -43023,7 +43386,35 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "system_prompt": {
+                    "greeting_message": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "greeting_message_mobile": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "system_prompt_mobile": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "sql_agent_prompt": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "product_description": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "guidelines": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "context": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "allowed_topics": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -43044,6 +43435,18 @@
                     },
                     "metadata": {
                         "nullable": true
+                    },
+                    "name": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "string"
                     },
                     "stop_keyword": {
                         "nullable": true,
@@ -43073,18 +43476,6 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "name": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
-                    },
-                    "id": {
-                        "nullable": false,
-                        "type": "string"
-                    },
                     "date_updated": {
                         "nullable": true,
                         "type": "string",
@@ -43094,6 +43485,18 @@
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
+                    },
+                    "user_created": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
                     },
                     "user_updated": {
                         "nullable": true,
@@ -43164,18 +43567,6 @@
                             },
                             {
                                 "$ref": "#/components/schemas/Files"
-                            }
-                        ]
-                    },
-                    "user_created": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
                             }
                         ]
                     },
@@ -43289,19 +43680,6 @@
                         "nullable": true,
                         "description": "Additional subscription metadata"
                     },
-                    "id": {
-                        "nullable": false,
-                        "description": "Stripe subscription reference",
-                        "type": "string"
-                    },
-                    "env": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "collection_method": {
-                        "nullable": false,
-                        "type": "string"
-                    },
                     "status": {
                         "nullable": false,
                         "type": "string"
@@ -43332,6 +43710,19 @@
                     "stripe_customer_id": {
                         "nullable": false,
                         "description": "Stripe customer reference",
+                        "type": "string"
+                    },
+                    "id": {
+                        "nullable": false,
+                        "description": "Stripe subscription reference",
+                        "type": "string"
+                    },
+                    "env": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "collection_method": {
+                        "nullable": false,
                         "type": "string"
                     },
                     "canceled_at": {
@@ -43409,11 +43800,11 @@
                 },
                 "x-collection": "saas_subscriptions",
                 "required": [
-                    "id",
                     "interval",
                     "stripe_product_id",
                     "stripe_price_id",
                     "stripe_customer_id",
+                    "id",
                     "current_period_end",
                     "current_period_start",
                     "billing_cycle_anchor",
@@ -43423,7 +43814,7 @@
             "ItemsBotsLogs": {
                 "type": "object",
                 "properties": {
-                    "output_tokens": {
+                    "sort": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -43431,7 +43822,7 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "sort": {
+                    "output_tokens": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -43439,6 +43830,17 @@
                         "nullable": true,
                         "type": "number",
                         "format": "float"
+                    },
+                    "bot": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsBots"
+                            }
+                        ]
                     },
                     "social_id": {
                         "nullable": true,
@@ -43455,17 +43857,6 @@
                     "intent": {
                         "nullable": true,
                         "type": "string"
-                    },
-                    "bot": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsBots"
-                            }
-                        ]
                     },
                     "date_created": {
                         "nullable": true,
@@ -43500,11 +43891,11 @@
             "ItemsPagesLiff": {
                 "type": "object",
                 "properties": {
-                    "require_login": {
+                    "sort": {
                         "nullable": true,
                         "type": "integer"
                     },
-                    "sort": {
+                    "require_login": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -43644,18 +44035,6 @@
                     "forward_urls": {
                         "nullable": true
                     },
-                    "dataset": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "name": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "platform": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "provider_access_token": {
                         "nullable": true,
                         "type": "string"
@@ -43678,6 +44057,18 @@
                     },
                     "status": {
                         "nullable": false,
+                        "type": "string"
+                    },
+                    "dataset": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "name": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "platform": {
+                        "nullable": true,
                         "type": "string"
                     },
                     "expired_at": {
@@ -43789,16 +44180,16 @@
                         "nullable": true,
                         "type": "integer"
                     },
+                    "name": {
+                        "nullable": true,
+                        "type": "string"
+                    },
                     "code": {
                         "nullable": true,
                         "type": "string"
                     },
                     "status": {
                         "nullable": false,
-                        "type": "string"
-                    },
-                    "name": {
-                        "nullable": true,
                         "type": "string"
                     },
                     "date_updated": {
@@ -43810,11 +44201,6 @@
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
-                    },
-                    "id": {
-                        "nullable": false,
-                        "type": "string",
-                        "format": "uuid"
                     },
                     "user_created": {
                         "nullable": true,
@@ -43851,6 +44237,11 @@
                                 "$ref": "#/components/schemas/ItemsChannels"
                             }
                         ]
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "string",
+                        "format": "uuid"
                     }
                 },
                 "x-collection": "channels_datasets",
@@ -43903,12 +44294,12 @@
                         "nullable": false,
                         "type": "string"
                     },
-                    "date_created": {
+                    "date_updated": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "date_updated": {
+                    "date_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
@@ -43957,14 +44348,6 @@
                     "data": {
                         "nullable": true
                     },
-                    "status": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "adset_id": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "ad_account_id": {
                         "nullable": true,
                         "type": "string"
@@ -43974,6 +44357,14 @@
                         "type": "string"
                     },
                     "name": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "adset_id": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -44099,11 +44490,7 @@
             "ItemsAdPerformance": {
                 "type": "object",
                 "properties": {
-                    "conversions": {
-                        "nullable": true,
-                        "type": "integer"
-                    },
-                    "clicks": {
+                    "sort": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -44111,7 +44498,11 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "sort": {
+                    "clicks": {
+                        "nullable": true,
+                        "type": "integer"
+                    },
+                    "conversions": {
                         "nullable": true,
                         "type": "integer"
                     },
@@ -44302,12 +44693,12 @@
             "ItemsSaasWebinars": {
                 "type": "object",
                 "properties": {
-                    "sort": {
-                        "nullable": true,
-                        "type": "integer"
-                    },
                     "id": {
                         "nullable": false,
+                        "type": "integer"
+                    },
+                    "sort": {
+                        "nullable": true,
                         "type": "integer"
                     },
                     "description": {
@@ -44323,10 +44714,6 @@
                     "metadata": {
                         "nullable": true
                     },
-                    "register_link": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "name": {
                         "nullable": true,
                         "type": "string"
@@ -44335,12 +44722,16 @@
                         "nullable": false,
                         "type": "string"
                     },
-                    "start_date": {
+                    "register_link": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "end_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
                     },
-                    "end_date": {
+                    "start_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
@@ -44431,11 +44822,6 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "id": {
-                        "nullable": false,
-                        "type": "string",
-                        "format": "uuid"
-                    },
                     "user_created": {
                         "nullable": true,
                         "oneOf": [
@@ -44471,6 +44857,11 @@
                                 "$ref": "#/components/schemas/ItemsAIRules"
                             }
                         ]
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "string",
+                        "format": "uuid"
                     }
                 },
                 "x-collection": "rule_executions",
@@ -44566,6 +44957,14 @@
                     "data": {
                         "nullable": true
                     },
+                    "adset_id": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": true,
+                        "type": "string"
+                    },
                     "ad_account_id": {
                         "nullable": true,
                         "type": "string"
@@ -44579,14 +44978,6 @@
                         "type": "string"
                     },
                     "ad_id": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "adset_id": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -44689,19 +45080,6 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "referred_id": {
-                        "nullable": true,
-                        "description": "User who was referred",
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
-                    },
                     "id": {
                         "nullable": false,
                         "type": "string",
@@ -44729,6 +45107,19 @@
                                 "$ref": "#/components/schemas/Users"
                             }
                         ]
+                    },
+                    "referred_id": {
+                        "nullable": true,
+                        "description": "User who was referred",
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
                     }
                 },
                 "x-collection": "saas_referrals",
@@ -44742,6 +45133,11 @@
                 "properties": {
                     "metadata": {
                         "nullable": true
+                    },
+                    "date_created": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "env": {
                         "nullable": true,
@@ -44762,11 +45158,6 @@
                     "state": {
                         "nullable": true,
                         "type": "string"
-                    },
-                    "date_created": {
-                        "nullable": true,
-                        "type": "string",
-                        "format": "date-time"
                     },
                     "city": {
                         "nullable": true,
@@ -44859,12 +45250,12 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "start_date": {
+                    "end_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
                     },
-                    "end_date": {
+                    "start_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
@@ -44924,6 +45315,10 @@
                         "nullable": true,
                         "type": "integer"
                     },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
                     "bot": {
                         "nullable": true,
                         "oneOf": [
@@ -44945,10 +45340,6 @@
                     },
                     "name": {
                         "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": false,
                         "type": "string"
                     },
                     "date_updated": {
@@ -45052,17 +45443,17 @@
                         "type": "string",
                         "format": "timestamp"
                     },
+                    "user_updated": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
                     "id": {
                         "nullable": false,
                         "type": "string",
                         "format": "uuid"
                     },
                     "user_created": {
-                        "nullable": true,
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "user_updated": {
                         "nullable": true,
                         "type": "string",
                         "format": "uuid"
@@ -45125,12 +45516,12 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "user_created": {
+                    "user_updated": {
                         "nullable": true,
                         "type": "string",
                         "format": "uuid"
                     },
-                    "user_updated": {
+                    "user_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "uuid"
@@ -45553,7 +45944,7 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "user_updated": {
+                    "user_created": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -45565,7 +45956,7 @@
                             }
                         ]
                     },
-                    "user_created": {
+                    "user_updated": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -45601,11 +45992,11 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "name": {
+                    "status": {
                         "nullable": false,
                         "type": "string"
                     },
-                    "status": {
+                    "name": {
                         "nullable": false,
                         "type": "string"
                     },
@@ -45664,16 +46055,16 @@
                         "nullable": true,
                         "type": "integer"
                     },
+                    "id": {
+                        "nullable": false,
+                        "type": "string"
+                    },
                     "status": {
                         "nullable": false,
                         "type": "string"
                     },
                     "name": {
                         "nullable": true,
-                        "type": "string"
-                    },
-                    "id": {
-                        "nullable": false,
                         "type": "string"
                     },
                     "date_updated": {
@@ -45686,7 +46077,7 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "user_created": {
+                    "user_updated": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -45698,7 +46089,7 @@
                             }
                         ]
                     },
-                    "user_updated": {
+                    "user_created": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -45737,10 +46128,6 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
-                    },
                     "code": {
                         "nullable": true,
                         "type": "string"
@@ -45749,12 +46136,16 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "end_date": {
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "start_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
                     },
-                    "start_date": {
+                    "end_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
@@ -45833,14 +46224,6 @@
             "ItemsMailOutbox": {
                 "type": "object",
                 "properties": {
-                    "field5": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "field6": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "field7": {
                         "nullable": true,
                         "type": "string"
@@ -45878,6 +46261,14 @@
                         "type": "string"
                     },
                     "field4": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "field5": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "field6": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -45941,6 +46332,10 @@
             "ItemsChatHubsChannelsHubs": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "nullable": false,
+                        "type": "integer"
+                    },
                     "channels_hubs_id": {
                         "nullable": true,
                         "oneOf": [
@@ -45951,10 +46346,6 @@
                                 "$ref": "#/components/schemas/ItemsChannelsHubs"
                             }
                         ]
-                    },
-                    "id": {
-                        "nullable": false,
-                        "type": "integer"
                     }
                 },
                 "x-collection": "chat_hubs_channels_hubs"
@@ -45962,10 +46353,6 @@
             "ItemsBotDocumentsFiles": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "nullable": false,
-                        "type": "integer"
-                    },
                     "bot_documents_id": {
                         "nullable": true,
                         "oneOf": [
@@ -45976,6 +46363,10 @@
                                 "$ref": "#/components/schemas/ItemsBotDocuments"
                             }
                         ]
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "integer"
                     },
                     "directus_files_id": {
                         "nullable": true,
@@ -45995,12 +46386,12 @@
             "ItemsBotsModel": {
                 "type": "object",
                 "properties": {
-                    "max_input_tokens": {
-                        "nullable": true,
-                        "type": "integer"
-                    },
                     "id": {
                         "nullable": false,
+                        "type": "integer"
+                    },
+                    "max_input_tokens": {
+                        "nullable": true,
                         "type": "integer"
                     },
                     "max_output_tokens": {
@@ -46157,6 +46548,18 @@
                             }
                         ]
                     },
+                    "table": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsBotsDatasourcesTables"
+                            }
+                        ]
+                    },
                     "user_created": {
                         "nullable": true,
                         "oneOf": [
@@ -46173,18 +46576,6 @@
                         "nullable": false,
                         "type": "string",
                         "format": "uuid"
-                    },
-                    "table": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsBotsDatasourcesTables"
-                            }
-                        ]
                     }
                 },
                 "x-collection": "bots_datasources_fields",
@@ -46220,6 +46611,20 @@
                     "metadata": {
                         "nullable": true
                     },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "end_date": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "start_date": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
                     "name": {
                         "nullable": false,
                         "type": "string"
@@ -46243,26 +46648,12 @@
                             }
                         ]
                     },
-                    "start_date": {
-                        "nullable": true,
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "end_date": {
-                        "nullable": true,
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
-                    },
-                    "date_updated": {
+                    "date_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "date_created": {
+                    "date_updated": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
@@ -46414,19 +46805,19 @@
                         "type": "number",
                         "format": "float"
                     },
-                    "weight": {
-                        "nullable": true,
-                        "type": "number",
-                        "format": "float"
+                    "collections": {
+                        "nullable": true
                     },
                     "tags": {
                         "nullable": true
                     },
-                    "collections": {
-                        "nullable": true
-                    },
                     "metadata": {
                         "nullable": true
+                    },
+                    "weight": {
+                        "nullable": true,
+                        "type": "number",
+                        "format": "float"
                     },
                     "status": {
                         "nullable": false,
@@ -46464,12 +46855,12 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "date_created": {
+                    "date_updated": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "date_updated": {
+                    "date_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
@@ -46540,19 +46931,11 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "greeting_message_mobile": {
+                    "context": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "product_description": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "system_prompt_mobile": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "sql_agent_prompt": {
+                    "guidelines": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -46564,32 +46947,48 @@
                         "nullable": true,
                         "type": "string"
                     },
+                    "product_description": {
+                        "nullable": true,
+                        "type": "string"
+                    },
                     "greeting_message": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "guidelines": {
+                    "greeting_message_mobile": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "irrelevant_answers": {
-                        "nullable": true
+                    "system_prompt_mobile": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "sql_agent_prompt": {
+                        "nullable": true,
+                        "type": "string"
                     },
                     "routing_config": {
                         "nullable": true
                     },
-                    "context": {
-                        "nullable": true,
-                        "type": "string"
+                    "irrelevant_answers": {
+                        "nullable": true
                     },
-                    "metadata": {
+                    "data_sources": {
                         "nullable": true
                     },
                     "functions": {
                         "nullable": true
                     },
-                    "data_sources": {
+                    "metadata": {
                         "nullable": true
+                    },
+                    "type": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "name": {
+                        "nullable": true,
+                        "type": "string"
                     },
                     "gender": {
                         "nullable": true,
@@ -46607,20 +47006,12 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "type": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "id": {
                         "nullable": false,
                         "type": "string"
                     },
                     "status": {
                         "nullable": false,
-                        "type": "string"
-                    },
-                    "name": {
-                        "nullable": true,
                         "type": "string"
                     },
                     "date_updated": {
@@ -46632,11 +47023,6 @@
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
-                    },
-                    "user_created": {
-                        "nullable": true,
-                        "type": "string",
-                        "format": "uuid"
                     },
                     "team": {
                         "nullable": true,
@@ -46656,6 +47042,11 @@
                         "format": "uuid"
                     },
                     "user_updated": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "user_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "uuid"
@@ -46792,11 +47183,11 @@
             "ItemsUserProfile": {
                 "type": "object",
                 "properties": {
-                    "company": {
+                    "phone": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "phone": {
+                    "company": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -46852,6 +47243,18 @@
                         "nullable": true,
                         "type": "integer"
                     },
+                    "code": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "referral": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "ad_ref": {
+                        "nullable": true,
+                        "type": "string"
+                    },
                     "utm_source": {
                         "nullable": true,
                         "type": "string"
@@ -46868,29 +47271,17 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "code": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "referral": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "ad_ref": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "expired_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
                     },
-                    "used_date": {
+                    "collected_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
                     },
-                    "collected_date": {
+                    "used_date": {
                         "nullable": true,
                         "type": "string",
                         "format": "date-time"
@@ -47490,15 +47881,15 @@
             "ItemsMailTemplates": {
                 "type": "object",
                 "properties": {
-                    "to": {
-                        "nullable": true
+                    "body": {
+                        "nullable": true,
+                        "type": "string"
                     },
                     "cc": {
                         "nullable": true
                     },
-                    "body": {
-                        "nullable": true,
-                        "type": "string"
+                    "to": {
+                        "nullable": true
                     },
                     "name": {
                         "nullable": true,
@@ -47564,10 +47955,6 @@
             "ItemsHubsChannelsHubs": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "nullable": false,
-                        "type": "integer"
-                    },
                     "channels_hubs_id": {
                         "nullable": true,
                         "oneOf": [
@@ -47578,6 +47965,10 @@
                                 "$ref": "#/components/schemas/ItemsChannelsHubs"
                             }
                         ]
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "integer"
                     }
                 },
                 "x-collection": "hubs_channels_hubs"
@@ -47635,12 +48026,31 @@
             "ItemsBotsInquiries": {
                 "type": "object",
                 "properties": {
-                    "metadata": {
-                        "nullable": true
-                    },
                     "description": {
                         "nullable": false,
                         "type": "string"
+                    },
+                    "metadata": {
+                        "nullable": true
+                    },
+                    "priority": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "bot": {
+                        "nullable": false,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ItemsBots"
+                            }
+                        ]
                     },
                     "name": {
                         "nullable": false,
@@ -47662,28 +48072,9 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "priority": {
-                        "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": false,
-                        "type": "string"
-                    },
                     "uid": {
                         "nullable": true,
                         "type": "string"
-                    },
-                    "bot": {
-                        "nullable": false,
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "$ref": "#/components/schemas/ItemsBots"
-                            }
-                        ]
                     },
                     "date_created": {
                         "nullable": false,
@@ -47699,11 +48090,11 @@
                 "x-collection": "bots_inquiries",
                 "required": [
                     "description",
+                    "bot",
                     "name",
                     "email",
                     "subject",
                     "inquiry_type",
-                    "bot",
                     "date_created",
                     "id"
                 ]
@@ -47729,7 +48120,7 @@
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "user_updated": {
+                    "user_created": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -47741,7 +48132,7 @@
                             }
                         ]
                     },
-                    "user_created": {
+                    "user_updated": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -47792,27 +48183,23 @@
                         "nullable": false,
                         "type": "integer"
                     },
-                    "description": {
+                    "sort": {
                         "nullable": true,
-                        "type": "string"
+                        "type": "integer"
                     },
                     "text": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "sort": {
+                    "description": {
                         "nullable": true,
-                        "type": "integer"
+                        "type": "string"
                     },
                     "example_queries": {
                         "nullable": true
                     },
-                    "language": {
+                    "title": {
                         "nullable": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "nullable": false,
                         "type": "string"
                     },
                     "bot": {
@@ -47826,21 +48213,13 @@
                             }
                         ]
                     },
-                    "title": {
+                    "language": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "user_updated": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
                     },
                     "date_updated": {
                         "nullable": true,
@@ -47853,6 +48232,18 @@
                         "format": "timestamp"
                     },
                     "user_created": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
+                    },
+                    "user_updated": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -47925,37 +48316,25 @@
                         "nullable": false,
                         "type": "string"
                     },
-                    "name": {
-                        "nullable": true,
-                        "type": "string"
-                    },
                     "primaryColor": {
                         "nullable": true,
                         "type": "string"
                     },
-                    "date_updated": {
+                    "name": {
                         "nullable": true,
-                        "type": "string",
-                        "format": "timestamp"
+                        "type": "string"
                     },
                     "date_created": {
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
                     },
-                    "user_updated": {
+                    "date_updated": {
                         "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        ]
+                        "type": "string",
+                        "format": "timestamp"
                     },
-                    "user_created": {
+                    "user_updated": {
                         "nullable": true,
                         "oneOf": [
                             {
@@ -47976,6 +48355,18 @@
                             },
                             {
                                 "$ref": "#/components/schemas/Files"
+                            }
+                        ]
+                    },
+                    "user_created": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
                             }
                         ]
                     }
@@ -48000,9 +48391,6 @@
                         "nullable": true,
                         "type": "integer"
                     },
-                    "json_schema": {
-                        "nullable": true
-                    },
                     "description": {
                         "nullable": true,
                         "type": "string"
@@ -48010,12 +48398,11 @@
                     "json_data": {
                         "nullable": true
                     },
-                    "name": {
-                        "nullable": true,
-                        "type": "string"
+                    "json_schema": {
+                        "nullable": true
                     },
-                    "status": {
-                        "nullable": false,
+                    "crc32_hash": {
+                        "nullable": true,
                         "type": "string"
                     },
                     "bot": {
@@ -48033,7 +48420,101 @@
                         "nullable": true,
                         "type": "string"
                     },
-                    "crc32_hash": {
+                    "name": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "date_updated": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "timestamp"
+                    },
+                    "date_created": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "timestamp"
+                    },
+                    "dest": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Files"
+                            }
+                        ]
+                    },
+                    "user_created": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "user_updated": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        ]
+                    },
+                    "src": {
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Files"
+                            }
+                        ]
+                    }
+                },
+                "x-collection": "bots_documents",
+                "required": [
+                    "id"
+                ]
+            },
+            "ItemsLeadSubmissions": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "nullable": true
+                    },
+                    "data": {
+                        "nullable": true
+                    },
+                    "source": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "nullable": false,
+                        "type": "string"
+                    },
+                    "source_id": {
                         "nullable": true,
                         "type": "string"
                     },
@@ -48046,6 +48527,11 @@
                         "nullable": true,
                         "type": "string",
                         "format": "timestamp"
+                    },
+                    "id": {
+                        "nullable": false,
+                        "type": "string",
+                        "format": "uuid"
                     },
                     "user_updated": {
                         "nullable": true,
@@ -48070,38 +48556,9 @@
                                 "$ref": "#/components/schemas/Users"
                             }
                         ]
-                    },
-                    "id": {
-                        "nullable": false,
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "dest": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Files"
-                            }
-                        ]
-                    },
-                    "src": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "string",
-                                "format": "uuid"
-                            },
-                            {
-                                "$ref": "#/components/schemas/Files"
-                            }
-                        ]
                     }
                 },
-                "x-collection": "bots_documents",
+                "x-collection": "lead_submissions",
                 "required": [
                     "id"
                 ]

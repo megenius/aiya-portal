@@ -1,5 +1,6 @@
 import { components } from "./directus";
 
+export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
 export type Brand = components["schemas"]["ItemsVouchersBrands"];
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
@@ -49,6 +50,11 @@ interface Field {
   label: language;
   type: "text" | "email" | "number" | "tel" | "textarea";
   required: boolean;
+}
+
+export interface FieldData {
+  name: string;
+  value: string;
 }
 
 export interface language {

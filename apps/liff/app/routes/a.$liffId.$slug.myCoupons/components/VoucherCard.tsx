@@ -20,11 +20,11 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   const voucherText = {
     collected: {
       th: "แตะเพื่อใช้คูปอง",
-      en: "Tap to use coupon",
+      en: "Tap to redeem",
     },
     used: {
-      th: "ถูกใช้แล้ว",
-      en: "Used",
+      th: "ใช้แล้ว",
+      en: "Redeemed",
     },
     expired: {
       th: "หมดอายุแล้ว",
@@ -37,8 +37,6 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
     const now = new Date().getTime();
     timeLeft = Math.floor((expiryTime - now) / 1000);
-
-    console.log(timeLeft);
   }
 
   return (
@@ -66,19 +64,20 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
               <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
                 <div>
                   <h3 className="w-full text-start max-w-36 text-nowrap truncate font-medium">
-                    {voucher.name}
+                    {voucher.voucher_brand_id?.name}
                   </h3>
                   <div className="flex items-center text-sm text-gray-600">
                     <span>{title}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}>
                   {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
                     <CheckCircle className="h-4 w-4" />
                   )}
-                  {voucherUser.code.code_status === "collected" ||
-                    (voucherUser.code.code_status === "used" &&
-                      timeLeft > 0 && <QrCode className="h-4 w-4" />)}
+                  {((voucherUser.code.code_status === "used" && timeLeft > 0) ||
+                    voucherUser.code.code_status === "collected") && (
+                    <QrCode className="h-4 w-4" />
+                  )}
                   {voucherUser.code.code_status === "expired" && (
                     <XCircle className="h-4 w-4" />
                   )}
