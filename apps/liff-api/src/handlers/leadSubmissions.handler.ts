@@ -1,4 +1,4 @@
-import { createItem, readItems } from "@directus/sdk";
+import { createItem, readItems, updateItem } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
@@ -13,6 +13,13 @@ export const createLeadSubmission = factory.createHandlers(
     const data = await c.req.json();
     const directus = c.get("directAdmin");
     const result = await directus.request(createItem("lead_submissions", data));
+    
+    // Wait for 0.5 seconds
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Update status to "ready"
+    await directus.request(updateItem("lead_submissions", result.id, { status: "ready" }));
+    
     return c.json(result, 201);
   }
 );
@@ -23,6 +30,18 @@ export const getLeadSubmissions = factory.createHandlers(
   async (c) => {
     const directus = c.get("directAdmin");
     const result = await directus.request(readItems("lead_submissions"));
+    return c.json(result, 200);
+  }
+);
+
+export const updateLeadSubmission = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const id = c.req.param("id");
+    const data = await c.req.json();
+    const directus = c.get("directAdmin");
+    const result = await directus.request(updateItem("lead_submissions", id, data));
     return c.json(result, 200);
   }
 );
