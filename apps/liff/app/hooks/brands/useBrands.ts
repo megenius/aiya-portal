@@ -3,13 +3,14 @@ import { fetchBrands } from "~/services/brands";
 import { useLineLiff } from "../useLineLiff";
 
 interface useBrandsProps {
+  status?: "draft" | "published";
 }
 
-export function useBrands() {
+export function useBrands( props?: useBrandsProps) {
   const { data: liff } = useLineLiff();
   return useQuery({
-    queryKey: ["vouchers","voucher-brands"],
-    queryFn: () => fetchBrands().then((res) => res.data),
+    queryKey: ["vouchers","voucher-brands",props],
+    queryFn: () => fetchBrands({status: props?.status}).then((res) => res.data),
     enabled: liff?.isLoggedIn()
   });
 }

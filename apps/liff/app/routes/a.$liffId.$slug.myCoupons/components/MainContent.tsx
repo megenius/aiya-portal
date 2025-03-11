@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import VoucherCard from "./VoucherCard";
 import { Voucher, VoucherUser } from "~/types/app";
 import RedeemModal from "./RedeemModal";
+import EmptyListMessage from "./EmptyListMessage";
 
 interface MainContentProps {
   activeTab: string;
@@ -50,14 +51,18 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <>
       <main className="h-full bg-gray-50 p-4 space-y-2">
-        {filteredVouchers.map((voucher) => (
-          <VoucherCard
-            key={voucher.id}
-            voucherUser={voucher}
-            onClick={() => setVoucherUser(voucher)}
-            language={language}
-          />
-        ))}
+        {filteredVouchers.length > 0 ? (
+          filteredVouchers.map((voucher) => (
+            <VoucherCard
+              key={voucher.id}
+              voucherUser={voucher}
+              onClick={() => setVoucherUser(voucher)}
+              language={language}
+            />
+          ))
+        ) : (
+          <EmptyListMessage activeTab={activeTab} language={language} />
+        )}
       </main>
       {voucherUser && (
         <RedeemModal

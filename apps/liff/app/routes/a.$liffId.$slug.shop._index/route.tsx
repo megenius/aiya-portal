@@ -6,6 +6,8 @@ import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
+import { HeaderSkeleton } from "./components/HeaderSkeleton";
+import { MainContentSkeleton } from "./components/MainContentSkeleton";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
@@ -29,8 +31,21 @@ const Route = () => {
   // ];
 
   // return <>dd{JSON.stringify(page)}</>;
-  if (!isLoggedIn || isProfileLoading || isVoucherUserStatsLoading) {
+  if (!isLoggedIn) {
     return <Loading />;
+  }
+
+  if (isProfileLoading || isVoucherUserStatsLoading) {
+    return (
+      <>
+        {page?.liff_id && (
+          <>
+            <HeaderSkeleton />
+            <MainContentSkeleton />
+          </>
+        )}
+      </>
+    );
   }
 
   return (

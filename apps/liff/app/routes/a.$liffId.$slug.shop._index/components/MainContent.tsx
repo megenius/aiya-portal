@@ -10,6 +10,7 @@ import { VoucherStats } from "~/types/app";
 import { useBrands } from "~/hooks/brands/useBrands";
 import { getDirectusFileUrl } from "~/utils/files";
 import SearchBar from "./SearchBar";
+import { MainContentSkeleton } from "./MainContentSkeleton";
 
 interface MainContentProps {
   page: PageLiff;
@@ -17,17 +18,24 @@ interface MainContentProps {
   voucherUserStats: VoucherStats;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ page,language,voucherUserStats }) => {
+const MainContent: React.FC<MainContentProps> = ({
+  page,
+  language,
+  voucherUserStats,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const {data : vouchers, isLoading : isVouchersLoading} = useVouchers({q: "", status: "published"});
-  const {data : brands, isLoading : isBrandsLoading} = useBrands();
+  const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
+    q: "",
+    status: "published",
+  });
+  const { data: brands, isLoading: isBrandsLoading } = useBrands({status: "published"});
   const brandText = {
     th: "แบรนด์",
     en: "Brands",
   };
-  const popularCouponsText = {
+  const popularVouchersText = {
     th: "คูปองยอดนิยม",
-    en: "Popular Coupons",
+    en: "Popular Vouchers",
   };
 
   // const brands = [
@@ -40,14 +48,19 @@ const MainContent: React.FC<MainContentProps> = ({ page,language,voucherUserStat
   // ];
 
   if (isVouchersLoading || isBrandsLoading) {
-    return <Loading />;
+    return <MainContentSkeleton />;
   }
 
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 space-y-3">
         <SearchBar language={language} />
-        <VoucherSummary totalVouchers={voucherUserStats?.total} availableVouchers={voucherUserStats?.collected} usedVouchers={voucherUserStats?.used + voucherUserStats?.expired} language={language} />
+        <VoucherSummary
+          totalVouchers={voucherUserStats?.total}
+          availableVouchers={voucherUserStats?.collected}
+          usedVouchers={voucherUserStats?.used + voucherUserStats?.expired}
+          language={language}
+        />
         {page?.metadata?.layout?.showCategory && (
           <CategoryList
             language={language}
@@ -61,14 +74,15 @@ const MainContent: React.FC<MainContentProps> = ({ page,language,voucherUserStat
       <VoucherList
         vouchers={vouchers ?? []}
         language={language}
-        title={popularCouponsText[language]}
+        title={popularVouchersText[language]}
       />
 
       <div className="space-y-2">
-        <h3 className="px-4 text-lg font-medium">
-          {brandText[language]}
-        </h3>
-        <div className="flex overflow-x-auto gap-3 px-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <h3 className="px-4 text-lg font-medium">{brandText[language]}</h3>
+        <div
+          className="flex overflow-x-auto gap-3 px-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {brands?.map((brand) => (
             <div
               key={brand.id}

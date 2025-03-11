@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({language}) => {
   const navigateToLanding = () => navigate(`/a/${liffId}/${slug}/shop`);
   const myVouchersText = {
     th: "คูปองของฉัน",
-    en: "My Coupons",
+    en: "My Vouchers",
   };
 
   return (

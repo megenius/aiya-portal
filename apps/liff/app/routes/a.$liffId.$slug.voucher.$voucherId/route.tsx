@@ -13,6 +13,7 @@ import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 import confetti from "canvas-confetti";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
+import FullyCollectedModal from "./components/FullyCollectedModal";
 
 const Route = () => {
   const navigate = useNavigate();
@@ -28,17 +29,23 @@ const Route = () => {
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
-  const { data: codeStats, isLoading: isCodeStatsLoading } =
-    useVoucherCodeStats({
-      voucherId: voucherId ?? "",
-    });
+  const {
+    data: codeStats,
+    isLoading: isCodeStatsLoading,
+    refetch: refetchCodeStats,
+    isRefetching: isCodeStatsRefetching,
+  } = useVoucherCodeStats({
+    voucherId: voucherId ?? "",
+  });
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucherId);
   const [isCollected, setIsCollected] = useState(Boolean(myVoucher));
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
-  const [formData, setFormData] = useState<FieldData[]>([]); // Add state for form data
+  const [formData, setFormData] = useState<FieldData[]>([]);
+  const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
+
   const buttonText = {
     instant: {
       th: "เก็บคูปอง",
@@ -120,6 +127,11 @@ const Route = () => {
             origin: { y: 0.9 },
           });
         },
+        onError: (error) => {
+          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+          setShowFullyCollectedModal(true);
+          // }
+        },
       }
     );
   };
@@ -128,7 +140,8 @@ const Route = () => {
     isVoucherLoading &&
     isProfileLoading &&
     isMyVouchersLoading &&
-    isCodeStatsLoading
+    isCodeStatsLoading &&
+    isCodeStatsRefetching
   ) {
     return <Loading />;
   }
@@ -149,7 +162,7 @@ const Route = () => {
           codeStats={codeStats}
           pageState={pageState}
           onFormValidationChange={setIsFormValid}
-          onFormDataChange={setFormData} // Add prop to receive form data
+          onFormDataChange={setFormData}
         />
       )}
       <Footer
@@ -159,6 +172,18 @@ const Route = () => {
         onClick={handleSubmit}
         disabled={pageState === "form" && !isFormValid}
       />
+
+      {voucher && (
+        <FullyCollectedModal
+          isOpen={showFullyCollectedModal}
+          onClose={() => {
+            setShowFullyCollectedModal(false);
+            refetchCodeStats();
+          }}
+          language={lang}
+          primaryColor={voucher.primaryColor ?? ""}
+        />
+      )}
     </div>
   );
 };
