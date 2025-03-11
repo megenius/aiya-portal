@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { CategoryList } from "./CategoryList";
 import { PageLiff } from "~/types/page";
-import { useLiff } from "~/hooks/useLiff";
-import Loading from "~/components/Loading";
 import VoucherSummary from "./VoucherSummary";
 import VoucherList from "./VoucherList";
 import { useVouchers } from "~/hooks/vouchers/useVouchers";

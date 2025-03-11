@@ -1,6 +1,6 @@
 import React from "react";
 import { Ticket } from "lucide-react";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useParams } from "@remix-run/react";
 import { th } from "date-fns/locale";
 
 interface VoucherSummaryProps {
@@ -18,11 +18,12 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   usedVouchers = 4,
   // totalSaved = "฿218.50",
 }) => {
+  const { liffId,slug } = useParams();
   const navigate = useNavigate();
   const navigateToMyVouchers = () => {
     console.log("Navigate to My Vouchers");
 
-    navigate("/a/2006392276-1qv3Lnpm/shop-test/myCoupons");
+    navigate(`/a/${liffId}/${slug}/myCoupons`);
   };
   const availablePercentage =
     totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;
