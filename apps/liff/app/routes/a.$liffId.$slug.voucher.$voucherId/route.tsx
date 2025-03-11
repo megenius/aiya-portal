@@ -52,8 +52,8 @@ const Route = () => {
       en: "Collect",
     },
     form: {
-      th: "จอง",
-      en: "Book",
+      th: "ลงทะเบียน",
+      en: "Register",
     },
     collected: {
       th: "ใช้คูปอง",
@@ -152,7 +152,7 @@ const Route = () => {
         <Header
           language={lang}
           voucher={voucher}
-          color={voucher?.primaryColor ?? ""}
+          color={voucher.primaryColor ?? ""}
         />
         {codeStats && (
           <MainContent
