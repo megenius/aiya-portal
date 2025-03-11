@@ -148,6 +148,7 @@ const MainContent: React.FC<MainContentProps> = ({
           {voucher?.metadata.form?.fields.map((field, index) => (
             <FormField
               key={index}
+              language={language}
               label={field.label[language]}
               type={field.type}
               required={field.required}
