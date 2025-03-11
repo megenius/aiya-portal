@@ -147,33 +147,31 @@ const Route = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
-      {voucher && (
+    voucher && (
+      <div className="h-screen flex flex-col overflow-hidden">
         <Header
           language={lang}
           voucher={voucher}
           color={voucher?.primaryColor ?? ""}
         />
-      )}
-      {voucher && codeStats && (
-        <MainContent
-          language={lang}
-          voucher={voucher}
-          codeStats={codeStats}
-          pageState={pageState}
-          onFormValidationChange={setIsFormValid}
-          onFormDataChange={setFormData}
+        {codeStats && (
+          <MainContent
+            language={lang}
+            voucher={voucher}
+            codeStats={codeStats}
+            pageState={pageState}
+            onFormValidationChange={setIsFormValid}
+            onFormDataChange={setFormData}
+          />
+        )}
+        <Footer
+          color={voucher.primaryColor ?? ""}
+          buttonText={buttonText[status][lang]}
+          status={status}
+          onClick={handleSubmit}
+          disabled={pageState === "form" && !isFormValid}
         />
-      )}
-      <Footer
-        color={voucher?.primaryColor ?? ""}
-        buttonText={buttonText[status][lang]}
-        status={status}
-        onClick={handleSubmit}
-        disabled={pageState === "form" && !isFormValid}
-      />
 
-      {voucher && (
         <FullyCollectedModal
           isOpen={showFullyCollectedModal}
           onClose={() => {
@@ -183,8 +181,8 @@ const Route = () => {
           language={lang}
           primaryColor={voucher.primaryColor ?? ""}
         />
-      )}
-    </div>
+      </div>
+    )
   );
 };
 
