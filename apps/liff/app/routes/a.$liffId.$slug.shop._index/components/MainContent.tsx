@@ -3,30 +3,26 @@ import { CategoryList } from "./CategoryList";
 import { PageLiff } from "~/types/page";
 import VoucherSummary from "./VoucherSummary";
 import VoucherList from "./VoucherList";
-import { useVouchers } from "~/hooks/vouchers/useVouchers";
-import { VoucherStats } from "~/types/app";
-import { useBrands } from "~/hooks/brands/useBrands";
+import { Brand, Voucher, VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import SearchBar from "./SearchBar";
-import { MainContentSkeleton } from "./MainContentSkeleton";
 
 interface MainContentProps {
   page: PageLiff;
   language: string;
   voucherUserStats: VoucherStats;
+  vouchers?: Voucher[];
+  brands?: Brand[];
 }
 
 const MainContent: React.FC<MainContentProps> = ({
   page,
   language,
   voucherUserStats,
+  vouchers,
+  brands,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
-    q: "",
-    status: "published",
-  });
-  const { data: brands, isLoading: isBrandsLoading } = useBrands({status: "published"});
   const brandText = {
     th: "แบรนด์",
     en: "Brands",
@@ -44,10 +40,6 @@ const MainContent: React.FC<MainContentProps> = ({
   //   { id: 5, name: "CentralWorld", logo: "https://placehold.co/60x60" },
   //   { id: 6, name: "UNIQLO", logo: "https://placehold.co/60x60" },
   // ];
-
-  if (isVouchersLoading || isBrandsLoading) {
-    return <MainContentSkeleton />;
-  }
 
   return (
     <div className="bg-white pb-3 space-y-3">

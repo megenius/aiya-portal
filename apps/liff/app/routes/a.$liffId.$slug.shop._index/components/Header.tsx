@@ -1,20 +1,28 @@
 import React from "react";
 import { PageLiff } from "~/types/page";
-import { useLineProfile } from "~/hooks/useLineProfile";
+
+export interface Profile {
+  userId: string;
+  displayName: string;
+  pictureUrl?: string;
+  statusMessage?: string;
+}
+
 interface HeaderProps {
   page: PageLiff;
+  profile?: Profile;
   language: string;
 }
 
-export function Header({ page,language }: HeaderProps) {
+export function Header({ page,profile,language }: HeaderProps) {
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
   // const navigate = useNavigate();
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
   // const navigateToMyCoupon = () => {
   //   navigate(`/a/12/shop/12/myCoupons`);
   // };
+
 
   return (
     <div className="p-4 pb-3 flex items-center justify-between">

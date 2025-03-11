@@ -8,6 +8,8 @@ import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
 import { HeaderSkeleton } from "./components/HeaderSkeleton";
 import { MainContentSkeleton } from "./components/MainContentSkeleton";
+import { useBrands } from "~/hooks/brands/useBrands";
+import { useVouchers } from "~/hooks/vouchers/useVouchers";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
@@ -17,6 +19,11 @@ const Route = () => {
   const lang = "en";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } = useVoucherUserStats({ userId: profile?.userId || "" });
+  const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
+    q: "",
+    status: "published",
+  });
+  const { data: brands, isLoading: isBrandsLoading } = useBrands({status: "published"});
   // const { data: liff } = useLineLiff();
   // const myCoupons = [
   //   {
@@ -35,7 +42,7 @@ const Route = () => {
     return <Loading />;
   }
 
-  if (isProfileLoading || isVoucherUserStatsLoading) {
+  if (isProfileLoading || isVoucherUserStatsLoading || isVouchersLoading || isBrandsLoading) {
     return (
       <>
         {page?.liff_id && (
@@ -52,8 +59,8 @@ const Route = () => {
     <>
       {page?.liff_id && (
         <>
-          <Header page={page} language={lang} />
-          {voucherUserStats && <MainContent page={page} language={lang} voucherUserStats={voucherUserStats} />}
+          <Header page={page} profile={profile} language={lang} />
+          {voucherUserStats && <MainContent page={page} language={lang} voucherUserStats={voucherUserStats} vouchers={vouchers} brands={brands} />}
         </>
       )}
     </>
