@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import VoucherCard from "./VoucherCard";
-import { Voucher, VoucherUser } from "~/types/app";
+import { VoucherUser } from "~/types/app";
 import RedeemModal from "./RedeemModal";
 import EmptyListMessage from "./EmptyListMessage";
 

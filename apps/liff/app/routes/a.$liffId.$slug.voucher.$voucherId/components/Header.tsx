@@ -1,9 +1,9 @@
 import React from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
-import FollowButton from "./FollowButton";
 import { getDirectusFileUrl } from "~/utils/files";
 import { Voucher } from "~/types/app";
+import FollowButton from "~/components/FollowButton";
 
 interface HeaderProps {
   language: string;
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
       <FollowButton
         language={language}
         isFollowed={_isFollowed}
-        color={color}
+        primaryColor={color}
         onClick={handleFollow}
       />
     </div>

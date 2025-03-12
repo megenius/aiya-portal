@@ -4,7 +4,7 @@ interface FollowButtonProps {
   language: string;
   onClick: () => void;
   className?: string;
-  color?: string;
+  primaryColor?: string;
   isFollowed: boolean;
 }
 
@@ -12,7 +12,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   language,
   onClick,
   className = "",
-  color,
+  primaryColor,
   isFollowed = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,25 +43,25 @@ const FollowButton: React.FC<FollowButtonProps> = ({
     // if (isLoading) return "opacity-70 cursor-not-allowed";
 
     if (isFollowed) {
-      return color ? "" : "bg-primary text-white border-primary";
+      return primaryColor ? "" : "bg-primary text-white border-primary";
     }
-    return color ? "" : "border-primary text-primary";
+    return primaryColor ? "" : "border-primary text-primary";
   };
 
   const getButtonStyle = () => {
-    if (!color) return {};
+    if (!primaryColor) return {};
 
     if (isFollowed) {
       return {
-        backgroundColor: color,
+        backgroundColor: primaryColor,
         color: "#ffffff",
-        borderColor: color,
+        borderColor: primaryColor,
       };
     }
 
     return {
-      color: color,
-      borderColor: color,
+      color: primaryColor,
+      borderColor: primaryColor,
     };
   };
 
