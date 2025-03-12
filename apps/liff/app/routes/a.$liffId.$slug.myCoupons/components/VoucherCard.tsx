@@ -2,7 +2,6 @@ import React from "react";
 import { CheckCircle, QrCode, XCircle } from "lucide-react";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
-import { th } from "date-fns/locale";
 
 interface VoucherCardProps {
   voucherUser: VoucherUser;
@@ -95,7 +94,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
 
           {/* Tear-off section (right side) */}
           <div
-            className="w-20 bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white relative"
+            className="bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white relative"
             style={{ backgroundColor: voucher.primaryColor || undefined }}
           >
             <div className="transform -rotate-90">
