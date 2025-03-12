@@ -14,7 +14,7 @@ interface HeaderProps {
   language: string;
 }
 
-export function Header({ page,profile,language }: HeaderProps) {
+const Header: React.FC<HeaderProps> = ({ page,profile,language }) => {
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
   // const navigate = useNavigate();
@@ -53,3 +53,5 @@ export function Header({ page,profile,language }: HeaderProps) {
     </div>
   );
 }
+
+export default Header;

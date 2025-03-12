@@ -1,20 +1,25 @@
-import { ca } from "date-fns/locale";
+import React from "react";
 import { Category } from "~/types/page";
 
-interface Props {
+interface CategoryListProps {
   language: string;
   categories: Category[];
   selected: string;
   onSelect: (id: string) => void;
 }
 
-export function CategoryList({ language, categories, selected, onSelect }: Props) {
+const CategoryList: React.FC<CategoryListProps> = ({
+  language,
+  categories,
+  selected,
+  onSelect,
+}) => {
   const allCategoryId = "all";
   const allText = {
     th: "ทั้งหมด",
     en: "All",
   };
-  
+
   return (
     <div
       className="flex overflow-x-auto pb-2 gap-3"
@@ -42,7 +47,7 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
           {allText[language]}
         </span>
       </button>
-      
+
       {categories.map((category) => (
         <button
           key={category.id}
@@ -69,4 +74,6 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
       ))}
     </div>
   );
-}
+};
+
+export default CategoryList;

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { CategoryList } from "./CategoryList";
 import { PageLiff } from "~/types/page";
 import VoucherSummary from "./VoucherSummary";
 import VoucherList from "./VoucherList";
 import { Brand, Voucher, VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import SearchBar from "./SearchBar";
+import CategoryList from "./CategoryList";
 
 interface MainContentProps {
   page: PageLiff;

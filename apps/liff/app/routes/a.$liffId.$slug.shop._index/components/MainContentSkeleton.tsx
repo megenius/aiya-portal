@@ -1,14 +1,13 @@
 import React from "react";
-import VoucherListSkeleton from "./VoucherListSkeleton";
 
 export const MainContentSkeleton: React.FC = () => {
   return (
     <div className="pb-3 px-4 space-y-3 bg-white min-h-screen">
       {/* Search Bar Skeleton */}
-        <div className="relative flex items-center">
-          <div className="absolute left-3 w-5 h-5 bg-gray-200 rounded-lg animate-pulse"></div>
-          <div className="h-11 bg-gray-100 rounded-xl w-full pl-10 pr-3 animate-pulse"></div>
-        </div>
+      <div className="relative flex items-center">
+        <div className="absolute left-3 w-5 h-5 bg-gray-200 rounded-lg animate-pulse"></div>
+        <div className="h-11 bg-gray-100 rounded-xl w-full pl-10 pr-3 animate-pulse"></div>
+      </div>
 
       {/* VoucherSummary Skeleton */}
       <div className="mb-6">
@@ -50,7 +49,7 @@ export const MainContentSkeleton: React.FC = () => {
       </div>
 
       {/* CategoryList Skeleton */}
-      <div 
+      <div
         className="flex overflow-x-auto pb-2 gap-3"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
@@ -59,10 +58,13 @@ export const MainContentSkeleton: React.FC = () => {
           <div className="w-9 h-9 rounded-full bg-gray-100 animate-pulse"></div>
           <div className="h-3 w-10 bg-gray-200 rounded animate-pulse"></div>
         </div>
-        
+
         {/* Additional category skeletons */}
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="p-3 max-w-16 flex flex-col items-center gap-3 rounded-2xl shadow-sm border border-gray-100 bg-white">
+          <div
+            key={i}
+            className="p-3 max-w-16 flex flex-col items-center gap-3 rounded-2xl shadow-sm border border-gray-100 bg-white"
+          >
             <div className="w-9 h-9 rounded-full bg-gray-100 animate-pulse"></div>
             <div className="h-3 w-10 bg-gray-200 rounded animate-pulse"></div>
           </div>
@@ -70,7 +72,35 @@ export const MainContentSkeleton: React.FC = () => {
       </div>
 
       {/* VoucherList Skeletons */}
-        <VoucherListSkeleton />
+      <div className="space-y-2">
+        <div className="h-6 bg-gray-200 rounded w-2/4 animate-pulse mb-2"></div>
+        <div
+          className="flex overflow-x-auto pb-2 gap-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {Array(2)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col shrink-0 w-36"
+              >
+                <div className="h-32 relative bg-gray-200 animate-pulse">
+                  <div className="absolute bottom-2 left-2">
+                    <div className="w-7 h-7 rounded-full bg-gray-300 border border-white shadow-sm"></div>
+                  </div>
+                </div>
+                <div className="p-3">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-full animate-pulse"></div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
