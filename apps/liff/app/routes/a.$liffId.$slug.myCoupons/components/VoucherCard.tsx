@@ -9,6 +9,15 @@ interface VoucherCardProps {
   language: string;
 }
 
+// สไตล์ CSS โดยตรงสำหรับการแสดงข้อความที่ตัดด้วย ...
+const textTruncateStyle = {
+  display: "block",
+  maxWidth: "100%",
+  whiteSpace: "nowrap" as const,
+  overflow: "hidden" as const,
+  textOverflow: "ellipsis" as const
+};
+
 const VoucherCard: React.FC<VoucherCardProps> = ({
   voucherUser,
   onClick,
@@ -60,26 +69,35 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 className="w-24 object-cover mr-3"
               />
               <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
-                <div>
-                  <h3 className="w-full text-start max-w-36 text-nowrap truncate font-medium">
+                <div className="w-full max-w-36 text-start">
+                  <h3 
+                    className="font-medium" 
+                    style={textTruncateStyle}
+                  >
                     {voucher.voucher_brand_id?.name}
                   </h3>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <span>{title}</span>
-                  </div>
+                  <h4 
+                    className="text-sm text-gray-600" 
+                    style={textTruncateStyle}
+                  >
+                    {title}
+                  </h4>
                 </div>
                 <div className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}>
                   {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
-                    <CheckCircle className="h-4 w-4" />
+                    <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   )}
                   {((voucherUser.code.code_status === "used" && timeLeft > 0) ||
                     voucherUser.code.code_status === "collected") && (
-                    <QrCode className="h-4 w-4" />
+                    <QrCode className="h-4 w-4 flex-shrink-0" />
                   )}
                   {voucherUser.code.code_status === "expired" && (
-                    <XCircle className="h-4 w-4" />
+                    <XCircle className="h-4 w-4 flex-shrink-0" />
                   )}
-                  <span>
+                  <span 
+                    className="flex-1 text-start" 
+                    style={textTruncateStyle}
+                  >
                     {voucherUser.code.code_status === "used" && timeLeft > 0
                       ? voucherText["collected"][language]
                       : voucherText[
@@ -98,7 +116,10 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             <div className="transform -rotate-90">
               <div className="text-center space-y-2 overflow-hidden">
                 {/* <p className="text-xs">COUPON</p> */}
-                <p className="text-base font-medium text-nowrap truncate w-24">
+                <p 
+                  className="text-base font-medium w-24" 
+                  style={textTruncateStyle}
+                >
                   {voucher.voucher_brand_id?.name}
                 </p>
                 <img
