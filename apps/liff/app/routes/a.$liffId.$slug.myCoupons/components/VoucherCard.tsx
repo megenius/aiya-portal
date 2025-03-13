@@ -43,7 +43,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       {/* Ticket outer container */}
       <div className="relative">
         <button
-          className="flex w-full border rounded-lg overflow-hidden"
+          className="flex w-full h-28 border rounded-lg overflow-hidden"
           onClick={() =>
             voucherUser.code.code_status === "collected" ||
             (voucherUser.code.code_status === "used" && timeLeft > 0)
@@ -53,8 +53,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
         >
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
-          <div className="flex-1 bg-white rounded-l-lg relative">
-            <div className="flex">
+          <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
               <img
                 src={getDirectusFileUrl(voucher.cover as string) ?? ""}
                 alt={title}
@@ -89,12 +88,11 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                   </span>
                 </div>
               </div>
-            </div>
           </div>
 
           {/* Tear-off section (right side) */}
           <div
-            className="bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white relative"
+            className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
             style={{ backgroundColor: voucher.primaryColor || undefined }}
           >
             <div className="transform -rotate-90">
