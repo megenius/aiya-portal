@@ -1,25 +1,25 @@
-import React from 'react';
-import Title from './Title';
-import CoverPhoto from './CoverPhoto';
-import PersonalInfo from './PersonalInfo';
-import SocialAccount from './SocialAccount';
-import ConnectAccounts from './ConnectAccounts';
-import DangerZone from './DangerZone';
-import { useMe } from '~/hooks/useMe';
-import { Loading } from '@repo/preline';
-import AvartarUploader from './AvartarUploader';
-import NameEditor from './NameEditor';
-import { Bot } from '~/@types/app';
-import StartKeyword from './StartKeyword';
-import StopKeyword from './StopKeyword';
-import Dropdown from './Dropdown';
+import React from "react";
+import Title from "./Title";
+import CoverPhoto from "./CoverPhoto";
+import PersonalInfo from "./PersonalInfo";
+import SocialAccount from "./SocialAccount";
+import ConnectAccounts from "./ConnectAccounts";
+import DangerZone from "./DangerZone";
+import { useMe } from "~/hooks/useMe";
+import { Loading } from "@repo/preline";
+import AvartarUploader from "./AvartarUploader";
+import NameEditor from "./NameEditor";
+import { Bot } from "~/@types/app";
+import StartKeyword from "./StartKeyword";
+import StopKeyword from "./StopKeyword";
+import ModelDropdown from "./ModelDropdown";
+import Playground from "./Playground";
 
 interface MainContentProps {
-  bot: Bot
+  bot: Bot;
 }
 
 const MainContent: React.FC<MainContentProps> = ({ bot }) => {
-
   return (
     <>
       {bot && (
@@ -28,8 +28,9 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <NameEditor bot={bot} />
           {/* Form */}
           <AvartarUploader bot={bot} />
-          <Dropdown bot={bot}/>
-          <StopKeyword  bot={bot} />
+          <ModelDropdown bot={bot} />
+          <Playground bot={bot} />
+          <StopKeyword bot={bot} />
           <StartKeyword bot={bot} />
           {/* <CoverPhoto /> */}
           {/* <PersonalInfo user={workspace} /> */}
@@ -44,5 +45,3 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
 };
 
 export default MainContent;
-
-

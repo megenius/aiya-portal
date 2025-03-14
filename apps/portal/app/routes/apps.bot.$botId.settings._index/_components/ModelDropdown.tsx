@@ -3,11 +3,11 @@ import { Bot } from "~/@types/app";
 import { useBotUpdate } from "~/hooks/bot";
 import { useBotModels } from "~/hooks/bot/useBotModels";
 
-interface DropdownProps {
+interface ModelDropdownProps {
   bot?: Bot;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ bot }) => {
+const ModelDropdown: React.FC<ModelDropdownProps> = ({ bot }) => {
   const { data: models, isLoading: isModelsLoading } = useBotModels();
   const updateBot = useBotUpdate();
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,7 @@ const Dropdown: React.FC<DropdownProps> = ({ bot }) => {
               model: model?.model || "google/gemini-2.0-flash-001",
               max_input_tokens: model?.max_input_tokens || 16000,
               max_output_tokens: model?.max_output_tokens || 4096,
-              temperature:  bot?.metadata?.temperature || 0.0,
+              temperature: bot?.metadata?.temperature || 0.0,
             },
             mode: bot?.metadata?.mode || "generative",
             max_search_results: bot?.metadata?.max_search_results || 10,
@@ -51,21 +51,29 @@ const Dropdown: React.FC<DropdownProps> = ({ bot }) => {
             agent_type: bot?.metadata?.agent_type || "FAQ",
             temperature: bot?.metadata?.temperature || 0,
             embedding_model: bot?.metadata?.embedding_model || "aiya",
-            waiting_message: bot?.metadata?.waiting_message || "🔍 กำลังค้นหาข้อมูล กรุณารอสักครู่นะคะ 🙏",
+            waiting_message:
+              bot?.metadata?.waiting_message ||
+              "🔍 กำลังค้นหาข้อมูล กรุณารอสักครู่นะคะ 🙏",
             fallback: bot?.metadata?.fallback || {
               mode: bot?.metadata?.fallback?.mode || "llm",
               provider: bot?.metadata?.fallback?.provider || "google",
-              model:  bot?.metadata?.fallback?.model || "google/gemini-2.0-flash-001",
-              confidence:  bot?.metadata?.fallback?.confidence || 0.8,
-              support_languages: bot?.metadata?.fallback?.support_languages || ["th", "en"],
-              title: bot?.metadata?.fallback?.title ||  "ไม่พบข้อมูล",
-              message: bot?.metadata?.fallback?.message || "ขออภัยในความไม่สะดวกค่ะ ไม่ทราบว่าคุณกำลังค้นหาข้อมูลเหล่านี้อยู่ใช่ไหมคะ?",
+              model:
+                bot?.metadata?.fallback?.model || "google/gemini-2.0-flash-001",
+              confidence: bot?.metadata?.fallback?.confidence || 0.8,
+              support_languages: bot?.metadata?.fallback?.support_languages || [
+                "th",
+                "en",
+              ],
+              title: bot?.metadata?.fallback?.title || "ไม่พบข้อมูล",
+              message:
+                bot?.metadata?.fallback?.message ||
+                "ขออภัยในความไม่สะดวกค่ะ ไม่ทราบว่าคุณกำลังค้นหาข้อมูลเหล่านี้อยู่ใช่ไหมคะ?",
             },
             greeting_message_enabled:
               bot?.metadata?.greeting_message_enabled || true,
-              routing_enabled: bot?.metadata?.routing_enabled || false,
-              fallback_enabled: bot?.metadata?.fallback_enabled || true,
-              show_name_enabled: bot?.metadata?.show_name_enabled || false,
+            routing_enabled: bot?.metadata?.routing_enabled || false,
+            fallback_enabled: bot?.metadata?.fallback_enabled || true,
+            show_name_enabled: bot?.metadata?.show_name_enabled || false,
           },
         },
       },
@@ -133,7 +141,11 @@ const Dropdown: React.FC<DropdownProps> = ({ bot }) => {
                       key={index}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                       role="menuitem"
-                      onClick={() => handleItemClick(item.model || "google/gemini-2.0-flash-001")}
+                      onClick={() =>
+                        handleItemClick(
+                          item.model || "google/gemini-2.0-flash-001"
+                        )
+                      }
                     >
                       {item.model}
                     </button>
@@ -148,4 +160,4 @@ const Dropdown: React.FC<DropdownProps> = ({ bot }) => {
   );
 };
 
-export default Dropdown;
+export default ModelDropdown;
