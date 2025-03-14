@@ -17,6 +17,7 @@ const Dropdown: React.FC = () => {
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
+    
     setIsOpen(false);
   };
 
