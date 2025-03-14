@@ -1,3 +1,5 @@
+import { language } from "./app";
+
 export interface PageLiff {
   id: string;
   status: string;
@@ -31,10 +33,8 @@ export interface Metadata {
   scripts: Script[];
   tracking: Tracking;
   layout: Layout;
-  welcomeTextTH: string;
-  welcomeTextEN: string;
-  subWelcomeTextTH: string;
-  subWelcomeTextEN: string;
+  welcomeText: language;
+  subWelcomeText: language;
   coupons: Coupon[];
   categories: Category[];
 }
@@ -93,8 +93,7 @@ export interface Coupon {
 
 export interface Category {
   id: string;
-  nameTH: string;
-  nameEN: string;
+  name: language;
   image: string;
   icon: string;
 }

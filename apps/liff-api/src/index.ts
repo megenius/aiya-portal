@@ -1,21 +1,22 @@
 import { Hono } from "hono";
-import { liffRoutes } from "./routes/liff";
 import { handleQueueMessage } from "./handlers/queue.handler";
-import { Env } from "./types/hono.types";
-import { cache } from "hono/cache";
+import { leadSubmissionsRoutes } from "./routes/leadSubmissions";
+import { liffRoutes } from "./routes/liff";
 import { voucherRoutes } from "./routes/voucher";
+import { Env } from "./types/hono.types";
 
 const app = new Hono<Env>()
   .basePath("/api")
   .get(
     "*",
-    cache({
-      cacheName: "my-app",
-      cacheControl: "max-age=3600",
-    })
+    // cache({
+    //   cacheName: "my-app",
+    //   cacheControl: "max-age=3600",
+    // })
   )
   .route("/liff", liffRoutes)
-  .route("/vouchers", voucherRoutes);
+  .route("/vouchers", voucherRoutes)
+  .route("/lead-submissions", leadSubmissionsRoutes);
 
 export default {
   fetch: app.fetch,
