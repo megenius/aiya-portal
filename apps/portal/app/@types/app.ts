@@ -28,7 +28,40 @@ export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
 export type WorkspaceInvite = components["schemas"]["ItemsSaasTeamsInvites"] & {
   user_id?: string;
 };
-export type Bot = components["schemas"]["ItemsBots"];
+export type Bot = Omit<components["schemas"]["ItemsBots"],"metadata"> & {
+  metadata: BotMetaData;
+};
+export interface BotMetaData {
+  llm: {
+    provider: string;
+    model: string;
+    max_input_tokens: number;
+    max_output_tokens: number;
+    temperature: number;
+  };
+  mode: string;
+  max_search_results: number;
+  min_confidence: number;
+  enabled: number;
+  agent_type: string;
+  temperature: number;
+  embedding_model: string;
+  waiting_message: string;
+  fallback: {
+    mode: string;
+    provider: string;
+    model: string;
+    confidence: number;
+    support_languages: [string, string];
+    title: string;
+    message: string;
+  };
+  greeting_message_enabled: boolean;
+  routing_enabled: boolean;
+  fallback_enabled: boolean;
+  show_name_enabled: boolean;
+}
+export type BotModel = components["schemas"]["ItemsBotsModel"];
 export type BotMutedUser = components["schemas"]["ItemsBotsMutedUsers"];
 export type User = components["schemas"]["Users"];
 export type Channel = components["schemas"]["ItemsChannels"];
@@ -370,37 +403,6 @@ export interface Profile {
   displayName: string;
   pictureUrl: string;
   language: string;
-}
-
-export interface BotMetaData {
-  llm: {
-    provider: string;
-    model: string;
-    max_input_tokens: number;
-    max_output_tokens: number;
-    temperature: number;
-  };
-  mode: string;
-  max_search_results: number;
-  min_confidence: number;
-  enabled: boolean;
-  agent_type: string;
-  temperature: number;
-  embedding_model: string;
-  waiting_message: string;
-  fallback: {
-    mode: string;
-    provider: string;
-    model: string;
-    confidence: number;
-    support_languages: [string, string];
-    title: string;
-    message: string;
-  };
-  greeting_message_enabled: boolean;
-  routing_enabled: boolean;
-  fallback_enabled: boolean;
-  show_name_enabled: boolean;
 }
 
 export namespace stats {
