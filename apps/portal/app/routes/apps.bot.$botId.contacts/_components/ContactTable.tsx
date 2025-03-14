@@ -24,6 +24,21 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
         .includes(searchValue.toLowerCase()) ||
       contact.social_id.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const isValidUUID = (str) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(str);
+  };
+
+  const getUID = (socialId: string) => {
+    if (isValidUUID(socialId)) {
+      const formattedToken = `U${socialId.split('-')[0]}`;
+      return formattedToken;
+    }
+
+    return socialId;
+  }
+
   return (
     <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
       <div className="min-w-full inline-block align-middle">
@@ -65,68 +80,69 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
             {isLoading || isMutedBotUsersLoading
               ? [...Array(5)].map((_, index) => (
-                  <tr key={index} className="animate-pulse">
-                    <td className="size-px whitespace-nowrap px-4 py-3">
-                      <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                    </td>
-                    <td className="size-px whitespace-nowrap py-3">
-                      <div className="flex justify-center items-center">
-                        <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded"></div>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                <tr key={index} className="animate-pulse">
+                  <td className="size-px whitespace-nowrap px-4 py-3">
+                    <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                  </td>
+                  <td className="size-px whitespace-nowrap py-3">
+                    <div className="flex justify-center items-center">
+                      <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    </div>
+                  </td>
+                </tr>
+              ))
               : filteredContacts?.map((contact) => (
-                  <tr key={contact.id}>
-                    <td className="size-px whitespace-nowrap px-4 py-3">
-                      {contact.profile ? (
-                        <Avatar
-                          className="border"
-                          src={contact.profile.pictureUrl}
-                          firstName={contact.profile.displayName?.charAt(0)}
-                        />
-                      ) : (
-                        <Avatar firstName={"?"} />
-                      )}
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <span className="text-sm font-medium text-gray-800">
-                        {contact?.profile
-                          ? contact.profile.displayName
-                          : contact.social_id}
-                      </span>
-                    </td>
-                    <td className="size-px pe-4 py-3">
-                      <span className="text-sm text-gray-600">
-                        {contact.sentence}
-                      </span>
-                    </td>
-                    <td className="size-px pe-4 py-3 max-w-[200px] break-words whitespace-normal">
-                      <span className="text-sm font-medium text-gray-800">
-                        {contact?.channel
-                          ? contact.channel.provider_name
-                          : contact.provider_id ?? "-"}
-                      </span>
-                    </td>
-                    <td className="size-px whitespace-nowrap pe-4 py-3">
-                      <span className="text-sm text-gray-600">
-                        {calculateTimeAgo(contact.created)}
-                      </span>
-                    </td>
-                    <td className="size-px whitespace-nowrap py-3">
-                      <div className="flex justify-center items-center">
+                <tr key={contact.id}>
+                  <td className="size-px whitespace-nowrap px-4 py-3">
+                    {contact.profile ? (
+                      <Avatar
+                        className="border"
+                        src={contact.profile.pictureUrl}
+                        firstName={contact.profile.displayName?.charAt(0)}
+                      />
+                    ) : (
+                      <Avatar firstName={"?"} />
+                    )}
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <span className="text-sm font-medium text-gray-800">
+                      {contact?.profile
+                        ? contact.profile.displayName
+                        : getUID(contact.social_id)}
+                    </span>
+                  </td>
+                  <td className="size-px pe-4 py-3">
+                    <span className="text-sm text-gray-600">
+                      {contact.sentence}
+                    </span>
+                  </td>
+                  <td className="size-px pe-4 py-3 max-w-[200px] break-words whitespace-normal">
+                    <span className="text-sm font-medium text-gray-800">
+                      {contact?.channel
+                        ? contact.channel.provider_name
+                        : contact.provider_id ?? "-"}
+                    </span>
+                  </td>
+                  <td className="size-px whitespace-nowrap pe-4 py-3">
+                    <span className="text-sm text-gray-600">
+                      {calculateTimeAgo(contact.created)}
+                    </span>
+                  </td>
+                  <td className="size-px whitespace-nowrap py-3">
+                    <div className="flex justify-center items-center">
+                      {contact.channel?.platform !== 'Website' ? (
                         <ToggleSwitch
                           contact={contact}
                           initialChecked={
@@ -135,10 +151,15 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                             )
                           }
                         />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      ) : (
+                        <span className="text-sm text-gray-600 dark:text-neutral-400">
+                          -
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

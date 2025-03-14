@@ -12,6 +12,7 @@ import NameEditor from './NameEditor';
 import { Bot } from '~/@types/app';
 import StartKeyword from './StartKeyword';
 import StopKeyword from './StopKeyword';
+import Dropdown from './Dropdown';
 
 interface MainContentProps {
   bot: Bot
@@ -27,6 +28,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <NameEditor bot={bot} />
           {/* Form */}
           <AvartarUploader bot={bot} />
+          <Dropdown bot={bot}/>
           <StopKeyword  bot={bot} />
           <StartKeyword bot={bot} />
           {/* <CoverPhoto /> */}

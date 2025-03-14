@@ -1,10 +1,12 @@
 import {
   Bot,
   BotChannelStatus,
+  BotInquiry,
   BotIntent,
   BotKnowledge,
   BotKnowledgeUpdate,
   BotLog,
+  BotModel,
   BotMutedUser,
   BotUpdate,
   BotsSlips,
@@ -34,6 +36,9 @@ export const updateBot = (id: string, data: BotUpdate) => {
 export const deleteBot = (id: string) => {
   return api.delete(`/items/bots/${id}`);
 };
+
+// --------------- botModel ---------------
+export const fetchBotModels = () => api.get<Array<BotModel>>("/bots/models");
 
 // --------------- members ---------------
 export const fetchBotMembers = (id: string) =>
@@ -231,6 +236,9 @@ export const fetchBotInsightLogs = (botId: string) =>
 export const fetchBotInsightContacts = (botId: string) =>
   api.get<BotLog[]>(`/bots/${botId}/insights/contacts`);
 
+export const fetchBotInquiries = (botId: string) =>
+  api.get<BotInquiry[]>(`/bots/${botId}/inquiries`);
+
 // --------------- muted users ---------------
 export const fetchBotMutedUsers = (botId: string) =>
   api.get<{uid:string}[]>(`/bots/${botId}/muted-users`);
@@ -344,3 +352,9 @@ export const generateBotIntent = (text: string) =>
       },
     ],
   });
+
+
+// --------------- inquiries ---------------
+export const insertBotInquiry = async (botId: string, data: Partial<BotInquiry>) => {
+  return await api.post<BotInquiry>(`/client/inquiry`, data);
+};
