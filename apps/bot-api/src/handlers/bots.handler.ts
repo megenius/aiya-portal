@@ -441,6 +441,7 @@ export const muteUserHandler = factory.createHandlers(
         bot: botId,
         provider_id: data.provider_id,
         uid: data.uid,
+        expires_on: data.expires_on,
       })
     );
     return c.json(item);
