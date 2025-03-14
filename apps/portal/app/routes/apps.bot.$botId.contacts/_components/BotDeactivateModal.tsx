@@ -7,11 +7,11 @@ interface BotDeactivateModalProps {
 }
 
 const durations: { label: string; value: number | "permanent" }[] = [
-  { label: "For 15 Minutes", value: 0.25 },
-  { label: "For 30 Minutes", value: 0.5 },
-  { label: "For 1 Hour", value: 1 },
-  { label: "For 8 Hours", value: 8 },
-  { label: "For 24 Hours", value: 24 },
+  { label: "For 15 Minutes", value: 15 },
+  { label: "For 30 Minutes", value: 30 },
+  { label: "For 1 Hour", value: 60 },
+  { label: "For 8 Hours", value: 480 },
+  { label: "For 24 Hours", value: 1440 },
   { label: "Until I turn it back on", value: "permanent" },
 ];
 
