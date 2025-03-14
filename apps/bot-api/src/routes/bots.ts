@@ -12,6 +12,8 @@ function isValidCollection(collection: any): collection is keyof Schema {
     return true;
 }
 botsRoutes.get("/test", ...BotsHandler.getTest)
+// get bot model
+botsRoutes.get("/models", ...BotsHandler.getBotModelHandler);
 
 botsRoutes.get("/:id", ...BotsHandler.getBotHandler);
 botsRoutes.patch("/:id", ...BotsHandler.updateBotHandler);
@@ -63,8 +65,5 @@ botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
 // inquiries
 botsRoutes.get("/:id/inquiries", ...BotsHandler.inquiriesHandler);
 botsRoutes.post("/:id/inquiries", ...BotsHandler.inquiriesHandler);
-
-// get bot model
-botsRoutes.get("/models", ...BotsHandler.getBotModelHandler);
 
 export { botsRoutes };
