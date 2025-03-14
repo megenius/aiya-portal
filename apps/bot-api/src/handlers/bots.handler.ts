@@ -9,6 +9,7 @@ import {
 import { DirectusError } from "@repo/shared/exceptions/directus";
 import { randomHexString } from "@repo/shared/utils";
 import { addDays } from "date-fns";
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { createParser } from "eventsource-parser";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
@@ -436,12 +437,13 @@ export const muteUserHandler = factory.createHandlers(
     //  "provider_id": "XXX",
     //   "uid": "Ua29b798287b0acc26cc5ec62e30185e2",
     // }
+    const expiresOnBangkokTime = zonedTimeToUtc(data.expires_on, 'Asia/Bangkok');
     const item = await directus.request(
       createItem("bots_muted_users", {
         bot: botId,
         provider_id: data.provider_id,
         uid: data.uid,
-        expires_on: data.expires_on,
+        expires_on: expiresOnBangkokTime,
       })
     );
     return c.json(item);
