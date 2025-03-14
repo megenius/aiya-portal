@@ -64,5 +64,7 @@ botsRoutes.post("/admin/service", ...BotsHandler.serviceHandler);
 botsRoutes.get("/:id/inquiries", ...BotsHandler.inquiriesHandler);
 botsRoutes.post("/:id/inquiries", ...BotsHandler.inquiriesHandler);
 
+// get bot model
+botsRoutes.get("/model", ...BotsHandler.getBotModelHandler);
 
 export { botsRoutes };

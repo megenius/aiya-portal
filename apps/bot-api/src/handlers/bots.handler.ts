@@ -837,3 +837,20 @@ export const createInquiryHandler = factory.createHandlers(
     return c.json(item);
   }
 );
+
+// get bot model ----------------------------------------------------------
+export const getBotModelHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const directus = c.get("directus");
+
+    const botModel = await directus.request(
+      readItems("bots_model",{
+        fields: ["*"],
+      })
+    );
+
+    return c.json(botModel);
+  }
+);
