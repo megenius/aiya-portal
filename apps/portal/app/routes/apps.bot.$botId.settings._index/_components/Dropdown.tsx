@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>('Claude-3-5-sonnet-20241022-v2');
+  const [selectedItem, setSelectedItem] = useState<string | null>('Claude-3-5-haiku-20241022-v1');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
@@ -27,7 +27,7 @@ const Dropdown: React.FC = () => {
     };
   }, []);
 
-  const items = ['Claude-3-5-haiku-20241022-v1', 'Claude-3-5-sonnet-20241022-v2', 'Gemini-2.0-flash-001', 'GPT4o-mini'];
+  const items = ['Claude-3-5-haiku-20241022-v1', 'Gemini-2.0-flash-001', 'GPT4o-mini'];
 
   return (
     <div className="py-6 sm:py-8 space-y-5 border-t border-gray-200 first:border-t-0 dark:border-neutral-700">
