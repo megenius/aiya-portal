@@ -29,6 +29,7 @@ import {
 } from "~/types/app";
 import { Env } from "~/types/hono.types";
 import { transformData } from "~/utils/datasource";
+import { formatDateBangkok } from '~/utils/date.utils';
 import { hasItemUpdated } from "~/utils/kv";
 
 const factory = createFactory<Env>();
@@ -436,11 +437,13 @@ export const muteUserHandler = factory.createHandlers(
     //  "provider_id": "XXX",
     //   "uid": "Ua29b798287b0acc26cc5ec62e30185e2",
     // }
+    const expiresOnBangkokTime = formatDateBangkok(new Date(data.expires_on));
     const item = await directus.request(
       createItem("bots_muted_users", {
         bot: botId,
         provider_id: data.provider_id,
         uid: data.uid,
+        expires_on: expiresOnBangkokTime,
       })
     );
     return c.json(item);
@@ -832,5 +835,22 @@ export const createInquiryHandler = factory.createHandlers(
     );
 
     return c.json(item);
+  }
+);
+
+// get bot model ----------------------------------------------------------
+export const getBotModelHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const directus = c.get("directus");
+
+    const botModel = await directus.request(
+      readItems("bots_model",{
+        fields: ["*"],
+      })
+    );
+
+    return c.json(botModel);
   }
 );

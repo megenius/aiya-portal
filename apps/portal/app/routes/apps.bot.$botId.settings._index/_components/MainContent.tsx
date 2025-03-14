@@ -28,7 +28,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           <NameEditor bot={bot} />
           {/* Form */}
           <AvartarUploader bot={bot} />
-          <Dropdown />
+          <Dropdown bot={bot}/>
           <StopKeyword  bot={bot} />
           <StartKeyword bot={bot} />
           {/* <CoverPhoto /> */}

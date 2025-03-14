@@ -6,6 +6,7 @@ import {
   BotKnowledge,
   BotKnowledgeUpdate,
   BotLog,
+  BotModel,
   BotMutedUser,
   BotUpdate,
   BotsSlips,
@@ -35,6 +36,9 @@ export const updateBot = (id: string, data: BotUpdate) => {
 export const deleteBot = (id: string) => {
   return api.delete(`/items/bots/${id}`);
 };
+
+// --------------- botModel ---------------
+export const fetchBotModels = () => api.get<Array<BotModel>>("/bots/models");
 
 // --------------- members ---------------
 export const fetchBotMembers = (id: string) =>

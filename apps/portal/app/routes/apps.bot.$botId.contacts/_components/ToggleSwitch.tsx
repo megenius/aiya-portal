@@ -1,10 +1,9 @@
-import { Loading } from "@repo/preline";
-import { fi } from "date-fns/locale";
 import React, { useState } from "react";
 import { BotLog } from "~/@types/app";
 import { useBotMutedUsersDelete } from "~/hooks/bot/useBotMutedUsersDelete";
 import { useBotMutedUsersInsert } from "~/hooks/bot/useBotMutedUsersInsert";
 import BotDeactivateModal from "./BotDeactivateModal";
+import { toMillisecond } from "~/utils/utils";
 
 interface ToggleButtonProps {
   contact: BotLog;
@@ -33,6 +32,9 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
         bot: contact.bot_id,
         provider_id: contact.provider_id,
         uid: contact.social_id,
+        expires_on: duration === "permanent" 
+          ? new Date(Date.now() + toMillisecond(30,'day')).toISOString() 
+          : new Date(Date.now() + toMillisecond(duration,'minute')).toISOString(),
       },
     });
     setIsChecked(false);
