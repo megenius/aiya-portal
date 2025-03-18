@@ -1,14 +1,21 @@
 import { components } from "./directus";
+import { Category } from "./page";
 
 export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
-export type Brand = components["schemas"]["ItemsVouchersBrands"] & { 
+export type Brand = Omit<components["schemas"]["ItemsVouchersBrands"], "metadata"> & {
+  metadata: BrandMetadata;
   vouchers: Voucher[];
 };
+
+interface BrandMetadata {
+  category: Category;
+}
+
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
   "metadata"
 > & {
-  metadata: Metadata;
+  metadata: VoucherMetadata;
 };
 
 export type VoucherCode = Omit<
@@ -34,7 +41,7 @@ export interface VoucherStats {
   total: number;
 }
 
-interface Metadata {
+interface VoucherMetadata {
   title: language;
   description: language;
   condition: language;

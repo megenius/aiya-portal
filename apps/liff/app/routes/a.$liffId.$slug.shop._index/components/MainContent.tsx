@@ -30,7 +30,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="bg-white pb-3 space-y-3">
-      <div className="px-4 space-y-3">
+      <div className="px-4 pb-1 space-y-3">
         <SearchBar language={language} />
         <VoucherSummary
           totalVouchers={voucherUserStats?.total}
@@ -38,27 +38,22 @@ const MainContent: React.FC<MainContentProps> = ({
           usedVouchers={voucherUserStats?.used + voucherUserStats?.expired}
           language={language}
         />
-        {page?.metadata?.layout?.showCategory && (
-          <CategoryList
-            language={language}
-            categories={page?.metadata?.categories}
-            selected={selectedCategory}
-            onSelect={setSelectedCategory}
-          />
-        )}
       </div>
-
+      {page?.metadata?.layout?.showCategory && (
+        <CategoryList
+          language={language}
+          categories={page?.metadata?.categories}
+          selected={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+      )}
       <VoucherList
         vouchers={vouchers ?? []}
         language={language}
         title={popularVouchersText[language]}
       />
 
-      <BrandList 
-        brands={brands} 
-        page={page} 
-        language={language}
-      />
+      <BrandList brands={brands} page={page} language={language} />
     </div>
   );
 };
