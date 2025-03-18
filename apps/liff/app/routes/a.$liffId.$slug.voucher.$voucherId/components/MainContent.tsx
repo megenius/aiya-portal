@@ -98,7 +98,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="relative w-full" style={{ paddingBottom: '75%' }}>
+      <div className="relative w-full" style={{ paddingBottom: '66.66%' }}>
   <img
     src={getDirectusFileUrl(voucher?.cover as string)}
     alt={voucher?.id}
