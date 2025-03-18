@@ -23,13 +23,13 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   return (
     <button
       onClick={() => navigateToCollectCoupon(voucher.id)}
-      className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer flex flex-col shrink-0 w-36"
+      className="bg-white rounded-2xl overflow-hidden cursor-pointer flex flex-col shrink-0 w-32"
     >
       <div className="h-32 relative">
         <img
           src={getDirectusFileUrl(voucher.cover as string) ?? ""}
           alt={title ?? ""}
-          className="w-full h-32 object-cover"
+          className="w-full h-32 object-cover rounded-2xl"
         />
         <div className="absolute bottom-2 left-2">
             <img 
@@ -39,8 +39,8 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             />
         </div>
       </div>
-      <div className="p-3">
-        <h3 className="font-medium leading-snug text-start text-sm line-clamp-2">
+      <div className="py-3">
+        <h3 className="font-bold leading-snug text-start text-sm line-clamp-2">
           {voucher?.voucher_brand_id?.name}
         </h3>
         

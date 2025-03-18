@@ -1,34 +1,27 @@
 import React, { useState } from "react";
 import { ChevronLeft, Search } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
-import { useBrand } from "~/hooks/brands/useBrand";
-import Loading from "~/components/Loading";
 import VoucherCard from "./VoucherCard";
 import BrandCard from "./BrandCard";
+import { Brand } from "~/types/app";
 
 interface MainContentProps {
+  brand:Brand;
   language: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ language }) => {
+const MainContent: React.FC<MainContentProps> = ({ brand,language }) => {
   const navigate = useNavigate();
-  const { liffId, slug, brandId } = useParams();
+  const { liffId, slug } = useParams();
   const [selectedTab, setSelectedTab] = useState<
     "all" | "popular" | "discount" | "freebie"
   >("all");
-  const { data: brand, isLoading: brandLoading } = useBrand({
-    id: brandId as string,
-  });
 
   // กรองคูปองตามแท็บที่เลือก
   // const filteredCoupons =
   //   selectedTab === "all"
   //     ? coupons
   //     : coupons.filter((coupon) => coupon.type === selectedTab);
-
-  if (brandLoading) {
-    return <Loading />;
-  }
 
   return (
     <>

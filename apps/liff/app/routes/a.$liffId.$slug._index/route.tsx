@@ -26,6 +26,7 @@ const route: React.FC<routeProps> = () => {
       return url.replace("liff://", "../")
     }
     return url
+    // liff?.isInClient() ? url : `../${url}`
   }
 
   const openWindow = async (url: string) => {

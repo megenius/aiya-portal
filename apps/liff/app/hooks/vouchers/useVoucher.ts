@@ -8,7 +8,7 @@ export function useVoucher(voucherId: string) {
   const { data: liff } = useLineLiff();
   return useQuery({
     queryKey: ["vouchers", voucherId],
-    queryFn: () => fetchVoucher({voucherId:voucherId}).then((res) => res.data),
+    queryFn: () => fetchVoucher({voucherId:voucherId}),
     enabled: liff?.isLoggedIn(),
   });
 }

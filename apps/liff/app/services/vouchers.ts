@@ -2,7 +2,7 @@ import { CollectVoucher, Voucher, VoucherStats, VoucherUser } from "~/types/app"
 import api from "./api";
 
 export const fetchVoucher = ({ voucherId }) =>
-  api.get<Voucher>(`/vouchers/${voucherId}`);
+  api.get<Voucher>(`/vouchers/${voucherId}`).then((res) => res.data);
 
 export const fetchVouchers = ({ q,status }) =>
   api.get<Array<Voucher>>(`/vouchers?q=${q}&status=${status}`);

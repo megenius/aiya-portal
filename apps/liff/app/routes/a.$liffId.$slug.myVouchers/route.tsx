@@ -1,17 +1,43 @@
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
-import { useOutletContext } from "@remix-run/react";
-import { PageLiff } from "~/types/page";
+import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
 import Tabs from "~/components/Tabs";
 import { useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import _ from "lodash";
+import { fetchByLiffIdAndSlug } from "~/services/page-liff";
+import { useLineLiff } from "~/hooks/useLineLiff";
+
+export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
+  const page = data?.page
+  return [
+    { title: "My Vouchers" },
+    { tagName: "link", rel: "icon", type: "image/x-icon", href: page?.favicon || "/images/favicon.ico" }
+  ];
+};
+
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({ currentParams, nextParams }) => {
+  return !!!_.isEqual(currentParams, nextParams);
+};
+
+export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
+  const { liffId, slug } = params;
+  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
+  return json({
+    page
+  });
+}
 
 const Route = () => {
-  const { page } = useOutletContext<{ page: PageLiff }>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
+  // const { page } = useOutletContext<{ page: PageLiff }>();
+  const { page } = useLoaderData<typeof clientLoader>();
+  const { data: liff } = useLineLiff();
+  const { language } = useLiff({ liffId: page.liff_id });
   const { data: profile, isLoading:isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
@@ -32,7 +58,7 @@ const Route = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white">
-        <Header language={lang}/>
+        {liff?.isInClient() && <Header language={lang}/>}
         <Tabs
           language={lang}
           tabs={tabs}
