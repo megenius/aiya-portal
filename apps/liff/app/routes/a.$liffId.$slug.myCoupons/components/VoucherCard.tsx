@@ -68,7 +68,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 alt={title}
                 className="w-24 object-cover mr-3"
               />
-              <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
+              <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
                 <div className="w-full max-w-36 text-start">
                   <h3 
                     className="font-medium" 
