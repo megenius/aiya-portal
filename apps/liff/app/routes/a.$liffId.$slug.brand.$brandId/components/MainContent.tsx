@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import {
-  ChevronLeft,
-  Search,
-  Users,
-  Ticket,
-} from "lucide-react";
+import { ChevronLeft, Search, Users, Ticket } from "lucide-react";
 import FollowButton from "~/components/FollowButton";
 import { getDirectusFileUrl } from "~/utils/files";
 import VoucherCard from "./VoucherCard";
 import { useNavigate, useParams } from "@remix-run/react";
+import { useBrand } from "~/hooks/brands/useBrand";
+import Loading from "~/components/Loading";
 
-interface MainContentProps {
-}
+interface MainContentProps {}
 
 const MainContent: React.FC<MainContentProps> = () => {
   const navigate = useNavigate();
@@ -19,7 +15,9 @@ const MainContent: React.FC<MainContentProps> = () => {
   const [selectedTab, setSelectedTab] = useState<
     "all" | "popular" | "discount" | "freebie"
   >("all");
-  const { data: brand,isLoading: brandLoading } = useBrand({ id: brandId as string });
+  const { data: brand, isLoading: brandLoading } = useBrand({
+    id: brandId as string,
+  });
 
   // กรองคูปองตามแท็บที่เลือก
   // const filteredCoupons =
@@ -28,16 +26,22 @@ const MainContent: React.FC<MainContentProps> = () => {
   //     : coupons.filter((coupon) => coupon.type === selectedTab);
 
   if (brandLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-10 pt-4 pb-16 bg-primary text-white">
+      <header
+        className="sticky top-0 z-10 pt-4 pb-16 bg-primary text-white"
+        style={{ backgroundColor: brand?.primaryColor ?? undefined }}
+      >
         <div className="px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
-            <button className="mr-2 p-1" onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}>
+            <button
+              className="mr-2 p-1"
+              onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}
+            >
               <ChevronLeft size={24} />
             </button>
             <h1 className="text-lg font-medium">Brand</h1>
@@ -74,11 +78,15 @@ const MainContent: React.FC<MainContentProps> = () => {
                 </div> */}
                 <div className="flex items-center mr-4 mb-2">
                   <Users size={16} className="mr-1 text-gray-500" />
-                  <span className="text-gray-600">
-                    10K Follower
-                  </span>
+                  <span className="text-gray-600">10K Follower</span>
                 </div>
-                <span className="bg-blue-50 text-primary text-xs px-2 py-1 rounded-full mb-2">
+                <span
+                  className="bg-blue-50 text-primary text-xs px-2 py-1 rounded-full mb-2"
+                  style={{
+                    backgroundColor: `${brand?.primaryColor ? brand.primaryColor : undefined}25`,
+                    color: brand?.primaryColor ?? undefined,
+                  }}
+                >
                   Technology
                 </span>
               </div>
@@ -88,12 +96,17 @@ const MainContent: React.FC<MainContentProps> = () => {
               language={"en"}
               onClick={() => {}}
               isFollowed={false}
+              primaryColor={brand?.primaryColor ?? ""}
             />
           </div>
 
           <div className="flex flex-wrap mt-4 pt-4 border-t border-gray-100">
-            <InfoItem icon={<Ticket className="h-4 w-4" />} title="3" subtitle="vouchers" />
-            <InfoItem icon={<StoreIcon />} title="285" subtitle="branches" />
+            <InfoItem
+              icon={<Ticket className="h-4 w-4" />}
+              count={brand?.vouchers.length.toString() ?? '0'}
+              subtitle="vouchers"
+            />
+            <InfoItem icon={<StoreIcon />} count="285" subtitle="branches" />
             {/* <InfoItem icon={<ClockIcon />} title="24 ชม." subtitle="เปิดตลอด" /> */}
           </div>
         </div>
@@ -103,19 +116,25 @@ const MainContent: React.FC<MainContentProps> = () => {
       <div className="sticky top-0 bg-white z-10 px-2 mt-4 shadow-sm">
         <div className="flex overflow-x-auto py-3 scrollbar-hide">
           {[
-            { id: "all", label: "ทั้งหมด" },
-            { id: "popular", label: "ยอดนิยม" },
-            { id: "discount", label: "ส่วนลด" },
-            { id: "freebie", label: "ของแถม" },
+            { id: "all", label: "All" },
+            { id: "popular", label: "Popular" },
+            { id: "discount", label: "Discount" },
+            { id: "freebie", label: "Freebie" },
           ].map((tab) => (
             <button
               key={tab.id}
+              onClick={() => setSelectedTab(tab.id as any)}
               className={`mx-2 px-4 py-2 rounded-lg text-sm whitespace-nowrap font-medium ${
                 selectedTab === tab.id
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-600"
               }`}
-              onClick={() => setSelectedTab(tab.id as any)}
+              style={{
+                backgroundColor:
+                  selectedTab === tab.id
+                    ? (brand?.primaryColor ?? undefined)
+                    : undefined,
+              }}
             >
               {tab.label}
             </button>
@@ -139,7 +158,15 @@ const MainContent: React.FC<MainContentProps> = () => {
       {/* Coupons */}
       <div className="pt-4 px-4 pb-6 space-y-4">
         {brand?.vouchers.map((voucher) => (
-          <VoucherCard key={voucher.id} brand={brand} voucher={voucher} language="en" onClick={() => navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)}/>
+          <VoucherCard
+            key={voucher.id}
+            brand={brand}
+            voucher={voucher}
+            language="en"
+            onClick={() =>
+              navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)
+            }
+          />
           // <div
           //   key={coupon.id}
           //   className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
@@ -237,11 +264,11 @@ const MainContent: React.FC<MainContentProps> = () => {
 // Components
 interface InfoItemProps {
   icon: React.ReactNode;
-  title: string;
+  count: string;
   subtitle: string;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ icon, title, subtitle }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ icon, count: title, subtitle }) => (
   <div className="flex items-center mr-6 mb-1">
     <div className="bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center mr-2">
       {icon}
@@ -251,27 +278,6 @@ const InfoItem: React.FC<InfoItemProps> = ({ icon, title, subtitle }) => (
       <div className="text-xs text-gray-500">{subtitle}</div>
     </div>
   </div>
-);
-
-interface IconProps {
-  size?: number;
-  className?: string;
-}
-
-const BookmarkIcon: React.FC<IconProps> = ({ size = 16, className = "" }) => (
-  <svg
-    width={size}
-    height={size}
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-  </svg>
 );
 
 const StoreIcon: React.FC = () => (

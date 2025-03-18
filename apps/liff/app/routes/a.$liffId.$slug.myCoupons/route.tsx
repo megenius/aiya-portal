@@ -1,13 +1,11 @@
-import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
-import Loading from "~/components/Loading";
 import { useLiff } from "~/hooks/useLiff";
 import { useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import Tabs from "~/components/Tabs";
 import { useState } from "react";
-import VoucherCardShimmer from "./components/VoucherCardShimmer";
+import VoucherCardShimmer from "../../components/VoucherCardShimmer";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 
