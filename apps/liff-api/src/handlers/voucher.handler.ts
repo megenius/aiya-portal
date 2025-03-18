@@ -391,3 +391,28 @@ export const useVoucher = factory.createHandlers(
     return c.json({ collected_by: voucherUser.collected_by });
   }
 );
+
+export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { id } = c.req.param();
+    const directus = c.get("directAdmin");
+
+    const voucherBrand = await directus.request(
+      readItem("vouchers_brands", id, {
+      })
+    );
+    const vouchers = await directus.request(
+      readItems("vouchers", {
+        filter: {
+          voucher_brand_id: {
+            _eq: id,
+          },
+        },
+      })
+    );
+    voucherBrand.vouchers = vouchers;
+    return c.json(voucherBrand);
+  }
+);
