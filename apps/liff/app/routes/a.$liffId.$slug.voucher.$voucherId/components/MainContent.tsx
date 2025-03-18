@@ -4,12 +4,15 @@ import { FieldData, Voucher, VoucherStats } from "~/types/app";
 import Tabs from "../../../components/Tabs";
 import VoucherProgressBar from "./VoucherProgressBar";
 import FormField from "./FormField";
+import FollowButton from "~/components/FollowButton";
+import Header from "./Header";
 
 interface MainContentProps {
   voucher: Voucher;
   codeStats: VoucherStats;
   language: string;
   pageState: string;
+  isFollowed?: boolean;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
@@ -19,6 +22,7 @@ const MainContent: React.FC<MainContentProps> = ({
   codeStats,
   language,
   pageState,
+  isFollowed = false,
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
@@ -32,6 +36,12 @@ const MainContent: React.FC<MainContentProps> = ({
   const [activeTab, setActiveTab] = useState("details");
   // Add formData state to store form values using FieldData type
   const [formData, setFormData] = useState<FieldData[]>([]);
+
+  const [_isFollowed, setIsFollowed] = React.useState(isFollowed || false);
+
+  const handleFollow = () => {
+    setIsFollowed(!_isFollowed);
+  };
 
   // Handle form field changes
   const handleFieldChange = (name: string, value: string) => {
@@ -106,14 +116,23 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <div className="relative w-full" style={{ paddingBottom: "50%" }}>
+        {/* Background Image */}
         <img
-          src={getDirectusFileUrl(voucher?.cover as string)}
+          src={getDirectusFileUrl(voucher?.banner as string)}
           alt={voucher?.id}
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
       </div>
 
-      <h3 className="px-4 pt-3 pb-2 text-lg font-bold block">{title}</h3>
+      <div className="px-4 pt-3 pb-2 space-y-2">
+        {/* <Header
+          language={language}
+          voucher={voucher}
+          color={voucher.voucher_brand_id?.primaryColor ?? ""}
+        /> */}
+
+        <h3 className="text-lg font-bold block">{title}</h3>
+      </div>
 
       {pageState === "landing" && (
         <div className="flex-1 flex flex-col overflow-hidden">

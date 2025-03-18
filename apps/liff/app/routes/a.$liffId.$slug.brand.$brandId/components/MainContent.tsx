@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { ChevronLeft, Search } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
 import VoucherCard from "./VoucherCard";
 import BrandCard from "./BrandCard";
+import Header from "./Header";
 import { Brand } from "~/types/app";
+import { useLineLiff } from "~/hooks/useLineLiff";
 
 interface MainContentProps {
   brand:Brand;
@@ -11,6 +12,7 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ brand,language }) => {
+  const { data : liff } = useLineLiff();
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
   const [selectedTab, setSelectedTab] = useState<
@@ -26,28 +28,10 @@ const MainContent: React.FC<MainContentProps> = ({ brand,language }) => {
   return (
     <>
       {/* Header */}
-      <header
-        className="sticky top-0 z-10 pt-4 pb-16 bg-primary text-white"
-        style={{ backgroundColor: brand?.primaryColor ?? undefined }}
-      >
-        <div className="px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center">
-            <button
-              className="mr-2 p-1"
-              onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <h1 className="text-lg font-medium">{brand?.name}</h1>
-          </div>
-          <button className="p-1">
-            <Search size={20} />
-          </button>
-        </div>
-      </header>
+       <Header brand={brand} isInClient={liff?.isInClient() ?? false} />
 
       {/* Brand Card Component */}
-      {brand && <BrandCard brand={brand} language={language} />}
+      {brand && <BrandCard brand={brand} language={language} isInClient={liff?.isInClient() ?? false} />}
 
       {/* Tab Navigation */}
       <div className="sticky top-0 bg-white z-10 mt-4">

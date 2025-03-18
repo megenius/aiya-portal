@@ -10,6 +10,7 @@ interface HeaderProps {
   voucher?: Voucher;
   color?: string;
   isFollowed?: boolean;
+  isIsClient: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -17,6 +18,7 @@ const Header: React.FC<HeaderProps> = ({
   voucher,
   color,
   isFollowed,
+  isIsClient,
 }) => {
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
@@ -28,11 +30,11 @@ const Header: React.FC<HeaderProps> = ({
     setIsFollowed(!_isFollowed);
   };
   return (
-    <div className="flex items-center justify-between p-4">
+    <div className="flex items-center justify-between px-4 py-3">
       <div className="flex items-center">
-        <button onClick={navigateToBack} className="mr-4">
+        {!isIsClient && <button onClick={navigateToBack} className="mr-4">
           <ArrowLeft className="h-6 w-6" />
-        </button>
+        </button>}
         <div className="flex items-center  space-x-2">
           <img
             src={getDirectusFileUrl(

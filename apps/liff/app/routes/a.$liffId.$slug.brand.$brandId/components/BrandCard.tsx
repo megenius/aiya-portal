@@ -8,9 +8,10 @@ import { Brand } from "~/types/app";
 interface BrandCardProps {
   brand: Brand;
   language: string;
+  isInClient: boolean;
 }
 
-const BrandCard: React.FC<BrandCardProps> = ({ brand, language }) => {
+const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) => {
   const followerText = {
     th: "ผู้ติดตาม",
     en: "Followers",
@@ -25,9 +26,11 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language }) => {
     th: "สาขา",
     en: "Branches",
   };
+  console.log("BrandCard", isInClient);
+  
 
   return (
-    <div className="mx-4 -mt-12 rounded-2xl bg-white shadow-lg overflow-hidden relative z-20">
+    <div className={`mx-4 ${isInClient ? "-mt-16" : "-mt-12"} rounded-2xl bg-white shadow-lg overflow-hidden relative z-20`}>
       <div className="p-5">
         <div className="flex items-start">
           <img

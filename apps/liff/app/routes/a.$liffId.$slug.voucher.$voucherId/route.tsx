@@ -23,6 +23,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import { fetchVoucher } from "~/services/vouchers";
+import { useLineLiff } from "~/hooks/useLineLiff";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -57,6 +58,7 @@ export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page, voucher } = useLoaderData<typeof clientLoader>();
+  const { data: liff } = useLineLiff();
   const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { language } = useLiff({ liffId: page?.liff_id as string });
@@ -189,6 +191,7 @@ const Route = () => {
           language={lang}
           voucher={voucher}
           color={voucher.primaryColor ?? ""}
+          isIsClient={liff?.isInClient() ?? false}
         />
         {codeStats && (
           <MainContent

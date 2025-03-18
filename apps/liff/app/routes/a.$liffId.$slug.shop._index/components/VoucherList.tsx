@@ -18,7 +18,7 @@ const VoucherList: React.FC<VoucherListProps> = ({
     <div className="space-y-2">
       <h3 className="font-medium text-lg px-4">{title}</h3>
       <div
-        className="flex overflow-x-auto pb-2 gap-4 px-4"
+        className="flex overflow-x-auto gap-4 px-4"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
