@@ -1,7 +1,6 @@
 import React from "react";
 import { Ticket } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
-import { th } from "date-fns/locale";
 
 interface VoucherSummaryProps {
   language: string;
@@ -23,7 +22,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   const navigateToMyVouchers = () => {
     console.log("Navigate to My Vouchers");
 
-    navigate(`/a/${liffId}/${slug}/myCoupons`);
+    navigate(`/a/${liffId}/${slug}/myVouchers`);
   };
   const availablePercentage =
     totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;
@@ -49,7 +48,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   }
 
   return (
-    <div className="bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
+    <button onClick={navigateToMyVouchers} className="w-full bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
       <div className="relative p-4">
         <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-10 z-0"></div>
         <div className="absolute left-16 -bottom-16 w-40 h-40 rounded-full bg-white opacity-5 z-0"></div>
@@ -60,7 +59,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
               <Ticket className="text-white h-6 w-6" />
             </div>
             <div className="flex-1">
-              <h3 className="text-white font-medium text-lg">
+              <h3 className="text-start text-white font-medium text-lg">
                 {myVouchersText[language]}
               </h3>
               <div className="flex items-baseline">
@@ -96,15 +95,15 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
               {/* <div className="text-white/70 text-xs">Total saved: {totalSaved}</div> */}
             </div>
           </div>
-          <button
+          {/* <button
             className="w-full bg-white/10 border border-white/20 text-white py-2 rounded-lg flex items-center justify-center font-medium relative z-10"
             onClick={navigateToMyVouchers}
           >
             {viewAllVouchersText[language]}
-          </button>
+          </button> */}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

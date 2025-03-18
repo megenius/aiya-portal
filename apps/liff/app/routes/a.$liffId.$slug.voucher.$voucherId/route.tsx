@@ -1,6 +1,11 @@
-import { useNavigate, useParams } from "@remix-run/react";
+import {
+  json,
+  MetaFunction,
+  ShouldRevalidateFunction,
+  useLoaderData,
+  useNavigate,
+} from "@remix-run/react";
 import { useLiff } from "~/hooks/useLiff";
-import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
@@ -14,18 +19,50 @@ import confetti from "canvas-confetti";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import FullyCollectedModal from "./components/FullyCollectedModal";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import _ from "lodash";
+import { fetchByLiffIdAndSlug } from "~/services/page-liff";
+import { fetchVoucher } from "~/services/vouchers";
+
+export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
+  const page = data?.page;
+  const voucher = data?.voucher;
+  return [
+    { title: voucher?.voucher_brand_id?.name || "Loading..." },
+    {
+      tagName: "link",
+      rel: "icon",
+      type: "image/x-icon",
+      href: page?.favicon || "/images/favicon.ico",
+    },
+  ];
+};
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentParams,
+  nextParams,
+}) => {
+  return !!!_.isEqual(currentParams, nextParams);
+};
+
+export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
+  const { liffId, slug, voucherId } = params;
+  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
+  const voucher = await fetchVoucher({ voucherId });
+  return json({
+    page,
+    voucher,
+  });
+};
 
 const Route = () => {
+  const { page, voucher } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
-  const { liffId, slug, voucherId } = useParams();
-  const { language, isLoggedIn } = useLiff({ liffId: liffId as string });
+  const { language } = useLiff({ liffId: page?.liff_id as string });
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
   const lang = "en";
-  const { data: voucher, isLoading: isVoucherLoading } = useVoucher(
-    voucherId ?? ""
-  );
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
@@ -35,11 +72,11 @@ const Route = () => {
     refetch: refetchCodeStats,
     isRefetching: isCodeStatsRefetching,
   } = useVoucherCodeStats({
-    voucherId: voucherId ?? "",
+    voucherId: voucher.id ?? "",
   });
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
-  const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucherId);
+  const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucher.id);
   const [isCollected, setIsCollected] = useState(Boolean(myVoucher));
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
@@ -87,7 +124,7 @@ const Route = () => {
       return;
     }
     if (isCollected) {
-      navigate(`/a/${liffId}/${slug}/myCoupons`);
+      navigate(`/a/${page.liff_id}/${page.slug}/myCoupons`);
       return;
     }
     if (
@@ -127,7 +164,7 @@ const Route = () => {
             origin: { y: 0.9 },
           });
         },
-        onError: (error) => {
+        onError: () => {
           // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
           setShowFullyCollectedModal(true);
           // }
@@ -137,7 +174,6 @@ const Route = () => {
   };
 
   if (
-    isVoucherLoading &&
     isProfileLoading &&
     isMyVouchersLoading &&
     isCodeStatsLoading &&
