@@ -59,7 +59,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             <img
               src={getDirectusFileUrl(brand?.logo as string) ?? ""}
               alt={brand?.name ?? ""}
-              className="w-20 h-20 rounded-xl mr-4 border-2 border-white shadow-sm"
+              className="w-20 h-20 rounded-xl mr-4 border border-gray-100 shadow-sm"
             />
             <div className="flex-1">
               <div className="flex items-center mb-1">

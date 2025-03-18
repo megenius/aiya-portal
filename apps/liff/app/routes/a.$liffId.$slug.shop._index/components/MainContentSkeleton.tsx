@@ -73,7 +73,7 @@ export const MainContentSkeleton: React.FC = () => {
 
       {/* VoucherList Skeletons */}
       <div className="space-y-2">
-        <div className="h-6 bg-gray-200 rounded w-2/4 animate-pulse mb-2"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-2/4 animate-pulse mb-2"></div>
         <div
           className="flex overflow-x-auto pb-2 gap-4"
           style={{
@@ -97,6 +97,26 @@ export const MainContentSkeleton: React.FC = () => {
                   <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse mb-2"></div>
                   <div className="h-3 bg-gray-200 rounded w-full animate-pulse"></div>
                 </div>
+              </div>
+            ))}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="h-6 bg-gray-200 rounded-lg w-1/4 animate-pulse mb-2"></div>
+        <div
+          className="flex overflow-x-auto pb-2 gap-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {Array(2)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className="space-y-2 flex flex-col justify-center items-center">
+                <div className="w-14 h-14 rounded-full bg-gray-200 animate-pulse shadow-sm"></div>
+
+                <div className="h-4 bg-gray-200 rounded w-14 animate-pulse"></div>
               </div>
             ))}
         </div>
