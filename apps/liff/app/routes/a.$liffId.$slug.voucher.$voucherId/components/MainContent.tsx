@@ -53,30 +53,37 @@ const MainContent: React.FC<MainContentProps> = ({
   useEffect(() => {
     if (pageState === "form" && onFormValidationChange) {
       const requiredFields = voucher?.metadata.form?.fields
-        .filter(field => field.required)
-        .map(field => ({ name: field.name, type: field.type }));
-      
-      const isValid = requiredFields?.every(field => {
-        const fieldData = formData.find(data => data.name === field.name);
-        const value = fieldData?.value;
-        
-        // For telephone fields, require exactly 10 digits
-        if (field.type === 'tel') {
-          return value !== undefined && value.length === 10;
-        }
-        
-        // For other field types, just check if they're non-empty
-        return value !== undefined && value.trim() !== '';
-      }) ?? true;
-      
+        .filter((field) => field.required)
+        .map((field) => ({ name: field.name, type: field.type }));
+
+      const isValid =
+        requiredFields?.every((field) => {
+          const fieldData = formData.find((data) => data.name === field.name);
+          const value = fieldData?.value;
+
+          // For telephone fields, require exactly 10 digits
+          if (field.type === "tel") {
+            return value !== undefined && value.length === 10;
+          }
+
+          // For other field types, just check if they're non-empty
+          return value !== undefined && value.trim() !== "";
+        }) ?? true;
+
       onFormValidationChange(isValid);
     }
-    
+
     // Send form data to parent component when it changes
     if (onFormDataChange) {
       onFormDataChange(formData);
     }
-  }, [formData, pageState, voucher?.metadata.form, onFormValidationChange, onFormDataChange]);
+  }, [
+    formData,
+    pageState,
+    voucher?.metadata.form,
+    onFormValidationChange,
+    onFormDataChange,
+  ]);
 
   const tabs = [
     {
@@ -98,14 +105,14 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="relative w-full" style={{ paddingBottom: '66.66%' }}>
-  <img
-    src={getDirectusFileUrl(voucher?.cover as string)}
-    alt={voucher?.id}
-    className="absolute top-0 left-0 w-full h-full object-cover"
-  />
-</div>
-      
+      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+        <img
+          src={getDirectusFileUrl(voucher?.cover as string)}
+          alt={voucher?.id}
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
+      </div>
+
       <h3 className="p-4 text-lg font-bold block">{title}</h3>
 
       {pageState === "landing" && (
@@ -127,9 +134,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
             <div className="p-4 text-gray-700 overflow-y-auto flex-1">
               {activeTab === "details" && (
-                <p className="whitespace-pre-wrap">
-                  {description}
-                </p>
+                <p className="whitespace-pre-wrap">{description}</p>
               )}
               {activeTab === "conditions" && (
                 <p className="whitespace-pre-wrap">{condition}</p>
@@ -156,7 +161,9 @@ const MainContent: React.FC<MainContentProps> = ({
               type={field.type}
               required={field.required}
               primaryColor={voucher?.primaryColor || ""}
-              value={formData.find(data => data.name === field.name)?.value || ""}
+              value={
+                formData.find((data) => data.name === field.name)?.value || ""
+              }
               onChange={(value) => handleFieldChange(field.name, value)}
               name={field.name}
             />
