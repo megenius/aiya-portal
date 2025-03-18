@@ -119,7 +119,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {[...Array(10)].map((_, i) => (
             <div
               key={`left-perf-${i}`}
-              className="absolute w-2 h-2 bg-white border-r border-gray-400 rounded-full -translate-x-1"
+              className="absolute w-2 h-2 bg-gray-50 border-r border-gray-400 rounded-full -translate-x-1"
               style={{ top: `${(i * 100) / 10}%` }}
             />
           ))}
