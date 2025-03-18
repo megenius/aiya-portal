@@ -98,11 +98,14 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <img
-        src={getDirectusFileUrl(voucher?.cover as string)}
-        alt={voucher?.id}
-        className="w-full h-56 object-cover"
-      />
+      <div className="relative w-full" style={{ paddingBottom: '75%' }}>
+  <img
+    src={getDirectusFileUrl(voucher?.cover as string)}
+    alt={voucher?.id}
+    className="absolute top-0 left-0 w-full h-full object-cover"
+  />
+</div>
+      
       <h3 className="p-4 text-lg font-bold block">{title}</h3>
 
       {pageState === "landing" && (

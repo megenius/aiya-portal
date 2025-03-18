@@ -1,6 +1,8 @@
 import React from "react";
 import { getDirectusFileUrl } from "~/utils/files";
 import { Brand, Voucher } from "~/types/app";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 interface VoucherCardProps {
   brand: Brand;
@@ -25,20 +27,10 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   language,
 }) => {
   const title = voucher.metadata.title[language];
-  const voucherText = {
-    collected: {
-      th: "แตะเพื่อใช้คูปอง",
-      en: "Tap to redeem",
-    },
-    used: {
-      th: "ใช้แล้ว",
-      en: "Redeemed",
-    },
-    expired: {
-      th: "หมดอายุแล้ว",
-      en: "Expired",
-    },
-  };
+  const validUntilText = {
+    th: "ใช้ได้ถึง",
+    en: "Valid Until",
+  }
 
   return (
     <div className="w-full">
@@ -83,6 +75,14 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                         ][language]}
                   </span>
                 </div> */}
+                <div className={`flex items-center gap-2 text-xs text-gray-600`}>
+                  <span 
+                    className="flex-1 text-start" 
+                    style={textTruncateStyle}
+                  >
+                    {validUntilText[language]}: {format(new Date(voucher.end_date as string), 'dd MMM yyyy', { locale: language === "th" ? th : undefined })}
+                  </span>
+                </div>
               </div>
           </div>
 
@@ -119,7 +119,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {[...Array(10)].map((_, i) => (
             <div
               key={`left-perf-${i}`}
-              className="absolute w-2 h-2 bg-gray-50 border-r border-gray-400 rounded-full -translate-x-1"
+              className="absolute w-2 h-2 bg-white border-r border-gray-400 rounded-full -translate-x-1"
               style={{ top: `${(i * 100) / 10}%` }}
             />
           ))}

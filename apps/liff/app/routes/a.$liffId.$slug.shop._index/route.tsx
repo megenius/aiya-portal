@@ -5,11 +5,11 @@ import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
-import { HeaderSkeleton } from "./components/HeaderSkeleton";
+import { HeaderSkeleton } from "./components/SkeletonLoad/HeaderSkeleton";
 import { useBrands } from "~/hooks/brands/useBrands";
 import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import Header from "./components/Header";
-import { MainContentSkeleton } from "./components/MainContentSkeleton";
+import { MainContentSkeleton } from "./components/SkeletonLoad/MainContentSkeleton";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();

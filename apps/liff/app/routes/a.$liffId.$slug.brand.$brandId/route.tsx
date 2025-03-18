@@ -16,7 +16,7 @@ const BrandDetailRoute = () => {
     <>
       {page?.liff_id && (
         <>
-          <MainContent />
+          <MainContent language={lang} />
         </>
       )}
     </>

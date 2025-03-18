@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { ChevronLeft, Search, Users, Ticket } from "lucide-react";
+import { ChevronLeft, Search, Users, Ticket, Store } from "lucide-react";
 import FollowButton from "~/components/FollowButton";
 import { getDirectusFileUrl } from "~/utils/files";
 import VoucherCard from "./VoucherCard";
 import { useNavigate, useParams } from "@remix-run/react";
 import { useBrand } from "~/hooks/brands/useBrand";
 import Loading from "~/components/Loading";
+import InfoItem from "./InfoItem";
 
-interface MainContentProps {}
+interface MainContentProps {
+  language: string;
+}
 
-const MainContent: React.FC<MainContentProps> = () => {
+const MainContent: React.FC<MainContentProps> = ({language}) => {
   const navigate = useNavigate();
   const { liffId, slug, brandId } = useParams();
   const [selectedTab, setSelectedTab] = useState<
@@ -18,6 +21,19 @@ const MainContent: React.FC<MainContentProps> = () => {
   const { data: brand, isLoading: brandLoading } = useBrand({
     id: brandId as string,
   });
+
+  const followerText = {
+    th: "ผู้ติดตาม",
+    en: "Followers",
+  };
+  const vouchersText = {
+    th: "คูปอง",
+    en: "Vouchers",
+  };
+  const branchesText = {
+    th: "สาขา",
+    en: "Branches",
+  };
 
   // กรองคูปองตามแท็บที่เลือก
   // const filteredCoupons =
@@ -44,7 +60,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             >
               <ChevronLeft size={24} />
             </button>
-            <h1 className="text-lg font-medium">Brand</h1>
+            <h1 className="text-lg font-medium">{brand?.name}</h1>
           </div>
           <button className="p-1">
             <Search size={20} />
@@ -64,11 +80,6 @@ const MainContent: React.FC<MainContentProps> = () => {
             <div className="flex-1">
               <div className="flex items-center mb-1">
                 <h2 className="font-bold text-xl mr-2">{brand?.name}</h2>
-                {/* {brand.verified && (
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center bg-primary">
-                    <CheckCircle size={14} className="text-white" />
-                  </div>
-                )} */}
               </div>
 
               <div className="flex flex-wrap items-center text-sm mt-1">
@@ -78,7 +89,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 </div> */}
                 <div className="flex items-center mr-4 mb-2">
                   <Users size={16} className="mr-1 text-gray-500" />
-                  <span className="text-gray-600">10K Follower</span>
+                  <span className="text-gray-600">10K {followerText[language]}</span>
                 </div>
                 <span
                   className="bg-blue-50 text-primary text-xs px-2 py-1 rounded-full mb-2"
@@ -104,9 +115,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             <InfoItem
               icon={<Ticket className="h-4 w-4" />}
               count={brand?.vouchers.length.toString() ?? '0'}
-              subtitle="vouchers"
+              subtitle={vouchersText[language]}
             />
-            <InfoItem icon={<StoreIcon />} count="285" subtitle="branches" />
+            <InfoItem icon={<Store className="h-4 w-4" />} count="285" subtitle={branchesText[language]} />
             {/* <InfoItem icon={<ClockIcon />} title="24 ชม." subtitle="เปิดตลอด" /> */}
           </div>
         </div>
@@ -156,13 +167,13 @@ const MainContent: React.FC<MainContentProps> = () => {
       </div> */}
 
       {/* Coupons */}
-      <div className="pt-4 px-4 pb-6 space-y-4">
+      <div className="pt-4 px-4 pb-6 space-y-4 ">
         {brand?.vouchers.map((voucher) => (
           <VoucherCard
             key={voucher.id}
             brand={brand}
             voucher={voucher}
-            language="en"
+            language={language}
             onClick={() =>
               navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)
             }
@@ -260,42 +271,5 @@ const MainContent: React.FC<MainContentProps> = () => {
     </>
   );
 };
-
-// Components
-interface InfoItemProps {
-  icon: React.ReactNode;
-  count: string;
-  subtitle: string;
-}
-
-const InfoItem: React.FC<InfoItemProps> = ({ icon, count: title, subtitle }) => (
-  <div className="flex items-center mr-6 mb-1">
-    <div className="bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center mr-2">
-      {icon}
-    </div>
-    <div>
-      <div className="font-bold text-sm">{title}</div>
-      <div className="text-xs text-gray-500">{subtitle}</div>
-    </div>
-  </div>
-);
-
-const StoreIcon: React.FC = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
-    <path d="M3 9V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4"></path>
-    <path d="M9 14v2"></path>
-    <path d="M15 12v4"></path>
-  </svg>
-);
 
 export default MainContent;
