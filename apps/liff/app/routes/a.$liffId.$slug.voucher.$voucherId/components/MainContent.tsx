@@ -113,7 +113,7 @@ const MainContent: React.FC<MainContentProps> = ({
         />
       </div>
 
-      <h3 className="p-4 text-lg font-bold block">{title}</h3>
+      <h3 className="px-4 pt-3 pb-2 text-lg font-bold block">{title}</h3>
 
       {pageState === "landing" && (
         <div className="flex-1 flex flex-col overflow-hidden">
