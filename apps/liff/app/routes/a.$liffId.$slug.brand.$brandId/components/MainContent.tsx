@@ -19,6 +19,7 @@ const MainContent: React.FC<MainContentProps> = () => {
   const [selectedTab, setSelectedTab] = useState<
     "all" | "popular" | "discount" | "freebie"
   >("all");
+  const { data: brand,isLoading: brandLoading } = useBrand({ id: brandId as string });
 
   // กรองคูปองตามแท็บที่เลือก
   // const filteredCoupons =
@@ -26,13 +27,17 @@ const MainContent: React.FC<MainContentProps> = () => {
   //     ? coupons
   //     : coupons.filter((coupon) => coupon.type === selectedTab);
 
+  if (brandLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       {/* Header */}
       <header className="sticky top-0 z-10 pt-4 pb-16 bg-primary text-white">
         <div className="px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
-            <button className="mr-2 p-1">
+            <button className="mr-2 p-1" onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}>
               <ChevronLeft size={24} />
             </button>
             <h1 className="text-lg font-medium">Brand</h1>
@@ -48,13 +53,13 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="p-5">
           <div className="flex items-start">
             <img
-              src={getDirectusFileUrl("741371bb-860e-4db0-b246-366ab6006326")}
-              alt={"123"}
+              src={getDirectusFileUrl(brand?.logo as string) ?? ""}
+              alt={brand?.name ?? ""}
               className="w-20 h-20 rounded-xl mr-4 border-2 border-white shadow-sm"
             />
             <div className="flex-1">
               <div className="flex items-center mb-1">
-                <h2 className="font-bold text-xl mr-2">AIYA</h2>
+                <h2 className="font-bold text-xl mr-2">{brand?.name}</h2>
                 {/* {brand.verified && (
                   <div className="w-5 h-5 rounded-full flex items-center justify-center bg-primary">
                     <CheckCircle size={14} className="text-white" />
@@ -133,8 +138,8 @@ const MainContent: React.FC<MainContentProps> = () => {
 
       {/* Coupons */}
       <div className="pt-4 px-4 pb-6 space-y-4">
-        {filteredCoupons.map((coupon) => (
-          <VoucherCard key={coupon.id} voucher={coupon} language="en" onClick={() => navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)}/>
+        {brand?.vouchers.map((voucher) => (
+          <VoucherCard key={voucher.id} brand={brand} voucher={voucher} language="en" onClick={() => navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)}/>
           // <div
           //   key={coupon.id}
           //   className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"

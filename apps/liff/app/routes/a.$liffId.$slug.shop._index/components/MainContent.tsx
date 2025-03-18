@@ -6,6 +6,7 @@ import { Brand, Voucher, VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import SearchBar from "./SearchBar";
 import CategoryList from "./CategoryList";
+import { useNavigate } from "@remix-run/react";
 
 interface MainContentProps {
   page: PageLiff;
@@ -22,6 +23,7 @@ const MainContent: React.FC<MainContentProps> = ({
   vouchers,
   brands,
 }) => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const brandText = {
     th: "แบรนด์",
@@ -74,8 +76,9 @@ const MainContent: React.FC<MainContentProps> = ({
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {brands?.map((brand) => (
-            <div
+            <button
               key={brand.id}
+              onClick={() => navigate(`/a/${page.liff_id}/${page.slug}/brand/${brand.id}`)}
               className="flex flex-col items-center gap-1 min-w-16"
             >
               <div className="w-14 h-14 rounded-full border border-gray-200 p-0.5">
@@ -91,7 +94,7 @@ const MainContent: React.FC<MainContentProps> = ({
               <span className="text-xs text-gray-700 text-center">
                 {brand.name}
               </span>
-            </div>
+            </button>
           ))}
         </div>
       </div>

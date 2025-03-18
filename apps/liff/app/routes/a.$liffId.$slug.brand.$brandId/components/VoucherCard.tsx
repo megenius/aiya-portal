@@ -1,8 +1,9 @@
 import React from "react";
 import { getDirectusFileUrl } from "~/utils/files";
-import { Voucher } from "~/types/app";
+import { Brand, Voucher } from "~/types/app";
 
 interface VoucherCardProps {
+  brand: Brand;
   voucher: Voucher;
   onClick: (voucherId: string) => void;
   language: string;
@@ -18,6 +19,7 @@ const textTruncateStyle = {
 };
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
+  brand,
   voucher,
   onClick,
   language,
@@ -60,7 +62,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                     className="font-medium" 
                     style={textTruncateStyle}
                   >
-                    {voucher.voucher_brand_id?.name}
+                    {brand.name}
                   </h3>
                   <h4 
                     className="text-sm text-gray-600" 
@@ -96,13 +98,13 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                   className="text-base font-medium w-24" 
                   style={textTruncateStyle}
                 >
-                  {voucher.voucher_brand_id?.name}
+                  {brand.name}
                 </p>
                 <img
                   src={getDirectusFileUrl(
-                    (voucher?.voucher_brand_id?.logo as string) ?? ""
+                    (brand.logo as string) ?? ""
                   )}
-                  alt={voucher?.voucher_brand_id?.name ?? ""}
+                  alt={brand.name ?? ""}
                   className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
                 />
                 {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
