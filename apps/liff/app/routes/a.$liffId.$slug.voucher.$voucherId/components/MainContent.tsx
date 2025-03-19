@@ -115,59 +115,61 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="relative w-full" style={{ paddingBottom: "50%" }}>
-        {/* Background Image */}
-        <img
-          src={getDirectusFileUrl(voucher?.banner as string)}
-          alt={voucher?.id}
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        />
-      </div>
+      {pageState === "landing" && (
+        <>
+          <div className="relative w-full" style={{ paddingBottom: "50%" }}>
+            {/* Background Image */}
+            <img
+              src={getDirectusFileUrl(voucher?.banner as string)}
+              alt={voucher?.id}
+              className="absolute top-0 left-0 w-full h-full object-cover"
+            />
+          </div>
 
-      <div className="px-4 pt-3 pb-2 space-y-2">
-        {/* <Header
+          <div className="px-4 pt-3 pb-2 space-y-2">
+            {/* <Header
           language={language}
           voucher={voucher}
           color={voucher.voucher_brand_id?.primaryColor ?? ""}
         /> */}
 
-        <h3 className="text-lg font-bold block">{title}</h3>
-      </div>
+            <h3 className="text-lg font-bold block">{title}</h3>
+          </div>
 
-      {pageState === "landing" && (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <VoucherProgressBar
-            totalVouchers={codeStats?.total}
-            availableVouchers={codeStats?.available}
-            language={language}
-            primaryColor={voucher?.primaryColor || ""}
-          />
-          <div className="mt-4 flex-1 flex flex-col overflow-hidden">
-            <Tabs
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <VoucherProgressBar
+              totalVouchers={codeStats?.total}
+              availableVouchers={codeStats?.available}
               language={language}
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
               primaryColor={voucher?.primaryColor || ""}
             />
+            <div className="mt-4 flex-1 flex flex-col overflow-hidden">
+              <Tabs
+                language={language}
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                primaryColor={voucher?.primaryColor || ""}
+              />
 
-            <div className="p-4 text-gray-700 overflow-y-auto flex-1">
-              {activeTab === "details" && (
-                <p className="whitespace-pre-wrap">{description}</p>
-              )}
-              {activeTab === "conditions" && (
-                <p className="whitespace-pre-wrap">{condition}</p>
-              )}
-              {/* {activeTab === "locations" && (
+              <div className="p-4 text-gray-700 overflow-y-auto flex-1">
+                {activeTab === "details" && (
+                  <p className="whitespace-pre-wrap">{description}</p>
+                )}
+                {activeTab === "conditions" && (
+                  <p className="whitespace-pre-wrap">{condition}</p>
+                )}
+                {/* {activeTab === "locations" && (
                 <ul className="space-y-2">
                   <li>• สาขาเซ็นทรัลเวิลด์ ชั้น 7</li>
                   <li>• สาขาสยามพารากอน ชั้น 4</li>
                   <li>• สาขาเอ็มควอเทียร์ ชั้น 5</li>
                 </ul>
               )} */}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {pageState === "form" && (
