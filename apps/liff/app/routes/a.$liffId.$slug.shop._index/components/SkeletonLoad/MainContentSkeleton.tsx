@@ -42,7 +42,7 @@ export const MainContentSkeleton: React.FC = () => {
                   <div className="h-3 w-20 bg-white/30 rounded animate-pulse"></div>
                 </div>
               </div>
-              <div className="w-full h-10 bg-white/10 border border-white/20 rounded-lg animate-pulse"></div>
+              {/* <div className="w-full h-10 bg-white/10 border border-white/20 rounded-lg animate-pulse"></div> */}
             </div>
           </div>
         </div>

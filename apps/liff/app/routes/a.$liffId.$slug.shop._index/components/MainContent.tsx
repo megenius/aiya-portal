@@ -6,7 +6,6 @@ import { Brand, Voucher, VoucherStats } from "~/types/app";
 import SearchBar from "./SearchBar";
 import CategoryList from "./CategoryList";
 import BrandList from "./BrandList";
-import { se } from "date-fns/locale";
 
 interface MainContentProps {
   page: PageLiff;
