@@ -141,7 +141,7 @@ const MainContent: React.FC<MainContentProps> = ({
               totalVouchers={codeStats?.total}
               availableVouchers={codeStats?.available}
               language={language}
-              primaryColor={voucher?.primaryColor || ""}
+              primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
             />
             <div className="mt-4 flex-1 flex flex-col overflow-hidden">
               <Tabs
@@ -149,7 +149,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 tabs={tabs}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
-                primaryColor={voucher?.primaryColor || ""}
+                primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
               />
 
               <div className="p-4 text-gray-700 overflow-y-auto flex-1">
@@ -181,7 +181,7 @@ const MainContent: React.FC<MainContentProps> = ({
               label={field.label[language]}
               type={field.type}
               required={field.required}
-              primaryColor={voucher?.primaryColor || ""}
+              primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
               value={
                 formData.find((data) => data.name === field.name)?.value || ""
               }

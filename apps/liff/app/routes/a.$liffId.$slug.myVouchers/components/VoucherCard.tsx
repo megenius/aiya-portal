@@ -111,7 +111,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {/* Tear-off section (right side) */}
           <div
             className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
-            style={{ backgroundColor: voucher.primaryColor || undefined }}
+            style={{ backgroundColor: voucher.voucher_brand_id.primaryColor || undefined }}
           >
             <div className="transform -rotate-90">
               <div className="text-center space-y-2 overflow-hidden">

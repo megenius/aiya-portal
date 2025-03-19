@@ -126,7 +126,7 @@ const Route = () => {
       return;
     }
     if (isCollected) {
-      navigate(`/a/${page.liff_id}/${page.slug}/myCoupons`);
+      navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
       return;
     }
     if (
@@ -190,7 +190,7 @@ const Route = () => {
         <Header
           language={lang}
           voucher={voucher}
-          color={voucher.primaryColor ?? ""}
+          color={voucher.voucher_brand_id.primaryColor ?? ""}
           isIsClient={liff?.isInClient() ?? false}
         />
         {codeStats && (
@@ -204,7 +204,7 @@ const Route = () => {
           />
         )}
         <Footer
-          color={voucher.primaryColor ?? ""}
+          color={voucher.voucher_brand_id.primaryColor ?? ""}
           buttonText={buttonText[status][lang]}
           status={status}
           onClick={handleSubmit}
@@ -218,7 +218,7 @@ const Route = () => {
             refetchCodeStats();
           }}
           language={lang}
-          primaryColor={voucher.primaryColor ?? ""}
+          primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
         />
       </div>
     )
