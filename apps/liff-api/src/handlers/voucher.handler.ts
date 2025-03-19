@@ -318,7 +318,7 @@ export const getStatVoucherUser = factory.createHandlers(
       })
     );
 
-    const grouped = _..groupBy(voucherCodes, "code_status");
+    const grouped = _.groupBy(voucherCodes, "code_status");
     const allStatuses = ["available", "collected", "expired", "used", "reserved"];
     const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
 
