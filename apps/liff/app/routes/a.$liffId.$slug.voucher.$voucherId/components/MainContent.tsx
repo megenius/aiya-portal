@@ -4,15 +4,12 @@ import { FieldData, Voucher, VoucherStats } from "~/types/app";
 import Tabs from "../../../components/Tabs";
 import VoucherProgressBar from "./VoucherProgressBar";
 import FormField from "./FormField";
-import FollowButton from "~/components/FollowButton";
-import Header from "./Header";
 
 interface MainContentProps {
   voucher: Voucher;
   codeStats: VoucherStats;
   language: string;
   pageState: string;
-  isFollowed?: boolean;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
@@ -22,7 +19,6 @@ const MainContent: React.FC<MainContentProps> = ({
   codeStats,
   language,
   pageState,
-  isFollowed = false,
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
@@ -36,12 +32,6 @@ const MainContent: React.FC<MainContentProps> = ({
   const [activeTab, setActiveTab] = useState("details");
   // Add formData state to store form values using FieldData type
   const [formData, setFormData] = useState<FieldData[]>([]);
-
-  const [_isFollowed, setIsFollowed] = React.useState(isFollowed || false);
-
-  const handleFollow = () => {
-    setIsFollowed(!_isFollowed);
-  };
 
   // Handle form field changes
   const handleFieldChange = (name: string, value: string) => {
