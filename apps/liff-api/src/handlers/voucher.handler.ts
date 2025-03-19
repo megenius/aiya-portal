@@ -146,19 +146,26 @@ export const createVoucherCode = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { voucher_id } = await c.req.json();
+    const { voucher_id, count = 1 } = await c.req.json();
     const directus = c.get("directAdmin");
 
-    const code = nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, ''); // Generate a random code with 12 uppercase letters and numbers
-
-    const data = await directus.request(
-      createItem("vouchers_codes", {
-        voucher: voucher_id,
-        code,
-        status: "draft",
-        code_status: "available",
-      })
+    const codes = Array.from({ length: count }, () => 
+      nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, '')
     );
+
+    const data = await Promise.all(
+      codes.map(code => 
+        directus.request(
+          createItem("vouchers_codes", {
+            voucher: voucher_id,
+            code,
+            status: "draft",
+            code_status: "available",
+          })
+        )
+      )
+    );
+
     return c.json(data);
   }
 );
@@ -311,7 +318,7 @@ export const getStatVoucherUser = factory.createHandlers(
       })
     );
 
-    const grouped = _.groupBy(voucherCodes, "code_status");
+    const grouped = _..groupBy(voucherCodes, "code_status");
     const allStatuses = ["available", "collected", "expired", "used", "reserved"];
     const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
 
