@@ -36,7 +36,7 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
           <img
             src={getDirectusFileUrl(brand?.logo as string) ?? ""}
             alt={brand?.name ?? ""}
-            className="w-20 h-20 rounded-xl mr-4 border border-gray-100 shadow-sm"
+            className="w-20 h-20 object-cover rounded-xl mr-4 border border-gray-100 shadow-sm"
           />
           <div className="flex-1">
             <div className="flex items-center mb-1">

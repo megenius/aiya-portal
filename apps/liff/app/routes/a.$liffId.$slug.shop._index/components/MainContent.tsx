@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { PageLiff } from "~/types/page";
+import { Category, PageLiff } from "~/types/page";
 import VoucherSummary from "./VoucherSummary";
 import VoucherList from "./VoucherList";
 import { Brand, Voucher, VoucherStats } from "~/types/app";
 import SearchBar from "./SearchBar";
 import CategoryList from "./CategoryList";
 import BrandList from "./BrandList";
+import { se } from "date-fns/locale";
 
 interface MainContentProps {
   page: PageLiff;
@@ -22,10 +23,39 @@ const MainContent: React.FC<MainContentProps> = ({
   vouchers,
   brands,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  let categories = page?.metadata?.categories;
+  categories?.unshift({
+    id: "0",
+    name: {
+      th: "ทั้งหมด",
+      en: "All",
+    },
+    image: "https://cdn.sable.asia/automix/home.png",
+    icon: "🏠",
+  });
+  categories = Array.from(new Map(categories.map(c => [c.id, c])).values());
+  const [selectedCategory, setSelectedCategory] = useState<Category>(categories[0]);
   const popularVouchersText = {
     th: "คูปองยอดนิยม",
     en: "Popular Vouchers",
+  };
+  
+
+  const filterVouchers = () => {
+    if (selectedCategory.name.en === "All") return vouchers;
+    return vouchers?.filter(
+      (voucher) =>
+        voucher.voucher_brand_id?.metadata?.category.name.en ===
+        selectedCategory.name.en
+    );
+  };
+
+  const filterBrands = () => {
+    if (selectedCategory.name.en === "All") return brands;
+    return brands?.filter(
+      (brand) =>
+        brand.metadata.category?.name.en === selectedCategory.name.en
+    );
   };
 
   return (
@@ -42,18 +72,37 @@ const MainContent: React.FC<MainContentProps> = ({
       {page?.metadata?.layout?.showCategory && (
         <CategoryList
           language={language}
-          categories={page?.metadata?.categories}
+          categories={categories}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
         />
       )}
       <VoucherList
-        vouchers={vouchers ?? []}
+        vouchers={filterVouchers() ?? []}
         language={language}
-        title={popularVouchersText[language]}
+        title={
+          selectedCategory.name.en === "All"
+            ? popularVouchersText[language]
+            : selectedCategory.name[language]
+        }
       />
 
-      <BrandList brands={brands} page={page} language={language} />
+      <BrandList brands={filterBrands()} page={page} language={language} />
+
+      { selectedCategory.name.en === "All" && (
+        categories?.slice(1).map((category) => (
+         <VoucherList
+            key={category.id}
+            vouchers={vouchers?.filter(
+              (voucher) =>
+                voucher.voucher_brand_id?.metadata?.category.name.en ===
+                category.name.en
+            ) ?? []}
+            language={language}
+            title={category.name[language]}
+          />
+        ))
+      )}
     </div>
   );
 };

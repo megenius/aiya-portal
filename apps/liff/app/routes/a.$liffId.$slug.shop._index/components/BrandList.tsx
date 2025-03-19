@@ -21,7 +21,7 @@ const BrandList: React.FC<BrandListProps> = ({ brands, page, language }) => {
     <div className="space-y-2">
       <h3 className="px-4 text-lg font-medium">{brandText[language]}</h3>
       <div
-        className="flex overflow-x-auto gap-3 px-4"
+        className="flex overflow-x-auto overflow-y-hidden gap-3 px-4"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {brands.map((brand) => (

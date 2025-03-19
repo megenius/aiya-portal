@@ -12,10 +12,10 @@ interface BrandMetadata {
 }
 
 export type Voucher = Omit<
-  components["schemas"]["ItemsVouchers"],
-  "metadata"
+  components["schemas"]["ItemsVouchers"], "metadata" | "voucher_brand_id"
 > & {
   metadata: VoucherMetadata;
+  voucher_brand_id: Brand;
 };
 
 export type VoucherCode = Omit<
