@@ -25,10 +25,7 @@ export const useLiff = ({ liffId }: UseLiffProps) => {
           const redirectUri = window.location.href;
           liff.login({ redirectUri });
         } else {
-          const detectedLang = liff.getLanguage();
-          const profile = await liff.getProfile();
-          const uuid = profile.userId;  
-          console.log("LIFF UUID:", uuid);
+          const detectedLang = liff.getAppLanguage();
           
           setLanguage(detectedLang);
           console.log("Detected language:", detectedLang);

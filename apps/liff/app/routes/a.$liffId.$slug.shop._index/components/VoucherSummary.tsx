@@ -20,8 +20,6 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   const { liffId,slug } = useParams();
   const navigate = useNavigate();
   const navigateToMyVouchers = () => {
-    console.log("Navigate to My Vouchers");
-
     navigate(`/a/${liffId}/${slug}/myVouchers`);
   };
   const availablePercentage =
