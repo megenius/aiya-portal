@@ -17,7 +17,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
 
   return (
     <div
-      className="px-4 flex overflow-x-auto whitespace-nowrap"
+      className="px-4 flex overflow-x-auto overflow-y-hidden whitespace-nowrap"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
       {/* All category button */}
