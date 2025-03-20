@@ -21,6 +21,9 @@ export default ({ mode }) => {
       tsconfigPaths(),
     ],
     server: {
+      hmr: {
+        overlay: false
+      },
       port: PORT ? Number(PORT) : 4000,
       proxy: {
         "/api/bots": getEndpoint("http://localhost:14101", ""),
@@ -29,7 +32,6 @@ export default ({ mode }) => {
         "/api/aws": getEndpoint("http://localhost:14103", ""),
         "/api/customers": getEndpoint("http://localhost:14106", ""),
         "/api/followers": getEndpoint("http://localhost:14106", ""),
-
         "/api/shops": getEndpoint("http://localhost:14107", ""),
         "/api/partners": getEndpoint("http://localhost:14108", ""),
         "/api/ai": getEndpoint("http://localhost:14109", ""),
