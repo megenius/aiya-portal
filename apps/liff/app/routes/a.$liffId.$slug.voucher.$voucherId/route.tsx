@@ -140,6 +140,7 @@ const Route = () => {
     const collectVoucherData: CollectVoucher = {
       voucher: voucher?.id as string,
       collected_by: profile?.userId as string,
+      channel: page?.channel as string,
     };
 
     await collectVoucher.mutateAsync(

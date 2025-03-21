@@ -60,6 +60,7 @@ export const collectVoucher = factory.createHandlers(
       utm_campaign,
       voucher,
       collected_by,
+      channel,
       duration_days,
       end_date,
     } = await c.req.json();
@@ -118,6 +119,7 @@ export const collectVoucher = factory.createHandlers(
         collected_by,
         collected_date: new Date().toISOString(),
         code: voucherCode.code,
+        channel,
         utm_source,
         utm_medium,
         utm_campaign,

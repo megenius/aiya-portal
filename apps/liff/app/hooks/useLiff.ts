@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import liff from "@line/liff";
-import { useParams } from "@remix-run/react";
 
 interface UseLiffProps {
   liffId: string;

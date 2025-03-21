@@ -1,25 +1,30 @@
+import { components } from "./directus";
 import { language } from "./app";
 
-export interface PageLiff {
-  id: string;
-  status: string;
-  sort: any;
-  user_created: string;
-  date_created: string;
-  user_updated: string;
-  date_updated: string;
-  slug: string;
-  team: string;
-  liff_id: string;
-  image: string;
+// export interface PageLiff {
+//   id: string;
+//   status: string;
+//   sort: any;
+//   user_created: string;
+//   date_created: string;
+//   user_updated: string;
+//   date_updated: string;
+//   slug: string;
+//   team: string;
+//   liff_id: string;
+//   image: string;
+//   metadata: Metadata;
+//   fore_color: string;
+//   bg_color: any;
+//   name: string;
+//   content: string;
+//   require_login: number;
+//   favicon: string;
+// }
+
+export type PageLiff = Omit<components["schemas"]["ItemsPagesLiff"], "metadata"> & {
   metadata: Metadata;
-  fore_color: string;
-  bg_color: any;
-  name: string;
-  content: string;
-  require_login: number;
-  favicon: string;
-}
+};
 
 export interface Metadata {
   btnTextTH: string;

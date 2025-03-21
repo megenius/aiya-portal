@@ -74,4 +74,5 @@ export interface language {
 export interface CollectVoucher {
   voucher: string;
   collected_by: string;
+  channel: string;
 }
