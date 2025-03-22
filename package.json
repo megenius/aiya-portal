@@ -11,7 +11,7 @@
     "gongtunnel": "cloudflared tunnel run 633c7adc-d0b5-4d1d-a538-87a1d7c35559"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.14",
+    "@tailwindcss/postcss": "^4.0.15",
     "autoprefixer": "^10.4.21",
     "local-ssl-proxy": "^2.0.5",
     "postcss": "^8.5.3",
