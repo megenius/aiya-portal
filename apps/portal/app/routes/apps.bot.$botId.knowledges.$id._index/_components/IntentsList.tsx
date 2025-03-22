@@ -43,7 +43,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ bot, knowledgeId, intents, se
   }, [location.pathname, search]);
 
   return (
-    <div className="p-5 space-y-4 flex flex-col bg-white border border-stone-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="p-5 space-y-4 flex flex-col bg-white border border-stone-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
       <Filters onSearchChanged={handleSearchChange} />
       <div className="overflow-x-auto">
         <div className="hs-accordion-group">

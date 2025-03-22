@@ -33,7 +33,7 @@ const DateBarChart: React.FC<DateBarChartProps> = ({ title, data = [] }) => {
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                      <div className="bg-white border border-gray-200 rounded-lg shadow-xs p-4">
                         <p className="text-sm font-medium text-gray-800">{label}</p>
                         <p className="text-sm text-indigo-600">
                           Conversations: {payload[0].value}

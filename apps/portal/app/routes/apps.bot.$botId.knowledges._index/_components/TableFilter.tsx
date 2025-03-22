@@ -24,7 +24,7 @@ const SendInviteButton: React.FC = () => {
   return (
     <button
       type="button"
-      className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
       data-hs-overlay="#hs-pro-dshm"
     >
       <span className="hidden sm:block">Send</span>Invite
@@ -36,10 +36,10 @@ const DownloadCSVButton: React.FC = () => {
   return (
     <button
       type="button"
-      className="p-2.5 sm:py-2 sm:px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+      className="p-2.5 sm:py-2 sm:px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
     >
       <svg
-        className="flex-shrink-0 sm:me-2 size-4"
+        className="shrink-0 sm:me-2 size-4"
         xmlns="http://www.w3.org/2000/svg"
         width={24}
         height={24}

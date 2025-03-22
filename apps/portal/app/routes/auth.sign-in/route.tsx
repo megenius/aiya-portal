@@ -79,11 +79,11 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="flex flex-col sm:flex-row gap-2">
           <button
             type="button"
-            className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+            className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50"
             onClick={signInWithGoogle}
           >
             <svg
-              className="shrink-0 size-4"
+              className="shrink-0 w-4 h-4"
               width={33}
               height={32}
               viewBox="0 0 33 32"
@@ -123,7 +123,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           </button>
           <button
             type="button"
-            className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+            className="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50"
             onClick={signInWithLine}
           >
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
@@ -131,9 +131,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             </svg>
             {t("auth.login.sign_in_with.line")}
           </button>
-          <button
+          {/* <button
             type="button"
-            className="hidden py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+            className="hidden py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50"
           >
             <svg
               className="shrink-0 size-4"
@@ -150,7 +150,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               />
             </svg>
             {t("auth.login.sign_in_with.apple")}
-          </button>
+          </button> */}
         </div>
         {/* End Button Group */}
         <div className="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
@@ -183,7 +183,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   {t("auth.login.password")}
                 </label>
                 <a
-                  className="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline"
+                  className="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-hidden focus:underline"
                   href="/auth/reset-password"
                 >
                   {t("auth.login.forgot_password")}
@@ -203,7 +203,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   data-hs-toggle-password='{
             "target": "#hs-pro-dalp"
           }'
-                  className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600"
+                  className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600"
                 >
                   <svg
                     className="shrink-0 size-4"
@@ -264,7 +264,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <p className="text-sm text-gray-500">
           {t("auth.login.new_user")}
           <Link
-            className="inline-flex ms-1 items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
+            className="inline-flex ms-1 items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline"
             to={"../sign-up"}
           >
             {t("auth.login.sign_up")}

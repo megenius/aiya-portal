@@ -176,7 +176,7 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
                 {isDragActive ? "Drop the files here" : "Drop your files here or"}
               </span>
               {!isDragActive && (
-                <span className="relative cursor-pointer bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
+                <span className="relative cursor-pointer bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
                   browse
                 </span>
               )}
@@ -223,7 +223,7 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
           </div>
           <button
             type="button"
-            className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-gray-600"
             onClick={handleImport}
           >
             Import
@@ -234,8 +234,8 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
       {importStats.success > 0 || importStats.errors > 0 ? (
         <div className="bg-blue-50 border border-blue-200 text-sm text-blue-600 rounded-lg p-4 dark:bg-blue-800/30 dark:border-blue-700 dark:text-blue-500" role="alert">
           <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="flex-shrink-0 h-4 w-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+            <div className="shrink-0">
+              <svg className="shrink-0 h-4 w-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
             </div>
             <div className="ms-3">
               <h3 className="font-semibold">Import Results</h3>
@@ -252,8 +252,8 @@ const IntentImporter: React.FC<IntentImporterProps> = ({ existingIntents, onImpo
       {errorMessages.length > 0 && (
         <div className="bg-red-50 border border-red-200 text-sm text-red-600 rounded-lg p-4 dark:bg-red-800/30 dark:border-red-900 dark:text-red-500" role="alert">
           <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="flex-shrink-0 h-4 w-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+            <div className="shrink-0">
+              <svg className="shrink-0 h-4 w-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
             </div>
             <div className="ms-3">
               <h3 className="font-semibold">Import Errors</h3>

@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               {/* Collapse Button Trigger */}
               <button
                 type="button"
-                className="hs-collapse-toggle inline-flex justify-center items-center w-7 h-[38px] text-start border border-white/20 text-white rounded-lg shadow-sm align-middle hover:bg-white/10 disabled:opacity-50 focus:outline-none focus:bg-white/10"
+                className="hs-collapse-toggle inline-flex justify-center items-center w-7 h-[38px] text-start border border-white/20 text-white rounded-lg shadow-xs align-middle hover:bg-white/10 disabled:opacity-50 focus:outline-hidden focus:bg-white/10"
                 id="hs-pro-dmh-collapse"
                 aria-expanded="false"
                 aria-controls="hs-pro-dmh"
@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 {/* Search Button Icon */}
                 <button
                   type="button"
-                  className="inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-none focus:bg-white/10"
+                  className="inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-hidden focus:bg-white/10"
                   data-hs-overlay="#hs-pro-dnsm"
                 >
                   <svg
@@ -133,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 <button
                   id="hs-pro-dnhd"
                   type="button"
-                  className="  inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-none focus:bg-white/10"
+                  className="  inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-hidden focus:bg-white/10"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -165,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 >
                   <div className="p-1">
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -187,7 +187,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       Help Centre
                     </a>
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -210,7 +210,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       Community
                     </a>
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -232,7 +232,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                     </a>
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -254,7 +254,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       Privacy and Legal
                     </a>
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -275,7 +275,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       Documentation
                     </a>
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -295,14 +295,14 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       </svg>
                       Hire an Expert
                       <div className="ms-auto">
-                        <span className="inline-flex items-center gap-1.5 py-px px-1.5 rounded text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
+                        <span className="inline-flex items-center gap-1.5 py-px px-1.5 rounded-sm text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
                           New
                         </span>
                       </div>
                     </a>
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                     <a
-                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <svg
@@ -327,7 +327,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       <button
                         id="hs-pro-dropdown-help-and-support"
                         type="button"
-                        className="hs-dropdown-toggle w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        className="hs-dropdown-toggle w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -363,13 +363,13 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         </svg>
                       </button>
                       <div
-                        className="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 top-0 end-full md:!me-3 md:mt-1 md:p-1 bg-white md:shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] md:rounded-lg before:absolute before:-end-5 before:top-0 before:h-full before:w-5 dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900"
+                        className="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 top-0 end-full md:me-3! md:mt-1 md:p-1 bg-white md:shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] md:rounded-lg before:absolute before:-end-5 before:top-0 before:h-full before:w-5 dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900"
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="hs-pro-dropdown-help-and-support"
                       >
                         <a
-                          className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           href="#"
                         >
                           <svg
@@ -390,7 +390,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           Contact Support
                         </a>
                         <a
-                          className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           href="#"
                         >
                           <svg
@@ -421,7 +421,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 <button
                   id="hs-pro-dnnd"
                   type="button"
-                  className="relative inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-none focus:bg-white/10"
+                  className="relative inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-white hover:bg-white/10 disabled:opacity-50 focus:outline-hidden focus:bg-white/10"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -467,7 +467,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                     >
                       <button
                         type="button"
-                        className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
+                        className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
                         id="hs-pro-tabs-dnn-item-all"
                         aria-selected="true"
                         data-hs-tab="#hs-pro-tabs-dnn-all"
@@ -478,7 +478,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                       </button>
                       <button
                         type="button"
-                        className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+                        className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
                         id="hs-pro-tabs-dnn-item-archived"
                         aria-selected="false"
                         data-hs-tab="#hs-pro-tabs-dnn-archived"
@@ -492,7 +492,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                     {/* Notifications Button Icon */}
                     <div className="hs-tooltip relative inline-block mb-3">
                       <a
-                        className="hs-tooltip-toggle size-7 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        className="hs-tooltip-toggle size-7 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         href="../../pro/dashboard/account-profile.html"
                       >
                         <svg
@@ -553,12 +553,12 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           <div>
                             <div className="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
                               {/* Segment Button Group */}
-                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-xs transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
                                 <div className="flex items-center">
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -607,7 +607,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -649,7 +649,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         {/* List Item */}
                         <li className="relative group w-full flex gap-x-5 text-start  p-5">
                           <div className="relative shrink-0">
-                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-xs dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                               C
                             </span>
                           </div>
@@ -672,12 +672,12 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           <div>
                             <div className="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
                               {/* Segment Button Group */}
-                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-xs transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
                                 <div className="flex items-center">
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -726,7 +726,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -768,7 +768,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         {/* List Item */}
                         <li className="relative group w-full flex gap-x-5 text-start  p-5">
                           <div className="relative shrink-0">
-                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-xs dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                               P
                             </span>
                           </div>
@@ -784,7 +784,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                               you’re open to freelance or full-time work.
                             </p>
                             <a
-                              className="mt-2 p-1.5 inline-flex items-center border border-gray-200 rounded-xl hover:bg-gray-50 hover:shadow-sm focus:outline-none focus:bg-gray-100 dark:border-neutral-700 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                              className="mt-2 p-1.5 inline-flex items-center border border-gray-200 rounded-xl hover:bg-gray-50 hover:shadow-xs focus:outline-hidden focus:bg-gray-100 dark:border-neutral-700 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               href="#"
                             >
                               <img
@@ -819,12 +819,12 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           <div>
                             <div className="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
                               {/* Segment Button Group */}
-                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-xs transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
                                 <div className="flex items-center">
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -873,7 +873,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -915,7 +915,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         {/* List Item */}
                         <li className="relative group w-full flex gap-x-5 text-start  p-5">
                           <div className="relative shrink-0">
-                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+                            <span className="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-xs dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                               P
                             </span>
                           </div>
@@ -929,7 +929,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                             </span>
                             <p>
                               <a
-                                className="inline-flex items-center gap-x-1 text-sm text-violet-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-violet-400 dark:hover:text-violet-500"
+                                className="inline-flex items-center gap-x-1 text-sm text-violet-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-violet-400 dark:hover:text-violet-500"
                                 href="#"
                               >
                                 Learn more
@@ -953,12 +953,12 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           <div>
                             <div className="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
                               {/* Segment Button Group */}
-                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-xs transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
                                 <div className="flex items-center">
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -1007,7 +1007,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -1070,12 +1070,12 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                           <div>
                             <div className="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
                               {/* Segment Button Group */}
-                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div className="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-xs transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
                                 <div className="flex items-center">
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -1124,7 +1124,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                                   <div className="hs-tooltip relative inline-block">
                                     <button
                                       type="button"
-                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                                      className="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded-sm disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                                     >
                                       <svg
                                         className="shrink-0 size-4"
@@ -1169,7 +1169,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                     {/* Footer */}
                     <div className="text-center border-t border-gray-200 dark:border-neutral-800">
                       <a
-                        className="p-4 flex justify-center items-center gap-x-2 text-sm text-gray-500 font-medium sm:rounded-b-lg hover:text-violet-600 focus:outline-none focus:text-violet-600 dark:text-neutral-400 dark:hover:text-neutral-300 dark:focus:text-neutral-300"
+                        className="p-4 flex justify-center items-center gap-x-2 text-sm text-gray-500 font-medium sm:rounded-b-lg hover:text-violet-600 focus:outline-hidden focus:text-violet-600 dark:text-neutral-400 dark:hover:text-neutral-300 dark:focus:text-neutral-300"
                         href="../../docs/index.html"
                       >
                         Mark all as read
@@ -1382,7 +1382,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         </p>
                       </div>
                       <a
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="@@href"
                       >
                         Notifications settings
@@ -1401,7 +1401,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               <button
                 id="hs-dnad"
                 type="button"
-                className="inline-flex shrink-0 items-center gap-x-3 text-start rounded-full focus:outline-none"
+                className="inline-flex shrink-0 items-center gap-x-3 text-start rounded-full focus:outline-hidden"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -1417,7 +1417,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               >
                 <div className="p-1 border-b border-gray-200 dark:border-neutral-800">
                   <Link
-                    className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     to={"/profile"}
                   >
                     <Avatar src={getDirectusFileUrl(user?.avatar as string)} firstName={user?.first_name} />
@@ -1448,7 +1448,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                         id="@@darkmodeID"
                         className="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
 
-              before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+              before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                       />
                     </div>
                   </div>
@@ -1456,18 +1456,18 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 </div>
                 <div className="px-1 py-2">
                   <a
-                    className="hidden flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="hidden flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     Customization
                     <div className="ms-auto">
-                      <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
+                      <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded-sm text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
                         New
                       </span>
                     </div>
                   </a>
                   <Link
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     to={"/sign-out"}
                   >
                     Sign out
@@ -1476,7 +1476,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 <div className="hidden p-1 border-t border-gray-200 dark:border-neutral-800">
                   <button
                     type="button"
-                    className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-dasadam"
                   >
                     <svg
@@ -1538,7 +1538,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               <button
                 id="hs-pro-dnwpd"
                 type="button"
-                className="inline-flex items-center text-start text-sm font-medium text-stone-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-stone-500 dark:text-white dark:focus:text-neutral-200"
+                className="inline-flex items-center text-start text-sm font-medium text-stone-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:text-stone-500 dark:text-white dark:focus:text-neutral-200"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -1572,7 +1572,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                   {bots?.items?.map((bot, index) => (
                     <Link
                       key={index}
-                      className="py-2 px-3 block w-full text-start bg-stone-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="py-2 px-3 block w-full text-start bg-stone-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
                       to={`/apps/bot/${bot.id}`}
                     >
                       <div className='flex items-center gap-2'>
@@ -1588,7 +1588,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 <div className="p-1 border-t border-stone-200 dark:border-neutral-800">
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   >
                     <svg
                       className="shrink-0 size-4"
@@ -1635,7 +1635,7 @@ function NavLink({
   return (
     <Link
       to={url}
-      className={cn("py-2 px-3 md:px-2.5 xl:px-2 flex items-center gap-x-2 text-sm text-start text-nowrap text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-800/40 dark:focus:bg-neutral-800", {
+      className={cn("py-2 px-3 md:px-2.5 xl:px-2 flex items-center gap-x-2 text-sm text-start text-nowrap text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-800/40 dark:focus:bg-neutral-800", {
         "bg-gray-100 focus:bg-gray-200 dark:bg-neutral-800 dark:focus:bg-neutral-600": isCurrent
       })}
     >

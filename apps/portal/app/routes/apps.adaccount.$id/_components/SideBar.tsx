@@ -18,7 +18,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
   -translate-x-full transition-all duration-300 transform
   w-[20.5rem] h-full
   hidden
-  fixed inset-y-0 start-0 z-[60]
+  fixed inset-y-0 start-0 z-60
   bg-white
   lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
   dark:bg-neutral-800"
@@ -31,7 +31,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
         <div className="p-4 flex flex-col items-center">
           {/* Logo */}
           <Link
-            className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+            className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
             to={'/'}
             aria-label="AIYA"
           >
@@ -46,7 +46,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 focus:bg-gray-200 dark:bg-neutral-700 dark:focus:bg-neutral-600"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 focus:bg-gray-200 dark:bg-neutral-700 dark:focus:bg-neutral-600"
                 href="#"
               >
                 <svg
@@ -77,7 +77,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                 href="#"
               >
                 <svg
@@ -110,7 +110,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                 href="#"
               >
                 <svg
@@ -144,7 +144,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                 href="#"
               >
                 <svg
@@ -178,7 +178,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                 href="#"
               >
                 <svg
@@ -210,7 +210,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             {/* Item */}
             <li className="hs-tooltip [--placement:right] inline-block">
               <a
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-10 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                 href="#"
               >
                 <svg
@@ -250,7 +250,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             <button
               id="hs-pro-dsad"
               type="button"
-              className="w-full flex items-center gap-x-3 text-start py-4 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+              className="w-full flex items-center gap-x-3 text-start py-4 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
               aria-haspopup="menu"
               aria-expanded="false"
               aria-label="Dropdown"
@@ -266,7 +266,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
             >
               <div className="p-1 border-b border-gray-200 dark:border-neutral-800">
                 <a
-                  className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="../../pro/dashboard/user-profile-my-profile.html"
                 >
                   <img
@@ -286,7 +286,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
               </div>
               <div className="p-1">
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   <svg
@@ -307,7 +307,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                   Billing
                 </a>
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   <svg
@@ -328,7 +328,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                   Settings
                 </a>
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   <svg
@@ -365,7 +365,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       id="hs-pro-dsaddm"
                       className="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
 
-            before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+            before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                     />
                   </div>
                 </div>
@@ -373,24 +373,24 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
               </div>
               <div className="p-1">
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   Customization
                   <div className="ms-auto">
-                    <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
+                    <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded-sm text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
                       New
                     </span>
                   </div>
                 </a>
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   Manage team
                 </a>
                 <a
-                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   href="#"
                 >
                   Sign out
@@ -399,7 +399,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
               <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                 <button
                   type="button"
-                  className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                  className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   data-hs-overlay="#hs-pro-dasadam"
                 >
                   <svg
@@ -430,7 +430,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
         <div className="lg:hidden absolute top-4 -end-6 z-10">
           <button
             type="button"
-            className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-e-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-e-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             data-hs-overlay="#hs-pro-sidebar"
           >
             <svg
@@ -462,7 +462,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
           <div className="py-3 px-2 border-b border-gray-200 dark:border-neutral-700">
             <button
               type="button"
-              className="py-1.5 ps-3 pe-1.5 w-full inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700/50"
+              className="py-1.5 ps-3 pe-1.5 w-full inline-flex items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700/50"
             >
               Quick actions
               <span className="ms-auto flex items-center gap-x-1 py-px px-1.5 border border-gray-200 rounded-md dark:border-neutral-700">
@@ -496,7 +496,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 focus:bg-gray-200 dark:bg-neutral-700 dark:focus:bg-neutral-600"
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 focus:bg-gray-200 dark:bg-neutral-700 dark:focus:bg-neutral-600"
                     href="../../pro/analytics/index.html"
                   >
                     Overview
@@ -506,7 +506,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="#"
                   >
                     Reports
@@ -516,7 +516,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="#"
                   >
                     People
@@ -526,7 +526,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="#"
                   >
                     Audiences
@@ -537,7 +537,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 <li className="hs-accordion" id="user-profile-accordion">
                   <button
                     type="button"
-                    className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-2.5 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hs-accordion-active:bg-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-2.5 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hs-accordion-active:bg-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     aria-expanded="false"
                     aria-controls="user-profile-accordion-sub"
                   >
@@ -569,7 +569,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                     >
                       <li>
                         <a
-                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="#"
                         >
                           Segment docs
@@ -577,7 +577,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       </li>
                       <li>
                         <a
-                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="#"
                         >
                           Watch demo
@@ -585,7 +585,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       </li>
                       <li>
                         <a
-                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="#"
                         >
                           Chat with us
@@ -598,7 +598,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                     href="#"
                   >
                     What’s New
@@ -613,7 +613,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 {/* Link */}
                 <li>
                   <a
-                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 "
+                    className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 "
                     href="../../pro/analytics/empty-states.html"
                   >
                     Empty Contents
@@ -626,7 +626,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                 <li className="hs-accordion active" id="projects-accordion">
                   <button
                     type="button"
-                    className="hs-accordion-toggle py-1 px-3 flex justify-center items-center gap-x-1 text-xs text-gray-500 rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                    className="hs-accordion-toggle py-1 px-3 flex justify-center items-center gap-x-1 text-xs text-gray-500 rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-500 dark:focus:bg-neutral-700"
                     aria-expanded="true"
                     aria-controls="projects-accordion-sub"
                   >
@@ -659,7 +659,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       {/* Link */}
                       <li>
                         <a
-                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="../../pro/index.html"
                         >
                           <span className="flex justify-center items-center size-6 bg-indigo-600 text-white rounded-md dark:bg-indigo-500">
@@ -687,7 +687,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       {/* Link */}
                       <li>
                         <a
-                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="../../pro/examples.html"
                         >
                           <span className="flex justify-center items-center size-6 bg-indigo-600 text-white rounded-md dark:bg-indigo-500">
@@ -715,7 +715,7 @@ export const SideBar: React.FC<SideBarProps> = ({ bot }) => {
                       {/* Link */}
                       <li>
                         <a
-                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                          className="flex items-center gap-x-2 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                           href="../../pro/templates.html"
                         >
                           <span className="flex justify-center items-center size-6 bg-indigo-600 text-white rounded-md dark:bg-indigo-500">

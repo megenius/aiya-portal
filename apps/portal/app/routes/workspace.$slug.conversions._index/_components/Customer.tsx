@@ -15,7 +15,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="flex justify-end items-center gap-x-2">
           {/* Button */}
           <a
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             href="../../pro/dashboard/users-add-user.html"
           >
             <svg
@@ -41,12 +41,12 @@ const MainContent: React.FC<MainContentProps> = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 xl:gap-5">
         {/* Card */}
-        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-sm before:absolute before:top-0 before:end-0 before:size-full before:bg-gradient-to-br before:from-purple-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-purple-800/30 dark:before:via-transparent">
+        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-xs before:absolute before:top-0 before:end-0 before:size-full before:bg-linear-to-br before:from-purple-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-purple-800/30 dark:before:via-transparent">
           <div className="relative z-10">
             {/* Header */}
             <div className="flex justify-between gap-x-3">
               {/* Icon */}
-              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                 <svg
                   className="shrink-0 size-4 md:size-5 text-purple-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <button
                     id="hs-pro-dusd1"
                     type="button"
-                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     aria-haspopup="menu"
                     aria-expanded="false"
                     aria-label="Dropdown"
@@ -104,7 +104,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     <div className="p-1">
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -128,7 +128,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       </button>
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -214,12 +214,12 @@ const MainContent: React.FC<MainContentProps> = () => {
         </div>
         {/* End Card */}
         {/* Card */}
-        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-sm before:absolute before:top-0 before:end-0 before:size-full before:bg-gradient-to-br before:from-teal-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-teal-800/30 dark:before:via-transparent">
+        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-xs before:absolute before:top-0 before:end-0 before:size-full before:bg-linear-to-br before:from-teal-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-teal-800/30 dark:before:via-transparent">
           <div className="relative z-10">
             {/* Header */}
             <div className="flex justify-between gap-x-3">
               {/* Icon */}
-              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                 <svg
                   className="shrink-0 size-4 md:size-5 text-teal-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -244,7 +244,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <button
                     id="hs-pro-dusd2"
                     type="button"
-                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     aria-haspopup="menu"
                     aria-expanded="false"
                     aria-label="Dropdown"
@@ -276,7 +276,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     <div className="p-1">
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -300,7 +300,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       </button>
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -386,12 +386,12 @@ const MainContent: React.FC<MainContentProps> = () => {
         </div>
         {/* End Card */}
         {/* Card */}
-        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-sm before:absolute before:top-0 before:end-0 before:size-full before:bg-gradient-to-br before:from-blue-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-blue-800/30 dark:before:via-transparent">
+        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-xs before:absolute before:top-0 before:end-0 before:size-full before:bg-linear-to-br before:from-blue-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-blue-800/30 dark:before:via-transparent">
           <div className="relative z-10">
             {/* Header */}
             <div className="flex justify-between gap-x-3">
               {/* Icon */}
-              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                 <svg
                   className="shrink-0 size-4 md:size-5 text-blue-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -415,7 +415,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <button
                     id="hs-pro-dusd3"
                     type="button"
-                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     aria-haspopup="menu"
                     aria-expanded="false"
                     aria-label="Dropdown"
@@ -447,7 +447,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     <div className="p-1">
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -471,7 +471,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       </button>
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -555,12 +555,12 @@ const MainContent: React.FC<MainContentProps> = () => {
         </div>
         {/* End Card */}
         {/* Card */}
-        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-sm before:absolute before:top-0 before:end-0 before:size-full before:bg-gradient-to-br before:from-red-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-red-800/30 dark:before:via-transparent">
+        <div className="relative overflow-hidden p-4 sm:p-5 bg-white border border-gray-200 rounded-xl shadow-xs before:absolute before:top-0 before:end-0 before:size-full before:bg-linear-to-br before:from-red-100 before:via-transparent before:blur-xl dark:bg-neutral-800 dark:border-neutral-700 dark:before:from-red-800/30 dark:before:via-transparent">
           <div className="relative z-10">
             {/* Header */}
             <div className="flex justify-between gap-x-3">
               {/* Icon */}
-              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
+              <span className="mb-3 inline-flex justify-center items-center size-8 md:size-10 rounded-lg bg-white text-gray-700 shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">
                 <svg
                   className="shrink-0 size-4 md:size-5 text-red-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -585,7 +585,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <button
                     id="hs-pro-dusd4"
                     type="button"
-                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                    className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     aria-haspopup="menu"
                     aria-expanded="false"
                     aria-label="Dropdown"
@@ -617,7 +617,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     <div className="p-1">
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -641,7 +641,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       </button>
                       <button
                         type="button"
-                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                        className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                       >
                         <svg
                           className="shrink-0 size-3.5 mt-0.5"
@@ -726,7 +726,7 @@ const MainContent: React.FC<MainContentProps> = () => {
       </div>
       {/* End Stats Grid */}
       {/* Users Table Card */}
-      <div className="p-5 space-y-4 flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="p-5 space-y-4 flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         {/* Nav Tab */}
         <nav
           className="relative  flex space-x-1 after:absolute after:bottom-0 after:inset-x-0 after:border-b-2 after:border-gray-200 dark:after:border-neutral-700"
@@ -736,7 +736,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         >
           <button
             type="button"
-            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
+            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
             id="hs-pro-tabs-dut-item-all"
             aria-selected="true"
             data-hs-tab="#hs-pro-tabs-dut-all"
@@ -747,7 +747,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           </button>
           <button
             type="button"
-            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
             id="hs-pro-tabs-dut-item-validaccounts"
             aria-selected="false"
             data-hs-tab="#hs-pro-tabs-dut-validaccounts"
@@ -758,7 +758,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           </button>
           <button
             type="button"
-            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+            className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-0 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
             id="hs-pro-tabs-dut-item-fakeaccounts"
             aria-selected="false"
             data-hs-tab="#hs-pro-tabs-dut-fakeaccounts"
@@ -799,7 +799,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               <div className="hidden absolute inset-y-0 end-0 flex items-center z-20 pe-1">
                 <button
                   type="button"
-                  className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+                  className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
                   aria-label="Close"
                 >
                   <span className="sr-only">Close</span>
@@ -832,7 +832,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               <button
                 id="hs-pro-dptied"
                 type="button"
-                className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -881,7 +881,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 <div className="p-1">
                   <button
                     type="button"
-                    className="w-full flex gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-dicm"
                   >
                     <svg
@@ -904,7 +904,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-decm"
                   >
                     <svg
@@ -935,7 +935,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               <button
                 id="hs-pro-dptfd"
                 type="button"
-                className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -997,13 +997,13 @@ const MainContent: React.FC<MainContentProps> = () => {
                       </div>
                       <input
                         type="text"
-                        className="py-1.5 px-8 block w-full bg-gray-100 border-transparent rounded-md text-sm placeholder:text-gray-500 focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:bg-white disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600 dark:focus:bg-neutral-900"
+                        className="py-1.5 px-8 block w-full bg-gray-100 border-transparent rounded-md text-sm placeholder:text-gray-500 focus:outline-hidden focus:border-blue-500 focus:ring-blue-500 focus:bg-white disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600 dark:focus:bg-neutral-900"
                         placeholder="Search"
                       />
                       <div className="hidden absolute inset-y-0 end-0 flex items-center z-20 pe-1">
                         <button
                           type="button"
-                          className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+                          className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
                           aria-label="Close"
                         >
                           <span className="sr-only">Close</span>
@@ -1031,7 +1031,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 {/* End Search Input */}
                 <div className="p-1 space-y-0.5">
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1053,7 +1053,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Name
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1074,7 +1074,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Email addresses
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1097,7 +1097,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Description
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1123,7 +1123,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Company
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1147,7 +1147,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     User ID
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1167,7 +1167,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Phone numbers
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1188,7 +1188,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     Location
                   </a>
                   <a
-                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -1234,7 +1234,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <th scope="col" className="px-3 py-2.5 text-start">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </th>
                       <th scope="col" className="min-w-72 ">
@@ -1243,7 +1243,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutnms"
                             type="button"
-                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -1275,7 +1275,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                             <div className="p-1">
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1296,7 +1296,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1317,7 +1317,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1338,7 +1338,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1360,7 +1360,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1393,7 +1393,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutads"
                             type="button"
-                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -1425,7 +1425,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                             <div className="p-1">
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1446,7 +1446,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1467,7 +1467,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1488,7 +1488,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1510,7 +1510,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1543,7 +1543,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutsgs"
                             type="button"
-                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -1575,7 +1575,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                             <div className="p-1">
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1596,7 +1596,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1617,7 +1617,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1638,7 +1638,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1660,7 +1660,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1693,7 +1693,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutems"
                             type="button"
-                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -1725,7 +1725,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                             <div className="p-1">
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1746,7 +1746,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1767,7 +1767,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1788,7 +1788,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1810,7 +1810,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1843,7 +1843,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutphs"
                             type="button"
-                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                            className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -1875,7 +1875,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                             <div className="p-1">
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1896,7 +1896,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1917,7 +1917,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1938,7 +1938,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               </button>
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1960,7 +1960,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-800" />
                               <button
                                 type="button"
-                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                                className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                               >
                                 <svg
                                   className="shrink-0 size-3.5"
@@ -1995,7 +1995,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -2014,7 +2014,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -2082,7 +2082,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm1"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -2125,7 +2125,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm1ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2201,7 +2201,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm1ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2297,7 +2297,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm1s1"
                                   defaultChecked=""
                                 />
@@ -2326,7 +2326,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm1s2"
                                   defaultChecked=""
                                 />
@@ -2355,7 +2355,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm1s3"
                                   defaultChecked=""
                                 />
@@ -2393,7 +2393,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm1s4"
                                   defaultChecked=""
                                 />
@@ -2421,7 +2421,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm1s5"
                                   defaultChecked=""
                                 />
@@ -2429,7 +2429,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -2444,7 +2444,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -2461,7 +2461,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -2533,7 +2533,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm2"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -2576,7 +2576,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm2ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2652,7 +2652,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm2ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2748,7 +2748,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm2s1"
                                   defaultChecked=""
                                 />
@@ -2777,7 +2777,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm2s2"
                                   defaultChecked=""
                                 />
@@ -2806,7 +2806,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm2s3"
                                   defaultChecked=""
                                 />
@@ -2844,7 +2844,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm2s4"
                                   defaultChecked=""
                                 />
@@ -2872,7 +2872,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm2s5"
                                   defaultChecked=""
                                 />
@@ -2880,7 +2880,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -2895,7 +2895,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -2914,7 +2914,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -2984,7 +2984,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm3"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -3027,7 +3027,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm3ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3103,7 +3103,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm3ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3199,7 +3199,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm3s1"
                                   defaultChecked=""
                                 />
@@ -3228,7 +3228,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm3s2"
                                   defaultChecked=""
                                 />
@@ -3257,7 +3257,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm3s3"
                                   defaultChecked=""
                                 />
@@ -3295,7 +3295,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm3s4"
                                   defaultChecked=""
                                 />
@@ -3323,7 +3323,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm3s5"
                                   defaultChecked=""
                                 />
@@ -3331,7 +3331,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -3346,7 +3346,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -3365,7 +3365,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -3435,7 +3435,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm4"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -3478,7 +3478,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm4ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3554,7 +3554,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm4ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3650,7 +3650,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm4s1"
                                   defaultChecked=""
                                 />
@@ -3679,7 +3679,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm4s2"
                                   defaultChecked=""
                                 />
@@ -3708,7 +3708,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm4s3"
                                   defaultChecked=""
                                 />
@@ -3746,7 +3746,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm4s4"
                                   defaultChecked=""
                                 />
@@ -3774,7 +3774,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm4s5"
                                   defaultChecked=""
                                 />
@@ -3782,7 +3782,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -3797,7 +3797,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -3814,7 +3814,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -3886,7 +3886,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm5"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -3929,7 +3929,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm5ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4005,7 +4005,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm5ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4101,7 +4101,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm5s1"
                                   defaultChecked=""
                                 />
@@ -4130,7 +4130,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm5s2"
                                   defaultChecked=""
                                 />
@@ -4159,7 +4159,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm5s3"
                                   defaultChecked=""
                                 />
@@ -4197,7 +4197,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm5s4"
                                   defaultChecked=""
                                 />
@@ -4225,7 +4225,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm5s5"
                                   defaultChecked=""
                                 />
@@ -4233,7 +4233,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -4248,7 +4248,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -4265,7 +4265,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -4335,7 +4335,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm6"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -4378,7 +4378,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm6ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4454,7 +4454,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm6ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4550,7 +4550,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm6s1"
                                   defaultChecked=""
                                 />
@@ -4579,7 +4579,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm6s2"
                                   defaultChecked=""
                                 />
@@ -4608,7 +4608,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm6s3"
                                   defaultChecked=""
                                 />
@@ -4646,7 +4646,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm6s4"
                                   defaultChecked=""
                                 />
@@ -4674,7 +4674,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm6s5"
                                   defaultChecked=""
                                 />
@@ -4682,7 +4682,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -4697,7 +4697,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -4714,7 +4714,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -4782,7 +4782,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm7"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -4825,7 +4825,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm7ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4901,7 +4901,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm7ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4997,7 +4997,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm7s1"
                                   defaultChecked=""
                                 />
@@ -5026,7 +5026,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm7s2"
                                   defaultChecked=""
                                 />
@@ -5055,7 +5055,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm7s3"
                                   defaultChecked=""
                                 />
@@ -5093,7 +5093,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm7s4"
                                   defaultChecked=""
                                 />
@@ -5121,7 +5121,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm7s5"
                                   defaultChecked=""
                                 />
@@ -5129,7 +5129,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -5144,7 +5144,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -5163,7 +5163,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -5235,7 +5235,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm8"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -5278,7 +5278,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm8ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -5354,7 +5354,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm8ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -5450,7 +5450,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm8s1"
                                   defaultChecked=""
                                 />
@@ -5479,7 +5479,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm8s2"
                                   defaultChecked=""
                                 />
@@ -5508,7 +5508,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm8s3"
                                   defaultChecked=""
                                 />
@@ -5546,7 +5546,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm8s4"
                                   defaultChecked=""
                                 />
@@ -5574,7 +5574,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm8s5"
                                   defaultChecked=""
                                 />
@@ -5582,7 +5582,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -5597,7 +5597,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -5616,7 +5616,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -5685,7 +5685,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm9"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -5728,7 +5728,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm9ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -5804,7 +5804,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm9ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -5900,7 +5900,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm9s1"
                                   defaultChecked=""
                                 />
@@ -5929,7 +5929,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm9s2"
                                   defaultChecked=""
                                 />
@@ -5958,7 +5958,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm9s3"
                                   defaultChecked=""
                                 />
@@ -5996,7 +5996,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm9s4"
                                   defaultChecked=""
                                 />
@@ -6024,7 +6024,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm9s5"
                                   defaultChecked=""
                                 />
@@ -6032,7 +6032,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -6047,7 +6047,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -6064,7 +6064,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -6133,7 +6133,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm10"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -6176,7 +6176,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm10ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -6252,7 +6252,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm10ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -6348,7 +6348,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm10s1"
                                   defaultChecked=""
                                 />
@@ -6377,7 +6377,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm10s2"
                                   defaultChecked=""
                                 />
@@ -6406,7 +6406,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm10s3"
                                   defaultChecked=""
                                 />
@@ -6444,7 +6444,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm10s4"
                                   defaultChecked=""
                                 />
@@ -6472,7 +6472,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm10s5"
                                   defaultChecked=""
                                 />
@@ -6480,7 +6480,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -6495,7 +6495,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -6514,7 +6514,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -6584,7 +6584,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm11"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -6627,7 +6627,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm11ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -6703,7 +6703,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm11ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -6799,7 +6799,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm11s1"
                                   defaultChecked=""
                                 />
@@ -6828,7 +6828,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm11s2"
                                   defaultChecked=""
                                 />
@@ -6857,7 +6857,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm11s3"
                                   defaultChecked=""
                                 />
@@ -6895,7 +6895,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm11s4"
                                   defaultChecked=""
                                 />
@@ -6923,7 +6923,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm11s5"
                                   defaultChecked=""
                                 />
@@ -6931,7 +6931,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -6946,7 +6946,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                       <td className="size-px whitespace-nowrap px-3 py-4">
                         <input
                           type="checkbox"
-                          className="shrink-0 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                          className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                         />
                       </td>
                       <td className="size-px px-4 py-1 relative group cursor-pointer pe-20 lg:pe-24">
@@ -6963,7 +6963,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                         <div className="lg:group-hover:block lg:hidden absolute top-1/2 end-4 transform -translate-y-1/2">
                           <button
                             type="button"
-                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
+                            className="hs-tooltip-toggle py-1.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700"
                             data-hs-overlay="#hs-pro-dutoo"
                           >
                             <svg
@@ -7035,7 +7035,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                           <button
                             id="hs-pro-dutdm12"
                             type="button"
-                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"
@@ -7078,7 +7078,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                                   <label
                                     htmlFor="hs-pro-dutdm12ts1"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -7154,7 +7154,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                   </label>
                                   <label
                                     htmlFor="hs-pro-dutdm12ts2"
-                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                    className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                   >
                                     <svg
                                       className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -7250,7 +7250,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm12s1"
                                   defaultChecked=""
                                 />
@@ -7279,7 +7279,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm12s2"
                                   defaultChecked=""
                                 />
@@ -7308,7 +7308,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm12s3"
                                   defaultChecked=""
                                 />
@@ -7346,7 +7346,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm12s4"
                                   defaultChecked=""
                                 />
@@ -7374,7 +7374,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                                 </label>
                                 <input
                                   type="checkbox"
-                                  className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                  className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                   id="hs-pro-dutdm12s5"
                                   defaultChecked=""
                                 />
@@ -7382,7 +7382,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                               <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                               <button
                                 type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                               >
                                 Download
                               </button>
@@ -7412,7 +7412,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               >
                 <button
                   type="button"
-                  className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
+                  className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
                   aria-label="Previous"
                 >
                   <svg
@@ -7447,7 +7447,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 </div>
                 <button
                   type="button"
-                  className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
+                  className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
                   aria-label="Next"
                 >
                   <span className="sr-only">Next</span>
@@ -7677,7 +7677,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               </div>
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 data-hs-overlay="#hs-pro-empty"
               >
                 <svg
@@ -7906,7 +7906,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               </div>
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 data-hs-overlay="#hs-pro-empty"
               >
                 <svg

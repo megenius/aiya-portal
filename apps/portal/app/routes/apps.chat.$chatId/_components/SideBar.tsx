@@ -9,7 +9,7 @@ hs-overlay-open:translate-x-0
 -translate-x-full transition-all duration-300 transform
 sm:w-auto lg:w-[22rem] size-full
 hidden
-fixed inset-y-0 start-0  z-[60]
+fixed inset-y-0 start-0  z-60
 bg-gray-100
 lg:block lg:translate-x-0 lg:end-auto lg:bottom-0  
 dark:bg-neutral-900"
@@ -20,7 +20,7 @@ dark:bg-neutral-900"
         <div className="relative z-10 w-16 flex flex-col h-full max-h-full pb-5">
           <header className="w-16 py-2.5 flex justify-center">
             <a
-              className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+              className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
               href="/"
               aria-label="Preline"
             >
@@ -62,7 +62,7 @@ dark:bg-neutral-900"
                 {/* Item */}
                 <li>
                   <a
-                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                     href="#"
                   >
                     <span className="flex justify-center items-center gap-x-3 size-9 rounded-lg bg-gray-300 dark:bg-neutral-800 ">
@@ -88,7 +88,7 @@ dark:bg-neutral-900"
                 {/* Item */}
                 <li>
                   <a
-                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                     href="#"
                   >
                     <span className="flex justify-center items-center gap-x-3 size-9 rounded-lg group-hover:bg-gray-300 group-focus:bg-gray-300 dark:group-hover:bg-neutral-800 dark:group-focus:bg-neutral-800">
@@ -117,7 +117,7 @@ dark:bg-neutral-900"
                 {/* Item */}
                 <li>
                   <a
-                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                     href="#"
                   >
                     <span className="flex justify-center items-center gap-x-3 size-9 rounded-lg group-hover:bg-gray-300 group-focus:bg-gray-300 dark:group-hover:bg-neutral-800 dark:group-focus:bg-neutral-800">
@@ -149,7 +149,7 @@ dark:bg-neutral-900"
                 {/* Item */}
                 <li>
                   <a
-                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                    className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                     href="#"
                   >
                     <span className="flex justify-center items-center gap-x-3 size-9 rounded-lg group-hover:bg-gray-300 group-focus:bg-gray-300 dark:group-hover:bg-neutral-800 dark:group-focus:bg-neutral-800">
@@ -181,7 +181,7 @@ dark:bg-neutral-900"
                     <button
                       id="hs-pro-chmsnmd"
                       type="button"
-                      className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                      className="relative group flex flex-col justify-center items-center gap-y-1 text-[11px] text-gray-600 dark:text-neutral-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                       aria-haspopup="menu"
                       aria-expanded="false"
                       aria-label="Dropdown"
@@ -216,7 +216,7 @@ dark:bg-neutral-900"
                       <div className="p-1 space-y-0.5">
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -250,7 +250,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -287,7 +287,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -324,7 +324,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -359,7 +359,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -394,7 +394,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -430,7 +430,7 @@ dark:bg-neutral-900"
                         </button>
                         <button
                           type="button"
-                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                          className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                         >
                           <svg
                             className="shrink-0 size-4"
@@ -484,7 +484,7 @@ dark:bg-neutral-900"
                 <button
                   id="hs-pro-dnwpd"
                   type="button"
-                  className="w-full inline-flex items-center py-3 text-start text-gray-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none dark:text-white"
+                  className="w-full inline-flex items-center py-3 text-start text-gray-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden dark:text-white"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -520,7 +520,7 @@ dark:bg-neutral-900"
                   <div className="p-1 space-y-0.5">
                     {/* Item */}
                     <a
-                      className="py-2 px-3 block w-full text-start bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="py-2 px-3 block w-full text-start bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <div className="flex gap-x-2">
@@ -584,7 +584,7 @@ dark:bg-neutral-900"
                     {/* End Item */}
                     {/* Item */}
                     <a
-                      className="py-2 px-3 block w-full text-start rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="py-2 px-3 block w-full text-start rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       href="#"
                     >
                       <div className="flex gap-x-2">
@@ -650,7 +650,7 @@ dark:bg-neutral-900"
                   <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     >
                       <svg
                         className="shrink-0 size-4"
@@ -674,7 +674,7 @@ dark:bg-neutral-900"
                   <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     >
                       Sign out
                       <span className="ms-auto text-xs text-gray-500 dark:text-neutral-500">
@@ -692,7 +692,7 @@ dark:bg-neutral-900"
               <button
                 id="hs-pro-chmsad"
                 type="button"
-                className="flex justify-center items-center gap-x-3 size-8 text-start disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                className="flex justify-center items-center gap-x-3 size-8 text-start disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -713,7 +713,7 @@ dark:bg-neutral-900"
               >
                 <div className="p-1">
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -734,7 +734,7 @@ dark:bg-neutral-900"
                     Billing
                   </a>
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -755,7 +755,7 @@ dark:bg-neutral-900"
                     Settings
                   </a>
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <svg
@@ -792,7 +792,7 @@ dark:bg-neutral-900"
                         id="hs-pro-chmsaddm"
                         className="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
 
-              before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+              before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                       />
                     </div>
                   </div>
@@ -800,24 +800,24 @@ dark:bg-neutral-900"
                 </div>
                 <div className="p-1">
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     Customization
                     <div className="ms-auto">
-                      <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
+                      <span className="ms-auto inline-flex items-center gap-1.5 py-px px-1.5 rounded-sm text-[10px] leading-4 font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
                         New
                       </span>
                     </div>
                   </a>
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     Manage team
                   </a>
                   <a
-                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     Sign out
@@ -826,7 +826,7 @@ dark:bg-neutral-900"
                 <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                   <button
                     type="button"
-                    className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-dasadam"
                   >
                     <svg
@@ -874,9 +874,9 @@ dark:bg-neutral-900"
                     data-hs-select='{
               "placeholder": "Select option...",
               "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-              "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
+              "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 before:absolute before:inset-0 before:z-1 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
               "dropdownClasses": "mt-2 z-50 w-32 p-1 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-              "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-[13px] text-gray-800 rounded-lg cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+              "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-[13px] text-gray-800 rounded-lg cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
               "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
             }'
                     className="hidden"
@@ -907,7 +907,7 @@ dark:bg-neutral-900"
                   {/* Button */}
                   <button
                     type="button"
-                    className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                    className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                     data-hs-overlay="#hs-pro-chhcp"
                   >
                     <svg
@@ -966,7 +966,7 @@ dark:bg-neutral-900"
                   </div>
                   <input
                     type="text"
-                    className="py-1.5 px-10 block w-full bg-white border-0 rounded-0 md:text-[13px] placeholder:text-gray-500 focus:outline-none focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder:text-neutral-400"
+                    className="py-1.5 px-10 block w-full bg-white border-0 rounded-0 md:text-[13px] placeholder:text-gray-500 focus:outline-hidden focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder:text-neutral-400"
                     role="combobox"
                     aria-expanded="false"
                     placeholder="Search"
@@ -978,7 +978,7 @@ dark:bg-neutral-900"
                   >
                     <button
                       type="button"
-                      className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+                      className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
                       aria-label="Close"
                       data-hs-combo-box-close=""
                     >
@@ -1017,7 +1017,7 @@ dark:bg-neutral-900"
                         >
                           {/* Item */}
                           <a
-                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-none"
+                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <svg
@@ -1067,7 +1067,7 @@ dark:bg-neutral-900"
                         >
                           {/* Item */}
                           <a
-                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-none"
+                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <svg
@@ -1117,7 +1117,7 @@ dark:bg-neutral-900"
                         >
                           {/* Item */}
                           <a
-                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-none"
+                            className="py-2 px-3 group flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <svg
@@ -1170,7 +1170,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1214,7 +1214,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1258,7 +1258,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1300,7 +1300,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1342,7 +1342,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1386,7 +1386,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1430,7 +1430,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1474,7 +1474,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1518,7 +1518,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1562,7 +1562,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1606,7 +1606,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1648,7 +1648,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1690,7 +1690,7 @@ dark:bg-neutral-900"
                         >
                           {/* Avatar */}
                           <a
-                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-none"
+                            className="group py-2 px-3 flex items-center gap-x-3 focus:outline-hidden"
                             href="#"
                           >
                             <div className="shrink-0">
@@ -1749,7 +1749,7 @@ dark:bg-neutral-900"
                   >
                     <button
                       type="button"
-                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 font-medium text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
+                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 font-medium text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active "
                       id="hs-pro-tabs-chsn-item-all"
                       aria-selected="true"
                       data-hs-tab="#hs-pro-tabs-chsn-all"
@@ -1760,7 +1760,7 @@ dark:bg-neutral-900"
                     </button>
                     <button
                       type="button"
-                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
                       id="hs-pro-tabs-chsn-item-mentions"
                       aria-selected="false"
                       data-hs-tab="#hs-pro-tabs-chsn-mentions"
@@ -1771,7 +1771,7 @@ dark:bg-neutral-900"
                     </button>
                     <button
                       type="button"
-                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
                       id="hs-pro-tabs-chsn-item-spammed"
                       aria-selected="false"
                       data-hs-tab="#hs-pro-tabs-chsn-spammed"
@@ -1782,7 +1782,7 @@ dark:bg-neutral-900"
                     </button>
                     <button
                       type="button"
-                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
+                      className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2.5 py-2 mb-3 relative inline-flex justify-center items-center gap-x-2 hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-xs rounded-md disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  "
                       id="hs-pro-tabs-chsn-item-blocked"
                       aria-selected="false"
                       data-hs-tab="#hs-pro-tabs-chsn-blocked"
@@ -1812,7 +1812,7 @@ dark:bg-neutral-900"
                 > 
                   {/* Message */}
                   <div
-                    className="hs-tab-active:bg-gray-200 dark:hs-tab-active:bg-neutral-700/70 relative cursor-pointer bg-white hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:border-neutral-700  "
+                    className="hs-tab-active:bg-gray-200 dark:hs-tab-active:bg-neutral-700/70 relative cursor-pointer bg-white hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:border-neutral-700  "
                     id="hs-pro-tabs-chct-item-1"
                     aria-selected="false"
                     data-hs-tab="#hs-pro-tabs-chct-1"
@@ -1867,7 +1867,7 @@ dark:bg-neutral-900"
                   {/* End Message */}
                   {/* Message */}
                   <div
-                    className="hs-tab-active:bg-gray-200 dark:hs-tab-active:bg-neutral-700/70 relative cursor-pointer bg-white hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:border-neutral-700  "
+                    className="hs-tab-active:bg-gray-200 dark:hs-tab-active:bg-neutral-700/70 relative cursor-pointer bg-white hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:border-neutral-700  "
                     id="hs-pro-tabs-chct-item-10"
                     aria-selected="false"
                     data-hs-tab="#hs-pro-tabs-chct-10"

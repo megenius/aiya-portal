@@ -25,7 +25,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     <>
       <div
         id={`hs-offcanvas-${id || response?.id}`}
-        className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-[80] bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
+        className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-80 bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
         role="dialog"
         tabIndex={-1}
         aria-labelledby="hs-offcanvas-example-label"
@@ -36,7 +36,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           </h3>
           <button
             type="button"
-            className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+            className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Close"
             data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
           >
@@ -79,7 +79,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             {/* Button */}
             <button
               type="button"
-              className="py-2 px-3 w-64 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="py-2 px-3 w-64 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               onClick={() => onChanged({ ...response, payload: { text: input } })}
               data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
             >
@@ -89,7 +89,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             {/* Button */}
             {/* <button
               type="button"
-              className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             >
               <svg
                 className="hidden sm:block shrink-0 size-4"

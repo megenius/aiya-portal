@@ -43,7 +43,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
             {/* save button */}
             <button
               type="submit"
-              className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500" >
+              className="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500" >
               Save
             </button>
           </div>
@@ -53,7 +53,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
           <div className="lg:col-span-4 space-y-4">
             {/* Products Card */}
-            <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
+            <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-xs dark:bg-neutral-800 dark:border-neutral-700">
               {/* Header */}
               <div className="py-3 px-5 flex justify-between items-center gap-x-5 border-b border-stone-200 dark:border-neutral-700">
                 <h2 className="inline-block font-semibold text-stone-800 dark:text-neutral-200">
@@ -90,7 +90,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
                         <path d="M12 8h.01" />
                       </svg>
                       <span
-                        className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-[60] max-w-60 py-1 px-2 bg-stone-900 text-xs font-normal text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                        className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-60 max-w-60 py-1 px-2 bg-stone-900 text-xs font-normal text-white rounded-lg shadow-xs dark:bg-neutral-700"
                         role="tooltip"
                       >
                         Give your product a short and clear name.
@@ -100,7 +100,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
                   <input
                     {...register("name", { required: true })}
                     type="text"
-                    className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                    className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                   />
                 </div>
                 {/* End Input */}
@@ -117,7 +117,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
                     <input
                       {...register("sku", { required: false })}
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       placeholder="eg. 348121032"
                     />
                   </div>
@@ -134,7 +134,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
                       <input
                         {...register("weight", { required: false })}
                         type="text"
-                        className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         placeholder="0.0"
                       />
                       <div className="absolute inset-y-0 end-0 flex items-center z-20 pe-[5px] text-stone-400">
@@ -144,9 +144,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ item, onSave }) => {
                             data-hs-select='{
                         "placeholder": "Select option...",
                         "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-stone-800 rounded-lg hover:bg-stone-100 focus:outline-none focus:bg-stone-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
+                        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-stone-800 rounded-lg hover:bg-stone-100 focus:outline-hidden focus:bg-stone-100 before:absolute before:inset-0 before:z-1 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
                         "dropdownClasses": "end-0 mt-2 p-1 z-50 w-20 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-950",
-                        "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-xs text-stone-800 rounded-lg cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-none focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+                        "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-xs text-stone-800 rounded-lg cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-hidden focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                         "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-stone-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                       }'
                             className="hidden"
@@ -273,14 +273,14 @@ const Thumbnail: React.FC = () => {
 
           <div className="grow">
             <div className="flex items-center gap-x-2">
-              <label className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+              <label className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500 cursor-pointer">
                 <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileUpload} accept="image/*" disabled={fileUpload.isPending} />
                 <Upload size={16} />
                 {fileUpload.isPending ? 'Uploading...' : 'Upload photo'}
               </label>
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-stone-200 bg-white text-red-500 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-stone-200 bg-white text-red-500 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 onClick={handleRemove}
                 disabled={!!!image}
               >
@@ -314,7 +314,7 @@ const Description: React.FC = () => {
           <div id="hs-editor-tiptap">
             <div className="flex align-middle gap-x-0.5 border-b border-stone-200 p-2 dark:border-neutral-700">
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-bold=""
               >
@@ -335,7 +335,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-italic=""
               >
@@ -357,7 +357,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-underline=""
               >
@@ -378,7 +378,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-strike=""
               >
@@ -400,7 +400,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-link=""
               >
@@ -421,7 +421,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-ol=""
               >
@@ -446,7 +446,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-ul=""
               >
@@ -471,7 +471,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-blockquote=""
               >
@@ -494,7 +494,7 @@ const Description: React.FC = () => {
                 </svg>
               </button>
               <button
-                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 type="button"
                 data-hs-editor-code=""
               >
@@ -529,7 +529,7 @@ const MediaCard: React.FC = () => {
   return (
     <>
       {/* Media Card */}
-      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-xs dark:bg-neutral-800 dark:border-neutral-700">
         {/* Header */}
         <div className="py-3 px-5 flex justify-between items-center gap-x-5 border-b border-stone-200 dark:border-neutral-700">
           <h2 className="inline-block font-semibold text-stone-800 dark:text-neutral-200">
@@ -538,7 +538,7 @@ const MediaCard: React.FC = () => {
           <div className="flex justify-end items-center gap-x-2">
             <button
               type="button"
-              className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="py-2 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             >
               <svg
                 className="shrink-0 size-3.5"
@@ -577,7 +577,7 @@ const MediaCard: React.FC = () => {
               <div className="absolute top-2 end-2 z-10">
                 <button
                   type="button"
-                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   data-hs-remove-element="#dismiss-img1"
                 >
                   <svg
@@ -611,7 +611,7 @@ const MediaCard: React.FC = () => {
               <div className="absolute top-2 end-2 z-10">
                 <button
                   type="button"
-                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   data-hs-remove-element="#dismiss-img2"
                 >
                   <svg
@@ -645,7 +645,7 @@ const MediaCard: React.FC = () => {
               <div className="absolute top-2 end-2 z-10">
                 <button
                   type="button"
-                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   data-hs-remove-element="#dismiss-img3"
                 >
                   <svg
@@ -679,7 +679,7 @@ const MediaCard: React.FC = () => {
               <div className="absolute top-2 end-2 z-10">
                 <button
                   type="button"
-                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-7 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full border border-stone-200 bg-white text-stone-600 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   data-hs-remove-element="#dismiss-img4"
                 >
                   <svg
@@ -764,7 +764,7 @@ const MediaCard: React.FC = () => {
                   </span>
                   <label
                     htmlFor="hs-pro-epdupb"
-                    className="relative cursor-pointer bg-white font-semibold text-green-600 hover:text-green-700 rounded-lg decoration-2 hover:underline focus-within:outline-none focus-within:ring-2 focus-within:ring-green-600 focus-within:ring-offset-2 dark:bg-neutral-800 dark:text-green-500 dark:hover:text-green-600"
+                    className="relative cursor-pointer bg-white font-semibold text-green-600 hover:text-green-700 rounded-lg decoration-2 hover:underline focus-within:outline-hidden focus-within:ring-2 focus-within:ring-green-600 focus-within:ring-offset-2 dark:bg-neutral-800 dark:text-green-500 dark:hover:text-green-600"
                   >
                     <span>browse</span>
                     <input
@@ -797,7 +797,7 @@ const VariantTable: React.FC = () => {
   return (
     <>
       {/* Variants Card */}
-      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-xs dark:bg-neutral-800 dark:border-neutral-700">
         {/* Header */}
         <div className="py-3 px-5 flex justify-between items-center gap-x-5 border-b border-stone-200 dark:border-neutral-700">
           <h2 className="inline-block font-semibold text-stone-800 dark:text-neutral-200">
@@ -854,7 +854,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                     />
                   </div>
                   {/* End Input */}
@@ -871,7 +871,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                     />
                   </div>
                   {/* End Input */}
@@ -889,7 +889,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
                         USD
@@ -922,7 +922,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -942,7 +942,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -970,7 +970,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1009,7 +1009,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts-1"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue={39}
                     />
                   </div>
@@ -1027,7 +1027,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc-1"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue="Yellow"
                     />
                   </div>
@@ -1046,7 +1046,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp-1"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         defaultValue={45.0}
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
@@ -1080,7 +1080,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -1100,7 +1100,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -1128,7 +1128,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1167,7 +1167,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts-2"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue={40}
                     />
                   </div>
@@ -1185,7 +1185,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc-2"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue="Yellow"
                     />
                   </div>
@@ -1204,7 +1204,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp-2"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         defaultValue={45.0}
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
@@ -1238,7 +1238,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -1258,7 +1258,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -1286,7 +1286,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1325,7 +1325,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts-3"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue={41}
                     />
                   </div>
@@ -1343,7 +1343,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc-3"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue="Yellow"
                     />
                   </div>
@@ -1362,7 +1362,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp-3"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         defaultValue={45.0}
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
@@ -1396,7 +1396,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -1416,7 +1416,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -1444,7 +1444,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1483,7 +1483,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts-4"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue={42}
                     />
                   </div>
@@ -1501,7 +1501,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc-4"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue="Yellow"
                     />
                   </div>
@@ -1520,7 +1520,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp-4"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         defaultValue={45.0}
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
@@ -1554,7 +1554,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -1574,7 +1574,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -1602,7 +1602,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1641,7 +1641,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvts-5"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 uppercase placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue={43}
                     />
                   </div>
@@ -1659,7 +1659,7 @@ const VariantTable: React.FC = () => {
                     <input
                       id="hs-pro-epdvtc-5"
                       type="text"
-                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                      className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                       defaultValue="Yellow"
                     />
                   </div>
@@ -1678,7 +1678,7 @@ const VariantTable: React.FC = () => {
                       <input
                         id="hs-pro-epdvtp-5"
                         type="text"
-                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                        className="py-2 ps-3 pe-12 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                         defaultValue={45.0}
                       />
                       <div className="absolute inset-y-0 end-2.5 flex items-center z-20 ps-[5px] text-sm text-stone-400 dark:text-neutral-600">
@@ -1712,7 +1712,7 @@ const VariantTable: React.FC = () => {
                         <div className="flex justify-end items-center gap-x-1.5">
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-decrement=""
                           >
                             <svg
@@ -1732,7 +1732,7 @@ const VariantTable: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             data-hs-input-number-increment=""
                           >
                             <svg
@@ -1760,7 +1760,7 @@ const VariantTable: React.FC = () => {
                 <div className="col-span-full md:col-span-1 md:text-end">
                   <button
                     type="button"
-                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
+                    className="py-1 px-3 md:px-1 inline-flex justify-center items-center gap-x-1.5 font-medium text-sm rounded-full bg-stone-100 border border-transparent text-stone-600 hover:bg-stone-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-200 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600"
                     data-hs-copy-markup-delete-item=""
                   >
                     <svg
@@ -1799,7 +1799,7 @@ const VariantTable: React.FC = () => {
                 "targetSelector": "#hs-content-for-copy",
                 "wrapperSelector": "#hs-wrapper-for-copy"
               }'
-              className="py-1.5 px-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full border border-dashed border-stone-200 bg-white text-stone-800 hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="py-1.5 px-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full border border-dashed border-stone-200 bg-white text-stone-800 hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             >
               <svg
                 className="shrink-0 size-3"
@@ -1834,7 +1834,7 @@ const ProductPrice: React.FC = () => {
   return (
     <>
       {/* Product Pricing Card */}
-      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-xs dark:bg-neutral-800 dark:border-neutral-700">
         {/* Header */}
         <div className="py-3 px-5 flex justify-between items-center gap-x-5 border-b border-stone-200 dark:border-neutral-700">
           <h2 className="inline-block font-semibold text-stone-800 dark:text-neutral-200">
@@ -1859,7 +1859,7 @@ const ProductPrice: React.FC = () => {
               <input
                 {...register('price')}
                 type="text"
-                className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+                className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
                 placeholder="0.0"
               />
               <div className="absolute inset-y-0 end-0 flex items-center pe-[5px] text-stone-400">
@@ -1869,9 +1869,9 @@ const ProductPrice: React.FC = () => {
                     data-hs-select='{
                         "placeholder": "Select option...",
                         "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-stone-800 rounded-lg hover:bg-stone-100 focus:outline-none focus:bg-stone-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
+                        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 ps-2.5 pe-6 inline-flex shrink-0 justify-center items-center gap-x-1.5 text-xs text-stone-800 rounded-lg hover:bg-stone-100 focus:outline-hidden focus:bg-stone-100 before:absolute before:inset-0 before:z-1 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
                         "dropdownClasses": "end-0 mt-2 p-1 z-50 w-24 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-950",
-                        "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-xs text-stone-800 rounded-lg cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-none focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+                        "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-1.5 px-2 w-full text-xs text-stone-800 rounded-lg cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-hidden focus:bg-stone-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                         "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-stone-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
                         "viewport": "#hs-product-details-pricing-card-body"
                       }'
@@ -1921,7 +1921,7 @@ const ProductPrice: React.FC = () => {
                 id="hs-pro-epdas"
                 className="relative w-11 h-6 p-px bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                before:inline-block before:size-5 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
               />
             </div>
           </div>
@@ -1941,7 +1941,7 @@ const ProductPrice: React.FC = () => {
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                 </svg>
                 <a
-                  className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-green-400 dark:hover:text-green-500"
+                  className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-green-400 dark:hover:text-green-500"
                   href="#"
                 >
                   Set "Compare to" price
@@ -1961,7 +1961,7 @@ const ProductPrice: React.FC = () => {
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                 </svg>
                 <a
-                  className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-green-400 dark:hover:text-green-500"
+                  className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-green-400 dark:hover:text-green-500"
                   href="#"
                 >
                   Bulk discount pricing
@@ -1982,7 +1982,7 @@ const Organization: React.FC = () => {
   return (
     <>
       {/* Organization Card */}
-      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="flex flex-col bg-white border border-stone-200 overflow-hidden rounded-xl shadow-xs dark:bg-neutral-800 dark:border-neutral-700">
         {/* Header */}
         <div className="py-3 px-5 flex justify-between items-center gap-x-5 border-b border-stone-200 dark:border-neutral-700">
           <h2 className="inline-block font-semibold text-stone-800 dark:text-neutral-200">
@@ -2006,7 +2006,7 @@ const Organization: React.FC = () => {
             <input
               id="hs-pro-daufvd"
               type="text"
-              className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+              className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
               placeholder="eg. Nike"
             />
           </div>
@@ -2022,9 +2022,9 @@ const Organization: React.FC = () => {
                 data-hs-select='{
                     "placeholder": "Select option...",
                     "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-stone-200 rounded-lg text-start text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",
+                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-stone-200 rounded-lg text-start text-sm text-stone-800 focus:outline-hidden focus:ring-2 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600",
                     "dropdownClasses": "mt-2 z-50 w-full min-w-36 max-h-72 z-50 p-1 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-                    "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-stone-800 cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-none focus:bg-stone-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
+                    "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-stone-800 cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-hidden focus:bg-stone-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-stone-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
                   }'
                 className="hidden"
@@ -2067,9 +2067,9 @@ const Organization: React.FC = () => {
                 data-hs-select='{
                     "placeholder": "Select option...",
                     "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-stone-200 rounded-lg text-start text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",
+                    "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-stone-200 rounded-lg text-start text-sm text-stone-800 focus:outline-hidden focus:ring-2 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600",
                     "dropdownClasses": "mt-2 z-50 w-full min-w-36 max-h-72 z-50 p-1 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-                    "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-stone-800 cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-none focus:bg-stone-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
+                    "optionClasses": "hs-selected:bg-stone-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-stone-800 cursor-pointer hover:bg-stone-100 rounded-lg focus:outline-hidden focus:bg-stone-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
                     "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-stone-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
                     "viewport": "#hs-add-product-organization-card-body"
                   }'
@@ -2117,7 +2117,7 @@ const Organization: React.FC = () => {
             <input
               id="hs-pro-dauftg"
               type="text"
-              className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+              className="py-2 px-3 block w-full border-stone-200 rounded-lg text-sm text-stone-800 placeholder:text-stone-500 focus:z-10 focus:border-green-600 focus:ring-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder:text-neutral-500 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600"
               placeholder="Enter tags"
             />
           </div>

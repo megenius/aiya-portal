@@ -18,7 +18,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
           <div className="flex items-center gap-x-2">
             <button
               type="button"
-              className="p-2 inline-flex justify-center items-center gap-x-2 border border-transparent text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+              className="p-2 inline-flex justify-center items-center gap-x-2 border border-transparent text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
               <svg
                 className="shrink-0 size-3.5"
@@ -38,7 +38,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
             </button>
             <button
               type="button"
-              className="p-2 inline-flex justify-center items-center gap-x-2 border border-transparent text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+              className="p-2 inline-flex justify-center items-center gap-x-2 border border-transparent text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             >
               <svg
                 className="shrink-0 size-3.5"
@@ -71,7 +71,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
         <div className="my-4">
           <div className="space-y-4">
             {/* Card */}
-            <div className="p-5 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+            <div className="p-5 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
               <div className="grid sm:grid-cols-12 gap-4">
                 <div className="sm:col-span-5 sm:order-2">
                   <div className="bg-gray-100 rounded-xl overflow-hidden dark:bg-neutral-700">
@@ -95,7 +95,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
                     </div>
                     <p>
                       <a
-                        className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500"
+                        className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-blue-400 dark:hover:text-blue-500"
                         href="#"
                       >
                         Explore templates
@@ -122,7 +122,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
             </div>
             {/* End Card */}
             {/* Card */}
-            <div className="p-5 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+            <div className="p-5 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
               <div className="grid sm:grid-cols-12 gap-4">
                 <div className="sm:col-span-5 sm:order-2">
                   <div className="bg-blue-100 rounded-xl overflow-hidden dark:bg-blue-900">
@@ -147,7 +147,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
                     </div>
                     <p>
                       <a
-                        className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500"
+                        className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-blue-400 dark:hover:text-blue-500"
                         href="#"
                       >
                         Learn more
@@ -176,7 +176,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
           </div>
         </div>
         {/* Card */}
-        <div className="py-10 px-5 relative overflow-hidden text-center bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="py-10 px-5 relative overflow-hidden text-center bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           <div className="relative z-10">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-neutral-200">
               Invite friends
@@ -187,7 +187,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
             <div className="mt-3 sm:mt-5">
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 data-hs-overlay="#hs-pro-dshm"
               >
                 Send an invite

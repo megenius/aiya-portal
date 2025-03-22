@@ -3,7 +3,7 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
   <div className="flex justify-between items-center">
     {/* Logo */}
     <a
-      className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+      className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
       href="#"
       aria-label="Preline"
     >
@@ -44,9 +44,9 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
         data-hs-select='{
 "placeholder": "Select country",
 "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><div data-icon></div></button>",
-"toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-3 pe-7 flex items-center gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm text-gray-800 hover:border-gray-300 focus:outline-none focus:border-gray-300",
+"toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-3 pe-7 flex items-center gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm text-gray-800 hover:border-gray-300 focus:outline-hidden focus:border-gray-300",
 "dropdownClasses": "end-0 w-full min-w-[180px] max-h-72 p-1 space-y-0.5 z-50 w-full overflow-hidden overflow-y-auto bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
-"optionClasses": "hs-selected:bg-gray-100 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100",
+"optionClasses": "hs-selected:bg-gray-100 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100",
 "optionTemplate": "<div><div class=\"flex items-center gap-x-2\"><div data-icon></div><div class=\"text-gray-800" data-title></div><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div></div>"
 }'
         className="hidden"

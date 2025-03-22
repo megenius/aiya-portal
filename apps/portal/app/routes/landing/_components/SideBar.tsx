@@ -13,7 +13,7 @@ const SideBar: React.FC<SideBarProps> = () => {
     -translate-x-full transition-all duration-300 transform
     w-[260px] h-full
     hidden
-    fixed inset-y-0 start-0 z-[60]
+    fixed inset-y-0 start-0 z-60
     bg-white border-e border-gray-200
     lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
     dark:bg-neutral-800 dark:border-neutral-700"
@@ -24,7 +24,7 @@ const SideBar: React.FC<SideBarProps> = () => {
         <header className="h-[46px] px-8">
           {/* Logo */}
           <a
-            className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+            className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
             href="../../pro/dashboard/index.html"
             aria-label="Preline"
           >
@@ -75,7 +75,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 "
+                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 "
                   href="../../pro/dashboard/index.html"
                 >
                   <svg
@@ -101,7 +101,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               <li className="hs-accordion px-5  " id="users-accordion">
                 <button
                   type="button"
-                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   aria-expanded="false"
                   aria-controls="users-accordion-sub"
                 >
@@ -150,7 +150,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                   >
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/users.html"
                       >
                         Overview
@@ -158,7 +158,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/users-add-user.html"
                       >
                         Add User
@@ -172,7 +172,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               <li className="hs-accordion px-5  " id="user-profile-accordion">
                 <button
                   type="button"
-                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   aria-expanded="false"
                   aria-controls="user-profile-accordion-sub"
                 >
@@ -220,7 +220,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                   >
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/user-profile-my-profile.html"
                       >
                         My Profile
@@ -228,7 +228,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/user-profile-teams.html"
                       >
                         Teams
@@ -236,7 +236,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/user-profile-files.html"
                       >
                         Files
@@ -244,7 +244,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/user-profile-connections.html"
                       >
                         Connections
@@ -252,7 +252,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/user-profile.html"
                       >
                         Profile
@@ -266,7 +266,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               <li className="hs-accordion px-5  " id="account-accordion">
                 <button
                   type="button"
-                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   aria-expanded="false"
                   aria-controls="account-accordion-sub"
                 >
@@ -322,7 +322,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                   >
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-profile.html"
                       >
                         Profile
@@ -330,7 +330,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-notifications.html"
                       >
                         Notifications
@@ -338,7 +338,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-integrations.html"
                       >
                         Integrations
@@ -346,7 +346,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-preferences.html"
                       >
                         Preferences
@@ -354,7 +354,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-workspace.html"
                       >
                         Workspace
@@ -362,7 +362,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-plan-and-billing.html"
                       >
                         Plan &amp; Billing
@@ -370,7 +370,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     </li>
                     <li>
                       <a
-                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                        className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                         href="../../pro/dashboard/account-members.html"
                       >
                         Members
@@ -382,7 +382,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* End Link */}
               {/* Link */}
               {/* <li class="px-5">
-        <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/projects.html">
+        <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/projects.html">
           <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 7v7"/><path d="M12 7v4"/><path d="M16 7v9"/></svg>
           Projects <span class="py-0.5 px-2 inline-flex items-center gap-x-1.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">New</span>
         </a>
@@ -391,7 +391,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                   href="../../pro/dashboard/welcome-page.html"
                 >
                   <svg
@@ -416,7 +416,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                   href="../../pro/dashboard/empty-states.html"
                 >
                   <svg
@@ -441,7 +441,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
+                  className="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  "
                   href="../../pro/dashboard/plans.html"
                 >
                   <svg
@@ -460,7 +460,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                     <path d="m16 12-4-4-4 4" />
                     <path d="M12 16V8" />
                   </svg>
-                  <span className="bg-clip-text bg-gradient-to-tr from-blue-600 to-purple-600 to-80% text-transparent dark:from-blue-500 dark:to-purple-500">
+                  <span className="bg-clip-text bg-linear-to-tr from-blue-600 to-purple-600 to-80% text-transparent dark:from-blue-500 dark:to-purple-500">
                     Plans
                   </span>
                 </a>
@@ -476,7 +476,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   href="../../pro/dashboard/chat.html"
                 >
                   <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
@@ -502,7 +502,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   href="../../pro/dashboard/calendar-month.html"
                 >
                   <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
@@ -531,7 +531,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               {/* Link */}
               <li className="px-5">
                 <a
-                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                  className="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                   href="../../pro/dashboard/kanban-board.html"
                 >
                   <span className="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
@@ -573,7 +573,7 @@ const SideBar: React.FC<SideBarProps> = () => {
               <button
                 id="hs-pro-dnwpd"
                 type="button"
-                className="group w-full inline-flex items-center py-3 text-start text-gray-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none dark:text-white"
+                className="group w-full inline-flex items-center py-3 text-start text-gray-800 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden dark:text-white"
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"
@@ -632,7 +632,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                 <div className="p-1 space-y-0.5">
                   {/* Item */}
                   <a
-                    className="py-2 px-3 block w-full text-start bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="py-2 px-3 block w-full text-start bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <div className="flex gap-x-2">
@@ -696,7 +696,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                   {/* End Item */}
                   {/* Item */}
                   <a
-                    className="py-2 px-3 block w-full text-start rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="py-2 px-3 block w-full text-start rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     href="#"
                   >
                     <div className="flex gap-x-2">
@@ -762,7 +762,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                 <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   >
                     <svg
                       className="shrink-0 size-4"
@@ -786,7 +786,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                 <div className="p-1 border-t border-gray-200 dark:border-neutral-800">
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   >
                     Sign out
                     <span className="ms-auto text-xs text-gray-500 dark:text-neutral-500">
@@ -804,7 +804,7 @@ const SideBar: React.FC<SideBarProps> = () => {
           {/* Sidebar Close */}
           <button
             type="button"
-            className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             data-hs-overlay="#hs-pro-sidebar"
           >
             <svg

@@ -13,7 +13,7 @@ const topAds: TopAd[] = [
 
 const TopAds: React.FC<TopAdsProps> = () => {
   return (
-    <div className="bg-white shadow rounded-lg p-6 mt-6">
+    <div className="bg-white shadow-sm rounded-lg p-6 mt-6">
       <h2 className="text-xl font-semibold mb-4">Top Performing Ads</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">

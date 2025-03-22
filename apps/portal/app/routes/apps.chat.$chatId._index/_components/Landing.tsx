@@ -14,13 +14,13 @@ const Landing: React.FC<LandingProps> = () => {
     >
       <div className="relative h-dvh flex flex-col justify-end">
         {/* Header */}
-        <header className="sticky top-0 inset-x-0 z-[9] p-2 sm:px-5 flex justify-between gap-x-2 xl:grid xl:grid-cols-2 bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
+        <header className="sticky top-0 inset-x-0 z-9 p-2 sm:px-5 flex justify-between gap-x-2 xl:grid xl:grid-cols-2 bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
           <div className="lg:hidden w-20 sm:w-auto flex items-center">
             {/* Sidebar Toggle */}
             <div className="sm:-ms-3 ">
               <button
                 type="button"
-                className="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="flex justify-center items-center gap-x-1 py-1.5 px-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 data-hs-overlay="#hs-pro-chat-sidebar"
                 aria-controls="hs-pro-chat-sidebar"
                 aria-label="Toggle navigation"
@@ -48,7 +48,7 @@ const Landing: React.FC<LandingProps> = () => {
           <div>
             <button
               type="button"
-              className="truncate flex items-center gap-x-3.5 focus:outline-none"
+              className="truncate flex items-center gap-x-3.5 focus:outline-hidden"
               data-hs-overlay="#hs-pro-chhds1"
               aria-controls="hs-pro-chhds1"
               aria-label="Toggle navigation"
@@ -77,7 +77,7 @@ const Landing: React.FC<LandingProps> = () => {
             <div className="hs-tooltip [--placement:bottom] hidden sm:inline-block">
               <button
                 type="button"
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 data-hs-overlay="#hs-pro-chhsn"
               >
                 <svg
@@ -111,7 +111,7 @@ const Landing: React.FC<LandingProps> = () => {
             <div className="hs-tooltip [--placement:bottom] hidden sm:inline-block">
               <button
                 type="button"
-                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="hs-tooltip-toggle flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 data-hs-overlay="#hs-pro-chhtgm"
               >
                 <svg
@@ -144,7 +144,7 @@ const Landing: React.FC<LandingProps> = () => {
               <button
                 id="hs-pro-cht1hmd"
                 type="button"
-                className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
               >
                 <svg
                   className="shrink-0 size-4"
@@ -165,7 +165,7 @@ const Landing: React.FC<LandingProps> = () => {
               </button>
               {/* More Dropdown */}
               <div
-                className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-40 transition-[opacity,margin] duration opacity-0 hidden z-[11] bg-white rounded-xl shadow-lg dark:bg-neutral-950"
+                className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-40 transition-[opacity,margin] duration opacity-0 hidden z-11 bg-white rounded-xl shadow-lg dark:bg-neutral-950"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="hs-pro-cht1hmd"
@@ -173,7 +173,7 @@ const Landing: React.FC<LandingProps> = () => {
                 <div className="p-1 space-y-0.5">
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   >
                     <svg
                       className="shrink-0 size-3.5"
@@ -194,7 +194,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                   >
                     <svg
                       className="shrink-0 size-3.5"
@@ -215,7 +215,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="sm:hidden w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="sm:hidden w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhsn"
                   >
                     <svg
@@ -239,7 +239,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="sm:hidden w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="sm:hidden w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhtgm"
                   >
                     <svg
@@ -261,7 +261,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhsh"
                   >
                     <svg
@@ -284,7 +284,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhsp"
                   >
                     <svg
@@ -307,7 +307,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhbu"
                   >
                     <svg
@@ -329,7 +329,7 @@ const Landing: React.FC<LandingProps> = () => {
                   </button>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-overlay="#hs-pro-chhdl"
                   >
                     <svg
@@ -361,7 +361,7 @@ const Landing: React.FC<LandingProps> = () => {
               {/* Sidebar Toggle */}
               <button
                 type="button"
-                className="hidden lg:flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="hidden lg:flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 data-hs-overlay="#hs-pro-chhds1"
                 aria-controls="hs-pro-chhds1"
                 aria-label="Toggle navigation"
@@ -401,7 +401,7 @@ const Landing: React.FC<LandingProps> = () => {
               </button>
               <button
                 type="button"
-                className="lg:hidden relative shrink-0 flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                className="lg:hidden relative shrink-0 flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 data-hs-overlay="#hs-pro-chhds1"
                 aria-controls="hs-pro-chhds1"
                 aria-label="Toggle navigation"
@@ -423,7 +423,7 @@ const Landing: React.FC<LandingProps> = () => {
           <div className="py-5 px-2 sm:px-5 space-y-5">
             <div className="relative">
               {/* Time */}
-              <div className="sticky top-0 inset-x-0 z-[8] max-w-lg mx-auto text-center">
+              <div className="sticky top-0 inset-x-0 z-8 max-w-lg mx-auto text-center">
                 <span className="py-0.5 px-1.5 bg-gray-100 text-xs text-gray-500 rounded-full dark:bg-neutral-900 dark:text-neutral-500">
                   Today
                 </span>
@@ -451,12 +451,12 @@ const Landing: React.FC<LandingProps> = () => {
                         className="group flex justify-start gap-x-2"
                         style={{ wordBreak: "break-word" }}
                       >
-                        <div className="order-1 bg-white shadow-sm dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
+                        <div className="order-1 bg-white shadow-xs dark:bg-neutral-800 dark:border-neutral-700 inline-block rounded-xl pt-2 pb-1.5 px-2.5">
                           <div className="text-sm text-gray-800 dark:text-neutral-200">
                             Hi, I'd like to ask some questions. Can I use Preline
                             UI on a client project?
                             <a
-                              className="group block mt-3 mb-1 focus:outline-none"
+                              className="group block mt-3 mb-1 focus:outline-hidden"
                               href="https://preline.co/"
                               target="_blank"
                             >
@@ -495,7 +495,7 @@ const Landing: React.FC<LandingProps> = () => {
                             <button
                               id="hs-pro-cht1cmd_1"
                               type="button"
-                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                               aria-haspopup="menu"
                               aria-expanded="false"
                               aria-label="Dropdown"
@@ -519,14 +519,14 @@ const Landing: React.FC<LandingProps> = () => {
                             </button>
                             {/* More Dropdown */}
                             <div
-                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-[8] bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
+                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-8 bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
                               role="menu"
                               aria-orientation="vertical"
                               aria-labelledby="hs-pro-cht1cmd_1"
                             >
                               <div className="p-1">
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -547,7 +547,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Edit
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -569,7 +569,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Reply
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -649,7 +649,7 @@ const Landing: React.FC<LandingProps> = () => {
                             <button
                               id="hs-pro-cht1cmd_2"
                               type="button"
-                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                               aria-haspopup="menu"
                               aria-expanded="false"
                               aria-label="Dropdown"
@@ -673,14 +673,14 @@ const Landing: React.FC<LandingProps> = () => {
                             </button>
                             {/* More Dropdown */}
                             <div
-                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-[8] bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
+                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-8 bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
                               role="menu"
                               aria-orientation="vertical"
                               aria-labelledby="hs-pro-cht1cmd_2"
                             >
                               <div className="p-1">
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -701,7 +701,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Edit
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -723,7 +723,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Reply
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -801,7 +801,7 @@ const Landing: React.FC<LandingProps> = () => {
                             <button
                               id="hs-pro-cht1cmd_3"
                               type="button"
-                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                              className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                               aria-haspopup="menu"
                               aria-expanded="false"
                               aria-label="Dropdown"
@@ -825,14 +825,14 @@ const Landing: React.FC<LandingProps> = () => {
                             </button>
                             {/* More Dropdown */}
                             <div
-                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-[8] bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
+                              className="hs-dropdown-menu hs-dropdown-open:opacity-100 w-32 transition-[opacity,margin] duration opacity-0 hidden z-8 bg-white rounded-xl shadow-lg dark:bg-neutral-800 before:h-4 before:absolute before:-top-4 before:start-0 before:w-full after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full"
                               role="menu"
                               aria-orientation="vertical"
                               aria-labelledby="hs-pro-cht1cmd_3"
                             >
                               <div className="p-1">
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -853,7 +853,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Edit
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -875,7 +875,7 @@ const Landing: React.FC<LandingProps> = () => {
                                   Reply
                                 </a>
                                 <a
-                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                  className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                                   href="#"
                                 >
                                   <svg
@@ -925,14 +925,14 @@ const Landing: React.FC<LandingProps> = () => {
         </div>
         {/* End Chat Content */}
         {/* Textarea */}
-        <footer className="sticky bottom-0 inset-x-0 z-[9] bg-white border-t border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
+        <footer className="sticky bottom-0 inset-x-0 z-9 bg-white border-t border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
           <label htmlFor="hs-chat-autoheight-textarea-1" className="sr-only">
             Message
           </label>
           <div className="pb-2 ps-2">
             <textarea
               id="hs-chat-autoheight-textarea-1"
-              className="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-none focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+              className="max-h-36 pt-4 pb-2 ps-2 pe-4 block w-full border-transparent rounded-0 md:text-sm leading-4 resize-none focus:outline-hidden focus:border-transparent focus:ring-transparent disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:text-neutral-400 dark:placeholder-neutral-500 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
               placeholder="Message Costa"
               defaultValue={""}
             />
@@ -942,7 +942,7 @@ const Landing: React.FC<LandingProps> = () => {
                 {/* Button */}
                 <button
                   type="button"
-                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 >
                   <svg
                     className="shrink-0 size-4"
@@ -964,7 +964,7 @@ const Landing: React.FC<LandingProps> = () => {
                 {/* Button */}
                 <button
                   type="button"
-                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 >
                   <svg
                     className="shrink-0 size-4"
@@ -995,7 +995,7 @@ const Landing: React.FC<LandingProps> = () => {
                 {/* Button */}
                 <button
                   type="button"
-                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                  className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 >
                   <svg
                     className="shrink-0 size-4"
@@ -1019,7 +1019,7 @@ const Landing: React.FC<LandingProps> = () => {
                 {/* Send Button */}
                 <button
                   type="button"
-                  className="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="inline-flex shrink-0 justify-center items-center size-8 text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:pointer-events-none focus:z-10 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <span className="sr-only">Send</span>
                   <svg
@@ -1073,7 +1073,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
             <div className="absolute top-2 end-4 z-10">
               <button
                 type="button"
-                className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-white text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
+                className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-white text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700"
                 aria-label="Close"
                 data-hs-overlay="#hs-pro-chhds1"
               >
@@ -1116,7 +1116,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
               <div className="mt-4 flex justify-center items-center gap-x-3">
                 <button
                   type="button"
-                  className="py-2 px-2.5 min-w-32 inline-flex justify-center items-center gap-x-1.5 font-medium text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="py-2 px-2.5 min-w-32 inline-flex justify-center items-center gap-x-1.5 font-medium text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -1140,7 +1140,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
                 </button>
                 <button
                   type="button"
-                  className="py-2 px-2.5 min-w-32 inline-flex justify-center items-center gap-x-1.5 font-medium text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="py-2 px-2.5 min-w-32 inline-flex justify-center items-center gap-x-1.5 font-medium text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -1174,7 +1174,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
               >
                 <button
                   type="button"
-                  className="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
+                  className="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-hidden focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
                   aria-expanded="true"
                   aria-controls="hs-pro-chdsudc1-collapse"
                 >
@@ -1358,7 +1358,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
                       </dt>
                       <dd className="col-span-2">
                         <a
-                          className="align-top text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500"
+                          className="align-top text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline dark:text-blue-400 dark:hover:text-blue-500"
                           href="#"
                         >
                           fortex.com
@@ -1374,7 +1374,7 @@ dark:bg-neutral-800 dark:border-neutral-700"
               <div className="hs-accordion active" id="hs-pro-chdssmc1">
                 <button
                   type="button"
-                  className="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-none focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
+                  className="hs-accordion-toggle p-5 w-full flex justify-between items-center gap-x-3 text-gray-800 hover:text-gray-600 focus:outline-hidden focus:text-gray-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
                   aria-expanded="true"
                   aria-controls="hs-pro-chdssmc1-collapse"
                 >

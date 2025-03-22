@@ -6,7 +6,7 @@ export const SideBar = () => <div className="hidden min-h-screen lg:w-[400px] xl
   <div className="flex justify-between items-center">
     {/* Logo */}
     <a
-      className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+      className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
       href="/"
       aria-label="AIYA"
     >

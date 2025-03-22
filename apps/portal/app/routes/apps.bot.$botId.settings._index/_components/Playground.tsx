@@ -38,7 +38,7 @@ const Playground: React.FC<PlaygroundProps> = ({ bot }) => {
           </label>
         </div>
         <div className="sm:col-span-8 xl:col-span-6 2xl:col-span-4">
-          <div className="relative flex items-center w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow">
+          <div className="relative flex items-center w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
             <a
               href={url}
               target="_blank"
@@ -71,7 +71,7 @@ const Playground: React.FC<PlaygroundProps> = ({ bot }) => {
                 </button>
 
                 {showTooltip && (
-                  <div className="absolute right-0 top-full mt-2 w-32 bg-gray-800 text-white text-xs rounded py-1 px-2 z-10 text-center">
+                  <div className="absolute right-0 top-full mt-2 w-32 bg-gray-800 text-white text-xs rounded-sm py-1 px-2 z-10 text-center">
                     คัดลอกแล้ว!
                     <div className="absolute -top-1 right-4 w-2 h-2 bg-gray-800 transform rotate-45"></div>
                   </div>

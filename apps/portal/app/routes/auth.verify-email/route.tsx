@@ -36,7 +36,7 @@ const Route = () => {
         {/* <p className="text-sm text-gray-500">
           Didn't receive an email?
           <a
-            className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
+            className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline"
             href="#"
           >
             Resend

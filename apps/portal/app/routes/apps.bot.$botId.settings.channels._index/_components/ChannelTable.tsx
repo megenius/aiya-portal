@@ -126,7 +126,7 @@ const ChannelTable: React.FC<ChannelTableProps> = ({ bot, channels }) => {
                       {/* Checkbox Button */}
                       <label
                         htmlFor={`hs-pro-daicn1-${item.id}`}
-                        className="relative py-2 px-2.5 w-full sm:w-auto block text-center sm:text-start rounded-lg cursor-pointer text-xs font-medium focus:outline-none"
+                        className="relative py-2 px-2.5 w-full sm:w-auto block text-center sm:text-start rounded-lg cursor-pointer text-xs font-medium focus:outline-hidden"
                       >
                         <input
                           type="checkbox"

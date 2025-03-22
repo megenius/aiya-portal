@@ -33,7 +33,7 @@ const ActionButtons: React.FC<AddButtonsProps> = ({ id, onRemove }) => {
       >
         <div className="p-1">
           <button
-            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             onClick={() => onRemove && onRemove(id)}
           // data-hs-overlay={`#add-facebook-modal`}
           >

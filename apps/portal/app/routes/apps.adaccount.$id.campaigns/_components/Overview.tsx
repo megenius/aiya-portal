@@ -16,7 +16,7 @@ interface OverviewProps {
 const Overview: React.FC<OverviewProps> = ({ adaccount, addata }) => {
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden">
+      <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-xs rounded-xl overflow-hidden">
         <StatCard
           title="Total Revenue"
           value={<CurrencyFormatter amount={addata?.purchase_value} currency={adaccount?.metadata?.currency} />}

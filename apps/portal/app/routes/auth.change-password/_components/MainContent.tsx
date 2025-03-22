@@ -88,7 +88,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                   <button
                     type="button"
                     data-hs-toggle-password='{"target": ["#hs-pro-dappnp", "#hs-pro-dapprnp"]}'
-                    className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600"
+                    className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600"
                   >
                     <svg
                       className="shrink-0 size-4"
@@ -148,7 +148,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 <button
                   type="button"
                   data-hs-toggle-password='{"target": ["#hs-pro-dappnp", "#hs-pro-dapprnp"]}'
-                  className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600"
+                  className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600"
                 >
                   <svg
                     className="shrink-0 size-4"
@@ -215,7 +215,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             {/* <div className="flex gap-x-2">
               <input
                 type="checkbox"
-                className="shrink-0 border-gray-200 size-3.5 mt-[3px] rounded text-blue-600 focus:ring-offset-0"
+                className="shrink-0 border-gray-200 size-3.5 mt-[3px] rounded-sm text-blue-600 focus:ring-offset-0"
                 id="hs-pro-dsftac"
               />
               <label
@@ -243,7 +243,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <p className="text-sm text-gray-500">
           Have an account?
           <Link
-            className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
+            className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline"
             to={"../sign-in"}
           >
             Sign in

@@ -53,7 +53,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
       bar: {
         horizontal: false,
         columnWidth: '55%',
-        endingShape: 'rounded'
+        endingShape: 'rounded-sm'
       },
     },
     dataLabels: {
@@ -116,37 +116,37 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
       
       {/* Key Metrics */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">Conversion Rate</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.conversionRate}%</p>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">Avg Lead Score</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.avgLeadScore}</p>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">Total Conversations</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.totalConversations}</p>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">Avg Response Time</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.avgResponseTime}s</p>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">Avg First Response Time</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.avgFirstResponseTime}s</p>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">CSAT Score</h3>
             <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{metrics.csatScore}</p>
@@ -156,7 +156,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
 
       {/* Charts */}
       <div className="grid sm:grid-cols-2 gap-4 mb-6">
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Response Times</h3>
             <div className="h-80">
@@ -164,7 +164,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
             </div>
           </div>
         </div>
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Conversation Classifications</h3>
             <div className="h-80">
@@ -175,7 +175,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
       </div>
 
       {/* Conversation Details Table */}
-      <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+      <div className="flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
         <div className="p-4 md:p-5">
           <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Conversation Details</h3>
           <div className="flex flex-col">
@@ -202,7 +202,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button
                               type="button"
-                              className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                              className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                               onClick={() => setSelectedConversation(conv)}
                             >
                               View
@@ -221,7 +221,7 @@ const Dashboard: React.FC<{ conversationsData: Conversation[] }> = ({ conversati
 
       {/* Selected Conversation Details */}
       {selectedConversation && (
-        <div className="mt-6 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-800">
+        <div className="mt-6 flex flex-col bg-white border shadow-xs rounded-xl dark:bg-slate-900 dark:border-gray-800">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Conversation Details: {selectedConversation.user_name}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400"><strong>Classification:</strong> {selectedConversation.analysis?.classification}</p>

@@ -113,7 +113,7 @@ const ModelDropdown: React.FC<ModelDropdownProps> = ({ bot }) => {
             <button
               type="button"
               id="dropdown-button"
-              className={`inline-flex justify-between w-full rounded-lg border border-gray-200 shadow-sm px-4 py-2 bg-white text-sm hover:bg-gray-50 focus:outline-none 
+              className={`inline-flex justify-between w-full rounded-lg border border-gray-200 shadow-sm px-4 py-2 bg-white text-sm hover:bg-gray-50 focus:outline-hidden 
                 ${selectedItem ? "text-gray-800" : "text-gray-400"}`}
               onClick={handleToggle}
               disabled={isModelsLoading}
