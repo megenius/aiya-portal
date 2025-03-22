@@ -1,10 +1,11 @@
 import {
-  json,
-  MetaFunction,
   ShouldRevalidateFunction,
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
+
+import { json, MetaFunction } from '@remix-run/cloudflare';
+
 import { useLiff } from "~/hooks/useLiff";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";

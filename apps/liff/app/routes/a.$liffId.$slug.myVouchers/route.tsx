@@ -1,7 +1,9 @@
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
-import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
+import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
+import { json, MetaFunction } from '@remix-run/cloudflare';
+
 import Tabs from "~/components/Tabs";
 import { useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";

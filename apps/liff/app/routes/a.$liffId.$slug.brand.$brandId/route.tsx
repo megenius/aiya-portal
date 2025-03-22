@@ -1,9 +1,11 @@
 import {
-  json,
-  MetaFunction,
   ShouldRevalidateFunction,
   useLoaderData,
 } from "@remix-run/react";
+
+import { json, MetaFunction } from '@remix-run/cloudflare';
+
+
 import { useLiff } from "~/hooks/useLiff";
 import MainContent from "./components/MainContent";
 import { LoaderFunctionArgs } from "@remix-run/node";
