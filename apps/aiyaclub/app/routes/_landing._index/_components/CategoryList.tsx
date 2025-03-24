@@ -1,5 +1,4 @@
-import { ca } from "date-fns/locale";
-import { Category } from "~/types/page";
+import { Category } from "~/@types/app.type";
 
 interface Props {
   language: string;
@@ -39,7 +38,7 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
             allCategoryId === selected ? "text-white" : "text-gray-700"
           }`}
         >
-          {allText[language]}
+          {allText['en']}
         </span>
       </button>
       
@@ -63,7 +62,7 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
               category.id === selected ? "text-white" : "text-gray-700"
             }`}
           >
-            {category.name[language]}
+            {category.name['en']}
           </span>
         </button>
       ))}
