@@ -23,8 +23,8 @@ export function Header({ page,language }: HeaderProps) {
           <div className="pt-1 animate-pulse flex items-center gap-3">
             <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
             <div className="space-y-3">
-              <div className="w-24 h-4 bg-gray-300 rounded"></div>
-              <div className="w-32 h-3 bg-gray-200 rounded mt-1"></div>
+              <div className="w-24 h-4 bg-gray-300 rounded-sm"></div>
+              <div className="w-32 h-3 bg-gray-200 rounded-sm mt-1"></div>
             </div>
           </div>
         ) : (

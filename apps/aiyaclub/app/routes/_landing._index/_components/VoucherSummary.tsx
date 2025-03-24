@@ -48,7 +48,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   }
 
   return (
-    <div className="bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
+    <div className="bg-linear-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden">
       <div className="relative p-4">
         <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-10 z-0"></div>
         <div className="absolute left-16 -bottom-16 w-40 h-40 rounded-full bg-white opacity-5 z-0"></div>

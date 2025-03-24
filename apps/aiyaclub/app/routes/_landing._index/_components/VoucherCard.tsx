@@ -35,7 +35,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             <img 
               src={getDirectusFileUrl(voucher?.voucher_brand_id?.logo as string ?? "")} 
               alt={voucher?.voucher_brand_id?.name ?? ""} 
-              className="w-7 h-7 rounded-full object-cover border border-white shadow-sm"
+              className="w-7 h-7 rounded-full object-cover border border-white shadow-xs"
             />
         </div>
       </div>
