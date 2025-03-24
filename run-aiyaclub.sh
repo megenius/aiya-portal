@@ -1,0 +1,1 @@
+bun dev  --filter=partner-api --filter=aiyaclub --filter=liff-api --filter=portal-api
