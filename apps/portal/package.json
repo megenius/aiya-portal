@@ -43,6 +43,7 @@
     "preline": "^3.0.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
+    "react-datepicker": "^8.2.1",
     "react-dom": "^18.2.0",
     "react-dropzone-esm": "^15.0.1",
     "react-hook-form": "^7.52.2",

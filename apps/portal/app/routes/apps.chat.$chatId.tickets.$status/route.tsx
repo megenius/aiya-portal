@@ -1,13 +1,13 @@
-import React from "react"
-import { Outlet, useNavigate } from "@remix-run/react"
-import { useEffect } from "react";
+import React from "react";
+import { Outlet, useNavigate } from "@remix-run/react";
 import { useAppSelector } from "~/store";
-import MainContent from "./_components/MainContent";
+import { TicketsList } from "./components";
 
-const Route = () => {
-  const navigate = useNavigate()
+const Route: React.FC = () => {
+  const navigate = useNavigate();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
+  // Commented out authentication redirect logic
   // useEffect(() => {
   //   if (isAuthenticated) {
   //     window.location.href = '/';
@@ -20,11 +20,12 @@ const Route = () => {
 
   return (
     <>
-      <MainContent />
+      <TicketsList />
+      <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default Route
+export default Route;
 
 

@@ -1,5 +1,4 @@
 import { Context, Next } from "hono";
-import { ChannelDurableObject } from "~/durables/channel.durable";
 import { Env } from "~/types/hono.types";
 
 export async function channelDurableMiddleware(c: Context<Env>, next: Next) {
@@ -10,7 +9,7 @@ export async function channelDurableMiddleware(c: Context<Env>, next: Next) {
 
   // Get Channel Durable Object using providerId
   const id = c.env.CHANNEL_DURABLE.idFromName(providerId);
-  const channelDO = c.env.CHANNEL_DURABLE.get(id);
+  const channelDO = c.env.CHANNEL_DURABLE.get(id) as any;
   c.set("channelDurable", channelDO);
 
   await next();

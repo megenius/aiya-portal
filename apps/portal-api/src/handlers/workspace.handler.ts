@@ -5,7 +5,7 @@ import {
   importFile,
   readItem,
   readItems,
-  updateItem
+  updateItem,
 } from "@directus/sdk";
 import * as line from "@line/bot-sdk";
 import { DirectusError } from "@repo/shared/exceptions/directus";
@@ -607,8 +607,23 @@ export const getWorkspaceHubs = factory.createHandlers(
     try {
       const workspaceId = c.req.param("id") as string;
       const directus = c.get("directus");
+
       const items = await directus.request(
         readItems("chat_hubs", {
+          fields: [
+            "id",
+            "name",
+            // {
+            //   user_id: [
+            //     "id",
+            //     "first_name",
+            //     "last_name",
+            //     "email",
+            //     "avatar",
+            //     "last_access",
+            //   ],
+            // },
+          ],
           filter: {
             team: {
               _eq: workspaceId,

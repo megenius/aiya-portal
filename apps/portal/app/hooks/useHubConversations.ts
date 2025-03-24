@@ -23,10 +23,11 @@ interface ConversationUpdate {
   };
 }
 
-export const useConversations = (providerIds: string | string[]) => {
+export const useHubConversations = ({ hubId }) => {
   const queryClient = useQueryClient();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const baseUrl = import.meta.env.VITE_WS_URL as string;
-  const wsUrl = `${baseUrl}/websocket/uws/conversations/${providerIds}`;
+  const wsUrl = `${baseUrl}/websocket/uws/conversations/xxx`;
 
   const { status, sendMessage } = useWebSocket(wsUrl, {
     autoReconnect: true,
@@ -56,48 +57,10 @@ export const useConversations = (providerIds: string | string[]) => {
     },
   });
 
-  const queryKey = ["conversations", providerIds];
-
   const query = useQuery({
-    queryKey,
-    queryFn: async () => {
-      // Handle case where providerIds is a single string
-      if (
-        !providerIds ||
-        (Array.isArray(providerIds) && providerIds.length === 0)
-      ) {
-        return { data: [] };
-      }
-
-      // If it's a string, convert to array for consistent handling
-      const idsArray = Array.isArray(providerIds) ? providerIds : [providerIds];
-
-      // Fetch conversations for each provider ID
-      const promises = idsArray.map((id) => getConversations(id));
-
-      // Wait for all fetches to complete
-      const results = await Promise.all(promises);
-
-      // Combine and flatten results
-      const combinedData = results.flatMap((result, index) => {
-        // Add providerId to each conversation for filtering later
-        return result.data.map((conversation: any) => ({
-          ...conversation,
-          providerId: idsArray[index],
-        }));
-      });
-
-      // Sort combined results by updated_at (newest first)
-      combinedData.sort(
-        (a: any, b: any) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      );
-
-      return { data: combinedData };
-    },
-    enabled:
-      Boolean(providerIds) &&
-      (Array.isArray(providerIds) ? providerIds.length > 0 : true),
+    queryKey: CONVERSATIONS_QUERY_KEY,
+    queryFn: () => getConversations(providerId),
+    enabled: isAuthenticated,
   });
 
   return {

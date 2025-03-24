@@ -7,10 +7,8 @@ export const getConversations = async (c: Context<Env>) => {
   const cursor = c.req.query("cursor");
 
   try {
-    const channelId = c.env.CHANNEL_DURABLE.idFromName(providerId);
-    const channelObj = c.env.CHANNEL_DURABLE.get(channelId);
-
-    const data = await channelObj.getRecentConversations({ limit, cursor });
+    const channelDurable = c.get("channelDurable");
+    const data = await channelDurable.getRecentConversations({ limit, cursor });
 
     const conversations = data.conversations.map((conv: any) => ({
       id: conv.userId,
