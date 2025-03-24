@@ -9,13 +9,15 @@ import {
 
 
 import prelineCss from "@repo/preline/preline.css?url";
-import tailwindCss from "~/styles/tailwind.css?url";
 import globalCss from "~/styles/global.css?url";
+import landscapeCss from "~/styles/landscape.css?url";
+import tailwindCss from "~/styles/tailwind.css?url";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: prelineCss },
   { rel: "stylesheet", href: globalCss },
-  { rel: "stylesheet", href: tailwindCss },
+  { rel: "stylesheet", href: landscapeCss },
+  { rel: "stylesheet", href: tailwindCss }, // Tailwind should be last to override other styles
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

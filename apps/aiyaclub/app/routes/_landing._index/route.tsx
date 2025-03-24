@@ -26,14 +26,14 @@ export const loader = async () => {
       return [];
     }) as Array<Voucher>;
     
-    const brands = await fetch(`${liffApi}/api/vouchers/voucher-brands`)
+  const brands = await fetch(`${liffApi}/api/vouchers/voucher-brands`)
     .then((res) => {
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
       return res.json();
     }).catch((error) => {
-      console.error("Error fetching vouchers:", error);
+      console.error("Error fetching brands:", error);
       return [];
     }) as Array<VoucherBrand>;
   
@@ -48,6 +48,7 @@ export const loader = async () => {
     }
   };
 }
+
 export default function Index() {
   const { vouchers, brands, user } = useLoaderData<typeof loader>();
   
@@ -59,18 +60,18 @@ export default function Index() {
   
   return (
     <LandscapeLayout user={user}>
-      <div className="content-section">
-        <h2 className="section-title">Popular Vouchers</h2>
+      <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+        <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">Popular Vouchers</h2>
         <VoucherGrid vouchers={popularVouchers} />
       </div>
       
-      <div className="content-section">
-        <h2 className="section-title">Brands</h2>
+      <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+        <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">Brands</h2>
         <BrandsGrid brands={brands} />
       </div>
       
-      <div className="content-section food-section">
-        <h2 className="section-title">Food</h2>
+      <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+        <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">Food</h2>
         <VoucherGrid vouchers={foodVouchers} />
       </div>
     </LandscapeLayout>
