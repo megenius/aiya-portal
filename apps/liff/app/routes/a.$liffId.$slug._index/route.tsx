@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData, useNavigate } from '@remix-run/react';
+import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import _ from 'lodash';
 import { useEffect } from 'react';
 import Loading from '~/components/Loading';
@@ -43,6 +43,8 @@ const Route = () => {
   const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
 
+  const [search] = useSearchParams()
+  const dest = search.get("dest")
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
 
@@ -50,11 +52,14 @@ const Route = () => {
     if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
       return;
     }
+
     if (advanceProfile) {
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     } else {
-      navigate(`/a/${page.liff_id}/${page.slug}/interests`);
+      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
     }
+
+
   }, [advanceProfile, isAdvanceProfileLoading]);
 
   if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
