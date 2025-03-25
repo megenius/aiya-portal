@@ -10,12 +10,14 @@ interface MainContentProps {
   page: PageLiff;
   lineProfile?: Profile;
   language: string;
+  dest?: string;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
   page,
   lineProfile,
   language,
+  dest
 }) => {
   const navigate = useNavigate();
   const createAdvanceProfile = useCreateAdvanceProfile();
@@ -40,7 +42,13 @@ const MainContent: React.FC<MainContentProps> = ({
       { variables: data },
       {
         onSuccess: () => {
-          navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+          if (dest) {
+            navigate(
+              `/a/${page.liff_id}/${page.slug}/${dest}`
+            );
+          } else {
+            navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+          }
         },
       }
     );
@@ -127,11 +135,10 @@ const MainContent: React.FC<MainContentProps> = ({
               <button
                 key={category.id}
                 onClick={() => toggleInterest(category)}
-                className={`flex items-center flex-1 py-3 px-4 rounded-full cursor-pointer transition-all duration-300 border ${
-                  isSelected(category)
-                    ? "bg-primaryLightest border-primary text-primary animate-pop"
-                    : "bg-gray-100 border-transparent text-gray-800"
-                }`}
+                className={`flex items-center flex-1 py-3 px-4 rounded-full cursor-pointer transition-all duration-300 border ${isSelected(category)
+                  ? "bg-primaryLightest border-primary text-primary animate-pop"
+                  : "bg-gray-100 border-transparent text-gray-800"
+                  }`}
                 style={{
                   backgroundColor: isSelected(category)
                     ? page.bg_color
@@ -167,11 +174,10 @@ const MainContent: React.FC<MainContentProps> = ({
         <button
           onClick={handleNext}
           disabled={selectedInterests.length === 0}
-          className={`w-full py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
-            selectedInterests.length > 0
-              ? "bg-primary text-white"
-              : "bg-gray-200 text-gray-500"
-          }`}
+          className={`w-full py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${selectedInterests.length > 0
+            ? "bg-primary text-white"
+            : "bg-gray-200 text-gray-500"
+            }`}
           style={{
             backgroundColor:
               selectedInterests.length > 0

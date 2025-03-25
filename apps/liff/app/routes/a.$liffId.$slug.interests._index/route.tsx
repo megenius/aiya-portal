@@ -3,6 +3,7 @@ import {
   MetaFunction,
   ShouldRevalidateFunction,
   useLoaderData,
+  useSearchParams,
 } from "@remix-run/react";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
@@ -11,6 +12,7 @@ import MainContent from "./components/MainContent";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
+import { useEffect } from "react";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -45,20 +47,26 @@ const Route = () => {
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
   const isThaiLanguage = language.startsWith("th");
   const lang = isThaiLanguage ? "th" : "en";
+  const [search] = useSearchParams()
+  const dest = search.get("dest") || "";
 
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+
+  // useEffect( () => {
+  //   if (dest)
+  // }, [dest]);
 
   if (!isLoggedIn) {
     return <Loading />;
   }
 
   if (isProfileLoading) {
-    return <Loading/>
+    return <Loading />
   }
 
   return (
     <>
-      <MainContent page={page} lineProfile={profile} language={lang} />
+      <MainContent page={page} lineProfile={profile} language={lang} dest={dest} />
     </>
     // <div className="p-4">
     //   <div className="bg-white rounded-lg shadow p-6">

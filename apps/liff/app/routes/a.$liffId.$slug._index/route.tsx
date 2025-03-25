@@ -44,7 +44,7 @@ const Route = () => {
   const navigate = useNavigate();
 
   const [search] = useSearchParams()
-  const dest = search.get("dest")
+  const dest = search.get("dest") || ""
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
 
