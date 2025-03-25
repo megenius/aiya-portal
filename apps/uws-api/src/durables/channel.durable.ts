@@ -191,6 +191,91 @@ export class ChannelDurableObject extends DurableObject {
     }
   }
 
+  async getUsersWithBeaconEvents(query: {
+    limit: number;
+    cursor?: string;
+    eventType?: string;
+  }): Promise<{
+    users: Array<{
+      userId: string;
+      platform: string;
+      lastBeaconEvent: WebhookEvent;
+      userProfile?: LineUser;
+      updatedAt: number;
+    }>;
+    nextCursor?: string;
+  }> {
+    try {
+      const { limit, cursor, eventType } = query;
+
+      const cursorClause = cursor 
+        ? 'AND c.updatedAt < ?' 
+        : '';
+      
+      const eventTypeClause = eventType
+        ? "AND json_extract(c.lastEvent, '$.event_type') = ?"
+        : "AND json_extract(c.lastEvent, '$.event_type') = 'beacon'";
+
+      let params = [];
+      
+      // Build params array based on conditions
+      if (cursor && eventType) {
+        params = [eventType, cursor, limit + 1];
+      } else if (cursor) {
+        params = [cursor, limit + 1];
+      } else if (eventType) {
+        params = [eventType, limit + 1];
+      } else {
+        params = [limit + 1];
+      }
+
+      const resultCursor = this.sql.exec(`
+        SELECT 
+          c.*,
+          u.displayName,
+          u.pictureUrl,
+          u.statusMessage,
+          u.language,
+          u.updatedAt as userUpdatedAt
+        FROM conversations c
+        LEFT JOIN users u ON c.userId = u.userId
+        WHERE 1=1 
+          ${eventTypeClause}
+          ${cursorClause}
+        ORDER BY c.updatedAt DESC
+        LIMIT ?
+      `, ...params);
+
+      const rows = resultCursor.toArray();
+      const users = rows.slice(0, limit).map(row => ({
+        userId: String(row.userId),
+        platform: String(row.platform),
+        lastBeaconEvent: JSON.parse(String(row.lastEvent)) as WebhookEvent,
+        userProfile: row.displayName ? {
+          userId: String(row.userId),
+          displayName: String(row.displayName),
+          pictureUrl: row.pictureUrl ? String(row.pictureUrl) : undefined,
+          statusMessage: row.statusMessage ? String(row.statusMessage) : undefined,
+          language: row.language ? String(row.language) : undefined,
+          updatedAt: Number(row.userUpdatedAt),
+        } : undefined,
+        updatedAt: Number(row.updatedAt),
+      }));
+
+      const nextCursor = rows.length > limit 
+        ? String(rows[limit - 1].updatedAt)
+        : undefined;
+
+      return {
+        users,
+        nextCursor,
+      };
+    } catch (error) {
+      console.error('Error in getUsersWithBeaconEvents:', error);
+      throw new Error('Failed to fetch users with beacon events');
+    }
+  }
+
   private handleWebSocket(request: Request) {
     console.log("[Channel] WebSocket connection requested");
     

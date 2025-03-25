@@ -8,14 +8,14 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8",
     "teerat-tunnel": "cloudflared tunnel run 078f662d-0731-4f0a-87ca-d4ce90c8f72f",
-    "gongtunnel":"cloudflared tunnel run 633c7adc-d0b5-4d1d-a538-87a1d7c35559"
+    "gongtunnel": "cloudflared tunnel run 633c7adc-d0b5-4d1d-a538-87a1d7c35559"
   },
   "devDependencies": {
     "local-ssl-proxy": "^2.0.5",
     "prettier": "^3.2.5",
     "turbo": "^2.2.3",
     "typescript": "^5.4.5",
-    "wrangler": "^3.107.3"
+    "wrangler": "4"
   },
   "engines": {
     "node": ">=18"

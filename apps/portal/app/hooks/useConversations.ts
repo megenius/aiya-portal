@@ -3,9 +3,6 @@ import { getConversations } from "~/services/conversation.service";
 import { useAppSelector } from "~/store";
 import useWebSocket from "./useWebSocket";
 import { useSearchParams } from "@remix-run/react";
-
-const CONVERSATIONS_QUERY_KEY = ["conversations"];
-
 interface ConversationUpdate {
   type: "channel_update";
   data: {
@@ -27,6 +24,7 @@ export const useConversations = (providerIds: string | string[]) => {
   const queryClient = useQueryClient();
   const baseUrl = import.meta.env.VITE_WS_URL as string;
   const wsUrl = `${baseUrl}/websocket/uws/conversations/${providerIds}`;
+  const queryKey = ["conversations", providerIds];
 
   const { status, sendMessage } = useWebSocket(wsUrl, {
     autoReconnect: true,
@@ -45,7 +43,7 @@ export const useConversations = (providerIds: string | string[]) => {
         // );
 
         queryClient.invalidateQueries({
-          queryKey: CONVERSATIONS_QUERY_KEY,
+          queryKey: queryKey,
           exact: true,
           refetchType: "active",
         });
@@ -56,7 +54,6 @@ export const useConversations = (providerIds: string | string[]) => {
     },
   });
 
-  const queryKey = ["conversations", providerIds];
 
   const query = useQuery({
     queryKey,

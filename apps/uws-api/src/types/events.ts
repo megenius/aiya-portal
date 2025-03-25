@@ -186,5 +186,14 @@ export interface WebhookEvent {
   timestamp: number;
   channel_id: string;
   message?: Message;
+  beacon?: {  // Add beacon property
+    type: string;
+    hwid: string;
+    dm?: string;
+    device_message?: string;
+    distance?: number;
+    user_id?: string;
+    timestamp: number;
+  };
   raw_event: any;
 }

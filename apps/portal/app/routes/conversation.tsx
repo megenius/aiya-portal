@@ -1,9 +1,12 @@
 import React from "react";
 import { useConversations } from "~/hooks/useConversations";
 import { Avatar } from "@repo/preline/Avatar";
+import { useSearchParams } from "@remix-run/react";
 
 const ConversationRoute: React.FC = () => {
-  const { data: conversations, isLoading } = useConversations();
+  const [search] = useSearchParams();
+  const providerIds = search.get("provider_ids") || "";
+  const { data: conversations, isLoading } = useConversations(providerIds);
 
   return (
     <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">

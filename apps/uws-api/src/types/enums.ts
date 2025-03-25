@@ -14,7 +14,8 @@ export enum EventType {
   MESSAGE = 'message',
   REACTION = 'reaction',
   STATUS = 'status',
-  SYSTEM = 'system'
+  SYSTEM = 'system',
+  BEACON = 'beacon'
 }
 
 export enum MessageType {
