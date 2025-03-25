@@ -42,22 +42,22 @@ const MainContent: React.FC<MainContentProps> = ({
       { variables: data },
       {
         onSuccess: () => {
-          alert("สร้างโปรไฟล์สำเร็จ");
+          // alert("สร้างโปรไฟล์สำเร็จ");
           if (dest) {
             // navigate to the destination page
-            alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/${dest}`);
+            // alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/${dest}`);
             navigate(
               `/a/${page.liff_id}/${page.slug}/${dest}`
             );
           } else {
             // navigate to the shop page
-            alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/shop`);
+            // alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/shop`);
             navigate(`/a/${page.liff_id}/${page.slug}/shop`);
           }
         },
         onError: (error) => {
           alert("เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [" + error.message + "]");
-          console.error("Error creating advance profile:", error);
+          // console.error("Error creating advance profile:", error);
           // Optionally, show an error message to the user
         }
       }
