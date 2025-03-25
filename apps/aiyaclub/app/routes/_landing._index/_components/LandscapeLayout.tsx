@@ -17,9 +17,6 @@ const LandscapeLayout: React.FC<LandscapeLayoutProps> = ({ children, user, onsea
       {/* Landscape Header */}
       <div 
         className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 lg:p-8 mb-6 shadow-md flex flex-col items-center justify-center text-center"
-        style={{
-          backgroundImage: 'linear-gradient(135deg, rgba(33, 117, 255, 0.8), rgba(61, 145, 255, 0.8)), url(/images/header-bg.jpg)'
-        }}
       >
         <div className="text-white mb-6">
           <h2 className="text-4xl font-bold mb-2">AIYA CLUB</h2>
@@ -33,7 +30,6 @@ const LandscapeLayout: React.FC<LandscapeLayoutProps> = ({ children, user, onsea
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 const search = (e.target as HTMLInputElement).value;
-                console.log('search', search);
                 
                 if (search && search.trim().length > 0) {
                   onsearch && onsearch(search);
