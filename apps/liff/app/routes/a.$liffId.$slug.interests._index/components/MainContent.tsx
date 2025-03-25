@@ -56,7 +56,7 @@ const MainContent: React.FC<MainContentProps> = ({
           }
         },
         onError: (error) => {
-          alert("เกิดข้อผิดพลาดในการสร้างโปรไฟล์");
+          alert("เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [" + error.message + "]");
           console.error("Error creating advance profile:", error);
           // Optionally, show an error message to the user
         }

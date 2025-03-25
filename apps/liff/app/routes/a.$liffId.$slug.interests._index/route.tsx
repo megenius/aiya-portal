@@ -52,15 +52,11 @@ const Route = () => {
 
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
-  // useEffect( () => {
-  //   if (dest)
-  // }, [dest]);
-
   if (!isLoggedIn) {
     return <Loading />;
   }
 
-  if (isProfileLoading) {
+  if (!profile) {
     return <Loading />
   }
 
