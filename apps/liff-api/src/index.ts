@@ -18,7 +18,7 @@ const app = new Hono<Env>()
   .route("/liff", liffRoutes)
   .route("/vouchers", voucherRoutes)
   .route("/lead-submissions", leadSubmissionsRoutes)
-  .route("/advanceprofiles", advanceProfileRoutes);
+  .route("/advance-profiles", advanceProfileRoutes);
 
 export default {
   fetch: app.fetch,
