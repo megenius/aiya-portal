@@ -46,11 +46,10 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language }) => {
         style={{ borderColor: page.bg_color ?? undefined }}
       >
         <div className="px-2 py-1 flex items-center gap-1 rounded-full border bg-primary text-white" style={{backgroundColor: page.bg_color ?? undefined}}>
-          
-          <h4 className="">point</h4>
+          <h4 className="">Point</h4>
         </div>
         <div className="flex items-center gap-1 pe-2 text-primary" style={{color: page.bg_color ?? undefined}}>
-          <h4 className="font-medium">15</h4>
+          <h4 className="font-medium">0</h4>
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

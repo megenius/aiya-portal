@@ -3,9 +3,7 @@ import {
   MetaFunction,
   ShouldRevalidateFunction,
   useLoaderData,
-  useOutletContext,
 } from "@remix-run/react";
-import { PageLiff } from "~/types/page";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
@@ -60,7 +58,7 @@ const Route = () => {
 
   return (
     <>
-      <MainContent page={page} language={lang} />
+      <MainContent page={page} lineProfile={profile} language={lang} />
     </>
     // <div className="p-4">
     //   <div className="bg-white rounded-lg shadow p-6">

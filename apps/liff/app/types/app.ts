@@ -2,6 +2,7 @@ import { components } from "./directus";
 import { Category } from "./page";
 
 export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
+export type AdvanceProfile = components["schemas"]["ItemsAdvanceProfiles"];
 export type Brand = Omit<components["schemas"]["ItemsVouchersBrands"], "metadata"> & {
   metadata: BrandMetadata;
   vouchers: Voucher[];
