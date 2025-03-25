@@ -13,10 +13,10 @@ interface LandscapeLayoutProps {
 
 const LandscapeLayout: React.FC<LandscapeLayoutProps> = ({ children, user, onsearch }) => {
   return (
-    <div className="max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen">
+    <div className="w-full mx-auto bg-white min-h-screen">
       {/* Landscape Header */}
       <div 
-        className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 lg:p-8 mb-6 shadow-md flex flex-col items-center justify-center text-center"
+        className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 lg:p-8 mb-6 shadow-md flex flex-col items-center justify-center text-center"
       >
         <div className="text-white mb-6">
           <h2 className="text-4xl font-bold mb-2">AIYA CLUB</h2>

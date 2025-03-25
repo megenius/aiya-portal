@@ -1,4 +1,5 @@
 import { components } from "./directus";
+import { VoucherBrand } from "./voucherBrand";
 
 export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
 export type Brand = components["schemas"]["ItemsVouchersBrands"];
@@ -9,11 +10,6 @@ export type Voucher = Omit<
   metadata: Metadata;
   voucher_brand_id: VoucherBrand;
 };
-
-export type VoucherBrand = Omit<
-  components["schemas"]["ItemsVouchersBrands"],
-  "vouchers"
-> & { vouchers: Voucher[] };
 
 export type VoucherCode = Omit<components["schemas"]["ItemsVouchersCodes"],"voucher"> & {
   voucher: Voucher;

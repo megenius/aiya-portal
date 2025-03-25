@@ -1,10 +1,11 @@
-import { Voucher, VoucherBrand } from "~/@types/app.type";
+import { Voucher } from "~/@types/app.type";
+import { VoucherBrand } from "~/@types/voucherBrand";
 
 /**
  * Base API service for handling API requests
  * Designed to work in both server and client environments
  */
-export class ApiService {
+export class VoucherApiService {
   /**
    * Gets the base API URL from environment variables with fallback
    * @param request Optional request object to access server context
@@ -70,14 +71,14 @@ export class ApiService {
    * @param request Optional request object for server context
    * @returns Array of brand objects
    */
-  static async getBrands(request?: Request): Promise<Array<{ id: number; name: string; logo: string }>> {
+  static async getBrands(request?: Request): Promise<Array<VoucherBrand>> {
     try {
       const baseUrl = this.getBaseUrl(request);
-      const response = await fetch(`${baseUrl}/api/brands`);
+      const response = await fetch(`${baseUrl}/api/voucher-brands?status=published`);
       if (!response.ok) {
         throw new Error("Failed to fetch brands");
       }
-      return await response.json();
+      return await response.json() as VoucherBrand[];
     } catch (error) {
       console.error("Error fetching brands:", error);
       return [];

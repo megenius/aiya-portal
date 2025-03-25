@@ -1,4 +1,4 @@
-import { Category } from "~/@types/app.type";
+import { Category } from "~/@types/page.type";
 
 interface Props {
   language: string;
@@ -15,57 +15,56 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
   };
   
   return (
-    <div
-      className="flex overflow-x-auto pb-2 gap-3"
-      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-    >
-      {/* All category button */}
-      <button
-        onClick={() => onSelect(allCategoryId)}
-        className={`p-3 max-w-16 flex flex-col items-center gap-2 rounded-2xl shadow-sm border border-gray-100 transition ${
-          allCategoryId === selected ? "bg-primary" : "bg-white"
-        }`}
-      >
-        <div
-          className={`w-9 h-9 rounded-full flex items-center justify-center ${
-            allCategoryId === selected ? "bg-white" : "bg-gray-100"
-          }`}
-        >
-          <span className="text-base">🏠</span>
-        </div>
-        <span
-          className={`text-xs font-medium ${
-            allCategoryId === selected ? "text-white" : "text-gray-700"
-          }`}
-        >
-          {allText['en']}
-        </span>
-      </button>
+    <div className="flex overflow-x-auto pb-4 gap-4 no-scrollbar px-2 mb-2">
+      <CategoryItem 
+        id={allCategoryId}
+        icon="🏠"
+        name={allText[language as keyof typeof allText] || allText.en}
+        isSelected={allCategoryId === selected}
+        onSelect={onSelect}
+      />
       
       {categories.map((category) => (
-        <button
+        <CategoryItem
           key={category.id}
-          onClick={() => onSelect(category.id)}
-          className={`p-3 max-w-16 flex flex-col items-center gap-2 rounded-2xl shadow-sm border border-gray-100 transition ${
-            category.id === selected ? "bg-primary" : "bg-white"
-          }`}
-        >
-          <div
-            className={`w-9 h-9 rounded-full flex items-center justify-center ${
-              category.id === selected ? "bg-white" : "bg-gray-100"
-            }`}
-          >
-            <span className="text-base">{category.icon}</span>
-          </div>
-          <span
-            className={`text-xs font-medium ${
-              category.id === selected ? "text-white" : "text-gray-700"
-            }`}
-          >
-            {category.name['en']}
-          </span>
-        </button>
+          id={category.id}
+          icon={category.icon}
+          name={category.name[language as keyof typeof category.name] || category.name.en}
+          isSelected={category.id === selected}
+          onSelect={onSelect}
+        />
       ))}
+    </div>
+  );
+}
+
+interface CategoryItemProps {
+  id: string;
+  icon: string;
+  name: string;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
+}
+
+function CategoryItem({ id, icon, name, isSelected, onSelect }: CategoryItemProps) {
+  return (
+    <div className="flex flex-col items-center min-w-[70px]">
+      <button
+        onClick={() => onSelect(id)}
+        className={`w-14 h-14 rounded-full flex items-center justify-center mb-1.5 shadow-sm ${
+          isSelected 
+            ? "bg-white border-2 border-primary"
+            : "bg-white text-gray-700 border border-gray-100"
+        }`}
+        aria-label={`Select ${name} category`}
+      >
+        <span className="text-2xl">{icon}</span>
+      </button>
+      <span className={`text-xs font-medium text-center w-full px-1 truncate ${
+        isSelected ? "text-primary font-semibold" : "text-gray-600"
+      }`}>
+        {name}
+      </span>
     </div>
   );
 }

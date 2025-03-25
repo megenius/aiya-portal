@@ -2,24 +2,14 @@
  * For more details on how to configure Wrangler, refer to:
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
-{
+ {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "aiyaclub",
 	"compatibility_date": "2025-03-21",
 	"pages_build_output_dir": "./build/client",
-	"build": {
-		"command": "remix build",
-		"cwd": "."
-	},
-	"site": {
-		"bucket": "./public"
-	},
 	"observability": {
 		"enabled": true
-	},
-	"define": {
-		"process.env.NODE_ENV": "\"production\""
-	},
+	}
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
@@ -37,9 +27,7 @@
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
-	"vars": { 
-		"LIFF_API_URL": "https://api.aiya.club"
-	},
+	// "vars": { "MY_VARIABLE": "production_value" },
 	/**
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
@@ -49,7 +37,7 @@
 	 * Static Assets
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
 	 */
-	"assets": { "directory": "./public/", "binding": "ASSETS" },
+	// "assets": { "directory": "./public/", "binding": "ASSETS" },
 
 	/**
 	 * Service Bindings (communicate between multiple Workers)
