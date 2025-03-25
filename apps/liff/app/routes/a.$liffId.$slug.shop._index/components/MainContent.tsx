@@ -60,11 +60,12 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 pb-1 space-y-3">
-        <SearchBar language={language} />
+        <SearchBar language={language} primaryColor={page.bg_color ?? ""} />
         <VoucherSummary
           totalVouchers={voucherUserStats?.total}
           availableVouchers={voucherUserStats?.collected}
           usedVouchers={voucherUserStats?.used + voucherUserStats?.expired}
+          primaryColor={page.bg_color ?? ""}
           language={language}
         />
       </div>
@@ -73,6 +74,7 @@ const MainContent: React.FC<MainContentProps> = ({
           language={language}
           categories={categories}
           selected={selectedCategory}
+          primaryColor={page.bg_color || ""}
           onSelect={setSelectedCategory}
         />
       )}

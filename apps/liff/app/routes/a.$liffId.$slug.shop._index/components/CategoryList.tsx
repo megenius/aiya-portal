@@ -5,6 +5,7 @@ interface CategoryListProps {
   language: string;
   categories: Category[];
   selected: Category;
+  primaryColor?: string;
   onSelect: (category: Category) => void;
 }
 
@@ -12,6 +13,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
   language,
   categories,
   selected,
+  primaryColor,
   onSelect,
 }) => {
 
@@ -33,6 +35,9 @@ const CategoryList: React.FC<CategoryListProps> = ({
               className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors border-4 ${
                 category === selected ? "border-primary" : "border-white"
               }`}
+              style={{
+                borderColor: category === selected ? primaryColor : undefined,
+              }}
             >
               <span className="text-2xl">{category.icon}</span>
             </div>

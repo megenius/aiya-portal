@@ -43,12 +43,13 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language }) => {
       <button
         onClick={() => {}}
         className="flex items-center justify-center rounded-full bg-blue-50 border-2 border-primary text-sm gap-1"
+        style={{ borderColor: page.bg_color ?? undefined }}
       >
-        <div className="px-2 py-1 flex items-center gap-1 rounded-full border bg-primary text-white">
+        <div className="px-2 py-1 flex items-center gap-1 rounded-full border bg-primary text-white" style={{backgroundColor: page.bg_color ?? undefined}}>
           
-          <h4 className="">แต้มสะสม</h4>
+          <h4 className="">point</h4>
         </div>
-        <div className="flex items-center gap-1 pe-2 text-primary">
+        <div className="flex items-center gap-1 pe-2 text-primary" style={{color: page.bg_color ?? undefined}}>
           <h4 className="font-medium">15</h4>
           <span>
             <svg
