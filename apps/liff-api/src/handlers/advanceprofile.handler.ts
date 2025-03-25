@@ -13,11 +13,39 @@ export const getAdvanceProfiles = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const { status, q, uid } = c.req.query();
+    const { status, q } = c.req.query();
 
     const filters: any = {};
     if (status) filters.status = { _eq: status };
     if (q) filters.name = { _icontains: q };
+
+    const profiles = await directus.request(
+      readItems("advance_profiles", {
+        filter: filters,
+      })
+    );
+
+    if (profiles.length === 0) {
+      return c.json(null);
+    }
+
+    if (profiles.length === 1) {
+      return c.json(profiles[0]);
+    }
+
+    return c.json(profiles);
+  }
+);
+
+// getAdvanceProfilesByUid
+export const getAdvanceProfilesByUid = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const { uid } = c.req.query();
+
+    const filters: any = {};
     if (uid) filters.uid = { _eq: uid };
 
     const profiles = await directus.request(
@@ -25,6 +53,10 @@ export const getAdvanceProfiles = factory.createHandlers(
         filter: filters,
       })
     );
+
+    if (profiles.length === 0) {
+      return c.json(null);
+    }
 
     if (profiles.length === 1) {
       return c.json(profiles[0]);
@@ -44,6 +76,11 @@ export const getAdvanceProfile = factory.createHandlers(
     const profile = await directus.request(
       readItem("advance_profiles", id)
     );
+
+    if (!profile) {
+      return c.json(null);
+    }
+
     return c.json(profile);
   }
 );
