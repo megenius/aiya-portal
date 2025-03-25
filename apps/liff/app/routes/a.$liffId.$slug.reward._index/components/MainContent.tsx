@@ -1,18 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Tabs, { TabItem } from "~/components/Tabs";
 
 interface CouponCollectionAppProps {
+  language: string;
   primaryColor: string;
 }
 
 const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
+  language,
   primaryColor,
 }) => {
   const [activeTab, setActiveTab] = useState("history");
 
   const userPoints = 15;
-  const totalPointsNeeded = 25;
-  const percentComplete = (userPoints / totalPointsNeeded) * 100;
+  //   const totalPointsNeeded = 25;
+  //   const percentComplete = (userPoints / totalPointsNeeded) * 100;
 
   const couponHistory = [
     {
@@ -88,16 +90,25 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
     },
   ];
 
+  const yourPointText = {
+    th: "แต้มสะสมของคุณ",
+    en: "Your Points",
+  };
+  const pointText = {
+    th: "แต้ม",
+    en: "Points",
+  };
+
   const tabs: TabItem[] = [
     {
       id: "history",
-      label: { th: "ประวัติการใช้คูปอง", en: "Coupon History" },
+      label: { th: "ประวัติแต้ม", en: "Points History" },
     },
     { id: "rewards", label: { th: "แลกรางวัล", en: "Rewards" } },
   ];
 
   return (
-    <div className="bg-gray-50 flex flex-col h-screen">
+    <div className="bg-gray-50 flex flex-col h-full">
       {/* Points Progress Section */}
       <div className="bg-white">
         {/* <div className="bg-white m-4">
@@ -108,19 +119,20 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
         </div> */}
         <div className="bg-white p-4 m-4 rounded-lg border shadow-md">
           <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-bold">แต้มสะสมของคุณ</h2>
+            <h2 className="text-lg font-bold">{yourPointText[language]}</h2>
           </div>
 
           <div className="flex items-baseline mb-2">
             <span className="text-3xl font-bold text-primary">
               {userPoints}
             </span>
-            <span className="text-gray-500 ml-1">
+            <span className="text-gray-500 ml-1">{pointText[language]}</span>
+            {/* <span className="text-gray-500 ml-1">
               / {totalPointsNeeded} แต้ม
-            </span>
+            </span> */}
           </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+          {/* <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
             <div
               className="bg-primary h-2 rounded-full"
               style={{ width: `${percentComplete}%` }}
@@ -131,14 +143,14 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
             <span>
               อีก {totalPointsNeeded - userPoints} แต้มเพื่อรับรางวัลพิเศษ
             </span>
-            {/* <span className="text-indigo-600">ดูรางวัล</span> */}
-          </div>
+            <span className="text-indigo-600">ดูรางวัล</span>
+          </div> */}
         </div>
 
         {/* Tabs */}
 
         <Tabs
-          language="th"
+          language={language}
           tabs={tabs}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -152,25 +164,25 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
           <div className="p-4">
             {/* Coupon Usage History */}
             <div className="mb-4">
-              <h3 className="text-lg font-medium mb-3">ประวัติการใช้คูปอง</h3>
+              {/* <h3 className="text-lg font-medium mb-3">ประวัติการใช้คูปอง</h3> */}
 
               {couponHistory.map((coupon) => (
                 <div
                   key={coupon.id}
                   className="bg-white p-3 rounded-lg shadow mb-3 flex items-center"
                 >
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl">
+                  {/* <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl">
                     {coupon.logo}
-                  </div>
+                  </div> */}
                   <div className="ml-3 flex-1">
                     <div className="font-medium">{coupon.store}</div>
                     <div className="text-gray-500 text-sm">{coupon.date}</div>
                   </div>
                   <div className="flex flex-col items-end">
                     <div className="text-primary font-bold">
-                      +{coupon.points} แต้ม
+                      +{coupon.points} {pointText[language]}
                     </div>
-                    <div className="text-xs text-gray-500">{coupon.status}</div>
+                    {/* <div className="text-xs text-gray-500">{coupon.status}</div> */}
                   </div>
                 </div>
               ))}

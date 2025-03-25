@@ -1,3 +1,4 @@
+import { useNavigate } from "@remix-run/react";
 import React from "react";
 import { PageLiff } from "~/types/page";
 
@@ -15,6 +16,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ page, profile, language }) => {
+  const navigate = useNavigate();
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
   // const navigate = useNavigate();
@@ -22,6 +24,9 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language }) => {
   // const navigateToMyCoupon = () => {
   //   navigate(`/a/12/shop/12/myCoupons`);
   // };
+  const navigateToReward = () => {
+    navigate(`/a/${page.liff_id}/${page.slug}/reward`);
+  };
 
   return (
     <div className="p-4 pb-3 flex items-center justify-between">
@@ -41,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language }) => {
         </>
       </div>
       <button
-        onClick={() => {}}
+        onClick={navigateToReward}
         className="flex items-center justify-center rounded-full bg-blue-50 border-2 border-primary text-sm gap-1"
         style={{ borderColor: page.bg_color ?? undefined }}
       >

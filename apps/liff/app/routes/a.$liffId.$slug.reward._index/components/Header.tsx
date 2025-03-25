@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({language}) => {
   };
 
   return (
-    <header className="bg-white">
+    <header>
       <div className="flex items-center p-4">
         <button onClick={navigateToLanding} className="mr-4">
           <ArrowLeft className="h-6 w-6" />
