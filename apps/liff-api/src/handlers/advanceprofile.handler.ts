@@ -25,6 +25,11 @@ export const getAdvanceProfiles = factory.createHandlers(
         filter: filters,
       })
     );
+
+    if (profiles.length === 1) {
+      return c.json(profiles[0]);
+    }
+
     return c.json(profiles);
   }
 );
