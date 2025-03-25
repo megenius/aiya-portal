@@ -10,18 +10,18 @@ const Header: React.FC<HeaderProps> = ({language}) => {
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
   const navigateToLanding = () => navigate(`/a/${liffId}/${slug}/shop`);
-  const myVouchersText = {
-    th: "คูปองของฉัน",
-    en: "My Vouchers",
+  const rewardText = {
+    th: "รีวอร์ด",
+    en: "Rewards",
   };
 
   return (
-    <header className="bg-white">
+    <header>
       <div className="flex items-center p-4">
         <button onClick={navigateToLanding} className="mr-4">
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-semibold">{myVouchersText[language]}</h1>
+        <h1 className="text-lg font-semibold">{rewardText[language]}</h1>
       </div>
     </header>
   );

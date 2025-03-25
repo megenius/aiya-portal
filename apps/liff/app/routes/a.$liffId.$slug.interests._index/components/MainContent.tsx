@@ -1,13 +1,24 @@
+import { useNavigate } from "@remix-run/react";
 import React, { useState } from "react";
+import { useCreateAdvanceProfile } from "~/hooks/AdvanceProfiles/useCreateAdvanceProfile";
+import { Profile } from "~/routes/a.$liffId.$slug.shop._index/components/Header";
+import { AdvanceProfile } from "~/types/app";
 import { Category, PageLiff } from "~/types/page";
 import { lightenColor } from "~/utils/colors";
 
 interface MainContentProps {
   page: PageLiff;
+  lineProfile?: Profile;
   language: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ page, language }) => {
+const MainContent: React.FC<MainContentProps> = ({
+  page,
+  lineProfile,
+  language,
+}) => {
+  const navigate = useNavigate();
+  const createAdvanceProfile = useCreateAdvanceProfile();
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
 
   const toggleInterest = (category: Category) => {
@@ -21,17 +32,27 @@ const MainContent: React.FC<MainContentProps> = ({ page, language }) => {
   };
 
   const handleNext = () => {
-    console.log("Selected interests:", selectedInterests);
-    // navigate to next page
+    const data: Partial<AdvanceProfile> = {
+      uid: lineProfile?.userId,
+      interests: selectedInterests.map((item) => item.name.en),
+    };
+    createAdvanceProfile.mutate(
+      { variables: data },
+      {
+        onSuccess: () => {
+          navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+        },
+      }
+    );
   };
 
-//   const handleSkip = () => {
-//     console.log("Skipped interest selection");
-//     // navigate to next page
-//   };
+  //   const handleSkip = () => {
+  //     console.log("Skipped interest selection");
+  //     // navigate to next page
+  //   };
 
   // จัดกลุ่มหมวดหมู่เป็นคู่ (แถวละ 2 รายการ)
-  const categoryPairs : Category[][] = [];
+  const categoryPairs: Category[][] = [];
   const categories = page.metadata.categories || [];
 
   for (let i = 0; i < categories.length; i += 2) {
@@ -139,7 +160,10 @@ const MainContent: React.FC<MainContentProps> = ({ page, language }) => {
       </div>
 
       {/* Bottom Sticky Button Container */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-md max-w-md mx-auto" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+      <div
+        className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-md max-w-md mx-auto"
+        style={{ marginLeft: "auto", marginRight: "auto" }}
+      >
         <button
           onClick={handleNext}
           disabled={selectedInterests.length === 0}
@@ -150,7 +174,9 @@ const MainContent: React.FC<MainContentProps> = ({ page, language }) => {
           }`}
           style={{
             backgroundColor:
-              selectedInterests.length > 0 ? page.bg_color ?? undefined : undefined,
+              selectedInterests.length > 0
+                ? (page.bg_color ?? undefined)
+                : undefined,
           }}
         >
           ถัดไป

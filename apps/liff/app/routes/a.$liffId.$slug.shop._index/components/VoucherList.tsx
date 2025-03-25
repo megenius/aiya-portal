@@ -1,9 +1,10 @@
 import React from "react";
 import VoucherCard from "./VoucherCard";
 import { Voucher } from "~/types/app";
+import ComingSoonVoucher from "./ComingSoonVoucher";
 
 interface VoucherListProps {
-  vouchers: Voucher[];
+  vouchers?: Voucher[];
   title: string;
   language: string;
 }
@@ -13,6 +14,8 @@ const VoucherList: React.FC<VoucherListProps> = ({
   title,
   language
 }) => {
+
+  if (!vouchers?.length) return <ComingSoonVoucher language={language}/>;
 
   return (
     <div className="space-y-2">
