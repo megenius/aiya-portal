@@ -13,11 +13,12 @@ export const getAdvanceProfiles = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const { status, q } = c.req.query();
+    const { status, q, uid } = c.req.query();
 
     const filters: any = {};
     if (status) filters.status = { _eq: status };
     if (q) filters.name = { _icontains: q };
+    if (uid) filters.uid = { _eq: uid };
 
     const profiles = await directus.request(
       readItems("advance_profiles", {
