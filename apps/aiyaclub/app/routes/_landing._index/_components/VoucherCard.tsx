@@ -1,4 +1,3 @@
-import { useNavigate } from "@remix-run/react";
 import React from "react";
 import { Voucher } from "~/@types/app.type";
 import { getDirectusFileUrl } from "~/utils/files";
@@ -8,11 +7,11 @@ interface VoucherCardProps {
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({ voucher }) => {
-  const navigate = useNavigate();
   const title = voucher.metadata?.title?.en || "Unnamed Voucher";
   
-  const navigateToVoucherDetail = (voucherId: string) =>
-    navigate(`/voucher/${voucherId}`);
+  const navigateToVoucherDetail = (voucherId: string) => {
+    window.location.href = `https://liff.aiya.me/a/1660709265-AGO88yJB/shop/voucher/${voucherId}`;
+  };
   
   return (
     <div 
