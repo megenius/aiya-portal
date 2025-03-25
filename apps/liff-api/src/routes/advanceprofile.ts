@@ -8,5 +8,6 @@ advanceProfileRoutes.get("/:id", ...handler.getAdvanceProfile);
 advanceProfileRoutes.post("/", ...handler.createAdvanceProfile);
 advanceProfileRoutes.put("/:id", ...handler.updateAdvanceProfile);
 advanceProfileRoutes.delete("/:id", ...handler.deleteAdvanceProfile);
+advanceProfileRoutes.get("/uid/:uid", ...handler.getAdvanceProfilesByUid);
 
 export { advanceProfileRoutes };
