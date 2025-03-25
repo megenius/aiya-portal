@@ -46,11 +46,51 @@ const Route = () => {
   const [search] = useSearchParams()
   const dest = search.get("dest") || ""
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  // const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
+
+  // useEffect(() => {
+  //   if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
+  //     return;
+  //   }
+
+  //   if (!advanceProfile) {
+  //     navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
+  //     return
+  //   }
+
+  //   navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+
+  // }, [isLoggedIn, advanceProfile, isAdvanceProfileLoading]);
+
+  // if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
+  //   return <Loading />;
+  // }
+
+  if (!isLoggedIn || isProfileLoading) {
+    return <Loading />;
+  }
+
+  return ( 
+    <MainContent
+      page={page}
+      profile={profile}
+      dest={dest}
+    />
+  )
+}
+
+export default Route;
+
+
+const MainContent = ({page, profile, dest}) => {
+  const navigate = useNavigate();
+
   const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
 
+
   useEffect(() => {
-    if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
-      return;
+    if (!isAdvanceProfileLoading) {
+      return
     }
 
     if (!advanceProfile) {
@@ -60,16 +100,10 @@ const Route = () => {
 
     navigate(`/a/${page.liff_id}/${page.slug}/shop`);
 
-  }, [isLoggedIn, advanceProfile, isAdvanceProfileLoading]);
+  }, [advanceProfile, isAdvanceProfileLoading]);  
 
-  if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
-    return <Loading />;
-  }
-
-  return null;
+  return <div></div>
 }
-
-export default Route;
 
 // const route: React.FC<routeProps> = () => {
 //   const { page } = useOutletContext<{ page: PageLiff }>()
