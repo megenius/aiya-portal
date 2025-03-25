@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Category } from "~/@types/page.type";
 
 interface Props {
@@ -7,7 +8,13 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-export function CategoryList({ language, categories, selected, onSelect }: Props) {
+
+export const CategoryList = memo(function CategoryList({ 
+  language, 
+  categories, 
+  selected, 
+  onSelect 
+}: Props) {
   const allCategoryId = "all";
   const allText = {
     th: "ทั้งหมด",
@@ -24,7 +31,7 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
         onSelect={onSelect}
       />
       
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <CategoryItem
           key={category.id}
           id={category.id}
@@ -36,7 +43,7 @@ export function CategoryList({ language, categories, selected, onSelect }: Props
       ))}
     </div>
   );
-}
+});
 
 interface CategoryItemProps {
   id: string;
@@ -46,7 +53,14 @@ interface CategoryItemProps {
   onSelect: (id: string) => void;
 }
 
-function CategoryItem({ id, icon, name, isSelected, onSelect }: CategoryItemProps) {
+// Also memoize the CategoryItem for performance
+const CategoryItem = memo(function CategoryItem({ 
+  id, 
+  icon, 
+  name, 
+  isSelected, 
+  onSelect 
+}: CategoryItemProps) {
   return (
     <div className="flex flex-col items-center min-w-[70px]">
       <button
@@ -67,4 +81,4 @@ function CategoryItem({ id, icon, name, isSelected, onSelect }: CategoryItemProp
       </span>
     </div>
   );
-}
+});

@@ -2,10 +2,20 @@ import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { SectionHeader } from "~/components/SectionHeader";
 import { PageApiService } from "~/services/page";
 import { VoucherApiService } from "~/services/voucher";
+import {
+  createCategoryNameToIdMap,
+  getCurrentCategoryName,
+  getFilteredBrands,
+  getFilteredVouchers,
+  groupVouchersByCategory,
+  mapVouchersToCategoryIds
+} from "~/utils/categoryUtils";
 import BrandsGrid from "./_components/BrandsGrid";
 import { CategoryList } from "./_components/CategoryList";
+import ComingSoon from "./_components/ComingSoon";
 import LandscapeLayout from "./_components/LandscapeLayout";
 import VoucherGrid from "./_components/VoucherGrid";
 
@@ -23,84 +33,87 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     PageApiService.getPages(request),
   ]);
 
-  // Use json function for proper header setting
-  return json({
-    vouchers,
-    brands,
-    page
-  });
+  return json({ vouchers, brands, page });
 };
 
 export default function Index() {
   const { vouchers, brands, page } = useLoaderData<typeof loader>();
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  // Group vouchers by category
-  const vouchersByCategory = vouchers.reduce((acc, voucher) => {
-    const category = voucher.voucher_brand_id.metadata.category.name.en?.toLowerCase() || 'other';
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(voucher);
-    return acc;
-  }, {} as Record<string, typeof vouchers>);
-
-  // Get categories with vouchers
-  const categoriesWithVouchers = Object.keys(vouchersByCategory);
+  const categories = page?.metadata?.categories || [];
   
-  // Filter vouchers based on selected category
-  const popularVouchers = vouchers.slice(0, 10);
+  // Use utility functions to process the data
+  const categoryNameToId = createCategoryNameToIdMap(categories);
+  const vouchersByCategory = groupVouchersByCategory(vouchers);
+  const vouchersByCategoryId = mapVouchersToCategoryIds(vouchersByCategory, categoryNameToId);
+  
+  // Get filtered data based on selected category
+  const filteredVouchers = getFilteredVouchers(selectedCategory, vouchers, vouchersByCategoryId);
+  const filteredBrands = getFilteredBrands(selectedCategory, brands, categoryNameToId);
+  const currentCategoryName = getCurrentCategoryName(selectedCategory, categories);
+
+  // Category names that have vouchers
+  const categoryNamesWithVouchers = Object.keys(vouchersByCategory);
 
   return (
     <LandscapeLayout>
-      {/* Categories as horizontal scrollable list */}
+      {/* Category selector */}
       {page?.metadata?.layout?.showCategory && (
         <div className="bg-white mb-6 flex items-center justify-center">
-        <CategoryList
-          language={"en"}
-          categories={page?.metadata?.categories}
-          selected={selectedCategory}
-          onSelect={setSelectedCategory}
-        />
+          <CategoryList
+            language="en"
+            categories={categories}
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+          />
         </div>
       )}
 
+      {/* Popular vouchers section - only shown when "all" is selected */}
+      {selectedCategory === 'all' && (
+        <div className="bg-white p-6 mb-6">
+          <SectionHeader title="Popular Vouchers" />
+          <VoucherGrid vouchers={vouchers} />
+        </div>
+      )}
+
+      {/* Brands section */}
       <div className="bg-white p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">Popular Vouchers</h2>
-        <VoucherGrid vouchers={popularVouchers} />
+        <SectionHeader 
+          title={selectedCategory === 'all' ? 'Brands' : `${currentCategoryName} Brands`} 
+        />
+        {filteredBrands.length > 0 ? (
+          <BrandsGrid brands={filteredBrands} />
+        ) : (
+          <ComingSoon message={`No ${currentCategoryName} brands available yet`} />
+        )}
       </div>
 
-      <div className="bg-white p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">Brands</h2>
-        <BrandsGrid brands={brands} />
-      </div>
-
-      {/* Display vouchers by category */}
+      {/* Vouchers by category section */}
       {selectedCategory === 'all' ? (
-        // Show all categories when "all" is selected
-        categoriesWithVouchers.map(category => {
+        // Display all categories when "all" is selected
+        categoryNamesWithVouchers.map(category => {
           const categoryVouchers = vouchersByCategory[category].slice(0, 4);
           if (categoryVouchers.length === 0) return null;
           
+          const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
+          
           return (
             <div key={category} className="bg-white rounded-2xl p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </h2>
+              <SectionHeader title={categoryTitle} />
               <VoucherGrid vouchers={categoryVouchers} />
             </div>
           );
         })
       ) : (
-        // Show only the selected category
-        vouchersByCategory[selectedCategory.toLowerCase()] ? (
-          <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-            <h2 className="text-xl font-semibold mb-4 pl-3 border-l-4 border-blue-500">
-              {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
-            </h2>
-            <VoucherGrid vouchers={vouchersByCategory[selectedCategory.toLowerCase()]} />
-          </div>
-        ) : null
+        // Display only the selected category
+        <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+          <SectionHeader title={`${currentCategoryName} Vouchers`} />
+          {filteredVouchers.length > 0 ? (
+            <VoucherGrid vouchers={filteredVouchers} />
+          ) : (
+            <ComingSoon message={`No ${currentCategoryName} vouchers available yet`} />
+          )}
+        </div>
       )}
     </LandscapeLayout>
   );
