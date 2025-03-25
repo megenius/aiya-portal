@@ -20,10 +20,24 @@ const VoucherGrid: React.FC<VoucherGridProps> = ({ vouchers }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
-      {vouchers.map(voucher => (
-        <VoucherCard key={voucher.id} voucher={voucher} />
-      ))}
+    <div className="overflow-x-auto pb-4 -mx-4" style={{
+      scrollbarWidth: 'none', /* Firefox */
+      msOverflowStyle: 'none',  /* IE and Edge */
+    }}>
+      <style>
+        {`
+        div::-webkit-scrollbar {
+          display: none; /* Chrome, Safari and Opera */
+        }
+        `}
+      </style>
+      <div className="flex px-4 space-x-4 min-w-full">
+        {vouchers.map(voucher => (
+          <div key={voucher.id} className="w-72 flex-shrink-0">
+            <VoucherCard voucher={voucher} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

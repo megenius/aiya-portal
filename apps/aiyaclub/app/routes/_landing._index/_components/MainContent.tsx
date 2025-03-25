@@ -1,56 +1,27 @@
 import React, { useState } from "react";
-import { PageLiff, Voucher, VoucherStats } from "~/@types/app.type";
-import Loading from "~/components/Loading";
-import { CategoryList } from "./CategoryList";
+import { Voucher } from "~/@types/app.type";
+import { PageLiff } from "~/@types/page.type";
+import { getDirectusFileUrl } from "~/utils/files";
 import SearchBar from "./SearchBar";
 import VoucherList from "./VoucherList";
-import VoucherSummary from "./VoucherSummary";
 
 interface MainContentProps {
   page: PageLiff;
   language: string;
-  voucherUserStats: VoucherStats;
+  // Add pre-fetched data props
+  vouchers: Array<Voucher>;
+  brands: Array<any>;
 }
 
-// Helper function to get Directus file URL
-const getDirectusFileUrl = (fileId: string): string => {
-  const directusUrl = process.env.DIRECTUS_URL || "https://your-directus-url.com";
-  if (!fileId) return "";
-  // Check if fileId is already a full URL
-  if (fileId.startsWith('http')) return fileId;
-  // Otherwise, construct the URL
-  return `${directusUrl}/assets/${fileId}`;
-};
-
-const MainContent: React.FC<MainContentProps> = ({ page, language, voucherUserStats }) => {
-  const liffApi = process.env.LIFF_API_URL || "http://localhost:14200";
+const MainContent: React.FC<MainContentProps> = ({ 
+  page, 
+  language, 
+  vouchers = [], 
+  brands = [] 
+}) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [vouchers, setVouchers] = useState<Array<Voucher>>([]);
-  const [brands, setBrands] = useState<Array<any>>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const vouchersResponse = await fetch(`${liffApi}/api/vouchers?status=published`);
-        if (!vouchersResponse.ok) throw new Error("Failed to fetch vouchers");
-        const vouchersData: Voucher[] = await vouchersResponse.json();
-
-        const brandsResponse = await fetch(`${liffApi}/api/brands`);
-        if (!brandsResponse.ok) throw new Error("Failed to fetch brands");
-        const brandsData: Array<{ id: number; name: string; logo: string }> = await brandsResponse.json();
-
-        setVouchers(vouchersData);
-        setBrands(brandsData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
+  // No need for loading state or useEffect - data is pre-fetched on the server
   
   const brandText = {
     th: "แบรนด์",
@@ -61,53 +32,52 @@ const MainContent: React.FC<MainContentProps> = ({ page, language, voucherUserSt
     en: "Popular Coupons",
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // Use language for localization
+  const displayLanguage = language.startsWith('th') ? 'th' : 'en';
 
   return (
-    <div className="bg-white pb-3 space-y-3">
-      <div className="px-4 space-y-3">
-        <SearchBar language={'en'} />
-        <VoucherSummary totalVouchers={voucherUserStats?.total} availableVouchers={voucherUserStats?.collected} usedVouchers={voucherUserStats?.used + voucherUserStats?.expired} language={language} />
-        {page?.metadata?.layout?.showCategory && (
-          <CategoryList
-            language={'en'}
-            categories={page?.metadata?.categories}
-            selected={selectedCategory}
-            onSelect={setSelectedCategory}
+    <div className="bg-gray-50 pb-3 space-y-6">
+      <div className="px-4">
+        <SearchBar language={language} />
+          
+        {/* Popular Vouchers Section */}
+        <div className="bg-white rounded-xl p-6 shadow-sm mb-6 mt-4">
+          <h2 className="text-xl font-semibold mb-4 border-l-4 border-blue-500 pl-3">
+            {popularCouponsText[displayLanguage]}
+          </h2>
+          
+          <VoucherList
+            vouchers={vouchers}
+            language={language}
+            title=""
           />
-        )}
-      </div>
-
-      <VoucherList
-        vouchers={vouchers ?? []}
-        language={language}
-        title={popularCouponsText['en']}
-      />
-
-      <div className="space-y-2">
-        <h3 className="px-4 text-lg font-medium">
-          {brandText['en']}
-        </h3>
-        <div className="flex overflow-x-auto gap-3 px-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          {brands?.map((brand) => (
-            <div
-              key={brand.id}
-              className="flex flex-col items-center gap-1 min-w-16"
-            >
-              <div className="w-14 h-14 rounded-full border border-gray-200 p-0.5">
-                <img
-                  src={getDirectusFileUrl(brand.logo as string) ?? ""}
-                  alt={brand.id}
-                  className="w-full h-full object-cover rounded-full"
-                />
+        </div>
+        
+        {/* Brands Section */}
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-4 border-l-4 border-blue-500 pl-3">
+            {brandText[displayLanguage]}
+          </h2>
+          
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+            {brands?.map((brand) => (
+              <div
+                key={brand.id}
+                className="flex flex-col items-center transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
+              >
+                <div className="w-16 h-16 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center mb-2 p-1 overflow-hidden">
+                  <img
+                    src={getDirectusFileUrl(brand.logo as string) ?? ""}
+                    alt={brand.name || "Brand logo"}
+                    className="max-w-[80%] max-h-[80%] object-contain"
+                  />
+                </div>
+                <span className="text-xs text-center text-gray-700">
+                  {brand.name}
+                </span>
               </div>
-              <span className="text-xs text-gray-700 text-center">
-                {brand.name}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,41 +1,54 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-
-interface User {
-  name: string;
-  points: number;
-  vouchersCollected: number;
-  vouchersUsed: number;
-}
 
 interface LandscapeLayoutProps {
   children: React.ReactNode;
-  user: User;
+  user?: {
+    name?: string;
+    points?: number;
+    vouchersCollected?: number;
+    vouchersUsed?: number;
+  };
+  onsearch?: (search: string) => void;
 }
 
-const LandscapeLayout: React.FC<LandscapeLayoutProps> = ({ children, user }) => {
+const LandscapeLayout: React.FC<LandscapeLayoutProps> = ({ children, user, onsearch }) => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
-      {/* Sidebar - Hidden on mobile, visible on lg screens */}
-      <Sidebar user={user} />
-      
-      {/* Main Content */}
-      <div className="flex flex-col gap-6">
-        <div className="flex items-center bg-white rounded-full px-5 py-3 shadow-sm">
-          <span className="text-gray-400 mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-            </svg>
-          </span>
-          <input 
-            type="text" 
-            placeholder="Find Voucher, Shop..." 
-            className="flex-1 border-none bg-transparent outline-none text-gray-700"
-          />
+    <div className="max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen">
+      {/* Landscape Header */}
+      <div 
+        className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 lg:p-8 mb-6 shadow-md flex flex-col items-center justify-center text-center"
+        style={{
+          backgroundImage: 'linear-gradient(135deg, rgba(33, 117, 255, 0.8), rgba(61, 145, 255, 0.8)), url(/images/header-bg.jpg)'
+        }}
+      >
+        <div className="text-white mb-6">
+          <h2 className="text-4xl font-bold mb-2">AIYA CLUB</h2>
+          <p className="text-lg">Discover great deals</p>
+          <h1 className="text-2xl font-semibold mt-4">Welcome to Our Voucher Collection</h1>
         </div>
         
-        {children}
+        <div className="flex items-center bg-white rounded-full px-4 py-2 w-full max-w-md">
+          <span className="text-gray-400 mr-2">🔍</span>
+          <input 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const search = (e.target as HTMLInputElement).value;
+                console.log('search', search);
+                
+                if (search && search.trim().length > 0) {
+                  onsearch && onsearch(search);
+                }
+              }
+            } }
+            type="text" 
+            placeholder="Find Voucher, Shop..." 
+            className="bg-transparent border-none w-full focus:outline-none focus:ring-0 active:outline-none active:border-none text-gray-700"
+          />
+        </div>
       </div>
+      
+      {/* Main Content */}
+      {children}
     </div>
   );
 };
