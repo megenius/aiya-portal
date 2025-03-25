@@ -55,6 +55,7 @@ const Route = () => {
 
     if (!advanceProfile) {
       navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
+      return
     }
 
     navigate(`/a/${page.liff_id}/${page.slug}/shop`);
