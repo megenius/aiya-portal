@@ -1,12 +1,14 @@
 import React from "react";
 import { Ticket } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
+import { lightenColor } from "~/utils/colors";
 
 interface VoucherSummaryProps {
   language: string;
   totalVouchers?: number;
   availableVouchers?: number;
   usedVouchers?: number;
+  primaryColor?: string;
   // totalSaved?: string;
 }
 
@@ -15,6 +17,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   totalVouchers = 12,
   availableVouchers = 8,
   usedVouchers = 4,
+  primaryColor
   // totalSaved = "฿218.50",
 }) => {
   const { liffId, slug } = useParams();
@@ -48,7 +51,10 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   return (
     <button
       onClick={navigateToMyVouchers}
-      className="w-full bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden"
+      className="w-full bg-gradient-to-r from-primary to-primaryLight rounded-xl shadow-lg overflow-hidden"
+      style={{
+        backgroundImage: primaryColor ? `linear-gradient(to right, ${primaryColor},${lightenColor(primaryColor, 20)})` : undefined, // ใช้สีอ่อนเป็นจุดเริ่ม
+      }}
     >
       <div className="relative p-4">
         <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-10 z-0"></div>

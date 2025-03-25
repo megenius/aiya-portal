@@ -32,13 +32,14 @@ const MainContent: React.FC<MainContentProps> = ({
     image: "https://cdn.sable.asia/automix/home.png",
     icon: "🏠",
   });
-  categories = Array.from(new Map(categories.map(c => [c.id, c])).values());
-  const [selectedCategory, setSelectedCategory] = useState<Category>(categories[0]);
+  categories = Array.from(new Map(categories.map((c) => [c.id, c])).values());
+  const [selectedCategory, setSelectedCategory] = useState<Category>(
+    categories[0]
+  );
   const popularVouchersText = {
     th: "คูปองยอดนิยม",
     en: "Popular Vouchers",
   };
-  
 
   const filterVouchers = () => {
     if (selectedCategory.name.en === "All") return vouchers;
@@ -52,19 +53,19 @@ const MainContent: React.FC<MainContentProps> = ({
   const filterBrands = () => {
     if (selectedCategory.name.en === "All") return brands;
     return brands?.filter(
-      (brand) =>
-        brand.metadata.category?.name.en === selectedCategory.name.en
+      (brand) => brand.metadata.category?.name.en === selectedCategory.name.en
     );
   };
 
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 pb-1 space-y-3">
-        <SearchBar language={language} />
+        <SearchBar language={language} primaryColor={page.bg_color ?? ""} />
         <VoucherSummary
           totalVouchers={voucherUserStats?.total}
           availableVouchers={voucherUserStats?.collected}
           usedVouchers={voucherUserStats?.used + voucherUserStats?.expired}
+          primaryColor={page.bg_color ?? ""}
           language={language}
         />
       </div>
@@ -73,11 +74,12 @@ const MainContent: React.FC<MainContentProps> = ({
           language={language}
           categories={categories}
           selected={selectedCategory}
+          primaryColor={page.bg_color || ""}
           onSelect={setSelectedCategory}
         />
       )}
       <VoucherList
-        vouchers={filterVouchers() ?? []}
+        vouchers={filterVouchers()}
         language={language}
         title={
           selectedCategory.name.en === "All"
@@ -88,20 +90,31 @@ const MainContent: React.FC<MainContentProps> = ({
 
       <BrandList brands={filterBrands()} page={page} language={language} />
 
-      { selectedCategory.name.en === "All" && (
-        categories?.slice(1).map((category) => (
-         <VoucherList
-            key={category.id}
-            vouchers={vouchers?.filter(
-              (voucher) =>
-                voucher.voucher_brand_id?.metadata?.category.name.en ===
-                category.name.en
-            ) ?? []}
-            language={language}
-            title={category.name[language]}
-          />
-        ))
-      )}
+      {selectedCategory.name.en === "All" &&
+        categories
+          ?.slice(1)
+          .map(
+            (category) =>
+              vouchers &&
+              vouchers?.filter(
+                (voucher) =>
+                  voucher.voucher_brand_id?.metadata?.category.name.en ===
+                  category.name.en
+              ).length > 0 && (
+                <VoucherList
+                  key={category.id}
+                  vouchers={
+                    vouchers?.filter(
+                      (voucher) =>
+                        voucher.voucher_brand_id?.metadata?.category.name.en ===
+                        category.name.en
+                    ) ?? []
+                  }
+                  language={language}
+                  title={category.name[language]}
+                />
+              )
+          )}
     </div>
   );
 };

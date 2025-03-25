@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { handleQueueMessage } from "./handlers/queue.handler";
+import { advanceProfileRoutes } from "./routes/advanceprofile";
 import { leadSubmissionsRoutes } from "./routes/leadSubmissions";
 import { liffRoutes } from "./routes/liff";
 import { voucherRoutes } from "./routes/voucher";
@@ -16,7 +17,8 @@ const app = new Hono<Env>()
   )
   .route("/liff", liffRoutes)
   .route("/vouchers", voucherRoutes)
-  .route("/lead-submissions", leadSubmissionsRoutes);
+  .route("/lead-submissions", leadSubmissionsRoutes)
+  .route("/advance-profiles", advanceProfileRoutes);
 
 export default {
   fetch: app.fetch,

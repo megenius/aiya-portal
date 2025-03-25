@@ -155,7 +155,7 @@ const Route = () => {
           const data: Partial<LeadSubmission> = {
             source: "voucher",
             source_id: res.id as string,
-            data: { form: { fields: formData } },
+            data: voucher?.metadata.redemptionType === "form" ? { form: { fields: formData } } : undefined,
             metadata: voucher?.metadata,
           };
           leadSubmission.mutateAsync({
