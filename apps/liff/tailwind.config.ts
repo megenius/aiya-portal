@@ -22,6 +22,8 @@ export default {
       colors: {
         primary: "#2563eb",
         primaryHover: "#b6554b",
+        primaryLight: "#38bdf8",
+        primaryLightest: "#eff6ff",
         secondary: "#bfdbfe",
       },
     },

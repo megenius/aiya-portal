@@ -66,7 +66,7 @@ const Route = () => {
           tabs={tabs}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          primaryColor={page.bg_color}
+          primaryColor={page.bg_color ?? ""}
         />
       </div>
 
@@ -77,7 +77,7 @@ const Route = () => {
         activeTab={activeTab}
           vouchers={myVouchers || []}
           language={lang}
-          primaryColor={page.bg_color}
+          primaryColor={page.bg_color ?? ""}
         />
       )}
     </div>

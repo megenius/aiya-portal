@@ -51,7 +51,7 @@ const VoucherSummary: React.FC<VoucherSummaryProps> = ({
   return (
     <button
       onClick={navigateToMyVouchers}
-      className="w-full bg-gradient-to-r from-primary to-sky-400 rounded-xl shadow-lg overflow-hidden"
+      className="w-full bg-gradient-to-r from-primary to-primaryLight rounded-xl shadow-lg overflow-hidden"
       style={{
         backgroundImage: primaryColor ? `linear-gradient(to right, ${primaryColor},${lightenColor(primaryColor, 15)})` : undefined, // ใช้สีอ่อนเป็นจุดเริ่ม
       }}
