@@ -53,14 +53,13 @@ const Route = () => {
       return;
     }
 
-    if (advanceProfile) {
-      navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-    } else {
+    if (!advanceProfile) {
       navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
     }
 
+    navigate(`/a/${page.liff_id}/${page.slug}/shop`);
 
-  }, [advanceProfile, isAdvanceProfileLoading]);
+  }, [isLoggedIn, advanceProfile, isAdvanceProfileLoading]);
 
   if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
     return <Loading />;
