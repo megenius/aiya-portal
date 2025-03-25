@@ -46,137 +46,40 @@ const Route = () => {
   const [search] = useSearchParams()
   const dest = search.get("dest") || ""
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
-  // const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
+  
+  // Only fetch advance profile if user is logged in and profile is loaded with a userId
+  const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = 
+    useAdvanceProfile({ 
+      uid: profile?.userId || "",
+      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
+    });
 
-  // useEffect(() => {
-  //   if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
-  //     return;
-  //   }
+  useEffect(() => {
+    // Only proceed if user is logged in and profile is loaded
+    if (!isLoggedIn || isProfileLoading) {
+      return;
+    }
+    
+    // Make sure we have a userId before checking advance profile
+    if (!profile?.userId) {
+      return;
+    }
+    
+    // Wait for advance profile loading to complete
+    if (isAdvanceProfileLoading) {
+      return;
+    }
 
-  //   if (!advanceProfile) {
-  //     navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
-  //     return
-  //   }
+    // Navigate based on whether advance profile exists
+    if (!advanceProfile) {
+      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
+    } else {
+      navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+    }
+  }, [advanceProfile, isAdvanceProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile]);  
 
-  //   navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-
-  // }, [isLoggedIn, advanceProfile, isAdvanceProfileLoading]);
-
-  // if (!isLoggedIn || isProfileLoading || isAdvanceProfileLoading) {
-  //   return <Loading />;
-  // }
-
-  if (!isLoggedIn || isProfileLoading) {
-    return <Loading />;
-  }
-
-  return ( 
-    <MainContent
-      page={page}
-      profile={profile}
-      dest={dest}
-    />
-  )
+  // Show loading indicator during all processing
+  return <Loading />;
 }
 
 export default Route;
-
-
-const MainContent = ({page, profile, dest}) => {
-  const navigate = useNavigate();
-
-  const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = useAdvanceProfile({ uid: profile?.userId ?? "" });
-
-
-  useEffect(() => {
-    if (!isAdvanceProfileLoading) {
-      return
-    }
-
-    if (!advanceProfile) {
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
-      return
-    }
-
-    navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-
-  }, [advanceProfile, isAdvanceProfileLoading]);  
-
-  return <div></div>
-}
-
-// const route: React.FC<routeProps> = () => {
-//   const { page } = useOutletContext<{ page: PageLiff }>()
-//   const { data: liff } = useLineLiff()
-//   const methods = useForm()
-//   const tracking = useTracking()
-//   const navigate = useNavigate()
-
-//   const resolveUrl = (url: string) => {
-//     if (url?.startsWith("liff://landing")) {
-//       return ""
-//     }
-//     else if (url?.startsWith("liff://close")) {
-//       return url
-//     } else if (url?.startsWith("liff://")) {
-//       return url.replace("liff://", "../")
-//     }
-//     return url
-//     // liff?.isInClient() ? url : `../${url}`
-//   }
-
-//   const openWindow = async (url: string) => {
-//     console.log("Open window", url);
-//     const { browser } = page.metadata
-//     const isExternal = browser === "external"
-
-//     if (page.metadata.tracking) {
-//       await tracking.mutateAsync({
-//         tracking: page.metadata.tracking,
-//         data: methods.getValues()
-//       })
-//     }
-
-//     if (browser === "liff") {
-//       if (url.startsWith("http")) {
-//         window.location.href = url
-//       } if (url === 'liff://close') {
-//         liff?.closeWindow()
-//       } else {
-//         navigate(url)
-//       }
-//     } else {
-//       liff?.openWindow({
-//         url,
-//         external: isExternal
-//       })
-//     }
-
-//   }
-
-//   const onSubmit = async (values: any) => {
-//     console.log("Form submitted", values)
-//     const { destination } = values
-//     const destUrl = resolveUrl(destination)
-
-//     console.log("Destination", destUrl);
-    
-//     openWindow(destUrl)
-//   }
-
-//   if (!page) {
-//     return
-//   }
-
-//   return (
-//     <FormProvider {...methods}>
-//       <form onSubmit={methods.handleSubmit(onSubmit)}>
-//         {page?.liff_id &&
-//           <PageViewer page={page} />
-//         }
-//       </form>
-//     </FormProvider>
-//   );
-// };
-
-// export default route;
