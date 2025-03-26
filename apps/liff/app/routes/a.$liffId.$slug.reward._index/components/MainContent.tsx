@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Tabs, { TabItem } from "~/components/Tabs";
+import HistoryCard from "./HistoryCard";
+import { id } from "date-fns/locale";
 
 interface CouponCollectionAppProps {
   language: string;
@@ -19,43 +21,30 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
   const couponHistory = [
     {
       id: 1,
-      store: "Café Amazon",
-      points: 1,
+      points_amount: 10,
+      transaction_type: "earn",
+      source: "collect",
+      source_id: "A123455",
+      status: "completed",
       date: "18 มี.ค. 2025",
-      logo: "☕",
-      status: "ใช้แล้ว",
     },
     {
       id: 2,
-      store: "7-Eleven",
-      points: 1,
-      date: "15 มี.ค. 2025",
-      logo: "🏪",
-      status: "ใช้แล้ว",
+      points_amount: 50,
+      transaction_type: "earn",
+      source: "register",
+      source_id: "A123456",
+      status: "completed",
+      date: "18 มี.ค. 2025",
     },
     {
       id: 3,
-      store: "Central",
-      points: 1,
-      date: "10 มี.ค. 2025",
-      logo: "🛍️",
-      status: "ใช้แล้ว",
-    },
-    {
-      id: 4,
-      store: "MK Restaurant",
-      points: 1,
-      date: "5 มี.ค. 2025",
-      logo: "🍲",
-      status: "ใช้แล้ว",
-    },
-    {
-      id: 5,
-      store: "Major Cineplex",
-      points: 1,
-      date: "1 มี.ค. 2025",
-      logo: "🎬",
-      status: "ใช้แล้ว",
+      points_amount: 20,
+      transaction_type: "burn",
+      source: "reward",
+      source_id: "A123457",
+      status: "completed",
+      date: "18 มี.ค. 2025",
     },
   ];
 
@@ -117,7 +106,7 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
             <h2>25</h2>
           </div>
         </div> */}
-        <div className="bg-white p-4 m-4 rounded-lg border shadow-md">
+        <div className="bg-white p-4 mx-4 mb-4 rounded-lg border shadow-md">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-bold">{yourPointText[language]}</h2>
           </div>
@@ -167,24 +156,11 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
               {/* <h3 className="text-lg font-medium mb-3">ประวัติการใช้คูปอง</h3> */}
 
               {couponHistory.map((coupon) => (
-                <div
+                <HistoryCard
                   key={coupon.id}
-                  className="bg-white p-3 rounded-lg shadow mb-3 flex items-center"
-                >
-                  {/* <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl">
-                    {coupon.logo}
-                  </div> */}
-                  <div className="ml-3 flex-1">
-                    <div className="font-medium">{coupon.store}</div>
-                    <div className="text-gray-500 text-sm">{coupon.date}</div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <div className="text-primary font-bold">
-                      +{coupon.points} {pointText[language]}
-                    </div>
-                    {/* <div className="text-xs text-gray-500">{coupon.status}</div> */}
-                  </div>
-                </div>
+                  point_transaction={coupon}
+                  language={language}
+                />
               ))}
 
               {/* <button className="w-full text-indigo-600 py-2 text-sm font-medium">
