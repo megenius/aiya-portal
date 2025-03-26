@@ -51,7 +51,7 @@ export const getAdvanceProfilesByUid = factory.createHandlers(
     const profiles = await directus.request(
       readItems("advance_profiles", {
         filter: filters,
-        fields: ["*", { point_transactions: ["type", "points"] }]
+        fields: ["*", { point_transactions: ["*"] }]
       })
     );
 
