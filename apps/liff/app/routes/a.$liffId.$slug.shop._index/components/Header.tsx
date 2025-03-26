@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
   useEffect(() => {
     if (userProfileId && page) {
       const url = new URL("https://miniapp.line.me");
-      url.pathname = `/${page.liff_id}/${page.slug}`;
+      url.pathname = `/${page.liff_id}`;
       url.searchParams.set('ref', userProfileId);
       console.log('Generated URL:', url.toString());
       
@@ -59,8 +59,82 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
     try {
       await liff.shareTargetPicker([
         {
-          type: "text",
-          text: `${profile?.displayName || 'เพื่อนของคุณ'} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}! คลิกที่ลิงก์นี้เลย: ${shareUrl}`
+          type: "flex",
+          altText: `${profile?.displayName || 'เพื่อนของคุณ'} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}!`,
+          contents: {
+            type: "bubble",
+            hero: {
+              type: "image",
+              url: page.cover || page.logo || "https://via.placeholder.com/1000x400",
+              size: "full",
+              aspectRatio: "20:13",
+              aspectMode: "cover"
+            },
+            body: {
+              type: "box",
+              layout: "vertical",
+              spacing: "md",
+              contents: [
+                {
+                  type: "text",
+                  text: `${profile?.displayName || 'เพื่อนของคุณ'} ชวนคุณมาร่วมสนุก!`,
+                  weight: "bold",
+                  size: "xl",
+                  wrap: true
+                },
+                {
+                  type: "box",
+                  layout: "baseline",
+                  contents: [
+                    {
+                      type: "icon",
+                      url: profile?.pictureUrl || "https://via.placeholder.com/72",
+                      size: "sm"
+                    },
+                    {
+                      type: "text",
+                      text: "ใช้บริการร้าน",
+                      size: "sm",
+                      color: "#999999",
+                      margin: "md"
+                    },
+                    {
+                      type: "text",
+                      text: page.name,
+                      size: "sm",
+                      color: "#666666",
+                      margin: "md",
+                      flex: 0,
+                      weight: "bold"
+                    }
+                  ]
+                },
+                {
+                  type: "text",
+                  text: page.description || "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
+                  size: "sm",
+                  color: "#999999",
+                  wrap: true
+                }
+              ]
+            },
+            footer: {
+              type: "box",
+              layout: "vertical",
+              contents: [
+                {
+                  type: "button",
+                  action: {
+                    type: "uri",
+                    label: "เข้าร่วมเลย",
+                    uri: shareUrl
+                  },
+                  style: "primary",
+                  color: page.bg_color || "#1DB446"
+                }
+              ]
+            }
+          }
         }
       ]);
       setIsShareModalOpen(false);
