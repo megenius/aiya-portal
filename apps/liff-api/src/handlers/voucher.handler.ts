@@ -1,4 +1,4 @@
-import { createItem, readItem, readItems, updateItem } from "@directus/sdk";
+import { createItem, createItems, readItem, readItems, updateItem } from "@directus/sdk";
 import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -148,27 +148,33 @@ export const createVoucherCode = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { voucher_id, count = 1 } = await c.req.json();
-    const directus = c.get("directAdmin");
+    try {
+      const { voucher_id, count = 1 } = await c.req.json();
+      const directus = c.get("directAdmin");
 
-    const codes = Array.from({ length: count }, () => 
-      nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, '')
-    );
+      // Generate all codes at once
+      const codes = Array.from({ length: count }, () =>
+        nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, "")
+      );
 
-    const data = await Promise.all(
-      codes.map(code => 
-        directus.request(
-          createItem("vouchers_codes", {
-            voucher: voucher_id,
-            code,
-            status: "draft",
-            code_status: "available",
-          })
-        )
-      )
-    );
+      // Create array of objects for batch insert
+      const items = codes.map(code => ({
+        voucher: voucher_id,
+        code,
+        status: "draft",
+        code_status: "available"
+      }));
 
-    return c.json(data);
+      // Perform batch insert instead of looping
+      const data = await directus.request(
+        createItems("vouchers_codes", items)
+      );
+
+      return c.json(data);
+    } catch (error) {
+      console.error("Error creating voucher codes:", error);
+      return c.json({ error: "Failed to create voucher codes" }, { status: 500 });
+    }
   }
 );
 
