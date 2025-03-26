@@ -6,6 +6,9 @@ interface ProfileParams {
   liff_id?: string; // เพิ่ม liff_id เพื่อใช้ในการค้นหาโปรไฟล์
 }
 
+// export const fetchProfile = ({ id }) =>
+//   api.get<Profile>(`/profiles/${id}`).then((res) => res.data);
+
 export async function fetchProfile(params: ProfileParams) {
   try {
     if (params.id) {

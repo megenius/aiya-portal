@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import Tabs, { TabItem } from "~/components/Tabs";
 import HistoryCard from "./HistoryCard";
+import { Profile } from "~/types/app";
 
 interface CouponCollectionAppProps {
+  profile: Profile;
   language: string;
   primaryColor: string;
 }
 
 const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
+  profile,
   language,
   primaryColor,
 }) => {
   const [activeTab, setActiveTab] = useState("history");
+  console.log("profile", profile);
+  
 
-  const userPoints = 15;
+  // const userPoints = 15;
   //   const totalPointsNeeded = 25;
   //   const percentComplete = (userPoints / totalPointsNeeded) * 100;
 
@@ -112,7 +117,7 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
 
           <div className="flex items-baseline mb-2">
             <span className="text-3xl font-bold text-primary">
-              {userPoints}
+              {profile.totalPoints}
             </span>
             <span className="text-gray-500 ml-1">{pointText[language]}</span>
             {/* <span className="text-gray-500 ml-1">
@@ -219,14 +224,14 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
                     </div>
                     <button
                       className={`w-full py-1 rounded text-sm ${
-                        userPoints >= reward.points
+                        profile.totalPoints >= reward.points
                           ? "bg-primary text-white"
                           : "bg-gray-100 text-gray-400"
                       }`}
                     >
-                      {userPoints >= reward.points
+                      {profile.totalPoints >= reward.points
                         ? "แลกรับ"
-                        : `อีก ${reward.points - userPoints} แต้ม`}
+                        : `อีก ${reward.points - profile.totalPoints} แต้ม`}
                     </button>
                   </div>
                 </div>

@@ -1,6 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "~/services/profiles";
 
+// interface ProfileProps {
+//     id: string;
+//     enabled?: boolean; // Add optional enabled parameter
+// }
+
+// export function useProfile({ id, enabled = true }: ProfileProps) {
+  
+//   return useQuery({
+//     queryKey: ["profiles",id],
+//     queryFn: () => fetchProfile({id}),
+//     enabled: enabled && !!id, // Use the passed enabled parameter
+//     // staleTime: 5 * 60 * 1000, // 5 minutes
+//   });
+// }
+
 interface UseProfileParams {
   uid?: string;
   liff_id?: string;
@@ -10,8 +25,9 @@ interface UseProfileParams {
 
 export function useProfile({ uid, liff_id, id, enabled = true }: UseProfileParams) {
   return useQuery({
-    queryKey: ['profile', { id, uid, liff_id }],
+    queryKey: ['profiles', { id, uid, liff_id }],
     queryFn: async () => {
+      console.log("Fetching profile for:", { id, uid, liff_id });
       if (id) {
         return fetchProfile({ id });
       } else if (uid && liff_id) {

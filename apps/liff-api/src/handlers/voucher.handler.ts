@@ -276,6 +276,7 @@ export const getStatVoucherCode = factory.createHandlers(
       readItems("vouchers_codes", {
         filter: filters,
         fields: ["code_status"],
+        limit:-1
       })
     );
 

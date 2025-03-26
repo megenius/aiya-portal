@@ -2,7 +2,9 @@ import { components } from "./directus";
 import { Category } from "./page";
 
 export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
+// export type Profile = components["schemas"]["ItemsProfiles"];
 export type AdvanceProfile = components["schemas"]["ItemsAdvanceProfiles"];
+export type PointTransaction = components["schemas"]["ItemsPointTransactions"];
 export type Brand = Omit<components["schemas"]["ItemsVouchersBrands"], "metadata"> & {
   metadata: BrandMetadata;
   vouchers: Voucher[];
@@ -86,5 +88,7 @@ export interface Profile {
   picture_url?: string;
   interests?: string[];
   referrer_id?: string; // เพิ่มฟิลด์เก็บข้อมูลผู้แนะนำ (referrer)
+  point_transaction?: PointTransaction[];
+  totalPoints: number;
   // Add any other profile fields you need
 }
