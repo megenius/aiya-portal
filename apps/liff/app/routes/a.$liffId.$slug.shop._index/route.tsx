@@ -11,12 +11,12 @@ import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import Header from "./components/Header";
 import { MainContentSkeleton } from "./components/SkeletonLoad/MainContentSkeleton";
 import _ from "lodash";
+import { useProfile } from "~/hooks/Profiles/useProfile";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
   const lang = "en";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
@@ -28,21 +28,15 @@ const Route = () => {
   const { data: brands, isLoading: isBrandsLoading } = useBrands({
     status: "published",
   });
-  // const { data: liff } = useLineLiff();
-  // const myCoupons = [
-  //   {
-  //     id: 1,
-  //     type: "booking",
-  //     store: "ร้านอาหารอร่อยดี",
-  //     category: "food",
-  //     discount: "ส่วนลด 25%",
-  //     expiry: "31 มี.ค. 2025",
-  //     image: "https://placehold.co/200x150",
-  //   },
-  // ];
 
-  // return <>dd{JSON.stringify(page)}</>;
-  if (!isLoggedIn) {
+  const { data: userProfile, isLoading: isUserProfileLoading } = 
+    useProfile({ 
+      uid: profile?.userId || "",
+      liff_id: page.liff_id,
+      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
+    });
+
+  if (!isLoggedIn || isProfileLoading || isUserProfileLoading) {
     return <Loading />;
   }
 
@@ -68,7 +62,12 @@ const Route = () => {
     <>
       {page?.liff_id && (
         <>
-          <Header page={page} profile={profile} language={lang} />
+          <Header 
+            page={page} 
+            profile={profile} 
+            language={lang}
+            userProfileId={userProfile?.id}
+          />
           {voucherUserStats && (
             <MainContent
               page={page}
