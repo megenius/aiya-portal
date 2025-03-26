@@ -51,6 +51,7 @@ export const getAdvanceProfilesByUid = factory.createHandlers(
     const profiles = await directus.request(
       readItems("advance_profiles", {
         filter: filters,
+        fields: ["*", { point_transactions: ["type", "points"] }]
       })
     );
 
@@ -58,11 +59,28 @@ export const getAdvanceProfilesByUid = factory.createHandlers(
       return c.json(null);
     }
 
-    if (profiles.length === 1) {
-      return c.json(profiles[0]);
+    const enrichedProfiles = profiles.map((profile: any) => {
+      const pointTransactions = profile.point_transactions || [];
+      const totalPoints = pointTransactions.reduce((sum: number, transaction: any) => {
+        if (transaction.type === "Earn") {
+          return sum + transaction.points;
+        } else if (transaction.type === "Burn") {
+          return sum - transaction.points;
+        }
+        return sum; // Ignore other types
+      }, 0);
+
+      return {
+        ...profile,
+        totalPoints,
+      };
+    });
+
+    if (enrichedProfiles.length === 1) {
+      return c.json(enrichedProfiles[0]);
     }
 
-    return c.json(profiles);
+    return c.json(enrichedProfiles);
   }
 );
 
