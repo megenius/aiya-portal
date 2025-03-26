@@ -53,14 +53,19 @@ export const createPointTransaction = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const transactionData = await c.req.json();
-    const directus = c.get("directAdmin");
+    try {
+      const transactionData = await c.req.json();
+      const directus = c.get("directAdmin");
 
-    const transaction = await directus.request(
-      createItem("point_transactions", transactionData)
-    );
+      const transaction = await directus.request(
+        createItem("point_transactions", transactionData)
+      );
 
-    return c.json(transaction);
+      return c.json(transaction);
+    } catch (error) {
+      console.error("Error creating point transaction:", error);
+      return c.json({ error: "Failed to create point transaction" }, { status: 500 });
+    }
   }
 );
 
