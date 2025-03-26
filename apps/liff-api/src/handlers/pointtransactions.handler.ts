@@ -1,7 +1,6 @@
 import { createItem, deleteItem, readItem, readItems, updateItem } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 
@@ -57,11 +56,8 @@ export const createPointTransaction = factory.createHandlers(
     const transactionData = await c.req.json();
     const directus = c.get("directAdmin");
 
-    // Generate a random 10-character alphanumeric ID
-    const id = nanoid(10);
-
     const transaction = await directus.request(
-      createItem("point_transactions", { id, ...transactionData })
+      createItem("point_transactions", transactionData)
     );
 
     return c.json(transaction);
