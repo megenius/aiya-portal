@@ -29,9 +29,11 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
 
   useEffect(() => {
     if (userProfileId && page) {
-      const url = new URL("https://liff.line.me");
-      url.pathname = `/${page.liff_id}-${page.slug}`;
+      const url = new URL("https://miniapp.line.me");
+      url.pathname = `/${page.liff_id}/${page.slug}`;
       url.searchParams.set('ref', userProfileId);
+      console.log('Generated URL:', url.toString());
+      
       setShareUrl(url.toString());
     }
   }, [userProfileId, page]);
