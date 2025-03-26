@@ -5,6 +5,7 @@ import { leadSubmissionsRoutes } from "./routes/leadSubmissions";
 import { liffRoutes } from "./routes/liff";
 import { voucherRoutes } from "./routes/voucher";
 import { Env } from "./types/hono.types";
+import { profileRoutes } from "./routes/profile";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -18,7 +19,8 @@ const app = new Hono<Env>()
   .route("/liff", liffRoutes)
   .route("/vouchers", voucherRoutes)
   .route("/lead-submissions", leadSubmissionsRoutes)
-  .route("/advance-profiles", advanceProfileRoutes);
+  .route("/advance-profiles", advanceProfileRoutes)
+  .route("/profiles", profileRoutes)
 
 export default {
   fetch: app.fetch,

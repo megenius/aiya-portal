@@ -3,9 +3,9 @@ import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData, useNavigat
 import _ from 'lodash';
 import { useEffect } from 'react';
 import Loading from '~/components/Loading';
-import { useAdvanceProfile } from '~/hooks/AdvanceProfiles/useAdvanceProfile';
 import { useLiff } from '~/hooks/useLiff';
 import { useLineProfile } from '~/hooks/useLineProfile';
+import { useProfile } from '~/hooks/Profiles/useProfile';
 import { fetchByLiffIdAndSlug } from '~/services/page-liff';
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
@@ -45,12 +45,15 @@ const Route = () => {
 
   const [search] = useSearchParams()
   const dest = search.get("dest") || ""
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  const referrerId = search.get("ref") || ""; // เพิ่มการดึงค่า referrer จาก URL
   
-  // Only fetch advance profile if user is logged in and profile is loaded with a userId
-  const { data: advanceProfile, isLoading: isAdvanceProfileLoading } = 
-    useAdvanceProfile({ 
+  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+
+  // เปลี่ยนจาก useAdvanceProfile เป็น useProfile
+  const { data: userProfile, isLoading: isUserProfileLoading } =
+    useProfile({
       uid: profile?.userId || "",
+      liff_id: page.liff_id as string,
       enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
     });
 
@@ -59,24 +62,26 @@ const Route = () => {
     if (!isLoggedIn || isProfileLoading) {
       return;
     }
-    
-    // Make sure we have a userId before checking advance profile
+
+    // Make sure we have a userId before checking profile
     if (!profile?.userId) {
       return;
     }
-    
-    // Wait for advance profile loading to complete
-    if (isAdvanceProfileLoading) {
+
+    // Wait for profile loading to complete
+    if (isUserProfileLoading) {
       return;
     }
 
-    // Navigate based on whether advance profile exists
-    if (!advanceProfile) {
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}`);
+    // Navigate based on whether profile exists
+    if (!userProfile) {
+      // ส่งต่อข้อมูล referrer ไปยังหน้า interests
+      const refParam = referrerId ? `&ref=${referrerId}` : '';
+      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
     } else {
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     }
-  }, [advanceProfile, isAdvanceProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile]);  
+  }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile, referrerId]);
 
   // Show loading indicator during all processing
   return <Loading />;
