@@ -55,4 +55,56 @@ queue = "conversation-queue-dev"
 max_batch_size = 1
 max_batch_timeout = 0
 
+# Production Environment Configuration
+[env.prod]
+name = "uws-api"
+
+routes = [
+  { pattern = "uws.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "uws.aiya.me/*", zone_name = "aiya.me" },
+  { pattern = "portal.aiya.me/api/uws/*", zone_name = "aiya.me" },
+  { pattern = "realtime.aiya.me/websocket/uws/*", zone_name = "aiya.me" },
+]
+
+services = [
+  # { binding = "PUBSUB_API", service = "pubsub-api" },
+  { binding = "CHANNEL_API", service = "channel-api" },
+]
+
+[env.prod.vars]
+# PUBSUB_TOPIC = "uws-api"
+PORTAL_URL = "https://portal.aiya.me"
+# CHANNEL_API_URL = "http://localhost:14102/api"
+
+[[env.prod.r2_buckets]]
+bucket_name = "uws"
+binding = "CONTENT_BUCKET"
+
+[[env.prod.d1_databases]]
+binding = "DB"
+database_name = "uws"
+database_id = "141a6f51-0b14-46eb-bb9c-fe9a1a0ed15b"
+
+[[env.prod.durable_objects.bindings]]
+name = "CHANNEL_DURABLE"
+class_name = "ChannelDurableObject"
+
+[[env.prod.queues.producers]]
+queue = "user-profile-queue"
+binding = "USER_PROFILE_QUEUE"
+
+[[env.prod.queues.consumers]]
+queue = "user-profile-queue"
+max_batch_size = 10
+max_batch_timeout = 10
+
+[[env.prod.queues.producers]]
+queue = "conversation-queue"
+binding = "CONVERSATION_QUEUE"
+
+[[env.prod.queues.consumers]]
+queue = "conversation-queue"
+max_batch_size = 1
+max_batch_timeout = 0
+
 

@@ -77,3 +77,14 @@ export interface CollectVoucher {
   collected_by: string;
   channel: string;
 }
+
+export interface Profile {
+  id: string;
+  uid: string;
+  liff_id: string;
+  display_name: string;
+  picture_url?: string;
+  interests?: string[];
+  referrer_id?: string; // เพิ่มฟิลด์เก็บข้อมูลผู้แนะนำ (referrer)
+  // Add any other profile fields you need
+}

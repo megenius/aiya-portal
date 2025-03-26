@@ -49,6 +49,7 @@ const Route = () => {
   const lang = isThaiLanguage ? "th" : "en";
   const [search] = useSearchParams()
   const dest = search.get("dest") || "";
+  const referrerId = search.get("ref") || undefined; // เพิ่มการดึงค่า referrer จาก URL
 
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
@@ -62,38 +63,14 @@ const Route = () => {
 
   return (
     <>
-      <MainContent page={page} lineProfile={profile} language={lang} dest={dest} />
+      <MainContent 
+        page={page} 
+        lineProfile={profile} 
+        language={lang} 
+        dest={dest} 
+        referrerId={referrerId} // ส่งค่า referrer ไปยัง MainContent
+      />
     </>
-    // <div className="p-4">
-    //   <div className="bg-white rounded-lg shadow p-6">
-    //     <h1 className="text-2xl font-bold text-gray-800 mb-4">
-    //       {lang === "th" ? "แบบสำรวจ" : "Survey"}
-    //     </h1>
-    //     <p className="text-gray-600">
-    //       {lang === "th"
-    //         ? "ยินดีต้อนรับสู่หน้าแบบสำรวจ กรุณารอการอัพเดตเพิ่มเติม"
-    //         : "Welcome to the survey page. Please wait for further updates."}
-    //     </p>
-
-    //     {profile && (
-    //       <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-    //         <p className="text-sm text-gray-500">
-    //           {lang === "th" ? "เข้าสู่ระบบโดย:" : "Logged in as:"}
-    //         </p>
-    //         <div className="flex items-center mt-2">
-    //           {profile.pictureUrl && (
-    //             <img
-    //               src={profile.pictureUrl}
-    //               alt="Profile"
-    //               className="w-10 h-10 rounded-full mr-3"
-    //             />
-    //           )}
-    //           <span className="font-medium">{profile.displayName}</span>
-    //         </div>
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
   );
 };
 

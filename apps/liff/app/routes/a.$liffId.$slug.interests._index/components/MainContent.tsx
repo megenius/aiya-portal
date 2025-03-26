@@ -1,8 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import React, { useState } from "react";
-import { useCreateAdvanceProfile } from "~/hooks/AdvanceProfiles/useCreateAdvanceProfile";
+import { useCreateProfile } from "~/hooks/Profiles/useCreateProfile";
 import { Profile } from "~/routes/a.$liffId.$slug.shop._index/components/Header";
-import { AdvanceProfile } from "~/types/app";
 import { Category, PageLiff } from "~/types/page";
 import { lightenColor } from "~/utils/colors";
 
@@ -11,16 +10,18 @@ interface MainContentProps {
   lineProfile?: Profile;
   language: string;
   dest?: string;
+  referrerId?: string; // เพิ่ม prop รับข้อมูล referrer
 }
 
 const MainContent: React.FC<MainContentProps> = ({
   page,
   lineProfile,
   language,
-  dest
+  dest,
+  referrerId
 }) => {
   const navigate = useNavigate();
-  const createAdvanceProfile = useCreateAdvanceProfile();
+  const createProfile = useCreateProfile();
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
 
   const toggleInterest = (category: Category) => {
@@ -34,40 +35,55 @@ const MainContent: React.FC<MainContentProps> = ({
   };
 
   const handleNext = () => {
-    const data: Partial<AdvanceProfile> = {
-      uid: lineProfile?.userId,
+    // Add debugging information
+    console.log('Line profile:', lineProfile);
+    console.log('Page:', page);
+    console.log('Selected interests:', selectedInterests);
+    console.log('Referrer ID:', referrerId);
+    
+    if (!lineProfile?.userId) {
+      console.error('Missing userId in lineProfile');
+      alert('ไม่พบข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้ง');
+      return;
+    }
+    
+    if (!page.liff_id) {
+      console.error('Missing liff_id in page');
+      alert('ไม่พบ LIFF ID กรุณาลองใหม่อีกครั้ง');
+      return;
+    }
+    
+    const data = {
+      uid: lineProfile.userId,
+      liff_id: page.liff_id,
+      display_name: lineProfile.displayName,
+      picture_url: lineProfile.pictureUrl,
       interests: selectedInterests.map((item) => item.name.en),
+      referrer_id: referrerId, // เพิ่มข้อมูล referrer (ถ้ามี)
     };
-    createAdvanceProfile.mutate(
+    
+    console.log('Profile data to be sent:', data);
+    
+    createProfile.mutate(
       { variables: data },
       {
-        onSuccess: () => {
-          // alert("สร้างโปรไฟล์สำเร็จ");
+        onSuccess: (response) => {
+          console.log('Profile created successfully:', response);
           if (dest) {
-            // navigate to the destination page
-            // alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/${dest}`);
             navigate(
               `/a/${page.liff_id}/${page.slug}/${dest}`
             );
           } else {
-            // navigate to the shop page
-            // alert("ไปที่หน้า " + `/a/${page.liff_id}/${page.slug}/shop`);
             navigate(`/a/${page.liff_id}/${page.slug}/shop`);
           }
         },
-        onError: (error) => {
-          alert("เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [" + error.message + "]");
-          // console.error("Error creating advance profile:", error);
-          // Optionally, show an error message to the user
+        onError: (error: any) => {
+          console.error('Profile creation error:', error);
+          alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
         }
       }
     );
   };
-
-  //   const handleSkip = () => {
-  //     console.log("Skipped interest selection");
-  //     // navigate to next page
-  //   };
 
   // จัดกลุ่มหมวดหมู่เป็นคู่ (แถวละ 2 รายการ)
   const categoryPairs: Category[][] = [];
