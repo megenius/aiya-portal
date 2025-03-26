@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Tabs, { TabItem } from "~/components/Tabs";
 import HistoryCard from "./HistoryCard";
-import { id } from "date-fns/locale";
 
 interface CouponCollectionAppProps {
   language: string;
