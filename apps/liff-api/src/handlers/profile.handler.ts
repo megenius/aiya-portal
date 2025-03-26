@@ -7,7 +7,6 @@ import {
 } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 
@@ -52,11 +51,12 @@ export const getProfilesByUserId = factory.createHandlers(
     const { userId } = c.req.param();
 
     const filters: any = {};
-    if (userId) filters.user_id = { _eq: userId };
+    if (userId) filters.uid = { _eq: userId };
 
     const profiles = await directus.request(
       readItems("profiles", {
         filter: filters,
+        fields: ["*", { point_transactions: ["*"] }],
       })
     );
 
@@ -64,11 +64,29 @@ export const getProfilesByUserId = factory.createHandlers(
       return c.json(null);
     }
 
-    if (profiles.length === 1) {
-      return c.json(profiles[0]);
+    const enrichedProfiles = profiles.map((profile: any) => {
+      const pointTransactions = profile.point_transactions || [];
+      const totalPoints = pointTransactions.reduce((sum: number, transaction: any) => {
+        
+        if (transaction.transaction_type === "earn") {
+          return sum + transaction.points_amount;
+        } else if (transaction.transaction_type === "burn") {
+          return sum - transaction.points_amount;
+        }        
+        return sum; // Ignore other types
+      }, 0);
+
+      return {
+        ...profile,
+        totalPoints,
+      };
+    });
+
+    if (enrichedProfiles.length === 1) {
+      return c.json(enrichedProfiles[0]);
     }
 
-    return c.json(profiles);
+    return c.json(enrichedProfiles);
   }
 );
 
