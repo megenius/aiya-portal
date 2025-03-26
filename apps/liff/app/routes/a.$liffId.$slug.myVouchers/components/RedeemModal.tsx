@@ -3,7 +3,7 @@ import { X, QrCode, Barcode, Clock, AlertCircle } from "lucide-react";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "~/components/Tabs";
-import QRCodeGenerater from "~/components/QRCodeGenerater";
+import QRCodeGenerator from "~/components/QRCodeGenerator";
 import BarcodeGenerator from "~/components/BarCodeGenerater";
 import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 
@@ -247,7 +247,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     className="w-48 h-48 mb-2"
                   /> */}
                 {codeType === "qrcode" ? (
-                  <QRCodeGenerater text={voucherUser.code.code!} />
+                  <QRCodeGenerator text={voucherUser.code.code!} />
                 ) : (
                   <BarcodeGenerator text={voucherUser.code.code!} />
                 )}
