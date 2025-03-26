@@ -1,5 +1,5 @@
 import { useNavigate } from "@remix-run/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLineLiff } from "~/hooks/useLineLiff";
 import { PageLiff } from "~/types/page";
 import QRCode from '~/components/QRCode';
@@ -26,34 +26,32 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
   const { data: liff } = useLineLiff();
+  const primaryColor = page.bg_color || "#1DB446";
 
   useEffect(() => {
     if (userProfileId && page) {
       const url = new URL("https://miniapp.line.me");
       url.pathname = `/${page.liff_id}`;
       url.searchParams.set('ref', userProfileId);
-      console.log('Generated URL:', url.toString());
       
       setShareUrl(url.toString());
     }
   }, [userProfileId, page]);
 
-  const navigateToReward = () => {
+  const navigateToReward = useCallback(() => {
     navigate(`/a/${page.liff_id}/${page.slug}/reward`);
-  };
+  }, [navigate, page.liff_id, page.slug]);
 
-  // ฟังก์ชันสำหรับเปิด Modal แชร์
-  const handleOpenShareModal = () => {
+  const handleOpenShareModal = useCallback(() => {
     if (!userProfileId) {
       console.error('Missing userProfileId');
       alert('ไม่สามารถสร้างลิงก์ชวนเพื่อนได้ กรุณาลองใหม่อีกครั้ง');
       return;
     }
     setIsShareModalOpen(true);
-  };
+  }, [userProfileId]);
 
-  // ฟังก์ชันสำหรับแชร์ผ่าน LINE
-  const shareToLine = async () => {
+  const shareToLine = useCallback(async () => {
     if (!liff) return;
     
     try {
@@ -130,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
                     uri: shareUrl
                   },
                   style: "primary",
-                  color: page.bg_color || "#1DB446"
+                  color: primaryColor
                 }
               ]
             }
@@ -141,10 +139,9 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
     } catch (error) {
       console.error('Error sharing to LINE:', error);
     }
-  };
+  }, [liff, page, profile, shareUrl, primaryColor]);
 
-  // ฟังก์ชันสำหรับ copy URL
-  const copyShareLink = async () => {
+  const copyShareLink = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
@@ -153,34 +150,48 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
       console.error('Failed to copy:', error);
       alert('ไม่สามารถคัดลอกลิงก์ได้');
     }
-  };
+  }, [shareUrl]);
+
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.share({
+        title: `ชวนเพื่อนใช้ ${page.name}`,
+        text: `${profile?.displayName || 'เพื่อนของคุณ'} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}!`,
+        url: shareUrl
+      });
+      setIsShareModalOpen(false);
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  }, [page.name, profile?.displayName, shareUrl]);
+
+  const closeModal = useCallback(() => setIsShareModalOpen(false), []);
 
   return (
     <>
       <div className="p-4 pb-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <>
+          {profile?.pictureUrl && (
             <img
-              src={profile?.pictureUrl}
+              src={profile.pictureUrl}
               alt="Profile"
               className="w-10 h-10 rounded-full"
             />
-            <div>
-              <div className="font-semibold">
-                {welcomeText}, {profile?.displayName}
-              </div>
-              <div className="text-sm text-gray-500">{subWelcomeText}</div>
+          )}
+          <div>
+            <div className="font-semibold">
+              {welcomeText}, {profile?.displayName}
             </div>
-          </>
+            <div className="text-sm text-gray-500">{subWelcomeText}</div>
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          {/* ปรับปรุงปุ่มชวนเพื่อน - ทำให้สั้นกระชับยิ่งขึ้น */}
           <button
             onClick={handleOpenShareModal}
             className="flex items-center justify-center rounded-full border-2 text-sm gap-1 px-3 py-1.5"
             style={{ 
-              borderColor: page.bg_color ?? undefined,
-              color: page.bg_color ?? undefined,
+              borderColor: primaryColor,
+              color: primaryColor,
               backgroundColor: "white"
             }}
           >
@@ -206,13 +217,14 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
 
           <button
             onClick={navigateToReward}
-            className="flex items-center justify-center rounded-full bg-blue-50 border-2 border-primary text-sm gap-1"
-            style={{ borderColor: page.bg_color ?? undefined }}
+            className="flex items-center justify-center rounded-full bg-blue-50 border-2 text-sm gap-1"
+            style={{ borderColor: primaryColor }}
           >
-            <div className="px-2 py-1 flex items-center gap-1 rounded-full border bg-primary text-white" style={{ backgroundColor: page.bg_color ?? undefined }}>
-              <h4 className="">Point</h4>
+            <div className="px-2 py-1 flex items-center gap-1 rounded-full border text-white" 
+                 style={{ backgroundColor: primaryColor }}>
+              <h4>Point</h4>
             </div>
-            <div className="flex items-center gap-1 pe-2 text-primary" style={{ color: page.bg_color ?? undefined }}>
+            <div className="flex items-center gap-1 pe-2" style={{ color: primaryColor }}>
               <h4 className="font-medium">0</h4>
               <span>
                 <svg
@@ -225,7 +237,6 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="lucide lucide-star"
                 >
                   <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
                 </svg>
@@ -235,15 +246,15 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
         </div>
       </div>
 
-      {/* Modal สำหรับแชร์ QR Code และลิงก์ */}
       {isShareModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-5 rounded-lg w-11/12 max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn">
+          <div className="bg-white p-5 rounded-lg w-11/12 max-w-md animate-scaleIn">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">ชวนเพื่อน</h3>
               <button 
-                onClick={() => setIsShareModalOpen(false)}
-                className="text-gray-500"
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="ปิด"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 6L6 18M6 6l12 12"/>
@@ -255,7 +266,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
               <div className="flex justify-center mb-2">
                 <img 
                   src={profile.pictureUrl} 
-                  alt="Profile" 
+                  alt={profile.displayName || "โปรไฟล์"}
                   className="w-16 h-16 rounded-full border-2 border-white shadow-md"
                 />
               </div>
@@ -283,9 +294,8 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
             <div className="space-y-3">
               <button
                 onClick={shareToLine}
-                className="w-full py-3 rounded-lg flex items-center justify-center gap-2 bg-[#06C755] text-white font-medium"
+                className="w-full py-3 rounded-lg flex items-center justify-center gap-2 bg-[#06C755] text-white font-medium hover:bg-opacity-90 transition-colors"
               >
-              
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.952 12.992c0-3.584-3.6-6.496-8.016-6.496-4.416 0-8.016 2.912-8.016 6.496 0 3.232 2.864 5.936 6.752 6.432.272.064.64.192.736.432.08.224.048.576.024.8 0 0-.112.656-.136.8-.048.224-.208.864.752.464s4.992-2.944 6.816-5.024c1.232-1.376 1.088-2.768 1.088-3.904zm-10.928 1.6H7.792a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.76 0a.318.318 0 01-.32-.32v-2.512a.318.318 0 01.32-.32c.176 0 .32.144.32.32v2.512c0 .176-.144.32-.32.32zm4.384 0h-.912a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.824.208a.6.6 0 01-.112-.016.318.318 0 01-.288-.352l.416-2.512a.32.32 0 01.368-.272c.176.032.304.192.272.368l-.416 2.512a.394.394 0 01-.24.272z"/>
                 </svg>
@@ -294,10 +304,10 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
 
               <button
                 onClick={copyShareLink}
-                className="w-full py-3 rounded-lg border border-gray-300 flex items-center justify-center gap-2 text-gray-700 font-medium relative transition-all"
+                className="w-full py-3 rounded-lg border flex items-center justify-center gap-2 font-medium relative transition-all"
                 style={{ 
-                  borderColor: copied ? (page.bg_color || '#4F46E5') : undefined,
-                  color: copied ? (page.bg_color || '#4F46E5') : undefined
+                  borderColor: copied ? primaryColor : '#e2e8f0',
+                  color: copied ? primaryColor : '#4a5568'
                 }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -317,19 +327,8 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
 
               {navigator.share && (
                 <button
-                  onClick={async () => {
-                    try {
-                      await navigator.share({
-                        title: `ชวนเพื่อนใช้ ${page.name}`,
-                        text: `${profile?.displayName || 'เพื่อนของคุณ'} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}!`,
-                        url: shareUrl
-                      });
-                      setIsShareModalOpen(false);
-                    } catch (err) {
-                      console.error('Error sharing:', err);
-                    }
-                  }}
-                  className="w-full py-3 rounded-lg border border-gray-300 flex items-center justify-center gap-2 text-gray-700 font-medium"
+                  onClick={handleShare}
+                  className="w-full py-3 rounded-lg border border-gray-300 flex items-center justify-center gap-2 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="18" cy="5" r="3"></circle>
