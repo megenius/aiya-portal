@@ -85,6 +85,7 @@ const Route = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const buttonText = {
     instant: {
@@ -137,7 +138,7 @@ const Route = () => {
       setPageState("form");
       return;
     }
-
+    setIsSubmitting(true);
     const collectVoucherData: CollectVoucher = {
       voucher: voucher?.id as string,
       collected_by: profile?.userId as string,
@@ -174,6 +175,9 @@ const Route = () => {
           // }
         },
       }
+    ).finally(() => {
+      setIsSubmitting(false);
+    }
     );
   };
 
