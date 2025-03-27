@@ -128,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 {/* End Search Button Icon */}
               </div>
               {/* Help Dropdown */}
-              <div className="hidden hs-dropdown [--placement:bottom-right] relative inline-flex">
+              <div className="hs-dropdown [--placement:bottom-right] relative hidden">
                 {/* Help Button Icon */}
                 <button
                   id="hs-pro-dnhd"
@@ -417,7 +417,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               </div>
               {/* End Help Dropdown */}
               {/* Notifications Button Icon */}
-              <div className="hidden hs-dropdown [--auto-close:inside] relative inline-flex">
+              <div className="hs-dropdown [--auto-close:inside] relative hidden">
                 <button
                   id="hs-pro-dnnd"
                   type="button"
