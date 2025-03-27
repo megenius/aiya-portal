@@ -253,7 +253,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               </div>
             </div>
             <div className="flex gap-2 items-center">
-              <AddMagicButton />
+              {/* <AddMagicButton /> */}
               <AddButton />
               {/* drop down delete & import */}
               <div className="hs-dropdown relative inline-flex">
@@ -413,11 +413,26 @@ export default MainContent;
 
 // ... (rest of the code remains the same)
 
+// const AddButton: React.FC = () => {
+//   return (
+//     <button
+//       type="button"
+//       className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-hidden focus:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900"
+//       data-hs-overlay="#hs-pro-create-intent-modal"
+//     >
+//       <svg className="hidden sm:block shrink-0 size-3 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+//         <path fillRule="evenodd" clipRule="evenodd" d="M8 1C8.55228 1 9 1.44772 9 2V7L14 7C14.5523 7 15 7.44771 15 8C15 8.55228 14.5523 9 14 9L9 9V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V9.00001L2 9.00001C1.44772 9.00001 1 8.5523 1 8.00001C0.999999 7.44773 1.44771 7.00001 2 7.00001L7 7.00001V2C7 1.44772 7.44772 1 8 1Z" />
+//       </svg>
+//       <span className="hidden sm:block">Add</span>Intent
+//     </button>
+//   )
+// }
+
 const AddButton: React.FC = () => {
   return (
     <button
       type="button"
-      className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-hidden focus:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900"
+      className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
       data-hs-overlay="#hs-pro-create-intent-modal"
     >
       <svg className="hidden sm:block shrink-0 size-3 me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

@@ -25,30 +25,30 @@ export const useSidebarLinks = (): SidebarLink[] => {
       label: t('sidebar.my_account'),
       icon: <User className="shrink-0 mt-0.5 size-4" />,
     },
-    {
-      to: "/plans",
-      label: (
-        <span className="bg-clip-text bg-linear-to-tr from-blue-600 to-purple-600 to-80% text-transparent dark:from-blue-500 dark:to-purple-500">
-          {t('sidebar.plans')}
-        </span>
-      ),
-      icon: <ArrowUpCircle className="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" />,
-    },
-    {
-      to: "/billing",
-      label: t('sidebar.billing'),
-      icon: <CreditCard className="shrink-0 mt-0.5 size-4" />,
-    },
+    // {
+    //   to: "/plans",
+    //   label: (
+    //     <span className="bg-clip-text bg-linear-to-tr from-blue-600 to-purple-600 to-80% text-transparent dark:from-blue-500 dark:to-purple-500">
+    //       {t('sidebar.plans')}
+    //     </span>
+    //   ),
+    //   icon: <ArrowUpCircle className="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500" />,
+    // },
+    // {
+    //   to: "/billing",
+    //   label: t('sidebar.billing'),
+    //   icon: <CreditCard className="shrink-0 mt-0.5 size-4" />,
+    // },
     // {
     //   to: "/credits",
     //   label: t('sidebar.credits'),
     //   icon: <Gift className="shrink-0 mt-0.5 size-4" />,
     // },
-    {
-      to: "/coupons",
-      label: t('sidebar.coupons'),
-      icon: <Tag className="shrink-0 mt-0.5 size-4" />,
-    },
+    // {
+    //   to: "/coupons",
+    //   label: t('sidebar.coupons'),
+    //   icon: <Tag className="shrink-0 mt-0.5 size-4" />,
+    // },
     // {
     //   to: "/affiliates",
     //   label: t('sidebar.affiliates'),

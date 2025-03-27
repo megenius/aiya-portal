@@ -134,7 +134,7 @@ const ModelDropdown: React.FC<ModelDropdownProps> = ({ bot }) => {
               </svg>
             </button>
             {isOpen && (
-              <div className="absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+              <div className="z-50 absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-gray-200 ring-opacity-5">
                 <div className="py-1" role="menu" aria-orientation="vertical">
                   {models?.map((item, index) => (
                     <button

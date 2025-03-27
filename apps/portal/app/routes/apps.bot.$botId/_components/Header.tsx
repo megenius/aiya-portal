@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
       { label: 'Messages', to: `/apps/bot/${botId}/messages` },
       { label: 'Knowledges', to: `/apps/bot/${botId}/knowledges` },
       // { label: 'Playground', to: `/apps/bot/${botId}/chat` },
-      { label: 'Inquiries', to: `/apps/bot/${botId}/inquiries` },
+      // { label: 'Inquiries', to: `/apps/bot/${botId}/inquiries` },
       { label: 'Logs', to: `/apps/bot/${botId}/logs` },
       // { label: 'System Prompt', to: `/apps/bot/${botId}/system-prompt` },
       { label: 'Settings', to: `/apps/bot/${botId}/settings` },
@@ -128,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
                 {/* End Search Button Icon */}
               </div>
               {/* Help Dropdown */}
-              <div className="hidden hs-dropdown [--placement:bottom-right] relative inline-flex">
+              <div className="hs-dropdown [--placement:bottom-right] relative hidden">
                 {/* Help Button Icon */}
                 <button
                   id="hs-pro-dnhd"
@@ -417,7 +417,7 @@ const Header: React.FC<HeaderProps> = ({ bot }) => {
               </div>
               {/* End Help Dropdown */}
               {/* Notifications Button Icon */}
-              <div className="hidden hs-dropdown [--auto-close:inside] relative inline-flex">
+              <div className="hs-dropdown [--auto-close:inside] relative hidden">
                 <button
                   id="hs-pro-dnnd"
                   type="button"
