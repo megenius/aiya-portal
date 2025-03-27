@@ -6,14 +6,14 @@ interface TopAgentsProps {
 
 const TopAgents: React.FC<TopAgentsProps> = () => {
   return (
-    <div className="h-full flex flex-col bg-white border border-stone-200 shadow-sm rounded-xl">
+    <div className="h-full flex flex-col bg-white border border-stone-200 shadow-xs rounded-xl">
       {/* Header */}
       <div className="p-5 pb-3 flex justify-between items-center">
         <h2 className="ms-1 inline-block font-semibold text-stone-800">
           Top countries
         </h2>
         <a
-          className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline"
+          className="text-sm text-green-600 decoration-2 hover:underline font-medium focus:outline-hidden focus:underline"
           href="#"
         >
           Reports

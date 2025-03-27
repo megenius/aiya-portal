@@ -137,7 +137,7 @@ const CouponPage = () => {
                 <ul className="space-y-3 mb-6">
                   {coupon?.benefits?.map((benefit, index) => (
                     <li key={index} className="flex items-center gap-2 text-gray-600">
-                      <CheckCircle className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                      <CheckCircle className="h-4 w-4 text-blue-500 shrink-0" />
                       <span className="text-sm">{benefit}</span>
                     </li>
                   ))}
@@ -194,7 +194,7 @@ const CouponPage = () => {
             <ul className="space-y-3 mb-6">
               {coupon?.benefits?.map((benefit, index) => (
                 <li key={index} className="flex items-center gap-2 text-gray-600">
-                  <CheckCircle className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 text-blue-500 shrink-0" />
                   <span className="text-sm">{benefit}</span>
                 </li>
               ))}

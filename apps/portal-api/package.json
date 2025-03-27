@@ -2,7 +2,7 @@
   "name": "portal-api",
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14000 --inspector-port 24000",
-    "dev-remote": "wrangler dev --remote src/index.ts --port 14000 --inspector-port 24000",
+    "dev-remote": "wrangler dev src/index.ts --port 14000 --inspector-port 24000",
     "deploy": "wrangler deploy --minify src/index.ts",
     "typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
   },
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/aws4": "^1.11.6",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "wrangler": "4"
   }
 }

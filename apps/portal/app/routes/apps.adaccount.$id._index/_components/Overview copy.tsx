@@ -23,7 +23,7 @@ import { useAdDashboard } from '~/hooks/adaccount/useAdDashboard';
 //   return (
 //     <>
 //       {/* Stats Grid */}
-//       <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden">
+//       <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-xs rounded-xl overflow-hidden">
 //         <div className="flex flex-col p-5 bg-white">
 //           <h1 className='text-xl font-semibold'>
 //             Purchase
@@ -246,7 +246,7 @@ const KPISection: React.FC = () => (
     {kpiData.map((kpi, index) => (
       <div
         key={index}
-        className="bg-white shadow rounded-lg p-6 flex items-center"
+        className="bg-white shadow-sm rounded-lg p-6 flex items-center"
       >
         <div className="flex-1">
           <p className="text-sm text-gray-500">{kpi.label}</p>
@@ -290,7 +290,7 @@ const KPISection: React.FC = () => (
 const PerformanceCharts: React.FC = () => (
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
     {/* Performance Over Time */}
-    <div className="bg-white shadow rounded-lg p-6">
+    <div className="bg-white shadow-sm rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">Performance Over Time</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={performanceOverTime}>
@@ -307,7 +307,7 @@ const PerformanceCharts: React.FC = () => (
     </div>
 
     {/* Spend vs. Budget */}
-    <div className="bg-white shadow rounded-lg p-6">
+    <div className="bg-white shadow-sm rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">Spend vs. Budget</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -330,7 +330,7 @@ const PerformanceCharts: React.FC = () => (
 
 // RecentCampaigns Component
 const RecentCampaigns: React.FC = () => (
-  <div className="bg-white shadow rounded-lg p-6 mt-6">
+  <div className="bg-white shadow-sm rounded-lg p-6 mt-6">
     <h2 className="text-xl font-semibold mb-4">Recent Campaigns Activity</h2>
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -390,7 +390,7 @@ const RecentCampaigns: React.FC = () => (
 
 // TopAds Component
 const TopAds: React.FC = () => (
-  <div className="bg-white shadow rounded-lg p-6 mt-6">
+  <div className="bg-white shadow-sm rounded-lg p-6 mt-6">
     <h2 className="text-xl font-semibold mb-4">Top Performing Ads</h2>
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -439,10 +439,10 @@ const TopAds: React.FC = () => (
 // QuickActions Component
 const QuickActions: React.FC = () => (
   <div className="flex justify-end space-x-4 mt-6">
-    <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+    <button className="px-4 py-2 bg-blue-600 text-white rounded-sm hover:bg-blue-700">
       Create New Campaign
     </button>
-    <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+    <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded-sm hover:bg-gray-300">
       Export Report
     </button>
   </div>

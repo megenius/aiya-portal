@@ -2,9 +2,13 @@ import { Hono } from "hono";
 import { webhookRouter } from "./routes/webhook";
 import { cleanupRouter } from "./routes/cleanup";
 import { logger } from "hono/logger";
-import { compress } from "hono/compress";
 import { requestId, RequestIdVariables } from "hono/request-id";
 import { Bindings } from "./types";
+import type {
+  ScheduledController,
+  ExecutionContext,
+} from "@cloudflare/workers-types";
+import { scheduleHandler } from "./handlers/scheduleHandler";
 
 const app = new Hono<{
   Bindings: Bindings;
@@ -72,4 +76,30 @@ app.use("*", async (c, next) => {
 app.route("/webhook", webhookRouter);
 app.route("/cleanup", cleanupRouter);
 
-export default app;
+// Export default for Cloudflare Workers
+export default {
+  // Handle HTTP requests with Hono
+  fetch: app.fetch,
+
+  scheduled: async (
+    controller: ScheduledController,
+    env: Bindings,
+    ctx: ExecutionContext
+  ) => {
+    console.log(`Running scheduled task at ${new Date().toISOString()}`);
+    
+    // Create a mock Hono context for the scheduled task
+    const mockContext = {
+      env,
+      executionCtx: ctx,
+      // Add any other required context properties
+    };
+
+    try {
+      const result = await scheduleHandler(mockContext as any);
+      console.log('Schedule handler result:', result);
+    } catch (error) {
+      console.error('Schedule handler error:', error);
+    }
+  }
+};

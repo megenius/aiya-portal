@@ -40,7 +40,7 @@ const Route = () => {
   if (!data) {
     return (
       <div className="w-full h-full">
-        <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-xs">
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h1 className="block text-2xl font-bold text-gray-800">Invitation</h1>
@@ -56,7 +56,7 @@ const Route = () => {
   if (data?.user_id) {
     return (
       <div className="w-full h-full">
-        <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-xs">
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h1 className="block text-2xl font-bold text-gray-800">Invitation</h1>
@@ -79,7 +79,7 @@ const Route = () => {
 
   return (
     <div className="w-full h-full">
-      <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-sm">
+      <div className="m-auto mt-7 max-w-sm bg-white border border-gray-200 rounded-xl shadow-xs">
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800">Invitation</h1>

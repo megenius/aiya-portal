@@ -16,7 +16,7 @@ export const ChatToolbar: React.FC<ChatToolbarProps> = ({ modalKey, onAddText, o
           aria-expanded="false"
           // aria-label="Dropdown"
           type="button"
-          className="flex justify-center cursor-default items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
+          className="flex justify-center cursor-default items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-hidden text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
         >
           <Plus className="size-5" />
         </button> */}
@@ -25,7 +25,7 @@ export const ChatToolbar: React.FC<ChatToolbarProps> = ({ modalKey, onAddText, o
           aria-expanded="false"
           // aria-label="Dropdown"
           type="button"
-          className="flex justify-center items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
+          className="flex justify-center items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-hidden text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
           onClick={() => onAddText?.()}
         >
           <Type className="size-5" />
@@ -36,7 +36,7 @@ export const ChatToolbar: React.FC<ChatToolbarProps> = ({ modalKey, onAddText, o
           aria-expanded="false"
           // aria-label="Dropdown"
           type="button"
-          className="flex justify-center items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
+          className="flex justify-center items-center size-9 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-hidden text-gray-800 rounded-full dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
           onClick={() => onAddImage?.()}
         >
           <Image className="size-5" />

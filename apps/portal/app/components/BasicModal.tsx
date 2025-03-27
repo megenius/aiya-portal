@@ -14,7 +14,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ id, title, children, className 
   return (
     <div
       id={id}
-      className="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto [--close-when-click-inside:true] pointer-events-none"
+      className="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto [--close-when-click-inside:true] pointer-events-none"
       role="dialog"
       tabIndex={-1}
       aria-labelledby={`${id}-label`}
@@ -28,7 +28,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ id, title, children, className 
             </h3>
             <button
               type="button"
-              className="size-6 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+              className="size-6 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
               aria-label="Close"
               data-hs-overlay={`#${id}`}
             >

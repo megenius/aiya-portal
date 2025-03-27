@@ -50,7 +50,7 @@ const IntentQuestionList: React.FC<IntentQuestionListProps> = ({ questions, sear
         ))}
         <button
           onClick={handleAddQuestion}
-          className="inline-flex items-center justify-center w-6 h-6 me-1 mb-1 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="inline-flex items-center justify-center w-6 h-6 me-1 mb-1 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-blue-300"
         >
           <Plus size={16} />
           <span className="sr-only">Add question</span>

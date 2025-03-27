@@ -35,7 +35,7 @@ const CampaignPerformance: React.FC<CampaignProps> = ({ adaccount }) => {
         bar: {
           horizontal: false,
           columnWidth: '55%',
-          endingShape: 'rounded',
+          endingShape: 'rounded-sm',
         },
       },
       dataLabels: {
@@ -88,7 +88,7 @@ const CampaignPerformance: React.FC<CampaignProps> = ({ adaccount }) => {
 
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow">
+    <div className="bg-white p-4 rounded-xl shadow-sm">
       <h3 className="text-lg font-semibold mb-4">Campaign Performance</h3>
       <Chart options={chartOptions} series={series} type="bar" height={350} />
     </div>

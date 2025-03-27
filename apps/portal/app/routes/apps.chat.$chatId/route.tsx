@@ -1,33 +1,23 @@
-import React from "react"
-import { Outlet, useNavigate } from "@remix-run/react"
-import { SideBar } from "./_components/SideBar"
-import { useEffect } from "react";
+import React from "react";
+import { Outlet, useNavigate, useParams } from "@remix-run/react";
 import { useAppSelector } from "~/store";
+import { useGetChatHub } from "~/hooks/useGetChatHub";
 
 const Route = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     window.location.href = '/';
-  //   }
-  // }, [isAuthenticated]);
-
-  // if (isAuthenticated) {
-  //   return <div></div>
-  // }
+  const { chatId } = useParams()
+  const { data: chatHub } = useGetChatHub({
+    id: chatId,
+  })
 
   return (
-    <>
-      <main className="min-h-full">
-        <SideBar />
-        <Outlet />
-      </main>
-    </>
-  )
-}
+    <Outlet context={{
+      chatHub
+    }} />
+  );
+};
 
-export default Route
+export default Route;
 
 

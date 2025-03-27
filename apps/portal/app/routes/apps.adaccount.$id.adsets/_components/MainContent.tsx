@@ -65,7 +65,7 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
     <p>Error: {error.message}</p>
   ) : (
     <div className="h-full overflow-y-auto">
-      <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+      <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         {/* Title */}
         <div className="mb-4 xl:mb-8">
           <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
@@ -79,7 +79,7 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
                   <strong>`{searchValue}`</strong>
                 </span>
                 <button
-                  className="ml-2 text-sm text-blue-500 underline focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  className="ml-2 text-sm text-blue-500 underline focus:outline-hidden focus:ring-3 focus:ring-blue-500 focus:ring-opacity-50"
                   onClick={() => {
                     setSearch({ q: '' });
                     setSearchValue('');
@@ -93,7 +93,7 @@ const MainContent: React.FC<MainContentProps> = ({ adaccount }) => {
           <div className="relative w-full">
             <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
               <svg
-                className="flex-shrink-0 size-4 text-gray-500 dark:text-neutral-400"
+                className="shrink-0 size-4 text-gray-500 dark:text-neutral-400"
                 xmlns="http://www.w3.org/2000/svg"
                 width={24}
                 height={24}

@@ -12,7 +12,6 @@ import { tiktokRoutes } from "./routes/tiktok.route";
 import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";
 import { QueueMessage, UserProfileMessage } from "./types/app.types";
-import { WorkerEnv } from "./types/worker-configuration";
 import { conversationRoutes } from "./routes/conversation.route";
 import { websocketRoutes } from "./routes/websocket.route";
 import { handleUserProfileQueue } from "./handlers/user-profile-queue.handler";

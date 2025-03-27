@@ -37,7 +37,7 @@ const app = new Hono<Env>()
   .use(
     "/*",
     cors({
-      origin: ["https://localhost:4243", "https://liff.aiya.me"],
+      origin: ["https://localhost:4243", "https://liff.aiya.me", "https://portal-dev.aiya.me", "https://portal.aiya.me"],
       allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowHeaders: ["Content-Type", "Authorization"],
       exposeHeaders: ["Content-Length"],

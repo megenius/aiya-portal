@@ -79,7 +79,7 @@ const CreditPage = () => {
       </div>
 
       {/* Credit Summary */}
-      <div className="p-4 mb-8 bg-gradient-to-tr from-blue-50 to-blue-100 border border-blue-200 rounded-xl">
+      <div className="p-4 mb-8 bg-linear-to-tr from-blue-50 to-blue-100 border border-blue-200 rounded-xl">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="flex flex-col">
             <span className="text-sm font-medium text-gray-600 mb-2">Total Credits</span>
@@ -149,10 +149,10 @@ const CreditPage = () => {
           .map((credit) => (
             <div
               key={credit.id}
-              className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border rounded-xl shadow-xs hover:shadow-md transition-shadow"
             >
               <div className="flex items-start gap-4 mb-4 md:mb-0">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600">
                     <Gift className="w-5 h-5" />
                   </span>
@@ -197,7 +197,7 @@ const CreditPage = () => {
       {/* Info Box */}
       <div className="mt-8 p-4 bg-gray-50 border rounded-xl">
         <div className="flex gap-2">
-          <AlertCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-gray-500" />
+          <AlertCircle className="shrink-0 mt-0.5 w-4 h-4 text-gray-500" />
           <div className="text-sm text-gray-600">
             <p className="font-medium mb-1">About Promotional Credits</p>
             <p>
@@ -218,7 +218,7 @@ const CreditPage = () => {
             <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                     <Gift className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
@@ -243,14 +243,14 @@ const CreditPage = () => {
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 sm:ml-3 sm:w-auto"
+                  className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-700 sm:ml-3 sm:w-auto"
                   onClick={() => setShowRedeemForm(false)}
                 >
                   Redeem
                 </button>
                 <button
                   type="button"
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                   onClick={() => setShowRedeemForm(false)}
                 >
                   Cancel

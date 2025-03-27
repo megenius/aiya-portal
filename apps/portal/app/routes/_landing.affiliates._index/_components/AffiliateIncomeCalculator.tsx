@@ -110,7 +110,7 @@ const AffiliateIncomeCalculator = () => {
   return (
     <>
       <div className="max-w-[1200px] mx-auto p-4">
-        <div className="bg-white border shadow-sm rounded-xl p-6">
+        <div className="bg-white border shadow-xs rounded-xl p-6">
           {/* Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">ตัวอย่างการคำนวณรายได้</h2>

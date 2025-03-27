@@ -27,7 +27,7 @@ const ToolDropdown: React.FC<ToolDropdownProps> = ({ index, onDeleteClick, onDup
         <button
           id={`hs-dropdown-${index}`}
           type="button"
-          className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200"
+          className="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-200 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200"
           data-hs-dropdown={`#hs-dropdown-menu-${index}`}
         >
           <svg
@@ -54,7 +54,7 @@ const ToolDropdown: React.FC<ToolDropdownProps> = ({ index, onDeleteClick, onDup
         >
           <div className="p-1 cursor-pointer">
             <div
-              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100"
+              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100"
               onClick={() => handleOptionClick(onEditClick || (() => { }))}
             >
               <svg
@@ -75,7 +75,7 @@ const ToolDropdown: React.FC<ToolDropdownProps> = ({ index, onDeleteClick, onDup
               Edit
             </div>
             <div
-              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100"
+              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100"
               onClick={() => handleOptionClick(onDuplicateClick || (() => { }))}
             >
               <svg xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const ToolDropdown: React.FC<ToolDropdownProps> = ({ index, onDeleteClick, onDup
               Duplicate
             </div>
             <div
-              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100"
+              className="flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100"
               onClick={() => handleOptionClick(onDeleteClick || (() => { }))}
             >
               <svg

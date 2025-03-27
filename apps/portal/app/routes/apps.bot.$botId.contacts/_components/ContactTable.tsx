@@ -85,20 +85,20 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                     <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px pe-4 py-3">
-                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap py-3">
                     <div className="flex justify-center items-center">
-                      <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                      <div className="h-6 w-10 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                     </div>
                   </td>
                 </tr>

@@ -85,7 +85,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ onDateChange }) => {
       <button
         id="hs-dropdown-default"
         type="button"
-        className="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+        className="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
         aria-haspopup="menu"
         aria-expanded={isOpen ? "true" : "false"}
         aria-label="Dropdown"
@@ -143,7 +143,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ onDateChange }) => {
           {DATE_OPTS.map((item, index) => (
             <li key={index}>
               <button
-                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full text-left"
+                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 w-full text-left"
                 onClick={() => handleSelectOption(item)}
               >
                 {item}

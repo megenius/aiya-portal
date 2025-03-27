@@ -40,8 +40,8 @@ services = [{ binding = "WORKER_CHANNEL", service = "channel-api_prod" }]
 
 [[env.prod.d1_databases]]
 binding = "DB"
-database_name = "webhooks"
-database_id = "48e858e8-8353-490a-b86e-edf209b237b6"
+database_name = "webhooks_prod"
+database_id = "9a905ca4-8a0c-4b4c-9392-b6b629c29202"
 
 [env.prod.vars]
 # AWS_ACCESS_KEY_ID = ""

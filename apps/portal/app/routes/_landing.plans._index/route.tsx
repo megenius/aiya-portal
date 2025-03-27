@@ -45,7 +45,7 @@ const Route = () => {
               {/* End Breadcrumb */}
               <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
                 {/* Pricing Card */}
-                <div className="p-5 md:p-8 space-y-12 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+                <div className="p-5 md:p-8 space-y-12 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                   {/* Pricing */}
                   <div>
                     {/* Title */}
@@ -63,7 +63,7 @@ const Route = () => {
                           <button
                             onClick={() => setIsAnnual(false)}
                             className={`px-4 py-2 rounded-full text-sm font-medium round ${!isAnnual
-                              ? "bg-white text-gray-800 shadow dark:bg-neutral-700 dark:text-neutral-200"
+                              ? "bg-white text-gray-800 shadow-sm dark:bg-neutral-700 dark:text-neutral-200"
                               : "text-gray-600 dark:text-neutral-400"
                               }`}
                           >
@@ -74,7 +74,7 @@ const Route = () => {
                           <button
                             onClick={() => setIsAnnual(true)}
                             className={`px-4 py-2 rounded-full text-sm font-medium ${isAnnual
-                              ? "bg-white text-gray-800 shadow dark:bg-neutral-700 dark:text-neutral-200"
+                              ? "bg-white text-gray-800 shadow-sm dark:bg-neutral-700 dark:text-neutral-200"
                               : "text-gray-600 dark:text-neutral-400"
                               }`}
                           >
@@ -104,7 +104,7 @@ const Route = () => {
                       <p className="text-sm text-gray-500 dark:text-neutral-500">
                         Need a custom plan?
                       </p>
-                      <a className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      <a className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="mailto:hello@aiya.ai">
                         Get in touch
                       </a>

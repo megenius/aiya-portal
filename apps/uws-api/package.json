@@ -6,7 +6,7 @@
     "dev": "wrangler dev  --port 14400 --inspector-port 24400",
     "deploy": "wrangler deploy --minify src/index.ts",
     "cf-typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv",
-    "tunnel": "cloudflared tunnel run 770e368e-3468-4bb0-b957-8e03b9a9e7eb"
+    "tunnel": "cloudflared tunnel run 64fb1b13-1e24-450b-aad8-67718bb841d8"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.0.0",

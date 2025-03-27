@@ -113,7 +113,7 @@ const ModelDropdown: React.FC<ModelDropdownProps> = ({ bot }) => {
             <button
               type="button"
               id="dropdown-button"
-              className={`inline-flex justify-between w-full rounded-lg border border-gray-200 shadow-sm px-4 py-2 bg-white text-sm hover:bg-gray-50 focus:outline-none 
+              className={`inline-flex justify-between w-full rounded-lg border border-gray-200 shadow-sm px-4 py-2 bg-white text-sm hover:bg-gray-50 focus:outline-hidden 
                 ${selectedItem ? "text-gray-800" : "text-gray-400"}`}
               onClick={handleToggle}
               disabled={isModelsLoading}
@@ -134,7 +134,7 @@ const ModelDropdown: React.FC<ModelDropdownProps> = ({ bot }) => {
               </svg>
             </button>
             {isOpen && (
-              <div className="absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+              <div className="z-50 absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-gray-200 ring-opacity-5">
                 <div className="py-1" role="menu" aria-orientation="vertical">
                   {models?.map((item, index) => (
                     <button

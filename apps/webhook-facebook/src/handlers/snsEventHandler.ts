@@ -18,6 +18,11 @@ export async function handle(
   const processedTime = new Date();
   const processingTime = processedTime.getTime() - sentTime.getTime();
 
+  if (processingTime > 10000) {
+    logger.warn("Processing time is too long", processingTime);
+    return 
+  }
+
   const {
     AWS_REGION,
     AWS_ACCESS_KEY_ID,

@@ -121,7 +121,7 @@ const MarkdownRenderer = ({ markdown }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 dark:bg-slate-900">
+    <div className="bg-white rounded-xl shadow-xs p-4 dark:bg-slate-900">
       <div className="prose prose-slate max-w-none dark:prose-invert">
         <ReactMarkdown
           components={components}

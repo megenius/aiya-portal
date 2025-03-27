@@ -66,7 +66,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
     <>
       <div
         id={`hs-offcanvas-${id || response?.id}`}
-        className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-[80] bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
+        className="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full flex-1 flex flex-col fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xl w-full z-80 bg-white border-s dark:bg-neutral-800 dark:border-neutral-700"
         role="dialog"
         tabIndex={-1}
         aria-labelledby={`hs-offcanvas-example-label-${id || response?.id}`}
@@ -77,7 +77,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
           </h3>
           <button
             type="button"
-            className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+            className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Close"
             data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
           >
@@ -111,7 +111,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                 {/* reset button */}
                 <button
                   type="button"
-                  className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-red-500 text-red-500 hover:border-red-400 focus:outline-none focus:border-red-400 focus:text-red-400 disabled:opacity-50 disabled:pointer-events-none"
+                  className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-red-500 text-red-500 hover:border-red-400 focus:outline-hidden focus:border-red-400 focus:text-red-400 disabled:opacity-50 disabled:pointer-events-none"
                   onClick={() => setInput({ ...response, id: response?.id as string, payload: { url: '', alt: "" } })}>Reset</button>
               </div>
             </>
@@ -173,7 +173,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
                       {isDragActive ? "Drop the files here" : "Drop your files here or"}
                     </span>
                     {!isDragActive && (
-                      <span className="relative cursor-pointer bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
+                      <span className="relative cursor-pointer bg-white font-semibold text-blue-600 hover:text-blue-700 rounded-lg decoration-2 hover:underline focus-within:outline-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
                         browse
                       </span>
                     )}
@@ -192,7 +192,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
             {/* Button */}
             <button
               type="button"
-              className="py-2 px-3 w-64 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="py-2 px-3 w-64 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               onClick={() => onChanged?.(input)}
               data-hs-overlay={`#hs-offcanvas-${id || response?.id}`}
             >
@@ -202,7 +202,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
             {/* Button */}
             {/* <button
               type="button"
-              className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             >
               <svg
                 className="hidden sm:block shrink-0 size-4"

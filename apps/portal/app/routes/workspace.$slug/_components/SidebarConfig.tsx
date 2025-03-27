@@ -17,7 +17,7 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Dashboard",
     icon: (
       <svg
-        className="flex-shrink-0 mt-0.5 size-4"
+        className="shrink-0 mt-0.5 size-4"
         xmlns="http://www.w3.org/2000/svg"
         width={24}
         height={24}
@@ -94,7 +94,7 @@ export const sidebarLinks: SidebarLink[] = [
   //   label: "Account",
   //   icon: (
   //     <svg
-  //       className="flex-shrink-0 mt-0.5 size-4"
+  //       className="shrink-0 mt-0.5 size-4"
   //       xmlns="http://www.w3.org/2000/svg"
   //       width={24}
   //       height={24}
@@ -130,7 +130,7 @@ export const sidebarLinks: SidebarLink[] = [
   //   label: "Plans",
   //   icon: (
   //     <svg
-  //       className="flex-shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500"
+  //       className="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500"
   //       xmlns="http://www.w3.org/2000/svg"
   //       width={24}
   //       height={24}

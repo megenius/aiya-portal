@@ -49,13 +49,17 @@ routes = [
 
 [[env.prod.d1_databases]]
 binding = "DB"
-database_name = "webhooks"
-database_id = "48e858e8-8353-490a-b86e-edf209b237b6"
+database_name = "webhooks_prod"
+database_id = "9a905ca4-8a0c-4b4c-9392-b6b629c29202"
 
 [env.prod.vars]
 AWS_REGION = "ap-southeast-1"
 SNS_TOPIC_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-v2_prod.fifo"
 SNS_TOPIC_IMAGE_ARN = "arn:aws:sns:ap-southeast-1:398684454127:webhook-facebook-sns-image-v2_prod.fifo"
+
+
+[triggers]
+crons = ["0 0 * * *"] # Runs daily at midnight UTC
 
 # [vars]
 # MY_VAR = "my-variable"

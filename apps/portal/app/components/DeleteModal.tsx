@@ -26,7 +26,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, warning, confirmBu
   return (
     <div
       id={id}
-      className="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto [--close-when-click-inside:true] pointer-events-none"
+      className="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto [--close-when-click-inside:true] pointer-events-none"
       role="dialog"
       tabIndex={-1}
       aria-labelledby={`${id}-label`}
@@ -37,7 +37,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, warning, confirmBu
           <div className="absolute top-3 end-3 z-10">
             <button
               type="button"
-              className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200"
+              className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-200"
               aria-label="Close"
               data-hs-overlay={`#${id}`}
             >
@@ -75,7 +75,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, warning, confirmBu
             {/* <div className="mt-5 flex items-center">
               <input
                 type="checkbox"
-                className="shrink-0 size-3.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 id="hs-pro-chhdlcch"
               />
               <label
@@ -90,7 +90,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ id, title, warning, confirmBu
             <div className="mt-5 flex flex-wrap justify-end gap-2">
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50"
                 data-hs-overlay={`#${id}`}
               >
                 {cancelButton || 'Cancel'}

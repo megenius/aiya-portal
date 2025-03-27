@@ -84,7 +84,7 @@ export function DateRangePicker({
               selected={startDate}
               onChange={handleStartChange}
               dateFormat="yyyy-MM-dd"
-              className="z-50 block w-full pr-10 pl-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="z-50 block w-full pr-10 pl-4 py-2 text-sm border border-gray-300 rounded-lg shadow-xs focus:ring-blue-500 focus:border-blue-500"
               placeholderText="เลือกวันที่เริ่มต้น"
               id="startDate"
               maxDate={new Date()} // Restricts future dates
@@ -115,7 +115,7 @@ export function DateRangePicker({
               selected={endDate}
               onChange={handleEndChange}
               dateFormat="yyyy-MM-dd"
-              className="block w-full pr-10 pl-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 "
+              className="block w-full pr-10 pl-4 py-2 text-sm border border-gray-300 rounded-lg shadow-xs focus:ring-blue-500 focus:border-blue-500 "
               placeholderText="เลือกวันที่สิ้นสุด"
               id="endDate"
               maxDate={new Date()} // Restricts future dates

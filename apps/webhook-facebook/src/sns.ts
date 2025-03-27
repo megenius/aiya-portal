@@ -7,6 +7,7 @@ export async function logSNSSent(
   success: boolean,
   processingTime: number
 ) {
+  return
   const id = crypto.randomUUID();
   await c.env.DB.prepare(
     `

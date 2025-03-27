@@ -85,7 +85,7 @@ const RoasChart: React.FC<OverviewProps> = ({ adaccount, addata }) => {
   // const roas = totalRevenue / totalSpend;
 
   return (
-    <div className="p-5 flex flex-col bg-white border border-stone-200 shadow-sm rounded-xl">
+    <div className="p-5 flex flex-col bg-white border border-stone-200 shadow-xs rounded-xl">
       <h2 className="inline-block font-semibold text-stone-800">
         Revenue vs. Spend
       </h2>
@@ -114,13 +114,13 @@ const RoasChart: React.FC<OverviewProps> = ({ adaccount, addata }) => {
       {/* Legend Indicator */}
       <div className="flex justify-center items-center gap-x-4 mt-5">
         <div className="inline-flex items-center">
-          <span className="size-2.5 inline-block bg-green-600 rounded-sm me-2"></span>
+          <span className="size-2.5 inline-block bg-green-600 rounded-xs me-2"></span>
           <span className="text-[13px] text-stone-600">
             Revenue
           </span>
         </div>
         <div className="inline-flex items-center">
-          <span className="size-2.5 inline-block bg-stone-400 rounded-sm me-2"></span>
+          <span className="size-2.5 inline-block bg-stone-400 rounded-xs me-2"></span>
           <span className="text-[13px] text-stone-600">
             Spend
           </span>

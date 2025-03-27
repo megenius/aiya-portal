@@ -73,22 +73,22 @@ const InquiriesTable: React.FC<InquiriesTableProps> = ({
               ? [...Array(5)].map((_, index) => (
                 <tr key={index} className="animate-pulse">
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-40 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px whitespace-nowrap pe-4 py-3">
-                    <div className="h-4 w-36 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-36 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px pe-4 py-3">
-                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                   <td className="size-px pe-4 py-3">
-                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                    <div className="h-4 w-28 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                   </td>
                 </tr>
               ))

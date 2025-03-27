@@ -17,7 +17,7 @@ const NavButton: React.FC<NavButtonProps> = ({ label, value, icon, active, onCli
       <button
         type="button"
         className={
-          cn("hs-tab-active:border-t-indigo-600 relative flex-1 first:border-s-0 border-s border-t-[3px] md:border-t-4 border-t-transparent hover:border-t-gray-300 focus:outline-none focus:border-t-gray-300 p-3.5 xl:px-6 text-start focus:z-10 dark:hs-tab-active:border-t-indigo-500 dark:border-t-transparent dark:border-neutral-700 dark:hover:border-t-neutral-600 dark:focus:border-t-neutral-600",
+          cn("hs-tab-active:border-t-indigo-600 relative flex-1 first:border-s-0 border-s border-t-[3px] md:border-t-4 border-t-transparent hover:border-t-gray-300 focus:outline-hidden focus:border-t-gray-300 p-3.5 xl:px-6 text-start focus:z-10 dark:hs-tab-active:border-t-indigo-500 dark:border-t-transparent dark:border-neutral-700 dark:hover:border-t-neutral-600 dark:focus:border-t-neutral-600",
             { "active": active }
           )
         }
