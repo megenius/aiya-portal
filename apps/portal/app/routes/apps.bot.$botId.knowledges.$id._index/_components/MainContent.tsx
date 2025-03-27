@@ -253,7 +253,7 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
               </div>
             </div>
             <div className="flex gap-2 items-center">
-              <AddMagicButton />
+              {/* <AddMagicButton /> */}
               <AddButton />
               {/* drop down delete & import */}
               <div className="hs-dropdown relative inline-flex">
