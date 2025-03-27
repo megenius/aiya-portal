@@ -37,6 +37,7 @@ export const deleteBot = (id: string) => {
   return api.delete(`/items/bots/${id}`);
 };
 
+
 // --------------- botModel ---------------
 export const fetchBotModels = () => api.get<Array<BotModel>>("/bots/models");
 
