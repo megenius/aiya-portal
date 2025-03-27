@@ -10,7 +10,7 @@ const Route: React.FC = () => {
   // Use our enhanced custom hook
   const { users, count, loading, error, hasMore, loadMore } = useRecentBeaconUsers({
     providerIds: providerIds ? providerIds.split(',') : [],
-    timeWindowMinutes: 5,
+    timeWindowMinutes: 8,
     limit: 1000
   });
 
