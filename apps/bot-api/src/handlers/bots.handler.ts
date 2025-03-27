@@ -116,12 +116,12 @@ export const insertBotHandler = factory.createHandlers(
       }
 
       const channel = {
-        bot: bot.id,
+        bot: [bot.id],
         team: bot.team,
-        provider: "Widget",
+        provider: "Playground",
         provider_id: "P"+bot.id,
         provider_name: bot.name,
-        name: `${bot.name} (Widget)`,
+        name: `${bot.name}`,
         platform: "Website",
         logo: bot.avatar,
       }
