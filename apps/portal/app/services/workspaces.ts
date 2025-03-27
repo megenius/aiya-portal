@@ -43,9 +43,6 @@ export const deleteWorkspaceChannel = (
   channelId: string
 ) => api.delete("/workspaces/" + workspaceId + "/channels/" + channelId);
 
-export const fetchWorkspaceBots = (id: string) =>
-  api.get<{ items: WorkspaceBot[] }>("/workspaces/" + id + "/bots");
-
 export const insertWorkspaceLineChannel = (
   id: string,
   data: WorkspaceChannel
@@ -79,3 +76,26 @@ export const inviteWorkspaceMembers = (id: string, emails: string[], role) =>
 
 export const removeWorkspaceMembers = (id: string, memberId: string) =>
   api.delete(`/workspaces/${id}/members/${memberId}`);
+
+
+// -------- WORKSPACE BOTS --------
+export const fetchWorkspaceBots = (id: string) =>
+  api.get<{ items: WorkspaceBot[] }>("/workspaces/" + id + "/bots");
+
+export const fetchWorkspaceBot = (id: string, botId: string) =>
+  api.get<WorkspaceBot>(`/workspaces/${id}/bots/${botId}`);
+
+export const insertWorkspaceBot = (id: string, data: WorkspaceBot) =>
+  api.post<WorkspaceBot>(`/workspaces/${id}/bots`, data);
+
+export const updateWorkspaceBot = (
+  id: string,
+  botId: string,
+  data: WorkspaceBot
+) => {
+  return api.patch(`/workspaces/${id}/bots/${botId}`, data);
+}
+
+export const deleteWorkspaceBot = (id: string, botId: string) => {
+  return api.delete(`/workspaces/${id}/bots/${botId}`);
+}

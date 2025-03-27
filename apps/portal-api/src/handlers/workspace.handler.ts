@@ -17,7 +17,7 @@ import * as jwt from "hono/jwt";
 import { logger as honoLogger } from "hono/logger";
 import * as _ from "lodash";
 import { directusMiddleware } from "~/middleware/directus.middleware";
-import { WorkspaceChannel } from "~/types/app";
+import { Channel, WorkspaceChannel } from "~/types/app";
 import { Env } from "~/types/hono.types";
 import { getDatasetId } from "./facebook/dataset";
 
@@ -633,6 +633,122 @@ export const getWorkspaceHubs = factory.createHandlers(
         })
       );
       return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// --------------- WORKSPACE BOTS  ---------------
+//create workspace bot
+export const createWorkspaceBot = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const body = await c.req.json();
+      const item = await directus.request(
+        createItem("bots", {
+          ...body,
+          team: workspaceId,
+        })
+      );
+
+      // create bot channel
+      const channel = await directus.request(
+        createItem("channels", {
+          name: item.name,
+          platform: "Website",
+          team: workspaceId,
+          provider: "Playground",
+          provider_id: "P" + item.id,
+          provider_name: item.name,
+        } as Channel)
+      );
+
+      // create bot channel
+      await directus.request(
+        createItem("channels_bots", {
+          channel_id: channel.id,
+          bot_id: item.id
+        })
+      );
+
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//get workspace bot
+export const getWorkspaceBot = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const botId = c.req.param("botId") as string;
+      const directus = c.get("directus");
+      const item = await directus.request(
+        readItem("bots", botId, {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//update workspace bot
+export const updateWorkspaceBot = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const botId = c.req.param("botId") as string;
+      const directus = c.get("directus");
+      const body = await c.req.json();
+      const item = await directus.request(
+        updateItem("bots", botId, {
+          ...body,
+          team: workspaceId,
+          date_updated: new Date(),
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//delete workspace bot
+export const deleteWorkspaceBot = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const botId = c.req.param("botId") as string;
+      const directus = c.get("directus");
+      await directus.request(
+        updateItem("saas_teams", workspaceId, {
+          bots: {
+            delete: [botId],
+          },
+        })
+      );
+      return c.json({ workspace_id: workspaceId, bot_id: botId });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
