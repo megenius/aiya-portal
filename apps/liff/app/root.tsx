@@ -14,9 +14,9 @@ import tailwindCss from "~/styles/tailwind.css?url";
 import globalCss from "~/styles/global.css?url";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: tailwindCss },
   { rel: "stylesheet", href: prelineCss },
   { rel: "stylesheet", href: globalCss },
+  { rel: "stylesheet", href: tailwindCss },
 ];
 
 

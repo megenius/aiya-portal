@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = () => {
         <ul>
           <li className="inline-block relative pe-5 text-xs sm:text-sm text-gray-500 align-middle last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:w-px before:h-3.5 before:bg-gray-400 before:rotate-[18deg] dark:text-neutral-500 dark:before:bg-neutral-600">
             <a
-              className="hover:text-blue-600 focus:outline-none focus:underline dark:hover:text-neutral-200"
+              className="hover:text-blue-600 focus:outline-hidden focus:underline dark:hover:text-neutral-200"
               href="#"
             >
               FAQ
@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = () => {
           </li>
           <li className="inline-block relative pe-5 text-xs sm:text-sm text-gray-500 align-middle last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:w-px before:h-3.5 before:bg-gray-400 before:rotate-[18deg] dark:text-neutral-500 dark:before:bg-neutral-600">
             <a
-              className="hover:text-blue-600 focus:outline-none focus:underline dark:hover:text-neutral-200"
+              className="hover:text-blue-600 focus:outline-hidden focus:underline dark:hover:text-neutral-200"
               href="#"
             >
               License
@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = () => {
           <li className="inline-block relative pe-5 text-xs sm:text-sm text-gray-500 align-middle sm:leading-3 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:w-px before:h-3.5 before:bg-gray-400 before:rotate-[18deg] dark:text-neutral-500 dark:before:bg-neutral-600">
             <button
               type="button"
-              className="hover:text-blue-600 focus:outline-none focus:text-gray-800 dark:hover:text-neutral-200 dark:focus:text-neutral-400"
+              className="hover:text-blue-600 focus:outline-hidden focus:text-gray-800 dark:hover:text-neutral-200 dark:focus:text-neutral-400"
               data-hs-overlay="#hs-pro-dfkm"
             >
               <svg

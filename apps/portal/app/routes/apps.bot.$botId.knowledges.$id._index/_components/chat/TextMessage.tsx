@@ -45,7 +45,7 @@ const TextMessage: React.FC<TextMessageProps> = ({ response, onDelete, onDuplica
           style={{ wordBreak: "break-word" }}
         >
           <div
-            className="order-1 bg-white shadow-sm inline-block rounded-xl pt-2 pb-1.5 px-2.5 cursor-pointer"
+            className="order-1 bg-white shadow-xs inline-block rounded-xl pt-2 pb-1.5 px-2.5 cursor-pointer"
             onClick={handleClick}
           >
             <div className="text-sm text-gray-800">

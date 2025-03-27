@@ -1,3 +1,5 @@
+import { language } from "./app";
+
 export interface PageLiff {
   id: string;
   status: string;
@@ -31,6 +33,10 @@ export interface Metadata {
   scripts: Script[];
   tracking: Tracking;
   layout: Layout;
+  welcomeText: language;
+  subWelcomeText: language;
+  coupons: Coupon[];
+  categories: Category[];
 }
 
 export interface Condition {
@@ -60,6 +66,8 @@ export interface Tracking {
 export interface Layout {
   showProfile: boolean
   showAIProfile: boolean
+  showCategory: boolean
+  showSearch: boolean
   form: {
     fields: Field[];
   };
@@ -70,4 +78,22 @@ export interface Field {
   type: string;
   label: string;
   required?: boolean
+}
+
+export interface Coupon {
+  id: string;
+  to: string;
+  titleTH: string;
+  titleEN: string;
+  promotionTH: string;
+  promotionEN: string;
+  category: string;
+  image: string;
+}
+
+export interface Category {
+  id: string;
+  name: language;
+  image: string;
+  icon: string;
 }

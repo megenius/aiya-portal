@@ -74,7 +74,7 @@ const AffiliateHero = () => {
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 md:p-12 mb-8">
+      <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-8 md:p-12 mb-8">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
             {t('hero.title')}<br />

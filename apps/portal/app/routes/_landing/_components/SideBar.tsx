@@ -14,7 +14,7 @@ const SideBar: React.FC<SideBarProps> = () => {
 
   const getIconClass = (linkTo: string) => {
     const isActive = location.pathname === linkTo;
-    return `flex-shrink-0 mt-0.5 size-4 ${isActive ? 'text-blue-600 dark:text-blue-500' : ''
+    return `shrink-0 mt-0.5 size-4 ${isActive ? 'text-blue-600 dark:text-blue-500' : ''
       }`;
   };
 
@@ -28,7 +28,7 @@ const SideBar: React.FC<SideBarProps> = () => {
           -translate-x-full transition-all duration-300 transform
           w-[260px] h-full
           hidden
-          fixed inset-y-0 start-0 z-[60]
+          fixed inset-y-0 start-0 z-60
           bg-white border-e border-gray-200
           lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
           dark:bg-neutral-800 dark:border-neutral-700"
@@ -60,8 +60,8 @@ const SideBar: React.FC<SideBarProps> = () => {
                       <button
                         type="button"
                         className={
-                          cn("hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700", {
-                            "text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 ": location.pathname === link.to,
+                          cn("hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700", {
+                            "text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 ": location.pathname === link.to,
                           })
                         }
 
@@ -73,7 +73,7 @@ const SideBar: React.FC<SideBarProps> = () => {
 
                         {link.subLinks && (
                           <svg
-                            className="hs-accordion-active:-rotate-180 flex-shrink-0 mt-1 size-3.5 ms-auto transition"
+                            className="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition"
                             xmlns="http://www.w3.org/2000/svg"
                             width={24}
                             height={24}
@@ -101,7 +101,7 @@ const SideBar: React.FC<SideBarProps> = () => {
                               <li key={subLink.to} className="px-5 mb-1.5">
                                 <Link
                                   to={`${subLink.to}`}
-                                  className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
+                                  className="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                                 >
                                   {subLink.label}
                                 </Link>
@@ -120,13 +120,13 @@ const SideBar: React.FC<SideBarProps> = () => {
           <div className="lg:hidden absolute top-3 -end-3 z-10">
             <button
               type="button"
-              className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
               data-hs-overlay="#hs-pro-sidebar"
               aria-controls="hs-pro-sidebar"
               aria-label="Toggle navigation"
             >
               <svg
-                className="flex-shrink-0 size-4"
+                className="shrink-0 size-4"
                 xmlns="http://www.w3.org/2000/svg"
                 width={24}
                 height={24}

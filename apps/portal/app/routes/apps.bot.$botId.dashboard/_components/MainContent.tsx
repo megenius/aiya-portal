@@ -86,7 +86,7 @@ const MainContent: React.FC<MainContentProps> = () => {
       {/* Audience */}
       {isStatsLoading && <Loading />}
       {!isStatsLoading && <>
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
           {/* Tab Nav */}
           <nav
             className="relative z-0 flex border-b border-gray-200 dark:border-neutral-700"

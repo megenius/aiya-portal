@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 
 export default ({ mode }) => {
   // process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -8,6 +9,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     plugins: [
+      tailwindcss(),
       remix({
         ssr: false,
         future: {

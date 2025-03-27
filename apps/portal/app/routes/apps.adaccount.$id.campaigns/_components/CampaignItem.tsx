@@ -26,7 +26,7 @@ const CampaignItem: React.FC<CampaignItemProps> = ({ adaccount, searchText, camp
     <div className={cn("hs-accordion", { "active": isActive })} id={`hs-basic-heading-${campaign.id}`}>
       <div className="flex justify-between items-center">
         <button
-          className="hs-accordion-toggle hs-accordion-active:text-green-700 px-6 py-3 inline-flex justify-between items-center gap-x-3 text-sm w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
+          className="hs-accordion-toggle hs-accordion-active:text-green-700 px-6 py-3 inline-flex justify-between items-center gap-x-3 text-sm w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"
           aria-expanded={false}
           aria-controls={`hs-basic-heading-${campaign.id}`}
         >
@@ -45,7 +45,7 @@ const CampaignItem: React.FC<CampaignItemProps> = ({ adaccount, searchText, camp
         </button>
         {/* <button
           onClick={handleRemove}
-          className="px-3 py-1 text-sm font-medium text-red-300 hover:text-red-700 focus:outline-none"
+          className="px-3 py-1 text-sm font-medium text-red-300 hover:text-red-700 focus:outline-hidden"
         >
           <Trash size={20} />
         </button> */}

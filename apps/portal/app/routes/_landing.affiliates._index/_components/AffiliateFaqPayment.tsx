@@ -139,7 +139,7 @@ const AffiliateFaqPayment = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto p-4">
-      <div className="bg-white border shadow-sm rounded-xl p-6">
+      <div className="bg-white border shadow-xs rounded-xl p-6">
         {/* Payment Terms Section */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">เงื่อนไขการจ่ายเงิน</h2>

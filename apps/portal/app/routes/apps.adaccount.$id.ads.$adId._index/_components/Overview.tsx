@@ -29,14 +29,14 @@ const Overview: React.FC<OverviewProps> = ({ adaccount, addata }) => {
             <p> Adset: {addata?.adset_name}</p>
           </div>
         </div>
-        <div className="flex items-center space-x-2 bg-white rounded-md shadow px-3 py-2">
+        <div className="flex items-center space-x-2 bg-white rounded-md shadow-sm px-3 py-2">
           <Calendar size={16} />
           <span>Last 28 days</span>
           {/* <ChevronDown size={16} /> */}
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden">
+      <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 shadow-xs rounded-xl overflow-hidden">
         <StatCard
           title="Total Revenue"
           value={<CurrencyFormatter amount={addata?.purchase_value} currency={adaccount?.metadata?.currency} />}

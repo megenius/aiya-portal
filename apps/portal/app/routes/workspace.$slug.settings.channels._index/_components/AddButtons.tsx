@@ -14,7 +14,7 @@ const AddButtons: React.FC<AddButtonsProps> = ({ onFacebookClick }) => {
         <button
           id="hs-pro-dnhd"
           type="button"
-          className="hs-tooltip-toggle  py-2 px-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="hs-tooltip-toggle  py-2 px-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
           aria-haspopup="menu"
           aria-expanded="false"
           aria-label="Dropdown"
@@ -32,7 +32,7 @@ const AddButtons: React.FC<AddButtonsProps> = ({ onFacebookClick }) => {
       >
         <div className="p-1">
           <button
-            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             data-hs-overlay={`#add-line-modal`}
           >
             <svg
@@ -54,7 +54,7 @@ const AddButtons: React.FC<AddButtonsProps> = ({ onFacebookClick }) => {
             LINE
           </button>
           <button
-            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+            className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             onClick={() => onFacebookClick && onFacebookClick()}
             // data-hs-overlay={`#add-facebook-modal`}
           >
@@ -78,7 +78,7 @@ const AddButtons: React.FC<AddButtonsProps> = ({ onFacebookClick }) => {
             Facebook
           </button>
           <a
-            className="hidden flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+            className="hidden flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
             href="#"
           >
             <svg

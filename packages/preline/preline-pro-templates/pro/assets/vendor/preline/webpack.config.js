@@ -12,6 +12,7 @@ module.exports = {
 		combobox: './src/plugins/combobox/index.ts',
 		'copy-markup': './src/plugins/copy-markup/index.ts',
 		datatable: './src/plugins/datatable/index.ts',
+		datepicker: './src/plugins/datepicker/index.ts',
 		dropdown: './src/plugins/dropdown/index.ts',
 		'file-upload': './src/plugins/file-upload/index.ts',
 		'input-number': './src/plugins/input-number/index.ts',
@@ -20,6 +21,7 @@ module.exports = {
 		'pin-input': './src/plugins/pin-input/index.ts',
 		'range-slider': './src/plugins/range-slider/index.ts',
 		'remove-element': './src/plugins/remove-element/index.ts',
+		'scroll-nav': './src/plugins/scroll-nav/index.ts',
 		scrollspy: './src/plugins/scrollspy/index.ts',
 		select: './src/plugins/select/index.ts',
 		stepper: './src/plugins/stepper/index.ts',
@@ -57,6 +59,7 @@ module.exports = {
 		dropzone: 'Dropzone',
 		clipboard: 'ClipboardJS',
 		noUiSlider: 'noUiSlider',
+		VanillaCalendarPro: 'VanillaCalendarPro'
 	},
 	optimization: {
 		minimize: true,

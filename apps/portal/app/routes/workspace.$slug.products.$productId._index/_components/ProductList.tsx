@@ -23,7 +23,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <th scope="col" className="ps-3 text-start">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </th>
                   <th scope="col" className="min-w-[250px] ">
@@ -32,7 +32,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-eptits"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -64,7 +64,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -85,7 +85,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -106,7 +106,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -127,7 +127,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -149,7 +149,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -182,7 +182,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-epttys"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -214,7 +214,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -235,7 +235,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -256,7 +256,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -277,7 +277,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -299,7 +299,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -332,7 +332,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-eptsts"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -364,7 +364,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -385,7 +385,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -406,7 +406,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -427,7 +427,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -449,7 +449,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -482,7 +482,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-eptsks"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -514,7 +514,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -535,7 +535,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -556,7 +556,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -577,7 +577,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -599,7 +599,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -632,7 +632,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-eptprs"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -664,7 +664,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -685,7 +685,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -706,7 +706,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -727,7 +727,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -749,7 +749,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -782,7 +782,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       <button
                         id="hs-pro-eptai"
                         type="button"
-                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-none focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
+                        className="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm font-normal text-stone-500 focus:outline-hidden focus:bg-stone-100 dark:text-neutral-500 dark:focus:bg-neutral-700"
                         aria-haspopup="menu"
                         aria-expanded="false"
                         aria-label="Dropdown"
@@ -814,7 +814,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <div className="p-1">
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -835,7 +835,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -856,7 +856,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -877,7 +877,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           </button>
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -899,7 +899,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           <div className="my-1 border-t border-stone-200 dark:border-neutral-800" />
                           <button
                             type="button"
-                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-none focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                            className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-300 focus:outline-hidden focus:bg-stone-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                           >
                             <svg
                               className="shrink-0 size-3.5"
@@ -934,7 +934,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -946,7 +946,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Google Home
@@ -967,7 +967,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts1"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                         />
                       </div>
                     </div>
@@ -995,7 +995,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -1019,7 +1019,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd1"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -1062,7 +1062,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd1ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1138,7 +1138,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd1ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1219,7 +1219,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s1"
                                 defaultChecked=""
                               />
@@ -1233,7 +1233,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s2"
                                 defaultChecked=""
                               />
@@ -1247,7 +1247,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s3"
                                 defaultChecked=""
                               />
@@ -1261,7 +1261,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s4"
                                 defaultChecked=""
                               />
@@ -1275,7 +1275,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s5"
                                 defaultChecked=""
                               />
@@ -1289,7 +1289,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd1s6"
                                 defaultChecked=""
                               />
@@ -1297,7 +1297,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -1313,7 +1313,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -1325,7 +1325,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Calvin Klein T-shirts
@@ -1346,7 +1346,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts2"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -1372,7 +1372,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -1396,7 +1396,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd2"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -1439,7 +1439,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd2ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1515,7 +1515,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd2ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1596,7 +1596,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s1"
                                 defaultChecked=""
                               />
@@ -1610,7 +1610,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s2"
                                 defaultChecked=""
                               />
@@ -1624,7 +1624,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s3"
                                 defaultChecked=""
                               />
@@ -1638,7 +1638,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s4"
                                 defaultChecked=""
                               />
@@ -1652,7 +1652,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s5"
                                 defaultChecked=""
                               />
@@ -1666,7 +1666,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd2s6"
                                 defaultChecked=""
                               />
@@ -1674,7 +1674,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -1690,7 +1690,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -1702,7 +1702,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Pattern Winter Sweater
@@ -1723,7 +1723,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts3"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                         />
                       </div>
                     </div>
@@ -1751,7 +1751,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -1775,7 +1775,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd3"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -1818,7 +1818,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd3ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1894,7 +1894,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd3ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -1975,7 +1975,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s1"
                                 defaultChecked=""
                               />
@@ -1989,7 +1989,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s2"
                                 defaultChecked=""
                               />
@@ -2003,7 +2003,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s3"
                                 defaultChecked=""
                               />
@@ -2017,7 +2017,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s4"
                                 defaultChecked=""
                               />
@@ -2031,7 +2031,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s5"
                                 defaultChecked=""
                               />
@@ -2045,7 +2045,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd3s6"
                                 defaultChecked=""
                               />
@@ -2053,7 +2053,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -2069,7 +2069,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -2081,7 +2081,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Mango Women's shoe
@@ -2102,7 +2102,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts4"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                         />
                       </div>
                     </div>
@@ -2127,7 +2127,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -2151,7 +2151,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd4"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -2194,7 +2194,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd4ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2270,7 +2270,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd4ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2351,7 +2351,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s1"
                                 defaultChecked=""
                               />
@@ -2365,7 +2365,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s2"
                                 defaultChecked=""
                               />
@@ -2379,7 +2379,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s3"
                                 defaultChecked=""
                               />
@@ -2393,7 +2393,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s4"
                                 defaultChecked=""
                               />
@@ -2407,7 +2407,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s5"
                                 defaultChecked=""
                               />
@@ -2421,7 +2421,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd4s6"
                                 defaultChecked=""
                               />
@@ -2429,7 +2429,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -2445,7 +2445,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -2457,7 +2457,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Plain white sweater
@@ -2478,7 +2478,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts5"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -2504,7 +2504,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -2528,7 +2528,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd5"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -2571,7 +2571,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd5ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2647,7 +2647,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd5ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -2728,7 +2728,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s1"
                                 defaultChecked=""
                               />
@@ -2742,7 +2742,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s2"
                                 defaultChecked=""
                               />
@@ -2756,7 +2756,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s3"
                                 defaultChecked=""
                               />
@@ -2770,7 +2770,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s4"
                                 defaultChecked=""
                               />
@@ -2784,7 +2784,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s5"
                                 defaultChecked=""
                               />
@@ -2798,7 +2798,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd5s6"
                                 defaultChecked=""
                               />
@@ -2806,7 +2806,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -2822,7 +2822,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -2834,7 +2834,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Maroon Wedges
@@ -2855,7 +2855,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts6"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                         />
                       </div>
                     </div>
@@ -2883,7 +2883,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -2907,7 +2907,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd6"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -2950,7 +2950,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd6ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3026,7 +3026,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd6ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3107,7 +3107,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s1"
                                 defaultChecked=""
                               />
@@ -3121,7 +3121,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s2"
                                 defaultChecked=""
                               />
@@ -3135,7 +3135,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s3"
                                 defaultChecked=""
                               />
@@ -3149,7 +3149,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s4"
                                 defaultChecked=""
                               />
@@ -3163,7 +3163,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s5"
                                 defaultChecked=""
                               />
@@ -3177,7 +3177,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd6s6"
                                 defaultChecked=""
                               />
@@ -3185,7 +3185,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -3201,7 +3201,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -3213,7 +3213,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           White Blazer by Armani
@@ -3234,7 +3234,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts7"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -3260,7 +3260,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -3284,7 +3284,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd7"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -3327,7 +3327,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd7ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3403,7 +3403,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd7ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3484,7 +3484,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s1"
                                 defaultChecked=""
                               />
@@ -3498,7 +3498,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s2"
                                 defaultChecked=""
                               />
@@ -3512,7 +3512,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s3"
                                 defaultChecked=""
                               />
@@ -3526,7 +3526,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s4"
                                 defaultChecked=""
                               />
@@ -3540,7 +3540,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s5"
                                 defaultChecked=""
                               />
@@ -3554,7 +3554,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd7s6"
                                 defaultChecked=""
                               />
@@ -3562,7 +3562,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -3578,7 +3578,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -3590,7 +3590,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Watch
@@ -3611,7 +3611,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts8"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -3637,7 +3637,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -3661,7 +3661,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd8"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -3704,7 +3704,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd8ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3780,7 +3780,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd8ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -3861,7 +3861,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s1"
                                 defaultChecked=""
                               />
@@ -3875,7 +3875,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s2"
                                 defaultChecked=""
                               />
@@ -3889,7 +3889,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s3"
                                 defaultChecked=""
                               />
@@ -3903,7 +3903,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s4"
                                 defaultChecked=""
                               />
@@ -3917,7 +3917,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s5"
                                 defaultChecked=""
                               />
@@ -3931,7 +3931,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd8s6"
                                 defaultChecked=""
                               />
@@ -3939,7 +3939,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -3955,7 +3955,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -3967,7 +3967,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Nike Air Jordan 1 Yellow
@@ -3988,7 +3988,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts9"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                         />
                       </div>
                     </div>
@@ -4016,7 +4016,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -4040,7 +4040,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd9"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -4083,7 +4083,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd9ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4159,7 +4159,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd9ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4240,7 +4240,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s1"
                                 defaultChecked=""
                               />
@@ -4254,7 +4254,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s2"
                                 defaultChecked=""
                               />
@@ -4268,7 +4268,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s3"
                                 defaultChecked=""
                               />
@@ -4282,7 +4282,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s4"
                                 defaultChecked=""
                               />
@@ -4296,7 +4296,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s5"
                                 defaultChecked=""
                               />
@@ -4310,7 +4310,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd9s6"
                                 defaultChecked=""
                               />
@@ -4318,7 +4318,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -4334,7 +4334,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -4346,7 +4346,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Keyboard Matt
@@ -4367,7 +4367,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts10"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -4396,7 +4396,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -4420,7 +4420,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd10"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -4463,7 +4463,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd10ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4539,7 +4539,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd10ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4620,7 +4620,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s1"
                                 defaultChecked=""
                               />
@@ -4634,7 +4634,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s2"
                                 defaultChecked=""
                               />
@@ -4648,7 +4648,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s3"
                                 defaultChecked=""
                               />
@@ -4662,7 +4662,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s4"
                                 defaultChecked=""
                               />
@@ -4676,7 +4676,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s5"
                                 defaultChecked=""
                               />
@@ -4690,7 +4690,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd10s6"
                                 defaultChecked=""
                               />
@@ -4698,7 +4698,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -4714,7 +4714,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap ps-3 py-4">
                     <input
                       type="checkbox"
-                      className="shrink-0 border-stone-300 rounded text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
+                      className="shrink-0 border-stone-300 rounded-sm text-green-600 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-800"
                     />
                   </td>
                   <td className="size-px whitespace-nowrap px-4 py-3">
@@ -4726,7 +4726,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                       />
                       <div className="grow">
                         <a
-                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-none focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
+                          className="text-sm font-medium text-stone-800 hover:text-green-600 decoration-2 hover:underline focus:outline-hidden focus:underline focus:text-green-600 dark:text-neutral-200 dark:hover:text-green-500 dark:focus:text-green-500"
                           href="../../pro/ecommerce/product-details.html"
                         >
                           Hat
@@ -4747,7 +4747,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                           id="hs-pro-epts11"
                           className="relative w-[35px] h-[21px] bg-stone-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-green-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-green-600 checked:border-green-600 focus:checked:border-green-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-neutral-900
 
-                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
+                  before:inline-block before:size-4 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow-sm before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-white"
                           defaultChecked=""
                         />
                       </div>
@@ -4773,7 +4773,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     <div className="inline-flex items-center -space-x-px">
                       <a
-                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                        className="size-8 inline-flex justify-center items-center gap-x-2 font-medium rounded-s-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         href="../../pro/ecommerce/product-details.html"
                       >
                         <svg
@@ -4797,7 +4797,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                         <button
                           id="hs-pro-etwsdd11"
                           type="button"
-                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                          className="size-8 inline-flex justify-center items-center gap-x-2 rounded-e-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                           aria-haspopup="menu"
                           aria-expanded="false"
                           aria-label="Dropdown"
@@ -4840,7 +4840,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               <div className="flex items-center bg-stone-100 rounded-xl p-1 dark:bg-neutral-800">
                                 <label
                                   htmlFor="hs-pro-etwsdd11ts1"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4916,7 +4916,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                                 </label>
                                 <label
                                   htmlFor="hs-pro-etwsdd11ts2"
-                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                                  className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-stone-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                                 >
                                   <svg
                                     className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -4997,7 +4997,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s1"
                                 defaultChecked=""
                               />
@@ -5011,7 +5011,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s2"
                                 defaultChecked=""
                               />
@@ -5025,7 +5025,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s3"
                                 defaultChecked=""
                               />
@@ -5039,7 +5039,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s4"
                                 defaultChecked=""
                               />
@@ -5053,7 +5053,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s5"
                                 defaultChecked=""
                               />
@@ -5067,7 +5067,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                               </label>
                               <input
                                 type="checkbox"
-                                className="shrink-0 size-3.5 border-stone-300 rounded text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
+                                className="shrink-0 size-3.5 border-stone-300 rounded-sm text-green-500 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-green-500 dark:checked:border-green-500 dark:focus:ring-offset-stone-800"
                                 id="hs-pro-etwsdd11s6"
                                 defaultChecked=""
                               />
@@ -5075,7 +5075,7 @@ const ProductList: React.FC<ProductListProps> = () => {
                             <div className="my-1 border-t border-stone-200 dark:border-neutral-700" />
                             <button
                               type="button"
-                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-green-500"
                             >
                               Download
                             </button>
@@ -5108,7 +5108,7 @@ const ProductList: React.FC<ProductListProps> = () => {
           >
             <button
               type="button"
-              className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
+              className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
               aria-label="Previous"
             >
               <svg
@@ -5143,7 +5143,7 @@ const ProductList: React.FC<ProductListProps> = () => {
             </div>
             <button
               type="button"
-              className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
+              className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-stone-800 hover:bg-stone-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700"
               aria-label="Next"
             >
               <span className="sr-only">Next</span>
@@ -5372,7 +5372,7 @@ const ProductList: React.FC<ProductListProps> = () => {
             </p>
           </div>
           <a
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             href="#"
           >
             Learn more
@@ -5585,7 +5585,7 @@ const ProductList: React.FC<ProductListProps> = () => {
             </p>
           </div>
           <a
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             href="#"
           >
             Learn more
@@ -5798,7 +5798,7 @@ const ProductList: React.FC<ProductListProps> = () => {
             </p>
           </div>
           <a
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-sm hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-stone-200 bg-white text-stone-800 shadow-xs hover:bg-stone-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-stone-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
             href="#"
           >
             Learn more

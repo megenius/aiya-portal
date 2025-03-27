@@ -33,7 +33,7 @@ const Route = () => {
   if (error) {
     return (
       <div className="max-w-[50rem] mx-auto p-6 sm:p-10">
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-xs">
           <div className="text-center p-8 sm:p-10">
             <CheckCircle className="inline-block h-16 w-16 text-red-600 mb-4" />
 
@@ -53,7 +53,7 @@ const Route = () => {
     <>
       <div className="max-w-[50rem] mx-auto p-6 sm:p-10">
         {/* Main Card */}
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-xs">
           {/* Success Header */}
           <div className="text-center p-8 sm:p-10">
             <CheckCircle className="inline-block h-16 w-16 text-green-600 mb-4" />

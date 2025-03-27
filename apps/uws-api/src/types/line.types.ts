@@ -146,12 +146,13 @@ export interface LineVideoPlayCompleteEvent extends LineEventBase {
   };
 }
 
-export interface LineBeaconEvent extends LineEventBase {
-  type: "beacon";
+export interface LineBeaconEvent extends LineEvent {
+  type: 'beacon';
   beacon: {
-    hwid: string;
-    type: "enter" | "leave" | "banner";
-    dm?: string;
+    type: string;  // 'enter', 'leave', or 'banner'
+    hwid: string;  // Hardware ID of the beacon
+    dm?: string;   // Device message (hex format)
+    distance?: number; // Distance from beacon in centimeters (only for BLE standard)
   };
 }
 

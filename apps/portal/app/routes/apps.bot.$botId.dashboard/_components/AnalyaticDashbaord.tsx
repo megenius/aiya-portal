@@ -128,7 +128,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
 
 
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <Target className="w-[32px] h-[32px] text-green-600" />
             <div className="grow">
@@ -144,7 +144,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
           </div>
         </div>
 
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <Brain className="w-[32px] h-[32px] text-purple-600" />
             <div className="grow">
@@ -160,7 +160,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
           </div>
         </div>
 
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <Zap className="w-[32px] h-[32px] text-yellow-600" />
             <div className="grow">
@@ -179,7 +179,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
 
       {/* Secondary Stats */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <Users2 className="w-[32px] h-[32px] text-blue-600" />
             <div className="grow">
@@ -200,7 +200,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
           </div>
         </div>
 
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <CircleSlash2 className="w-[32px] h-[32px] text-red-600" />
             <div className="grow">
@@ -221,7 +221,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
           </div>
         </div>
 
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <div className="flex items-center gap-x-2">
             <CheckCircle className="w-[32px] h-[32px] text-green-600" />
             <div className="grow">
@@ -246,7 +246,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
       {/* Charts Grid */}
       <div className="grid lg:grid-cols-2 gap-4 mb-6">
         {/* Hourly Activity Chart */}
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <h3 className="font-semibold text-gray-800 mb-4">{today ? "Hourly Activity" : "Daily Activity"}</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -265,7 +265,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
         </div>
 
         {/* Intent Distribution Pie Chart */}
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <h3 className="font-semibold text-gray-800 mb-4">Intent Distribution Top 5</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -291,7 +291,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
         </div>
 
         {/* Knowledge Distribution */}
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <h3 className="font-semibold text-gray-800 mb-4">Knowledge Distribution</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -315,7 +315,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
         </div>
 
         {/* Success vs Fallback Rate */}
-        <div className="bg-white border shadow-sm rounded-xl p-4 md:p-5">
+        <div className="bg-white border shadow-xs rounded-xl p-4 md:p-5">
           <h3 className="font-semibold text-gray-800 mb-4">Success vs Fallback Rate</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -344,7 +344,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
       </div>
 
       {/* Detailed Intent Analysis */}
-      <div className="bg-white border shadow-sm rounded-xl">
+      <div className="bg-white border shadow-xs rounded-xl">
         <div className="p-4 md:p-5">
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Intent Analysis</h3>
           <div className="flex flex-col">
@@ -391,7 +391,7 @@ const AnalyaticDashbaord: React.FC<AnalyaticDashbaordProps> = ({ stats,today }) 
         </div>
       </div>
 
-      <div className="bg-white border shadow-sm rounded-xl mt-4">
+      <div className="bg-white border shadow-xs rounded-xl mt-4">
         <div className="p-4 md:p-5">
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Fallback Analysis</h3>
           <div className="flex flex-col">

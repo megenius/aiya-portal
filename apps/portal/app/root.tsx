@@ -12,7 +12,7 @@ import { LinksFunction } from "@remix-run/node";
 import 'react-toastify/dist/ReactToastify.css';
 import tailwindCss from "@/styles/tailwind.css?url";
 import globalCss from "@/styles/global.css?url";
-import prosemirrorCss from "@/styles/prosemirror.css?url";
+// import prosemirrorCss from "@/styles/prosemirror.css?url";
 import prelineCss from "@repo/preline/preline.css?url";
 
 import { Provider } from 'react-redux';
@@ -33,7 +33,7 @@ import { Loader2 } from "lucide-react";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCss },
   { rel: "stylesheet", href: prelineCss },
-  { rel: "stylesheet", href: prosemirrorCss },
+  // { rel: "stylesheet", href: prosemirrorCss },
   { rel: "stylesheet", href: globalCss },
 ];
 

@@ -1,12 +1,15 @@
 import React from "react";
 import { useConversations } from "~/hooks/useConversations";
 import { Avatar } from "@repo/preline/Avatar";
+import { useSearchParams } from "@remix-run/react";
 
 const ConversationRoute: React.FC = () => {
-  const { data: conversations, isLoading } = useConversations();
+  const [search] = useSearchParams();
+  const providerIds = search.get("provider_ids") || "";
+  const { data: conversations, isLoading } = useConversations(providerIds);
 
   return (
-    <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="p-5 md:p-8 bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
       <div className="mb-4 xl:mb-8">
         <h1 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
           Inbox
@@ -43,10 +46,10 @@ const ConversationRoute: React.FC = () => {
                         <div className="rounded-full bg-gray-300 dark:bg-neutral-700 size-10"></div>
                       </td>
                       <td className="size-px pe-4 py-3">
-                        <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                        <div className="h-4 w-48 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                       </td>
                       <td className="size-px whitespace-nowrap pe-4 py-3">
-                        <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded"></div>
+                        <div className="h-4 w-24 bg-gray-300 dark:bg-neutral-700 rounded-sm"></div>
                       </td>
                     </tr>
                   ))

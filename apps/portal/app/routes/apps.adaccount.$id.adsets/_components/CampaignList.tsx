@@ -50,7 +50,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ adaccount, campaigns }) => {
   //   <div className="hs-accordion-group">
   //     {filteredItems?.map((campaign) => (
   //       <div className="hs-accordion active" id={`hs-basic-heading-${campaign}`}>
-  //         <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="true" aria-controls="hs-basic-collapse-one">
+  //         <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="true" aria-controls="hs-basic-collapse-one">
   //           <svg className="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
   //             <path d="M5 12h14" />
   //             <path d="M12 5v14" />
@@ -69,7 +69,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ adaccount, campaigns }) => {
   //     ))}
 
   //     <div className="hs-accordion active" id="hs-basic-heading-one">
-  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="true" aria-controls="hs-basic-collapse-one">
+  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="true" aria-controls="hs-basic-collapse-one">
   //         <svg className="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
   //           <path d="M5 12h14" />
   //           <path d="M12 5v14" />
@@ -86,7 +86,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ adaccount, campaigns }) => {
   //       </div>
   //     </div>
   //     <div className="hs-accordion" id="hs-basic-heading-two">
-  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="false" aria-controls="hs-basic-collapse-two">
+  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="false" aria-controls="hs-basic-collapse-two">
   //         <svg className="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
   //           <path d="M5 12h14" />
   //           <path d="M12 5v14" />
@@ -103,7 +103,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ adaccount, campaigns }) => {
   //       </div>
   //     </div>
   //     <div className="hs-accordion" id="hs-basic-heading-three">
-  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="false" aria-controls="hs-basic-collapse-three">
+  //       <button className="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none" aria-expanded="false" aria-controls="hs-basic-collapse-three">
   //         <svg className="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
   //           <path d="M5 12h14" />
   //           <path d="M12 5v14" />
@@ -124,7 +124,7 @@ const IntentsList: React.FC<IntentsListProps> = ({ adaccount, campaigns }) => {
   // )
 
   return (
-    <div className="p-5 space-y-4 flex flex-col bg-white border border-stone-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="p-5 space-y-4 flex flex-col bg-white border border-stone-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
       {/* <Filters onSearchChanged={handleSearchChange} /> */}
       <div className="overflow-x-auto">
         <div className="hs-accordion-group">

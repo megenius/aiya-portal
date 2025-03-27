@@ -23,6 +23,7 @@ import {
   LineMessageContent,
   LineTemplateMessage,
   LineMessageEvent,
+  LineBeaconEvent, // Add LineBeaconEvent type
 } from "~/types/line.types";
 import { LineService } from "~/services/line.service"; // Import LineService
 
@@ -49,12 +50,19 @@ export class LineTransformer {
     return event.type === 'message';
   }
 
+  private isBeaconEvent(event: LineEvent): event is LineBeaconEvent {
+    return event.type === 'beacon';
+  }
+
   private transformEvent(event: LineEvent): WebhookEvent | null {
     try {
       console.log("Transforming LINE event:", event);
 
       // Only transform message for message events
       const message = this.isMessageEvent(event) ? this.transformMessage(event) : undefined;
+      
+      // Extract beacon data if it's a beacon event
+      const beacon = this.isBeaconEvent(event) ? this.transformBeacon(event) : undefined;
 
       const unifiedEvent: WebhookEvent = {
         id: event.webhookEventId ?? `line-${event.timestamp}`,
@@ -63,6 +71,7 @@ export class LineTransformer {
         timestamp: new Date(event.timestamp).getTime(),
         channel_id: this.providerId,  //this.getChannelId(event),
         message,
+        beacon, // Add beacon data to the unified event
         raw_event: event,
       };
 
@@ -263,6 +272,8 @@ export class LineTransformer {
         return MessageType.LOCATION;
       case "sticker":
         return MessageType.STICKER;
+      case "template":
+        return MessageType.TEMPLATE;
       default:
         return MessageType.OTHER;
     }
@@ -331,11 +342,26 @@ export class LineTransformer {
       case "leave":
         return GeneralEventType.SYSTEM;
       case "postback":
-      case "beacon":
         return GeneralEventType.MESSAGE;
+      case "beacon":
+        return GeneralEventType.BEACON;
       default:
         console.warn("Unknown LINE event type:", event.type, event);
         return GeneralEventType.SYSTEM; // Default to 'system' for unknown event types
     }
+  }
+
+  private transformBeacon(event: LineBeaconEvent) {
+    if (!event.beacon) return undefined;
+    
+    return {
+      type: event.beacon.type, // enter, leave, banner
+      hwid: event.beacon.hwid, // Hardware ID of the beacon
+      dm: event.beacon.dm,     // Optional device message of beacon
+      device_message: event.beacon.dm ? Buffer.from(event.beacon.dm, 'hex').toString() : undefined,
+      distance: event.beacon.distance, // Optional distance from beacon (only for BLE standard)
+      user_id: event.source.userId,
+      timestamp: new Date(event.timestamp).getTime(),
+    };
   }
 }

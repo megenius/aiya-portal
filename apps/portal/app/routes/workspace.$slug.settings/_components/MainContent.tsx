@@ -58,8 +58,8 @@ function AcccountNavLink({
   return (
     <Link
       to={url}
-      className={cn("py-2 px-3 inline-flex items-center gap-x-2 text-sm whitespace-nowrap border border-transparent text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400", {
-        "bg-white !border-gray-200 focus:text-gray-800 shadow-sm dark:bg-neutral-800 dark:!border-neutral-700 dark:focus:text-neutral-200": isCurrent
+      className={cn("py-2 px-3 inline-flex items-center gap-x-2 text-sm whitespace-nowrap border border-transparent text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400", {
+        "bg-white border-gray-200! focus:text-gray-800 shadow-xs dark:bg-neutral-800 dark:border-neutral-700! dark:focus:text-neutral-200": isCurrent
       })}
     >
       {label}

@@ -10,7 +10,7 @@ const Chart: React.FC<ChartProps> = () => {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {/* Listbar Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -25,7 +25,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd8"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -136,7 +136,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprgcchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprgcchddts1"
                             defaultChecked=""
                           />
@@ -206,7 +206,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprgcchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprgcchddts2"
                           />
                         </label>
@@ -237,7 +237,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprgcchdds1"
                         defaultChecked=""
                       />
@@ -268,7 +268,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprgcchdds2"
                         defaultChecked=""
                       />
@@ -296,7 +296,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprgcchdds3"
                         defaultChecked=""
                       />
@@ -304,7 +304,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -319,7 +319,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-agcmd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -351,7 +351,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -375,7 +375,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -398,7 +398,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -420,7 +420,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -481,11 +481,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preiline.co
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "100%" }}
                   />
                 </div>
@@ -509,11 +509,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/examples
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "65%" }}
                   />
                 </div>
@@ -537,11 +537,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/plugins
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "40%" }}
                   />
                 </div>
@@ -565,11 +565,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/docs
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "20%" }}
                   />
                 </div>
@@ -593,11 +593,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/figma
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "15%" }}
                   />
                 </div>
@@ -621,11 +621,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/examples/hero
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "15%" }}
                   />
                 </div>
@@ -649,11 +649,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     preline.co/examples/ai-tables
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "10%" }}
                   />
                 </div>
@@ -677,11 +677,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Others
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "7%" }}
                   />
                 </div>
@@ -709,7 +709,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -719,7 +719,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Listbar Card */}
         {/* Listbar Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -734,7 +734,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd7"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -845,7 +845,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprbchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprbchddts1"
                             defaultChecked=""
                           />
@@ -915,7 +915,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprbchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprbchddts2"
                           />
                         </label>
@@ -946,7 +946,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprbchdds1"
                         defaultChecked=""
                       />
@@ -977,7 +977,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprbchdds2"
                         defaultChecked=""
                       />
@@ -1005,7 +1005,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprbchdds3"
                         defaultChecked=""
                       />
@@ -1013,7 +1013,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -1028,7 +1028,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-admd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -1060,7 +1060,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1084,7 +1084,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1107,7 +1107,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1129,7 +1129,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1180,11 +1180,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Chrome
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "760%" }}
                   />
                 </div>
@@ -1198,11 +1198,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Firefox
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "48%" }}
                   />
                 </div>
@@ -1216,11 +1216,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Safari
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "31%" }}
                   />
                 </div>
@@ -1234,11 +1234,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Microsoft Edge
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "20%" }}
                   />
                 </div>
@@ -1252,11 +1252,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Opera
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "12%" }}
                   />
                 </div>
@@ -1270,11 +1270,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Mobile App
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "8%" }}
                   />
                 </div>
@@ -1288,11 +1288,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     DuckDuckGo Privacy Browser
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "5%" }}
                   />
                 </div>
@@ -1306,11 +1306,11 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="flex justify-between items-center gap-x-2">
                 <div className="relative size-full truncate">
-                  <span className="relative z-[1] block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
+                  <span className="relative z-1 block py-1 px-2 w-full text-sm truncate text-gray-800 dark:text-neutral-200">
                     Yandex Browser
                   </span>
                   <div
-                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded dark:bg-indigo-500/20"
+                    className="absolute inset-y-0 start-0 bg-indigo-100 h-full rounded-sm dark:bg-indigo-500/20"
                     style={{ width: "2%" }}
                   />
                 </div>
@@ -1328,7 +1328,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -1342,7 +1342,7 @@ const Chart: React.FC<ChartProps> = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {/* Progress w/ Labels in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -1357,7 +1357,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd3"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -1468,7 +1468,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprlchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprlchddts1"
                             defaultChecked=""
                           />
@@ -1538,7 +1538,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dprlchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dprlchddts2"
                           />
                         </label>
@@ -1569,7 +1569,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprlchdds1"
                         defaultChecked=""
                       />
@@ -1600,7 +1600,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprlchdds2"
                         defaultChecked=""
                       />
@@ -1628,7 +1628,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dprlchdds3"
                         defaultChecked=""
                       />
@@ -1636,7 +1636,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -1651,7 +1651,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-almd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -1683,7 +1683,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1707,7 +1707,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1730,7 +1730,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -1752,7 +1752,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2001,7 +2001,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -2011,7 +2011,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Progress w/ Labels in Card */}
         {/* Doughnut Chart in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -2026,7 +2026,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd2"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -2137,7 +2137,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-ddnmshchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-ddnmshchddts1"
                             defaultChecked=""
                           />
@@ -2207,7 +2207,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-ddnmshchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-ddnmshchddts2"
                           />
                         </label>
@@ -2238,7 +2238,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-ddnmshchdds1"
                         defaultChecked=""
                       />
@@ -2269,7 +2269,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-ddnmshchdds2"
                         defaultChecked=""
                       />
@@ -2297,7 +2297,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-ddnmshchdds3"
                         defaultChecked=""
                       />
@@ -2305,7 +2305,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -2320,7 +2320,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="@@id"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -2352,7 +2352,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2376,7 +2376,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2399,7 +2399,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2421,7 +2421,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2461,19 +2461,19 @@ const Chart: React.FC<ChartProps> = () => {
               {/* Legend Indicator */}
               <div className="flex justify-center items-center gap-x-4 mb-6">
                 <div className="inline-flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Tailwind CSS
                   </span>
                 </div>
                 <div className="inline-flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Preline UI
                   </span>
                 </div>
                 <div className="inline-flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-sm me-2.5 dark:bg-neutral-700" />
+                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-xs me-2.5 dark:bg-neutral-700" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Others
                   </span>
@@ -2486,7 +2486,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -2496,7 +2496,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Doughnut Chart in Card */}
         {/* Line Charts in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -2511,7 +2511,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd1"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -2622,7 +2622,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbrachddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbrachddts1"
                             defaultChecked=""
                           />
@@ -2692,7 +2692,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbrachddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbrachddts2"
                           />
                         </label>
@@ -2723,7 +2723,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrachdds1"
                         defaultChecked=""
                       />
@@ -2754,7 +2754,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrachdds2"
                         defaultChecked=""
                       />
@@ -2782,7 +2782,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrachdds3"
                         defaultChecked=""
                       />
@@ -2790,7 +2790,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -2805,7 +2805,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachmd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -2837,7 +2837,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2861,7 +2861,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2884,7 +2884,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2906,7 +2906,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -2945,19 +2945,19 @@ const Chart: React.FC<ChartProps> = () => {
             {/* Legend Indicator */}
             <div className="flex justify-center items-center gap-x-4 mt-6">
               <div className="inline-flex items-center">
-                <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-sm me-2.5" />
+                <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-xs me-2.5" />
                 <span className="text-sm text-gray-800 dark:text-neutral-200">
                   18-25
                 </span>
               </div>
               <div className="inline-flex items-center">
-                <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-sm me-2.5 dark:bg-cyan-500" />
+                <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-xs me-2.5 dark:bg-cyan-500" />
                 <span className="text-sm text-gray-800 dark:text-neutral-200">
                   25-40
                 </span>
               </div>
               <div className="inline-flex items-center">
-                <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-sm me-2.5 dark:bg-neutral-700" />
+                <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-xs me-2.5 dark:bg-neutral-700" />
                 <span className="text-sm text-gray-800 dark:text-neutral-200">
                   40+
                 </span>
@@ -2969,7 +2969,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -2979,7 +2979,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Line Charts in Card */}
         {/* Bubble Chart with Legend Indicators in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4 relative z-10">
             <div>
@@ -2994,7 +2994,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd6"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -3105,7 +3105,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbbdchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbbdchddts1"
                             defaultChecked=""
                           />
@@ -3175,7 +3175,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbbdchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbbdchddts2"
                           />
                         </label>
@@ -3206,7 +3206,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbbdchdds1"
                         defaultChecked=""
                       />
@@ -3237,7 +3237,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbbdchdds2"
                         defaultChecked=""
                       />
@@ -3265,7 +3265,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbbdchdds3"
                         defaultChecked=""
                       />
@@ -3273,7 +3273,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -3288,7 +3288,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbbdchmd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -3320,7 +3320,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3344,7 +3344,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3367,7 +3367,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3389,7 +3389,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3444,7 +3444,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Desktop
                   </span>
@@ -3462,7 +3462,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-sm me-2.5 dark:bg-cyan-500" />
+                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-xs me-2.5 dark:bg-cyan-500" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Mobile
                   </span>
@@ -3480,7 +3480,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-sm me-2 dark:bg-neutral-700" />
+                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-xs me-2 dark:bg-neutral-700" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Tablets
                   </span>
@@ -3502,7 +3502,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -3512,7 +3512,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Bubble Chart with Legend Indicators in Card */}
         {/* Area Charts with Legend Indicators in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-2 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -3527,7 +3527,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd5"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -3638,7 +3638,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbrrtchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbrrtchddts1"
                             defaultChecked=""
                           />
@@ -3708,7 +3708,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dbrrtchddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dbrrtchddts2"
                           />
                         </label>
@@ -3739,7 +3739,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrrtchdds1"
                         defaultChecked=""
                       />
@@ -3770,7 +3770,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrrtchdds2"
                         defaultChecked=""
                       />
@@ -3798,7 +3798,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dbrrtchdds3"
                         defaultChecked=""
                       />
@@ -3806,7 +3806,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -3821,7 +3821,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrrtchmd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -3853,7 +3853,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3877,7 +3877,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3900,7 +3900,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3922,7 +3922,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -3973,28 +3973,28 @@ const Chart: React.FC<ChartProps> = () => {
               >
                 <button
                   type="button"
-                  className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active"
+                  className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active"
                   id="hs-pro-tabs-dtsch-item-first-time"
                   aria-selected="true"
                   data-hs-tab="#hs-pro-tabs-dtsch-first-time"
                   aria-controls="hs-pro-tabs-dtsch-first-time"
                   role="tab"
                 >
-                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-sm dark:bg-indigo-500" />
+                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-xs dark:bg-indigo-500" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     First-time
                   </span>
                 </button>
                 <button
                   type="button"
-                  className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 "
+                  className="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 "
                   id="hs-pro-tabs-dtsch-item-returning"
                   aria-selected="false"
                   data-hs-tab="#hs-pro-tabs-dtsch-returning"
                   aria-controls="hs-pro-tabs-dtsch-returning"
                   role="tab"
                 >
-                  <span className="shrink-0 size-2.5 inline-block bg-cyan-400 rounded-sm dark:bg-cyan-500" />
+                  <span className="shrink-0 size-2.5 inline-block bg-cyan-400 rounded-xs dark:bg-cyan-500" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Returning
                   </span>
@@ -4136,7 +4136,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports
@@ -4146,7 +4146,7 @@ const Chart: React.FC<ChartProps> = () => {
         </div>
         {/* End Area Charts with Legend Indicators in Card */}
         {/* Pie Chart with Legend Indicators in Card */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
           {/* Header */}
           <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
             <div>
@@ -4161,7 +4161,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dbrachd4"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -4272,7 +4272,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dpeachddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dpeachddts1"
                             defaultChecked=""
                           />
@@ -4342,7 +4342,7 @@ const Chart: React.FC<ChartProps> = () => {
                           <input
                             type="radio"
                             name="hs-pro-dpeachddts"
-                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-sm focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
+                            className="shrink-0 size-0 bg-transparent border-0 text-transparent cursor-pointer before:absolute before:inset-0 before:rounded-lg checked:bg-none checked:before:bg-white checked:before:shadow-xs focus:ring-0 focus:before:opacity-80 dark:checked:before:bg-neutral-900 dark:focus:before:bg-neutral-950"
                             id="hs-pro-dpeachddts2"
                           />
                         </label>
@@ -4373,7 +4373,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dpeachdds1"
                         defaultChecked=""
                       />
@@ -4404,7 +4404,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dpeachdds2"
                         defaultChecked=""
                       />
@@ -4432,7 +4432,7 @@ const Chart: React.FC<ChartProps> = () => {
                       </label>
                       <input
                         type="checkbox"
-                        className="shrink-0 size-3.5 border-gray-300 rounded text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
+                        className="shrink-0 size-3.5 border-gray-300 rounded-sm text-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-indigo-500 dark:checked:border-indigo-500 dark:focus:ring-offset-gray-800"
                         id="hs-pro-dpeachdds3"
                         defaultChecked=""
                       />
@@ -4440,7 +4440,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                     >
                       Download
                     </button>
@@ -4455,7 +4455,7 @@ const Chart: React.FC<ChartProps> = () => {
                 <button
                   id="hs-pro-dpeachmd"
                   type="button"
-                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-label="Dropdown"
@@ -4487,7 +4487,7 @@ const Chart: React.FC<ChartProps> = () => {
                   <div className="p-1">
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -4511,7 +4511,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -4534,7 +4534,7 @@ const Chart: React.FC<ChartProps> = () => {
                     </button>
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -4556,7 +4556,7 @@ const Chart: React.FC<ChartProps> = () => {
                     <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                     <button
                       type="button"
-                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                      className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                     >
                       <svg
                         className="shrink-0 size-3.5"
@@ -4611,7 +4611,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-indigo-600 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Direct
                   </span>
@@ -4629,7 +4629,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-sm me-2.5 dark:bg-cyan-500" />
+                  <span className="shrink-0 size-2.5 inline-block bg-cyan-500 rounded-xs me-2.5 dark:bg-cyan-500" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Organic search
                   </span>
@@ -4647,7 +4647,7 @@ const Chart: React.FC<ChartProps> = () => {
               {/* List Item */}
               <li className="py-3 grid grid-cols-2 justify-between items-center gap-x-4 border-b last:border-b-0 border-gray-200 dark:border-neutral-700">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-sm me-2 dark:bg-neutral-700" />
+                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-xs me-2 dark:bg-neutral-700" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Referral
                   </span>
@@ -4669,7 +4669,7 @@ const Chart: React.FC<ChartProps> = () => {
           {/* Footer */}
           <div className="text-center border-t border-gray-200 dark:border-neutral-700">
             <a
-              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-none focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
+              className="p-3 flex justify-center items-center gap-x-2 text-sm text-indigo-600 rounded-b-lg hover:text-indigo-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-600 dark:focus:text-indigo-600"
               href="#"
             >
               View full reports

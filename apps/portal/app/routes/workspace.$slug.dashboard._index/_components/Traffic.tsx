@@ -6,7 +6,7 @@ interface TrafficProps {
 
 const Traffic: React.FC<TrafficProps> = () => {
   return (
-    <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="flex flex-col bg-white border border-gray-200 shadow-xs rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
       {/* Header */}
       <div className="p-5 pb-4 grid grid-cols-2 items-center gap-x-4">
         <div>
@@ -21,7 +21,7 @@ const Traffic: React.FC<TrafficProps> = () => {
             <button
               id="hs-pro-dbrrtchdd"
               type="button"
-              className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
               aria-haspopup="menu"
               aria-expanded="false"
               aria-label="Dropdown"
@@ -64,7 +64,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                   <div className="flex items-center bg-gray-100 rounded-xl p-1 dark:bg-neutral-800">
                     <label
                       htmlFor="hs-pro-dbrrtchddts1"
-                      className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                      className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                     >
                       <svg
                         className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -138,7 +138,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                     </label>
                     <label
                       htmlFor="hs-pro-dbrrtchddts2"
-                      className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-[:checked]:bg-white has-[:checked]:shadow-sm dark:text-neutral-200 dark:has-[:checked]:bg-neutral-600"
+                      className="relative py-1.5 px-3 w-full cursor-pointer text-center text-sm text-gray-800 rounded-lg has-checked:bg-white has-checked:shadow-xs dark:text-neutral-200 dark:has-checked:bg-neutral-600"
                     >
                       <svg
                         className="relative z-10 me-1.5 inline-block align-middle shrink-0 size-4"
@@ -232,7 +232,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                   </label>
                   <input
                     type="checkbox"
-                    className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                    className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                     id="hs-pro-dbrrtchdds1"
                     defaultChecked=""
                   />
@@ -263,7 +263,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                   </label>
                   <input
                     type="checkbox"
-                    className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                    className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                     id="hs-pro-dbrrtchdds2"
                     defaultChecked=""
                   />
@@ -291,7 +291,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                   </label>
                   <input
                     type="checkbox"
-                    className="shrink-0 size-3.5 border-gray-300 rounded text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                    className="shrink-0 size-3.5 border-gray-300 rounded-sm text-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                     id="hs-pro-dbrrtchdds3"
                     defaultChecked=""
                   />
@@ -299,7 +299,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                 <button
                   type="button"
-                  className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   Download
                 </button>
@@ -313,7 +313,7 @@ const Traffic: React.FC<TrafficProps> = () => {
             <button
               id="hs-pro-dbrrtchmd"
               type="button"
-              className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              className="size-[34px] inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
               aria-haspopup="menu"
               aria-expanded="false"
               aria-label="Dropdown"
@@ -345,7 +345,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               <div className="p-1">
                 <button
                   type="button"
-                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -369,7 +369,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 </button>
                 <button
                   type="button"
-                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -392,7 +392,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 </button>
                 <button
                   type="button"
-                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -414,7 +414,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 <div className="my-1 border-t border-gray-200 dark:border-neutral-700" />
                 <button
                   type="button"
-                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-none focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 disabled:opacity-50 focus:outline-hidden focus:bg-gray-100 disabled:pointer-events-none dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                 >
                   <svg
                     className="shrink-0 size-3.5"
@@ -494,7 +494,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               {/* List Item */}
               <li className="py-2 grid grid-cols-2 justify-between items-center gap-x-4">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-blue-600 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-blue-600 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     github.com
                   </span>
@@ -509,7 +509,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               {/* List Item */}
               <li className="py-2 grid grid-cols-2 justify-between items-center gap-x-4">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-violet-500 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-violet-500 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     accounts.google.com
                   </span>
@@ -524,7 +524,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               {/* List Item */}
               <li className="py-2 grid grid-cols-2 justify-between items-center gap-x-4">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-teal-400 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-teal-400 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     themes.getbootstrap.com
                   </span>
@@ -539,7 +539,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               {/* List Item */}
               <li className="py-2 grid grid-cols-2 justify-between items-center gap-x-4">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-blue-400 rounded-sm me-2.5" />
+                  <span className="shrink-0 size-2.5 inline-block bg-blue-400 rounded-xs me-2.5" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     htmlstream.com
                   </span>
@@ -554,7 +554,7 @@ const Traffic: React.FC<TrafficProps> = () => {
               {/* List Item */}
               <li className="py-2 grid grid-cols-2 justify-between items-center gap-x-4">
                 <div className="flex items-center">
-                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-sm me-2 dark:bg-neutral-500" />
+                  <span className="shrink-0 size-2.5 inline-block bg-gray-200 rounded-xs me-2 dark:bg-neutral-500" />
                   <span className="text-sm text-gray-800 dark:text-neutral-200">
                     Others
                   </span>
@@ -578,7 +578,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 alt="Avatar"
               />
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 James Collins
@@ -589,7 +589,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 E
               </span>
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 Ella Lauda
@@ -602,7 +602,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 alt="Avatar"
               />
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 Costa Quinn
@@ -615,7 +615,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 alt="Avatar"
               />
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 Amanda Harvey
@@ -628,7 +628,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 alt="Avatar"
               />
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 Alisa Grasso
@@ -639,7 +639,7 @@ const Traffic: React.FC<TrafficProps> = () => {
                 O
               </span>
               <span
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-xs dark:bg-neutral-700"
                 role="tooltip"
               >
                 Ols Schols
@@ -658,7 +658,7 @@ const Traffic: React.FC<TrafficProps> = () => {
       {/* Footer */}
       <div className="text-center border-t border-gray-200 dark:border-neutral-700">
         <a
-          className="p-3 flex justify-center items-center gap-x-2 text-sm text-blue-600 rounded-b-lg hover:text-blue-700 focus:outline-none focus:decoration-2 focus:underline focus:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600 dark:focus:text-blue-600"
+          className="p-3 flex justify-center items-center gap-x-2 text-sm text-blue-600 rounded-b-lg hover:text-blue-700 focus:outline-hidden focus:decoration-2 focus:underline focus:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600 dark:focus:text-blue-600"
           href="#"
         >
           View full reports

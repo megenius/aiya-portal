@@ -1,12 +1,13 @@
 /*
  * HSSelect
- * @version: 2.7.0
+ * @version: 3.0.1
  * @author: Preline Labs Ltd.
  * @license: Licensed under MIT and Preline UI Fair Use License (https://preline.co/docs/license.html)
  * Copyright 2024 Preline Labs Ltd.
  */
 
 import {
+	isFocused,
 	isEnoughSpace,
 	debounce,
 	dispatch,
@@ -104,7 +105,7 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 	private toggleTextWrapper: HTMLElement | null;
 	private tagsInput: HTMLElement | null;
 	private dropdown: HTMLElement | null;
-	private popperInstance: any;
+	private floatingUIInstance: any;
 	private searchWrapper: HTMLElement | null;
 	private search: HTMLInputElement | null;
 	private searchNoResult: HTMLElement | null;
@@ -202,7 +203,7 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 				: true;
 		this.searchClasses =
 			concatOptions?.searchClasses ||
-			'block w-[calc(100%-2rem)] text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 py-2 px-3 my-2 mx-4';
+			'block w-[calc(100%-32px)] text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 py-2 px-3 my-2 mx-4';
 		this.searchPlaceholder = concatOptions?.searchPlaceholder || 'Search...';
 		this.searchNoResultTemplate =
 			concatOptions?.searchNoResultTemplate || '<span></span>';
@@ -483,6 +484,8 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 			title.classList.add('truncate');
 
 			this.toggle.append(title);
+		} else {
+			this.toggle.innerText = this.getItemByValue(this.value as string)?.title || this.placeholder;
 		}
 	}
 
@@ -598,6 +601,8 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 					: this.selectedItems;
 			});
 		}
+
+		if (this.isOpened && this.floatingUIInstance) this.floatingUIInstance.update();
 	}
 
 	private buildTagsInput() {
@@ -664,29 +669,46 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 
 		if (this.apiUrl) this.optionsFromRemoteData();
 
-		if (this.dropdownScope === 'window') this.buildPopper();
+		if (this.dropdownScope === 'window') this.buildFloatingUI();
 	}
 
-	private buildPopper() {
-		if (typeof Popper !== 'undefined' && Popper.createPopper) {
+	private buildFloatingUI() {
+		if (typeof FloatingUIDOM !== 'undefined' && FloatingUIDOM.computePosition) {
 			document.body.appendChild(this.dropdown);
 
-			this.popperInstance = Popper.createPopper(
-				this.mode === 'tags' ? this.wrapper : this.toggle,
-				this.dropdown,
-				{
-					placement: POSITIONS[this.dropdownPlacement] || 'bottom',
-					strategy: 'fixed',
-					modifiers: [
-						{
-							name: 'offset',
-							options: {
-								offset: [0, 5],
-							},
-						},
-					],
-				},
-			);
+			const reference = this.mode === 'tags' ? this.wrapper : this.toggle;
+
+			const options = {
+				placement: POSITIONS[this.dropdownPlacement] || 'bottom',
+				strategy: 'fixed',
+				middleware: [
+					FloatingUIDOM.offset([0, 5])
+				],
+			};
+
+			const update = () => {
+				FloatingUIDOM.computePosition(reference, this.dropdown, options).then(
+					({ x, y, placement: computedPlacement }) => {
+						Object.assign(this.dropdown.style, {
+							position: 'fixed',
+							left: `${x}px`,
+							top: `${y}px`,
+						});
+						this.dropdown.setAttribute('data-placement', computedPlacement);
+					}
+				);
+			};
+
+			update();
+
+			const cleanup = FloatingUIDOM.autoUpdate(reference, this.dropdown, update);
+
+			this.floatingUIInstance = {
+				update,
+				destroy: cleanup,
+			};
+		} else {
+			console.error('FloatingUIDOM not found! Please enable it on the page.');
 		}
 	}
 
@@ -706,7 +728,7 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 		input = this.searchWrapper.querySelector('[data-input]');
 
 		const search = htmlToElement(
-			this.searchTemplate || '<input type="text" />',
+			this.searchTemplate || '<input type="text">',
 		);
 		this.search = (
 			search.tagName === 'INPUT' ? search : search.querySelector(':scope input')
@@ -1429,11 +1451,15 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 
 		const parent = this.el.parentElement.parentElement;
 
-		this.el.classList.remove('hidden');
+		this.el.classList.add('hidden');
 		this.el.style.display = '';
 		parent.prepend(this.el);
 		parent.querySelector('.hs-select').remove();
 		this.wrapper = null;
+
+		window.$hsSelectCollection = window.$hsSelectCollection.filter(
+			({ element }) => element.el !== this.el,
+		);
 	}
 
 	public open() {
@@ -1460,8 +1486,9 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 				this.dropdownScope === 'window'
 			)
 				this.updateDropdownWidth();
-			if (this.popperInstance && this.dropdownScope === 'window') {
-				this.popperInstance.update();
+
+			if (this.floatingUIInstance && this.dropdownScope === 'window') {
+				this.floatingUIInstance.update();
 				this.dropdown.classList.remove('invisible');
 			}
 			if (this.hasSearch && !this.preventSearchFocus) this.search.focus();
@@ -1735,6 +1762,7 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 					this.onEnter(evt);
 					break;
 				case 'Space':
+					if (isFocused(target.element.search)) break;
 					evt.preventDefault();
 					this.onEnter(evt);
 					break;
@@ -1850,24 +1878,15 @@ class HSSelect extends HSBasePlugin<ISelectOptions> implements ISelect {
 		const select = (evt.target as HTMLElement).previousSibling;
 
 		if (window.$hsSelectCollection.find((el) => el.element.el === select)) {
-			const opened = window.$hsSelectCollection.find(
-				(el) => el.element.isOpened,
-			);
-			const target = window.$hsSelectCollection.find(
-				(el) => el.element.el === select,
-			);
+			const opened = window.$hsSelectCollection.find((el) => el.element.isOpened);
+			const target = window.$hsSelectCollection.find((el) => el.element.el === select);
 
 			opened.element.close();
-			target.element.open();
+			if (opened !== target) target.element.open();
 		} else {
-			const target = window.$hsSelectCollection.find(
-				(el) => el.element.isOpened,
-			);
+			const target = window.$hsSelectCollection.find((el) => el.element.isOpened);
 
-			if (target)
-				target.element.onSelectOption(
-					(evt.target as HTMLElement).dataset.value || '',
-				);
+			if (target) target.element.onSelectOption((evt.target as HTMLElement).dataset.value || '');
 		}
 	}
 }

@@ -291,8 +291,27 @@ export const webhook = factory.createHandlers(
 async function saveEvent(c: Context<Env>, event: WebhookEvent): Promise<void> {
   log.debug(`Saving event ${event.id}`);
 
-  // Get user ID from event, fallback to "unknown" if not found
-  const userId = event.message?.sender?.id ?? "unknown";
+  // Extract userId based on event type
+  let userId: string;
+  
+  if (event.event_type === "beacon" && event.beacon?.user_id) {
+    // Handle beacon events
+    userId = event.beacon.user_id;
+  } else if (event.raw_event?.source?.userId) {
+    // Get from raw_event if available
+    userId = event.raw_event.source.userId;
+  } else if (event.message?.sender?.id) {
+    // Original message sender fallback
+    userId = event.message.sender.id;
+  } else {
+    // Last resort fallback
+    userId = "unknown";
+    log.warn("Could not extract userId from event", { 
+      eventId: event.id, 
+      eventType: event.event_type,
+      event: JSON.stringify(event)
+    });
+  }
 
   try {
     // Send to conversation queue
