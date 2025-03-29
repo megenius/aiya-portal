@@ -22,6 +22,14 @@ const workspacesRoutes = new Hono<Env>()
   .patch("/:id/bots/:botId", ...WorkspaceHandler.updateWorkspaceBot)
   .delete("/:id/bots/:botId", ...WorkspaceHandler.deleteWorkspaceBot)
 
+  // -------- WORKSPACE DOCUMENTS --------
+  .get("/:id/documents", ...WorkspaceHandler.getWorkspaceDocuments)
+  .post("/:id/documents", ...WorkspaceHandler.createWorkspaceDocument)
+  .get("/:id/documents/:documentId", ...WorkspaceHandler.getWorkspaceDocument)
+  .patch("/:id/documents/:documentId", ...WorkspaceHandler.updateWorkspaceDocument)
+  .delete("/:id/documents/:documentId", ...WorkspaceHandler.deleteWorkspaceDocument)
+  
+
   // -------- WORKSPACE CHANNELS --------
   .get("/:id/channels", ...WorkspaceHandler.getWorkspaceChannels)
   .delete("/:id/channels/:channelId", ...WorkspaceHandler.deleteWorkspaceChannel)

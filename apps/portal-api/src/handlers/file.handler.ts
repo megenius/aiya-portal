@@ -6,6 +6,7 @@ import { randomHexString } from "@repo/shared/utils";
 import { logger as honoLogger } from "hono/logger";
 import { directusMiddleware } from "~/middleware/directus.middleware";
 import { createFactory } from "hono/factory";
+import { DirectusError } from "@repo/shared/exceptions/directus";
 
 const factory = createFactory<Env>();
 
@@ -56,9 +57,12 @@ export const uploadFile = factory.createHandlers(
   honoLogger(),
   directusMiddleware,
   async (c) => {
-    const body = await c.req.parseBody();
-    const formData = new FormData();
-    formData.append("file", body.file);
+    const formData = await c.req.formData();
+    console.log("Uploading file to directus:", formData);
+    if (!formData.has("file")) {
+      return c.json({ error: "No file uploaded" }, 400);
+    }
+
     const directus = c.get("directAdmin");
     const result = await directus.request(sdk.uploadFiles(formData));
     return c.json(result);
@@ -159,5 +163,20 @@ export const deleteFile = factory.createHandlers(
     const directus = c.get("directAdmin");
     await directus.request(sdk.deleteFile(fileId));
     return c.json({});
+  }
+);
+
+export const listFolders = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    try {
+      const folders = await directus.request(sdk.readFolders());
+      return c.json(folders);
+    } catch (error) {
+      console.error("Error listing folders:", error);
+      throw DirectusError.fromDirectusResponse(error);
+    }
   }
 );

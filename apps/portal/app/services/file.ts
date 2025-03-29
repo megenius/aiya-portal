@@ -4,6 +4,8 @@ interface UploadResponse {
   id: string;
   filename_disk: string;
   filename_download: string;
+  filesize: number;
+  type: string;
 }
 
 interface R2UploadResponse {
@@ -11,8 +13,11 @@ interface R2UploadResponse {
   filename_download: string;
 }
 
-export const uploadFile = async (file: File) => {
+export const uploadFile = async (file: File, folder: string = "") => {
   const formData = new FormData();
+  if (folder) {
+    formData.append("folder", folder);
+  }
   formData.append("file", file);
 
   return api

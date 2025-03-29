@@ -1,8 +1,10 @@
 import { ResponseElement } from "@repo/shared";
-import { components } from "./directus";
-import { BotsSlips } from "./modules/slips";
-import { CAPIEvents } from "./modules/capi";
-import { PlanFeatures } from "./plans.type";
+import { components } from "../directus";
+import { BotsSlips } from "../modules/slips";
+import { CAPIEvents } from "../modules/capi";
+import { PlanFeatures } from "../plans.type";
+
+export type { Document, WorkspaceDocument } from "./document";
 
 export type { BotsSlips, CAPIEvents };
 

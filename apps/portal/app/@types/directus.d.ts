@@ -2676,45 +2676,6 @@ export interface paths {
      */
     patch: operations["updateSingleItemsMailOutbox"];
   };
-  "/items/chat_hubs_channels_hubs": {
-    /**
-     * List Items
-     * @description List the chat_hubs_channels_hubs items.
-     */
-    get: operations["readItemsChatHubsChannelsHubs"];
-    /**
-     * Create an Item
-     * @description Create a new chat_hubs_channels_hubs item.
-     */
-    post: operations["createItemsChatHubsChannelsHubs"];
-    /**
-     * Delete Multiple Items
-     * @description Delete multiple existing chat_hubs_channels_hubs items.
-     */
-    delete: operations["deleteItemsChatHubsChannelsHubs"];
-    /**
-     * Update Multiple Items
-     * @description Update multiple chat_hubs_channels_hubs items at the same time.
-     */
-    patch: operations["updateItemsChatHubsChannelsHubs"];
-  };
-  "/items/chat_hubs_channels_hubs/{id}": {
-    /**
-     * Retrieve an Item
-     * @description Retrieve a single chat_hubs_channels_hubs item by unique identifier.
-     */
-    get: operations["readSingleItemsChatHubsChannelsHubs"];
-    /**
-     * Delete an Item
-     * @description Delete an existing chat_hubs_channels_hubs item.
-     */
-    delete: operations["deleteSingleItemsChatHubsChannelsHubs"];
-    /**
-     * Update an Item
-     * @description Update an existing chat_hubs_channels_hubs item.
-     */
-    patch: operations["updateSingleItemsChatHubsChannelsHubs"];
-  };
   "/items/bot_documents_files": {
     /**
      * List Items
@@ -2792,45 +2753,6 @@ export interface paths {
      * @description Update an existing bots_model item.
      */
     patch: operations["updateSingleItemsBotsModel"];
-  };
-  "/items/channels_hubs": {
-    /**
-     * List Items
-     * @description List the channels_hubs items.
-     */
-    get: operations["readItemsChannelsHubs"];
-    /**
-     * Create an Item
-     * @description Create a new channels_hubs item.
-     */
-    post: operations["createItemsChannelsHubs"];
-    /**
-     * Delete Multiple Items
-     * @description Delete multiple existing channels_hubs items.
-     */
-    delete: operations["deleteItemsChannelsHubs"];
-    /**
-     * Update Multiple Items
-     * @description Update multiple channels_hubs items at the same time.
-     */
-    patch: operations["updateItemsChannelsHubs"];
-  };
-  "/items/channels_hubs/{id}": {
-    /**
-     * Retrieve an Item
-     * @description Retrieve a single channels_hubs item by unique identifier.
-     */
-    get: operations["readSingleItemsChannelsHubs"];
-    /**
-     * Delete an Item
-     * @description Delete an existing channels_hubs item.
-     */
-    delete: operations["deleteSingleItemsChannelsHubs"];
-    /**
-     * Update an Item
-     * @description Update an existing channels_hubs item.
-     */
-    patch: operations["updateSingleItemsChannelsHubs"];
   };
   "/items/saas_features": {
     /**
@@ -2987,6 +2909,45 @@ export interface paths {
      * @description Update an existing bots_muted_users item.
      */
     patch: operations["updateSingleItemsBotsMutedUsers"];
+  };
+  "/items/vouchers_users": {
+    /**
+     * List Items
+     * @description List the vouchers_users items.
+     */
+    get: operations["readItemsVouchersUsers"];
+    /**
+     * Create an Item
+     * @description Create a new vouchers_users item.
+     */
+    post: operations["createItemsVouchersUsers"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing vouchers_users items.
+     */
+    delete: operations["deleteItemsVouchersUsers"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple vouchers_users items at the same time.
+     */
+    patch: operations["updateItemsVouchersUsers"];
+  };
+  "/items/vouchers_users/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single vouchers_users item by unique identifier.
+     */
+    get: operations["readSingleItemsVouchersUsers"];
+    /**
+     * Delete an Item
+     * @description Delete an existing vouchers_users item.
+     */
+    delete: operations["deleteSingleItemsVouchersUsers"];
+    /**
+     * Update an Item
+     * @description Update an existing vouchers_users item.
+     */
+    patch: operations["updateSingleItemsVouchersUsers"];
   };
   "/items/vouchers": {
     /**
@@ -3260,45 +3221,6 @@ export interface paths {
      * @description Update an existing user_profile item.
      */
     patch: operations["updateSingleItemsUserProfile"];
-  };
-  "/items/vouchers_users": {
-    /**
-     * List Items
-     * @description List the vouchers_users items.
-     */
-    get: operations["readItemsVouchersUsers"];
-    /**
-     * Create an Item
-     * @description Create a new vouchers_users item.
-     */
-    post: operations["createItemsVouchersUsers"];
-    /**
-     * Delete Multiple Items
-     * @description Delete multiple existing vouchers_users items.
-     */
-    delete: operations["deleteItemsVouchersUsers"];
-    /**
-     * Update Multiple Items
-     * @description Update multiple vouchers_users items at the same time.
-     */
-    patch: operations["updateItemsVouchersUsers"];
-  };
-  "/items/vouchers_users/{id}": {
-    /**
-     * Retrieve an Item
-     * @description Retrieve a single vouchers_users item by unique identifier.
-     */
-    get: operations["readSingleItemsVouchersUsers"];
-    /**
-     * Delete an Item
-     * @description Delete an existing vouchers_users item.
-     */
-    delete: operations["deleteSingleItemsVouchersUsers"];
-    /**
-     * Update an Item
-     * @description Update an existing vouchers_users item.
-     */
-    patch: operations["updateSingleItemsVouchersUsers"];
   };
   "/items/bots_orders": {
     /**
@@ -3690,44 +3612,44 @@ export interface paths {
      */
     patch: operations["updateSingleItemsMailTemplates"];
   };
-  "/items/hubs_channels_hubs": {
+  "/items/vouchers_brands": {
     /**
      * List Items
-     * @description List the hubs_channels_hubs items.
+     * @description List the vouchers_brands items.
      */
-    get: operations["readItemsHubsChannelsHubs"];
+    get: operations["readItemsVouchersBrands"];
     /**
      * Create an Item
-     * @description Create a new hubs_channels_hubs item.
+     * @description Create a new vouchers_brands item.
      */
-    post: operations["createItemsHubsChannelsHubs"];
+    post: operations["createItemsVouchersBrands"];
     /**
      * Delete Multiple Items
-     * @description Delete multiple existing hubs_channels_hubs items.
+     * @description Delete multiple existing vouchers_brands items.
      */
-    delete: operations["deleteItemsHubsChannelsHubs"];
+    delete: operations["deleteItemsVouchersBrands"];
     /**
      * Update Multiple Items
-     * @description Update multiple hubs_channels_hubs items at the same time.
+     * @description Update multiple vouchers_brands items at the same time.
      */
-    patch: operations["updateItemsHubsChannelsHubs"];
+    patch: operations["updateItemsVouchersBrands"];
   };
-  "/items/hubs_channels_hubs/{id}": {
+  "/items/vouchers_brands/{id}": {
     /**
      * Retrieve an Item
-     * @description Retrieve a single hubs_channels_hubs item by unique identifier.
+     * @description Retrieve a single vouchers_brands item by unique identifier.
      */
-    get: operations["readSingleItemsHubsChannelsHubs"];
+    get: operations["readSingleItemsVouchersBrands"];
     /**
      * Delete an Item
-     * @description Delete an existing hubs_channels_hubs item.
+     * @description Delete an existing vouchers_brands item.
      */
-    delete: operations["deleteSingleItemsHubsChannelsHubs"];
+    delete: operations["deleteSingleItemsVouchersBrands"];
     /**
      * Update an Item
-     * @description Update an existing hubs_channels_hubs item.
+     * @description Update an existing vouchers_brands item.
      */
-    patch: operations["updateSingleItemsHubsChannelsHubs"];
+    patch: operations["updateSingleItemsVouchersBrands"];
   };
   "/items/test": {
     /**
@@ -3963,44 +3885,83 @@ export interface paths {
      */
     patch: operations["updateSingleItemsChatHubsChannels"];
   };
-  "/items/vouchers_brands": {
+  "/items/lead_submissions": {
     /**
      * List Items
-     * @description List the vouchers_brands items.
+     * @description List the lead_submissions items.
      */
-    get: operations["readItemsVouchersBrands"];
+    get: operations["readItemsLeadSubmissions"];
     /**
      * Create an Item
-     * @description Create a new vouchers_brands item.
+     * @description Create a new lead_submissions item.
      */
-    post: operations["createItemsVouchersBrands"];
+    post: operations["createItemsLeadSubmissions"];
     /**
      * Delete Multiple Items
-     * @description Delete multiple existing vouchers_brands items.
+     * @description Delete multiple existing lead_submissions items.
      */
-    delete: operations["deleteItemsVouchersBrands"];
+    delete: operations["deleteItemsLeadSubmissions"];
     /**
      * Update Multiple Items
-     * @description Update multiple vouchers_brands items at the same time.
+     * @description Update multiple lead_submissions items at the same time.
      */
-    patch: operations["updateItemsVouchersBrands"];
+    patch: operations["updateItemsLeadSubmissions"];
   };
-  "/items/vouchers_brands/{id}": {
+  "/items/lead_submissions/{id}": {
     /**
      * Retrieve an Item
-     * @description Retrieve a single vouchers_brands item by unique identifier.
+     * @description Retrieve a single lead_submissions item by unique identifier.
      */
-    get: operations["readSingleItemsVouchersBrands"];
+    get: operations["readSingleItemsLeadSubmissions"];
     /**
      * Delete an Item
-     * @description Delete an existing vouchers_brands item.
+     * @description Delete an existing lead_submissions item.
      */
-    delete: operations["deleteSingleItemsVouchersBrands"];
+    delete: operations["deleteSingleItemsLeadSubmissions"];
     /**
      * Update an Item
-     * @description Update an existing vouchers_brands item.
+     * @description Update an existing lead_submissions item.
      */
-    patch: operations["updateSingleItemsVouchersBrands"];
+    patch: operations["updateSingleItemsLeadSubmissions"];
+  };
+  "/items/beacons": {
+    /**
+     * List Items
+     * @description List the beacons items.
+     */
+    get: operations["readItemsBeacons"];
+    /**
+     * Create an Item
+     * @description Create a new beacons item.
+     */
+    post: operations["createItemsBeacons"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing beacons items.
+     */
+    delete: operations["deleteItemsBeacons"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple beacons items at the same time.
+     */
+    patch: operations["updateItemsBeacons"];
+  };
+  "/items/beacons/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single beacons item by unique identifier.
+     */
+    get: operations["readSingleItemsBeacons"];
+    /**
+     * Delete an Item
+     * @description Delete an existing beacons item.
+     */
+    delete: operations["deleteSingleItemsBeacons"];
+    /**
+     * Update an Item
+     * @description Update an existing beacons item.
+     */
+    patch: operations["updateSingleItemsBeacons"];
   };
   "/items/bots_documents": {
     /**
@@ -4041,44 +4002,551 @@ export interface paths {
      */
     patch: operations["updateSingleItemsBotsDocuments"];
   };
-  "/items/lead_submissions": {
+  "/items/locations": {
     /**
      * List Items
-     * @description List the lead_submissions items.
+     * @description List the locations items.
      */
-    get: operations["readItemsLeadSubmissions"];
+    get: operations["readItemsLocations"];
     /**
      * Create an Item
-     * @description Create a new lead_submissions item.
+     * @description Create a new locations item.
      */
-    post: operations["createItemsLeadSubmissions"];
+    post: operations["createItemsLocations"];
     /**
      * Delete Multiple Items
-     * @description Delete multiple existing lead_submissions items.
+     * @description Delete multiple existing locations items.
      */
-    delete: operations["deleteItemsLeadSubmissions"];
+    delete: operations["deleteItemsLocations"];
     /**
      * Update Multiple Items
-     * @description Update multiple lead_submissions items at the same time.
+     * @description Update multiple locations items at the same time.
      */
-    patch: operations["updateItemsLeadSubmissions"];
+    patch: operations["updateItemsLocations"];
   };
-  "/items/lead_submissions/{id}": {
+  "/items/locations/{id}": {
     /**
      * Retrieve an Item
-     * @description Retrieve a single lead_submissions item by unique identifier.
+     * @description Retrieve a single locations item by unique identifier.
      */
-    get: operations["readSingleItemsLeadSubmissions"];
+    get: operations["readSingleItemsLocations"];
     /**
      * Delete an Item
-     * @description Delete an existing lead_submissions item.
+     * @description Delete an existing locations item.
      */
-    delete: operations["deleteSingleItemsLeadSubmissions"];
+    delete: operations["deleteSingleItemsLocations"];
     /**
      * Update an Item
-     * @description Update an existing lead_submissions item.
+     * @description Update an existing locations item.
      */
-    patch: operations["updateSingleItemsLeadSubmissions"];
+    patch: operations["updateSingleItemsLocations"];
+  };
+  "/items/zones": {
+    /**
+     * List Items
+     * @description List the zones items.
+     */
+    get: operations["readItemsZones"];
+    /**
+     * Create an Item
+     * @description Create a new zones item.
+     */
+    post: operations["createItemsZones"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing zones items.
+     */
+    delete: operations["deleteItemsZones"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple zones items at the same time.
+     */
+    patch: operations["updateItemsZones"];
+  };
+  "/items/zones/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single zones item by unique identifier.
+     */
+    get: operations["readSingleItemsZones"];
+    /**
+     * Delete an Item
+     * @description Delete an existing zones item.
+     */
+    delete: operations["deleteSingleItemsZones"];
+    /**
+     * Update an Item
+     * @description Update an existing zones item.
+     */
+    patch: operations["updateSingleItemsZones"];
+  };
+  "/items/liff_tokens": {
+    /**
+     * List Items
+     * @description List the liff_tokens items.
+     */
+    get: operations["readItemsLiffTokens"];
+    /**
+     * Create an Item
+     * @description Create a new liff_tokens item.
+     */
+    post: operations["createItemsLiffTokens"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing liff_tokens items.
+     */
+    delete: operations["deleteItemsLiffTokens"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple liff_tokens items at the same time.
+     */
+    patch: operations["updateItemsLiffTokens"];
+  };
+  "/items/liff_tokens/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single liff_tokens item by unique identifier.
+     */
+    get: operations["readSingleItemsLiffTokens"];
+    /**
+     * Delete an Item
+     * @description Delete an existing liff_tokens item.
+     */
+    delete: operations["deleteSingleItemsLiffTokens"];
+    /**
+     * Update an Item
+     * @description Update an existing liff_tokens item.
+     */
+    patch: operations["updateSingleItemsLiffTokens"];
+  };
+  "/items/test2": {
+    /**
+     * List Items
+     * @description List the test2 items.
+     */
+    get: operations["readItemsTest2"];
+    /**
+     * Create an Item
+     * @description Create a new test2 item.
+     */
+    post: operations["createItemsTest2"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing test2 items.
+     */
+    delete: operations["deleteItemsTest2"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple test2 items at the same time.
+     */
+    patch: operations["updateItemsTest2"];
+  };
+  "/items/test2/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single test2 item by unique identifier.
+     */
+    get: operations["readSingleItemsTest2"];
+    /**
+     * Delete an Item
+     * @description Delete an existing test2 item.
+     */
+    delete: operations["deleteSingleItemsTest2"];
+    /**
+     * Update an Item
+     * @description Update an existing test2 item.
+     */
+    patch: operations["updateSingleItemsTest2"];
+  };
+  "/items/channel_notifications": {
+    /**
+     * List Items
+     * @description List the channel_notifications items.
+     */
+    get: operations["readItemsChannelNotifications"];
+    /**
+     * Create an Item
+     * @description Create a new channel_notifications item.
+     */
+    post: operations["createItemsChannelNotifications"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing channel_notifications items.
+     */
+    delete: operations["deleteItemsChannelNotifications"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple channel_notifications items at the same time.
+     */
+    patch: operations["updateItemsChannelNotifications"];
+  };
+  "/items/channel_notifications/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single channel_notifications item by unique identifier.
+     */
+    get: operations["readSingleItemsChannelNotifications"];
+    /**
+     * Delete an Item
+     * @description Delete an existing channel_notifications item.
+     */
+    delete: operations["deleteSingleItemsChannelNotifications"];
+    /**
+     * Update an Item
+     * @description Update an existing channel_notifications item.
+     */
+    patch: operations["updateSingleItemsChannelNotifications"];
+  };
+  "/items/pages_liff_vouchers_brands": {
+    /**
+     * List Items
+     * @description List the pages_liff_vouchers_brands items.
+     */
+    get: operations["readItemsPagesLiffVouchersBrands"];
+    /**
+     * Create an Item
+     * @description Create a new pages_liff_vouchers_brands item.
+     */
+    post: operations["createItemsPagesLiffVouchersBrands"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing pages_liff_vouchers_brands items.
+     */
+    delete: operations["deleteItemsPagesLiffVouchersBrands"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple pages_liff_vouchers_brands items at the same time.
+     */
+    patch: operations["updateItemsPagesLiffVouchersBrands"];
+  };
+  "/items/pages_liff_vouchers_brands/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single pages_liff_vouchers_brands item by unique identifier.
+     */
+    get: operations["readSingleItemsPagesLiffVouchersBrands"];
+    /**
+     * Delete an Item
+     * @description Delete an existing pages_liff_vouchers_brands item.
+     */
+    delete: operations["deleteSingleItemsPagesLiffVouchersBrands"];
+    /**
+     * Update an Item
+     * @description Update an existing pages_liff_vouchers_brands item.
+     */
+    patch: operations["updateSingleItemsPagesLiffVouchersBrands"];
+  };
+  "/items/channel_outboxes": {
+    /**
+     * List Items
+     * @description List the channel_outboxes items.
+     */
+    get: operations["readItemsChannelOutboxes"];
+    /**
+     * Create an Item
+     * @description Create a new channel_outboxes item.
+     */
+    post: operations["createItemsChannelOutboxes"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing channel_outboxes items.
+     */
+    delete: operations["deleteItemsChannelOutboxes"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple channel_outboxes items at the same time.
+     */
+    patch: operations["updateItemsChannelOutboxes"];
+  };
+  "/items/channel_outboxes/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single channel_outboxes item by unique identifier.
+     */
+    get: operations["readSingleItemsChannelOutboxes"];
+    /**
+     * Delete an Item
+     * @description Delete an existing channel_outboxes item.
+     */
+    delete: operations["deleteSingleItemsChannelOutboxes"];
+    /**
+     * Update an Item
+     * @description Update an existing channel_outboxes item.
+     */
+    patch: operations["updateSingleItemsChannelOutboxes"];
+  };
+  "/items/vouchers_translations": {
+    /**
+     * List Items
+     * @description List the vouchers_translations items.
+     */
+    get: operations["readItemsVouchersTranslations"];
+    /**
+     * Create an Item
+     * @description Create a new vouchers_translations item.
+     */
+    post: operations["createItemsVouchersTranslations"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing vouchers_translations items.
+     */
+    delete: operations["deleteItemsVouchersTranslations"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple vouchers_translations items at the same time.
+     */
+    patch: operations["updateItemsVouchersTranslations"];
+  };
+  "/items/vouchers_translations/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single vouchers_translations item by unique identifier.
+     */
+    get: operations["readSingleItemsVouchersTranslations"];
+    /**
+     * Delete an Item
+     * @description Delete an existing vouchers_translations item.
+     */
+    delete: operations["deleteSingleItemsVouchersTranslations"];
+    /**
+     * Update an Item
+     * @description Update an existing vouchers_translations item.
+     */
+    patch: operations["updateSingleItemsVouchersTranslations"];
+  };
+  "/items/advance_profiles": {
+    /**
+     * List Items
+     * @description List the advance_profiles items.
+     */
+    get: operations["readItemsAdvanceProfiles"];
+    /**
+     * Create an Item
+     * @description Create a new advance_profiles item.
+     */
+    post: operations["createItemsAdvanceProfiles"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing advance_profiles items.
+     */
+    delete: operations["deleteItemsAdvanceProfiles"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple advance_profiles items at the same time.
+     */
+    patch: operations["updateItemsAdvanceProfiles"];
+  };
+  "/items/advance_profiles/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single advance_profiles item by unique identifier.
+     */
+    get: operations["readSingleItemsAdvanceProfiles"];
+    /**
+     * Delete an Item
+     * @description Delete an existing advance_profiles item.
+     */
+    delete: operations["deleteSingleItemsAdvanceProfiles"];
+    /**
+     * Update an Item
+     * @description Update an existing advance_profiles item.
+     */
+    patch: operations["updateSingleItemsAdvanceProfiles"];
+  };
+  "/items/profiles": {
+    /**
+     * List Items
+     * @description List the profiles items.
+     */
+    get: operations["readItemsProfiles"];
+    /**
+     * Create an Item
+     * @description Create a new profiles item.
+     */
+    post: operations["createItemsProfiles"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing profiles items.
+     */
+    delete: operations["deleteItemsProfiles"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple profiles items at the same time.
+     */
+    patch: operations["updateItemsProfiles"];
+  };
+  "/items/profiles/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single profiles item by unique identifier.
+     */
+    get: operations["readSingleItemsProfiles"];
+    /**
+     * Delete an Item
+     * @description Delete an existing profiles item.
+     */
+    delete: operations["deleteSingleItemsProfiles"];
+    /**
+     * Update an Item
+     * @description Update an existing profiles item.
+     */
+    patch: operations["updateSingleItemsProfiles"];
+  };
+  "/items/pages_liff_vouchers": {
+    /**
+     * List Items
+     * @description List the pages_liff_vouchers items.
+     */
+    get: operations["readItemsPagesLiffVouchers"];
+    /**
+     * Create an Item
+     * @description Create a new pages_liff_vouchers item.
+     */
+    post: operations["createItemsPagesLiffVouchers"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing pages_liff_vouchers items.
+     */
+    delete: operations["deleteItemsPagesLiffVouchers"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple pages_liff_vouchers items at the same time.
+     */
+    patch: operations["updateItemsPagesLiffVouchers"];
+  };
+  "/items/pages_liff_vouchers/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single pages_liff_vouchers item by unique identifier.
+     */
+    get: operations["readSingleItemsPagesLiffVouchers"];
+    /**
+     * Delete an Item
+     * @description Delete an existing pages_liff_vouchers item.
+     */
+    delete: operations["deleteSingleItemsPagesLiffVouchers"];
+    /**
+     * Update an Item
+     * @description Update an existing pages_liff_vouchers item.
+     */
+    patch: operations["updateSingleItemsPagesLiffVouchers"];
+  };
+  "/items/point_transactions": {
+    /**
+     * List Items
+     * @description List the point_transactions items.
+     */
+    get: operations["readItemsPointTransactions"];
+    /**
+     * Create an Item
+     * @description Create a new point_transactions item.
+     */
+    post: operations["createItemsPointTransactions"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing point_transactions items.
+     */
+    delete: operations["deleteItemsPointTransactions"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple point_transactions items at the same time.
+     */
+    patch: operations["updateItemsPointTransactions"];
+  };
+  "/items/point_transactions/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single point_transactions item by unique identifier.
+     */
+    get: operations["readSingleItemsPointTransactions"];
+    /**
+     * Delete an Item
+     * @description Delete an existing point_transactions item.
+     */
+    delete: operations["deleteSingleItemsPointTransactions"];
+    /**
+     * Update an Item
+     * @description Update an existing point_transactions item.
+     */
+    patch: operations["updateSingleItemsPointTransactions"];
+  };
+  "/items/referrals": {
+    /**
+     * List Items
+     * @description List the referrals items.
+     */
+    get: operations["readItemsReferrals"];
+    /**
+     * Create an Item
+     * @description Create a new referrals item.
+     */
+    post: operations["createItemsReferrals"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing referrals items.
+     */
+    delete: operations["deleteItemsReferrals"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple referrals items at the same time.
+     */
+    patch: operations["updateItemsReferrals"];
+  };
+  "/items/referrals/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single referrals item by unique identifier.
+     */
+    get: operations["readSingleItemsReferrals"];
+    /**
+     * Delete an Item
+     * @description Delete an existing referrals item.
+     */
+    delete: operations["deleteSingleItemsReferrals"];
+    /**
+     * Update an Item
+     * @description Update an existing referrals item.
+     */
+    patch: operations["updateSingleItemsReferrals"];
+  };
+  "/items/documents": {
+    /**
+     * List Items
+     * @description List the documents items.
+     */
+    get: operations["readItemsDocuments"];
+    /**
+     * Create an Item
+     * @description Create a new documents item.
+     */
+    post: operations["createItemsDocuments"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing documents items.
+     */
+    delete: operations["deleteItemsDocuments"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple documents items at the same time.
+     */
+    patch: operations["updateItemsDocuments"];
+  };
+  "/items/documents/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single documents item by unique identifier.
+     */
+    get: operations["readSingleItemsDocuments"];
+    /**
+     * Delete an Item
+     * @description Delete an existing documents item.
+     */
+    delete: operations["deleteSingleItemsDocuments"];
+    /**
+     * Update an Item
+     * @description Update an existing documents item.
+     */
+    patch: operations["updateSingleItemsDocuments"];
   };
 }
 
@@ -4107,6 +4575,11 @@ export interface components {
       };
     };
     Files: {
+      /**
+       * @description Size of the file in bytes.
+       * @example 137862
+       */
+      filesize?: number;
       focal_point_y?: number | null;
       focal_point_x?: number | null;
       /**
@@ -4114,15 +4587,6 @@ export interface components {
        * @example 0
        */
       duration?: number | null;
-      /**
-       * @description Size of the file in bytes.
-       * @example 137862
-       */
-      filesize?: number;
-      /** @description Description for the file. */
-      description?: string | null;
-      /** @description Tags for the file. Is automatically populated based on Exif data for images. */
-      tags?: string[] | null;
       /**
        * @description Height of the file in pixels. Only applies to images.
        * @example 838
@@ -4133,42 +4597,46 @@ export interface components {
        * @example 800
        */
       width?: number | null;
-      tus_data?: unknown;
-      /** @description IPTC, Exif, and ICC metadata extracted from file */
-      metadata?: Record<string, unknown> | null;
+      /** @description Tags for the file. Is automatically populated based on Exif data for images. */
+      tags?: string[] | null;
       /** @description Where the file was created. Is automatically populated based on Exif data for images. */
       location?: string | null;
-      tus_id?: string | null;
-      /**
-       * @description Where the file was embedded from.
-       * @example null
-       */
-      embed?: string | null;
-      /**
-       * @description Character set of the file.
-       * @example binary
-       */
-      charset?: string | null;
+      /** @description Description for the file. */
+      description?: string | null;
+      /** @description IPTC, Exif, and ICC metadata extracted from file */
+      metadata?: Record<string, unknown> | null;
+      tus_data?: unknown;
       /**
        * @description MIME type of the file.
        * @example image/jpeg
        */
       type?: string;
       /**
-       * @description Title for the file. Is extracted from the filename on upload, but can be edited by the user.
-       * @example User Avatar
+       * @description Character set of the file.
+       * @example binary
        */
-      title?: string;
+      charset?: string | null;
+      /**
+       * @description Where the file was embedded from.
+       * @example null
+       */
+      embed?: string | null;
+      tus_id?: string | null;
+      /**
+       * @description Name of the file on disk. By default, Directus uses a random hash for the filename.
+       * @example a88c3b72-ac58-5436-a4ec-b2858531333a.jpg
+       */
+      filename_disk?: string;
       /**
        * @description How you want to the file to be named when it's being downloaded.
        * @example avatar.jpg
        */
       filename_download?: string;
       /**
-       * @description Name of the file on disk. By default, Directus uses a random hash for the filename.
-       * @example a88c3b72-ac58-5436-a4ec-b2858531333a.jpg
+       * @description Title for the file. Is extracted from the filename on upload, but can be edited by the user.
+       * @example User Avatar
        */
-      filename_disk?: string;
+      title?: string;
       /**
        * @description Where the file is stored. Either `local` for the local filesystem or the name of the storage adapter (for example `s3`).
        * @example local
@@ -4193,17 +4661,17 @@ export interface components {
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
        */
       uploaded_by?: string | components["schemas"]["Users"];
-      modified_by?: string | components["schemas"]["Users"] | null;
-      /**
-       * @description Unique identifier for the file.
-       * @example 8cbb43fe-4cdf-4991-8352-c461779cec02
-       */
-      id?: string;
       /**
        * @description Virtual folder where this file resides in.
        * @example null
        */
       folder?: string | components["schemas"]["Folders"] | null;
+      /**
+       * @description Unique identifier for the file.
+       * @example 8cbb43fe-4cdf-4991-8352-c461779cec02
+       */
+      id?: string;
+      modified_by?: string | components["schemas"]["Users"] | null;
     };
     Folders: {
       /**
@@ -4261,29 +4729,47 @@ export interface components {
     };
     Users: {
       email_notifications?: boolean | null;
-      auth_data?: unknown;
-      /**
-       * @description The user's tags.
-       * @example null
-       */
-      tags?: string[] | null;
-      theme_light_overrides?: unknown;
       /**
        * @description The user's description.
        * @example null
        */
       description?: string | null;
       theme_dark_overrides?: unknown;
+      theme_light_overrides?: unknown;
+      auth_data?: unknown;
+      /**
+       * @description The user's tags.
+       * @example null
+       */
+      tags?: string[] | null;
+      /**
+       * @description First name of the user.
+       * @example Admin
+       */
+      first_name?: string;
+      /**
+       * @description The user's location.
+       * @example null
+       */
+      location?: string | null;
+      /** @description Password of the user. */
+      password?: string;
+      /**
+       * Format: email
+       * @description Unique email address for the user.
+       * @example admin@example.com
+       */
+      email?: string;
       /**
        * @description Last name of the user.
        * @example User
        */
       last_name?: string;
       /**
-       * @description First name of the user.
-       * @example Admin
+       * @description The user's title.
+       * @example null
        */
-      first_name?: string;
+      title?: string | null;
       /** @description Static token for the user. */
       token?: string | null;
       /**
@@ -4302,25 +4788,6 @@ export interface components {
        * @example en-US
        */
       language?: string;
-      /**
-       * @description The user's title.
-       * @example null
-       */
-      title?: string | null;
-      /**
-       * @description The user's location.
-       * @example null
-       */
-      location?: string | null;
-      /** @description Password of the user. */
-      password?: string;
-      /**
-       * Format: email
-       * @description Unique email address for the user.
-       * @example admin@example.com
-       */
-      email?: string;
-      stripe_customer_id?: string | null;
       external_identifier?: string | null;
       provider?: string;
       /**
@@ -4331,17 +4798,13 @@ export interface components {
       theme_light?: string | null;
       theme_dark?: string | null;
       appearance?: string | null;
+      stripe_customer_id?: string | null;
       /**
        * Format: date-time
        * @description When this user used the API last.
        * @example 2020-05-31T14:32:37Z
        */
       last_access?: string | null;
-      /**
-       * @description The user's avatar.
-       * @example null
-       */
-      avatar?: string | components["schemas"]["Files"] | null;
       /**
        * @description Unique identifier for the user.
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
@@ -4352,6 +4815,11 @@ export interface components {
        * @example 2f24211d-d928-469a-aea3-3c8f53d4e426
        */
       role?: string | components["schemas"]["Roles"];
+      /**
+       * @description The user's avatar.
+       * @example null
+       */
+      avatar?: string | components["schemas"]["Files"] | null;
       teams?: ((string | components["schemas"]["ItemsSaasTeamsUsers"])[]) | null;
       policies?: unknown;
     };
@@ -4404,29 +4872,27 @@ export interface components {
       filter_count?: number;
     };
     ItemsLanguages: {
+      direction?: string | null;
       name?: string | null;
       code: string;
-      direction?: string | null;
     };
     ItemsSaasHelpdeskTranslations: {
+      content?: string | null;
       saas_helpdesk_id?: number | components["schemas"]["ItemsSaasHelpdesk"] | null;
       id?: number;
-      content?: string | null;
       name?: string | null;
       languages_code?: string | components["schemas"]["ItemsLanguages"] | null;
     };
     Collections: {
-      hidden?: boolean;
+      sort?: number | null;
       singleton?: boolean;
+      hidden?: boolean;
       versioning?: boolean;
       archive_app_filter?: boolean;
-      sort?: number | null;
-      item_duplication_fields?: unknown;
-      translations?: unknown;
       note?: string | null;
-      preview_url?: string | null;
-      collapse?: string;
-      group?: string | components["schemas"]["Collections"] | null;
+      translations?: unknown;
+      item_duplication_fields?: unknown;
+      archive_value?: string | null;
       archive_field?: string | null;
       display_template?: string | null;
       icon?: string | null;
@@ -4439,15 +4905,17 @@ export interface components {
       accountability?: string | null;
       sort_field?: string | null;
       unarchive_value?: string | null;
-      archive_value?: string | null;
+      collapse?: string;
+      group?: string | components["schemas"]["Collections"] | null;
+      preview_url?: string | null;
     };
     Presets: {
+      refresh_interval?: number | null;
       /**
        * @description Unique identifier for this single collection preset.
        * @example 155
        */
       id?: number;
-      refresh_interval?: number | null;
       /**
        * @description Layout query that's saved per layout type. Controls what data is fetched on load. These follow the same format as the JS SDK parameters.
        * @example {
@@ -4457,7 +4925,6 @@ export interface components {
        * }
        */
       layout_query?: unknown;
-      filter?: unknown;
       /**
        * @description Options of the views. The properties in here are controlled by the layout.
        * @example {
@@ -4470,22 +4937,23 @@ export interface components {
        * }
        */
       layout_options?: unknown;
+      filter?: unknown;
       /**
        * @description Key of the layout that is used.
        * @example null
        */
       layout?: string;
-      /** @description Search query. */
-      search?: string | null;
+      icon?: string | null;
+      color?: string | null;
       /**
        * @description What collection this collection preset is used for.
        * @example articles
        */
       collection?: string | components["schemas"]["Collections"];
+      /** @description Search query. */
+      search?: string | null;
       /** @description Name for the bookmark. If this is set, the preset will be considered a bookmark. */
       bookmark?: string | null;
-      color?: string | null;
-      icon?: string | null;
       /**
        * @description The unique identifier of the user to whom this collection preset applies.
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
@@ -4514,13 +4982,6 @@ export interface components {
        */
       id?: number;
       /**
-       * @description Changes between the previous and the current revision.
-       * @example {
-       *   "title": "Hello, World!"
-       * }
-       */
-      delta?: Record<string, never>;
-      /**
        * @description Copy of item state at time of update.
        * @example {
        *   "author": 1,
@@ -4532,15 +4993,22 @@ export interface components {
        */
       data?: Record<string, unknown> | null;
       /**
-       * @description Primary key of updated item.
-       * @example 168
+       * @description Changes between the previous and the current revision.
+       * @example {
+       *   "title": "Hello, World!"
+       * }
        */
-      item?: string;
+      delta?: Record<string, never>;
       /**
        * @description Collection of the updated item.
        * @example articles
        */
       collection?: string | components["schemas"]["Collections"];
+      /**
+       * @description Primary key of updated item.
+       * @example 168
+       */
+      item?: string;
       /**
        * @description Associated version of this revision.
        * @example draft
@@ -4555,48 +5023,48 @@ export interface components {
       id?: number;
       /** @description CSV of fields that the user is allowed to interact with. */
       fields?: string[] | null;
+      /** @description JSON structure containing the preset value for created/updated items. */
+      presets?: Record<string, unknown> | null;
       /** @description JSON structure containing the permissions checks for this permission. */
       permissions?: Record<string, unknown> | null;
       /** @description JSON structure containing the validation checks for this permission. */
       validation?: Record<string, unknown> | null;
-      /** @description JSON structure containing the preset value for created/updated items. */
-      presets?: Record<string, unknown> | null;
+      /**
+       * @description What collection this permission applies to.
+       * @example customers
+       */
+      collection?: string;
       /**
        * @description What action this permission applies to.
        * @example create
        * @enum {string}
        */
       action?: "create" | "read" | "update" | "delete";
-      /**
-       * @description What collection this permission applies to.
-       * @example customers
-       */
-      collection?: string;
       policy?: unknown;
     };
     Fields: {
-      readonly?: boolean;
-      hidden?: boolean;
       required?: boolean | null;
+      hidden?: boolean;
+      readonly?: boolean;
       sort?: number | null;
       id?: number;
       note?: string | null;
+      validation_message?: string | null;
       translations?: unknown;
       validation?: unknown;
-      conditions?: unknown;
-      validation_message?: string | null;
-      display_options?: unknown;
       options?: unknown;
-      group?: number | components["schemas"]["Fields"] | null;
+      conditions?: unknown;
+      display_options?: unknown;
       width?: string | null;
-      display?: string | null;
-      interface?: string | null;
-      special?: string[] | null;
       /**
        * @description Unique name of the field. Field name is unique within the collection.
        * @example id
        */
       field?: string;
+      special?: string[] | null;
+      interface?: string | null;
+      group?: number | components["schemas"]["Fields"] | null;
+      display?: string | null;
       /**
        * @description Unique name of the collection this field is in.
        * @example about_us
@@ -4610,8 +5078,6 @@ export interface components {
        */
       id?: number;
       one_allowed_collections?: string[] | null;
-      one_deselect_action?: string;
-      sort_field?: string | null;
       /**
        * @description Field on the junction table that holds the many field of the related relation.
        * @example null
@@ -4638,6 +5104,8 @@ export interface components {
        * @example directus_activity
        */
       many_collection?: string;
+      one_deselect_action?: string;
+      sort_field?: string | null;
     };
     Activity: {
       /**
@@ -4651,28 +5119,28 @@ export interface components {
        */
       user_agent?: string;
       /**
-       * @description Origin of the request when the action took place.
-       * @example https://directus.io
-       */
-      origin?: string;
-      /**
-       * @description Unique identifier for the item the action applied to. This is always a string, even for integer primary keys.
-       * @example 328
-       */
-      item?: string;
-      /** @description Collection identifier in which the item resides. */
-      collection?: string | components["schemas"]["Collections"];
-      /**
-       * @description The IP address of the user at the time the action took place.
-       * @example 127.0.0.1
-       */
-      ip?: string;
-      /**
        * @description Action that was performed.
        * @example update
        * @enum {string}
        */
       action?: "create" | "update" | "delete" | "login";
+      /**
+       * @description The IP address of the user at the time the action took place.
+       * @example 127.0.0.1
+       */
+      ip?: string;
+      /** @description Collection identifier in which the item resides. */
+      collection?: string | components["schemas"]["Collections"];
+      /**
+       * @description Unique identifier for the item the action applied to. This is always a string, even for integer primary keys.
+       * @example 328
+       */
+      item?: string;
+      /**
+       * @description Origin of the request when the action took place.
+       * @example https://directus.io
+       */
+      origin?: string;
       /**
        * Format: date-time
        * @description When the action happened.
@@ -4684,12 +5152,12 @@ export interface components {
       revisions?: ((number | components["schemas"]["Revisions"])[]) | null;
     };
     Webhooks: {
+      was_active_before_deprecation?: boolean;
       /**
        * @description If yes, send the content of what was done
        * @example true
        */
       data?: boolean;
-      was_active_before_deprecation?: boolean;
       /**
        * @description The index of the webhook.
        * @example 1
@@ -4697,40 +5165,55 @@ export interface components {
       id?: number;
       headers?: unknown;
       /**
-       * @description The url of the webhook.
-       * @example null
+       * @description The name of the webhook.
+       * @example create articles
        */
-      url?: string | null;
+      name?: string;
       /**
        * @description Method used in the webhook.
        * @example POST
        */
       method?: string;
       /**
-       * @description The name of the webhook.
-       * @example create articles
-       */
-      name?: string;
-      collections?: string[];
-      /**
-       * @description The actions that triggers this webhook.
+       * @description The url of the webhook.
        * @example null
        */
-      actions?: string[] | null;
+      url?: string | null;
       /**
        * @description The status of the webhook.
        * @example inactive
        */
       status?: string;
+      /**
+       * @description The actions that triggers this webhook.
+       * @example null
+       */
+      actions?: string[] | null;
+      collections?: string[];
       migrated_flow?: string | components["schemas"]["Flows"] | null;
     };
     Flows: {
+      description?: string | null;
       /**
        * @description Options of the selected trigger for the flow.
        * @example null
        */
       options?: Record<string, unknown> | null;
-      description?: string | null;
+      /**
+       * @description The name of the flow.
+       * @example Update Articles Flow
+       */
+      name?: string;
+      /**
+       * @description Icon displayed in the Admin App for the flow.
+       * @example bolt
+       */
+      icon?: string;
+      /**
+       * @description Color of the icon displayed in the Admin App for the flow.
+       * @example #112233
+       */
+      color?: string | null;
       /**
        * @description The permission used during the flow. One of `$public`, `$trigger`, `$full`, or UUID of a role.
        * @example $trigger
@@ -4749,31 +5232,11 @@ export interface components {
        */
       status?: "active" | "inactive";
       /**
-       * @description Color of the icon displayed in the Admin App for the flow.
-       * @example #112233
-       */
-      color?: string | null;
-      /**
-       * @description Icon displayed in the Admin App for the flow.
-       * @example bolt
-       */
-      icon?: string;
-      /**
-       * @description The name of the flow.
-       * @example Update Articles Flow
-       */
-      name?: string;
-      /**
        * Format: date-time
        * @description Timestamp in ISO8601 when the flow was created.
        * @example 2022-05-11T13:14:52Z
        */
       date_created?: string | null;
-      /**
-       * @description The user who created the flow.
-       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
-       */
-      user_created?: string | components["schemas"]["Users"];
       /**
        * @description Unique identifier for the flow.
        * @example 2f24211d-d928-469a-aea3-3c8f53d4e426
@@ -4784,19 +5247,24 @@ export interface components {
        * @example 92e82998-e421-412f-a513-13701e83e4ce
        */
       operation?: string | components["schemas"]["Operations"];
+      /**
+       * @description The user who created the flow.
+       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
+       */
+      user_created?: string | components["schemas"]["Users"];
       operations?: ((string | components["schemas"]["Operations"])[]) | null;
     };
     Operations: {
-      /**
-       * @description Position of the operation on the Y axis within the flow workspace.
-       * @example 12
-       */
-      position_y?: number;
       /**
        * @description Position of the operation on the X axis within the flow workspace.
        * @example 12
        */
       position_x?: number;
+      /**
+       * @description Position of the operation on the Y axis within the flow workspace.
+       * @example 12
+       */
+      position_y?: number;
       /**
        * @description Options depending on the type of the operation.
        * @example null
@@ -4861,11 +5329,11 @@ export interface components {
       name?: string | null;
       status?: string;
       /** Format: timestamp */
-      due_date?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      due_date?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -4908,22 +5376,21 @@ export interface components {
       /** @description $t:fields.directus_settings.public_registration_verify_email_note */
       public_registration_verify_email?: boolean;
       /**
-       * @description Allowed authentication login attempts before the user's status is set to blocked.
-       * @example 25
-       */
-      auth_login_attempts?: number;
-      /**
        * @description Unique identifier for the setting.
        * @example 1
        */
       id?: number;
       /**
+       * @description Allowed authentication login attempts before the user's status is set to blocked.
+       * @example 25
+       */
+      auth_login_attempts?: number;
+      custom_css?: string | null;
+      /**
        * @description Note rendered on the public pages of the app.
        * @example null
        */
       public_note?: string | null;
-      custom_aspect_ratios?: unknown;
-      module_bar?: unknown;
       basemaps?: unknown;
       /**
        * @description Array of allowed
@@ -4961,11 +5428,17 @@ export interface components {
                 }[] | null;
             })[]) | null;
         })[]) | null;
-      custom_css?: string | null;
-      /** @description $t:fields.directus_settings.public_registration_email_filter_note */
-      public_registration_email_filter?: unknown;
       theme_dark_overrides?: unknown;
       theme_light_overrides?: unknown;
+      custom_aspect_ratios?: unknown;
+      module_bar?: unknown;
+      /** @description $t:fields.directus_settings.public_registration_email_filter_note */
+      public_registration_email_filter?: unknown;
+      /**
+       * @description The name of the project.
+       * @example Directus
+       */
+      project_name?: string;
       report_feature_url?: string | null;
       report_bug_url?: string | null;
       report_error_url?: string | null;
@@ -4993,11 +5466,6 @@ export interface components {
        * @example null
        */
       project_url?: string | null;
-      /**
-       * @description The name of the project.
-       * @example Directus
-       */
-      project_name?: string;
       /**
        * @description The logo of the project.
        * @example null
@@ -5057,16 +5525,21 @@ export interface components {
       key?: string;
       /**
        * Format: date-time
+       * @description When the Content Version was created.
+       * @example 2022-05-11T13:14:52Z
+       */
+      date_created?: string | null;
+      /**
+       * Format: date-time
        * @description When the Content Version was last updated.
        * @example 2022-05-11T13:14:53Z
        */
       date_updated?: string | null;
       /**
-       * Format: date-time
-       * @description When the Content Version was created.
-       * @example 2022-05-11T13:14:52Z
+       * @description User that last updated the Content Version.
+       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
        */
-      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"];
       /**
        * @description Primary key of the Content Version.
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
@@ -5077,11 +5550,6 @@ export interface components {
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
        */
       user_created?: string | components["schemas"]["Users"];
-      /**
-       * @description User that last updated the Content Version.
-       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
-       */
-      user_updated?: string | components["schemas"]["Users"];
     };
     ItemsSaasEvents: {
       metadata?: unknown;
@@ -5096,14 +5564,14 @@ export interface components {
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
     };
     ItemsSaasInbox: {
-      subject?: string | null;
       message?: string | null;
       metadata?: unknown;
+      subject?: string | null;
       status?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_updated?: string | components["schemas"]["Users"] | null;
@@ -5114,12 +5582,12 @@ export interface components {
     ItemsSaasTeamsUsers: {
       is_team_admin?: boolean | null;
       sort?: number | null;
-      role?: string | null;
       status?: string | null;
-      /** Format: timestamp */
-      date_accepted?: string | null;
+      role?: string | null;
       /** Format: timestamp */
       date_invited?: string | null;
+      /** Format: timestamp */
+      date_accepted?: string | null;
       /** Format: uuid */
       id: string;
       team_id?: string | components["schemas"]["ItemsSaasTeams"] | null;
@@ -5137,20 +5605,21 @@ export interface components {
       name?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: uuid */
+      id: string;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       avatar?: string | components["schemas"]["Files"] | null;
       folder?: string | components["schemas"]["Folders"] | null;
-      /** Format: uuid */
-      id: string;
       bots?: ((string | components["schemas"]["ItemsBots"])[]) | null;
       users?: ((string | components["schemas"]["ItemsSaasTeamsUsers"])[]) | null;
       channels?: ((string | components["schemas"]["ItemsChannels"])[]) | null;
       products?: ((string | components["schemas"]["ItemsProducts"])[]) | null;
       orderbots?: ((string | components["schemas"]["ItemsOrderbots"])[]) | null;
+      documents?: ((string | components["schemas"]["ItemsDocuments"])[]) | null;
     };
     ItemsSaasTasksFiles: {
       sort?: number | null;
@@ -5167,9 +5636,9 @@ export interface components {
       /** Format: timestamp */
       due_date?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5187,16 +5656,16 @@ export interface components {
     ItemsBotsKnowledges: {
       sort?: number | null;
       total_intent?: number | null;
-      intents?: unknown;
       source?: unknown;
-      lang?: string | null;
-      name?: string | null;
+      intents?: unknown;
       bot?: string | components["schemas"]["ItemsBots"] | null;
       status?: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      lang?: string | null;
+      name?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5207,12 +5676,12 @@ export interface components {
       /** @description Is this price active or not? */
       active?: boolean | null;
       popular?: boolean | null;
-      sort?: number | null;
-      interval_count?: number | null;
       trial_period_days?: number | null;
+      interval_count?: number | null;
+      sort?: number | null;
       svg_icon?: string | null;
-      metadata?: unknown;
       features?: unknown;
+      metadata?: unknown;
       name?: string | null;
       env?: string | null;
       lookup_key?: string | null;
@@ -5227,6 +5696,8 @@ export interface components {
     };
     ItemsBots: {
       sort?: number | null;
+      irrelevant_answers?: unknown;
+      data_sources?: unknown;
       allowed_topics?: string | null;
       context?: string | null;
       guidelines?: string | null;
@@ -5239,13 +5710,8 @@ export interface components {
       system_prompt?: string | null;
       greeting_quick_reply?: unknown;
       routing_config?: unknown;
-      irrelevant_answers?: unknown;
-      data_sources?: unknown;
       functions?: unknown;
       metadata?: unknown;
-      stop_keyword?: string | null;
-      start_keyword?: string | null;
-      type?: string | null;
       product_name?: string | null;
       slug?: string | null;
       version?: string | null;
@@ -5253,10 +5719,13 @@ export interface components {
       name?: string | null;
       status?: string;
       id: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      stop_keyword?: string | null;
+      start_keyword?: string | null;
+      type?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       team: string | components["schemas"]["ItemsSaasTeams"];
@@ -5277,10 +5746,6 @@ export interface components {
       features?: unknown;
       /** @description Additional subscription metadata */
       metadata?: unknown;
-      /** @description Stripe customer reference */
-      stripe_customer_id: string;
-      /** @description Stripe subscription reference */
-      id: string;
       env?: string | null;
       collection_method?: string;
       status?: string;
@@ -5292,26 +5757,19 @@ export interface components {
       stripe_product_id: string;
       /** @description Stripe price reference */
       stripe_price_id: string;
+      /** @description Stripe customer reference */
+      stripe_customer_id: string;
+      /** @description Stripe subscription reference */
+      id: string;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /**
        * Format: timestamp
-       * @description Cancellation date
+       * @description Trial period start date
        */
-      canceled_at?: string | null;
-      /**
-       * Format: timestamp
-       * @description Current billing period end date
-       */
-      current_period_end: string;
-      /**
-       * Format: timestamp
-       * @description Current billing period start date
-       */
-      current_period_start: string;
-      /**
-       * Format: timestamp
-       * @description Next billing cycle start date
-       */
-      billing_cycle_anchor: string;
+      trial_start?: string | null;
       /**
        * Format: timestamp
        * @description Trial period end date
@@ -5319,24 +5777,35 @@ export interface components {
       trial_end?: string | null;
       /**
        * Format: timestamp
-       * @description Trial period start date
+       * @description Next billing cycle start date
        */
-      trial_start?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
-      amount: number;
+      billing_cycle_anchor: string;
+      /**
+       * Format: timestamp
+       * @description Current billing period start date
+       */
+      current_period_start: string;
+      /**
+       * Format: timestamp
+       * @description Current billing period end date
+       */
+      current_period_end: string;
+      /**
+       * Format: timestamp
+       * @description Cancellation date
+       */
+      canceled_at?: string | null;
       /** Format: uuid */
       user_created?: string | null;
       /** Format: uuid */
       user_updated?: string | null;
       customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
+      amount: number;
     };
     ItemsBotsLogs: {
-      output_tokens?: number | null;
-      input_tokens?: number | null;
       sort?: number | null;
+      input_tokens?: number | null;
+      output_tokens?: number | null;
       /** Format: float */
       confidence?: number | null;
       social_id?: string | null;
@@ -5354,8 +5823,8 @@ export interface components {
       id: string;
     };
     ItemsPagesLiff: {
-      require_login?: number | null;
       sort?: number | null;
+      require_login?: number | null;
       content?: string | null;
       metadata?: unknown;
       favicon?: string | null;
@@ -5367,22 +5836,24 @@ export interface components {
       slug?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
       image?: string | components["schemas"]["Files"] | null;
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
+      brands?: ((number | components["schemas"]["ItemsPagesLiffVouchersBrands"])[]) | null;
+      populars?: ((number | components["schemas"]["ItemsPagesLiffVouchers"])[]) | null;
       vouchers?: ((string | components["schemas"]["ItemsVouchers"])[]) | null;
     };
     ItemsChannels: {
       sort?: number | null;
-      forward_urls?: unknown;
       provider_info?: unknown;
-      dataset?: string | null;
+      forward_urls?: unknown;
       name?: string | null;
       platform?: string | null;
       provider_access_token?: string | null;
@@ -5391,12 +5862,13 @@ export interface components {
       provider_id?: string | null;
       provider?: string | null;
       status?: string;
+      dataset?: string | null;
       /** Format: date-time */
       expired_at?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5412,9 +5884,9 @@ export interface components {
       code?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5431,9 +5903,9 @@ export interface components {
       recurring_months?: number;
       tier: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** @description Commission percentage for recurring payments */
       recurring_rate: number;
       /** @description Commission percentage for first payment */
@@ -5454,11 +5926,11 @@ export interface components {
       campaign_id?: string | null;
       name?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      date_updated?: string | null;
       /** Format: timestamp */
       last_synced?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
+      date_created?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5476,14 +5948,14 @@ export interface components {
       saas_prices_id?: string | components["schemas"]["ItemsSaasPrices"] | null;
     };
     ItemsAdPerformance: {
-      conversions?: number | null;
-      clicks?: number | null;
-      impressions?: number | null;
       sort?: number | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      impressions?: number | null;
+      clicks?: number | null;
+      conversions?: number | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       spend?: number | null;
       /** Format: uuid */
       id: string;
@@ -5497,9 +5969,9 @@ export interface components {
       name?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5511,23 +5983,23 @@ export interface components {
       ads?: ((number | components["schemas"]["ItemsAdsAIRules"])[]) | null;
     };
     ItemsSaasWebinars: {
-      sort?: number | null;
       id?: number;
+      sort?: number | null;
       description?: string | null;
-      content?: unknown;
       tags?: unknown;
       metadata?: unknown;
+      content?: unknown;
       register_link?: string | null;
       name?: string | null;
       status?: string;
       /** Format: date-time */
-      start_date?: string | null;
-      /** Format: date-time */
       end_date?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      /** Format: date-time */
+      start_date?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       cover?: string | components["schemas"]["Files"] | null;
@@ -5537,9 +6009,9 @@ export interface components {
       sort?: number | null;
       result?: unknown;
       /** Format: timestamp */
-      execution_date?: string | null;
-      /** Format: timestamp */
       date_updated?: string | null;
+      /** Format: timestamp */
+      execution_date?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** Format: uuid */
@@ -5564,18 +6036,18 @@ export interface components {
     ItemsAdAds: {
       sort?: number | null;
       data?: unknown;
+      name?: string | null;
+      ad_id?: string | null;
       adset_id?: string | null;
       status?: string | null;
       ad_account_id?: string | null;
       campaign_id?: string | null;
-      name?: string | null;
-      ad_id?: string | null;
       /** Format: timestamp */
       last_synced?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -5595,25 +6067,23 @@ export interface components {
        */
       converted_at?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** @description User who referred */
+      referrer_id?: string | components["schemas"]["Users"] | null;
+      /** @description User who was referred */
+      referred_id?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
       user_created?: string | null;
       /** Format: uuid */
       user_updated?: string | null;
-      /** @description User who referred */
-      referrer_id?: string | components["schemas"]["Users"] | null;
-      /** @description User who was referred */
-      referred_id?: string | components["schemas"]["Users"] | null;
     };
     ItemsSaasCustomers: {
       metadata?: unknown;
       env?: string | null;
-      /** Format: date-time */
-      date_created?: string | null;
       name?: string | null;
       country?: string | null;
       postal_code?: string | null;
@@ -5629,6 +6099,8 @@ export interface components {
       company_name?: string | null;
       /** @description Stripe customer reference */
       stripe_customer_id: string;
+      /** Format: date-time */
+      date_created?: string | null;
       /** Format: uuid */
       id: string;
       coupons?: ((string | components["schemas"]["ItemsSaasCoupons"])[]) | null;
@@ -5645,9 +6117,9 @@ export interface components {
       /** Format: date-time */
       start_date?: string | null;
       /** Format: timestamp */
-      last_synced?: string | null;
-      /** Format: timestamp */
       date_updated?: string | null;
+      /** Format: timestamp */
+      last_synced?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** Format: uuid */
@@ -5662,13 +6134,13 @@ export interface components {
       sort?: number | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
       type?: string | null;
-      name?: string | null;
       connection_string?: string | null;
+      name?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5683,11 +6155,11 @@ export interface components {
       name?: string | null;
       ad_account_id?: string | null;
       /** Format: timestamp */
-      last_synced?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      last_synced?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -5701,9 +6173,9 @@ export interface components {
       status?: string;
       current_tier?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -5718,9 +6190,9 @@ export interface components {
       metadata?: unknown;
       name?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5743,18 +6215,18 @@ export interface components {
        */
       calculated_at: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** @description Total commission earned this month */
       commission_earned?: number;
+      affiliate_id?: string | components["schemas"]["ItemsSaasAffiliates"] | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
       user_created?: string | null;
       /** Format: uuid */
       user_updated?: string | null;
-      affiliate_id?: string | components["schemas"]["ItemsSaasAffiliates"] | null;
     };
     ItemsSaasCommissionPayments: {
       status?: string;
@@ -5762,9 +6234,9 @@ export interface components {
       /** @description Reference to Stripe transfer */
       stripe_transfer_id: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -5781,14 +6253,14 @@ export interface components {
       metadata?: unknown;
       /** @description Invoice number */
       number?: string | null;
-      /** @description URL for PDF invoice */
-      pdf_invoice_url?: string | null;
-      /** @description URL for hosted invoice page */
-      hosted_invoice_url?: string | null;
-      /** @description Payment method used */
-      payment_method?: string | null;
       /** @description Reason for invoice generation */
       billing_reason?: string | null;
+      /** @description Payment method used */
+      payment_method?: string | null;
+      /** @description URL for hosted invoice page */
+      hosted_invoice_url?: string | null;
+      /** @description URL for PDF invoice */
+      pdf_invoice_url?: string | null;
       status?: string;
       currency?: string;
       /** @description Stripe payment intent reference */
@@ -5801,19 +6273,14 @@ export interface components {
       id: string;
       /**
        * Format: timestamp
+       * @description Invoice period start date
+       */
+      period_start: string;
+      /**
+       * Format: timestamp
        * @description When the invoice was paid
        */
       paid_at?: string | null;
-      /**
-       * Format: timestamp
-       * @description Next automatic payment attempt
-       */
-      next_payment_attempt?: string | null;
-      /**
-       * Format: timestamp
-       * @description Invoice due date
-       */
-      due_date?: string | null;
       /**
        * Format: timestamp
        * @description Invoice period end date
@@ -5821,75 +6288,80 @@ export interface components {
       period_end: string;
       /**
        * Format: timestamp
-       * @description Invoice period start date
+       * @description Invoice due date
        */
-      period_start: string;
+      due_date?: string | null;
+      /**
+       * Format: timestamp
+       * @description Next automatic payment attempt
+       */
+      next_payment_attempt?: string | null;
       amount_due: number;
+      /** @description Final total after tax and discounts */
+      total: number;
       /** @description Total before tax and discounts */
       subtotal: number;
       /** @description Tax amount */
       tax?: number | null;
-      /** @description Final total after tax and discounts */
-      total: number;
       customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
     };
     ItemsSaasHelpdesk: {
       id?: number;
-      service?: string | null;
-      status?: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
+      status?: string;
+      service?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       translations?: ((number | components["schemas"]["ItemsSaasHelpdeskTranslations"])[]) | null;
     };
     ItemsSaasCouponCampaigns: {
       description?: string | null;
-      status?: string;
-      name: string;
-      /** Format: timestamp */
-      date_updated: string;
       /** Format: timestamp */
       date_created: string;
+      name: string;
+      status?: string;
+      /** Format: timestamp */
+      start_date: string;
       /** Format: timestamp */
       end_date: string;
       /** Format: timestamp */
-      start_date: string;
+      date_updated: string;
       /** Format: uuid */
-      id: string;
+      user_updated: string;
       /** Format: uuid */
       user_created: string;
       /** Format: uuid */
-      user_updated: string;
+      id: string;
     };
     ItemsSaasTerms: {
       sort?: number | null;
-      status?: string;
-      id: string;
       name?: string | null;
+      id: string;
+      status?: string;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       translations?: ((number | components["schemas"]["ItemsSaasTermsTranslations"])[]) | null;
     };
     ItemsSaasCoupons: {
       sort?: number | null;
+      status?: string;
       code?: string | null;
       env?: string | null;
-      status?: string;
-      /** Format: date-time */
-      start_date?: string | null;
       /** Format: date-time */
       end_date?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      /** Format: date-time */
+      start_date?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -5911,18 +6383,14 @@ export interface components {
       field7?: string | null;
       field8?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       template?: string | components["schemas"]["ItemsMailTemplates"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-    };
-    ItemsChatHubsChannelsHubs: {
-      id?: number;
-      channels_hubs_id?: number | components["schemas"]["ItemsChannelsHubs"] | null;
     };
     ItemsBotDocumentsFiles: {
       id?: number;
@@ -5931,8 +6399,8 @@ export interface components {
     };
     ItemsBotsModel: {
       id?: number;
-      max_output_tokens?: number | null;
       max_input_tokens?: number | null;
+      max_output_tokens?: number | null;
       model?: string | null;
       provider?: string | null;
       api_key?: string | null;
@@ -5942,11 +6410,6 @@ export interface components {
       /** Format: timestamp */
       date_created?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
-    };
-    ItemsChannelsHubs: {
-      id?: number;
-      chat_hub_id?: string | components["schemas"]["ItemsChatHubs"] | null;
-      channel_id?: string | components["schemas"]["ItemsChannels"] | null;
     };
     ItemsSaasFeatures: {
       sort?: number | null;
@@ -5960,18 +6423,18 @@ export interface components {
       is_noun?: boolean | null;
       description?: string | null;
       name?: string | null;
-      example?: string | null;
       data_type?: string | null;
       map_type?: string | null;
+      example?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       table?: string | components["schemas"]["ItemsBotsDatasourcesTables"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_updated?: string | components["schemas"]["Users"] | null;
     };
     ItemsTmp: {
       /** Format: uuid */
@@ -5980,13 +6443,38 @@ export interface components {
     ItemsBotsMutedUsers: {
       uid?: string | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
+      provider_id?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: date-time */
       expires_on?: string | null;
-      provider_id?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsVouchersUsers: {
+      sort?: number | null;
+      code?: string | null;
+      referral?: string | null;
+      ad_ref?: string | null;
+      utm_source?: string | null;
+      utm_medium?: string | null;
+      utm_campaign?: string | null;
+      collected_by?: string | null;
+      /** Format: date-time */
+      expired_date?: string | null;
+      /** Format: date-time */
+      used_date?: string | null;
+      /** Format: date-time */
+      collected_date?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
@@ -5996,26 +6484,27 @@ export interface components {
       sort?: number | null;
       duration_days?: number | null;
       metadata?: unknown;
-      voucher_brand_id?: string | components["schemas"]["ItemsVouchersBrands"] | null;
-      name: string;
+      status?: string;
       ref_code?: string | null;
-      primaryColor?: string | null;
-      /** Format: date-time */
-      start_date?: string | null;
+      voucher_brand_id?: string | components["schemas"]["ItemsVouchersBrands"] | null;
+      name?: string | null;
       /** Format: date-time */
       end_date?: string | null;
-      status?: string;
+      /** Format: date-time */
+      start_date?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      page?: string | components["schemas"]["ItemsPagesLiff"] | null;
       cover?: string | components["schemas"]["Files"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
+      banner?: string | components["schemas"]["Files"] | null;
+      page?: string | components["schemas"]["ItemsPagesLiff"] | null;
       codes?: ((string | components["schemas"]["ItemsVouchersCodes"])[]) | null;
+      translations?: ((number | components["schemas"]["ItemsVouchersTranslations"])[]) | null;
     };
     ItemsOrders: {
       id?: number;
@@ -6032,14 +6521,13 @@ export interface components {
       is_available?: boolean | null;
       sort?: number | null;
       description?: string | null;
-      tags?: unknown;
-      collections?: unknown;
-      metadata?: unknown;
-      /** Format: float */
-      price?: number | null;
       /** Format: float */
       weight?: number | null;
-      status?: string;
+      /** Format: float */
+      price?: number | null;
+      metadata?: unknown;
+      tags?: unknown;
+      collections?: unknown;
       slug?: string | null;
       brand?: string | null;
       manufacturer?: string | null;
@@ -6048,41 +6536,42 @@ export interface components {
       sku?: string | null;
       type?: string | null;
       name?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      status?: string;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      thumbnail?: string | components["schemas"]["Files"] | null;
+      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      thumbnail?: string | components["schemas"]["Files"] | null;
-      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
     };
     ItemsOrderbots: {
       sort?: number | null;
       context?: string | null;
-      sql_agent_prompt?: string | null;
-      system_prompt?: string | null;
-      expertise?: string | null;
-      greeting_message?: string | null;
-      greeting_message_mobile?: string | null;
-      routing_config?: unknown;
-      system_prompt_mobile?: string | null;
-      product_description?: string | null;
       guidelines?: string | null;
+      product_description?: string | null;
+      sql_agent_prompt?: string | null;
+      system_prompt_mobile?: string | null;
+      greeting_message_mobile?: string | null;
+      greeting_message?: string | null;
+      expertise?: string | null;
+      system_prompt?: string | null;
       metadata?: unknown;
       functions?: unknown;
       data_sources?: unknown;
       irrelevant_answers?: unknown;
+      routing_config?: unknown;
+      id: string;
+      status?: string;
+      name?: string | null;
       gender?: string | null;
       version?: string | null;
       slug?: string | null;
       product_name?: string | null;
       type?: string | null;
-      id: string;
-      status?: string;
-      name?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -6098,9 +6587,9 @@ export interface components {
     };
     ItemsVouchersCodes: {
       sort?: number | null;
+      code_status?: string | null;
       status?: string;
       code?: string | null;
-      code_status?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -6119,30 +6608,6 @@ export interface components {
     ItemsUserProfile: {
       phone?: string | null;
       company?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      user_created?: string | components["schemas"]["Users"] | null;
-      /** Format: uuid */
-      id: string;
-    };
-    ItemsVouchersUsers: {
-      sort?: number | null;
-      utm_source?: string | null;
-      utm_medium?: string | null;
-      utm_campaign?: string | null;
-      collected_by?: string | null;
-      code?: string | null;
-      referral?: string | null;
-      ad_ref?: string | null;
-      /** Format: date-time */
-      used_date?: string | null;
-      /** Format: date-time */
-      collected_date?: string | null;
-      /** Format: date-time */
-      expired_date?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -6244,11 +6709,11 @@ export interface components {
       uid?: string | null;
       provider_id?: string | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
-      rating?: number | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      rating?: number | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
@@ -6284,10 +6749,10 @@ export interface components {
       body?: string | null;
       to?: unknown;
       cc?: unknown;
-      subject?: string | null;
       name?: string | null;
       reference?: string | null;
       reference_id?: string | null;
+      subject?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -6297,9 +6762,21 @@ export interface components {
       /** Format: uuid */
       id: string;
     };
-    ItemsHubsChannelsHubs: {
-      channels_hubs_id?: number | components["schemas"]["ItemsChannelsHubs"] | null;
-      id?: number;
+    ItemsVouchersBrands: {
+      sort?: number | null;
+      metadata?: unknown;
+      id: string;
+      status?: string;
+      name?: string | null;
+      primaryColor?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      logo?: string | components["schemas"]["Files"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      liff?: ((number | components["schemas"]["ItemsPagesLiffVouchersBrands"])[]) | null;
     };
     ItemsTest: {
       /** Format: uuid */
@@ -6314,15 +6791,15 @@ export interface components {
     ItemsBotsInquiries: {
       description: string;
       metadata?: unknown;
+      email: string;
+      subject: string;
+      inquiry_type: string;
       phone?: string | null;
       priority?: string | null;
       status?: string;
       uid?: string | null;
       bot: string | components["schemas"]["ItemsBots"];
       name: string;
-      email: string;
-      subject: string;
-      inquiry_type: string;
       /** Format: timestamp */
       date_created: string;
       /** Format: uuid */
@@ -6343,8 +6820,8 @@ export interface components {
     ItemsBotDocuments: {
       id?: number;
       sort?: number | null;
-      text?: string | null;
       description?: string | null;
+      text?: string | null;
       example_queries?: unknown;
       status?: string;
       bot?: string | components["schemas"]["ItemsBots"] | null;
@@ -6363,27 +6840,44 @@ export interface components {
       chat_hubs_id?: string | components["schemas"]["ItemsChatHubs"] | null;
       channels_id?: string | components["schemas"]["ItemsChannels"] | null;
     };
-    ItemsVouchersBrands: {
-      name?: string | null;
-      primaryColor?: string | null;
-      id: string;
+    ItemsLeadSubmissions: {
+      data?: unknown;
+      metadata?: unknown;
       status?: string;
+      source?: string | null;
+      source_id?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsBeacons: {
+      id?: number;
+      sort?: number | null;
+      status?: string;
+      hwid?: string | null;
+      passcode?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      logo?: string | components["schemas"]["Files"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
     };
     ItemsBotsDocuments: {
-      total_pages?: number | null;
       sort?: number | null;
+      total_pages?: number | null;
       file_size?: number | null;
       description?: string | null;
       json_schema?: unknown;
       json_data?: unknown;
       crc32_hash?: string | null;
+      document_url?: string | null;
+      callback_url?: string | null;
       status?: string;
       bot?: string | components["schemas"]["ItemsBots"] | null;
       language?: string | null;
@@ -6392,27 +6886,206 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      dest?: string | components["schemas"]["Files"] | null;
+      src?: string | components["schemas"]["Files"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      dest?: string | components["schemas"]["Files"] | null;
-      src?: string | components["schemas"]["Files"] | null;
     };
-    ItemsLeadSubmissions: {
-      metadata?: unknown;
-      data?: unknown;
-      source_id?: string | null;
+    ItemsLocations: {
+      id?: number;
+      sort?: number | null;
       status?: string;
-      source?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+    };
+    ItemsZones: {
+      id?: number;
+      sort?: number | null;
+      status?: string;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+    };
+    ItemsLiffTokens: {
+      remain?: number | null;
+      uid?: string | null;
+      token?: string | null;
+      /** Format: date-time */
+      expires_on?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsTest2: {
+      id?: number;
+      sort?: number | null;
+    };
+    ItemsChannelNotifications: {
+      sort?: number | null;
+      payload?: unknown;
+      status?: string;
+      uid?: string | null;
+      tag?: string | null;
+      /** Format: date-time */
+      schedule?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsPagesLiffVouchersBrands: {
+      id?: number;
+      sort?: number | null;
+      vouchers_brands_id?: string | components["schemas"]["ItemsVouchersBrands"] | null;
+      pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
+    };
+    ItemsChannelOutboxes: {
+      sort?: number | null;
+      payload?: unknown;
+      status?: string;
+      uid?: string | null;
+      tag?: string | null;
+      /** Format: date-time */
+      sent_at?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      channel_notification?: string | components["schemas"]["ItemsChannelNotifications"] | null;
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsVouchersTranslations: {
+      id?: number;
+      congrat?: string | null;
+      condition?: string | null;
+      description?: string | null;
+      push_message?: unknown;
+      languages_code?: string | components["schemas"]["ItemsLanguages"] | null;
+      title?: string | null;
+      vouchers_id?: string | components["schemas"]["ItemsVouchers"] | null;
+    };
+    ItemsAdvanceProfiles: {
+      birth_year?: number | null;
+      birth_month?: number | null;
+      interests?: unknown;
+      id: string;
+      uid?: string | null;
+      first_name?: string | null;
+      last_name?: string | null;
+      display_name?: string | null;
+      gender?: string | null;
+      phone?: string | null;
+      refcode?: string | null;
+      company?: string | null;
+      email?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      picture_url?: string | components["schemas"]["Files"] | null;
+      point_transactions?: ((string | components["schemas"]["ItemsPointTransactions"])[]) | null;
+    };
+    ItemsProfiles: {
+      interests?: unknown;
+      picture_url?: string | null;
+      display_name?: string | null;
+      id: string;
+      status?: string;
+      uid?: string | null;
+      liff_id?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      point_transactions?: ((string | components["schemas"]["ItemsPointTransactions"])[]) | null;
+    };
+    ItemsPagesLiffVouchers: {
+      id?: number;
+      pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
+      vouchers_id?: string | components["schemas"]["ItemsVouchers"] | null;
+    };
+    ItemsPointTransactions: {
+      points_amount?: number | null;
+      description?: string | null;
+      advance_profile?: string | components["schemas"]["ItemsAdvanceProfiles"] | null;
+      source_id?: string | null;
+      source?: string | null;
+      transaction_type: string;
+      status?: string | null;
+      profile?: string | components["schemas"]["ItemsProfiles"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: date */
+      expiry_date?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+    };
+    ItemsReferrals: {
+      /** Format: int64 */
+      id?: number;
+      referrer_id?: string | null;
+      referred_id?: string | null;
+      status?: string;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+    };
+    ItemsDocuments: {
+      src_file_size?: number | null;
+      total_pages?: number | null;
+      text?: string | null;
+      description?: string | null;
+      example_queries?: unknown;
+      json_schema?: unknown;
+      json_data?: unknown;
+      src_url?: string | null;
+      language?: string | null;
+      callback_url?: string | null;
+      name?: string | null;
+      status?: string;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      dest?: string | components["schemas"]["Files"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+      src?: string | components["schemas"]["Files"] | null;
+      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
     };
   };
   responses: {
@@ -19703,189 +20376,6 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the chat_hubs_channels_hubs items.
-   */
-  readItemsChatHubsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChatHubsChannelsHubs"][];
-            meta?: components["schemas"]["x-metadata"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Create an Item
-   * @description Create a new chat_hubs_channels_hubs item.
-   */
-  createItemsChatHubsChannelsHubs: {
-    parameters: {
-      query?: {
-        meta?: components["parameters"]["Meta"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChatHubsChannelsHubs"][] | components["schemas"]["ItemsChatHubsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Delete Multiple Items
-   * @description Delete multiple existing chat_hubs_channels_hubs items.
-   */
-  deleteItemsChatHubsChannelsHubs: {
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Update Multiple Items
-   * @description Update multiple chat_hubs_channels_hubs items at the same time.
-   */
-  updateItemsChatHubsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChatHubsChannelsHubs"][] | components["schemas"]["ItemsChatHubsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Retrieve an Item
-   * @description Retrieve a single chat_hubs_channels_hubs item by unique identifier.
-   */
-  readSingleItemsChatHubsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-        version?: components["parameters"]["Version"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChatHubsChannelsHubs"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Delete an Item
-   * @description Delete an existing chat_hubs_channels_hubs item.
-   */
-  deleteSingleItemsChatHubsChannelsHubs: {
-    parameters: {
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Update an Item
-   * @description Update an existing chat_hubs_channels_hubs item.
-   */
-  updateSingleItemsChatHubsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChatHubsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChatHubsChannelsHubs"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * List Items
    * @description List the bot_documents_files items.
    */
   readItemsBotDocumentsFiles: {
@@ -20243,189 +20733,6 @@ export interface operations {
         content: {
           "application/json": {
             data?: components["schemas"]["ItemsBotsModel"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * List Items
-   * @description List the channels_hubs items.
-   */
-  readItemsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsHubs"][];
-            meta?: components["schemas"]["x-metadata"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Create an Item
-   * @description Create a new channels_hubs item.
-   */
-  createItemsChannelsHubs: {
-    parameters: {
-      query?: {
-        meta?: components["parameters"]["Meta"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsHubs"][] | components["schemas"]["ItemsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Delete Multiple Items
-   * @description Delete multiple existing channels_hubs items.
-   */
-  deleteItemsChannelsHubs: {
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Update Multiple Items
-   * @description Update multiple channels_hubs items at the same time.
-   */
-  updateItemsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsHubs"][] | components["schemas"]["ItemsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Retrieve an Item
-   * @description Retrieve a single channels_hubs item by unique identifier.
-   */
-  readSingleItemsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-        version?: components["parameters"]["Version"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsHubs"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Delete an Item
-   * @description Delete an existing channels_hubs item.
-   */
-  deleteSingleItemsChannelsHubs: {
-    parameters: {
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Update an Item
-   * @description Update an existing channels_hubs item.
-   */
-  updateSingleItemsChannelsHubs: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsChannelsHubs"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsChannelsHubs"];
           };
         };
       };
@@ -21158,6 +21465,189 @@ export interface operations {
         content: {
           "application/json": {
             data?: components["schemas"]["ItemsBotsMutedUsers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the vouchers_users items.
+   */
+  readItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new vouchers_users item.
+   */
+  createItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing vouchers_users items.
+   */
+  deleteItemsVouchersUsers: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple vouchers_users items at the same time.
+   */
+  updateItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single vouchers_users item by unique identifier.
+   */
+  readSingleItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing vouchers_users item.
+   */
+  deleteSingleItemsVouchersUsers: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing vouchers_users item.
+   */
+  updateSingleItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"];
           };
         };
       };
@@ -22439,189 +22929,6 @@ export interface operations {
         content: {
           "application/json": {
             data?: components["schemas"]["ItemsUserProfile"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * List Items
-   * @description List the vouchers_users items.
-   */
-  readItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"][];
-            meta?: components["schemas"]["x-metadata"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Create an Item
-   * @description Create a new vouchers_users item.
-   */
-  createItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        meta?: components["parameters"]["Meta"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Delete Multiple Items
-   * @description Delete multiple existing vouchers_users items.
-   */
-  deleteItemsVouchersUsers: {
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Update Multiple Items
-   * @description Update multiple vouchers_users items at the same time.
-   */
-  updateItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: unknown;
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Retrieve an Item
-   * @description Retrieve a single vouchers_users item by unique identifier.
-   */
-  readSingleItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-        version?: components["parameters"]["Version"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Delete an Item
-   * @description Delete an existing vouchers_users item.
-   */
-  deleteSingleItemsVouchersUsers: {
-    parameters: {
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Update an Item
-   * @description Update an existing vouchers_users item.
-   */
-  updateSingleItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"];
           };
         };
       };
@@ -24481,9 +24788,9 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the hubs_channels_hubs items.
+   * @description List the vouchers_brands items.
    */
-  readItemsHubsChannelsHubs: {
+  readItemsVouchersBrands: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -24500,7 +24807,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsHubsChannelsHubs"][];
+            data?: components["schemas"]["ItemsVouchersBrands"][];
             meta?: components["schemas"]["x-metadata"];
           };
         };
@@ -24510,9 +24817,9 @@ export interface operations {
   };
   /**
    * Create an Item
-   * @description Create a new hubs_channels_hubs item.
+   * @description Create a new vouchers_brands item.
    */
-  createItemsHubsChannelsHubs: {
+  createItemsVouchersBrands: {
     parameters: {
       query?: {
         meta?: components["parameters"]["Meta"];
@@ -24520,7 +24827,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsHubsChannelsHubs"][] | components["schemas"]["ItemsHubsChannelsHubs"];
+        "application/json": components["schemas"]["ItemsVouchersBrands"][] | components["schemas"]["ItemsVouchersBrands"];
       };
     };
     responses: {
@@ -24537,9 +24844,9 @@ export interface operations {
   };
   /**
    * Delete Multiple Items
-   * @description Delete multiple existing hubs_channels_hubs items.
+   * @description Delete multiple existing vouchers_brands items.
    */
-  deleteItemsHubsChannelsHubs: {
+  deleteItemsVouchersBrands: {
     responses: {
       /** @description Successful request */
       200: {
@@ -24550,9 +24857,9 @@ export interface operations {
   };
   /**
    * Update Multiple Items
-   * @description Update multiple hubs_channels_hubs items at the same time.
+   * @description Update multiple vouchers_brands items at the same time.
    */
-  updateItemsHubsChannelsHubs: {
+  updateItemsVouchersBrands: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -24566,7 +24873,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsHubsChannelsHubs"][] | components["schemas"]["ItemsHubsChannelsHubs"];
+        "application/json": components["schemas"]["ItemsVouchersBrands"][] | components["schemas"]["ItemsVouchersBrands"];
       };
     };
     responses: {
@@ -24582,9 +24889,9 @@ export interface operations {
   };
   /**
    * Retrieve an Item
-   * @description Retrieve a single hubs_channels_hubs item by unique identifier.
+   * @description Retrieve a single vouchers_brands item by unique identifier.
    */
-  readSingleItemsHubsChannelsHubs: {
+  readSingleItemsVouchersBrands: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -24601,7 +24908,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsHubsChannelsHubs"];
+            data?: components["schemas"]["ItemsVouchersBrands"];
           };
         };
       };
@@ -24611,9 +24918,9 @@ export interface operations {
   };
   /**
    * Delete an Item
-   * @description Delete an existing hubs_channels_hubs item.
+   * @description Delete an existing vouchers_brands item.
    */
-  deleteSingleItemsHubsChannelsHubs: {
+  deleteSingleItemsVouchersBrands: {
     parameters: {
       path: {
         /** @description Index of the item. */
@@ -24631,9 +24938,9 @@ export interface operations {
   };
   /**
    * Update an Item
-   * @description Update an existing hubs_channels_hubs item.
+   * @description Update an existing vouchers_brands item.
    */
-  updateSingleItemsHubsChannelsHubs: {
+  updateSingleItemsVouchersBrands: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -24646,7 +24953,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsHubsChannelsHubs"];
+        "application/json": components["schemas"]["ItemsVouchersBrands"];
       };
     };
     responses: {
@@ -24654,7 +24961,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsHubsChannelsHubs"];
+            data?: components["schemas"]["ItemsVouchersBrands"];
           };
         };
       };
@@ -25762,9 +26069,9 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the vouchers_brands items.
+   * @description List the lead_submissions items.
    */
-  readItemsVouchersBrands: {
+  readItemsLeadSubmissions: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -25781,7 +26088,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsVouchersBrands"][];
+            data?: components["schemas"]["ItemsLeadSubmissions"][];
             meta?: components["schemas"]["x-metadata"];
           };
         };
@@ -25791,9 +26098,9 @@ export interface operations {
   };
   /**
    * Create an Item
-   * @description Create a new vouchers_brands item.
+   * @description Create a new lead_submissions item.
    */
-  createItemsVouchersBrands: {
+  createItemsLeadSubmissions: {
     parameters: {
       query?: {
         meta?: components["parameters"]["Meta"];
@@ -25801,7 +26108,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsVouchersBrands"][] | components["schemas"]["ItemsVouchersBrands"];
+        "application/json": components["schemas"]["ItemsLeadSubmissions"][] | components["schemas"]["ItemsLeadSubmissions"];
       };
     };
     responses: {
@@ -25818,9 +26125,9 @@ export interface operations {
   };
   /**
    * Delete Multiple Items
-   * @description Delete multiple existing vouchers_brands items.
+   * @description Delete multiple existing lead_submissions items.
    */
-  deleteItemsVouchersBrands: {
+  deleteItemsLeadSubmissions: {
     responses: {
       /** @description Successful request */
       200: {
@@ -25831,9 +26138,9 @@ export interface operations {
   };
   /**
    * Update Multiple Items
-   * @description Update multiple vouchers_brands items at the same time.
+   * @description Update multiple lead_submissions items at the same time.
    */
-  updateItemsVouchersBrands: {
+  updateItemsLeadSubmissions: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -25847,7 +26154,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsVouchersBrands"][] | components["schemas"]["ItemsVouchersBrands"];
+        "application/json": components["schemas"]["ItemsLeadSubmissions"][] | components["schemas"]["ItemsLeadSubmissions"];
       };
     };
     responses: {
@@ -25863,9 +26170,9 @@ export interface operations {
   };
   /**
    * Retrieve an Item
-   * @description Retrieve a single vouchers_brands item by unique identifier.
+   * @description Retrieve a single lead_submissions item by unique identifier.
    */
-  readSingleItemsVouchersBrands: {
+  readSingleItemsLeadSubmissions: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -25882,7 +26189,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsVouchersBrands"];
+            data?: components["schemas"]["ItemsLeadSubmissions"];
           };
         };
       };
@@ -25892,9 +26199,9 @@ export interface operations {
   };
   /**
    * Delete an Item
-   * @description Delete an existing vouchers_brands item.
+   * @description Delete an existing lead_submissions item.
    */
-  deleteSingleItemsVouchersBrands: {
+  deleteSingleItemsLeadSubmissions: {
     parameters: {
       path: {
         /** @description Index of the item. */
@@ -25912,9 +26219,9 @@ export interface operations {
   };
   /**
    * Update an Item
-   * @description Update an existing vouchers_brands item.
+   * @description Update an existing lead_submissions item.
    */
-  updateSingleItemsVouchersBrands: {
+  updateSingleItemsLeadSubmissions: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -25927,7 +26234,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsVouchersBrands"];
+        "application/json": components["schemas"]["ItemsLeadSubmissions"];
       };
     };
     responses: {
@@ -25935,7 +26242,190 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsVouchersBrands"];
+            data?: components["schemas"]["ItemsLeadSubmissions"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the beacons items.
+   */
+  readItemsBeacons: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBeacons"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new beacons item.
+   */
+  createItemsBeacons: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBeacons"][] | components["schemas"]["ItemsBeacons"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing beacons items.
+   */
+  deleteItemsBeacons: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple beacons items at the same time.
+   */
+  updateItemsBeacons: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBeacons"][] | components["schemas"]["ItemsBeacons"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single beacons item by unique identifier.
+   */
+  readSingleItemsBeacons: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBeacons"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing beacons item.
+   */
+  deleteSingleItemsBeacons: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing beacons item.
+   */
+  updateSingleItemsBeacons: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsBeacons"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsBeacons"];
           };
         };
       };
@@ -26128,9 +26618,9 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the lead_submissions items.
+   * @description List the locations items.
    */
-  readItemsLeadSubmissions: {
+  readItemsLocations: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -26147,7 +26637,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsLeadSubmissions"][];
+            data?: components["schemas"]["ItemsLocations"][];
             meta?: components["schemas"]["x-metadata"];
           };
         };
@@ -26157,9 +26647,9 @@ export interface operations {
   };
   /**
    * Create an Item
-   * @description Create a new lead_submissions item.
+   * @description Create a new locations item.
    */
-  createItemsLeadSubmissions: {
+  createItemsLocations: {
     parameters: {
       query?: {
         meta?: components["parameters"]["Meta"];
@@ -26167,7 +26657,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsLeadSubmissions"][] | components["schemas"]["ItemsLeadSubmissions"];
+        "application/json": components["schemas"]["ItemsLocations"][] | components["schemas"]["ItemsLocations"];
       };
     };
     responses: {
@@ -26184,9 +26674,9 @@ export interface operations {
   };
   /**
    * Delete Multiple Items
-   * @description Delete multiple existing lead_submissions items.
+   * @description Delete multiple existing locations items.
    */
-  deleteItemsLeadSubmissions: {
+  deleteItemsLocations: {
     responses: {
       /** @description Successful request */
       200: {
@@ -26197,9 +26687,9 @@ export interface operations {
   };
   /**
    * Update Multiple Items
-   * @description Update multiple lead_submissions items at the same time.
+   * @description Update multiple locations items at the same time.
    */
-  updateItemsLeadSubmissions: {
+  updateItemsLocations: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -26213,7 +26703,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsLeadSubmissions"][] | components["schemas"]["ItemsLeadSubmissions"];
+        "application/json": components["schemas"]["ItemsLocations"][] | components["schemas"]["ItemsLocations"];
       };
     };
     responses: {
@@ -26229,9 +26719,9 @@ export interface operations {
   };
   /**
    * Retrieve an Item
-   * @description Retrieve a single lead_submissions item by unique identifier.
+   * @description Retrieve a single locations item by unique identifier.
    */
-  readSingleItemsLeadSubmissions: {
+  readSingleItemsLocations: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -26248,7 +26738,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsLeadSubmissions"];
+            data?: components["schemas"]["ItemsLocations"];
           };
         };
       };
@@ -26258,9 +26748,9 @@ export interface operations {
   };
   /**
    * Delete an Item
-   * @description Delete an existing lead_submissions item.
+   * @description Delete an existing locations item.
    */
-  deleteSingleItemsLeadSubmissions: {
+  deleteSingleItemsLocations: {
     parameters: {
       path: {
         /** @description Index of the item. */
@@ -26278,9 +26768,9 @@ export interface operations {
   };
   /**
    * Update an Item
-   * @description Update an existing lead_submissions item.
+   * @description Update an existing locations item.
    */
-  updateSingleItemsLeadSubmissions: {
+  updateSingleItemsLocations: {
     parameters: {
       query?: {
         fields?: components["parameters"]["Fields"];
@@ -26293,7 +26783,7 @@ export interface operations {
     };
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["ItemsLeadSubmissions"];
+        "application/json": components["schemas"]["ItemsLocations"];
       };
     };
     responses: {
@@ -26301,7 +26791,2386 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            data?: components["schemas"]["ItemsLeadSubmissions"];
+            data?: components["schemas"]["ItemsLocations"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the zones items.
+   */
+  readItemsZones: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsZones"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new zones item.
+   */
+  createItemsZones: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsZones"][] | components["schemas"]["ItemsZones"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing zones items.
+   */
+  deleteItemsZones: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple zones items at the same time.
+   */
+  updateItemsZones: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsZones"][] | components["schemas"]["ItemsZones"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single zones item by unique identifier.
+   */
+  readSingleItemsZones: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsZones"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing zones item.
+   */
+  deleteSingleItemsZones: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing zones item.
+   */
+  updateSingleItemsZones: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsZones"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsZones"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the liff_tokens items.
+   */
+  readItemsLiffTokens: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsLiffTokens"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new liff_tokens item.
+   */
+  createItemsLiffTokens: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsLiffTokens"][] | components["schemas"]["ItemsLiffTokens"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing liff_tokens items.
+   */
+  deleteItemsLiffTokens: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple liff_tokens items at the same time.
+   */
+  updateItemsLiffTokens: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsLiffTokens"][] | components["schemas"]["ItemsLiffTokens"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single liff_tokens item by unique identifier.
+   */
+  readSingleItemsLiffTokens: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsLiffTokens"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing liff_tokens item.
+   */
+  deleteSingleItemsLiffTokens: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing liff_tokens item.
+   */
+  updateSingleItemsLiffTokens: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsLiffTokens"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsLiffTokens"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the test2 items.
+   */
+  readItemsTest2: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsTest2"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new test2 item.
+   */
+  createItemsTest2: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsTest2"][] | components["schemas"]["ItemsTest2"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing test2 items.
+   */
+  deleteItemsTest2: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple test2 items at the same time.
+   */
+  updateItemsTest2: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsTest2"][] | components["schemas"]["ItemsTest2"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single test2 item by unique identifier.
+   */
+  readSingleItemsTest2: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsTest2"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing test2 item.
+   */
+  deleteSingleItemsTest2: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing test2 item.
+   */
+  updateSingleItemsTest2: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsTest2"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsTest2"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the channel_notifications items.
+   */
+  readItemsChannelNotifications: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelNotifications"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new channel_notifications item.
+   */
+  createItemsChannelNotifications: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelNotifications"][] | components["schemas"]["ItemsChannelNotifications"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing channel_notifications items.
+   */
+  deleteItemsChannelNotifications: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple channel_notifications items at the same time.
+   */
+  updateItemsChannelNotifications: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelNotifications"][] | components["schemas"]["ItemsChannelNotifications"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single channel_notifications item by unique identifier.
+   */
+  readSingleItemsChannelNotifications: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelNotifications"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing channel_notifications item.
+   */
+  deleteSingleItemsChannelNotifications: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing channel_notifications item.
+   */
+  updateSingleItemsChannelNotifications: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelNotifications"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelNotifications"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the pages_liff_vouchers_brands items.
+   */
+  readItemsPagesLiffVouchersBrands: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchersBrands"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new pages_liff_vouchers_brands item.
+   */
+  createItemsPagesLiffVouchersBrands: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchersBrands"][] | components["schemas"]["ItemsPagesLiffVouchersBrands"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing pages_liff_vouchers_brands items.
+   */
+  deleteItemsPagesLiffVouchersBrands: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple pages_liff_vouchers_brands items at the same time.
+   */
+  updateItemsPagesLiffVouchersBrands: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchersBrands"][] | components["schemas"]["ItemsPagesLiffVouchersBrands"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single pages_liff_vouchers_brands item by unique identifier.
+   */
+  readSingleItemsPagesLiffVouchersBrands: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchersBrands"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing pages_liff_vouchers_brands item.
+   */
+  deleteSingleItemsPagesLiffVouchersBrands: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing pages_liff_vouchers_brands item.
+   */
+  updateSingleItemsPagesLiffVouchersBrands: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchersBrands"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchersBrands"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the channel_outboxes items.
+   */
+  readItemsChannelOutboxes: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelOutboxes"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new channel_outboxes item.
+   */
+  createItemsChannelOutboxes: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelOutboxes"][] | components["schemas"]["ItemsChannelOutboxes"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing channel_outboxes items.
+   */
+  deleteItemsChannelOutboxes: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple channel_outboxes items at the same time.
+   */
+  updateItemsChannelOutboxes: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelOutboxes"][] | components["schemas"]["ItemsChannelOutboxes"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single channel_outboxes item by unique identifier.
+   */
+  readSingleItemsChannelOutboxes: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelOutboxes"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing channel_outboxes item.
+   */
+  deleteSingleItemsChannelOutboxes: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing channel_outboxes item.
+   */
+  updateSingleItemsChannelOutboxes: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsChannelOutboxes"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsChannelOutboxes"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the vouchers_translations items.
+   */
+  readItemsVouchersTranslations: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersTranslations"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new vouchers_translations item.
+   */
+  createItemsVouchersTranslations: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersTranslations"][] | components["schemas"]["ItemsVouchersTranslations"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing vouchers_translations items.
+   */
+  deleteItemsVouchersTranslations: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple vouchers_translations items at the same time.
+   */
+  updateItemsVouchersTranslations: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersTranslations"][] | components["schemas"]["ItemsVouchersTranslations"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single vouchers_translations item by unique identifier.
+   */
+  readSingleItemsVouchersTranslations: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersTranslations"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing vouchers_translations item.
+   */
+  deleteSingleItemsVouchersTranslations: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing vouchers_translations item.
+   */
+  updateSingleItemsVouchersTranslations: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersTranslations"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersTranslations"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the advance_profiles items.
+   */
+  readItemsAdvanceProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdvanceProfiles"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new advance_profiles item.
+   */
+  createItemsAdvanceProfiles: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdvanceProfiles"][] | components["schemas"]["ItemsAdvanceProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing advance_profiles items.
+   */
+  deleteItemsAdvanceProfiles: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple advance_profiles items at the same time.
+   */
+  updateItemsAdvanceProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdvanceProfiles"][] | components["schemas"]["ItemsAdvanceProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single advance_profiles item by unique identifier.
+   */
+  readSingleItemsAdvanceProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdvanceProfiles"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing advance_profiles item.
+   */
+  deleteSingleItemsAdvanceProfiles: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing advance_profiles item.
+   */
+  updateSingleItemsAdvanceProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsAdvanceProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsAdvanceProfiles"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the profiles items.
+   */
+  readItemsProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsProfiles"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new profiles item.
+   */
+  createItemsProfiles: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsProfiles"][] | components["schemas"]["ItemsProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing profiles items.
+   */
+  deleteItemsProfiles: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple profiles items at the same time.
+   */
+  updateItemsProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsProfiles"][] | components["schemas"]["ItemsProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single profiles item by unique identifier.
+   */
+  readSingleItemsProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsProfiles"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing profiles item.
+   */
+  deleteSingleItemsProfiles: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing profiles item.
+   */
+  updateSingleItemsProfiles: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsProfiles"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsProfiles"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the pages_liff_vouchers items.
+   */
+  readItemsPagesLiffVouchers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchers"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new pages_liff_vouchers item.
+   */
+  createItemsPagesLiffVouchers: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchers"][] | components["schemas"]["ItemsPagesLiffVouchers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing pages_liff_vouchers items.
+   */
+  deleteItemsPagesLiffVouchers: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple pages_liff_vouchers items at the same time.
+   */
+  updateItemsPagesLiffVouchers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchers"][] | components["schemas"]["ItemsPagesLiffVouchers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single pages_liff_vouchers item by unique identifier.
+   */
+  readSingleItemsPagesLiffVouchers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing pages_liff_vouchers item.
+   */
+  deleteSingleItemsPagesLiffVouchers: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing pages_liff_vouchers item.
+   */
+  updateSingleItemsPagesLiffVouchers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPagesLiffVouchers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPagesLiffVouchers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the point_transactions items.
+   */
+  readItemsPointTransactions: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPointTransactions"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new point_transactions item.
+   */
+  createItemsPointTransactions: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPointTransactions"][] | components["schemas"]["ItemsPointTransactions"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing point_transactions items.
+   */
+  deleteItemsPointTransactions: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple point_transactions items at the same time.
+   */
+  updateItemsPointTransactions: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPointTransactions"][] | components["schemas"]["ItemsPointTransactions"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single point_transactions item by unique identifier.
+   */
+  readSingleItemsPointTransactions: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPointTransactions"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing point_transactions item.
+   */
+  deleteSingleItemsPointTransactions: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing point_transactions item.
+   */
+  updateSingleItemsPointTransactions: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsPointTransactions"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsPointTransactions"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the referrals items.
+   */
+  readItemsReferrals: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsReferrals"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new referrals item.
+   */
+  createItemsReferrals: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsReferrals"][] | components["schemas"]["ItemsReferrals"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing referrals items.
+   */
+  deleteItemsReferrals: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple referrals items at the same time.
+   */
+  updateItemsReferrals: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsReferrals"][] | components["schemas"]["ItemsReferrals"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single referrals item by unique identifier.
+   */
+  readSingleItemsReferrals: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsReferrals"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing referrals item.
+   */
+  deleteSingleItemsReferrals: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing referrals item.
+   */
+  updateSingleItemsReferrals: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsReferrals"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsReferrals"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the documents items.
+   */
+  readItemsDocuments: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsDocuments"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new documents item.
+   */
+  createItemsDocuments: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsDocuments"][] | components["schemas"]["ItemsDocuments"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing documents items.
+   */
+  deleteItemsDocuments: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple documents items at the same time.
+   */
+  updateItemsDocuments: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsDocuments"][] | components["schemas"]["ItemsDocuments"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: unknown;
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single documents item by unique identifier.
+   */
+  readSingleItemsDocuments: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsDocuments"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing documents item.
+   */
+  deleteSingleItemsDocuments: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing documents item.
+   */
+  updateSingleItemsDocuments: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsDocuments"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsDocuments"];
           };
         };
       };
@@ -26362,14 +29231,13 @@ export type Schema = {
   saas_terms: components["schemas"]["ItemsSaasTerms"][];
   saas_coupons: components["schemas"]["ItemsSaasCoupons"][];
   mail_outbox: components["schemas"]["ItemsMailOutbox"][];
-  chat_hubs_channels_hubs: components["schemas"]["ItemsChatHubsChannelsHubs"][];
   bot_documents_files: components["schemas"]["ItemsBotDocumentsFiles"][];
   bots_model: components["schemas"]["ItemsBotsModel"][];
-  channels_hubs: components["schemas"]["ItemsChannelsHubs"][];
   saas_features: components["schemas"]["ItemsSaasFeatures"][];
   bots_datasources_fields: components["schemas"]["ItemsBotsDatasourcesFields"][];
   tmp: components["schemas"]["ItemsTmp"][];
   bots_muted_users: components["schemas"]["ItemsBotsMutedUsers"][];
+  vouchers_users: components["schemas"]["ItemsVouchersUsers"][];
   vouchers: components["schemas"]["ItemsVouchers"][];
   orders: components["schemas"]["ItemsOrders"][];
   products: components["schemas"]["ItemsProducts"][];
@@ -26377,7 +29245,6 @@ export type Schema = {
   vouchers_codes: components["schemas"]["ItemsVouchersCodes"][];
   orderbots_channels: components["schemas"]["ItemsOrderbotsChannels"][];
   user_profile: components["schemas"]["ItemsUserProfile"][];
-  vouchers_users: components["schemas"]["ItemsVouchersUsers"][];
   bots_orders: components["schemas"]["ItemsBotsOrders"][];
   saas_teams_invites: components["schemas"]["ItemsSaasTeamsInvites"][];
   bots_fallback: components["schemas"]["ItemsBotsFallback"][];
@@ -26387,15 +29254,29 @@ export type Schema = {
   saas_coupons_translations: components["schemas"]["ItemsSaasCouponsTranslations"][];
   tasks: components["schemas"]["ItemsTasks"][];
   mail_templates: components["schemas"]["ItemsMailTemplates"][];
-  hubs_channels_hubs: components["schemas"]["ItemsHubsChannelsHubs"][];
+  vouchers_brands: components["schemas"]["ItemsVouchersBrands"][];
   test: components["schemas"]["ItemsTest"][];
   saas_terms_translations: components["schemas"]["ItemsSaasTermsTranslations"][];
   bots_inquiries: components["schemas"]["ItemsBotsInquiries"][];
   chat_hubs: components["schemas"]["ItemsChatHubs"][];
   bot_documents: components["schemas"]["ItemsBotDocuments"][];
   chat_hubs_channels: components["schemas"]["ItemsChatHubsChannels"][];
-  vouchers_brands: components["schemas"]["ItemsVouchersBrands"][];
-  bots_documents: components["schemas"]["ItemsBotsDocuments"][];
   lead_submissions: components["schemas"]["ItemsLeadSubmissions"][];
+  beacons: components["schemas"]["ItemsBeacons"][];
+  bots_documents: components["schemas"]["ItemsBotsDocuments"][];
+  locations: components["schemas"]["ItemsLocations"][];
+  zones: components["schemas"]["ItemsZones"][];
+  liff_tokens: components["schemas"]["ItemsLiffTokens"][];
+  test2: components["schemas"]["ItemsTest2"][];
+  channel_notifications: components["schemas"]["ItemsChannelNotifications"][];
+  pages_liff_vouchers_brands: components["schemas"]["ItemsPagesLiffVouchersBrands"][];
+  channel_outboxes: components["schemas"]["ItemsChannelOutboxes"][];
+  vouchers_translations: components["schemas"]["ItemsVouchersTranslations"][];
+  advance_profiles: components["schemas"]["ItemsAdvanceProfiles"][];
+  profiles: components["schemas"]["ItemsProfiles"][];
+  pages_liff_vouchers: components["schemas"]["ItemsPagesLiffVouchers"][];
+  point_transactions: components["schemas"]["ItemsPointTransactions"][];
+  referrals: components["schemas"]["ItemsReferrals"][];
+  documents: components["schemas"]["ItemsDocuments"][];
 };
 

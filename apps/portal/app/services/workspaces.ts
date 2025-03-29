@@ -7,8 +7,10 @@ import {
   WorkspaceChannel,
   WorkspaceFacebookAdAccount,
   WorkspaceMember,
+  WorkspaceDocument,
 } from "~/@types/app";
 import api from "./api";
+import { CreateWorkspaceDocument } from "~/@types/app/document";
 
 export const fetchWorkspaces = () =>
   api.get<{ items: Workspace[] }>("/workspaces");
@@ -98,4 +100,26 @@ export const updateWorkspaceBot = (
 
 export const deleteWorkspaceBot = (id: string, botId: string) => {
   return api.delete(`/workspaces/${id}/bots/${botId}`);
+}
+
+// -------- WORKSPACE DOCUMENTS --------
+export const fetchWorkspaceDocuments = (id: string) =>
+  api.get<{ items: WorkspaceDocument[] }>("/workspaces/" + id + "/documents");
+
+export const fetchWorkspaceDocument = (id: string, documentId: string) =>
+  api.get<WorkspaceDocument>(`/workspaces/${id}/documents/${documentId}`);
+
+export const insertWorkspaceDocument = (id: string, data: CreateWorkspaceDocument) =>
+  api.post<WorkspaceDocument>(`/workspaces/${id}/documents`, data);
+
+export const updateWorkspaceDocument = (
+  id: string,
+  documentId: string,
+  data: WorkspaceDocument
+) => {
+  return api.patch(`/workspaces/${id}/documents/${documentId}`, data);
+}
+
+export const deleteWorkspaceDocument = (id: string, documentId: string) => {
+  return api.delete(`/workspaces/${id}/documents/${documentId}`);
 }
