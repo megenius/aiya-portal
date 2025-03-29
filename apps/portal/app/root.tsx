@@ -73,34 +73,69 @@ const queryClient = new QueryClient({
 export default function App() {
   useEffect(() => {
     const state = store.getState().auth;
-    if (state.refreshToken && state.expiresAt) {
-      console.log({ refreshToken: state.refreshToken, expiresAt: state.expiresAt });
+    const { refreshToken, expiresAt } = state;
+    
+    if (!refreshToken || !expiresAt) return;
+    
+    // Calculate time until token expires (in milliseconds)
+    const expiresAtDate = new Date(expiresAt);
+    const now = new Date();
+    const timeUntilExpiry = expiresAtDate.getTime() - now.getTime();
+    
+    // If token is expired or will expire soon, renew immediately
+    if (timeUntilExpiry < 5 * 60 * 1000) {
+      console.log("Token expired or expiring soon, renewing now");
       store.dispatch(renewToken());
+      return;
     }
+    
+    // Set up token renewal before expiration
+    console.log(`Token will be renewed in ${Math.floor((timeUntilExpiry - 5 * 60 * 1000) / 60000)} minutes`);
+    const renewalTimer = setTimeout(() => {
+      console.log("Renewing token before expiration");
+      store.dispatch(renewToken());
+    }, timeUntilExpiry - 5 * 60 * 1000); // Renew 5 minutes before expiry
+    
+    return () => {
+      console.log("Clearing token renewal timer");
+      clearTimeout(renewalTimer);
+    };
   }, []);
 
   return (
-    <Suspense fallback={
-      <div className="flex justify-center items-center h-screen">
-        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
-      </div>
-    }>
+    <Suspense fallback={<LoadingFallback />}>
       <PrelineScript />
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={<LoadingFallback />} persistor={persistor}>
           <I18nextProvider i18n={i18n}>
             <QueryClientProvider client={queryClient}>
               <Outlet />
+              <ToastContainer 
+                autoClose={1000} 
+                position="top-center" 
+                hideProgressBar 
+                transition={Slide} 
+                limit={3}
+                closeOnClick
+                draggable
+              />
             </QueryClientProvider>
           </I18nextProvider>
         </PersistGate>
       </Provider>
-      <ToastContainer autoClose={1000} position={"top-center"} hideProgressBar transition={Slide} />
     </Suspense>
+  );
+}
 
-  )
+function LoadingFallback() {
+  return (
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-50 dark:bg-neutral-900">
+      <Loader2 className="h-12 w-12 animate-spin text-blue-500 mb-4" />
+      {/* <p className="text-gray-600 dark:text-gray-300 font-medium">Loading application...</p> */}
+    </div>
+  );
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return <div></div> 
 }
