@@ -4,26 +4,16 @@ import { useEffect } from "react";
 import { useAppSelector } from "~/store";
 import { Suspense } from "react"
 import { ClientOnly } from "remix-utils/client-only"
+import { usePrelineInit } from "~/hooks/usePrelineInit";
 // const MainContent = React.lazy(() => import("./_components/MainContent"))
 
 import { Bot } from "~/@types/app";
 import MainContent from "./_components/MainContent";
+import { use } from "i18next";
 
 const Route = () => {
-  const navigate = useNavigate()
   const { bot } = useOutletContext<{ bot: Bot }>();
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     window.location.href = '/';
-  //   }
-  // }, [isAuthenticated]);
-
-  // if (isAuthenticated) {
-  //   return <div></div>
-  // }
-
+  
   return (
     <>
       <Suspense fallback="">

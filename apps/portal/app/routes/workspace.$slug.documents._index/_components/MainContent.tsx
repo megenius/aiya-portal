@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Loading } from "@repo/preline"
 import { useNavigate, useParams } from '@remix-run/react';
 import MainContainer from '~/components/MainContainer';
@@ -11,6 +11,7 @@ import { getDirectusFileUrl } from '~/utils/files';
 import { useDropzone } from 'react-dropzone-esm';
 import { useWorkspaceDocuments } from '~/hooks/workspace/useWorkspaceDocuments';
 import { insertWorkspaceDocument, deleteWorkspaceDocument } from '~/services/workspaces';
+import FileListView from './FileListView';
 
 interface MainContentProps {
   workspace: Workspace
@@ -57,6 +58,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           name: file.name,
           src: data?.id,
           src_file_size: data?.filesize,
+          src_minetype: data?.type,
           status: 'draft',
         });
 
@@ -118,7 +120,6 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
           <PageFilter onChanged={handleSearchChange} />
 
-          {/* View Mode Toggle */}
           <div className="flex items-center">
             <nav className="flex items-center space-x-2" aria-label="Tabs" role="tablist">
               <button
@@ -162,11 +163,11 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
             <Loading />
           </div>
         ) : (
-          <DocumentList
-            documents={filteredDocuments}
-            onDelete={handleDeleteDocument}
-            viewMode={viewMode} // Pass the viewMode prop to DocumentList
-          />
+          <FileListView initialView='list' documents={filteredDocuments} onDelete={handleDeleteDocument} />
+          // <DocumentList
+          //   documents={filteredDocuments}
+          //   onDelete={handleDeleteDocument}
+          // />
         )}
       </MainContainer>
 

@@ -816,7 +816,7 @@ export const createWorkspaceDocument = factory.createHandlers(
       const workspaceId = c.req.param("id") as string;
       const directus = c.get("directus");
       const body = await c.req.json();
-
+      
       const item = await directus.request(
         createItem("documents", {
           ...body,
