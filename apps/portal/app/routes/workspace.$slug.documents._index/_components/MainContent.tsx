@@ -58,7 +58,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           name: file.name,
           src: data?.id,
           src_file_size: data?.filesize,
-          src_minetype: data?.type,
+          src_mimetype: data?.type,
           status: 'draft',
         });
 

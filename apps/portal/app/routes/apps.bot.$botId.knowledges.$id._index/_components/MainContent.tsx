@@ -49,22 +49,23 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
+
   useEffect(() => {
     setSearchIntent(searchParams.get('q') || '');
   }, [searchParams]);
 
 
-  useEffect(() => {
-    async function initializePreline() {
-      const { HSAccordion, HSOverlay } = await import('preline/preline');
-      setTimeout(() => {
-        HSAccordion.autoInit();
-        HSOverlay.autoInit();
-      }, 500);
-    }
+  // useEffect(() => {
+  //   async function initializePreline() {
+  //     const { HSAccordion, HSOverlay } = await import('preline/preline');
+  //     setTimeout(() => {
+  //       HSAccordion.autoInit();
+  //       HSOverlay.autoInit();
+  //     }, 500);
+  //   }
 
-    initializePreline();
-  }, [intents]);
+  //   initializePreline();
+  // }, [intents]);
 
 
   const onIntentRemove = useCallback(async (intentId: string) => {

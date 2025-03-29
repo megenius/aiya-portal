@@ -24,6 +24,7 @@ export const getProvider = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     try {
+      const mode = c.req.query("mode");
       const providerId = c.req.param("providerId");
       const directus = c.get("directus");
       const items = await directus.request(
@@ -34,9 +35,12 @@ export const getProvider = factory.createHandlers(
               // @ts-ignore
               "bots.bot_id": [
                 "*",
+                { model: ["id", "max_input_tokens", "max_output_tokens", "provider"] },
                 { datasources: ["*", { tables: ["*", { fields: ["*"] }] }] },
                 { muted_users: ["uid"] },
                 { orders: ["name", "template", "metadata"] },
+                { documents: ["id", "language", "description", "text", "example_queries", "json_data"] },
+
               ],
             },
             // {
@@ -81,10 +85,6 @@ export const getProvider = factory.createHandlers(
             check_slip: 1
           },
         };
-
-
-        console.log(response);
-        
 
         return c.json(response);
       }

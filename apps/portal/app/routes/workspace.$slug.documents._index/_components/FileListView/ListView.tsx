@@ -4,55 +4,6 @@ import { FileIcon } from './FileIcon';
 import { WorkspaceDocument } from '~/@types/app';
 import FileSize from './FileSize';
 
-// Sample data - you would likely fetch this or receive as props
-const files: FileItem[] = [
-  {
-    id: '1',
-    name: 'Untitled',
-    type: 'pdf',
-    fileType: 'PDF',
-    size: '309 kb',
-    imageUrl: 'https://images.unsplash.com/photo-1678851836066-dc27614cc56b?q=80&w=480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    dateModified: new Date(),
-  },
-  {
-    id: '2',
-    name: 'January 2025 Invoice',
-    type: 'document',
-    fileType: 'DOCX',
-    size: '20 kb',
-    icon: 'word',
-    dateModified: new Date(),
-  },
-  {
-    id: '3',
-    name: '2024 Audit',
-    type: 'spreadsheet',
-    fileType: 'XLS',
-    size: '58 kb',
-    icon: 'excel',
-    dateModified: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: '4',
-    name: 'Desk - House Renovation',
-    type: 'image',
-    fileType: 'JPG',
-    size: '1.2 MB',
-    imageUrl: 'https://images.unsplash.com/photo-1737233504527-c5033f0f1430?q=80&w=480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    dateModified: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: '5',
-    name: 'Assignment presentation',
-    type: 'document',
-    fileType: 'PPT',
-    size: '2.5 MB',
-    icon: 'powerpoint',
-    dateModified: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
-  },
-];
-
 interface ListViewProps {
   // You might want to pass files as props in a real implementation
   documents: WorkspaceDocument[];
@@ -106,7 +57,7 @@ const ListView: React.FC<ListViewProps> = ({ documents, onDelete }) => {
                 <div className="col-span-10 md:col-span-8 xl:col-span-7 2xl:col-span-8">
                   <div className="flex items-center gap-x-2 truncate">
                     <div className="size-8 flex shrink-0 justify-center items-center rounded-lg">
-                      <FileIcon fileType={file.src_minetype || ""} />
+                      <FileIcon fileType={file.src_mimetype || ""} />
                     </div>
                     <p className="truncate text-sm font-medium text-gray-800 dark:text-neutral-200">
                       {file.name}
@@ -120,7 +71,7 @@ const ListView: React.FC<ListViewProps> = ({ documents, onDelete }) => {
                 </div>
                 <div className="md:col-span-2 hidden md:block">
                   <span className="text-xs text-gray-600 dark:text-neutral-400">
-                    {file.src_minetype || ""}
+                    {file.src_mimetype || ""}
                   </span>
                 </div>
                 <div className="xl:col-span-2 2xl:col-span-1 hidden xl:block">
