@@ -56,7 +56,7 @@ export const getProfilesByUserId = factory.createHandlers(
     const profiles = await directus.request(
       readItems("profiles", {
         filter: filters,
-        fields: ["*", { point_transactions: ["*"] }],
+        fields: ["*"], // Removed point_transactions field
       })
     );
 
@@ -64,29 +64,7 @@ export const getProfilesByUserId = factory.createHandlers(
       return c.json(null);
     }
 
-    const enrichedProfiles = profiles.map((profile: any) => {
-      const pointTransactions = profile.point_transactions || [];
-      const totalPoints = pointTransactions.reduce((sum: number, transaction: any) => {
-        
-        if (transaction.transaction_type === "earn") {
-          return sum + transaction.points_amount;
-        } else if (transaction.transaction_type === "burn") {
-          return sum - transaction.points_amount;
-        }        
-        return sum; // Ignore other types
-      }, 0);
-
-      return {
-        ...profile,
-        totalPoints,
-      };
-    });
-
-    if (enrichedProfiles.length === 1) {
-      return c.json(enrichedProfiles[0]);
-    }
-
-    return c.json(enrichedProfiles);
+    return c.json(profiles);
   }
 );
 
@@ -126,13 +104,32 @@ export const getProfile = factory.createHandlers(
   async (c) => {
     const { id } = c.req.param();
     const directus = c.get("directAdmin");
-    const profile = await directus.request(readItem("profiles", id));
+
+    const profile = await directus.request(
+      readItem("profiles", id, {
+        fields: ["*", { point_transactions: ["*"] }],
+      })
+    );
 
     if (!profile) {
       return c.json(null);
     }
 
-    return c.json(profile);
+    // Enrich profile with totalPoints
+    const pointTransactions = profile.point_transactions || [];
+    const totalPoints = pointTransactions.reduce((sum: number, transaction: any) => {
+      if (transaction.transaction_type === "earn") {
+        return sum + transaction.points_amount;
+      } else if (transaction.transaction_type === "burn") {
+        return sum - transaction.points_amount;
+      }
+      return sum; // Ignore other types
+    }, 0);
+
+    return c.json({
+      ...profile,
+      totalPoints,
+    });
   }
 );
 

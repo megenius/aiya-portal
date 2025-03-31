@@ -85,31 +85,24 @@ const Route = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const buttonText = {
-    instant: {
-      th: "เก็บคูปอง",
-      en: "Collect",
+    th: {
+      instant: "เก็บคูปอง",
+      form: "ลงทะเบียน",
+      collected: "ใช้คูปอง",
+      used: "ใช้แล้ว",
+      expired: "หมดอายุแล้ว",
+      fully_collected: "หมดแล้ว",
     },
-    form: {
-      th: "ลงทะเบียน",
-      en: "Register",
-    },
-    collected: {
-      th: "ใช้คูปอง",
-      en: "Redeem",
-    },
-    used: {
-      th: "ใช้แล้ว",
-      en: "Redeemed",
-    },
-    expired: {
-      th: "หมดอายุแล้ว",
-      en: "Expired",
-    },
-    fully_collected: {
-      th: "หมดแล้ว",
-      en: "Fully Collected",
+    en: {
+      instant: "Collect",
+      form: "Register",
+      collected: "Redeem",
+      used: "Redeemed",
+      expired: "Expired",
+      fully_collected: "Fully Collected",
     },
   };
   const status = myVoucher
@@ -137,7 +130,7 @@ const Route = () => {
       setPageState("form");
       return;
     }
-
+    setIsSubmitting(true);
     const collectVoucherData: CollectVoucher = {
       voucher: voucher?.id as string,
       collected_by: profile?.userId as string,
@@ -174,6 +167,9 @@ const Route = () => {
           // }
         },
       }
+    ).finally(() => {
+      setIsSubmitting(false);
+    }
     );
   };
 
@@ -207,10 +203,10 @@ const Route = () => {
         )}
         <Footer
           color={voucher.voucher_brand_id.primaryColor ?? ""}
-          buttonText={buttonText[status][lang]}
+          buttonText={isSubmitting ? "Collecting" : buttonText[lang][status]}
           status={status}
           onClick={handleSubmit}
-          disabled={pageState === "form" && !isFormValid}
+          disabled={pageState === "form" && !isFormValid || isSubmitting}
         />
 
         <FullyCollectedModal
