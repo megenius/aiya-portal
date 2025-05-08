@@ -672,7 +672,7 @@ export const createWorkspaceBot = factory.createHandlers(
       await directus.request(
         createItem("channels_bots", {
           channel_id: channel.id,
-          bot_id: item.id
+          bot_id: item.id,
         })
       );
 
@@ -754,3 +754,134 @@ export const deleteWorkspaceBot = factory.createHandlers(
     }
   }
 );
+
+// --------------- WORKSPACE DOCUMENTS  ---------------
+//get workspace documents
+export const getWorkspaceDocuments = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const items = await directus.request(
+        readItems("documents", {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+
+      return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//get workspace document
+export const getWorkspaceDocument = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const documentId = c.req.param("documentId") as string;
+      const directus = c.get("directus");
+      const item = await directus.request(
+        readItem("documents", documentId, {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//create workspace document
+export const createWorkspaceDocument = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const body = await c.req.json();
+      
+      const item = await directus.request(
+        createItem("documents", {
+          ...body,
+          team: workspaceId,
+          // date_created: new Date(),
+          // date_updated: new Date(),
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+});
+
+//update workspace document
+export const updateWorkspaceDocument = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const documentId = c.req.param("documentId") as string;
+      const directus = c.get("directus");
+      const body = await c.req.json();
+      const item = await directus.request(
+        updateItem("documents", documentId, {
+          ...body,
+          team: workspaceId,
+          date_updated: new Date(),
+        })
+      );
+      return c.json(item);
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+//delete workspace document
+export const deleteWorkspaceDocument = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const documentId = c.req.param("documentId") as string;
+      const directus = c.get("directus");
+      console.log("deleteWorkspaceDocument", workspaceId, documentId);
+      
+      await directus.request(
+        updateItem("saas_teams", workspaceId, {
+          documents: {
+            delete: [documentId],
+          },
+        })
+      );
+
+      // Delete the document itself
+      await directus.request(deleteItem("documents", documentId));
+      console.log("Document deleted successfully");
+      
+      return c.json({ workspace_id: workspaceId, document_id: documentId });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+

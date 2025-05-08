@@ -1,4 +1,4 @@
-import { Bolt, Box, CircleDollarSign, HeartHandshake, Package, Settings, ShoppingCart, UserCog, Users } from "lucide-react";
+import { Bolt, Box, CircleDollarSign, FileText, HeartHandshake, Megaphone, Package, Settings, ShoppingCart, UserCog, Users } from "lucide-react";
 import { SidebarLink } from "./types";
 
 
@@ -37,7 +37,14 @@ export const sidebarLinks: SidebarLink[] = [
     to: "ad-accounts",
     label: "Ad Accounts",
     icon: (
-      <Package size={18} />
+      <Megaphone size={18} />
+    )
+  },
+  {
+    to: "documents",
+    label: "Documents",
+    icon: (
+      <FileText size={18} />
     )
   },
   // {
