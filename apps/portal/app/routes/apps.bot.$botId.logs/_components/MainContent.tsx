@@ -153,7 +153,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                     </div>
                   </div>
                 </td>
-                <td className="size-px whitespace-nowrap px-4 py-3 text-wrap">
+                <td className="size-px max-w-[250px] break-words whitespace-normal px-4 py-3 text-wrap">
                   <span className="text-sm text-gray-600 dark:text-neutral-400">
                     {item.sentence}
                   </span>
