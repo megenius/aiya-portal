@@ -454,9 +454,10 @@ export const getStatsHandler = factory.createHandlers(
         },
         fallback_analysis: {
           filter: {
-            term: {
-              fallback: 1,
-            },
+            // term: {
+            //   fallback: 1,
+            // },
+            term: { "action.keyword": "Fallback" } 
           },
           aggs: {
             by_platform: {
