@@ -47,7 +47,7 @@ export const getLogsHandler = factory.createHandlers(
   }
 );
 
-export const getTodayStatsHandler = factory.createHandlers(
+export const getStatsHandler = factory.createHandlers(
   opensearchMiddleware,
   async (c: Context<Env>) => {
     const opensearch = c.get("opensearch");
