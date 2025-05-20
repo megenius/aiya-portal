@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import { Bot, BotLog, Channel, PageInfo, Workspace } from "~/@types/app";
+import { Bot, PageInfo } from "~/@types/app";
 import * as _ from "lodash";
 import MemberTableFilter from "./MemberTableFilter";
-import { format, formatDistance } from "date-fns";
-import { useFacebookSDK } from "~/hooks/useFacebookSDK";
-import { Loading } from "@repo/preline";
-import { useBotOrders } from "~/hooks/bot/useBotOrders";
-import { NumericFormat } from "react-number-format";
 import ContactTable from "./ContactTable";
 
 interface MainContentProps {

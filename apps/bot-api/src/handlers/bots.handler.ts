@@ -472,7 +472,7 @@ export const unmuteUserHandler = factory.createHandlers(
       );
     }
 
-    return c.json({});
+    return c.json({botId});
   }
 );
 
