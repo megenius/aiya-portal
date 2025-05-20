@@ -1,5 +1,5 @@
 // ContactTable.tsx
-import React, { useState } from "react";
+import React from "react";
 import ToggleSwitch from "./ToggleSwitch";
 import { useBotContacts } from "~/hooks/bot/useBotContacts";
 import { useBotMutedUsers } from "~/hooks/bot/useBotMutedUsers";
@@ -108,7 +108,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                   <td className="size-px whitespace-nowrap px-4 py-3">
                     {contact.profile ? (
                       <Avatar
-                        className="border"
+                        className="border border-gray-300"
                         src={contact.profile.pictureUrl}
                         firstName={contact.profile.displayName?.charAt(0)}
                       />
@@ -144,6 +144,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
                     <div className="flex justify-center items-center">
                       {contact.channel?.platform !== 'Website' ? (
                         <ToggleSwitch
+                          botId={botId}
                           contact={contact}
                           initialChecked={
                             !mutedBotUsers?.some(
