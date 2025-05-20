@@ -4,7 +4,7 @@ import { BotMutedUser } from "~/@types/app";
 import { insertBotMutedUser } from "~/services/bots";
 
 interface MutationFn {
-  variables: BotMutedUser;
+  variables: Partial<BotMutedUser>;
 }
 
 export const useBotMutedUsersInsert = () => {

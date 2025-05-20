@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { BotLog } from "~/@types/app";
+import { BotLog, BotMutedUser } from "~/@types/app";
 import { useBotMutedUsersDelete } from "~/hooks/bot/useBotMutedUsersDelete";
 import { useBotMutedUsersInsert } from "~/hooks/bot/useBotMutedUsersInsert";
 import BotDeactivateModal from "./BotDeactivateModal";
 import { toMillisecond } from "~/utils/utils";
 
 interface ToggleButtonProps {
+  botId: string;
   contact: BotLog;
   initialChecked?: boolean;
 }
 
 const ToggleButton: React.FC<ToggleButtonProps> = ({
+  botId,
   contact,
   initialChecked = false,
 }) => {
@@ -21,21 +23,24 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDeactivateBot = (duration: number | "permanent") => {
-    console.log(
-      `Bot will be deactivated for: ${
-        duration === "permanent" ? "forever" : `${duration} hours`
-      }`
-    );
+    // console.log(
+    //   `Bot will be deactivated for: ${
+    //     duration === "permanent" ? "forever" : `${duration} hours`
+    //   }`
+    // );
+    const data: Partial<BotMutedUser> = {
+      bot: botId,
+      provider_id: contact.provider_id,
+      uid: contact.social_id,
+      expires_on:
+        duration === "permanent"
+          ? new Date(Date.now() + toMillisecond(30, "day")).toISOString()
+          : new Date(
+              Date.now() + toMillisecond(duration, "minute")
+            ).toISOString(),
+    };
     insertBotMutedUser.mutate({
-      variables: {
-        id: "",
-        bot: contact.bot_id,
-        provider_id: contact.provider_id,
-        uid: contact.social_id,
-        expires_on: duration === "permanent" 
-          ? new Date(Date.now() + toMillisecond(30,'day')).toISOString() 
-          : new Date(Date.now() + toMillisecond(duration,'minute')).toISOString(),
-      },
+      variables: data,
     });
     setIsChecked(false);
   };
@@ -52,7 +57,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
         setIsModalOpen(true);
       } else {
         deleteBotMutedUser.mutate({
-          botId: contact.bot_id,
+          botId: botId,
           uid: contact.social_id,
         });
         setIsChecked(checked);
@@ -67,7 +72,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   return (
     <>
       <button
-        className={`p-2 rounded-lg ease-in-out duration-500 hover:brightness-90 border flex items-center justify-center ${
+        className={`p-2 rounded-lg ease-in-out duration-500 hover:brightness-90 flex items-center justify-center ${
           isChecked ? "bg-blue-600" : "bg-gray-300"
         }`}
         onClick={handleClick}

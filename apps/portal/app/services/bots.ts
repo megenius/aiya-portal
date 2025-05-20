@@ -244,7 +244,7 @@ export const fetchBotInquiries = (botId: string) =>
 export const fetchBotMutedUsers = (botId: string) =>
   api.get<{uid:string}[]>(`/bots/${botId}/muted-users`);
 
-export const insertBotMutedUser = (data:BotMutedUser) =>
+export const insertBotMutedUser = (data:Partial<BotMutedUser>) =>
   api.post(`/bots/${data.bot}/muted-users`, data);
 
 export const deleteBotMutedUsers = ({botId,uid}) =>
