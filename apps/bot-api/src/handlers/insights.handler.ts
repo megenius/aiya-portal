@@ -624,10 +624,8 @@ export const getLatestLogs = factory.createHandlers(
       .order("created", { ascending: false })
       .order("social_id", { ascending: false });
 
-    console.log("Latest logs:", data ? data[0] : "No data");
-
     if (error || !data) {
-      console.error("❌ Supabase Error:", error?.message);
+      console.error("Supabase Error:", error?.message);
       return c.json({ error: error?.message || "Failed to fetch logs" }, 400);
     }
 
@@ -681,7 +679,7 @@ export const getLatestLogs = factory.createHandlers(
                 // ถ้าในอนาคตรองรับ batch API สามารถเปลี่ยนตรงนี้ได้
               } catch (profileError) {
                 console.warn(
-                  `⚠️ Failed to fetch profile for ${item.social_id}:`,
+                  `Failed to fetch profile for ${item.social_id}:`,
                   profileError
                 );
               }
@@ -694,7 +692,7 @@ export const getLatestLogs = factory.createHandlers(
 
       return c.json(latestLogsWithChannels);
     } catch (fetchError) {
-      console.error("❌ Failed to fetch channels or profiles:", fetchError);
+      console.error("Failed to fetch channels or profiles:", fetchError);
       return c.json({ error: "Failed to fetch channels or profiles" }, 500);
     }
   }
