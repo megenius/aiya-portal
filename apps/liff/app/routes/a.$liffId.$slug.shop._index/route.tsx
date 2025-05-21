@@ -1,4 +1,4 @@
-import { useOutletContext } from "@remix-run/react";
+import { useNavigate, useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import MainContent from "./components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
@@ -15,6 +15,7 @@ import { useProfile } from "~/hooks/Profiles/useProfile";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
+  const navigate = useNavigate();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
   const lang = "en";
@@ -29,15 +30,18 @@ const Route = () => {
     status: "published",
   });
 
-  const { data: userProfile, isLoading: isUserProfileLoading } = 
-    useProfile({ 
-      uid: profile?.userId || "",
-      liff_id: page.liff_id,
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
-    });
+  const { data: userProfile, isLoading: isUserProfileLoading } = useProfile({
+    uid: profile?.userId || "",
+    liff_id: page.liff_id,
+    enabled: isLoggedIn && !isProfileLoading && !!profile?.userId,
+  });
 
   if (!isLoggedIn || isProfileLoading || isUserProfileLoading) {
     return <Loading />;
+  }
+
+  if (!userProfile) {
+    navigate(`/a/${page.liff_id}/${page.slug}`);
   }
 
   if (
@@ -62,9 +66,9 @@ const Route = () => {
     <>
       {page?.liff_id && (
         <>
-          <Header 
-            page={page} 
-            profile={profile} 
+          <Header
+            page={page}
+            profile={profile}
             language={lang}
             userProfileId={userProfile?.id}
           />

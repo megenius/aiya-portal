@@ -1,22 +1,8 @@
-import { defer, json, LinksFunction, LoaderFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare"
-import { Await, Outlet, useLoaderData, useParams, useSearchParams, ShouldRevalidateFunction } from "@remix-run/react"
-import {
-  createDirectus,
-  authentication,
-  rest,
-  staticToken,
-  readItem,
-  readItems
-} from "@directus/sdk";
+import { json, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare"
+import { Outlet, useLoaderData, ShouldRevalidateFunction } from "@remix-run/react"
 import _ from 'lodash'
-import { Suspense, useEffect, useState } from "react";
-import liff from '@line/liff';
-import { PageLiff } from "~/types/page";
-import DynamicFavicon from "~/components/DynamicFavicon";
-import { useGetPageLiff } from "~/hooks/useGetPageLiff";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import { useLineLiff } from "~/hooks/useLineLiff";
-import Loading from "~/components/Loading";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page

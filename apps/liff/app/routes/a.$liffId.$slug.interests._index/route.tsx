@@ -1,6 +1,4 @@
 import {
-  json,
-  MetaFunction,
   ShouldRevalidateFunction,
   useLoaderData,
   useSearchParams,
@@ -9,10 +7,9 @@ import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import MainContent from "./components/MainContent";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import { useEffect } from "react";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;

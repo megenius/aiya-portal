@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from '@remix-run/node';
-import { json, MetaFunction, Link, useLoaderData, useSearchParams } from '@remix-run/react';
+import { json, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { Link, useLoaderData, useSearchParams } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import { fetchByLiffIdAndSlug } from '~/services/page-liff';
 import { useLineProfile } from '~/hooks/useLineProfile';

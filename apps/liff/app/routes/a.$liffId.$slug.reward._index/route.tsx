@@ -1,8 +1,6 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
-  MetaFunction,
   ShouldRevalidateFunction,
-  json,
   useLoaderData,
 } from "@remix-run/react";
 import _ from "lodash";

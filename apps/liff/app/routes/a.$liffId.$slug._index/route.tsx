@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { json, MetaFunction, ShouldRevalidateFunction, useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
+import { json, MetaFunction } from '@remix-run/cloudflare';
+import { ShouldRevalidateFunction, useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import _ from 'lodash';
 import { useEffect } from 'react';
 import Loading from '~/components/Loading';
