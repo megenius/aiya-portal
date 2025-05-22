@@ -15,7 +15,7 @@ const textTruncateStyle = {
   maxWidth: "100%",
   whiteSpace: "nowrap" as const,
   overflow: "hidden" as const,
-  textOverflow: "ellipsis" as const
+  textOverflow: "ellipsis" as const,
 };
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
@@ -39,6 +39,11 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       en: "Expired",
     },
   };
+  const isExpired =
+    voucherUser.expired_date && new Date(voucherUser.expired_date) < new Date();
+  console.log("voucherUser", voucherUser);
+  console.log("isExpired", isExpired);
+
   let timeLeft = 0;
   if (voucherUser.used_date) {
     const usedDateTime = new Date(voucherUser.used_date).getTime();
@@ -54,7 +59,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
         <button
           className="flex w-full h-28 border rounded-lg overflow-hidden"
           onClick={() =>
-            voucherUser.code.code_status === "collected" ||
+            (!isExpired && voucherUser.code.code_status === "collected") ||
             (voucherUser.code.code_status === "used" && timeLeft > 0)
               ? onClick(voucherUser.id.toString())
               : null
@@ -63,61 +68,61 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
           <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
-              <img
-                src={getDirectusFileUrl(voucher.cover as string) ?? ""}
-                alt={title}
-                className="w-24 object-cover mr-3"
-              />
-              <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
-                <div className="w-full max-w-36 text-start">
-                  <h3 
-                    className="font-medium" 
-                    style={textTruncateStyle}
-                  >
-                    {voucher.voucher_brand_id?.name}
-                  </h3>
-                  <h4 
-                    className="text-sm text-gray-600" 
-                    style={textTruncateStyle}
-                  >
-                    {title}
-                  </h4>
-                </div>
-                <div className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}>
-                  {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
-                    <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                  )}
-                  {((voucherUser.code.code_status === "used" && timeLeft > 0) ||
+            <img
+              src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+              alt={title}
+              className="w-24 object-cover mr-3"
+            />
+            <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
+              <div className="w-full max-w-36 text-start">
+                <h3 className="font-medium" style={textTruncateStyle}>
+                  {voucher.voucher_brand_id?.name}
+                </h3>
+                <h4 className="text-sm text-gray-600" style={textTruncateStyle}>
+                  {title}
+                </h4>
+              </div>
+              <div
+                className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
+              >
+                {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
+                  <CheckCircle className="h-4 w-4 flex-shrink-0" />
+                )}
+                {!isExpired &&
+                  ((voucherUser.code.code_status === "used" && timeLeft > 0) ||
                     voucherUser.code.code_status === "collected") && (
                     <QrCode className="h-4 w-4 flex-shrink-0" />
                   )}
-                  {voucherUser.code.code_status === "expired" && (
-                    <XCircle className="h-4 w-4 flex-shrink-0" />
-                  )}
-                  <span 
-                    className="flex-1 text-start" 
-                    style={textTruncateStyle}
-                  >
-                    {voucherUser.code.code_status === "used" && timeLeft > 0
-                      ? voucherText["collected"][language]
+                {((isExpired && voucherUser.code.code_status !== "used") ||
+                  voucherUser.code.code_status === "expired") && (
+                  <XCircle className="h-4 w-4 flex-shrink-0" />
+                )}
+                <span className="flex-1 text-start" style={textTruncateStyle}>
+                  {voucherUser.code.code_status === "used" && timeLeft > 0
+                    ? voucherText["collected"][language]
+                    : isExpired && voucherUser.code.code_status !== "used"
+                      ? voucherText["expired"][language]
                       : voucherText[
                           voucherUser.code.code_status ?? "collected"
                         ][language]}
-                  </span>
-                </div>
+                </span>
               </div>
+            </div>
           </div>
 
           {/* Tear-off section (right side) */}
           <div
             className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
-            style={{ backgroundColor: voucher.voucher_brand_id.primaryColor || undefined }}
+            style={{
+              backgroundColor:
+                voucher.voucher_brand_id.primaryColor || undefined,
+            }}
           >
             <div className="transform -rotate-90">
               <div className="text-center space-y-2 overflow-hidden">
                 {/* <p className="text-xs">COUPON</p> */}
-                <p 
-                  className="text-base font-medium w-24" 
+                <p
+                  className="text-base font-medium w-24"
                   style={textTruncateStyle}
                 >
                   {voucher.voucher_brand_id?.name}

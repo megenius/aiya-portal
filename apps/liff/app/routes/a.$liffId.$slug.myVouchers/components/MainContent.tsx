@@ -27,9 +27,11 @@ const MainContent: React.FC<MainContentProps> = ({
       const now = new Date().getTime();
       timeLeft = Math.floor((expiryTime - now) / 1000);
     }
+    const isExpired = voucher.expired_date && new Date(voucher.expired_date) < new Date();
+    
     if (activeTab === "available") {
       return (
-        voucher.code.code_status === "collected" ||
+        !isExpired && voucher.code.code_status === "collected" ||
         (voucher.code.code_status === "used" && timeLeft > 0)
       );
     } else if (activeTab === "used") {

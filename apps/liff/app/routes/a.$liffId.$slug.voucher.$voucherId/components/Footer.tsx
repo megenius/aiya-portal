@@ -10,10 +10,10 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
   onClick = () => {},
-  buttonText = "เก็บคูปอง",
+  buttonText = "collected",
   color,
   status,
-  disabled = false,
+  disabled = true,
 }) => {
 
   return (
