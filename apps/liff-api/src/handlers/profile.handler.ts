@@ -97,6 +97,31 @@ export const getProfilesByType = factory.createHandlers(
   }
 );
 
+export const checkProfileExists = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { id } = c.req.param();
+    const directus = c.get("directAdmin");
+
+    try {
+      // readItem จะขอดึงมาแค่ฟิลด์ id
+      await directus.request(
+        readItem("profiles", id, { fields: ["id"] })
+      );
+      // ไม่ error แปลว่ามี
+      return c.json({ exists: true });
+    } catch (e: any) {
+      // ถ้าเป็น NotFoundError (404) แปลว่าไม่มี
+      if (e?.response?.status === 404) {
+        return c.json({ exists: false });
+      }
+      // error อื่นให้โยนต่อ
+      throw e;
+    }
+  }
+);
+
 // getProfile
 export const getProfile = factory.createHandlers(
   logger(),
@@ -110,6 +135,9 @@ export const getProfile = factory.createHandlers(
         fields: ["*", { point_transactions: ["*"] }],
       })
     );
+
+    console.log("Profile data:", profile);
+    
 
     if (!profile) {
       return c.json(null);
