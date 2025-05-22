@@ -8,6 +8,7 @@ profileRoutes.get("/:id", ...handler.getProfile);
 profileRoutes.post("/", ...handler.createProfile);
 profileRoutes.put("/:id", ...handler.updateProfile);
 profileRoutes.delete("/:id", ...handler.deleteProfile);
+profileRoutes.get("/check/:id", ...handler.checkProfileExists);
 profileRoutes.get("/user/:userId", ...handler.getProfilesByUserId);
 profileRoutes.get("/type/:profileType", ...handler.getProfilesByType);
 

@@ -106,9 +106,7 @@ export const checkProfileExists = factory.createHandlers(
 
     try {
       // readItem จะขอดึงมาแค่ฟิลด์ id
-      await directus.request(
-        readItem("profiles", id, { fields: ["id"] })
-      );
+      await directus.request(readItem("profiles", id, { fields: ["id"] }));
       // ไม่ error แปลว่ามี
       return c.json({ exists: true });
     } catch (e: any) {
@@ -130,34 +128,38 @@ export const getProfile = factory.createHandlers(
     const { id } = c.req.param();
     const directus = c.get("directAdmin");
 
-    const profile = await directus.request(
-      readItem("profiles", id, {
-        fields: ["*", { point_transactions: ["*"] }],
-      })
-    );
+    try {
+      const profiles = await directus.request(
+        readItems("profiles", {
+          fields: ["*", { point_transactions: ["*"] }],
+          filter: { id: { _eq: id } },
+          limit: 1,
+        })
+      );
 
-    console.log("Profile data:", profile);
-    
-
-    if (!profile) {
-      return c.json(null);
-    }
-
-    // Enrich profile with totalPoints
-    const pointTransactions = profile.point_transactions || [];
-    const totalPoints = pointTransactions.reduce((sum: number, transaction: any) => {
-      if (transaction.transaction_type === "earn") {
-        return sum + transaction.points_amount;
-      } else if (transaction.transaction_type === "burn") {
-        return sum - transaction.points_amount;
+      // ถ้า API คืนเป็น null หรือ undefined
+      if (profiles.length === 0) {
+        return c.json({ error: "Profile not found", id }, { status: 404 });
       }
-      return sum; // Ignore other types
-    }, 0);
+      const profile = profiles[0];
 
-    return c.json({
-      ...profile,
-      totalPoints,
-    });
+      // คำนวณ totalPoints
+      const pointTransactions = profile.point_transactions || [];
+      const totalPoints = pointTransactions.reduce((sum: number, tx: any) => {
+        if (tx.transaction_type === "earn") return sum + tx.points_amount;
+        if (tx.transaction_type === "burn") return sum - tx.points_amount;
+        return sum;
+      }, 0);
+
+      return c.json({
+        ...profile,
+        totalPoints,
+      });
+    } catch (err: any) {
+      console.error("Error fetching profile:", err);
+      // กรณีอื่น ๆ
+      return c.json({ error: "Internal server error" }, { status: 500 });
+    }
   }
 );
 
@@ -200,21 +202,25 @@ export const createProfile = factory.createHandlers(
     if (referrer_id) {
       try {
         // ตรวจสอบว่า referrer_id มีอยู่จริงไหม
-        const referrer = await directus.request(readItem("profiles", referrer_id)).catch(() => null);
+        const referrer = await directus
+          .request(readItem("profiles", referrer_id))
+          .catch(() => null);
         if (referrer) {
           console.log("Found referrer:", referrer);
-          
+
           // บันทึกประวัติการ referral ลงในตาราง profile_referrals (ถ้ามี)
-          await directus.request(
-            createItem("referrals", {
-              referrer_id: referrer_id,
-              referred_id: id,
-              status: "completed",
-            })
-          ).catch(error => {
-            console.error("Error creating referral record:", error);
-            // ไม่ return error เพื่อให้การสร้าง profile ยังดำเนินต่อไปได้
-          });
+          await directus
+            .request(
+              createItem("referrals", {
+                referrer_id: referrer_id,
+                referred_id: id,
+                status: "completed",
+              })
+            )
+            .catch((error) => {
+              console.error("Error creating referral record:", error);
+              // ไม่ return error เพื่อให้การสร้าง profile ยังดำเนินต่อไปได้
+            });
         } else {
           console.log("Referrer not found:", referrer_id);
         }

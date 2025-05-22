@@ -9,38 +9,41 @@ interface ProfileParams {
 // export const fetchProfile = ({ id }) =>
 //   api.get<Profile>(`/profiles/${id}`).then((res) => res.data);
 
-export async function fetchProfile(params: ProfileParams) {
-  try {
-    if (params.id) {
-      // เรียกใช้ API endpoint ด้วย ID โดยตรง
-      const response = await fetch(`/api/profiles/${params.id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile');
-      }
-      return await response.json();
-    } else if (params.uid && params.liff_id) {
-      // สร้าง hash ID จาก liff_id และ uid เหมือนใน API
-      const id = await generateProfileId(params.liff_id, params.uid);
-      const response = await fetch(`/api/profiles/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile');
-      }
-      return await response.json();
-    } else if (params.uid) {
-      // เรียกใช้ API endpoint ที่เหมาะสมตาม userId
-      const response = await fetch(`/api/profiles/user/${params.uid}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile');
-      }
-      return await response.json();
-    } else {
-      throw new Error('Either id, uid, or both liff_id and uid must be provided');
-    }
-  } catch (error) {
-    console.error("Error fetching profile:", error);
-    throw error;
+export async function fetchProfile(params: ProfileParams): Promise<Profile | null> {
+  let url: string;
+
+  if (params.id) {
+    url = `/api/profiles/${params.id}`;
+  } else if (params.uid && params.liff_id) {
+    const id = await generateProfileId(params.liff_id, params.uid);
+    url = `/api/profiles/${id}`;
+  } else if (params.uid) {
+    url = `/api/profiles/user/${params.uid}`;
+  } else {
+    throw new Error(
+      'Either id, or both uid and liff_id, must be provided to fetch a profile'
+    );
   }
+
+  const response = await fetch(url);
+
+  // ถ้า API ส่งกลับ 404 → ไม่มีโปรไฟล์จริงๆ
+  if (response.status === 404) {
+    return null;
+  }
+
+  // กรณี 500, 403 หรือ status อื่นที่ไม่ใช่ 2xx
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new Error(
+      `Failed to fetch profile: ${response.status} ${response.statusText} ${text}`
+    );
+  }
+
+  // กรณีสำเร็จ (200–299)
+  return (await response.json()) as Profile;
 }
+
 
 // สร้างฟังก์ชัน generateProfileId เพื่อใช้ใน fetchProfile และ createProfile
 export async function generateProfileId(liff_id: string, uid: string): Promise<string> {
