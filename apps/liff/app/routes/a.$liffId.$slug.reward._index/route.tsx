@@ -1,4 +1,5 @@
-import { json, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, MetaFunction } from "@remix-run/cloudflare";
 import {
   ShouldRevalidateFunction,
   useLoaderData,

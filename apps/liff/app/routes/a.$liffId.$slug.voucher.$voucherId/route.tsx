@@ -4,7 +4,7 @@ import {
   useNavigate,
 } from "@remix-run/react";
 
-import { json, MetaFunction } from '@remix-run/cloudflare';
+import { json, MetaFunction } from "@remix-run/cloudflare";
 
 import { useLiff } from "~/hooks/useLiff";
 import Header from "./components/Header";
@@ -137,40 +137,44 @@ const Route = () => {
       channel: page?.channel as string,
     };
 
-    await collectVoucher.mutateAsync(
-      {
-        variables: collectVoucherData,
-      },
-      {
-        onSuccess: (res) => {
-          setIsCollected(true);
-          setPageState("landing");
-          const data: Partial<LeadSubmission> = {
-            source: "voucher",
-            source_id: res.id as string,
-            data: voucher?.metadata.redemptionType === "form" ? { form: { fields: formData } } : undefined,
-            metadata: voucher?.metadata,
-          };
-          leadSubmission.mutateAsync({
-            variables: data,
-          });
+    await collectVoucher
+      .mutateAsync(
+        {
+          variables: collectVoucherData,
+        },
+        {
+          onSuccess: (res) => {
+            setIsCollected(true);
+            setPageState("landing");
+            const data: Partial<LeadSubmission> = {
+              source: "voucher",
+              source_id: res.id as string,
+              data:
+                voucher?.metadata.redemptionType === "form"
+                  ? { form: { fields: formData } }
+                  : undefined,
+              metadata: voucher?.metadata,
+            };
+            leadSubmission.mutateAsync({
+              variables: data,
+            });
 
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.9 },
-          });
-        },
-        onError: () => {
-          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
-          setShowFullyCollectedModal(true);
-          // }
-        },
-      }
-    ).finally(() => {
-      setIsSubmitting(false);
-    }
-    );
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.9 },
+            });
+          },
+          onError: () => {
+            // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+            setShowFullyCollectedModal(true);
+            // }
+          },
+        }
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   if (
@@ -206,7 +210,14 @@ const Route = () => {
           buttonText={isSubmitting ? "Collecting" : buttonText[lang][status]}
           status={status}
           onClick={handleSubmit}
-          disabled={pageState === "form" && !isFormValid || isSubmitting}
+          disabled={
+            (pageState === "form" && !isFormValid) ||
+            isSubmitting ||
+            (isProfileLoading &&
+              isMyVouchersLoading &&
+              isCodeStatsLoading &&
+              isCodeStatsRefetching)
+          }
         />
 
         <FullyCollectedModal
