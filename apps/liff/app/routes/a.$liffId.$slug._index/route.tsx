@@ -78,7 +78,8 @@ const Route = () => {
     if (!userProfile) {
       // ส่งต่อข้อมูล referrer ไปยังหน้า interests
       const refParam = referrerId ? `&ref=${referrerId}` : '';
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+      // navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+      navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
     } else {
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     }
