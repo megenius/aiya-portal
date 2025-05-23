@@ -39,7 +39,7 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
-  // const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
+  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
   // const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
@@ -79,9 +79,12 @@ const Route = () => {
   //   }
   // }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, profile, referrerId]);
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     // Immediately redirect to the interests page with referrer ID
     navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
-  }, [navigate, page, referrerId]);
+  }, [navigate, isLoggedIn, page, referrerId]);
 
   return <Loading />;
 }
