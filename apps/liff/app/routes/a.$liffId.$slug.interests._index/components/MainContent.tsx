@@ -83,7 +83,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
     console.log("Profile data to be sent:", data);
 
-    createProfile.mutateAsync(
+    createProfile.mutate(
       { variables: data },
       {
         onSuccess: (response) => {
