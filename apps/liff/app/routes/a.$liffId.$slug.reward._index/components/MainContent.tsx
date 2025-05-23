@@ -16,7 +16,6 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState("history");
   console.log("profile", profile);
-  
 
   // const userPoints = 15;
   //   const totalPointsNeeded = 25;
@@ -83,36 +82,35 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
   //   },
   // ];
   const rewards = [
-  {
-    id: 1,
-    name: "100 Baht Discount",
-    points: 500,
-    image: "🎁",
-    category: "Restaurant",
-  },
-  {
-    id: 2,
-    name: "Free Coffee (1 Cup)",
-    points: 300,
-    image: "☕",
-    category: "Beverages",
-  },
-  {
-    id: 3,
-    name: "Free Movie Ticket",
-    points: 800,
-    image: "🎬",
-    category: "Entertainment",
-  },
-  {
-    id: 4,
-    name: "15% Discount",
-    points: 450,
-    image: "🛒",
-    category: "Shopping",
-  },
-];
-
+    {
+      id: 1,
+      name: "100 Baht Discount",
+      points: 500,
+      image: "🎁",
+      category: "Restaurant",
+    },
+    {
+      id: 2,
+      name: "Free Coffee (1 Cup)",
+      points: 300,
+      image: "☕",
+      category: "Beverages",
+    },
+    {
+      id: 3,
+      name: "Free Movie Ticket",
+      points: 800,
+      image: "🎬",
+      category: "Entertainment",
+    },
+    {
+      id: 4,
+      name: "15% Discount",
+      points: 450,
+      image: "🛒",
+      category: "Shopping",
+    },
+  ];
 
   const yourPointText = {
     th: "แต้มสะสมของคุณ",
@@ -261,9 +259,8 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
                       }`}
                     >
                       {profile.totalPoints >= reward.points
-  ? "Redeem"
-  : `${reward.points - profile.totalPoints} pts`}
-
+                        ? "Redeem"
+                        : `${reward.points - profile.totalPoints} pts`}
                     </button>
                   </div>
                 </div>

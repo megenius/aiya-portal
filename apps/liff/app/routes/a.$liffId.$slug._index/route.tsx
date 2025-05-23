@@ -40,8 +40,6 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
-  // const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
 
   const [search] = useSearchParams()
