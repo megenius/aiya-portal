@@ -79,8 +79,9 @@ const Route = () => {
   //   }
   // }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, profile, referrerId]);
   useEffect(() => {
+    // Immediately redirect to the interests page with referrer ID
     navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
-  }, []);
+  }, [navigate, page, referrerId]);
 
   return <Loading />;
 }
