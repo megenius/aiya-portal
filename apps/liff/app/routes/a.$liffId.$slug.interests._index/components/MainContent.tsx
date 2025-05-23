@@ -26,6 +26,21 @@ const MainContent: React.FC<MainContentProps> = ({
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const text = {
+    th: {
+      title: "เลือกความสนใจของคุณ",
+      subtitle: "รับคูปองและโปรโมชั่นที่ตรงกับความสนใจของคุณ",
+      selectAtLeastOne: "กรุณาเลือกอย่างน้อย 1 ความสนใจ",
+      next: "ถัดไป",
+    },
+    en: {
+      title: "Choose Your Interests",
+      subtitle: "Get coupons and promotions tailored to your preferences",
+      selectAtLeastOne: "Select at least one interest",
+      next: "Next",
+    },
+  };
+
   const toggleInterest = (category: Category) => {
     setSelectedInterests((prev) => {
       if (prev.some((item) => item.id === category.id)) {
@@ -147,16 +162,16 @@ const MainContent: React.FC<MainContentProps> = ({
 
         <div className="mb-6 animate-fade-in">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Choose Your Interests
+            {text[language].title}
           </h1>
           <p className="text-gray-600 mb-1">
-            Get coupons and promotions tailored to your preferences
+            {text[language].subtitle}
           </p>
           <p
             className="text-primary font-medium"
             style={{ color: page.bg_color ?? undefined }}
           >
-            Select at least one interest
+            {text[language].selectAtLeastOne}
           </p>
         </div>
 
@@ -223,7 +238,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   : undefined,
             }}
           >
-            ถัดไป
+            {text[language].next}
           </button>
 
           {/* <div className="text-center mt-4">

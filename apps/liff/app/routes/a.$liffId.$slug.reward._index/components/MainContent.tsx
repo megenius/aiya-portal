@@ -30,7 +30,7 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
       source: "collect",
       source_id: "A123455",
       status: "completed",
-      date: "18 มี.ค. 2025",
+      date: "18 mar 2025",
     },
     {
       id: 2,
@@ -39,7 +39,7 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
       source: "register",
       source_id: "A123456",
       status: "completed",
-      date: "18 มี.ค. 2025",
+      date: "18 mar 2025",
     },
     {
       id: 3,
@@ -48,40 +48,71 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
       source: "reward",
       source_id: "A123457",
       status: "completed",
-      date: "18 มี.ค. 2025",
+      date: "18 mar 2025",
     },
   ];
 
+  // const rewards = [
+  //   {
+  //     id: 1,
+  //     name: "ส่วนลด 100 บาท",
+  //     points: 500,
+  //     image: "🎁",
+  //     category: "ร้านอาหาร",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "กาแฟฟรี 1 แก้ว",
+  //     points: 300,
+  //     image: "☕",
+  //     category: "เครื่องดื่ม",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "ตั๋วหนังฟรี",
+  //     points: 800,
+  //     image: "🎬",
+  //     category: "บันเทิง",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "ส่วนลด 15%",
+  //     points: 450,
+  //     image: "🛒",
+  //     category: "ช้อปปิ้ง",
+  //   },
+  // ];
   const rewards = [
-    {
-      id: 1,
-      name: "ส่วนลด 100 บาท",
-      points: 500,
-      image: "🎁",
-      category: "ร้านอาหาร",
-    },
-    {
-      id: 2,
-      name: "กาแฟฟรี 1 แก้ว",
-      points: 300,
-      image: "☕",
-      category: "เครื่องดื่ม",
-    },
-    {
-      id: 3,
-      name: "ตั๋วหนังฟรี",
-      points: 800,
-      image: "🎬",
-      category: "บันเทิง",
-    },
-    {
-      id: 4,
-      name: "ส่วนลด 15%",
-      points: 450,
-      image: "🛒",
-      category: "ช้อปปิ้ง",
-    },
-  ];
+  {
+    id: 1,
+    name: "100 Baht Discount",
+    points: 500,
+    image: "🎁",
+    category: "Restaurant",
+  },
+  {
+    id: 2,
+    name: "Free Coffee (1 Cup)",
+    points: 300,
+    image: "☕",
+    category: "Beverages",
+  },
+  {
+    id: 3,
+    name: "Free Movie Ticket",
+    points: 800,
+    image: "🎬",
+    category: "Entertainment",
+  },
+  {
+    id: 4,
+    name: "15% Discount",
+    points: 450,
+    image: "🛒",
+    category: "Shopping",
+  },
+];
+
 
   const yourPointText = {
     th: "แต้มสะสมของคุณ",
@@ -230,8 +261,9 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
                       }`}
                     >
                       {profile.totalPoints >= reward.points
-                        ? "แลกรับ"
-                        : `อีก ${reward.points - profile.totalPoints} แต้ม`}
+  ? "Redeem"
+  : `${reward.points - profile.totalPoints} pts`}
+
                     </button>
                   </div>
                 </div>

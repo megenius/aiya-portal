@@ -27,6 +27,28 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
   const subWelcomeText = page.metadata.subWelcomeText[language];
   const { data: liff } = useLineLiff();
   const primaryColor = page.bg_color || "#1DB446";
+  const text = {
+    th: {
+      invite: "ชวน",
+      inviteFriend: "ชวนเพื่อน",
+      point: "คะแนน",
+      scan:"สแกน QR Code นี้เพื่อเข้าร่วมใช้งานแอปพลิเคชัน",
+      copyLink: "คัดลอกลิงก์",
+      copied: "คัดลอกแล้ว",
+      share: "แชร์ผ่านแอปอื่น",
+      shareToLine: "ชวนเพื่อนใน LINE",
+    },
+    en: {
+      invite: "Invite",
+      inviteFriend: "Invite Friend",
+      point: "Point",
+      scan: "Scan this QR Code to join the application",
+      copyLink: "Copy Link",
+      copied: "Copied",
+      share: "Share with other apps",
+      shareToLine: "Invite friends on LINE",
+    },
+  };
 
   useEffect(() => {
     if (userProfileId && page) {
@@ -212,7 +234,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
               <line x1="19" y1="8" x2="19" y2="14"></line>
               <line x1="16" y1="11" x2="22" y2="11"></line>
             </svg>
-            ชวน
+            Invite
           </button>
 
           <button
@@ -222,7 +244,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
           >
             <div className="px-2 py-1 flex items-center gap-1 rounded-full border text-white" 
                  style={{ backgroundColor: primaryColor }}>
-              <h4>Point</h4>
+              <h4>{text[language].point}</h4>
             </div>
             <div className="flex items-center gap-1 pe-2" style={{ color: primaryColor }}>
               <h4 className="font-medium">0</h4>
@@ -250,7 +272,9 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn">
           <div className="bg-white p-5 rounded-lg w-11/12 max-w-md animate-scaleIn">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold">ชวนเพื่อน</h3>
+              <h3 className="text-lg font-bold">
+                {text[language].inviteFriend}
+              </h3>
               <button 
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700 transition-colors"
@@ -273,7 +297,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
             )}
 
             <p className="text-center text-gray-600 mb-4">
-              สแกน QR Code นี้เพื่อเข้าร่วมใช้งานแอปพลิเคชัน
+              {text[language].scan} <br />
             </p>
 
             <div className="flex justify-center mb-6">
@@ -299,7 +323,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.952 12.992c0-3.584-3.6-6.496-8.016-6.496-4.416 0-8.016 2.912-8.016 6.496 0 3.232 2.864 5.936 6.752 6.432.272.064.64.192.736.432.08.224.048.576.024.8 0 0-.112.656-.136.8-.048.224-.208.864.752.464s4.992-2.944 6.816-5.024c1.232-1.376 1.088-2.768 1.088-3.904zm-10.928 1.6H7.792a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.76 0a.318.318 0 01-.32-.32v-2.512a.318.318 0 01.32-.32c.176 0 .32.144.32.32v2.512c0 .176-.144.32-.32.32zm4.384 0h-.912a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.824.208a.6.6 0 01-.112-.016.318.318 0 01-.288-.352l.416-2.512a.32.32 0 01.368-.272c.176.032.304.192.272.368l-.416 2.512a.394.394 0 01-.24.272z"/>
                 </svg>
-                ชวนเพื่อนใน LINE
+                {text[language].shareToLine}
               </button>
 
               <button
@@ -314,7 +338,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                {copied ? 'คัดลอกแล้ว' : 'คัดลอกลิงก์'}
+                {copied ? text[language].copied : text[language].copyLink}
                 
                 {copied && (
                   <span className="absolute right-3 text-green-500">
@@ -337,7 +361,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
-                  แชร์ผ่านแอปอื่น
+                  {text[language].share}
                 </button>
               )}
             </div>
