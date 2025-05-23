@@ -39,53 +39,49 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
-  const isThaiLanguage = language.startsWith("th");
-  const lang = isThaiLanguage ? "th" : "en";
+  // const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
+  // const isThaiLanguage = language.startsWith("th");
+  // const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
 
   const [search] = useSearchParams()
-  const dest = search.get("dest") || ""
-  const referrerId = search.get("ref") || ""; // เพิ่มการดึงค่า referrer จาก URL
+  // const dest = search.get("dest") || ""
+  const referrerId = search.get("ref") || "";
   
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  // const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
   // เปลี่ยนจาก useAdvanceProfile เป็น useProfile
-  const { data: userProfile, isLoading: isUserProfileLoading } =
-    useProfile({
-      uid: profile?.userId || "",
-      liff_id: page.liff_id as string,
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
-    });
+  // const { data: userProfile, isLoading: isUserProfileLoading } =
+  //   useProfile({
+  //     uid: profile?.userId || "",
+  //     liff_id: page.liff_id as string,
+  //     enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
+  //   });
 
+  // useEffect(() => {
+  //   if (!isLoggedIn || isProfileLoading) {
+  //     return;
+  //   }
+
+  //   if (!profile?.userId) {
+  //     return;
+  //   }
+  //   if (isUserProfileLoading) {
+  //     return;
+  //   }
+
+  //   if (!userProfile) {
+  //     const refParam = referrerId ? `&ref=${referrerId}` : '';
+  //     // navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+  //     navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
+  //   } else {
+  //     navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+  //   }
+  // }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, profile, referrerId]);
   useEffect(() => {
-    // Only proceed if user is logged in and profile is loaded
-    if (!isLoggedIn || isProfileLoading) {
-      return;
-    }
+    navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
+  }, []);
 
-    // Make sure we have a userId before checking profile
-    if (!profile?.userId) {
-      return;
-    }
-
-    // Wait for profile loading to complete
-    if (isUserProfileLoading) {
-      return;
-    }
-
-    // Navigate based on whether profile exists
-    if (!userProfile) {
-      // ส่งต่อข้อมูล referrer ไปยังหน้า interests
-      const refParam = referrerId ? `&ref=${referrerId}` : '';
-      // navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
-    } else {
-      navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-    }
-  }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile, referrerId]);
-
-  // Show loading indicator during all processing
   return <Loading />;
 }
 

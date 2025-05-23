@@ -51,11 +51,7 @@ const Route = () => {
 
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
-  if (!isLoggedIn) {
-    return <Loading />;
-  }
-
-  if (!profile) {
+  if (!isLoggedIn && isProfileLoading) {
     return <Loading />
   }
 

@@ -64,22 +64,22 @@ const MainContent: React.FC<MainContentProps> = ({
     
     console.log('Profile data to be sent:', data);
     
-    createProfile.mutate(
+    createProfile.mutateAsync(
       { variables: data },
       {
         onSuccess: (response) => {
           console.log('Profile created successfully:', response);
-          if (dest) {
-            navigate(
-              `/a/${page.liff_id}/${page.slug}/${dest}`
-            );
-          } else {
+          // if (dest) {
+          //   navigate(
+          //     `/a/${page.liff_id}/${page.slug}/${dest}`
+          //   );
+          // } else {
             navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-          }
+          // }
         },
         onError: (error: any) => {
           console.error('Profile creation error:', error);
-          alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
+          // alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
         }
       }
     );
