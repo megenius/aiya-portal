@@ -48,7 +48,7 @@ const Route = () => {
   // const dest = search.get("dest") || ""
   const referrerId = search.get("ref") || "";
   
-  // const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
   // เปลี่ยนจาก useAdvanceProfile เป็น useProfile
   // const { data: userProfile, isLoading: isUserProfileLoading } =
@@ -79,12 +79,12 @@ const Route = () => {
   //   }
   // }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, profile, referrerId]);
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn || isProfileLoading) {
       return;
     }
     // Immediately redirect to the interests page with referrer ID
     navigate(`/a/${page.liff_id}/${page.slug}/interests?ref=${referrerId}`);
-  }, [navigate, isLoggedIn, page, referrerId]);
+  }, [navigate, isLoggedIn, page, referrerId, isProfileLoading]);
 
   return <Loading />;
 }

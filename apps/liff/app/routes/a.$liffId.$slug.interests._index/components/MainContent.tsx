@@ -147,16 +147,16 @@ const MainContent: React.FC<MainContentProps> = ({
 
         <div className="mb-6 animate-fade-in">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            เลือกความสนใจของคุณ
+            Choose Your Interests
           </h1>
           <p className="text-gray-600 mb-1">
-            รับคูปองและโปรโมชั่นที่เหมาะกับสิ่งที่คุณชื่นชอบ
+            Get coupons and promotions tailored to your preferences
           </p>
           <p
             className="text-primary font-medium"
             style={{ color: page.bg_color ?? undefined }}
           >
-            เลือกอย่างน้อย 1 รายการ
+            Select at least one interest
           </p>
         </div>
 
