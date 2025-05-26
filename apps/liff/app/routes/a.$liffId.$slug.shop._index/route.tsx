@@ -21,7 +21,7 @@ const Route = () => {
   const lang = "en";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
-    useVoucherUserStats({ userId: profile?.userId || "" });
+    useVoucherUserStats({ userId: profile?.userId || "", enabled: !!profile?.userId && isLoggedIn });
   const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
     q: "",
     status: "published",

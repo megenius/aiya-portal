@@ -4,14 +4,15 @@ import { useLineLiff } from "../useLineLiff";
 
 interface UseVouchersUserProps {
   userId: string;
+  enabled?: boolean;
 }
 
-export function useVouchersUser({ userId }: UseVouchersUserProps) {
+export function useVouchersUser({ userId, enabled }: UseVouchersUserProps) {
   const { data: liff } = useLineLiff();
   
   return useQuery({
     queryKey: ["vouchersUser", userId],
     queryFn: () => fetchVouchersUser({ userId }).then((res) => res.data),
-    enabled: liff?.isLoggedIn()
+    enabled: enabled && liff?.isLoggedIn() && !!userId,
   });
 }

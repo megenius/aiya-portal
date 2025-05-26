@@ -39,7 +39,7 @@ const Route = () => {
   // const { page } = useOutletContext<{ page: PageLiff }>();
   const { page } = useLoaderData<typeof clientLoader>();
   const { data: liff } = useLineLiff();
-  const { language } = useLiff({ liffId: page.liff_id });
+  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
   const { data: profile, isLoading:isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
@@ -48,7 +48,7 @@ const Route = () => {
   //   q: "",
   //   status: "published",
   // });
-  const { data: myVouchers, isLoading : isMyVouchersLoading } = useVouchersUser({ userId: profile?.userId || "" });
+  const { data: myVouchers, isLoading : isMyVouchersLoading } = useVouchersUser({ userId: profile?.userId || "", enabled: !!profile?.userId && isLoggedIn });
   const [activeTab, setActiveTab] = useState("available");
 
   const tabs = [
