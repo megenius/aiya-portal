@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Loading } from "@repo/preline"
-import { BotTable } from './BotTable';
-import PageFilter from './PageFilter';
 import AddBot from './AddBot';
 import { useNavigate } from '@remix-run/react';
-import MainContainer from '~/components/MainContainer';
 import { useBotInsert } from '~/hooks/bot/useBotInsert';
 import { Bot, Workspace } from '~/@types/app';
 import { randomHexString } from '~/utils/random';
