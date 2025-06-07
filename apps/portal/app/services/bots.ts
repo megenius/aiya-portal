@@ -1,7 +1,8 @@
 import {
   Bot,
   BotChannelStatus,
-  BotExtractConfig,
+  ExtractChatbotConfigRequest,
+  ExtractionChatbotStatus,
   BotInquiry,
   BotIntent,
   BotKnowledge,
@@ -13,13 +14,13 @@ import {
   BotsSlips,
   CAPIEvents,
   Channel,
-  ChannelBot,
   GenerationResponse,
   IntentQuestion,
   IntentResponse,
   OrderTemplate,
   WorkspaceMember,
   stats,
+  ExtractChatbotConfigResponse,
 } from "~/@types/app";
 
 import api from "./api";
@@ -362,4 +363,6 @@ export const insertBotInquiry = async (botId: string, data: Partial<BotInquiry>)
 };
 
 // --------------- extract chatbot config ---------------
-export const extractChatbotConfig = (data: BotExtractConfig) => api.post<BotExtractConfig>("/items/bots", data);
+export const extractChatbotConfig = (data: ExtractChatbotConfigRequest) => api.post<ExtractChatbotConfigResponse>("/bots/extract-chatbot-config", data);
+
+export const fetchExtractionChatbotStatus = (task_id: string) => api.get<ExtractionChatbotStatus>(`/bots/extraction-status/${task_id}`);

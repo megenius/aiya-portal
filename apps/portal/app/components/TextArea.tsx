@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 
 interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   error?: string;
 }
 
@@ -40,8 +40,8 @@ const TextArea: React.FC<TextAreaProps> = ({
         onChange={handleChange}
         {...rest}
       />
-      <div className="flex justify-between mt-1">
-        {error && <span className="text-red-500 text-xs">{error}</span>}
+      <div className="w-full flex justify-between mt-1">
+        <span className="text-red-500 text-xs">{error || ""}</span>
         {maxLength && (
           <span className="text-gray-500 text-xs">
             {charCount}/{maxLength}

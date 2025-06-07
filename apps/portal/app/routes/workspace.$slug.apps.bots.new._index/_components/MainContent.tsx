@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
-import { Loading } from "@repo/preline"
-import AddBot from './AddBot';
-import { useNavigate } from '@remix-run/react';
-import { useBotInsert } from '~/hooks/bot/useBotInsert';
-import { Bot, Workspace } from '~/@types/app';
-import { randomHexString } from '~/utils/random';
-import { useWorkspaceBots } from '~/hooks/workspace/useWorkspaceBots';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { Loading } from "@repo/preline";
+import AddBot from "./AddBot";
+import { useNavigate } from "@remix-run/react";
+import { useBotInsert } from "~/hooks/bot/useBotInsert";
+import { Bot, Workspace } from "~/@types/app";
+import { useWorkspaceBots } from "~/hooks/workspace/useWorkspaceBots";
+import { toast } from "react-toastify";
+import { useBotExtractChatbotConfig } from "~/hooks/bot/useBotExtractChatbotConfig";
+import { useBotExtractionChatbotStatus } from "~/hooks/bot/useBotExtractionChatbotStatus";
+import { randomHexString } from "~/utils/random";
 
 interface MainContentProps {
-  workspace: Workspace
+  workspace: Workspace;
 }
 
-type TYPES = "chatbot" | "adbot"
+type TYPES = "chatbot" | "adbot";
 
 interface BOT_TYPES {
-  name: string
-  description: string
-  icon: string
-  type: TYPES
+  name: string;
+  description: string;
+  icon: string;
+  type: TYPES;
 }
 
 const BOT_TYPES = [
@@ -26,7 +28,7 @@ const BOT_TYPES = [
     name: "Chatbot",
     description: "Chatbot",
     icon: "",
-    type: "chatbot"
+    type: "chatbot",
   },
   // {
   //   name: "Adbot",
@@ -38,7 +40,7 @@ const BOT_TYPES = [
     name: "Orderbot",
     description: "Orderbot",
     icon: "",
-    type: "orderbot"
+    type: "orderbot",
   },
   // {
   //   name: "Docbot",
@@ -46,75 +48,167 @@ const BOT_TYPES = [
   //   icon: "",
   //   type: "docbot"
   // }
-]
+];
 
 const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
-  const bots = useWorkspaceBots({ variables: { workspaceId: workspace?.id as string } });
+  const bots = useWorkspaceBots({
+    variables: { workspaceId: workspace?.id as string },
+  });
   const insertBot = useBotInsert();
-  const navigate = useNavigate()
-  const [selectedType, setSelectedType] = useState<TYPES>()
+  const extractChatbotConfig = useBotExtractChatbotConfig();
+  const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState<TYPES>();
+  const [taskId, setTaskId] = useState<string>("");
+  const {
+    data: extractionChatbotStatus,
+    // refetch: refetchExtractionChatbotStatus,
+    // isRefetching: isRefetchingExtractionChatbotStatus,
+  } = useBotExtractionChatbotStatus({
+    task_id: taskId,
+    enabled: !!taskId,
+  });
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [bot, setBot] = useState<Bot>();
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
-  const handleSearchChange = (value: string) => {
-    setSearchValue(value);
-  };
+  // const handleSearchChange = (value: string) => {
+  //   setSearchValue(value);
+  // };
 
-  const filteredItems = React.useMemo(() => {
-    if (!searchValue) return bots.data?.items || [];
+  // const filteredItems = React.useMemo(() => {
+  //   if (!searchValue) return bots.data?.items || [];
 
-    const searchText = searchValue.toLowerCase().trim();
+  //   const searchText = searchValue.toLowerCase().trim();
 
-    return bots.data?.items.filter(bot => {
-      return bot.name?.toLowerCase().includes(searchText);
-    });
-  }, [bots.data, searchValue]);
+  //   return bots.data?.items.filter((bot) => {
+  //     return bot.name?.toLowerCase().includes(searchText);
+  //   });
+  // }, [bots.data, searchValue]);
+
+  const POLL_STATUSES = ["queued", "processing", "crawling", "generating"];
+
+  useEffect(() => {
+    if (extractionChatbotStatus?.response.status === "success") {
+      console.log("extractChatbotStatus success", extractionChatbotStatus);
+      const { chatbot_config } = extractionChatbotStatus.response;
+      const data: Bot = {
+        ...bot,
+        id: randomHexString(10),
+        slug: randomHexString(8),
+        date_created: new Date().toISOString(),
+        date_updated: new Date().toISOString(),
+        team: workspace.id,
+        status: "Draft",
+        product_name: chatbot_config.name,
+        product_description: chatbot_config.description,
+        greeting_message: chatbot_config.greeting_message,
+        greeting_message_mobile: chatbot_config.greeting_message,
+        context: chatbot_config.context_markdown,
+        guidelines: chatbot_config.instruction,
+      }
+      insertBot
+        .mutateAsync(data,{
+          onSuccess: (res) => {
+            toast.success("Bot added successfully");
+            navigate(`/apps/bot/${res.id}`);
+          },
+          onError: (error) => {
+            toast.error(error.message || "Failed to add bot");
+            setIsExtracting(false);
+          },
+        })
+    } else if (
+      extractionChatbotStatus &&
+      !POLL_STATUSES.includes(extractionChatbotStatus.response.status)
+    ) {
+      setIsExtracting(false);
+      console.log("extractChatbotStatus error", extractionChatbotStatus);
+    }
+  }, [extractionChatbotStatus]);
 
   const handleAddBot = (values) => {
-    insertBot.mutateAsync({
-      ...values,
-      id: randomHexString(10),
-      slug: randomHexString(8),
-      date_created: new Date(),
-      date_updated: new Date(),
-      team: workspace.id,
-      status: 'Draft',
-      // metadata: {
-      //   "basic": {},
-      //   "enabled": 1,
-      //   "bot_name": "",
-      //   "shop_info": {
-      //     "api_key": "",
-      //     "shop_url": "",
-      //     "shop_name": "",
-      //     "shop_type": "",
-      //     "basic_info": {
-      //       "tel": "",
-      //       "email": "",
-      //       "address": ""
-      //     }
-      //   }
-      // }
-    }).then((res) => {
-      toast.success('Bot added successfully')
-      navigate(`/apps/bot/${res.id}`)
-    })
-  }
+    const bot: Bot = {
+      name: values.name,
+      type: selectedType,
+    };
+    setBot(bot);
+
+    setIsExtracting(true);
+    extractChatbotConfig.mutateAsync(
+      {
+        variables: {
+          source_type: values.source_type,
+          url: values.url,
+          text: values.text,
+          user_prompt: values.user_prompt,
+          filter_type: values.url ? "fit" : "",
+          model: "gemini-2.0-flash-001",
+          team: workspace.id,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          setTaskId(res.task_id);
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to add bot");
+          setIsExtracting(false);
+        },
+      }
+    );
+
+    // insertBot.mutateAsync({
+    //   ...values,
+    //   id: randomHexString(10),
+    //   slug: randomHexString(8),
+    //   date_created: new Date(),
+    //   date_updated: new Date(),
+    //   team: workspace.id,
+    //   status: 'Draft',
+    //   // metadata: {
+    //   //   "basic": {},
+    //   //   "enabled": 1,
+    //   //   "bot_name": "",
+    //   //   "shop_info": {
+    //   //     "api_key": "",
+    //   //     "shop_url": "",
+    //   //     "shop_name": "",
+    //   //     "shop_type": "",
+    //   //     "basic_info": {
+    //   //       "tel": "",
+    //   //       "email": "",
+    //   //       "address": ""
+    //   //     }
+    //   //   }
+    //   // }
+    // }).then((res) => {
+    //   toast.success('Bot added successfully')
+    //   navigate(`/apps/bot/${res.id}`)
+    // })
+  };
 
   const handleRowClick = (item: Bot) => {
-    navigate(`/apps/bot/${item.id}`)
-  }
+    navigate(`/apps/bot/${item.id}`);
+  };
 
   if (bots.isPending) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
     <>
-      <div className='grid grid-cols-2 gap-2'>
+      {isExtracting && (
+        <div className="fixed w-full h-full flex items-center justify-center bg-black opacity-50 z-50">
+          <Loading />
+        </div>
+      )}
+      <div className="p-2 sm:p-5 sm:py-0 md:pt-5 grid grid-cols-2 gap-2">
         {/* Card */}
         {BOT_TYPES.map((bot, key) => (
-          <div key={key} className="p-4 group  cursor-pointer  relative flex flex-col border border-gray-200 bg-white hover:border-gray-300 rounded-lg"
+          <div
+            key={key}
+            className="p-4 group  cursor-pointer  relative flex flex-col border border-gray-200 bg-white hover:border-gray-300 rounded-lg"
             onClick={() => setSelectedType(bot.type as TYPES)}
             data-hs-overlay={`#hs-add-bot`}
           >
@@ -145,7 +239,6 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         {/* End Card */}
       </div>
 
-
       {/* <MainContainer title="Chatbots" description="Manage your chatbots"
         button={
           <button
@@ -163,9 +256,9 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         <div></div>
       </MainContainer> */}
 
-      <AddBot id='hs-add-bot' onOk={handleAddBot} type={selectedType} />
+      <AddBot id="hs-add-bot" onOk={handleAddBot} type={selectedType} />
     </>
-  )
+  );
 };
 
 export default MainContent;

@@ -31,7 +31,7 @@ export type WorkspaceInvite = components["schemas"]["ItemsSaasTeamsInvites"] & {
   user_id?: string;
 };
 export type Bot = Omit<components["schemas"]["ItemsBots"], "metadata"> & {
-  metadata: BotMetaData;
+  metadata?: BotMetaData;
 };
 export interface BotMetaData {
   llm: {
@@ -171,7 +171,7 @@ export type BotIntentImport = {
 };
 
 // extract Chatbot config
-export interface BotExtractConfig {
+export interface ExtractChatbotConfigRequest {
   source_type: "url" | "text" | string;
   text?: string;
   url?: string;
@@ -180,7 +180,14 @@ export interface BotExtractConfig {
   team: string;
   user_prompt: string;
 }
-export interface BotExtractionStatus {
+
+export interface ExtractChatbotConfigResponse {
+  status: string;
+  message: string;
+  task_id: string;
+}
+
+export interface ExtractionChatbotStatus {
   status: string;
   task_id: string;
   response: {
@@ -199,7 +206,6 @@ export interface BotExtractionStatus {
   model: string;
   created_at: string;
 }
-
 
 export type IntentQuestion = {
   id: string;

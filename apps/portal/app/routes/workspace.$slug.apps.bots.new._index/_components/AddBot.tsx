@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BasicModal from "~/components/BasicModal";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useAdAccounts } from "~/hooks/adaccount";
 import { useOutletContext } from "@remix-run/react";
 import { Workspace } from "~/@types/app";
@@ -70,9 +70,9 @@ type Inputs = {
   business_type: string;
   business_category: string;
   user_prompt: string;
-  import_option: string;
-  url_input: string;
-  text_input: string;
+  source_type: string;
+  url: string;
+  text: string;
 };
 
 interface AddBotProps {
@@ -91,15 +91,16 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
   const [categories, setCategories] = useState<BusinessCategory[]>([]);
   const [selectedImportOption, setSelectedImportOption] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
+
   const {
     register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
+    control,
     reset,
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: "onChange" });
 
   const businessTypeValue = watch("business_type");
   const businessCategoryValue = watch("business_category");
@@ -139,7 +140,7 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
 
   const handleImportOptionSelect = (optionId: string) => {
     setSelectedImportOption(optionId);
-    setValue("import_option", optionId);
+    setValue("source_type", optionId);
   };
 
   const handleFileChange = (file: File | null) => {
@@ -150,18 +151,38 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
     reset({
       name: "",
       type: props.type,
-      import_option: "",
+      source_type: "",
       business_type: "",
       business_category: "",
       user_prompt: "",
-      url_input: "",
-      text_input: "",
+      url: "",
+      text: "",
     });
   }, [props.type, reset]);
 
+  
   return (
     <BasicModal id={id} title="Add Bot">
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* hidden registrations */}
+        <input
+          type="hidden"
+          {...register("type", { required: true })}
+          value={props.type}
+        />
+        <input
+          type="hidden"
+          {...register("source_type", { required: true })}
+        />
+        <input
+          type="hidden"
+          {...register("business_type", { required: true })}
+        />
+        <input
+          type="hidden"
+          {...register("business_category", { required: true })}
+        />
+
         <div className="space-y-5">
           {/* Bot name input */}
           <div>
@@ -258,7 +279,7 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
             maxLength={1000}
             rows={4}
             {...register("user_prompt")}
-            error={errors.user_prompt?.message}
+            error={errors.user_prompt ? "User prompt is required" : undefined}
           />
 
           {/* Import Type */}
@@ -308,12 +329,10 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
                 <input
                   type="text"
                   placeholder="Enter website URL"
+                  {...register("url", { required: true })}
                   className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
-                  {...register("url_input", {
-                    required: selectedImportOption === "url",
-                  })}
                 />
-                {errors.url_input && (
+                {errors.url && (
                   <span className="text-red-500 text-xs mt-1">
                     URL is required
                   </span>
@@ -328,32 +347,36 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
                   onFileChange={handleFileChange}
                   initialFile={selectedFile}
                   accept=".pdf,.doc,.docx,.txt,.md,.rtf"
-                  maxSize={10}
+                  maxSize={5}
                 />
-                {!selectedFile && selectedImportOption === "document" && errors.import_option && (
-                  <span className="text-red-500 text-xs mt-1">
-                    Please upload a document
-                  </span>
-                )}
+                {!selectedFile &&
+                  selectedImportOption === "document" &&
+                  errors.source_type && (
+                    <span className="text-red-500 text-xs mt-1">
+                      Please upload a document
+                    </span>
+                  )}
               </div>
             )}
 
             {/* Text Textarea */}
             {selectedImportOption === "text" && (
               <div className="mt-3">
-                <textarea
-                  placeholder="Write initial data for your bot..."
-                  className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
-                  rows={4}
-                  {...register("text_input", {
-                    required: selectedImportOption === "text",
-                  })}
-                ></textarea>
-                {errors.text_input && (
-                  <span className="text-red-500 text-xs mt-1">
-                    Content is required
-                  </span>
-                )}
+                <Controller
+                  name="text"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextArea
+                      id="text"
+                      placeholder="Write initial data for your bot..."
+                      rows={4}
+                      maxLength={20000}
+                      {...field}
+                      error={errors.text ? "Content is required" : undefined}
+                    />
+                  )}
+                />
               </div>
             )}
           </div>
@@ -397,6 +420,7 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
           </button>
           <button
             type="submit"
+            disabled={!isValid} // disable until form is valid
             className="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-start bg-blue-600 border border-blue-600 text-white text-sm font-medium rounded-lg shadow-xs align-middle hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-1 focus:ring-blue-300"
             data-hs-overlay={`#${id}`}
           >
