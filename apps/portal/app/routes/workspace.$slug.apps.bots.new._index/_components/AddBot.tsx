@@ -7,6 +7,7 @@ import { Workspace } from "~/@types/app";
 import Dropdown from "./Dropdown";
 import business_types_json from "../business_types.json"; // Assuming this is the path to your business data
 import FileUploader from "~/components/FileUploader";
+import TextArea from "~/components/TextArea";
 
 interface BusinessCategory {
   value: number;
@@ -44,7 +45,7 @@ const importOptions = [
     label: "Document",
   },
   {
-    id: "scratch",
+    id: "text",
     icon: (
       <>
         <path d="M10 8h.01" />
@@ -58,7 +59,7 @@ const importOptions = [
         <rect width={20} height={16} x={2} y={4} rx={2} />
       </>
     ),
-    label: "Scratch",
+    label: "Text",
   },
 ];
 
@@ -68,10 +69,10 @@ type Inputs = {
   ad_account: string;
   business_type: string;
   business_category: string;
-  description: string;
+  user_prompt: string;
   import_option: string;
   url_input: string;
-  scratch_input: string;
+  text_input: string;
 };
 
 interface AddBotProps {
@@ -152,9 +153,9 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
       import_option: "",
       business_type: "",
       business_category: "",
-      description: "",
+      user_prompt: "",
       url_input: "",
-      scratch_input: "",
+      text_input: "",
     });
   }, [props.type, reset]);
 
@@ -249,22 +250,16 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
             </div>
           )}
 
-          {/* Additional Details */}
-          <div>
-            <label
-              htmlFor="description"
-              className="block mb-2 text-sm font-medium text-gray-800"
-            >
-              Additional Details
-            </label>
-            <textarea
-              id="description"
-              className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-              placeholder="Details about your bot and its usage..."
-              rows={4}
-              {...register("description")}
-            ></textarea>
-          </div>
+          {/* User prompt */}
+          <TextArea
+            id="user_prompt"
+            label="User prompt"
+            placeholder="Details about your bot and its usage..."
+            maxLength={1000}
+            rows={4}
+            {...register("user_prompt")}
+            error={errors.user_prompt?.message}
+          />
 
           {/* Import Type */}
           <div>
@@ -343,18 +338,18 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
               </div>
             )}
 
-            {/* Scratch Textarea */}
-            {selectedImportOption === "scratch" && (
+            {/* Text Textarea */}
+            {selectedImportOption === "text" && (
               <div className="mt-3">
                 <textarea
                   placeholder="Write initial data for your bot..."
                   className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
                   rows={4}
-                  {...register("scratch_input", {
-                    required: selectedImportOption === "scratch",
+                  {...register("text_input", {
+                    required: selectedImportOption === "text",
                   })}
                 ></textarea>
-                {errors.scratch_input && (
+                {errors.text_input && (
                   <span className="text-red-500 text-xs mt-1">
                     Content is required
                   </span>

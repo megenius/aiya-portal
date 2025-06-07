@@ -1,6 +1,7 @@
 import {
   Bot,
   BotChannelStatus,
+  BotExtractConfig,
   BotInquiry,
   BotIntent,
   BotKnowledge,
@@ -359,3 +360,6 @@ export const generateBotIntent = (text: string) =>
 export const insertBotInquiry = async (botId: string, data: Partial<BotInquiry>) => {
   return await api.post<BotInquiry>(`/client/inquiry`, data);
 };
+
+// --------------- extract chatbot config ---------------
+export const extractChatbotConfig = (data: BotExtractConfig) => api.post<BotExtractConfig>("/items/bots", data);
