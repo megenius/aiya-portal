@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { HttpsUrlInput } from "./UrlInput";
 import BasicModal from "~/components/BasicModal";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useAdAccounts } from "~/hooks/adaccount";
@@ -48,15 +49,9 @@ const importOptions = [
     id: "text",
     icon: (
       <>
-        <path d="M10 8h.01" />
-        <path d="M12 12h.01" />
-        <path d="M14 8h.01" />
-        <path d="M16 12h.01" />
-        <path d="M18 8h.01" />
-        <path d="M6 8h.01" />
-        <path d="M7 16h10" />
-        <path d="M8 12h.01" />
-        <rect width={20} height={16} x={2} y={4} rx={2} />
+        <path d="M12 4v16" />
+  <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2" />
+  <path d="M9 20h6" />
       </>
     ),
     label: "Text",
@@ -78,7 +73,7 @@ type Inputs = {
 interface AddBotProps {
   id: string;
   type: any;
-  onOk: (values: Inputs) => void;
+  onOk: (values: Inputs & { documentFile: File | null }) => void;
 }
 
 const businessTypes: BusinessType[] = business_types_json;
@@ -97,10 +92,28 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
     handleSubmit,
     watch,
     setValue,
+    setError,
+    clearErrors,
+    trigger,
     formState: { errors, isValid },
     control,
     reset,
-  } = useForm<Inputs>({ mode: "onChange" });
+  } = useForm<Inputs>({ 
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      type: props.type,
+      source_type: "",
+      business_type: "",
+      business_category: "",
+      user_prompt: "",
+      url: "",
+      text: ""
+    }
+  });
+  
+  // Get the current URL value from form and remove https:// prefix for the input
+  const currentUrl = (watch("url") || '').replace(/^https?:\/\//, '');
 
   const businessTypeValue = watch("business_type");
   const businessCategoryValue = watch("business_category");
@@ -119,14 +132,26 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
       }
 
       // Reset category selection when business type changes
-      setValue("business_category", "");
+      setValue("business_category", "", { shouldValidate: true });
     } else {
       setCategories([]);
     }
   }, [businessTypeValue, setValue]);
 
-  const onSubmit: SubmitHandler<Inputs> = (data, e) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data, e) => {
     e?.preventDefault();
+
+    // Validate based on source type
+    if (selectedImportOption === "url" && !data.url) {
+      setError("url", { type: "required", message: "URL is required" });
+      return;
+    } else if (selectedImportOption === "text" && !data.text) {
+      setError("text", { type: "required", message: "Text content is required" });
+      return;
+    } else if (selectedImportOption === "document" && !selectedFile) {
+      setError("source_type", { type: "required", message: "Please upload a document" });
+      return;
+    }
 
     // Include file data if document option was selected
     const formData = {
@@ -134,13 +159,24 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
       documentFile: selectedImportOption === "document" ? selectedFile : null,
     };
 
-    reset();
     onOk(formData);
   };
 
-  const handleImportOptionSelect = (optionId: string) => {
+  const handleImportOptionSelect = async (optionId: string) => {
+    // Clear previous selections when changing import option
+    if (selectedImportOption === "url") {
+      setValue("url", "");
+    } else if (selectedImportOption === "document") {
+      setSelectedFile(null);
+    } else if (selectedImportOption === "text") {
+      setValue("text", "");
+    }
+    
     setSelectedImportOption(optionId);
-    setValue("source_type", optionId);
+    setValue("source_type", optionId, { shouldValidate: true });
+    
+    // Trigger validation after changing the source type
+    await trigger(["source_type"]);
   };
 
   const handleFileChange = (file: File | null) => {
@@ -195,18 +231,25 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
             <input
               type="text"
               id="bot-name"
-              className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              className={`py-2.5 px-3 block w-full rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ${
+                errors.name ? 'border-red-500' : 'border-gray-200'
+              }`}
               placeholder="My Bot"
-              {...register("name", { required: true })}
+              {...register("name", { 
+                required: "Bot name is required",
+                minLength: {
+                  value: 1,
+                  message: "Bot name is required"
+                }
+              })}
             />
             {errors.name && (
               <span className="text-red-500 text-xs mt-1">
-                Bot name is required
+                {errors.name.message}
               </span>
             )}
           </div>
 
-          {/* Business Type */}
           {/* Business Type */}
           <div>
             <label
@@ -245,10 +288,16 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
                 selected={businessCategoryValue}
                 placeholder="Select business category"
                 onSelect={(name) => {
-                  setValue("business_category", name);
+                  setValue("business_category", name, { shouldValidate: true });
                 }}
                 disabled={false}
+                // error={!!errors.business_category}
               />
+              {/* {errors.business_category && (
+                <span className="text-red-500 text-xs mt-1">
+                  Business category is required
+                </span>
+              )} */}
               {/* <select
                 id="business-category"
                 className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
@@ -263,18 +312,13 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
                   </option>
                 ))}
               </select> */}
-              {errors.business_category && (
-                <span className="text-red-500 text-xs mt-1">
-                  Business category is required
-                </span>
-              )}
             </div>
           )}
 
           {/* User prompt */}
           <TextArea
             id="user_prompt"
-            label="User prompt"
+            label="User prompt (optional)"
             placeholder="Details about your bot and its usage..."
             maxLength={1000}
             rows={4}
@@ -326,17 +370,23 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
             {/* URL Input */}
             {selectedImportOption === "url" && (
               <div className="mt-3">
-                <input
-                  type="text"
-                  placeholder="Enter website URL"
-                  {...register("url", { required: true })}
-                  className="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                <HttpsUrlInput
+                  value={currentUrl}
+                  onChange={(url, isValid) => {
+                    setValue("url", url, { shouldValidate: true });
+                    if (!isValid) {
+                      setError("url", { 
+                        type: "manual",
+                        message: "Please enter a valid URL starting with https://" 
+                      });
+                    } else {
+                      clearErrors("url");
+                    }
+                  }}
+                  placeholder="example.com/path"
+                  required
+                  className={errors.url ? 'border-red-500' : ''}
                 />
-                {errors.url && (
-                  <span className="text-red-500 text-xs mt-1">
-                    URL is required
-                  </span>
-                )}
               </div>
             )}
 
@@ -420,7 +470,7 @@ const AddBot: React.FC<AddBotProps> = ({ id, onOk, ...props }) => {
           </button>
           <button
             type="submit"
-            disabled={!isValid} // disable until form is valid
+            disabled={!isValid || (selectedImportOption === "document" && !selectedFile)}
             className="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-start bg-blue-600 border border-blue-600 text-white text-sm font-medium rounded-lg shadow-xs align-middle hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:ring-1 focus:ring-blue-300"
             data-hs-overlay={`#${id}`}
           >

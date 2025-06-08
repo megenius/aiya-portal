@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import { useBotExtractChatbotConfig } from "~/hooks/bot/useBotExtractChatbotConfig";
 import { useBotExtractionChatbotStatus } from "~/hooks/bot/useBotExtractionChatbotStatus";
 import { randomHexString } from "~/utils/random";
+import { uploadFile } from "~/services/file";
+import { useFileUpload } from "~/hooks/useFileUpload";
+import { getDirectusFileUrl } from "~/utils/files";
 
 interface MainContentProps {
   workspace: Workspace;
@@ -55,6 +58,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     variables: { workspaceId: workspace?.id as string },
   });
   const insertBot = useBotInsert();
+  const fileUpload = useFileUpload();
   const extractChatbotConfig = useBotExtractChatbotConfig();
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState<TYPES>();
@@ -106,18 +110,17 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         greeting_message_mobile: chatbot_config.greeting_message,
         context: chatbot_config.context_markdown,
         guidelines: chatbot_config.instruction,
-      }
-      insertBot
-        .mutateAsync(data,{
-          onSuccess: (res) => {
-            toast.success("Bot added successfully");
-            navigate(`/apps/bot/${res.id}`);
-          },
-          onError: (error) => {
-            toast.error(error.message || "Failed to add bot");
-            setIsExtracting(false);
-          },
-        })
+      };
+      insertBot.mutateAsync(data, {
+        onSuccess: (res) => {
+          toast.success("Bot added successfully");
+          navigate(`/apps/bot/${res.id}`);
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to add bot");
+          setIsExtracting(false);
+        },
+      });
     } else if (
       extractionChatbotStatus &&
       !POLL_STATUSES.includes(extractionChatbotStatus.response.status)
@@ -127,14 +130,21 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     }
   }, [extractionChatbotStatus]);
 
-  const handleAddBot = (values) => {
+  const handleAddBot = async (values: any) => {
+    setIsExtracting(true);
+    console.log("values", values);
     const bot: Bot = {
       name: values.name,
       type: selectedType,
     };
     setBot(bot);
+    if (values.source_type === "document") {
+      const res = await fileUpload.mutateAsync({file: values.documentFile, folder: "f2d6968d-3100-4aac-be27-8f31de96a99f"});
+      const url = getDirectusFileUrl(res.id as string)
+      values.source_type = "url";
+      values.url = url;
+    }
 
-    setIsExtracting(true);
     extractChatbotConfig.mutateAsync(
       {
         variables: {
@@ -196,11 +206,89 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     return <Loading />;
   }
 
+  // Helper functions for loading component
+  const getStatusMessage = (status?: string) => {
+    switch (status) {
+      case 'queued':
+        return 'Preparing Your Chatbot';
+      case 'processing':
+        return 'Processing Your Request';
+      case 'crawling':
+        return 'Gathering Information';
+      case 'generating':
+        return 'Generating Responses';
+      default:
+        return 'Processing Your Request';
+    }
+  };
+
+  const getStatusSubtitle = (status?: string) => {
+    switch (status) {
+      case 'queued':
+        return 'Your request is in the queue';
+      case 'processing':
+        return 'Analyzing the content';
+      case 'crawling':
+        return 'Collecting data from the source';
+      case 'generating':
+        return 'Creating your chatbot responses';
+      default:
+        return 'Please wait while we set everything up';
+    }
+  };
+
+  const getProgressWidth = (status?: string) => {
+    const statusOrder = ['queued', 'processing', 'crawling', 'generating', 'success'];
+    const index = statusOrder.indexOf(status || 'queued');
+    return `${((index + 1) / statusOrder.length) * 100}%`;
+  };
+
   return (
     <>
       {isExtracting && (
-        <div className="fixed w-full h-full flex items-center justify-center bg-black opacity-50 z-50">
-          <Loading />
+        <div className="fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-white/95 z-[9999] p-4 transition-all duration-300">
+          <div className="bg-white border border-gray-100 rounded-2xl p-8 max-w-md w-full mx-4 shadow-xl transform transition-all duration-300 hover:shadow-2xl">
+            <div className="flex flex-col items-center space-y-6">
+              {/* Animated Loading Icon */}
+              <div className="relative w-20 h-20">
+                <div className="absolute inset-0 rounded-full border-4 border-blue-100 animate-ping"></div>
+                <div className="absolute inset-1 rounded-full border-4 border-blue-200 animate-spin [animation-duration:3s]"></div>
+                <div className="absolute inset-3 rounded-full border-4 border-gray-100"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Status Text */}
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-bold text-gray-800">
+                  {getStatusMessage(extractionChatbotStatus?.response?.status)}
+                </h3>
+                {extractionChatbotStatus?.response?.status && (
+                  <div className="text-blue-600 font-medium text-lg capitalize tracking-wide">
+                    {extractionChatbotStatus.response.status}
+                  </div>
+                )}
+                <div className="text-gray-600 text-sm mt-2">
+                  {getStatusSubtitle(extractionChatbotStatus?.response?.status)}
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-100 rounded-full h-2.5 mt-2">
+                <div 
+                  className="bg-gradient-to-r from-blue-500 to-blue-400 h-2.5 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    width: getProgressWidth(extractionChatbotStatus?.response?.status)
+                  }}
+                ></div>
+              </div>
+              
+              <p className="text-xs text-gray-400 text-center mt-2">
+                This may take a few moments. Please don&apos;t close this window.
+              </p>
+            </div>
+          </div>
         </div>
       )}
       <div className="p-2 sm:p-5 sm:py-0 md:pt-5 grid grid-cols-2 gap-2">

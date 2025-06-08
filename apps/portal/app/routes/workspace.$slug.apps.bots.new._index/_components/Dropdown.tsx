@@ -11,6 +11,8 @@ interface DropdownProps {
   placeholder?: string;
   /** Disable interaction */
   disabled?: boolean;
+  /** Show error state */
+  error?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -19,6 +21,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   onSelect,
   placeholder = "Select...",
   disabled = false,
+  error = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,13 +49,21 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative inline-block text-left w-full">
+    <div
+      ref={containerRef}
+      className={`relative inline-block w-full ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+    >
       <button
         type="button"
-        className={`inline-flex justify-between items-center w-full rounded-lg border border-gray-200 shadow-sm px-3 py-2 bg-white text-sm hover:bg-gray-50 focus:outline-hidden 
-          ${disabled ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"}`}
         onClick={toggleOpen}
         disabled={disabled}
+        className={`flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-white border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
+          disabled 
+            ? 'bg-gray-50 border-gray-300' 
+            : error 
+              ? 'border-red-500' 
+              : 'border-gray-300 hover:bg-gray-50'
+        }`}
       >
         <span className={selected ? "text-gray-900" : "text-gray-500"}>
           {selected || placeholder}
