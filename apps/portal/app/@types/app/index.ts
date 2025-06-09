@@ -175,7 +175,9 @@ export interface ExtractChatbotConfigRequest {
   source_type: "url" | "text" | string;
   text?: string;
   url?: string;
+  document_urls?: string[];
   filter_type?: "fit" | string;
+  max_depth?: number;
   model: string;
   team: string;
   user_prompt: string;

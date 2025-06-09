@@ -90,7 +90,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   //   });
   // }, [bots.data, searchValue]);
 
-  const POLL_STATUSES = ["queued", "processing", "crawling", "generating"];
+  const POLL_STATUSES = ["queued", "processing", "processing_documents", "downloading", "crawling", "generating"];
 
   useEffect(() => {
     if (extractionChatbotStatus?.response.status === "success") {
@@ -140,9 +140,10 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     setBot(bot);
     if (values.source_type === "document") {
       const res = await fileUpload.mutateAsync({file: values.documentFile, folder: "f2d6968d-3100-4aac-be27-8f31de96a99f"});
-      const url = getDirectusFileUrl(res.id as string)
-      values.source_type = "url";
-      values.url = url;
+      const url = getDirectusFileUrl(res.id as string,{
+        baseUrl: import.meta.env.DIRECTUS_URL,
+      })
+      values.document_urls = [url];
     }
 
     extractChatbotConfig.mutateAsync(
@@ -151,8 +152,10 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           source_type: values.source_type,
           url: values.url,
           text: values.text,
+          document_urls: values.document_urls,
           user_prompt: values.user_prompt,
           filter_type: values.url ? "fit" : "",
+          max_depth: 2,
           model: "gemini-2.0-flash-001",
           team: workspace.id,
         },
