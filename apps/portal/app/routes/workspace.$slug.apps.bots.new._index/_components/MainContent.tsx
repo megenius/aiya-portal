@@ -155,7 +155,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           document_urls: values.document_urls,
           user_prompt: values.user_prompt,
           filter_type: values.url ? "fit" : "",
-          max_depth: 1,
+          // max_depth: 1,
           model: "gemini-2.0-flash-001",
           team: workspace.id,
         },
