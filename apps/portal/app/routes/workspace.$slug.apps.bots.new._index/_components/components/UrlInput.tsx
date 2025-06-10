@@ -14,7 +14,7 @@ interface UrlInputProps {
 export const HttpsUrlInput = ({ 
     value = '', 
     onChange, 
-    placeholder = 'example.com/path',
+    placeholder = 'https://example.com/path',
     label,
     className = '',
     required = false,
@@ -24,44 +24,38 @@ export const HttpsUrlInput = ({
     const [isValid, setIsValid] = useState<boolean | null>(null);
     const [errorMessage, setErrorMessage] = useState('');
   
-    // ตรวจสอบความถูกต้องของ domain/URL
+    // ตรวจสอบความถูกต้องของ URL
     const validateUrl = useCallback((input: string) => {
-      if (!input.trim()) {
+      const trimmedInput = input.trim();
+      
+      if (!trimmedInput) {
         setIsValid(null);
         setErrorMessage('');
         return '';
       }
   
-      // ตัด protocol ออกก่อน
-      const cleanInput = input.trim().replace(/^https?:\/\//, '');
-      
-      // ตัด www. ออก (optional - ขึ้นกับความต้องการ)
-      // cleanInput = cleanInput.replace(/^www\./, '');
-  
-      // Basic domain validation - allow domain with optional path and trailing slash
-      const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9]*(\.[a-zA-Z]{2,})(\/.*|\/?)?$/;
-      const isValidDomain = domainPattern.test(cleanInput);
-  
-      if (isValidDomain) {
-        // Preserve the exact input but ensure it starts with a single slash if there's a path
-        const normalizedInput = cleanInput.replace(/^\/+/g, ''); // Only remove leading slashes
-        const fullUrl = `https://${normalizedInput}`;
+      try {
+        // ตรวจสอบว่าเป็น URL ที่ถูกต้อง
+        const url = new URL(trimmedInput.startsWith('http') ? trimmedInput : `https://${trimmedInput}`);
         
-        // ตรวจสอบด้วย URL constructor
-        try {
-          new URL(fullUrl);
-          setIsValid(true);
-          setErrorMessage('');
-          return normalizedInput;
-        } catch (e) {
-          setIsValid(false);
-          setErrorMessage('Invalid URL format');
-          return cleanInput;
+        // ตรวจสอบ protocol
+        if (!['http:', 'https:'].includes(url.protocol)) {
+          throw new Error('Invalid protocol');
         }
-      } else {
+        
+        // ตรวจสอบ hostname
+        if (!url.hostname) {
+          throw new Error('Invalid hostname');
+        }
+        
+        setIsValid(true);
+        setErrorMessage('');
+        return trimmedInput;
+        
+      } catch (e) {
         setIsValid(false);
-        setErrorMessage('Please enter a valid domain or URL');
-        return cleanInput;
+        setErrorMessage('กรุณากรอก URL ให้ถูกต้อง (เช่น https://example.com)');
+        return trimmedInput;
       }
     }, []);
   
@@ -71,11 +65,9 @@ export const HttpsUrlInput = ({
       
       setInputValue(cleanValue);
       
-      // Send back full HTTPS URL
+      // Send back the URL as is (with or without https://)
       if (onChange) {
-        const fullUrl = cleanValue ? `https://${cleanValue}` : '';
-        // Ensure we're passing a boolean (false if null/undefined)
-        onChange(fullUrl, Boolean(isValid));
+        onChange(cleanValue, Boolean(isValid));
       }
     };
   
@@ -88,7 +80,7 @@ export const HttpsUrlInput = ({
   
     const getInputClassName = () => {
       let classes = `
-        w-full pl-20 pr-12 py-3 text-base border-2 rounded-lg
+        w-full pl-8 pr-12 py-3 text-base border-2 rounded-lg
         transition-all duration-200 ease-in-out
         focus:outline-none focus:ring-2 focus:ring-blue-500/20
         ${disabled ? 'bg-gray-50 cursor-not-allowed' : 'bg-white'}
@@ -118,7 +110,6 @@ export const HttpsUrlInput = ({
           {/* HTTPS Prefix */}
           <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1 text-gray-600 bg-white z-10">
             <Globe size={16} />
-            <span className="text-sm font-medium">https://</span>
           </div>
   
           {/* Input Field */}
@@ -160,9 +151,9 @@ export const HttpsUrlInput = ({
         )}
   
         {/* Help Text */}
-        {/* <p className="text-xs text-gray-500">
-          Enter domain or URL without https:// (it will be added automatically)
-        </p> */}
+        <p className="text-xs text-gray-500">
+          ตัวอย่าง: https://example.com
+        </p>
       </div>
     );
   };

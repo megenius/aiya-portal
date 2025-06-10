@@ -3,6 +3,7 @@ import { components } from "../directus";
 import { BotsSlips } from "../modules/slips";
 import { CAPIEvents } from "../modules/capi";
 import { PlanFeatures } from "../plans.type";
+import { R } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export type { Document, WorkspaceDocument } from "./document";
 
@@ -170,6 +171,28 @@ export type BotIntentImport = {
   tags: string;
 };
 
+export type BotType = {
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  type: string;
+  status?: "active" | "inactive";
+};
+
+export type BotDetails ={
+  name: string;
+  bot_type: string;
+  // ad_account: string;
+  business_type: string;
+  business_category: string;
+  user_prompt?: string;
+  source_type: string;
+  url?: string;
+  documentFile?: File[] | [];
+  document_urls?: string[];
+  text?: string;
+}
+
 // extract Chatbot config
 export interface ExtractChatbotConfigRequest {
   source_type: "url" | "text" | string;
@@ -180,7 +203,7 @@ export interface ExtractChatbotConfigRequest {
   max_depth?: number;
   model: string;
   team: string;
-  user_prompt: string;
+  user_prompt?: string;
 }
 
 export interface ExtractChatbotConfigResponse {

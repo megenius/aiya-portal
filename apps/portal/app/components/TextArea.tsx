@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 
-interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
 }
@@ -8,7 +9,7 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 const TextArea: React.FC<TextAreaProps> = ({
   label,
   id,
-  error,
+  error = "",
   className,
   maxLength,
   onChange,
@@ -19,8 +20,8 @@ const TextArea: React.FC<TextAreaProps> = ({
     typeof rest.defaultValue === "string"
       ? rest.defaultValue.length
       : typeof rest.value === "string"
-      ? rest.value.length
-      : 0
+        ? rest.value.length
+        : 0
   );
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -30,12 +31,19 @@ const TextArea: React.FC<TextAreaProps> = ({
 
   return (
     <div>
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-800">
+      <label
+        htmlFor={id}
+        className="block mb-2 text-sm font-medium text-gray-800"
+      >
         {label}
       </label>
       <textarea
         id={id}
-        className={`py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ${className || ""}`}
+        className={`py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:ring-2 focus:border-transparent disabled:opacity-50 disabled:pointer-events-none ${className || ""} ${
+          error
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-200 focus:ring-blue-500"
+        }`}
         maxLength={maxLength}
         onChange={handleChange}
         {...rest}
