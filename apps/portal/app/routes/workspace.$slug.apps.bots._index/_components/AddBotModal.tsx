@@ -5,8 +5,9 @@ import Dropdown from "./Dropdown";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import TextArea from "~/components/TextArea";
 import FileUploader from "~/components/FileUploader";
+import UrlInput from "~/components/UrlInput";
 
-interface BotTypeModalProps {
+interface AddBotModalProps {
   workspaceId: string;
   botTypes: BotType[];
   isOpen: boolean;
@@ -64,7 +65,7 @@ const importOptions = [
 
 const businessTypes: BusinessType[] = business_types_json;
 
-const BotTypeModal: React.FC<BotTypeModalProps> = ({
+const AddBotModal: React.FC<AddBotModalProps> = ({
   isOpen,
   botTypes,
   onOk,
@@ -114,6 +115,7 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
     handleSubmit,
     watch,
     setValue,
+    setError,
     clearErrors,
     control,
     trigger,
@@ -178,14 +180,13 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
 
   //create bot
   const onSubmit: SubmitHandler<BotDetails> = (data) => {
-    console.log("Received:", data);
+    console.log("Form data:", data);
     const botDetails: BotDetails & { documentFile: File[] | [] } = {
       ...data,
-      documentFile: selectedFile ? [selectedFile] : [], // Wrap in array to match expected type
+      documentFile: selectedFile ? [selectedFile] : [],
     };
     onOk(botDetails);
-
-    reset(); // รีเซ็ตฟอร์ม
+    reset(); // Reset form
   };
 
   const handleBack = () => {
@@ -389,14 +390,19 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
                       />
                     </div>
                   )}
-
-                  <TextArea
-                    id="user_prompt"
-                    label="User prompt (optional)"
-                    placeholder="Details about your bot and its usage..."
-                    maxLength={1000}
-                    rows={4}
-                    {...register("user_prompt")}
+                  <Controller
+                    name="user_prompt"
+                    control={control}
+                    render={({ field }) => (
+                      <TextArea
+                        id="user_prompt"
+                        label="User prompt (optional)"
+                        placeholder="Details about your bot and its usage..."
+                        maxLength={1000}
+                        rows={4}
+                        {...field}
+                      />
+                    )}
                   />
 
                   <div>
@@ -443,22 +449,29 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
                     {/* URL Input */}
                     {selectedImportOption === "url" && (
                       <div className="mt-3">
-                        {/* <HttpsUrlInput
-                                        value={currentUrl}
-                                        onChange={(url, isValid) => {
-                                          setValue("url", url, { shouldValidate: true });
-                                          if (!isValid) {
-                                            setError("url", { 
-                                              type: "manual",
-                                              message: "Please enter a valid URL starting with https://" 
-                                            });
-                                          } else {
-                                            clearErrors("url");
-                                          }
-                                        }}
-                                        required
-                                        className={errors.url ? 'border-red-500' : ''}
-                                      /> */}
+                        <UrlInput
+                          name="url"
+                          value={watch("url")}
+                          onChange={(url, isValid) => {
+                            setValue("url", url, { shouldValidate: true });
+                            if (!isValid) {
+                              setError("url", { 
+                                type: "manual",
+                                message: "Please enter a valid URL" 
+                              });
+                            } else {
+                              clearErrors("url");
+                            }
+                          }}
+                          placeholder="https://example.com"
+                          error={errors.url}
+                          className="w-full"
+                        />
+                        {/* {errors.url && (
+                          <p className="mt-1 text-sm text-red-600">
+                            {errors.url.message}
+                          </p>
+                        )} */}
                       </div>
                     )}
                     {/* Document Upload */}
@@ -467,7 +480,7 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
                         <FileUploader
                           onFileChange={handleFileChange}
                           initialFile={selectedFile}
-                          accept=".pdf,.doc,.docx,.txt,.md,.rtf"
+                          accept=".pdf,.doc,.docx,.txt,.xlsx,.jpg,.jpeg,.png,.tiff,.bmp,.gif"
                           maxSize={5}
                         />
                         {!selectedFile &&
@@ -549,4 +562,4 @@ const BotTypeModal: React.FC<BotTypeModalProps> = ({
   );
 };
 
-export default BotTypeModal;
+export default AddBotModal;

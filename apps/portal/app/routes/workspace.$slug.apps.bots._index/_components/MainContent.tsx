@@ -6,7 +6,7 @@ import { useNavigate } from "@remix-run/react";
 import MainContainer from "~/components/MainContainer";
 import { Bot, BotDetails, BotType, Workspace } from "~/@types/app";
 import { useWorkspaceBots } from "~/hooks/workspace/useWorkspaceBots";
-import BotTypeModal from "./BotTypeModal";
+import AddBotModal from "./AddBotModal";
 import { getDirectusFileUrl } from "~/utils/files";
 import { useBotExtractionChatbotStatus } from "~/hooks/bot/useBotExtractionChatbotStatus";
 import { randomHexString } from "~/utils/random";
@@ -154,7 +154,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       !POLL_STATUSES.includes(extractionChatbotStatus.response.status)
     ) {
       setIsExtracting(false);
-      toast.error("Failed to add bot");
+      toast.error(extractionChatbotStatus.response.message);
     }
   }, [extractionChatbotStatus]);
 
@@ -344,7 +344,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         <BotTable bots={filteredItems} onRowClick={handleRowClick} />
       </MainContainer>
 
-      <BotTypeModal
+      <AddBotModal
         workspaceId={workspace.id}
         isOpen={isBotTypeModalOpen}
         onClose={() => setIsBotTypeModalOpen(false)}
