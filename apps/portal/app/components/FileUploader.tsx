@@ -11,7 +11,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   onFileChange,
   initialFile = null,
   accept = ".pdf,.doc,.docx,.txt,.md,.rtf",
-  maxSize = 10, // default 10MB
+  maxSize = 5, // default 5MB
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(initialFile);
   const [isDragging, setIsDragging] = useState<boolean>(false);

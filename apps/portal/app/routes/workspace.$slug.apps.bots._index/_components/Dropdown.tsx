@@ -57,15 +57,15 @@ const Dropdown: React.FC<DropdownProps> = ({
         type="button"
         onClick={toggleOpen}
         disabled={disabled}
-        className={`flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-white border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
+        className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left bg-white border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
           disabled 
             ? 'bg-gray-50 border-gray-300' 
             : error 
               ? 'border-red-500' 
-              : 'border-gray-300 hover:bg-gray-50'
+              : 'border-gray-200 hover:bg-gray-50'
         }`}
       >
-        <span className={selected ? "text-gray-900" : "text-gray-500"}>
+        <span className={selected ? "text-stone-800" : "text-gray-400"}>
           {selected || placeholder}
         </span>
         <svg

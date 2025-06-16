@@ -326,7 +326,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                     <input
                       type="text"
                       id="bot-name"
-                      className={`py-2.5 px-3 block w-full rounded-lg text-sm placeholder:text-gray-400 focus:ring-2 focus:border-transparent ${
+                      className={`py-2.5 px-3 block w-full rounded-lg text-stone-800 text-sm placeholder:text-gray-400 focus:ring-2 focus:border-transparent ${
                         errors.name
                           ? "border-red-500 focus:ring-red-500"
                           : "border-gray-200 focus:ring-blue-500"
@@ -349,7 +349,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                   <div>
                     <label
                       htmlFor="business-type"
-                      className="block mb-2 text-sm font-medium text-gray-800"
+                      className={`block mb-2 text-sm font-medium`}
                     >
                       Business Type
                     </label>
@@ -373,7 +373,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                     <div>
                       <label
                         htmlFor="business-category"
-                        className="block mb-2 text-sm font-medium text-gray-800"
+                        className={`block mb-2 text-sm font-medium`}
                       >
                         Business Category
                       </label>
@@ -397,7 +397,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                       <TextArea
                         id="user_prompt"
                         label="User prompt (optional)"
-                        placeholder="Details about your bot and its usage..."
+                        placeholder='Such as "Translate this to Spanish" or "Write a product description"'
                         maxLength={1000}
                         rows={4}
                         {...field}
@@ -457,7 +457,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                             if (!isValid) {
                               setError("url", { 
                                 type: "manual",
-                                message: "Please enter a valid URL" 
+                                message: "Invalid URL. Must start with http:// or https:// and not link directly to files (images, PDFs, docs)." 
                               });
                             } else {
                               clearErrors("url");

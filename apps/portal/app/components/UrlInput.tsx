@@ -30,6 +30,19 @@ export const UrlInput: React.FC<UrlInputProps> = ({
     
     try {
       const urlObj = new URL(url);
+      const path = urlObj.pathname.toLowerCase();
+      
+      // Check if URL points to a file with unsupported extension
+      const fileExtensions = [
+        '.jpg', '.jpeg', '.png', '.gif', '.svg',
+        '.pdf', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'
+      ];
+      
+      const hasUnsupportedExtension = fileExtensions.some(ext => path.endsWith(ext));
+      if (hasUnsupportedExtension) {
+        return false;
+      }
+      
       return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
     } catch {
       return false;
@@ -73,7 +86,7 @@ export const UrlInput: React.FC<UrlInputProps> = ({
           autoComplete="off"
           spellCheck="false"
         />
-        {isValid && value && (
+        {/* {isValid && value && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
             <svg
               className="w-5 h-5 text-green-500"
@@ -90,11 +103,11 @@ export const UrlInput: React.FC<UrlInputProps> = ({
               />
             </svg>
           </div>
-        )}
+        )} */}
       </div>
       {showError && (
         <p className={`mt-1 text-sm text-red-600 ${errorClassName}`}>
-          {error?.message || 'Please enter a valid URL (must include http:// or https://)'}
+          {error?.message || 'Invalid URL. Must start with http:// or https:// and not link directly to files (images, PDFs, docs).'}
         </p>
       )}
     </div>
