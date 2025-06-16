@@ -50,6 +50,7 @@ export const getWorkspaces = factory.createHandlers(
             },
           },
           sort: ["-date_updated"],
+          limit: 150,
         })
       );
       return c.json({ total: items?.length, items });
