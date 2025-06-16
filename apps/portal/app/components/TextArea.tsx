@@ -33,7 +33,7 @@ const TextArea: React.FC<TextAreaProps> = ({
     <div>
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-800"
+        className="block mb-2 text-sm font-medium text-stone-800"
       >
         {label}
       </label>
