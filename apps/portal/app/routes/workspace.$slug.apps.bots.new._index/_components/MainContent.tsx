@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Loading } from "@repo/preline";
-import AddBot from "../../workspace.$slug.apps.bots._index/_components/AddBot";
 import { useNavigate } from "@remix-run/react";
 import { useBotInsert } from "~/hooks/bot/useBotInsert";
 import { Bot, Workspace } from "~/@types/app";
@@ -361,7 +360,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       </div>
 
       {/* Add Bot Modal */}
-      {isModalOpen && selectedType && (
+      {/* {isModalOpen && selectedType && (
         <AddBot
           id="add-bot-modal"
           type={selectedType}
@@ -371,7 +370,6 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           onClose={handleModalClose}
         />
       )}
-      {/* Add Bot Modal */}
       {isModalOpen && selectedType && (
         <AddBot
           id="add-bot-modal"
@@ -381,7 +379,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
           open={isModalOpen}
           onClose={handleModalClose}
         />
-      )}
+      )} */}
     </>
   );
 };
