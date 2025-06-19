@@ -35,6 +35,12 @@ export type VoucherUser = Omit<
   code: VoucherCode;
 };
 
+export interface VoucherCodeUpdate {
+  userId: string;
+  code:string;
+  code_status: string;
+}
+
 export interface VoucherStats {
   available: number;
   collected: number;

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import VoucherCard from "./VoucherCard";
 import { VoucherUser } from "~/types/app";
-import RedeemModal from "./RedeemModal";
 import EmptyListMessage from "./EmptyListMessage";
+import { useNavigate } from "@remix-run/react";
+import { PageLiff } from "~/types/page";
 
 interface MainContentProps {
+  page:PageLiff;
   activeTab: string;
   vouchers: VoucherUser[];
   language: string;
@@ -12,12 +14,14 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({
+  page,
   activeTab,
   vouchers,
   language,
   primaryColor,
 }) => {
-  const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
+  const navigate = useNavigate ();
+  // const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
   const filteredVouchers = vouchers
   .filter((voucher) => {
     let timeLeft = 0;
@@ -27,13 +31,15 @@ const MainContent: React.FC<MainContentProps> = ({
       const now = new Date().getTime();
       timeLeft = Math.floor((expiryTime - now) / 1000);
     }
+    const isExpired = voucher.expired_date && new Date(voucher.expired_date) < new Date();
+    
     if (activeTab === "available") {
       return (
-        voucher.code.code_status === "collected" ||
-        (voucher.code.code_status === "used" && timeLeft > 0)
+        !isExpired && voucher.code.code_status === "collected" ||
+        (voucher.code.code_status === "pending_confirmation" && timeLeft > 0)
       );
     } else if (activeTab === "used") {
-      return voucher.code.code_status === "used" && timeLeft <= 0;
+      return voucher.code.code_status === "used" || (voucher.code.code_status === "pending_confirmation" && timeLeft <= 0);
     } else if (activeTab === "expired") {
       return (
         voucher.code.code_status === "collected" &&
@@ -56,7 +62,9 @@ const MainContent: React.FC<MainContentProps> = ({
             <VoucherCard
               key={voucher.id}
               voucherUser={voucher}
-              onClick={() => setVoucherUser(voucher)}
+              onClick={() => {
+                navigate(`/a/${page.liff_id}/${page.slug}/voucher/${voucher.code.voucher.id}`);
+              }}
               language={language}
             />
           ))
@@ -64,14 +72,14 @@ const MainContent: React.FC<MainContentProps> = ({
           <EmptyListMessage activeTab={activeTab} language={language} />
         )}
       </main>
-      {voucherUser && (
+      {/* {voucherUser && (
         <RedeemModal
           voucherUser={voucherUser}
           language={language}
           primaryColor={primaryColor}
           onClose={() => setVoucherUser(null)}
         />
-      )}
+      )} */}
     </>
   );
 };

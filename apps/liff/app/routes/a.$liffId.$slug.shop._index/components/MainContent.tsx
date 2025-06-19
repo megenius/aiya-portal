@@ -60,7 +60,7 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 pb-1 space-y-3">
-        <SearchBar language={language} primaryColor={page.bg_color ?? ""} />
+        <SearchBar language={language} primaryColor={page.bg_color ?? ""} showSearch={page?.metadata?.layout?.showSearch} />
         <VoucherSummary
           totalVouchers={voucherUserStats?.total}
           availableVouchers={voucherUserStats?.collected}

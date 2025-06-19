@@ -22,6 +22,8 @@ export const useLiff = ({ liffId }: UseLiffProps) => {
         if (!liff.isLoggedIn()) {
           // const redirectUri = `${window.location.origin}${window.location.pathname}`;
           const redirectUri = window.location.href;
+          console.log("LIFF redirectUri", redirectUri);
+          
           liff.login({ redirectUri });
         } else {
           const detectedLang = liff.getAppLanguage();

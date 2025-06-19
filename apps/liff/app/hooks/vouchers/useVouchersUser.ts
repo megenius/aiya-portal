@@ -10,7 +10,7 @@ export function useVouchersUser({ userId }: UseVouchersUserProps) {
   const { data: liff } = useLineLiff();
   
   return useQuery({
-    queryKey: ["vouchersUser", userId],
+    queryKey: ["voucher-user", userId],
     queryFn: () => fetchVouchersUser({ userId }).then((res) => res.data),
     enabled: liff?.isLoggedIn()
   });

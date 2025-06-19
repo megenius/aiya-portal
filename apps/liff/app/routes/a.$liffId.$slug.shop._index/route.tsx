@@ -32,7 +32,7 @@ const Route = () => {
   const { data: userProfile, isLoading: isUserProfileLoading } = 
     useProfile({ 
       uid: profile?.userId || "",
-      liff_id: page.liff_id,
+      liff_id: page.liff_id as string,
       enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
     });
 

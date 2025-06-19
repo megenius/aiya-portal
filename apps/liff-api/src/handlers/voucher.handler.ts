@@ -400,11 +400,43 @@ export const useVoucher = factory.createHandlers(
 
     await directus.request(
       updateItem("vouchers_codes", voucherCode[0].id, {
-        code_status: "used",
+        code_status: "pending_confirmation",
       })
     );
 
     return c.json({ collected_by: voucherUser.collected_by });
+  }
+);
+
+export const updateVoucherCode = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const {userId,code,code_status} =await c.req.json();    
+
+    const voucherCode = await directus.request(
+      readItems("vouchers_codes", {
+        filter: {
+          code: {
+            _eq: code,
+          },
+        },
+        limit: 1,
+      })
+    );
+
+    if (!voucherCode.length) {
+      return c.json({ error: "Voucher code not found" }, { status: 404 });
+    }
+
+    await directus.request(
+      updateItem("vouchers_codes", voucherCode[0].id, {
+        code_status: code_status,
+      })
+    );
+
+    return c.json({ userId });
   }
 );
 

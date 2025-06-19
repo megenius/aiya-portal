@@ -73,6 +73,7 @@ export interface Layout {
   showAIProfile: boolean
   showCategory: boolean
   showSearch: boolean
+  showPoint: boolean
   form: {
     fields: Field[];
   };

@@ -4,7 +4,7 @@ import {
   useNavigate,
 } from "@remix-run/react";
 
-import { json, MetaFunction } from '@remix-run/cloudflare';
+import { json, MetaFunction } from "@remix-run/cloudflare";
 
 import { useLiff } from "~/hooks/useLiff";
 import Header from "./components/Header";
@@ -25,6 +25,7 @@ import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import { fetchVoucher } from "~/services/vouchers";
 import { useLineLiff } from "~/hooks/useLineLiff";
+import RedeemModal from "./components/RedeemModal";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -84,6 +85,7 @@ const Route = () => {
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
+  const [isRedeemedModalOpen, setIsRedeemedModalOpen] = useState(false);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -92,6 +94,7 @@ const Route = () => {
       instant: "เก็บคูปอง",
       form: "ลงทะเบียน",
       collected: "ใช้คูปอง",
+      pending_confirmation: "ใช้คูปอง",
       used: "ใช้แล้ว",
       expired: "หมดอายุแล้ว",
       fully_collected: "หมดแล้ว",
@@ -100,6 +103,7 @@ const Route = () => {
       instant: "Collect",
       form: "Register",
       collected: "Redeem",
+      pending_confirmation: "Redeem",
       used: "Redeemed",
       expired: "Expired",
       fully_collected: "Fully Collected",
@@ -111,16 +115,29 @@ const Route = () => {
       ? "fully_collected"
       : (voucher?.metadata.redemptionType ?? "instant");
 
+  const isExpired = myVoucher ? (myVoucher.expired_date && new Date(myVoucher.expired_date) < new Date()) : false;
+
+  let timeLeft = 0;
+  if (myVoucher?.used_date) {
+    const usedDateTime = new Date(myVoucher.used_date).getTime();
+    const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+    const now = new Date().getTime();
+    timeLeft = Math.floor((expiryTime - now) / 1000);
+  }
+
   const handleSubmit = async () => {
     if (
+      isExpired ||
+      (status === "pending_confirmation" && timeLeft <= 0) ||
       status === "used" ||
       status === "expired" ||
       status === "fully_collected"
     ) {
       return;
     }
-    if (isCollected) {
-      navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
+    if (isCollected || status === "pending_confirmation") {
+      // navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
+      setIsRedeemedModalOpen(true);
       return;
     }
     if (
@@ -137,40 +154,44 @@ const Route = () => {
       channel: page?.channel as string,
     };
 
-    await collectVoucher.mutateAsync(
-      {
-        variables: collectVoucherData,
-      },
-      {
-        onSuccess: (res) => {
-          setIsCollected(true);
-          setPageState("landing");
-          const data: Partial<LeadSubmission> = {
-            source: "voucher",
-            source_id: res.id as string,
-            data: voucher?.metadata.redemptionType === "form" ? { form: { fields: formData } } : undefined,
-            metadata: voucher?.metadata,
-          };
-          leadSubmission.mutateAsync({
-            variables: data,
-          });
+    await collectVoucher
+      .mutateAsync(
+        {
+          variables: collectVoucherData,
+        },
+        {
+          onSuccess: (res) => {
+            setIsCollected(true);
+            setPageState("landing");
+            const data: Partial<LeadSubmission> = {
+              source: "voucher",
+              source_id: res.id as string,
+              data:
+                voucher?.metadata.redemptionType === "form"
+                  ? { form: { fields: formData } }
+                  : undefined,
+              metadata: voucher?.metadata,
+            };
+            leadSubmission.mutateAsync({
+              variables: data,
+            });
 
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.9 },
-          });
-        },
-        onError: () => {
-          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
-          setShowFullyCollectedModal(true);
-          // }
-        },
-      }
-    ).finally(() => {
-      setIsSubmitting(false);
-    }
-    );
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.9 },
+            });
+          },
+          onError: () => {
+            // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+            setShowFullyCollectedModal(true);
+            // }
+          },
+        }
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   if (
@@ -203,10 +224,17 @@ const Route = () => {
         )}
         <Footer
           color={voucher.voucher_brand_id.primaryColor ?? ""}
-          buttonText={isSubmitting ? "Collecting" : buttonText[lang][status]}
-          status={status}
+          buttonText={isSubmitting ? "Collecting" : isExpired ? buttonText[lang]["expired"] : (status === "pending_confirmation" && timeLeft <= 0) ? buttonText[lang]["used"] : buttonText[lang][status]}
           onClick={handleSubmit}
-          disabled={pageState === "form" && !isFormValid || isSubmitting}
+          disabled={
+            (pageState === "form" && !isFormValid) ||
+            isExpired ||
+            (status === "pending_confirmation" && timeLeft <= 0) ||
+            status === "used" ||
+            status === "expired" ||
+            status === "fully_collected" ||
+            isSubmitting
+          }
         />
 
         <FullyCollectedModal
@@ -218,6 +246,19 @@ const Route = () => {
           language={lang}
           primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
         />
+
+        {myVoucher && (
+          <RedeemModal
+            voucherUser={myVoucher}
+            language={lang}
+            primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
+            isOpen={isRedeemedModalOpen}
+            onClose={() => {
+              refetchCodeStats();
+              setIsRedeemedModalOpen(false);
+            }}
+          />
+        )}
       </div>
     )
   );

@@ -1,4 +1,4 @@
-import { CollectVoucher, Voucher, VoucherStats, VoucherUser } from "~/types/app";
+import { CollectVoucher, Voucher, VoucherCodeUpdate, VoucherStats, VoucherUser } from "~/types/app";
 import api from "./api";
 
 export const fetchVoucher = ({ voucherId }) =>
@@ -21,3 +21,6 @@ export const fetchVoucherCodeStats = ({ voucherId }) =>
 
 export const fetchVoucherUserStats = ({ userId }) =>
   api.get<VoucherStats>(`/vouchers/voucher-users/stats/${userId}`);
+
+export const updateVoucherCode = (data: VoucherCodeUpdate) =>
+  api.patch(`/vouchers/voucher-codes`, data);

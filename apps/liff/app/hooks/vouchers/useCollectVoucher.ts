@@ -17,7 +17,7 @@ export function useCollectVoucher() {
       collectVoucher(variables).then((response) => response.data),
     onSuccess: (res) => {
       queryClient.invalidateQueries({
-        queryKey: ["vouchersUser",res.collected_by ],
+        queryKey: ["voucher-user",res.collected_by ],
         exact: true,
         refetchType: "active",
       });
