@@ -63,7 +63,7 @@ const AvartarUploader: React.FC<AvatarProps> = ({ workspace }) => {
       await fileDelete.mutateAsync(workspace?.avatar as string)
     }
 
-    fileUpload.mutateAsync(file, {
+    fileUpload.mutateAsync({file}, {
       onSuccess: (data) => {
         updateWorkspace.mutateAsync({
           variables: {
