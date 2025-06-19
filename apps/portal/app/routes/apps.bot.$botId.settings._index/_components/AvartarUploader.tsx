@@ -1,9 +1,9 @@
 import { Avatar } from '@repo/preline/Avatar';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Bot } from '~/@types/app';
+import { useBotUpdate } from '~/hooks/bot';
 import { useFileDelete } from '~/hooks/useFileDelete';
 import { useFileUpload } from '~/hooks/useFileUpload';
-import { useBotUpdate } from '~/hooks/bot';
 import { getDirectusFileUrl } from '~/utils/files';
 
 interface AvatarProps {
@@ -63,7 +63,7 @@ const AvartarUploader: React.FC<AvatarProps> = ({ bot }) => {
       await fileDelete.mutateAsync(bot?.avatar as string)
     }
 
-    fileUpload.mutateAsync(file, {
+    fileUpload.mutateAsync({file}, {
       onSuccess: (data) => {
         updateBot.mutateAsync({
           variables: {

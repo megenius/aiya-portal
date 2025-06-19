@@ -1,28 +1,25 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Bot, BotIntent, BotKnowledge, ResponseElementType } from '~/@types/app';
-import IntentsList from './IntentsList';
-import { Outlet, useNavigate, useSearchParams } from '@remix-run/react';
-import { useAppSelector } from '~/store';
-import { updateItem } from '@directus/sdk';
-import IntentImporter from './IntentImporter';
-import { useBotKnowlegdeUpdate } from '~/hooks/bot/useBotKnowlegdeUpdate';
-import BasicAddModal from '~/components/BasicAddModal';
-import { randomHexString } from '~/utils/random';
-import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
-import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
-import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
-import { cn } from '@repo/ui/utils';
-import { CloudUpload, DownloadIcon, EllipsisVertical, OctagonPause, Rocket, Rss, Trash, Upload } from 'lucide-react';
-import { useBotKnowlegdeDelete } from '~/hooks/bot/useBotKnowlegdeDelete';
-import { set } from 'lodash';
+import { useNavigate, useSearchParams } from '@remix-run/react';
 import { Loading } from '@repo/preline';
-import { toast } from 'react-toastify';
-import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
-import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
 import { jsonArrayToExcel } from '@repo/shared/utils/xlsx-helper';
+import { cn } from '@repo/ui/utils';
 import { format } from 'date-fns';
+import { DownloadIcon, EllipsisVertical, OctagonPause, Rocket, Trash, Upload } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Bot, BotIntent, BotKnowledge, ResponseElementType } from '~/@types/app';
+import BasicAddModal from '~/components/BasicAddModal';
 import { useBotGenIntent } from '~/hooks/bot/useBotGenIntent';
+import { useBotKnowledgeIntentDelete } from '~/hooks/bot/useBotKnowledgeIntentDelete';
+import { useBotKnowledgeIntentInsert } from '~/hooks/bot/useBotKnowledgeIntentInsert';
 import { useBotKnowledgeIntentMultipleInsert } from '~/hooks/bot/useBotKnowledgeIntentMultipleInsert';
+import { useBotKnowlegdeDelete } from '~/hooks/bot/useBotKnowlegdeDelete';
+import { useBotKnowlegdeDeploy } from '~/hooks/bot/useBotKnowlegdeDeploy';
+import { useBotKnowlegdeImport } from '~/hooks/bot/useBotKnowlegdeImport';
+import { useBotKnowlegdeUndeploy } from '~/hooks/bot/useBotKnowlegdeUndeploy';
+import { useBotKnowlegdeUpdate } from '~/hooks/bot/useBotKnowlegdeUpdate';
+import { randomHexString } from '~/utils/random';
+import IntentImporter from './IntentImporter';
+import IntentsList from './IntentsList';
 
 interface MainContentProps {
   knowledge: BotKnowledge;
@@ -55,17 +52,16 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
   }, [searchParams]);
 
 
-  // useEffect(() => {
-  //   async function initializePreline() {
-  //     const { HSAccordion, HSOverlay } = await import('preline/preline');
-  //     setTimeout(() => {
-  //       HSAccordion.autoInit();
-  //       HSOverlay.autoInit();
-  //     }, 500);
-  //   }
-
-  //   initializePreline();
-  // }, [intents]);
+  useEffect(() => {
+    async function initializePreline() {
+      const { HSAccordion, HSOverlay } = await import('preline/preline');
+      setTimeout(() => {
+        HSAccordion.autoInit();
+        HSOverlay.autoInit();
+      }, 100); // ลดเวลาเหลือ 100ms เพื่อให้เร็วขึ้น
+    }
+    initializePreline();
+  }, [intents]);
 
 
   const onIntentRemove = useCallback(async (intentId: string) => {
