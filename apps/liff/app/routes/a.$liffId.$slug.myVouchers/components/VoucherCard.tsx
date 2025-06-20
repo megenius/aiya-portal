@@ -50,6 +50,21 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     timeLeft = Math.floor((expiryTime - now) / 1000);
   }
 
+  const text = () => {
+    if (voucherUser.code.code_status === "pending_confirmation") {
+      if (timeLeft > 0) return voucherText["collected"][language];
+      else return voucherText["used"][language];
+    }
+      if (
+        isExpired &&
+        voucherUser.code.code_status !== "used" &&
+        voucherUser.code.code_status !== "pending_confirmation"
+      ) {
+        return voucherText["expired"][language];
+      }
+    return voucherText[voucherUser.code.code_status ?? "collected"][language];
+  };
+
   return (
     <div className="w-full">
       {/* Ticket outer container */}
@@ -83,26 +98,23 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
               <div
                 className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
               >
-                {voucherUser.code.code_status === "used" && timeLeft <= 0 && (
+                {((voucherUser.code.code_status === "pending_confirmation" && timeLeft <= 0) || voucherUser.code.code_status === "used") && (
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                 )}
                 {!isExpired &&
-                  ((voucherUser.code.code_status === "used" && timeLeft > 0) ||
+                  ((voucherUser.code.code_status === "pending_confirmation" &&
+                    timeLeft > 0) ||
                     voucherUser.code.code_status === "collected") && (
                     <QrCode className="h-4 w-4 flex-shrink-0" />
                   )}
-                {((isExpired && voucherUser.code.code_status !== "used") ||
+                {((isExpired &&
+                  voucherUser.code.code_status !== "used" &&
+                  voucherUser.code.code_status !== "pending_confirmation") ||
                   voucherUser.code.code_status === "expired") && (
                   <XCircle className="h-4 w-4 flex-shrink-0" />
                 )}
                 <span className="flex-1 text-start" style={textTruncateStyle}>
-                  {voucherUser.code.code_status === "used" && timeLeft > 0
-                    ? voucherText["collected"][language]
-                    : isExpired && voucherUser.code.code_status !== "used"
-                      ? voucherText["expired"][language]
-                      : voucherText[
-                          voucherUser.code.code_status ?? "collected"
-                        ][language]}
+                  {text()}
                 </span>
               </div>
             </div>

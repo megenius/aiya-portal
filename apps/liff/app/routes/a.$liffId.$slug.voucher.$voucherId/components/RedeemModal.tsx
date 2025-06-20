@@ -7,19 +7,25 @@ import BarcodeGenerator from "~/components/BarCodeGenerater";
 import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 import Button from "./Button";
 import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
+import { useNavigate } from "@remix-run/react";
+import { PageLiff } from "~/types/page";
 
 interface RedeemModalProps {
+  page: PageLiff;
   voucherUser: VoucherUser;
   language: string;
   primaryColor: string;
+  state?: "redeem" | "collected";
   isOpen: boolean;
   onClose: () => void;
 }
 
 const RedeemModal: React.FC<RedeemModalProps> = ({
+  page,
   voucherUser,
   language,
   primaryColor,
+  state = "redeem",
   isOpen,
   onClose,
 }) => {
@@ -27,6 +33,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const usedDate = voucherUser.used_date;
   const redeemVoucher = useRedeemVoucher();
   const updateVoucherCode = useUpdateVoucherCode();
+  const navigate = useNavigate();
   const [codeType, setCodeType] = useState("qrcode");
   const [remainingTime, setRemainingTime] = useState(15 * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
@@ -58,6 +65,20 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     },
     // { id: "locations", label: "สาขา" },
   ];
+  // After Collect Page
+  const collectedSuccessText = {
+    th: "เก็บคูปองสำเร็จ",
+    en: "Voucher collected successfully",
+  };
+  const collectedDescription = {
+    th: "หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน 15 นาที",
+    en: "If you redeem now, the voucher will start a countdown with 15 minutes to use it.",
+  };
+  const seeMyVouchersText = {
+    th: "ดูคูปองของฉัน",
+    en: "See My Vouchers",
+  };
+
   // Confirmation Modal Page
   const confirmText = {
     th: "ยืนยันการใช้คูปองไหม",
@@ -168,7 +189,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 
   if (!voucher) return null;
 
-  const handleCollect = () => {
+  const handleRedeem = () => {
     const data: Partial<VoucherUser> = {
       id: voucherUser.id,
     };
@@ -205,141 +226,141 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
       <div className="p-4 bg-white rounded-2xl w-full max-w-sm m-4 overflow-hidden">
         {isRedeemed ? (
           <>
-          {pageState === "redeem" &&
-            <>
-              <div className="mb-3 flex justify-between">
-                <div className="flex items-start gap-3">
-                  <img
-                    src={getDirectusFileUrl(voucher.cover as string) ?? ""}
-                    alt={title}
-                    className="w-20 h-20 object-cover rounded-lg"
-                  />
-                  <div>
-                    <h3 className="font-medium text-lg">
-                      {voucher.voucher_brand_id?.name}
-                    </h3>
-                    <h4 className="text-sm text-gray-500">{title}</h4>
-                    {/* <div className="text-primary font-medium text-lg">
+            {pageState === "redeem" && (
+              <>
+                <div className="mb-3 flex justify-between">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+                      alt={title}
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                    <div>
+                      <h3 className="font-medium text-lg">
+                        {voucher.voucher_brand_id?.name}
+                      </h3>
+                      <h4 className="text-sm text-gray-500">{title}</h4>
+                      {/* <div className="text-primary font-medium text-lg">
                 {voucher.discount}
               </div>
               <div className="text-xs text-gray-500 mt-1">
                 หมดอายุ: {voucher.expiry}
               </div> */}
+                    </div>
+                  </div>
+                  <div>
+                    <button onClick={onClose} className="text-gray-500">
+                      <X className="h-6 w-6" />
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <button onClick={onClose} className="text-gray-500">
-                    <X className="h-6 w-6" />
-                  </button>
-                </div>
-              </div>
-              <div className="space-y-3">
-                {/* แสดงเวลาที่เหลือ */}
-                <div
-                  className={`p-4 rounded-lg ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Clock
-                        className={`h-5 w-5 ${getTimeColor(remainingTime)}`}
-                      />
-                      <span className="text-sm font-medium text-gray-700">
-                        {voucherWillExpireInText[language]}
-                      </span>
+                <div className="space-y-3">
+                  {/* แสดงเวลาที่เหลือ */}
+                  <div
+                    className={`p-4 rounded-lg ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Clock
+                          className={`h-5 w-5 ${getTimeColor(remainingTime)}`}
+                        />
+                        <span className="text-sm font-medium text-gray-700">
+                          {voucherWillExpireInText[language]}
+                        </span>
+                      </div>
+                      <div
+                        className={`font-bold text-xl ${getTimeColor(remainingTime)}`}
+                      >
+                        {formatTime(remainingTime)}
+                      </div>
                     </div>
-                    <div
-                      className={`font-bold text-xl ${getTimeColor(remainingTime)}`}
-                    >
-                      {formatTime(remainingTime)}
+
+                    {/* Progress Bar */}
+                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full ${
+                          remainingTime <= 60
+                            ? "bg-red-600"
+                            : remainingTime <= 5 * 60
+                              ? "bg-yellow-400"
+                              : "bg-primary"
+                        }`}
+                        style={{ width: `${timePercentage}%` }}
+                      ></div>
                     </div>
+
+                    {/* Expire Warning */}
+                    {showExpireWarning && (
+                      <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                        <AlertCircle className="h-4 w-4" />
+                        <span>{warningExpireText[language]}</span>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Progress Bar */}
-                  <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${
-                        remainingTime <= 60
-                          ? "bg-red-600"
-                          : remainingTime <= 5 * 60
-                            ? "bg-yellow-400"
-                            : "bg-primary"
+                  {/* Code Type Selection */}
+                  <div className="flex rounded-lg overflow-hidden">
+                    <button
+                      className={`flex-1 py-3 text-center ${
+                        codeType === "qrcode"
+                          ? "bg-primary text-white"
+                          : "bg-gray-100 text-gray-700"
                       }`}
-                      style={{ width: `${timePercentage}%` }}
-                    ></div>
+                      style={{
+                        backgroundColor:
+                          codeType === "qrcode" ? primaryColor : undefined,
+                      }}
+                      onClick={() => setCodeType("qrcode")}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <QrCode className="h-5 w-5" />
+                        <span>QR Code</span>
+                      </div>
+                    </button>
+                    <button
+                      className={`flex-1 py-3 text-center ${
+                        codeType === "barcode"
+                          ? "bg-primary text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                      style={{
+                        backgroundColor:
+                          codeType === "barcode" ? primaryColor : undefined,
+                      }}
+                      onClick={() => setCodeType("barcode")}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <Barcode className="h-5 w-5" />
+                        <span>Barcode</span>
+                      </div>
+                    </button>
                   </div>
 
-                  {/* Expire Warning */}
-                  {showExpireWarning && (
-                    <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
-                      <AlertCircle className="h-4 w-4" />
-                      <span>{warningExpireText[language]}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Code Type Selection */}
-                <div className="flex rounded-lg overflow-hidden">
-                  <button
-                    className={`flex-1 py-3 text-center ${
-                      codeType === "qrcode"
-                        ? "bg-primary text-white"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
-                    style={{
-                      backgroundColor:
-                        codeType === "qrcode" ? primaryColor : undefined,
-                    }}
-                    onClick={() => setCodeType("qrcode")}
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <QrCode className="h-5 w-5" />
-                      <span>QR Code</span>
-                    </div>
-                  </button>
-                  <button
-                    className={`flex-1 py-3 text-center ${
-                      codeType === "barcode"
-                        ? "bg-primary text-white"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
-                    style={{
-                      backgroundColor:
-                        codeType === "barcode" ? primaryColor : undefined,
-                    }}
-                    onClick={() => setCodeType("barcode")}
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <Barcode className="h-5 w-5" />
-                      <span>Barcode</span>
-                    </div>
-                  </button>
-                </div>
-
-                {/* Code Display */}
-                <div className="border rounded-lg p-4 mb-4">
-                  <div className="flex flex-col items-center">
-                    {/* <img
+                  {/* Code Display */}
+                  <div className="border rounded-lg p-4 mb-4">
+                    <div className="flex flex-col items-center">
+                      {/* <img
                     src="/api/placeholder/200/200"
                     alt="QR Code"
                     className="w-48 h-48 mb-2"
                   /> */}
-                    {codeType === "qrcode" ? (
-                      <QRCodeGenerator text={voucherUser.code.code!} />
-                    ) : (
-                      <BarcodeGenerator text={voucherUser.code.code!} />
-                    )}
+                      {codeType === "qrcode" ? (
+                        <QRCodeGenerator text={voucherUser.code.code!} />
+                      ) : (
+                        <BarcodeGenerator text={voucherUser.code.code!} />
+                      )}
 
-                    {/* <div className="text-center text-sm text-gray-500 mt-1">
+                      {/* <div className="text-center text-sm text-gray-500 mt-1">
                     แสดง QR Code นี้ให้พนักงาน
                   </div> */}
-                    <div className="mt-2 text-center font-mono text-xs text-gray-700">
-                      Ref : {voucherUser.code.code}
+                      <div className="mt-2 text-center font-mono text-xs text-gray-700">
+                        Ref : {voucherUser.code.code}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Actions */}
-                {/* <div className="flex gap-2">
+                  {/* Actions */}
+                  {/* <div className="flex gap-2">
               <button className="flex-1 flex items-center justify-center gap-2 bg-gray-100 py-3 rounded-lg font-medium text-gray-700">
                 <Share2 className="h-5 w-5" />
                 <span>แชร์</span>
@@ -349,93 +370,128 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <span>บันทึก</span>
               </button>
             </div> */}
-                <div className="flex items-center justify-between gap-5">
-                  <h4 className="text-sm text-nowrap">
-                    {suggestionText[language]}
-                  </h4>
+                  <div className="flex items-center justify-between gap-5">
+                    <h4 className="text-sm text-nowrap">
+                      {suggestionText[language]}
+                    </h4>
+                    <Button
+                      onClick={() => {
+                        setPageState("confirm");
+                      }}
+                      text={confirmationButtonText[language]}
+                      primaryColor={primaryColor}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+            {pageState === "confirm" && (
+              <>
+                <div className="space-y-3">
+                  <div className="py-5 text-center space-y-4">
+                    <h2 className="text-lg font-medium text-gray-800">
+                      {confirmRedeemText[language]}
+                    </h2>
+                    <h4 className="text-gray-600">
+                      {confirmRedeemDescription[language]}
+                    </h4>
+                  </div>
+
+                  <div className="flex justify-between gap-3">
+                    <Button
+                      onClick={() => {
+                        setPageState("redeem");
+                        onClose();
+                      }}
+                      text={cancelText[language]}
+                      secondaryColor={primaryColor}
+                    />
+                    <Button
+                      onClick={handleConfirmState}
+                      text={confirmRedeemButtonText[language]}
+                      primaryColor={primaryColor}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+            {pageState === "expired" && (
+              <>
+                <div className="py-5 text-center space-y-4">
+                  <h2 className="text-lg font-medium text-gray-800">
+                    {expiredText[language]}
+                  </h2>
+                </div>
+
+                <div className="flex justify-between gap-3">
                   <Button
-                    onClick={() => {
-                      setPageState("confirm");
-                    }}
-                    text={confirmationButtonText[language]}
+                    onClick={onClose}
+                    text={closeText[language]}
                     primaryColor={primaryColor}
                   />
                 </div>
-              </div>
-            </>
-          }
-          {pageState === "confirm" && 
-            <>
+              </>
+            )}
+          </>
+        ) : (
+          // แสดงก่อนรับคูปอง
+          <>
+            {state === "redeem" && (
               <div className="space-y-3">
                 <div className="py-5 text-center space-y-4">
                   <h2 className="text-lg font-medium text-gray-800">
-                    {confirmRedeemText[language]}
+                    {confirmText[language]}
                   </h2>
                   <h4 className="text-gray-600">
-                    {confirmRedeemDescription[language]}
+                    {confirmDescription[language]}
                   </h4>
                 </div>
 
                 <div className="flex justify-between gap-3">
                   <Button
-                    onClick={() => {
-                      setPageState("redeem");
-                      onClose();
-                    }}
+                    onClick={onClose}
                     text={cancelText[language]}
                     secondaryColor={primaryColor}
                   />
                   <Button
-                    onClick={handleConfirmState}
-                    text={confirmRedeemButtonText[language]}
+                    onClick={handleRedeem}
+                    text={redeemText[language]}
                     primaryColor={primaryColor}
                   />
                 </div>
               </div>
-            </>}
-          {pageState === "expired" &&
-          <>
-            <div className="py-5 text-center space-y-4">
-              <h2 className="text-lg font-medium text-gray-800">
-                {expiredText[language]}
-              </h2>
-            </div>
-
-            <div className="flex justify-between gap-3">
-              <Button
-                onClick={onClose}
-                text={closeText[language]}
-                primaryColor={primaryColor}
-              />
-            </div>
-          </>}
-          </>
-        ) : (
-          // แสดงก่อนรับคูปอง
-          <>
-            <div className="space-y-3">
-              <div className="py-5 text-center space-y-4">
-                <h2 className="text-lg font-medium text-gray-800">
-                  {confirmText[language]}
-                </h2>
-                <h4 className="text-gray-600">
-                  {confirmDescription[language]}
-                </h4>
-              </div>
-
-              <div className="flex justify-between gap-3">
-                <Button
-                  onClick={onClose}
-                  text={cancelText[language]}
-                  secondaryColor={primaryColor}
-                />
-                <Button
-                  onClick={handleCollect}
-                  text={redeemText[language]}
-                  primaryColor={primaryColor}
-                />
-              </div>
-            </div>
+            )}
+            {state === "collected" && (
+              <>
+                <div className="w-full flex justify-end">
+                  <button onClick={onClose} className="text-gray-500">
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="py-5 text-center space-y-4">
+                  <h2 className="text-lg font-medium text-gray-800">
+                    {collectedSuccessText[language]}
+                  </h2>
+                  <h4 className="text-gray-600">
+                    {collectedDescription[language]}
+                  </h4>
+                </div>
+                <div className="flex justify-between gap-3">
+                  <Button
+                    onClick={() =>
+                      navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`)
+                    }
+                    text={seeMyVouchersText[language]}
+                    secondaryColor={primaryColor}
+                  />
+                  <Button
+                    onClick={handleRedeem}
+                    text={redeemText[language]}
+                    primaryColor={primaryColor}
+                  />
+                </div>
+              </>
+            )}
           </>
 
           // <div className="space-y-3">

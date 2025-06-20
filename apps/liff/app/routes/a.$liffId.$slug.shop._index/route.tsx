@@ -15,19 +15,19 @@ import { useProfile } from "~/hooks/Profiles/useProfile";
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id });
+  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id as string });
   const isThaiLanguage = language.startsWith("th");
   const lang = "en";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
     useVoucherUserStats({ userId: profile?.userId || "" });
-  const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
-    q: "",
-    status: "published",
-  });
-  const { data: brands, isLoading: isBrandsLoading } = useBrands({
-    status: "published",
-  });
+  // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
+  //   q: "",
+  //   status: "published",
+  // });
+  // const { data: brands, isLoading: isBrandsLoading } = useBrands({
+  //   status: "published",
+  // });
 
   const { data: userProfile, isLoading: isUserProfileLoading } = 
     useProfile({ 
@@ -42,9 +42,10 @@ const Route = () => {
 
   if (
     isProfileLoading ||
-    isVoucherUserStatsLoading ||
-    isVouchersLoading ||
-    isBrandsLoading
+    isVoucherUserStatsLoading
+    //  ||
+    // isVouchersLoading ||
+    // isBrandsLoading
   ) {
     return (
       <>
@@ -73,8 +74,9 @@ const Route = () => {
               page={page}
               language={lang}
               voucherUserStats={voucherUserStats}
-              vouchers={vouchers}
-              brands={brands}
+              populars={page?.populars}
+              vouchers={page?.vouchers}
+              brands={page?.brands}
             />
           )}
         </>

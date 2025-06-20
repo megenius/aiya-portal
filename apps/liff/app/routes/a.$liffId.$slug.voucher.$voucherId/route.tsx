@@ -88,6 +88,7 @@ const Route = () => {
   const [isRedeemedModalOpen, setIsRedeemedModalOpen] = useState(false);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, setState] = useState("redeem");
 
   const buttonText = {
     th: {
@@ -135,11 +136,14 @@ const Route = () => {
     ) {
       return;
     }
+    
     if (isCollected || status === "pending_confirmation") {
       // navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
       setIsRedeemedModalOpen(true);
       return;
     }
+    console.log(3);
+    
     if (
       pageState === "landing" &&
       voucher?.metadata.redemptionType === "form"
@@ -163,6 +167,7 @@ const Route = () => {
           onSuccess: (res) => {
             setIsCollected(true);
             setPageState("landing");
+            setState("collected");
             const data: Partial<LeadSubmission> = {
               source: "voucher",
               source_id: res.id as string,
@@ -181,6 +186,7 @@ const Route = () => {
               spread: 70,
               origin: { y: 0.9 },
             });
+            setIsRedeemedModalOpen(true);
           },
           onError: () => {
             // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
@@ -249,9 +255,11 @@ const Route = () => {
 
         {myVoucher && (
           <RedeemModal
+           page={page}
             voucherUser={myVoucher}
             language={lang}
             primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
+            state={state}
             isOpen={isRedeemedModalOpen}
             onClose={() => {
               refetchCodeStats();

@@ -12,6 +12,7 @@ interface MainContentProps {
   language: string;
   voucherUserStats: VoucherStats;
   vouchers?: Voucher[];
+  populars?: Voucher[];
   brands?: Brand[];
 }
 
@@ -20,6 +21,7 @@ const MainContent: React.FC<MainContentProps> = ({
   language,
   voucherUserStats,
   vouchers,
+  populars,
   brands,
 }) => {
   let categories = page?.metadata?.categories;
@@ -42,7 +44,7 @@ const MainContent: React.FC<MainContentProps> = ({
   };
 
   const filterVouchers = () => {
-    if (selectedCategory.name.en === "All") return vouchers;
+    if (selectedCategory.name.en === "All") return populars;
     return vouchers?.filter(
       (voucher) =>
         voucher.voucher_brand_id?.metadata?.category.name.en ===
@@ -78,7 +80,7 @@ const MainContent: React.FC<MainContentProps> = ({
           onSelect={setSelectedCategory}
         />
       )}
-      <VoucherList
+      {<VoucherList
         vouchers={filterVouchers()}
         language={language}
         title={
@@ -86,7 +88,7 @@ const MainContent: React.FC<MainContentProps> = ({
             ? popularVouchersText[language]
             : selectedCategory.name[language]
         }
-      />
+      />}
 
       <BrandList brands={filterBrands()} page={page} language={language} />
 

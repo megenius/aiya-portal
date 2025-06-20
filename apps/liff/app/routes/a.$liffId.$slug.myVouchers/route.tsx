@@ -46,7 +46,7 @@ const Route = () => {
   // const { page } = useOutletContext<{ page: PageLiff }>();
   const { page } = useLoaderData<typeof clientLoader>();
   const { data: liff } = useLineLiff();
-  const { language } = useLiff({ liffId: page.liff_id });
+  const { language } = useLiff({ liffId: page.liff_id as string });
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";

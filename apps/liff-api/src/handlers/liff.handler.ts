@@ -25,12 +25,45 @@ export const getByLiffIdAndSlug = factory.createHandlers(
                   },
                 },
               },
-            }
+            },
+            populars: {
+              vouchers: {
+                translations: {
+                  _filter: {
+                    languages_code: {
+                      _eq: lang,
+                    },
+                  },
+                },
+              },
+            },
           },
           fields: [
-            "*", {
-              "vouchers": ["*", { translations: ["*"] }]
-            }
+            "*",
+            { vouchers: ["*", {voucher_brand_id:["*"]}, { translations: ["*"] }] },
+            // เอาข้อมูล brands ทั้งหมดมาโดยตรง
+            {
+              brands: [
+                {
+                  vouchers_brands_id: [
+                    "id",
+                    "name",
+                    "logo",
+                    "primaryColor",
+                    "status",
+                    "sort",
+                    "metadata",
+                  ],
+                },
+              ],
+            },
+            {
+              populars: [
+                {
+                  vouchers_id: ["*", {voucher_brand_id:["*"]}, { translations: ["*"] }],
+                },
+              ],
+            },
           ],
           filter: {
             liff_id: {
@@ -44,6 +77,24 @@ export const getByLiffIdAndSlug = factory.createHandlers(
       )
       .then((data) => (data?.length ? data[0] : null));
 
+    if (page?.brands) {
+      page.brands = page.brands.map(
+        ({ vouchers_brands_id }) => vouchers_brands_id
+      );
+    }
+
+    // map populars have translations
+    if (page?.populars) {
+      page.populars = page.populars.map((popular) => {
+        const translations = popular.vouchers_id.translations;
+        const langTranslation = _.find(translations, { languages_code: lang });
+        return {
+          ..._.omit(popular.vouchers_id, "translations"),
+          ...langTranslation,
+        };
+      });
+    }
+
     // map vouchers have translations
     if (page?.vouchers) {
       page.vouchers = page.vouchers.map((voucher) => {
@@ -51,13 +102,10 @@ export const getByLiffIdAndSlug = factory.createHandlers(
         const langTranslation = _.find(translations, { languages_code: lang });
         return {
           ..._.omit(voucher, "translations"),
-          ...langTranslation
+          ...langTranslation,
         };
       });
     }
-
-
-      
 
     return c.json(page);
   }

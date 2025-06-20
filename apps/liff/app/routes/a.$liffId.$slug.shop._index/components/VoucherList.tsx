@@ -15,7 +15,7 @@ const VoucherList: React.FC<VoucherListProps> = ({
   language
 }) => {
 
-  if (!vouchers?.length) return <ComingSoonVoucher language={language}/>;
+  if (!vouchers?.length) return null;
 
   return (
     <div className="space-y-2">
