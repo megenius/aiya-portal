@@ -40,7 +40,13 @@ export const getByLiffIdAndSlug = factory.createHandlers(
           },
           fields: [
             "*",
-            { vouchers: ["*", {voucher_brand_id:["*"]}, { translations: ["*"] }] },
+            {
+              vouchers: [
+                "*",
+                { voucher_brand_id: ["*"] },
+                { translations: ["*"] },
+              ],
+            },
             // เอาข้อมูล brands ทั้งหมดมาโดยตรง
             {
               brands: [
@@ -60,7 +66,11 @@ export const getByLiffIdAndSlug = factory.createHandlers(
             {
               populars: [
                 {
-                  vouchers_id: ["*", {voucher_brand_id:["*"]}, { translations: ["*"] }],
+                  vouchers_id: [
+                    "*",
+                    { voucher_brand_id: ["*"] },
+                    { translations: ["*"] },
+                  ],
                 },
               ],
             },
@@ -85,24 +95,42 @@ export const getByLiffIdAndSlug = factory.createHandlers(
 
     // map populars have translations
     if (page?.populars) {
-      page.populars = page.populars.map((popular) => {
-        const translations = popular.vouchers_id.translations;
-        const langTranslation = _.find(translations, { languages_code: lang });
+      page.populars = (page.populars || []).map((voucher) => {
+        // หา translation ตามภาษาที่ต้องการ
+        const langTrans = _.find(voucher.translations, {
+          languages_code: lang,
+        });
+
+        // ถ้าเจอค่อย omit id กับ languages_code
+        const cleanTrans = langTrans
+          ? _.omit(langTrans, ["id", "languages_code"])
+          : {};
+
+        // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
         return {
-          ..._.omit(popular.vouchers_id, "translations"),
-          ...langTranslation,
+          ..._.omit(voucher, ["translations"]),
+          ...cleanTrans,
         };
       });
     }
 
     // map vouchers have translations
     if (page?.vouchers) {
-      page.vouchers = page.vouchers.map((voucher) => {
-        const translations = voucher.translations;
-        const langTranslation = _.find(translations, { languages_code: lang });
+      page.vouchers = (page.vouchers || []).map((voucher) => {
+        // หา translation ตามภาษาที่ต้องการ
+        const langTrans = _.find(voucher.translations, {
+          languages_code: lang,
+        });
+
+        // ถ้าเจอค่อย omit id กับ languages_code
+        const cleanTrans = langTrans
+          ? _.omit(langTrans, ["id", "languages_code"])
+          : {};
+
+        // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
         return {
-          ..._.omit(voucher, "translations"),
-          ...langTranslation,
+          ..._.omit(voucher, ["translations"]),
+          ...cleanTrans,
         };
       });
     }
