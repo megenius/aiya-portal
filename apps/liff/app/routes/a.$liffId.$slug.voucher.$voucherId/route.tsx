@@ -211,7 +211,7 @@ const Route = () => {
 
   return (
     voucher && (
-      <div className="h-screen flex flex-col overflow-hidden">
+      <div className="h-screen-safe flex flex-col overflow-hidden">
         <Header
           language={lang}
           voucher={voucher}

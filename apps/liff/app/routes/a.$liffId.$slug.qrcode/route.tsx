@@ -48,7 +48,7 @@ export default function QrCodeRoute() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-4 flex flex-col items-center">
+    <div className="h-screen-safe bg-white p-4 flex flex-col items-center">
       <div className="flex items-center justify-between w-full mb-6">
         <Link
           to={`/a/${page.liff_id}/${page.slug}/shop`}

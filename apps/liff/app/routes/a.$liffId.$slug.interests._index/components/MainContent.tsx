@@ -101,7 +101,7 @@ const MainContent: React.FC<MainContentProps> = ({
     selectedInterests.some((item) => item.id === category.id);
 
   return (
-    <div className="bg-white min-h-screen p-4 max-w-md mx-auto pb-32">
+    <div className="bg-white h-screen-safe p-4 max-w-md mx-auto pb-32">
       {/* กำหนด CSS animation */}
       <style>
         {`

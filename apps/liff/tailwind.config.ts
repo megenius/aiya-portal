@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
     extend: {
+      height: {
+        'screen-safe': '100dvh',
+        'screen-small': '100svh',
+      },
       fontFamily: {
         sans: [
           '"Inter"',

@@ -2,7 +2,7 @@ import React from "react";
 
 export const MainContentSkeleton: React.FC = () => {
   return (
-    <div className="pb-3 px-4 space-y-3 bg-white min-h-screen">
+    <div className="pb-3 px-4 space-y-3 bg-white h-screen-safe">
       {/* Search Bar Skeleton */}
       <div className="relative flex items-center">
         <div className="absolute left-3 w-5 h-5 bg-gray-200 rounded-lg animate-pulse"></div>
