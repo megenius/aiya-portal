@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { X, QrCode, Barcode, Clock, AlertCircle } from "lucide-react";
+import { X, QrCode, Barcode, Clock, AlertCircle, TicketX } from "lucide-react";
 import { VoucherCode, VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import QRCodeGenerator from "~/components/QRCodeGenerator";
@@ -16,6 +16,7 @@ interface RedeemModalProps {
   language: string;
   primaryColor: string;
   state?: "redeem" | "collected";
+  countdown?: number;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -26,6 +27,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   language,
   primaryColor,
   state = "redeem",
+  countdown = 15, // Default to 15 minutes
   isOpen,
   onClose,
 }) => {
@@ -35,7 +37,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const updateVoucherCode = useUpdateVoucherCode();
   const navigate = useNavigate();
   const [codeType, setCodeType] = useState("qrcode");
-  const [remainingTime, setRemainingTime] = useState(15 * 60);
+  const [remainingTime, setRemainingTime] = useState(countdown * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(Boolean(usedDate));
   const [pageState, setPageState] = useState("redeem");
@@ -71,8 +73,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: "Voucher collected successfully",
   };
   const collectedDescription = {
-    th: "หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน 15 นาที",
-    en: "If you redeem now, the voucher will start a countdown with 15 minutes to use it.",
+    th: `หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
+    en: `If you redeem now, the voucher will start a countdown with ${countdown} minutes to use it.`,
   };
   const seeMyVouchersText = {
     th: "ดูคูปองของฉัน",
@@ -85,12 +87,12 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: "Do you want to redeem this voucher?",
   };
   const confirmDescription = {
-    th: "หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน 15 นาที",
-    en: "If you redeem this voucher, it will start a countdown with 15 minutes to use it.",
+    th: `หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
+    en: `If you redeem this voucher, it will start a countdown with ${countdown} minutes to use it.`,
   };
   const warningText = {
-    th: "คูปองมีอายุ 15 นาทีหลังจากกดใช้คูปอง",
-    en: "Voucher will expire in 15 minutes after redeem",
+    th: `คูปองมีอายุ ${countdown} นาทีหลังจากกดใช้คูปอง`,
+    en: `Voucher will expire in ${countdown} minutes after redeem`,
   };
   const cancelText = {
     th: "ยกเลิก",
@@ -147,7 +149,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   useEffect(() => {
     if (usedDate) {
       const usedDateTime = new Date(usedDate).getTime();
-      const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+      const expiryTime = usedDateTime + countdown * 60 * 1000; // 15 minutes after used_date
       const now = new Date().getTime();
       const timeLeft = Math.floor((expiryTime - now) / 1000);
 
@@ -217,7 +219,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   };
 
   // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
-  const timePercentage = (remainingTime / (15 * 60)) * 100;
+  const timePercentage = (remainingTime / (countdown * 60)) * 100;
 
   if (!isOpen) return null;
 
@@ -417,7 +419,11 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
             )}
             {pageState === "expired" && (
               <>
-                <div className="py-5 text-center space-y-4">
+                <div className="py-5 flex flex-col justify-center items-center text-center space-y-3">
+                  <div className="p-6 rounded-full bg-red-50">
+                    <TicketX className={`h-8 w-8 text-red-600`} />
+                  </div>
+
                   <h2 className="text-lg font-medium text-gray-800">
                     {expiredText[language]}
                   </h2>
