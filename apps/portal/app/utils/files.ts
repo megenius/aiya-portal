@@ -17,7 +17,7 @@ export const getDirectusFileUrl = (
     filename_download,
     baseUrl,
   } = options;
-  let url = `/api/files/${fileId}?key=${encodeURIComponent(key)}`;
+  let url = `/api/files/${fileId}${key && `?key=${encodeURIComponent(key)}`}`;
 
   if (filename_download) {
     url = `/api/files/${fileId}/${filename_download}?key=${encodeURIComponent(key)}`;

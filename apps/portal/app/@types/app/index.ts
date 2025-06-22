@@ -3,6 +3,7 @@ import { components } from "../directus";
 import { BotsSlips } from "../modules/slips";
 import { CAPIEvents } from "../modules/capi";
 import { PlanFeatures } from "../plans.type";
+import { R } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export type { Document, WorkspaceDocument } from "./document";
 
@@ -30,8 +31,8 @@ export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
 export type WorkspaceInvite = components["schemas"]["ItemsSaasTeamsInvites"] & {
   user_id?: string;
 };
-export type Bot = Omit<components["schemas"]["ItemsBots"],"metadata"> & {
-  metadata: BotMetaData;
+export type Bot = Omit<components["schemas"]["ItemsBots"], "metadata"> & {
+  metadata?: BotMetaData;
 };
 export interface BotMetaData {
   llm: {
@@ -169,6 +170,67 @@ export type BotIntentImport = {
   quick_reply: string;
   tags: string;
 };
+
+export type BotType = {
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  type: string;
+  status?: "active" | "inactive";
+};
+
+export type BotDetails ={
+  name: string;
+  bot_type: string;
+  // ad_account: string;
+  business_type: string;
+  business_category: string;
+  user_prompt?: string;
+  source_type: string;
+  url?: string;
+  documentFile?: File[] | [];
+  document_urls?: string[];
+  text?: string;
+}
+
+// extract Chatbot config
+export interface ExtractChatbotConfigRequest {
+  source_type: "url" | "text" | string;
+  text?: string;
+  url?: string;
+  document_urls?: string[];
+  filter_type?: "fit" | string;
+  max_depth?: number;
+  model: string;
+  team: string;
+  user_prompt?: string;
+}
+
+export interface ExtractChatbotConfigResponse {
+  status: string;
+  message: string;
+  task_id: string;
+}
+
+export interface ExtractionChatbotStatus {
+  status: string;
+  task_id: string;
+  response: {
+    status: string;
+    chatbot_config: {
+      name: string;
+      description: string;
+      greeting_message: string;
+      instruction: string;
+      context_markdown: string;
+      language: string;
+      _source_length: number;
+    };
+    message: string;
+  };
+  model: string;
+  created_at: string;
+}
 
 export type IntentQuestion = {
   id: string;

@@ -12,6 +12,7 @@ import { addDays } from "date-fns";
 import { createParser } from "eventsource-parser";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
+import * as jwt from "hono/jwt";
 import { logger } from "hono/logger";
 import { streamText } from "hono/streaming";
 import OpenAI from "openai";
@@ -25,20 +26,27 @@ import {
   Channel,
   ImageMessageResponse,
   ResponseElementType,
-  TextMessageResponse
+  TextMessageResponse,
 } from "~/types/app";
 import { Env } from "~/types/hono.types";
 import { transformData } from "~/utils/datasource";
-import { formatDateBangkok } from '~/utils/date.utils';
+import { formatDateBangkok } from "~/utils/date.utils";
 import { hasItemUpdated } from "~/utils/kv";
 
 const factory = createFactory<Env>();
 
-export const getTest =factory.createHandlers(logger(),directusMiddleware,async (c)=>{
-  const directus = c.get("directus")
-  const item =await directus.request(readItems("channels_bots",{sort:["-id"]}))
-  return c.json(item)
-})
+export const getTest = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directus");
+    const item = await directus.request(
+      readItems("channels_bots", { sort: ["-id"] })
+    );
+
+    return c.json(item);
+  }
+);
 
 // list bots ----------------------------------------------------------
 export const getBotHandler = factory.createHandlers(
@@ -119,23 +127,25 @@ export const insertBotHandler = factory.createHandlers(
         bot: bot.id,
         team: bot.team,
         provider: "Widget",
-        provider_id: "P"+bot.id,
+        provider_id: "P" + bot.id,
         provider_name: bot.name,
         name: `${bot.name} (Widget)`,
         platform: "Website",
         logo: bot.avatar,
-      }
+      };
 
       await directus.request(createItem("channels", channel));
 
       return c.json(bot);
     } catch (error) {
       console.error("Error inserting bot handler:", error);
-      return c.json({ error: "An error occurred while inserting bot handler" }, 500);
+      return c.json(
+        { error: "An error occurred while inserting bot handler" },
+        500
+      );
     }
   }
 );
-
 
 // insert channels_bots ----------------------------------------------------------
 export const insertChannelsBotsHandler = factory.createHandlers(
@@ -145,9 +155,7 @@ export const insertChannelsBotsHandler = factory.createHandlers(
     try {
       const directus = c.get("directus");
       const data = await c.req.json();
-      const item = await directus.request(
-        createItems("channels_bots", data)
-      );
+      const item = await directus.request(createItems("channels_bots", data));
       return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -472,7 +480,7 @@ export const unmuteUserHandler = factory.createHandlers(
       );
     }
 
-    return c.json({botId});
+    return c.json({ botId });
   }
 );
 
@@ -846,11 +854,87 @@ export const getBotModelHandler = factory.createHandlers(
     const directus = c.get("directus");
 
     const botModel = await directus.request(
-      readItems("bots_model",{
+      readItems("bots_model", {
         fields: ["*"],
       })
     );
 
     return c.json(botModel);
+  }
+);
+
+// extract bot config ----------------------------------------------------------
+export const postExtractChatBotConfigHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    try {
+      const body = await c.req.json();
+      const token = await jwt.sign(
+        {
+          id: "bot-api",
+          iss: "bot-api",
+        },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+      
+      const externalApiUrl =
+        "https://p6yynwob47.execute-api.ap-southeast-1.amazonaws.com/prod/extract-chatbot-config";
+
+      const res = await fetch(externalApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      }).then((response) => response.json()) ;
+      
+
+      return c.json(res);
+
+    } catch (error) {
+      console.error("Error in postExtractBotConfigHandler:", error);
+      return c.json({ error: "เกิดข้อผิดพลาดขณะประมวลผล" }, 500);
+    }
+  }
+);
+
+export const extractionStatusHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const taskId = c.req.param("task_id");
+
+    try {
+      const token = await jwt.sign(
+        {
+          id: "bot-api",
+          iss: "bot-api",
+        },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+
+      const externalApiUrl =
+        `https://p6yynwob47.execute-api.ap-southeast-1.amazonaws.com/prod/extraction-status/${taskId}`;
+
+      const response = await fetch(externalApiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return c.json(data);
+    } catch (error) {
+      console.error("Error in extractionStatusHandler:", error);
+      return c.json({ error: "เกิดข้อผิดพลาดขณะตรวจสอบสถานะ" }, 500);
+    }
   }
 );
