@@ -75,39 +75,8 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
   const [selectedBot, setSelectedBot] = useState<(typeof botTypes)[0] | null>(
     null
   );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    },
-    [onClose]
-  );
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "";
-      };
-    }
-  }, [isOpen]);
-
-  // Reset state when modal opens/closes
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentPage(0);
-      setSelectedBot(null);
-      reset();
-    }
-  }, [isOpen]);
-
-  const handleSelectBotType = (botType: string, bot: (typeof botTypes)[0]) => {
-    setSelectedBot(bot);
-    setValue("bot_type", botType);
-    setCurrentPage(1); // Go to bot details page
-  };
+  const [selectedImportOption, setSelectedImportOption] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   //page 2
   const {
@@ -134,9 +103,58 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
       text: "",
     },
   });
+
+  // Reset state when modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentPage(0);
+      setSelectedBot(null);
+      setSelectedImportOption("");
+      setSelectedFile(null);
+      reset();
+    }
+  }, [isOpen, reset]);
+
+  // Create a custom close handler to clear all states
+  const handleClose = useCallback(() => {
+    // Clear all states
+    setCurrentPage(0);
+    setSelectedBot(null);
+    setSelectedImportOption("");
+    setSelectedFile(null);
+    reset();
+
+    // Call the original onClose
+    onClose();
+  }, [onClose, reset]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    },
+    [handleClose]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [isOpen]);
+
+  const handleSelectBotType = (botType: string, bot: (typeof botTypes)[0]) => {
+    setSelectedBot(bot);
+    setValue("bot_type", botType);
+    setCurrentPage(1); // Go to bot details page
+  };
+
+  
   // const businessTypeValue = watch("business_type");
   // const [categories, setCategories] = useState<BusinessCategory[]>([]);
-  const [selectedImportOption, setSelectedImportOption] = useState<string>("");
 
   // useEffect(() => {
   //   if (businessTypeValue) {
@@ -172,8 +190,6 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
     await trigger(["source_type"]);
   };
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
@@ -200,7 +216,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
       <div className="flex min-h-screen items-center justify-center p-4">
         <div
           className="fixed inset-0 bg-black/50 transition-opacity"
-          onClick={onClose}
+          onClick={handleClose}
           onKeyDown={handleKeyDown}
           role="button"
           tabIndex={0}
@@ -210,7 +226,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
           {/* Close button */}
           <button
             className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 focus:outline-none"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
           >
             <svg
@@ -573,7 +589,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
             {currentPage === 0 ? (
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
                 Cancel
