@@ -68,6 +68,7 @@ async function handleSentenceEmbeddings(batch: MessageBatch, env: WorkerEnv) {
             knowledge_id,
             intent_id,
             id,
+            status: 'published',
           });
 
         case "updateQuestion":

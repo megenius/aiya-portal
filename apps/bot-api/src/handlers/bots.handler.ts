@@ -282,6 +282,9 @@ export const createBotKnowledgeHandler = factory.createHandlers(
         ...data,
       })
     );
+
+
+    
     return c.json(item);
   }
 );
