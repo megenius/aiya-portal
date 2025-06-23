@@ -124,6 +124,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       "downloading",
       "crawling",
       "generating",
+      "ready",
     ];
     if (!extractionChatbotStatus) return;
 
@@ -197,22 +198,35 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       while (files.length >= 1) {
         const file = files.shift();
         if (file) {
-          const res = await fileUpload.mutateAsync({
-            file,
-            folder: "f2d6968d-3100-4aac-be27-8f31de96a99f",
-          });
-          const fileUrl = getDirectusFileUrl(res.id as string, {
-            baseUrl: "aiya:/",
-            key: "",
-          });
-          if (fileUrl) {
-            documentUrls.push(fileUrl);
-          }
+          await fileUpload.mutateAsync(
+            { file, folder: "f2d6968d-3100-4aac-be27-8f31de96a99f" },
+            {
+              onSuccess: (res) => {
+                const fileUrl = getDirectusFileUrl(res.id as string, {
+                  baseUrl: "aiya:/",
+                  key: "",
+                });
+                if (fileUrl) {
+                  documentUrls.push(fileUrl);
+                }
+                toast.success("Document uploaded successfully");
+              },
+              onError: (error) => {
+                toast.error(error.message || "Failed to upload document");
+                setIsExtracting(false);
+                return;
+              },
+            }
+          );
         }
       }
       values.document_urls = documentUrls;
     }
-
+    if (!values.source_type){
+      toast.error("Please select a source type");
+      setIsExtracting(false);
+      return;
+    }
     const extractingData = {
       source_type: values.source_type,
       url: values.url,
@@ -245,10 +259,16 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         return "Preparing Your Chatbot";
       case "processing":
         return "Processing Your Request";
+      case "processing_documents":
+        return "Processing Documents";
+      case "downloading":
+        return "Downloading Resources";
       case "crawling":
         return "Gathering Information";
       case "generating":
         return "Generating Responses";
+      case "ready":
+        return "Chatbot Ready";
       default:
         return "Processing Your Request";
     }

@@ -362,6 +362,12 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                       }}
                       disabled={false}
                     />
+                    <input
+                      type="hidden"
+                      {...register("business_type", {
+                        required: "Business type is required",
+                      })}
+                    />
                     {errors.business_type && (
                       <span className="text-red-500 text-xs mt-1">
                         Business type is required
@@ -387,6 +393,12 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                           });
                         }}
                         disabled={false}
+                      />
+                      <input
+                        type="hidden"
+                        {...register("business_category", {
+                          required: "Business category is required",
+                        })}
                       />
                     </div>
                   )}
@@ -445,7 +457,13 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                           </span>
                         </button>
                       ))}
-                    </div>{" "}
+                      <input
+                        type="hidden"
+                        {...register("source_type", {
+                          required: "Data import type is required",
+                        })}
+                      />
+                    </div>
                     {/* URL Input */}
                     {selectedImportOption === "url" && (
                       <div className="mt-3">
@@ -455,9 +473,10 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                           onChange={(url, isValid) => {
                             setValue("url", url, { shouldValidate: true });
                             if (!isValid) {
-                              setError("url", { 
+                              setError("url", {
                                 type: "manual",
-                                message: "Invalid URL. Must start with http:// or https:// and not link directly to files (images, PDFs, docs)." 
+                                message:
+                                  "Invalid URL. Must start with http:// or https:// and not link directly to files (images, PDFs, docs).",
                               });
                             } else {
                               clearErrors("url");
