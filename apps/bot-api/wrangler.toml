@@ -15,6 +15,7 @@ services = [{ binding = "BillingService", service = "billing-api_dev" }]
 mode = "smart"
 
 [vars]
+NODE_ENV = "development"
 PORTAL_URL = "https://portal-dev.aiya.me"
 DIRECTUS_URL = "https://console.portal.aiya.ai"
 SUPABASE_URL = "https://app-api.aiya.ai"
