@@ -260,20 +260,23 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                   role="menu"
                 >
                   <div className="p-1">
-                    <button
-                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                      onClick={() => handleDeploy()}
-                    >
-                      <Rocket className='size-4' />
-                      Publish
-                    </button>
-                    <button
+                    {knowledge.status === 'published' ? (
+                      <button
                       className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       onClick={() => handleUndeploy()}
-                    >
+                      >
                       <OctagonPause className='size-4' />
                       Unpublish
-                    </button>
+                      </button>
+                    ) : (
+                      <button
+                      className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                      onClick={() => handleDeploy()}
+                      >
+                      <Rocket className='size-4' />
+                      Publish
+                      </button>
+                    )}
                     <button
                       className="flex w-full gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                       onClick={() => handleExport()}
