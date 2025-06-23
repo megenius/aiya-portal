@@ -271,7 +271,7 @@ export const createBotKnowledgeHandler = factory.createHandlers(
     const directus = c.get("directus");
     const data = await c.req.json();
     const item = await directus.request(
-      createItem("bots_knowledges", { bot: botId, ...data })
+      createItem("bots_knowledges", { bot: botId, status: "published", ...data })
     );
 
     function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
@@ -312,6 +312,11 @@ export const createBotKnowledgeHandler = factory.createHandlers(
       // Send the converted data to the queue for processing
       await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(convertedData);
     }
+
+    await c.env.CACHING.put(
+      ["bots_knowledges", item.id].join("|"),
+      JSON.stringify(item)
+    );
 
     return c.json(item);
   }
