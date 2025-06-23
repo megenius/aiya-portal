@@ -267,58 +267,82 @@ export const createBotKnowledgeHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c: Context<Env>) => {
-    const botId = c.req.param("id");
-    const directus = c.get("directus");
-    const data = await c.req.json();
-    const item = await directus.request(
-      createItem("bots_knowledges", { bot: botId, status: "published", ...data })
-    );
-
-    function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
-      const addQuestions = [];
-
-      // Iterate over each intent object in the provided data
-      intentsData.forEach((intent) => {
-        const intentId = intent.id; // Get the intent's ID
-
-        // Iterate over each question within the current intent
-        intent.questions.forEach((question) => {
-          // Create an object in the desired "addQuestion" format
-          addQuestions.push({
-            body: {
-              operation: "addQuestion", // Static operation type
-              text: question.question, // The question text
-              bot_id: botId, // Provided bot ID
-              knowledge_id: knowledgeId, // Provided knowledge ID
-              intent_id: intentId, // The ID of the parent intent
-              id: question.id, // The ID of the specific question
-            },
-          });
-        });
-      });
-
-      return addQuestions; // Return the array of converted operations
-    }
-
-    if (item?.intents?.length > 0) {
-      // Check if the intents array is not empty
-      // Convert intents to add questions format
-      const convertedData = convertIntentsToAddQuestions(
-        item.intents,
-        item.bot,
-        item.id
+    try {
+      const botId = c.req.param("id");
+      const directus = c.get("directus");
+      const data = await c.req.json();
+      
+      const item = await directus.request(
+        createItem("bots_knowledges", { bot: botId, status: "published", ...data })
       );
 
-      // Send the converted data to the queue for processing
-      await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(convertedData);
+      function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
+        const addQuestions = [];
+
+        // Iterate over each intent object in the provided data
+        intentsData.forEach((intent) => {
+          const intentId = intent.id; // Get the intent's ID
+
+          // Iterate over each question within the current intent
+          intent.questions.forEach((question) => {
+            // Create an object in the desired "addQuestion" format
+            addQuestions.push({
+              body: {
+                operation: "addQuestion", // Static operation type
+                text: question.question, // The question text
+                bot_id: botId, // Provided bot ID
+                knowledge_id: knowledgeId, // Provided knowledge ID
+                intent_id: intentId, // The ID of the parent intent
+                id: question.id, // The ID of the specific question
+              },
+            });
+          });
+        });
+
+        return addQuestions; // Return the array of converted operations
+      }
+
+      if (item?.intents?.length > 0) {
+        // Check if the intents array is not empty
+        // Convert intents to add questions format
+        const convertedData = convertIntentsToAddQuestions(
+          item.intents,
+          item.bot,
+          item.id
+        );
+
+        try {
+          // Send the converted data to the queue for processing
+          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(convertedData);
+        } catch (queueError) {
+          console.error("Error sending to queue:", queueError);
+          // Continue execution even if queue fails
+        }
+      }
+
+      try {
+        await c.env.CACHING.put(
+          ["bots_knowledges", item.id].join("|"),
+          JSON.stringify(item)
+        );
+      } catch (cacheError) {
+        console.error("Error caching knowledge:", cacheError);
+        // Continue execution even if caching fails
+      }
+
+      return c.json(item);
+    } catch (error) {
+      console.error("Error creating bot knowledge:", error);
+      
+      if (error instanceof DirectusError) {
+        throw error;
+      }
+      
+      return c.json(
+        { error: "An error occurred while creating bot knowledge" },
+        500
+      );
     }
-
-    await c.env.CACHING.put(
-      ["bots_knowledges", item.id].join("|"),
-      JSON.stringify(item)
-    );
-
-    return c.json(item);
   }
 );
 
