@@ -298,8 +298,11 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const getProgressWidth = (status?: string) => {
     const statusOrder = [
       "queued",
+      "downloading",
       "processing",
+      "processing_documents",
       "crawling",
+      "ready_for_extraction",
       "generating",
       "success",
     ];
