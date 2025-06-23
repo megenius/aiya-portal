@@ -8,7 +8,15 @@ interface UseBotExtractionChatbotStatusProps {
   enabled?: boolean;
 }
 
-const POLL_STATUSES = ["queued", "processing", "crawling", "generating"];
+const POLL_STATUSES = [
+  "queued",
+  "processing",
+  "processing_documents",
+  "downloading",
+  "crawling",
+  "generating",
+  "ready_for_extraction",
+];
 
 export const useBotExtractionChatbotStatus = ({
   task_id,
@@ -22,7 +30,11 @@ export const useBotExtractionChatbotStatus = ({
     // ถ้า status ยังอยู่ในกลุ่ม polling ให้รีเฟรชทุก 2 วินาที
     refetchInterval: (latestData) => {
       if (!enabled || !latestData) return false;
-      return POLL_STATUSES.includes(latestData.state.data?.response?.status as string) ? 2000 : false;
+      return POLL_STATUSES.includes(
+        latestData.state.data?.response?.status as string
+      )
+        ? 2000
+        : false;
     },
     // ถ้าต้องการให้รีเฟชแม้ว่า tab จะ background ก็ใช้
     refetchIntervalInBackground: true,

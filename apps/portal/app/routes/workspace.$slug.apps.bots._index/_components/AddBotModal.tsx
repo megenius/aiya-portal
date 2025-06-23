@@ -63,7 +63,7 @@ const importOptions = [
   },
 ];
 
-const businessTypes: BusinessType[] = business_types_json;
+// const businessTypes: BusinessType[] = business_types_json;
 
 const AddBotModal: React.FC<AddBotModalProps> = ({
   isOpen,
@@ -126,36 +126,36 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
     defaultValues: {
       name: "",
       bot_type: "",
-      business_type: "",
-      business_category: "",
+      // business_type: "",
+      // business_category: "",
       user_prompt: "",
       source_type: "",
       url: "",
       text: "",
     },
   });
-  const businessTypeValue = watch("business_type");
-  const [categories, setCategories] = useState<BusinessCategory[]>([]);
+  // const businessTypeValue = watch("business_type");
+  // const [categories, setCategories] = useState<BusinessCategory[]>([]);
   const [selectedImportOption, setSelectedImportOption] = useState<string>("");
 
-  useEffect(() => {
-    if (businessTypeValue) {
-      const selectedGroup = businessTypes.find(
-        (group) => group.name === businessTypeValue
-      );
+  // useEffect(() => {
+  //   if (businessTypeValue) {
+  //     const selectedGroup = businessTypes.find(
+  //       (group) => group.name === businessTypeValue
+  //     );
 
-      if (selectedGroup && selectedGroup.categories) {
-        setCategories(selectedGroup.categories);
-      } else {
-        setCategories([]);
-      }
+  //     if (selectedGroup && selectedGroup.categories) {
+  //       setCategories(selectedGroup.categories);
+  //     } else {
+  //       setCategories([]);
+  //     }
 
-      // Reset category selection when business type changes
-      setValue("business_category", "", { shouldValidate: true });
-    } else {
-      setCategories([]);
-    }
-  }, [businessTypeValue, setValue]);
+  //     // Reset category selection when business type changes
+  //     setValue("business_category", "", { shouldValidate: true });
+  //   } else {
+  //     setCategories([]);
+  //   }
+  // }, [businessTypeValue, setValue]);
 
   const handleImportOptionSelect = async (optionId: string) => {
     // Clear previous selections when changing import option
@@ -350,7 +350,8 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                       </span>
                     )}
                   </div>
-                  <div>
+                  {/* Business Type and Category */}
+                  {/* <div>
                     <div className="flex">
                       <label
                         htmlFor="business-type"
@@ -413,7 +414,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                         })}
                       />
                     </div>
-                  )}
+                  )} */}
                   <Controller
                     name="user_prompt"
                     control={control}
