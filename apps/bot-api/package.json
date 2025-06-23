@@ -3,7 +3,9 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14101 --inspector-port 24101",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "cf-typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
+    "cf-typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv",
+    "logs": "wrangler tail",
+    "logs:prod": "wrangler tail -e prod"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
