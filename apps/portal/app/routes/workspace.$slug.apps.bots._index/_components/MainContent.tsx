@@ -139,12 +139,12 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         date_updated: new Date().toISOString(),
         team: workspace.id,
         status: "Draft",
-        product_name: chatbot_config.name,
-        product_description: chatbot_config.description,
-        greeting_message: chatbot_config.greeting_message,
-        greeting_message_mobile: chatbot_config.greeting_message,
-        context: chatbot_config.context_markdown,
-        guidelines: chatbot_config.instruction,
+        product_name: chatbot_config.name.trim(),
+        product_description: chatbot_config.description.trim(),
+        greeting_message: chatbot_config.greeting_message.trim(),
+        greeting_message_mobile: chatbot_config.greeting_message.trim(),
+        context: chatbot_config.context_markdown.trim(),
+        guidelines: chatbot_config.instruction.trim(),
       };
       insertBot.mutateAsync(data, {
         onSuccess: (res) => {
