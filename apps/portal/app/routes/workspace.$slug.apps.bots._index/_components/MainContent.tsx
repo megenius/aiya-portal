@@ -124,7 +124,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       "downloading",
       "crawling",
       "generating",
-      "ready",
+      "ready_for_extraction"
     ];
     if (!extractionChatbotStatus) return;
 
@@ -267,8 +267,8 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         return "Gathering Information";
       case "generating":
         return "Generating Responses";
-      case "ready":
-        return "Chatbot Ready";
+      case "ready_for_extraction":
+        return "Ready for Extraction";
       default:
         return "Processing Your Request";
     }
@@ -280,10 +280,16 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         return "Your request is in the queue";
       case "processing":
         return "Analyzing the content";
+      case "processing_documents":
+        return "Processing the documents you provided";
+      case "downloading":
+        return "Downloading necessary resources";
       case "crawling":
         return "Collecting data from the source";
       case "generating":
         return "Creating your chatbot responses";
+      case "ready_for_extraction":
+        return "Your chatbot is ready for extraction";
       default:
         return "Please wait while we set everything up";
     }
