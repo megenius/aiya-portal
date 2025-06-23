@@ -317,12 +317,16 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
 
                 <div className="space-y-4">
                   <div>
-                    <label
-                      htmlFor="bot-name"
-                      className="block mb-2 text-sm font-medium text-gray-800"
-                    >
-                      Bot name
-                    </label>
+                    <div className="flex">
+                      <label
+                        htmlFor="bot-name"
+                        className="block mb-2 text-sm font-medium text-gray-800"
+                      >
+                        Bot name
+                      </label>
+                      <span className="text-red-500">*</span>
+                    </div>
+
                     <input
                       type="text"
                       id="bot-name"
@@ -347,12 +351,16 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                     )}
                   </div>
                   <div>
-                    <label
-                      htmlFor="business-type"
-                      className={`block mb-2 text-sm font-medium`}
-                    >
-                      Business Type
-                    </label>
+                    <div className="flex">
+                      <label
+                        htmlFor="business-type"
+                        className={`block mb-2 text-sm font-medium`}
+                      >
+                        Business Type
+                      </label>
+                      <span className="text-red-500">*</span>
+                    </div>
+
                     <Dropdown
                       items={businessTypes.map((t) => t.name)}
                       selected={businessTypeValue}
@@ -377,12 +385,16 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
 
                   {businessTypeValue && categories.length > 0 && (
                     <div>
-                      <label
-                        htmlFor="business-category"
-                        className={`block mb-2 text-sm font-medium`}
-                      >
-                        Business Category
-                      </label>
+                      <div className="flex">
+                        <label
+                          htmlFor="business-category"
+                          className={`block mb-2 text-sm font-medium`}
+                        >
+                          Business Category
+                        </label>
+                        <span className="text-red-500">*</span>
+                      </div>
+
                       <Dropdown
                         items={categories.map((c) => c.name)}
                         selected={watch("business_category")}
@@ -418,12 +430,16 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
                   />
 
                   <div>
-                    <label
-                      htmlFor="import-option"
-                      className="block mb-2 text-sm font-medium text-gray-800"
-                    >
-                      Data Import Type
-                    </label>
+                    <div className="flex">
+                      <label
+                        htmlFor="import-option"
+                        className="block mb-2 text-sm font-medium text-gray-800"
+                      >
+                        Data Import Type
+                      </label>
+                      <span className="text-red-500">*</span>
+                    </div>
+
                     <div className="grid grid-cols-3 gap-3">
                       {importOptions.map((option) => (
                         <button

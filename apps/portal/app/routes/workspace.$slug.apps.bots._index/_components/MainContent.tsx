@@ -124,7 +124,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       "downloading",
       "crawling",
       "generating",
-      "ready_for_extraction"
+      "ready_for_extraction",
     ];
     if (!extractionChatbotStatus) return;
 
@@ -209,10 +209,12 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
                 if (fileUrl) {
                   documentUrls.push(fileUrl);
                 }
-                toast.success("Document uploaded successfully");
               },
               onError: (error) => {
-                toast.error(error.message || "Failed to upload document");
+                toast.error(error.message || "Failed to upload document", {
+                  autoClose: 10000,
+                  closeOnClick: true,
+                });
                 setIsExtracting(false);
                 return;
               },
@@ -222,7 +224,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       }
       values.document_urls = documentUrls;
     }
-    if (!values.source_type){
+    if (!values.source_type) {
       toast.error("Please select a source type");
       setIsExtracting(false);
       return;
@@ -234,7 +236,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       document_urls: values.document_urls,
       user_prompt: values.user_prompt,
       filter_type: values.url ? "fit" : "",
-      max_depth: values.url ? 1 : 0,
+      max_depth: 0,
       model: "gemini-2.0-flash-001",
       team: workspace.id,
     };
