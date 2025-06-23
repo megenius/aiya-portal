@@ -357,6 +357,8 @@ const MainContent: React.FC<MainContentProps> = ({ knowledge, bot }) => {
                 ...newIntent
               }
             })
+
+            handleDeploy();
           }}
         />
 
