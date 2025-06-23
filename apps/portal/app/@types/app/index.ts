@@ -212,6 +212,19 @@ export interface ExtractChatbotConfigResponse {
   task_id: string;
 }
 
+interface KBIntent {
+  intent: string;
+  questions: string[];
+  quick_reply: string;
+  answer: string;
+}
+
+export interface KnowledgeBase {
+  name: string;
+  intents: KBIntent[];
+  lang: string;
+}
+
 export interface ExtractionChatbotStatus {
   status: string;
   task_id: string;
@@ -225,6 +238,7 @@ export interface ExtractionChatbotStatus {
       context_markdown: string;
       language: string;
       _source_length: number;
+      knowledge_base: KnowledgeBase;
     };
     message: string;
   };

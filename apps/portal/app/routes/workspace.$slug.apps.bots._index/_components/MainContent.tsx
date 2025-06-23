@@ -4,7 +4,14 @@ import { BotTable } from "./BotTable";
 import PageFilter from "./PageFilter";
 import { useNavigate } from "@remix-run/react";
 import MainContainer from "~/components/MainContainer";
-import { Bot, BotDetails, BotType, Workspace } from "~/@types/app";
+import {
+  Bot,
+  BotDetails,
+  BotIntent,
+  BotType,
+  IntentQuestion,
+  Workspace,
+} from "~/@types/app";
 import { useWorkspaceBots } from "~/hooks/workspace/useWorkspaceBots";
 import AddBotModal from "./AddBotModal";
 import { getDirectusFileUrl } from "~/utils/files";
@@ -14,6 +21,7 @@ import { toast } from "react-toastify";
 import { useBotInsert } from "~/hooks/bot/useBotInsert";
 import { useFileUpload } from "~/hooks/useFileUpload";
 import { useBotExtractChatbotConfig } from "~/hooks/bot/useBotExtractChatbotConfig";
+import { useBotKnowledgeInsert } from "~/hooks/bot/useBotKnowledgeInsert";
 
 interface MainContentProps {
   workspace: Workspace;
@@ -71,6 +79,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
   const [isBotTypeModalOpen, setIsBotTypeModalOpen] = useState(false);
 
   const insertBot = useBotInsert();
+  const insertBotKnowledge = useBotKnowledgeInsert();
   const fileUpload = useFileUpload();
   const extractChatbotConfig = useBotExtractChatbotConfig();
   const [bot, setBot] = useState<Partial<Bot>>();
@@ -80,10 +89,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     data: extractionChatbotStatus,
     // refetch: refetchExtractionChatbotStatus,
     // isRefetching: isRefetchingExtractionChatbotStatus,
-  } = useBotExtractionChatbotStatus({
-    task_id: taskId,
-    enabled: !!taskId,
-  });
+  } = useBotExtractionChatbotStatus({ task_id: taskId, enabled: !!taskId });
   const [isExtracting, setIsExtracting] = useState(false);
 
   const handleSearchChange = (value: string) => {
@@ -141,8 +147,31 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
       };
       insertBot.mutateAsync(data, {
         onSuccess: (res) => {
-          toast.success("Bot added successfully");
-          navigate(`/apps/bot/${res.id}`);
+          const knowledgeBase = chatbot_config.knowledge_base;
+          const intents: BotIntent[] = transformKnowledgeBase(knowledgeBase);
+          insertBotKnowledge.mutateAsync(
+            {
+              variables: {
+                bot_id: res.id,
+                data: {
+                  name: knowledgeBase.name,
+                  intents,
+                  total_intent: intents.length,
+                  lang: knowledgeBase.lang || "en",
+                },
+              },
+            },
+            {
+              onSuccess: () => {
+                toast.success("Bot added successfully");
+                navigate(`/apps/bot/${res.id}`);
+              },
+              onError: (error) => {
+                toast.error(error.message || "Failed to add knowledge");
+                setIsExtracting(false);
+              },
+            }
+          );
         },
         onError: (error) => {
           toast.error(error.message || "Failed to add bot");
@@ -160,11 +189,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
 
   const handleAddBot = async (values: BotDetails) => {
     setIsExtracting(true);
-    console.log("values", values);
-    const bot: Partial<Bot> = {
-      name: values.name,
-      type: values.bot_type,
-    };
+    const bot: Partial<Bot> = { name: values.name, type: values.bot_type };
     setBot(bot);
     const documentUrls: string[] = [];
     if (values.source_type === "document" && values.documentFile) {
@@ -201,9 +226,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     };
 
     extractChatbotConfig.mutateAsync(
-      {
-        variables: extractingData,
-      },
+      { variables: extractingData },
       {
         onSuccess: (res) => {
           setTaskId(res.task_id);
@@ -351,7 +374,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         onOk={(botDetails: BotDetails & { documentFile: File[] | null }) => {
           setIsBotTypeModalOpen(false);
           console.log("Bot Details:", botDetails);
-          
+
           handleAddBot(botDetails);
         }}
         botTypes={BOT_TYPES}
@@ -359,5 +382,26 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     </>
   );
 };
+
+function transformKnowledgeBase({ intents }) {
+  return intents.map(({ intent, quick_reply, questions, answer }) => ({
+    id: randomHexString(8),
+    name: intent,
+    intent,
+    quick_reply,
+    questions: questions.map((q: IntentQuestion) => ({
+      id: randomHexString(8),
+      question: q,
+    })),
+    responses: [
+      {
+        id: randomHexString(8),
+        type: "Text",
+        payload: { type: "text", text: answer },
+      },
+    ],
+    tags: [],
+  }));
+}
 
 export default MainContent;
