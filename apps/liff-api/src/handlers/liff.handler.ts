@@ -95,9 +95,9 @@ export const getByLiffIdAndSlug = factory.createHandlers(
 
     // map populars have translations
     if (page?.populars) {
-      page.populars = (page.populars || []).map((voucher) => {
+      page.populars = (page.populars || []).map((popular) => {
         // หา translation ตามภาษาที่ต้องการ
-        const langTrans = _.find(voucher.translations, {
+        const langTrans = _.find(popular.vouchers_id.translations, {
           languages_code: lang,
         });
 
@@ -108,7 +108,7 @@ export const getByLiffIdAndSlug = factory.createHandlers(
 
         // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
         return {
-          ..._.omit(voucher, ["translations"]),
+          ..._.omit(popular.vouchers_id, ["translations"]),
           ...cleanTrans,
         };
       });
