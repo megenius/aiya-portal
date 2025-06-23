@@ -12,6 +12,7 @@ import { addDays } from "date-fns";
 import { createParser } from "eventsource-parser";
 import { Context } from "hono";
 import { createFactory } from "hono/factory";
+import * as jwt from "hono/jwt";
 import { logger } from "hono/logger";
 import { streamText } from "hono/streaming";
 import OpenAI from "openai";
@@ -25,20 +26,27 @@ import {
   Channel,
   ImageMessageResponse,
   ResponseElementType,
-  TextMessageResponse
+  TextMessageResponse,
 } from "~/types/app";
 import { Env } from "~/types/hono.types";
 import { transformData } from "~/utils/datasource";
-import { formatDateBangkok } from '~/utils/date.utils';
+import { formatDateBangkok } from "~/utils/date.utils";
 import { hasItemUpdated } from "~/utils/kv";
 
 const factory = createFactory<Env>();
 
-export const getTest =factory.createHandlers(logger(),directusMiddleware,async (c)=>{
-  const directus = c.get("directus")
-  const item =await directus.request(readItems("channels_bots",{sort:["-id"]}))
-  return c.json(item)
-})
+export const getTest = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directus");
+    const item = await directus.request(
+      readItems("channels_bots", { sort: ["-id"] })
+    );
+
+    return c.json(item);
+  }
+);
 
 // list bots ----------------------------------------------------------
 export const getBotHandler = factory.createHandlers(
@@ -119,23 +127,25 @@ export const insertBotHandler = factory.createHandlers(
         bot: bot.id,
         team: bot.team,
         provider: "Widget",
-        provider_id: "P"+bot.id,
+        provider_id: "P" + bot.id,
         provider_name: bot.name,
         name: `${bot.name} (Widget)`,
         platform: "Website",
         logo: bot.avatar,
-      }
+      };
 
       await directus.request(createItem("channels", channel));
 
       return c.json(bot);
     } catch (error) {
       console.error("Error inserting bot handler:", error);
-      return c.json({ error: "An error occurred while inserting bot handler" }, 500);
+      return c.json(
+        { error: "An error occurred while inserting bot handler" },
+        500
+      );
     }
   }
 );
-
 
 // insert channels_bots ----------------------------------------------------------
 export const insertChannelsBotsHandler = factory.createHandlers(
@@ -145,9 +155,7 @@ export const insertChannelsBotsHandler = factory.createHandlers(
     try {
       const directus = c.get("directus");
       const data = await c.req.json();
-      const item = await directus.request(
-        createItems("channels_bots", data)
-      );
+      const item = await directus.request(createItems("channels_bots", data));
       return c.json(item);
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -168,10 +176,7 @@ export const getBotChannelsHandler = factory.createHandlers(
 
       const item = await directus.request<{
         team: { channels: Array<Partial<Channel>> };
-        channels: Array<{
-          id: number;
-          channel_id: Partial<Channel>;
-        }>;
+        channels: Array<{ id: number; channel_id: Partial<Channel> }>;
       }>(
         readItem("bots", id, {
           fields: [
@@ -206,10 +211,7 @@ export const getBotChannelsHandler = factory.createHandlers(
       );
 
       const active = item.channels
-        .map((channel) => ({
-          _id: channel.id,
-          ...channel.channel_id,
-        }))
+        .map((channel) => ({ _id: channel.id, ...channel.channel_id }))
         .sort((a, b) => a.name?.localeCompare(b.name as string) || 0);
 
       const inactive = item.team.channels
@@ -265,16 +267,82 @@ export const createBotKnowledgeHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c: Context<Env>) => {
-    const botId = c.req.param("id");
-    const directus = c.get("directus");
-    const data = await c.req.json();
-    const item = await directus.request(
-      createItem("bots_knowledges", {
-        bot: botId,
-        ...data,
-      })
-    );
-    return c.json(item);
+    try {
+      const botId = c.req.param("id");
+      const directus = c.get("directus");
+      const data = await c.req.json();
+      
+      const item = await directus.request(
+        createItem("bots_knowledges", { bot: botId, status: "published", ...data })
+      );
+
+      function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
+        const addQuestions = [];
+
+        // Iterate over each intent object in the provided data
+        intentsData.forEach((intent) => {
+          const intentId = intent.id; // Get the intent's ID
+
+          // Iterate over each question within the current intent
+          intent.questions.forEach((question) => {
+            // Create an object in the desired "addQuestion" format
+            addQuestions.push({
+              body: {
+                operation: "addQuestion", // Static operation type
+                text: question.question, // The question text
+                bot_id: botId, // Provided bot ID
+                knowledge_id: knowledgeId, // Provided knowledge ID
+                intent_id: intentId, // The ID of the parent intent
+                id: question.id, // The ID of the specific question
+              },
+            });
+          });
+        });
+
+        return addQuestions; // Return the array of converted operations
+      }
+
+      if (item?.intents?.length > 0) {
+        // Check if the intents array is not empty
+        // Convert intents to add questions format
+        const convertedData = convertIntentsToAddQuestions(
+          item.intents,
+          item.bot,
+          item.id
+        );
+
+        try {
+          // Send the converted data to the queue for processing
+          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(convertedData);
+        } catch (queueError) {
+          console.error("Error sending to queue:", queueError);
+          // Continue execution even if queue fails
+        }
+      }
+
+      try {
+        await c.env.CACHING.put(
+          ["bots_knowledges", item.id].join("|"),
+          JSON.stringify(item)
+        );
+      } catch (cacheError) {
+        console.error("Error caching knowledge:", cacheError);
+        // Continue execution even if caching fails
+      }
+
+      return c.json(item);
+    } catch (error) {
+      console.error("Error creating bot knowledge:", error);
+      
+      if (error instanceof DirectusError) {
+        throw error;
+      }
+      
+      return c.json(
+        { error: "An error occurred while creating bot knowledge" },
+        500
+      );
+    }
   }
 );
 
@@ -328,10 +396,7 @@ export const searchBotHandler = factory.createHandlers(
               if (platform === "line") {
                 if (response.type === ResponseElementType.Text) {
                   const item = response as TextMessageResponse;
-                  return {
-                    type: "text",
-                    text: item.payload?.text,
-                  };
+                  return { type: "text", text: item.payload?.text };
                 } else if (response.type === ResponseElementType.Image) {
                   const item = response as ImageMessageResponse;
                   return {
@@ -349,19 +414,14 @@ export const searchBotHandler = factory.createHandlers(
               } else if (platform === "facebook") {
                 if (response.type === ResponseElementType.Text) {
                   const item = response as TextMessageResponse;
-                  return {
-                    text: item.payload?.text,
-                  };
+                  return { text: item.payload?.text };
                 } else if (response.type === ResponseElementType.Image) {
                   if (response.type === ResponseElementType.Image) {
                     const item = response as ImageMessageResponse;
                     return {
                       attachment: {
                         type: "image",
-                        payload: {
-                          url: item.payload.url,
-                          is_reusable: true,
-                        },
+                        payload: { url: item.payload.url, is_reusable: true },
                       },
                     };
                   }
@@ -414,10 +474,7 @@ export const getMutedUsersHandler = factory.createHandlers(
     const directus = c.get("directus");
 
     const items = await directus.request(
-      readItems("bots_muted_users", {
-        fields: ["uid"],
-        filter: { bot: botId },
-      })
+      readItems("bots_muted_users", { fields: ["uid"], filter: { bot: botId } })
     );
 
     return c.json(items);
@@ -472,7 +529,7 @@ export const unmuteUserHandler = factory.createHandlers(
       );
     }
 
-    return c.json({botId});
+    return c.json({ botId });
   }
 );
 
@@ -492,19 +549,8 @@ export const ordersHandler = factory.createHandlers(
         query: {
           bool: {
             filter: [
-              {
-                term: {
-                  "metadata.bot_id.keyword": botId,
-                },
-              },
-              {
-                range: {
-                  created_at: {
-                    gte: start,
-                    lt: end,
-                  },
-                },
-              },
+              { term: { "metadata.bot_id.keyword": botId } },
+              { range: { created_at: { gte: start, lt: end } } },
             ],
           },
         },
@@ -513,11 +559,7 @@ export const ordersHandler = factory.createHandlers(
       },
     });
 
-    return c.json({
-      start,
-      end,
-      data: res.hits.hits.map((x) => x._source),
-    });
+    return c.json({ start, end, data: res.hits.hits.map((x) => x._source) });
   }
 );
 
@@ -537,19 +579,8 @@ export const slipsHandler = factory.createHandlers(
         query: {
           bool: {
             filter: [
-              {
-                term: {
-                  "metadata.bot_id.keyword": botId,
-                },
-              },
-              {
-                range: {
-                  created_at: {
-                    gte: start,
-                    lt: end,
-                  },
-                },
-              },
+              { term: { "metadata.bot_id.keyword": botId } },
+              { range: { created_at: { gte: start, lt: end } } },
             ],
           },
         },
@@ -558,11 +589,7 @@ export const slipsHandler = factory.createHandlers(
       },
     });
 
-    return c.json({
-      start,
-      end,
-      data: res.hits.hits.map((x) => x._source),
-    });
+    return c.json({ start, end, data: res.hits.hits.map((x) => x._source) });
   }
 );
 
@@ -581,19 +608,8 @@ export const capiLogsHandler = factory.createHandlers(
         query: {
           bool: {
             filter: [
-              {
-                term: {
-                  "bot_id.keyword": botId,
-                },
-              },
-              {
-                range: {
-                  created_at: {
-                    gte: start,
-                    lt: end,
-                  },
-                },
-              },
+              { term: { "bot_id.keyword": botId } },
+              { range: { created_at: { gte: start, lt: end } } },
             ],
           },
         },
@@ -602,11 +618,7 @@ export const capiLogsHandler = factory.createHandlers(
       },
     });
 
-    return c.json({
-      start,
-      end,
-      data: res.hits.hits.map((x) => x._source),
-    });
+    return c.json({ start, end, data: res.hits.hits.map((x) => x._source) });
   }
 );
 
@@ -687,9 +699,7 @@ export const chatsHandler = factory.createHandlers(
     const { OPENAI_API_KEY } = c.env;
     const body = await c.req.json();
 
-    const openai = new OpenAI({
-      apiKey: OPENAI_API_KEY,
-    });
+    const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
     const chatStream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -757,9 +767,7 @@ export const serviceHandler = factory.createHandlers(
     const knowledges = await directus.request<BotKnowledge[]>(
       readItems("bots_knowledges", {
         filter: {
-          date_created: {
-            _gte: addDays(new Date(), -10).toISOString(),
-          },
+          date_created: { _gte: addDays(new Date(), -10).toISOString() },
         },
       })
     );
@@ -795,9 +803,7 @@ export const serviceHandler = factory.createHandlers(
       }
     }
 
-    return c.json({
-      total: knowledges.length,
-    });
+    return c.json({ total: knowledges.length });
   }
 );
 
@@ -828,10 +834,7 @@ export const createInquiryHandler = factory.createHandlers(
     const directus = c.get("directus");
     const data = await c.req.json();
     const item = await directus.request(
-      createItem("bots_inquiries", {
-        bot: botId,
-        ...data,
-      })
+      createItem("bots_inquiries", { bot: botId, ...data })
     );
 
     return c.json(item);
@@ -846,11 +849,76 @@ export const getBotModelHandler = factory.createHandlers(
     const directus = c.get("directus");
 
     const botModel = await directus.request(
-      readItems("bots_model",{
-        fields: ["*"],
-      })
+      readItems("bots_model", { fields: ["*"] })
     );
 
     return c.json(botModel);
+  }
+);
+
+// extract bot config ----------------------------------------------------------
+export const postExtractChatBotConfigHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    try {
+      const body = await c.req.json();
+      const token = await jwt.sign(
+        { id: "bot-api", iss: "bot-api" },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+
+      const externalApiUrl =
+        "https://p6yynwob47.execute-api.ap-southeast-1.amazonaws.com/prod/extract-chatbot-config";
+
+      const res = await fetch(externalApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      }).then((response) => response.json());
+
+      return c.json(res);
+    } catch (error) {
+      console.error("Error in postExtractBotConfigHandler:", error);
+      return c.json({ error: "เกิดข้อผิดพลาดขณะประมวลผล" }, 500);
+    }
+  }
+);
+
+export const extractionStatusHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    const taskId = c.req.param("task_id");
+
+    try {
+      const token = await jwt.sign(
+        { id: "bot-api", iss: "bot-api" },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+
+      const externalApiUrl = `https://p6yynwob47.execute-api.ap-southeast-1.amazonaws.com/prod/extraction-status/${taskId}`;
+
+      const response = await fetch(externalApiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return c.json(data);
+    } catch (error) {
+      console.error("Error in extractionStatusHandler:", error);
+      return c.json({ error: "เกิดข้อผิดพลาดขณะตรวจสอบสถานะ" }, 500);
+    }
   }
 );

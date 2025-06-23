@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import { useState,useEffect } from "react";
 import { Outlet, useNavigate, useParams } from "@remix-run/react";
-import { SideBar } from "./_components/SideBar";
-import { useEffect } from "react";
 import { useAppSelector } from "~/store";
 import { useBot } from "~/hooks/bot";
 import { Loading } from "@repo/preline";

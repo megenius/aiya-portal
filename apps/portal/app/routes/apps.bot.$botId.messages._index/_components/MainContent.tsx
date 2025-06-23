@@ -1,8 +1,7 @@
 import React from 'react';
-import { Bot } from '~/@types/app';
-import { TailwindAdvancedEditor } from "@repo/editor";
-import { useBotUpdate } from '~/hooks/bot';
 import { toast } from 'react-toastify';
+import { Bot } from '~/@types/app';
+import { useBotUpdate } from '~/hooks/bot';
 
 interface MainContentProps {
   bot: Bot
@@ -17,7 +16,8 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
       variables: {
         key: bot.id as string,
         data: {
-          greeting_message_mobile: greetingMessage
+          greeting_message_mobile: greetingMessage,
+          greeting_message: greetingMessage,
         }
       }
     })

@@ -4,13 +4,27 @@ You are assisting the user with the `aiya-portal` repository (owner: `megenius`)
 ## Project Overview
 
 ### Project Structure
-The `aiya-portal` project is a monorepo, potentially managed with Turbobuild. The `apps` directory contains several subdirectories, organized as backend APIs and frontend applications.
+The `aiya-portal` project is a monorepo managed with **Turborepo**. The workspace uses **Bun** as the package manager and contains multiple backend APIs and frontend applications organized under the `apps` directory, with shared packages under the `packages` directory.
 
 ### Backend APIs
-Subdirectories ending with "-api" inside the `apps` directory (e.g., `ad-api`, `ai-api`, `api`, `aws-api`, `billing-api`, `bot-api`, `channel-api`, `customer-api`, `liff-api`, `partner-api`, `portal-api`, `referral-api`, `shop-api`) are likely backend services. These services might be built with Hono and deployed on Cloudflare. Prioritize suggestions related to backend development, API design, and Cloudflare deployment strategies.
+Backend services are organized in subdirectories ending with "-api":
+- **Core APIs:** `api`, `portal-api`, `customer-api`, `billing-api`, `channel-api`
+- **Specialized APIs:** `ad-api`, `ai-api`, `aws-api`, `bot-api`, `liff-api`, `partner-api`, `referral-api`, `shop-api`, `ums-api`, `pubsub-api`, `clickhouse-api`, `uws-api`
+- **Webhook Services:** `webhook-facebook`, `webhook-line`
+- **Proxy Services:** `proxy-facebook`, `proxy-line`
+
+All APIs are built with **Hono** framework and deployed on **Cloudflare Workers**. They follow a consistent structure with handlers, routes, middleware, and services.
 
 ### Frontend Applications
-The `portal`, `liff`, and `shop` directories inside the `apps` directory are likely frontend applications. These applications might be built with Remix in SPA mode. Prioritize suggestions related to frontend development, Remix framework, and single-page application architecture.
+Frontend applications include:
+- **`portal`:** Main admin portal (Remix + Vite)
+- **`liff`:** LINE Front-end Framework application
+- **`shop`:** E-commerce frontend
+- **`aiyaclub`:** Community platform (Remix + Cloudflare Pages)
+- **`website`:** Marketing website
+- **`agent-client`:** Agent interface
+
+These are built with **Remix** framework using Vite as the build tool.
 
 ### General Guidance
 * When working on a file within the `apps` directory, infer whether it's a backend API or a frontend application based on the directory name.
@@ -22,13 +36,46 @@ The current user is `megenius`.
 
 ## Examples
 
-### Example 1
-**User:** "How do I deploy this API to Cloudflare?" (while in `apps/ad-api`)
-**Good Copilot Response:** "Here's how you can deploy a Hono API to Cloudflare Workers, taking into account the monorepo structure of `aiya-portal`..." (provide relevant code snippets and configuration examples).
+### Example 1: Adding a New API Endpoint
+**User:** "How do I add a new endpoint to get user billing history?" (while in `apps/billing-api`)
+**Good Copilot Response:** "Here's how to add a billing history endpoint in the Hono-based billing API, following the monorepo structure of `aiya-portal`..." (provide relevant code snippets and configuration examples).
 
-### Example 2
-**User:** "How do I fetch data in this component?" (while in `apps/portal`)
-**Good Copilot Response:** "Here's how you can fetch data in a Remix component using the `useLoaderData` hook, keeping in mind that `aiya-portal` uses Remix in SPA mode..." (provide relevant code snippets and configuration examples).
+### Example 2: Implementing Durable Object
+**User:** "How do I create a rate limiter using Durable Objects?" (while in `apps/portal-api`)
+**Good Copilot Response:** "Here's how to implement a rate limiter using Cloudflare Durable Objects in your portal API..." (provide relevant code snippets and configuration examples).
+
+### Example 3: Frontend Data Fetching
+**User:** "How do I fetch user data in this Remix component?" (while in `apps/portal`)
+**Good Copilot Response:** "Here's how to fetch user data in Remix SPA mode using loaders and the API..." (provide relevant code snippets and configuration examples).
+
+## Common Issues & Troubleshooting
+
+### Build Issues
+* Check for circular dependencies between packages
+* Ensure proper TypeScript path mapping in monorepo
+* Verify Turborepo cache configuration
+
+### Deployment Issues
+* Check Cloudflare Workers size limits
+* Verify environment variables are properly set
+* Ensure proper wrangler.toml configuration
+
+### Runtime Issues
+* Check Cloudflare Workers logs for errors
+* Verify Durable Object bindings
+* Monitor memory usage and execution time
+
+## Debugging
+
+### Local Development
+* Use `console.log` with structured data
+* Implement request correlation IDs
+* Use Cloudflare Workers local development tools
+
+### Production
+* Use Cloudflare Analytics for monitoring
+* Implement health check endpoints
+* Set up alerting for critical errors
 
 ## Important Considerations
 * This information is based on a limited directory listing. More in-depth analysis might reveal additional details about the project's architecture and technology stack.
@@ -38,26 +85,60 @@ The current user is `megenius`.
 ## Technologies
 
 * **Monorepo:** Turborepo
-* **Backend API:** Hono (a lightweight web framework for Cloudflare Workers)
+* **Backend API:** Hono (lightweight web framework for Cloudflare Workers)
 * **Deployment:** Cloudflare Workers
-* **Frontend:** Remix (SPA mode)
+* **Frontend:** Remix (with Vite build tool)
 * **Language:** TypeScript
-* **Package Manager:** bun
+* **Package Manager:** Bun
+* **Database:** Directus (headless CMS/API)
+* **Styling:** Tailwind CSS
+* **UI Components:** Preline UI (custom package)
+* **State Management:** Redux Toolkit, TanStack Query
+* **Authentication:** JWT, API Keys
+* **Payments:** Stripe
+* **External APIs:** LINE Bot SDK, Google Auth
+* **Development Tools:** Wrangler (Cloudflare), ESLint, Prettier
+
+## Development Workflow
+
+### Local Development
+* Use `bun dev` to start all services in development mode
+* Use `bun dev --filter=portal-api` to start a specific API service
+* Use `bun build` to build the entire monorepo
+* Use `bun lint` to check code quality across all packages
+* Use `bun format` to format code with Prettier
+
+### Environment Setup
+* Each API service has its own `wrangler.toml` for Cloudflare configuration
+* Use `.env` files for local environment variables
+* Use Cloudflare tunnel for local HTTPS development (`bun tunnel`)
+
+### Code Organization
+* Follow domain-driven design principles
+* Keep business logic in `services/` directories (some APIs use different naming)
+* Use `handlers/` for HTTP request/response logic
+* Place shared code in `packages/` directory
+* Use `@repo/shared` for common utilities and types
 
 ## File Structure Conventions
 
 * **`apps/xxx-api`:** Contains the backend API code.
 * **`packages/*`:** Contains shared libraries and utilities.
+    * `shared/`: Common utilities, types, and business logic
+    * `ui/`: Shared UI components
+    * `preline/`: Custom Preline UI components
+    * `editor/`: Rich text editor components
+    * `eslint-config/`: Shared ESLint configuration
+    * `tsconfig/`: Shared TypeScript configurations
 * **`apps/remix-app`:** Contains Remix frontend application code.
-* **`src/`:** The main source code directory for the API.
-    * `collections/`: Directus collections definitions (if applicable).
-    * `durables/`: Durable Object implementations for stateful logic.
-    * `handlers/`: Request handlers and business logic.
-    * `middlewares/`: Hono middleware functions.
-    * `routes/`: Hono route definitions.
-    * `services/`: Reusable business logic and data access functions.
-    * `types/`: TypeScript type definitions.
-    * `utils/`: Utility functions.
+* **`src/` (for APIs):** The main source code directory for the API.
+    * `config/`: Configuration and environment setup
+    * `handlers/`: Request handlers and business logic
+    * `middleware/`: Hono middleware functions
+    * `routes/`: Hono route definitions
+    * `schemas/`: Zod validation schemas and OpenAPI definitions
+    * `types/`: TypeScript type definitions
+    * `utils/`: Utility functions
 * **`wrangler.toml`:** Cloudflare Workers configuration file.
 * **`package.json`:** Node.js package manifest.
 * **`tsconfig.json`:** TypeScript compiler configuration.
@@ -106,6 +187,117 @@ The current user is `megenius`.
 * Use Remix's data fetching APIs to load data from the backend API.
 * Be mindful of SEO implications when using SPA mode.
 
+## API Design Standards
+
+### RESTful Conventions
+* Use proper HTTP methods (GET, POST, PUT, DELETE, PATCH)
+* Implement consistent URL patterns: `/api/v1/resource/:id`
+* Use proper HTTP status codes
+* Include pagination for list endpoints
+
+### Request/Response Format
+* Use camelCase for JSON properties
+* Include metadata in responses (pagination, timestamps)
+* Implement request validation with Zod schemas
+* Use consistent error response format
+
+### Authentication & Authorization
+* Use Bearer tokens for API authentication
+* Implement role-based access control (RBAC)
+* Use middleware for authentication checks
+* Include user context in request handlers
+
+```typescript
+// Example API endpoint pattern
+app.get('/api/v1/users/:id', authMiddleware, async (c) => {
+  const { id } = c.req.param();
+  const user = await userService.findById(id);
+  
+  if (!user) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+  
+  return c.json({
+    data: user,
+    meta: { timestamp: new Date().toISOString() }
+  });
+});
+```
+
+## Error Handling
+
+* **Custom Error Classes:** Create domain-specific error classes
+* **Error Response Format:** Use consistent error response structure
+* **Logging:** Include correlation IDs for request tracing
+* **Graceful Degradation:** Handle service failures gracefully
+
+```typescript
+// Example error handling pattern
+export class ValidationError extends Error {
+  constructor(message: string, public field: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+// In handlers
+try {
+  const result = await service.process(data);
+  return c.json({ data: result });
+} catch (error) {
+  if (error instanceof ValidationError) {
+    return c.json({ error: error.message, field: error.field }, 400);
+  }
+  console.error('Unexpected error:', error);
+  return c.json({ error: 'Internal server error' }, 500);
+}
+```
+
+## Environment Configuration
+
+### Environment Variables
+* Use `.env.example` files in each app for documentation
+* Prefix environment variables by service (e.g., `PORTAL_API_*`, `BILLING_API_*`)
+* Store secrets in Cloudflare Workers environment variables
+
+### Configuration Management
+* Use `packages/shared` for shared configuration schemas
+* Validate environment variables at startup
+* Use different configurations for dev/staging/production
+
+```typescript
+// Example configuration pattern
+import { z } from 'zod';
+
+const configSchema = z.object({
+  DATABASE_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+});
+
+export const config = configSchema.parse(process.env);
+```
+
+## Performance Optimization
+
+### Cloudflare Workers Best Practices
+* Minimize cold start times by avoiding heavy imports
+* Use streaming for large responses
+* Implement caching strategies with Cache API
+* Optimize bundle size with tree shaking
+
+### Database Optimization
+* Use connection pooling for database connections
+* Implement proper indexing strategies
+* Use read replicas for read-heavy operations
+* Cache frequently accessed data
+
+### Frontend Performance
+* Implement code splitting in Remix
+* Use lazy loading for components
+* Optimize bundle size with dynamic imports
+* Implement proper caching headers
+
 ## Example Tasks
 
 * Add a new API endpoint.
@@ -120,4 +312,4 @@ For questions or assistance, contact @megenius.
 
 ## Last Updated
 
-2025-02-08 09:44:10 UTC
+2025-06-01 15:30:00 UTC

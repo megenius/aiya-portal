@@ -13,7 +13,7 @@ const Route = () => {
       <Suspense fallback="">
         <ClientOnly>
           {() =>
-            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
+            <div className="space-y-3">
               <MainContent workspace={workspace} />
             </div>
           }

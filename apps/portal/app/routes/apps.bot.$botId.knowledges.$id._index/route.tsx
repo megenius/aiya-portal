@@ -7,7 +7,6 @@ import { Bot } from "~/@types/app";
 import { useBotKnowlegde } from "~/hooks/bot/useBotKnowlegde";
 import { Loading } from "@repo/preline";
 import { ClientOnly } from "remix-utils/client-only";
-import ChatWidget from "~/components/ChatWidget";
 import PrelineScript from "~/PrelineScript";
 // const MainContent = React.lazy(() => import("./_components/MainContent"))
 

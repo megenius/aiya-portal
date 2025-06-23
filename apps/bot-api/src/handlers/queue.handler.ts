@@ -1,7 +1,7 @@
-import { CAPIEventMessage, NsCapi } from "~/types/app";
-import { getTextEmbedding } from "../utils/vector";
-import { Logger, MD5, TextEmbedding } from "@repo/shared/utils";
 import { OpenSearch } from "@repo/shared";
+import { MD5, TextEmbedding } from "@repo/shared/utils";
+import { NsCapi } from "~/types/app";
+import { getTextEmbedding } from "../utils/vector";
 
 interface QueueMessage {
   operation:
@@ -23,6 +23,10 @@ export async function handleQueueMessage(batch: MessageBatch, env: WorkerEnv) {
   // sentences-embeddings-prod
   const suffix = env.NODE_ENV === "development" ? "-dev" : "-prod";
 
+  console.log(batch.queue);
+  console.log("env.NODE_ENV", env.NODE_ENV);
+  console.log(suffix);
+  
   if (batch.queue === "sentences-embeddings" + suffix) {
     await handleSentenceEmbeddings(batch, env);
   } else if (batch.queue === "sentences-embeddings2" + suffix) {
@@ -31,7 +35,7 @@ export async function handleQueueMessage(batch: MessageBatch, env: WorkerEnv) {
     await handleCapiEvents(batch, env);
   }
 
-  console.log("batch", batch);
+  console.log("batch", JSON.stringify(batch));
   
 }
 
@@ -68,6 +72,7 @@ async function handleSentenceEmbeddings(batch: MessageBatch, env: WorkerEnv) {
             knowledge_id,
             intent_id,
             id,
+            status: 'published',
           });
 
         case "updateQuestion":
