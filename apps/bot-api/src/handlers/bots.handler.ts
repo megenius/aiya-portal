@@ -922,3 +922,34 @@ export const extractionStatusHandler = factory.createHandlers(
     }
   }
 );
+
+export const postExtractChatBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c: Context<Env>) => {
+    try {
+      const body = await c.req.json();
+      const token = await jwt.sign(
+        { id: "bot-api", iss: "bot-api" },
+        c.env.DIRECTUS_SECRET_KEY
+      );
+
+      const externalApiUrl =
+        "https://p6yynwob47.execute-api.ap-southeast-1.amazonaws.com/prod/extract-chatbot-knowledge";
+
+      const res = await fetch(externalApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      }).then((response) => response.json());
+
+      return c.json(res);
+    } catch (error) {
+      console.error("Error in postExtractBotConfigHandler:", error);
+      return c.json({ error: "Error processing request" }, 500);
+    }
+  }
+);

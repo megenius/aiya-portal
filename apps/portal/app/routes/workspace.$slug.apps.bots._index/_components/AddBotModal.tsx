@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import business_types_json from "../business_types.json";
-import { BotDetails, BotType } from "~/@types/app";
+import { BotModalDetails, BotType } from "~/@types/app";
 import Dropdown from "./Dropdown";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import TextArea from "~/components/TextArea";
@@ -11,7 +11,7 @@ interface AddBotModalProps {
   workspaceId: string;
   botTypes: BotType[];
   isOpen: boolean;
-  onOk: (values: BotDetails & { documentFile: File[] | null }) => void;
+  onOk: (values: BotModalDetails & { documentFile: File[] | null }) => void;
   onClose: () => void;
 }
 
@@ -90,7 +90,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
     trigger,
     formState: { errors, isValid },
     reset,
-  } = useForm<BotDetails>({
+  } = useForm<BotModalDetails>({
     mode: "onChange",
     defaultValues: {
       name: "",
@@ -195,9 +195,8 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
   };
 
   //create bot
-  const onSubmit: SubmitHandler<BotDetails> = (data) => {
-    console.log("Form data:", data);
-    const botDetails: BotDetails & { documentFile: File[] | [] } = {
+  const onSubmit: SubmitHandler<BotModalDetails> = (data) => {
+    const botDetails: BotModalDetails & { documentFile: File[] | [] } = {
       ...data,
       documentFile: selectedFile ? [selectedFile] : [],
     };
@@ -586,15 +585,7 @@ const AddBotModal: React.FC<AddBotModalProps> = ({
               <div />
             )}
 
-            {currentPage === 0 ? (
-              <button
-                type="button"
-                onClick={handleClose}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              >
-                Cancel
-              </button>
-            ) : (
+            {currentPage > 0 && (
               <button
                 type="submit"
                 disabled={

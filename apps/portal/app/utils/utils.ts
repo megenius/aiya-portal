@@ -1,3 +1,6 @@
+import { IntentQuestion } from "~/@types/app";
+import { randomHexString } from "./random";
+
 export const toMillisecond = (value:number, unit : "second" | "minute" | "hour" | "day") => {
     const conversion = {
         second: 1000,
@@ -7,3 +10,24 @@ export const toMillisecond = (value:number, unit : "second" | "minute" | "hour" 
     };
     return value * (conversion[unit] || conversion['minute']);
 };
+
+export function transformKnowledgeBase({ intents }) {
+  return intents.map(({ intent, quick_reply, questions, answer }) => ({
+    id: randomHexString(8),
+    name: intent,
+    intent,
+    quick_reply,
+    questions: questions.map((q: IntentQuestion) => ({
+      id: randomHexString(8),
+      question: q,
+    })),
+    responses: [
+      {
+        id: randomHexString(8),
+        type: "Text",
+        payload: { type: "text", text: answer },
+      },
+    ],
+    tags: [],
+  }));
+}

@@ -1,9 +1,8 @@
-// hooks/useBotSlips.ts
 import { useQuery } from "@tanstack/react-query";
-import { ChatbotExtractionStatus } from "~/@types/app";
-import { fetchExtractionChatbotStatus } from "~/services/bots";
+import { ChatbotKnowledgeExtractionResponse } from "~/@types/app";
+import { fetchExtractionChatbotKnowledge } from "~/services/bots";
 
-interface UseBotExtractionChatbotStatusProps {
+interface UseBotExtractionChatbotKnowledgeProps {
   task_id: string;
   enabled?: boolean;
 }
@@ -18,14 +17,14 @@ const POLL_STATUSES = [
   "ready_for_extraction",
 ];
 
-export const useBotExtractionChatbotStatus = ({
+export const useBotExtractionChatbotKnowledge = ({
   task_id,
   enabled = false,
-}: UseBotExtractionChatbotStatusProps) => {
-  return useQuery<ChatbotExtractionStatus, Error, ChatbotExtractionStatus>({
-    queryKey: ["bots", "extraction-chatbot-status", task_id],
+}: UseBotExtractionChatbotKnowledgeProps) => {
+  return useQuery<ChatbotKnowledgeExtractionResponse, Error, ChatbotKnowledgeExtractionResponse>({
+    queryKey: ["bots", "extraction-chatbot-knowledge", task_id],
     queryFn: () =>
-      fetchExtractionChatbotStatus(task_id).then((res) => res.data),
+      fetchExtractionChatbotKnowledge(task_id).then((res) => res.data),
     enabled,
     // ถ้า status ยังอยู่ในกลุ่ม polling ให้รีเฟรชทุก 2 วินาที
     refetchInterval: (latestData) => {

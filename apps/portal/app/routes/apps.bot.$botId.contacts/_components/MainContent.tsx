@@ -48,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           {/* <MemberStats channels={channels?.items} /> */}
 
           {/* Table Section */}
-          <ContactTable botId={bot.id} searchValue={searchValue} />
+          <ContactTable botId={bot.id} workspaceId={bot.team as string} searchValue={searchValue} />
           {/* End Table Section */}
         </div>
       </div>
