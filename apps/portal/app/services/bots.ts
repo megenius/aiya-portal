@@ -1,8 +1,8 @@
 import {
   Bot,
   BotChannelStatus,
-  ExtractChatbotConfigRequest,
-  ExtractionChatbotStatus,
+  ChatbotConfigExtractionRequest,
+  ChatbotExtractionStatus,
   BotInquiry,
   BotIntent,
   BotKnowledge,
@@ -20,7 +20,9 @@ import {
   OrderTemplate,
   WorkspaceMember,
   stats,
-  ExtractChatbotConfigResponse,
+  ChatbotExtractionTaskResponse,
+  ChatbotKnowledgeExtractionRequest,
+  ChatbotKnowledgeExtractionResponse,
 } from "~/@types/app";
 
 import api from "./api";
@@ -236,8 +238,8 @@ export const fetchBotInsightLogs = (botId: string) =>
     data: BotLog[];
   }>(`/bots/${botId}/insights/logs`);
 
-export const fetchBotInsightContacts = (botId: string) =>
-  api.get<BotLog[]>(`/bots/${botId}/insights/contacts`);
+export const fetchBotInsightContacts = (botId: string,workspaceId:string) =>
+  api.get<BotLog[]>(`/bots/${botId}/insights/${workspaceId}/contacts`);
 
 export const fetchBotInquiries = (botId: string) =>
   api.get<BotInquiry[]>(`/bots/${botId}/inquiries`);
@@ -363,6 +365,10 @@ export const insertBotInquiry = async (botId: string, data: Partial<BotInquiry>)
 };
 
 // --------------- extract chatbot config ---------------
-export const extractChatbotConfig = (data: ExtractChatbotConfigRequest) => api.post<ExtractChatbotConfigResponse>("/bots/extract-chatbot-config", data);
+export const extractChatbotConfig = (data: ChatbotConfigExtractionRequest) => api.post<ChatbotExtractionTaskResponse>("/bots/extract-chatbot-config", data);
 
-export const fetchExtractionChatbotStatus = (task_id: string) => api.get<ExtractionChatbotStatus>(`/bots/extraction-status/${task_id}`);
+export const fetchExtractionChatbotStatus = (task_id: string) => api.get<ChatbotExtractionStatus>(`/bots/extraction-status/${task_id}`);
+
+export const extractChatbotKnowledge = (data: ChatbotKnowledgeExtractionRequest) => api.post<ChatbotExtractionTaskResponse>("/bots/extract-chatbot-knowledge", data);
+
+export const fetchExtractionChatbotKnowledge = (task_id: string) => api.get<ChatbotKnowledgeExtractionResponse>(`/bots/extraction-status/${task_id}`);

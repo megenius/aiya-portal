@@ -26,6 +26,10 @@ botsRoutes.post("/:id/logs", ...BotsHandler.insertLogsHandler);
 botsRoutes.get("/:id/channels", ...BotsHandler.getBotChannelsHandler);
 // botsRoutes.delete("/:id/channels", BotsHandler.deleteBotChannel);
 
+// extract chatbot knowledge
+botsRoutes.post("/extract-chatbot-knowledge", ...BotsHandler.postExtractChatBotKnowledgeHandler);
+
+// get bot knowledges
 botsRoutes.get("/:id/knowledges", ...BotsHandler.searchBotKnowledgesHandler);
 botsRoutes.post("/:id/knowledges", ...BotsHandler.createBotKnowledgeHandler);
 

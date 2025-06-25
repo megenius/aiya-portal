@@ -1,10 +1,10 @@
 // hooks/useBots.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ExtractChatbotConfigRequest, ExtractChatbotConfigResponse } from "~/@types/app";
+import { ChatbotConfigExtractionRequest } from "~/@types/app";
 import { extractChatbotConfig } from "~/services/bots";
 
 interface MutationFn {
-  variables: ExtractChatbotConfigRequest;
+  variables: ChatbotConfigExtractionRequest;
 }
 
 export const useBotExtractChatbotConfig = () => {

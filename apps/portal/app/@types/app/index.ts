@@ -81,17 +81,12 @@ export type FacebookAdAccount = components["schemas"]["ItemsAdAccounts"] & {
     currency: string;
     timezone_name: string;
     timezone_offset_hours_utc: number;
-    business: {
-      id: string;
-      name: string;
-    };
+    business: { id: string; name: string };
   };
 };
 
 export type SaasSubscription =
-  components["schemas"]["ItemsSaasSubscriptions"] & {
-    features: PlanFeatures;
-  };
+  components["schemas"]["ItemsSaasSubscriptions"] & { features: PlanFeatures };
 export type SaasProduct = components["schemas"]["ItemsSaasProducts"] & {
   features: PlanFeatures;
 };
@@ -116,11 +111,7 @@ export type WorkspaceFacebookAdAccount = FacebookAdAccount;
 export type WorkspaceChannel = Channel;
 export type BotChannelStatus = Channel & { enabled: boolean };
 export type BotUpdate = {
-  channels?: {
-    create: [];
-    update: [];
-    delete: number[];
-  };
+  channels?: { create: []; update: []; delete: number[] };
 } & Partial<Bot>;
 
 // export type ChannelOrderbot = components["schemas"][""];
@@ -179,7 +170,7 @@ export type BotType = {
   status?: "active" | "inactive";
 };
 
-export type BotDetails ={
+export type BotModalDetails = {
   name: string;
   bot_type: string;
   // ad_account: string;
@@ -191,10 +182,10 @@ export type BotDetails ={
   documentFile?: File[] | [];
   document_urls?: string[];
   text?: string;
-}
+};
 
 // extract Chatbot config
-export interface ExtractChatbotConfigRequest {
+export interface ChatbotConfigExtractionRequest {
   source_type: "url" | "text" | string;
   text?: string;
   url?: string;
@@ -206,50 +197,95 @@ export interface ExtractChatbotConfigRequest {
   user_prompt?: string;
 }
 
-export interface ExtractChatbotConfigResponse {
+export interface ChatbotExtractionTaskResponse {
   status: string;
   message: string;
   task_id: string;
 }
 
-interface KBIntent {
+interface ChatbotIntentEntry {
   intent: string;
   questions: string[];
   quick_reply: string;
   answer: string;
 }
 
-export interface KnowledgeBase {
+export interface ChatbotKnowledgeBase {
   name: string;
-  intents: KBIntent[];
+  intents: ChatbotIntentEntry[];
   lang: string;
+  _source_length?: number;
 }
 
-export interface ExtractionChatbotStatus {
+export interface ChatbotExtractionStatus {
   status: string;
   task_id: string;
-  response: {
-    status: string;
-    chatbot_config: {
-      name: string;
-      description: string;
-      greeting_message: string;
-      instruction: string;
-      context_markdown: string;
-      language: string;
-      _source_length: number;
-      knowledge_base: KnowledgeBase;
-    };
-    message: string;
-  };
+  response: ChatbotExtractionConfig;
   model: string;
   created_at: string;
 }
 
-export type IntentQuestion = {
-  id: string;
-  question: string;
+interface ChatbotExtractionConfig {
+  status: string;
+  chatbot_config: {
+    name: string;
+    description: string;
+    greeting_message: string;
+    instruction: string;
+    context_markdown: string;
+    language: string;
+    _source_length: number;
+    knowledge_base: ChatbotKnowledgeBase;
+  };
+  message: string;
+}
+
+export type KnowledgeModalDetails = {
+  name: string;
+  user_prompt?: string;
+  source_type: string;
+  url?: string;
+  documentFile?: File[] | [];
+  document_urls?: string[];
+  text?: string;
 };
+export interface ChatbotKnowledgeExtractionRequest {
+  source_type: "url" | "text" | "document" | string;
+  text?: string;
+  url?: string;
+  document_urls?: string[];
+  model: "gemini-2.5-flash" | string;
+  team: string;
+  user_prompt?: string;
+  kb_name: string;
+  max_intents: number;
+  max_depth?: number;
+  max_pages?: number;
+  include_external?: boolean;
+}
+
+export interface ChatbotKnowledgeExtractionResponse {
+  status: string;
+  task_id: string;
+  response: ChatbotKnowledgeExtractionResult;
+  created_at: string;
+}
+
+interface ChatbotKnowledgeExtractionResult {
+  status: string;
+  knowledge_base: ChatbotKnowledgeBase;
+  usage_stats: ChatbotUsageStats;
+  message: string;
+}
+
+interface ChatbotUsageStats {
+  source_length: number;
+  input_tokens: number;
+  output_tokens: number;
+  intent_count: number;
+}
+
+export type IntentQuestion = { id: string; question: string };
 
 export type IntentResponse = {
   altText?: string;
@@ -259,16 +295,11 @@ export type IntentResponse = {
 };
 
 export type TextMessageResponse = {
-  payload: {
-    text: string;
-  };
+  payload: { text: string };
 } & IntentResponse;
 
 export type ImageMessageResponse = {
-  payload: {
-    url: string;
-    alt: string;
-  };
+  payload: { url: string; alt: string };
 } & IntentResponse;
 
 export enum ResponseElementType {
@@ -488,34 +519,19 @@ export namespace stats {
     id: string;
     conversations: number;
     avgConfidence: number;
-    intents: Array<{
-      name: string;
-      count: number;
-      percentage: number;
-    }>;
-    platforms: Array<{
-      name: string;
-      count: number;
-      percentage: number;
-    }>;
+    intents: Array<{ name: string; count: number; percentage: number }>;
+    platforms: Array<{ name: string; count: number; percentage: number }>;
   }
 
   export interface AnalyticsReport {
     summary: {
-      conversations: {
-        total: number;
-        fallbacks: number;
-        fallbackRate: number;
-      };
+      conversations: { total: number; fallbacks: number; fallbackRate: number };
       users: {
         total: number;
         activeHours: number;
         averageUsersPerHour: number;
       };
-      performance: {
-        avgConfidence: number;
-        successRate: number;
-      };
+      performance: { avgConfidence: number; successRate: number };
     };
     knowledgeUsage: {
       known: KnowledgeUsage[];
@@ -532,10 +548,7 @@ export namespace stats {
       uniqueUsers: number;
       fallbacks: number;
       confidence: number | null;
-      platforms: Array<{
-        name: string;
-        count: number;
-      }>;
+      platforms: Array<{ name: string; count: number }>;
     }>;
     dailyActivity: Array<{
       date: string;
@@ -543,10 +556,7 @@ export namespace stats {
       uniqueUsers: number;
       fallbacks: number;
       confidence: number | null;
-      platforms: Array<{
-        name: string;
-        count: number;
-      }>;
+      platforms: Array<{ name: string; count: number }>;
     }>;
     intents: {
       top: Array<{
@@ -557,11 +567,7 @@ export namespace stats {
       }>;
       fallbacks: {
         total: number;
-        byIntent: Array<{
-          intent: string;
-          count: number;
-          percentage: number;
-        }>;
+        byIntent: Array<{ intent: string; count: number; percentage: number }>;
         byConfidence: Array<{
           range: string;
           count: number;
@@ -574,11 +580,7 @@ export namespace stats {
       conversations: number;
       uniqueUsers: number;
       fallbackRate: number;
-      topIntents: Array<{
-        name: string;
-        count: number;
-        percentage: number;
-      }>;
+      topIntents: Array<{ name: string; count: number; percentage: number }>;
     }>;
     metadata: {
       timezone: string;
