@@ -10,6 +10,7 @@ interface MainContentProps {
   codeStats: VoucherStats;
   language: string;
   pageState: string;
+  isFullyCollected?: boolean;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
@@ -19,6 +20,7 @@ const MainContent: React.FC<MainContentProps> = ({
   codeStats,
   language,
   pageState,
+  isFullyCollected = false,
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
@@ -86,22 +88,14 @@ const MainContent: React.FC<MainContentProps> = ({
   ]);
 
   const tabs = [
-    {
-      id: "details",
-      label: {
-        th: "รายละเอียด",
-        en: "Details",
-      },
-    },
-    {
-      id: "conditions",
-      label: {
-        th: "เงื่อนไข",
-        en: "Conditions",
-      },
-    },
+    { id: "details", label: { th: "รายละเอียด", en: "Details" } },
+    { id: "conditions", label: { th: "เงื่อนไข", en: "Conditions" } },
     // { id: "locations", label: "สาขา" },
   ];
+  const fullyCollectedText = {
+    th: "คูปองหมดแล้ว",
+    en: "Voucher fully collected",
+  };
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -114,6 +108,11 @@ const MainContent: React.FC<MainContentProps> = ({
               alt={voucher?.id}
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
+            {/* Gray Overlay */}
+            {isFullyCollected && <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold">
+              {fullyCollectedText[language]}
+            </div>}
+            {/* Brand Logo */}
           </div>
 
           <div className="px-4 pt-3 pb-2 space-y-2">

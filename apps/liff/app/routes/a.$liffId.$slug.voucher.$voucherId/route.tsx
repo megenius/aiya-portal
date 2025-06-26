@@ -224,6 +224,7 @@ const Route = () => {
             voucher={voucher}
             codeStats={codeStats}
             pageState={pageState}
+            isFullyCollected={status === "fully_collected"}
             onFormValidationChange={setIsFormValid}
             onFormDataChange={setFormData}
           />

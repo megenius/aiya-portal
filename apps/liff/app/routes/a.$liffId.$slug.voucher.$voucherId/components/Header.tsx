@@ -49,12 +49,12 @@ const Header: React.FC<HeaderProps> = ({
           <h1 className="text-lg font-semibold">{voucher?.voucher_brand_id?.name}</h1>
         </div>
       </div>
-      <FollowButton
+      {/* <FollowButton
         language={language}
         isFollowed={_isFollowed}
         primaryColor={color}
         onClick={handleFollow}
-      />
+      /> */}
     </div>
   );
 };
