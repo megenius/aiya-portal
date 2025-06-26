@@ -1,0 +1,9 @@
+export { default as TextMessage } from './TextMessage';
+export { default as ImageMessage } from './ImageMessage';
+export { default as FileMessage } from './FileMessage';
+export { default as AudioMessage } from './AudioMessage';
+export { default as VideoMessage } from './VideoMessage';
+export { default as SystemMessage } from './SystemMessage';
+export { default as LocationMessage } from './LocationMessage';
+export { default as ContactMessage } from './ContactMessage';
+export { default as ReplyMessage } from './ReplyMessage';

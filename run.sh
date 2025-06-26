@@ -1,1 +1,1 @@
-bun dev --filter=portal --filter=portal-api --filter=bot-api --filter=channel-api --filter=ad-api --filter=customer-api --filter=shop-api --filter=partner-api --filter=facebook-proxy --filter=ai-api --filter=billing-api --filter=uws-api  --concurrency 14
+bun dev --filter=portal --filter=portal-api --filter=bot-api --filter=channel-api --filter=ad-api --filter=customer-api --filter=shop-api --filter=partner-api --filter=facebook-proxy --filter=ai-api --filter=billing-api --filter=uws-api --filter=ai-coupon  --concurrency 14
