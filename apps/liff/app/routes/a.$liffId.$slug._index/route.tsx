@@ -72,13 +72,13 @@ const Route = () => {
     }
 
     // Navigate based on whether profile exists
-    if (!userProfile) {
-      // ส่งต่อข้อมูล referrer ไปยังหน้า interests
-      const refParam = referrerId ? `&ref=${referrerId}` : '';
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
-    } else {
+    // if (!userProfile) {
+    //   // ส่งต่อข้อมูล referrer ไปยังหน้า interests
+    //   const refParam = referrerId ? `&ref=${referrerId}` : '';
+    //   navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+    // } else {
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
-    }
+    // }
   }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile, referrerId]);
 
   // Show loading indicator during all processing
