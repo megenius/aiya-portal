@@ -10,7 +10,7 @@ interface MainContentProps {
   codeStats: VoucherStats;
   language: string;
   pageState: string;
-  isFullyCollected?: boolean;
+  status?: string;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
@@ -20,7 +20,7 @@ const MainContent: React.FC<MainContentProps> = ({
   codeStats,
   language,
   pageState,
-  isFullyCollected = false,
+  status = "collected",
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
@@ -92,10 +92,16 @@ const MainContent: React.FC<MainContentProps> = ({
     { id: "conditions", label: { th: "เงื่อนไข", en: "Conditions" } },
     // { id: "locations", label: "สาขา" },
   ];
-  const fullyCollectedText = {
-    th: "คูปองหมดแล้ว",
-    en: "Voucher fully collected",
-  };
+  const statusText = {
+    expired: {
+      th: "คูปองหมดอายุ",
+      en: "Voucher expired",
+    },
+    fully_collected: {
+      th: "คูปองหมดแล้ว",
+      en: "Voucher fully collected",
+    },
+  }
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -109,8 +115,8 @@ const MainContent: React.FC<MainContentProps> = ({
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
             {/* Gray Overlay */}
-            {isFullyCollected && <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold">
-              {fullyCollectedText[language]}
+            {(status === "fully_collected" || status === "expired") && <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold">
+              {statusText[status][language]}
             </div>}
             {/* Brand Logo */}
           </div>
