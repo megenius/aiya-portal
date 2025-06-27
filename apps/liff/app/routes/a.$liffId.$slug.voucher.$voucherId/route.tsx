@@ -224,7 +224,7 @@ const Route = () => {
             voucher={voucher}
             codeStats={codeStats}
             pageState={pageState}
-            status={status}
+            status={isExpired ? "expired" : status}
             onFormValidationChange={setIsFormValid}
             onFormDataChange={setFormData}
           />
