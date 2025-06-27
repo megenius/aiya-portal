@@ -53,15 +53,15 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   const text = () => {
     if (voucherUser.code.code_status === "pending_confirmation") {
       if (timeLeft > 0) return voucherText["collected"][language];
-      else return voucherText["used"][language];
+      else return voucherText["expired"][language];
     }
-      if (
-        isExpired &&
-        voucherUser.code.code_status !== "used" &&
-        voucherUser.code.code_status !== "pending_confirmation"
-      ) {
-        return voucherText["expired"][language];
-      }
+    if (
+      isExpired &&
+      voucherUser.code.code_status !== "used" &&
+      voucherUser.code.code_status !== "pending_confirmation"
+    ) {
+      return voucherText["expired"][language];
+    }
     return voucherText[voucherUser.code.code_status ?? "collected"][language];
   };
 
@@ -71,9 +71,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       <div className="relative">
         <button
           className="flex w-full h-28 border rounded-lg overflow-hidden"
-          onClick={() =>
-            onClick(voucherUser.id.toString())
-          }
+          onClick={() => onClick(voucherUser.id.toString())}
         >
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
@@ -95,7 +93,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
               <div
                 className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
               >
-                {((voucherUser.code.code_status === "pending_confirmation" && timeLeft <= 0) || voucherUser.code.code_status === "used") && (
+                {voucherUser.code.code_status === "used" && (
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                 )}
                 {!isExpired &&
@@ -104,9 +102,10 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                     voucherUser.code.code_status === "collected") && (
                     <QrCode className="h-4 w-4 flex-shrink-0" />
                   )}
-                {((isExpired &&
-                  voucherUser.code.code_status !== "used" &&
-                  voucherUser.code.code_status !== "pending_confirmation") ||
+                {((voucherUser.code.code_status === "pending_confirmation" &&
+                  timeLeft <= 0) ||
+                  (isExpired &&
+                    voucherUser.code.code_status !== "used") ||
                   voucherUser.code.code_status === "expired") && (
                   <XCircle className="h-4 w-4 flex-shrink-0" />
                 )}

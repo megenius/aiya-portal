@@ -61,7 +61,6 @@ export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
 const Route = () => {
   const { page, voucher } = useLoaderData<typeof clientLoader>();
   const { data: liff } = useLineLiff();
-  const navigate = useNavigate();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { language } = useLiff({ liffId: page?.liff_id as string });
   const isThaiLanguage = language.startsWith("th");
@@ -116,7 +115,9 @@ const Route = () => {
       ? "fully_collected"
       : (voucher?.metadata.redemptionType ?? "instant");
 
-  const isExpired = myVoucher ? (myVoucher.expired_date && new Date(myVoucher.expired_date) < new Date()) : false;
+  const isExpired = myVoucher
+    ? myVoucher.expired_date && new Date(myVoucher.expired_date) < new Date()
+    : false;
 
   let timeLeft = 0;
   if (myVoucher?.used_date) {
@@ -136,14 +137,14 @@ const Route = () => {
     ) {
       return;
     }
-    
+
     if (isCollected || status === "pending_confirmation") {
       // navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
       setIsRedeemedModalOpen(true);
       return;
     }
     console.log(3);
-    
+
     if (
       pageState === "landing" &&
       voucher?.metadata.redemptionType === "form"
@@ -231,7 +232,13 @@ const Route = () => {
         )}
         <Footer
           color={voucher.voucher_brand_id.primaryColor ?? ""}
-          buttonText={isSubmitting ? "Collecting" : isExpired ? buttonText[lang]["expired"] : (status === "pending_confirmation" && timeLeft <= 0) ? buttonText[lang]["used"] : buttonText[lang][status]}
+          buttonText={
+            isSubmitting
+              ? "Collecting"
+              : isExpired || status === "pending_confirmation" && timeLeft <= 0
+                ? buttonText[lang]["expired"]
+                  : buttonText[lang][status]
+          }
           onClick={handleSubmit}
           disabled={
             (pageState === "form" && !isFormValid) ||
@@ -256,7 +263,7 @@ const Route = () => {
 
         {myVoucher && (
           <RedeemModal
-           page={page}
+            page={page}
             voucherUser={myVoucher}
             language={lang}
             primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
