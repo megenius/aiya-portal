@@ -49,7 +49,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 className="w-24 object-cover mr-3"
               />
               <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
-                <div className="w-full max-w-36 text-start">
+                <div className="w-full max-w-48 text-start">
                   <h3 
                     className="font-medium" 
                     style={textTruncateStyle}
@@ -87,13 +87,12 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           </div>
 
           {/* Tear-off section (right side) */}
-          <div
+          {/* <div
             className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
             style={{ backgroundColor: brand.primaryColor || undefined }}
           >
             <div className="transform -rotate-90">
               <div className="text-center space-y-2 overflow-hidden">
-                {/* <p className="text-xs">COUPON</p> */}
                 <p 
                   className="text-base font-medium w-24" 
                   style={textTruncateStyle}
@@ -107,13 +106,12 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                   alt={brand.name ?? ""}
                   className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
                 />
-                {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
+                <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
                   LOGO
-                </div> */}
-                {/* <QrCode className="h-6 w-6 mx-auto mt-1" /> */}
+                </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </button>
         <div className="absolute left-0 top-0 h-full">
           {[...Array(10)].map((_, i) => (

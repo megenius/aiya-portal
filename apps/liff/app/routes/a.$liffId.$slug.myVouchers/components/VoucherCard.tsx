@@ -72,10 +72,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
         <button
           className="flex w-full h-28 border rounded-lg overflow-hidden"
           onClick={() =>
-            (!isExpired && voucherUser.code.code_status === "collected") ||
-            (voucherUser.code.code_status === "used" && timeLeft > 0)
-              ? onClick(voucherUser.id.toString())
-              : null
+            onClick(voucherUser.id.toString())
           }
         >
           {/* Ticket inner container */}

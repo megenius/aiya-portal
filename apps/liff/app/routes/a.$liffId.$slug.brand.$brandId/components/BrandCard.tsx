@@ -26,11 +26,10 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
     th: "สาขา",
     en: "Branches",
   };
-  console.log("BrandCard", isInClient);
   
 
   return (
-    <div className={`mx-4 ${isInClient ? "-mt-16" : "-mt-12"} rounded-2xl bg-white shadow-lg overflow-hidden relative z-20`}>
+    <div className={`mx-4 -mt-12 rounded-2xl bg-white shadow-lg overflow-hidden relative z-20`}>
       <div className="p-5">
         <div className="flex items-start">
           <img

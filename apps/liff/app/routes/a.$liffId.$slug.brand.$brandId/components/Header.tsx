@@ -11,15 +11,13 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ brand, isInClient }) => {
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
-  console.log("Header", isInClient);
   
-
   return (
     <header
-      className={`sticky top-0 z-10 pt-4 ${isInClient ? "pb-24" : "pb-16"} bg-primary text-white`}
+      className={`sticky top-0 z-10 pt-4 pb-16 bg-primary text-white`}
       style={{ backgroundColor: brand?.primaryColor ?? undefined }}
     >
-      {!isInClient && (
+      {/* {!isInClient && ( */}
         <div className="px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
             <button
@@ -34,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ brand, isInClient }) => {
             <Search size={20} />
           </button> */}
         </div>
-      )}
+      {/* )} */}
     </header>
   );
 };

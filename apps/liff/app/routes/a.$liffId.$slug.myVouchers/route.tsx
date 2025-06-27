@@ -69,7 +69,7 @@ const Route = () => {
   return (
     <div className="h-screen-safe bg-gray-50">
       <div className="bg-white">
-        {!liff?.isInClient() && <Header language={lang} />}
+        {<Header language={lang} />}
         <Tabs
           language={lang}
           tabs={tabs}

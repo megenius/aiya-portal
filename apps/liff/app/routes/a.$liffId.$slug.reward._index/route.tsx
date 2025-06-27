@@ -66,7 +66,7 @@ const Route = () => {
 
   return (
     profile && <>
-      {!liff?.isInClient() && <Header language={lang} profile={profile} />}
+      {<Header language={lang} profile={profile} />}
       <MainContent profile={profile} primaryColor={page.bg_color ?? ""} language={lang} />
     </>
   );

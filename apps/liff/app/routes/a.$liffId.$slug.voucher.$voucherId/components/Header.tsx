@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="flex items-center justify-between px-4 py-3">
       <div className="flex items-center">
-        {!isIsClient && <button onClick={navigateToBack} className="mr-4">
+        {<button onClick={navigateToBack} className="mr-4">
           <ArrowLeft className="h-6 w-6" />
         </button>}
         <div className="flex items-center  space-x-2">

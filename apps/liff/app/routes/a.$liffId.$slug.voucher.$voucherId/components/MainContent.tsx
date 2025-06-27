@@ -107,6 +107,7 @@ const MainContent: React.FC<MainContentProps> = ({
     <div className="h-full flex flex-col overflow-hidden">
       {pageState === "landing" && (
         <>
+         {/* ratio="16/9" */}
           <div className="relative w-full" style={{ paddingBottom: "50%" }}>
             {/* Background Image */}
             <img
