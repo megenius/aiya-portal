@@ -47,6 +47,11 @@ const Couponsummary: React.FC<CouponsummaryProps> = ({
     th: "ดูทั้งหมด",
     en: "View All",
   };
+  const CouponAvaliableText = {
+    th: "คูปองที่พร้อมใช้งาน",
+    en: "Coupons available",
+  }
+  
 
   return (
     <button
@@ -72,10 +77,10 @@ const Couponsummary: React.FC<CouponsummaryProps> = ({
                 </h3>
                 <div className="flex items-baseline">
                   <span className="text-xl font-bold text-white">
-                    {totalVouchers}
+                    {availableVouchers}
                   </span>
                   <span className="ml-1 text-white/70 text-sm">
-                    {CouponsCollectedText[language]}
+                    {CouponAvaliableText[language]}
                   </span>
                 </div>
               </div>
