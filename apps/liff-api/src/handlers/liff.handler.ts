@@ -13,6 +13,28 @@ export const getByLiffIdAndSlug = factory.createHandlers(
   async (c) => {
     const lang = c.req.query("lang") || "en-US";
     const directus = c.get("directAdmin");
+
+// const [page] = await directus.request(
+//       readItems("pages_liff", {
+//         filter: {
+//           liff_id: { _eq: c.req.param("liffId") },
+//           slug:    { _eq: c.req.param("slug")   },
+//         },
+//         fields: [
+//           "*",
+//           "vouchers.*",
+//           "populars.vouchers_id.*",
+//           "brands.vouchers_brands_id.*",
+//         ],
+//         locale: lang,   // <-- Directus จะ swap fields ให้เป็นภาษานั้นๆ ให้เอง
+//       })
+//     ).then((res) => res || []);
+
+//     if (!page) {
+//       return c.json({ error: "Not found" }, 404);
+//     }
+//     return c.json(page);
+
     const page = await directus
       .request(
         readItems("pages_liff", {
