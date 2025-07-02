@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { X, QrCode, Barcode, Clock, AlertCircle, TicketX } from "lucide-react";
-import { VoucherCode, VoucherCodeUpdate, VoucherUser } from "~/types/app";
-import { getDirectusFileUrl } from "~/utils/files";
-import QRCodeGenerator from "~/components/QRCodeGenerator";
-import BarcodeGenerator from "~/components/BarCodeGenerater";
-import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
-import Button from "./Button";
-import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
 import { useNavigate } from "@remix-run/react";
+import { AlertCircle, Barcode, Clock, QrCode, TicketX, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import BarcodeGenerator from "~/components/BarCodeGenerater";
+import QRCodeGenerator from "~/components/QRCodeGenerator";
+import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
+import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
+import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
+import { getDirectusFileUrl } from "~/utils/files";
+import Button from "./Button";
 
 interface RedeemModalProps {
   page: PageLiff;
@@ -70,29 +70,29 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   // After Collect Page
   const collectedSuccessText = {
     th: "เก็บคูปองสำเร็จ",
-    en: "Voucher collected successfully",
+    en: "Coupons collected successfully",
   };
   const collectedDescription = {
     th: `หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem now, the voucher will start a countdown with ${countdown} minutes to use it.`,
+    en: `If you redeem now, the coupon will start a countdown with ${countdown} minutes to use it.`,
   };
   const seeMyVouchersText = {
     th: "ดูคูปองของฉัน",
-    en: "See My Vouchers",
+    en: "See My Coupons",
   };
 
   // Confirmation Modal Page
   const confirmText = {
     th: "ยืนยันการใช้คูปองไหม",
-    en: "Do you want to redeem this voucher?",
+    en: "Do you want to redeem this coupon?",
   };
   const confirmDescription = {
     th: `หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem this voucher, it will start a countdown with ${countdown} minutes to use it.`,
+    en: `If you redeem this coupon, it will start a countdown with ${countdown} minutes to use it.`,
   };
   const warningText = {
     th: `คูปองมีอายุ ${countdown} นาทีหลังจากกดใช้คูปอง`,
-    en: `Voucher will expire in ${countdown} minutes after redeem`,
+    en: `Coupon will expire in ${countdown} minutes after redeem`,
   };
   const cancelText = {
     th: "ยกเลิก",
@@ -106,11 +106,11 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   // Qr code and Barcode Page
   const voucherWillExpireInText = {
     th: "คูปองนี้จะหมดอายุในอีก",
-    en: "This voucher will expire in",
+    en: "This coupon will expire in",
   };
   const warningExpireText = {
     th: "คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที",
-    en: "Voucher is about to expire! Please use it immediately",
+    en: "Coupon is about to expire! Please use it immediately",
   };
   const suggestionText = {
     th: "สำหรับพนักงานจุดขายเท่านั้น",
@@ -124,11 +124,11 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   // Confirmation Redeem Modal
   const confirmRedeemText = {
     th: "ยืนยันใช่ไหมว่าคูปองนี้ใช้งานแล้ว",
-    en: "Do you confirm that this voucher has been redeemed?",
+    en: "Do you confirm that this coupon has been redeemed?",
   };
   const confirmRedeemDescription = {
     th: "กรุณาตรวจสอบให้แน่ใจว่าคุณได้แสกนคูปองนี้แล้ว เพื่อป้องกันการเสียสิทธิ์ของลูกค้า",
-    en: "Please ensure that you have scanned this voucher to prevent customer rights from being lost.",
+    en: "Please ensure that you have scanned this coupon to prevent customer rights from being lost.",
   };
   const confirmRedeemButtonText = {
     th: "ยืนยัน",
@@ -138,7 +138,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   // Expired Page
   const expiredText = {
     th: "คูปองหมดเวลาแลกแล้ว",
-    en: "This voucher has expired",
+    en: "This coupon has expired",
   };
   const closeText = {
     th: "ปิด",

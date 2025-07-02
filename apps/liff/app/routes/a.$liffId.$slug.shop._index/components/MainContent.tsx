@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Category, PageLiff } from "~/types/page";
-import VoucherSummary from "./VoucherSummary";
-import VoucherList from "./VoucherList";
 import { Brand, Voucher, VoucherStats } from "~/types/app";
-import SearchBar from "./SearchBar";
-import CategoryList from "./CategoryList";
+import { Category, PageLiff } from "~/types/page";
 import BrandList from "./BrandList";
+import CategoryList from "./CategoryList";
+import SearchBar from "./SearchBar";
+import VoucherList from "./VoucherList";
+import VoucherSummary from "./VoucherSummary";
 
 interface MainContentProps {
   page: PageLiff;
@@ -40,7 +40,7 @@ const MainContent: React.FC<MainContentProps> = ({
   );
   const popularVouchersText = {
     th: "คูปองยอดนิยม",
-    en: "Popular Vouchers",
+    en: "Popular Coupons",
   };
 
   const filterVouchers = () => {

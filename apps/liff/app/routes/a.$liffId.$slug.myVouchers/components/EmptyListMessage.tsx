@@ -24,13 +24,13 @@ const EmptyListMessage: React.FC<EmptyListMessageProps> = ({
     } else {
       switch (activeTab) {
         case "available":
-          return "No available vouchers";
+          return "No available Coupons";
         case "used":
-          return "No used vouchers";
+          return "No used Coupons";
         case "expired":
-          return "No expired vouchers";
+          return "No expired Coupons";
         default:
-          return "No available vouchers";
+          return "No available Coupons";
       }
     }
   };

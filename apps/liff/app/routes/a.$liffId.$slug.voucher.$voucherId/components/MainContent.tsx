@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { getDirectusFileUrl } from "~/utils/files";
+import React, { useEffect, useState } from "react";
 import { FieldData, Voucher, VoucherStats } from "~/types/app";
+import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "../../../components/Tabs";
-import VoucherProgressBar from "./VoucherProgressBar";
 import FormField from "./FormField";
+import VoucherProgressBar from "./VoucherProgressBar";
 
 interface MainContentProps {
   voucher: Voucher;
@@ -95,11 +95,11 @@ const MainContent: React.FC<MainContentProps> = ({
   const statusText = {
     expired: {
       th: "คูปองหมดอายุ",
-      en: "Voucher expired",
+      en: "Coupons expired",
     },
     fully_collected: {
       th: "คูปองหมดแล้ว",
-      en: "Voucher fully collected",
+      en: "Coupons fully collected",
     },
   }
 

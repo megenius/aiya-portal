@@ -1,11 +1,11 @@
+import { AlertCircle, Barcode, Clock, QrCode, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { X, QrCode, Barcode, Clock, AlertCircle } from "lucide-react";
+import BarcodeGenerator from "~/components/BarCodeGenerater";
+import QRCodeGenerator from "~/components/QRCodeGenerator";
+import Tabs from "~/components/Tabs";
+import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
-import Tabs from "~/components/Tabs";
-import QRCodeGenerator from "~/components/QRCodeGenerator";
-import BarcodeGenerator from "~/components/BarCodeGenerater";
-import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 
 interface RedeemModalProps {
   voucherUser: VoucherUser;
@@ -55,7 +55,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   ];
   const warningText = {
     th: "คูปองมีอายุ 15 นาทีหลังจากกดใช้คูปอง",
-    en: "Voucher will expire in 15 minutes after redeem",
+    en: "Coupons will expire in 15 minutes after redeem",
   };
   const buttonText = {
     th: "ใช้คูปอง",
@@ -63,11 +63,11 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   };
   const voucherWillExpireInText = {
     th: "คูปองนี้จะหมดอายุในอีก",
-    en: "This voucher will expire in",
+    en: "This coupon will expire in",
   };
   const warningExpireText = {
     th: "คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที",
-    en: "Voucher is about to expire! Please use it immediately",
+    en: "Coupons is about to expire! Please use it immediately",
   };
 
   // Initialize remaining time based on usedDate if it exists
