@@ -5,6 +5,7 @@ import { useLiff } from '~/hooks/useLiff';
 import { useLineProfile } from '~/hooks/useLineProfile';
 import { useProfile } from '~/hooks/Profiles/useProfile';
 import { PageLiff } from '~/types/page';
+import { useCreateProfile } from '~/hooks/Profiles/useCreateProfile';
 
 // export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
 //   const page = data?.page;
@@ -40,6 +41,7 @@ const Route = () => {
   // const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
+  const createProfile = useCreateProfile();
 
   const [search] = useSearchParams()
   const dest = search.get("dest") || ""
@@ -74,8 +76,34 @@ const Route = () => {
     // Navigate based on whether profile exists
     if (!userProfile) {
       // ส่งต่อข้อมูล referrer ไปยังหน้า interests
-      const refParam = referrerId ? `&ref=${referrerId}` : '';
-      navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+      // const refParam = referrerId ? `&ref=${referrerId}` : '';
+      // navigate(`/a/${page.liff_id}/${page.slug}/interests?dest=${dest}${refParam}`);
+      const data = {
+        uid: profile.userId as string,
+        liff_id: page.liff_id as string,
+        display_name: profile.displayName,
+        picture_url: profile.pictureUrl,
+        referrer_id: referrerId, // เพิ่มข้อมูล referrer (ถ้ามี)
+      };
+      
+      createProfile.mutate(
+        { variables: data },
+        {
+          onSuccess: () => {
+            if (dest) {
+              navigate(
+                `/a/${page.liff_id}/${page.slug}/${dest}`
+              );
+            } else {
+              navigate(`/a/${page.liff_id}/${page.slug}/shop`);
+            }
+          },
+          onError: (error: any) => {
+            console.error('Profile creation error:', error);
+            alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
+          }
+        }
+      );
     } else {
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     }
