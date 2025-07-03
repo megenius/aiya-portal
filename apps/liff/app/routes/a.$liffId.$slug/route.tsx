@@ -8,6 +8,7 @@ import {
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import Loading from "~/components/Loading";
+import { getDirectusFileUrl } from "~/utils/files";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -17,7 +18,7 @@ export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
       tagName: "link",
       rel: "icon",
       type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
+      href: getDirectusFileUrl(page?.image as string) || "/images/favicon.ico",
     },
   ];
 };
