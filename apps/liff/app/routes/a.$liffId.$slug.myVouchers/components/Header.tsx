@@ -1,6 +1,6 @@
-import React from "react";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
+import { ArrowLeft } from "lucide-react";
+import React from "react";
 
 interface HeaderProps {
   language: string;
@@ -12,7 +12,7 @@ const Header: React.FC<HeaderProps> = ({language}) => {
   const navigateToLanding = () => navigate(`/a/${liffId}/${slug}/shop`);
   const myVouchersText = {
     th: "คูปองของฉัน",
-    en: "My Vouchers",
+    en: "My Coupons",
   };
 
   return (

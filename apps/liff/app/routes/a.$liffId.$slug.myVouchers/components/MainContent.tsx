@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import VoucherCard from "./VoucherCard";
-import { VoucherUser } from "~/types/app";
-import EmptyListMessage from "./EmptyListMessage";
 import { useNavigate } from "@remix-run/react";
+import React, { useState } from "react";
+import { VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
+import EmptyListMessage from "./EmptyListMessage";
+import RedeemModalNow from "./RedeemModalNow";
+import VoucherCard from "./VoucherCard";
 
 interface MainContentProps {
   page: PageLiff;
@@ -21,7 +22,7 @@ const MainContent: React.FC<MainContentProps> = ({
   primaryColor,
 }) => {
   const navigate = useNavigate();
-  // const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
+  const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
   const filteredVouchers = vouchers
     .filter((voucher) => {
       let timeLeft = 0;
@@ -57,6 +58,11 @@ const MainContent: React.FC<MainContentProps> = ({
       return dateA - dateB;
     });
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [state, setState] = useState("redeem");
+
+
+
   return (
     <>
       <main className="h-full bg-gray-50 p-4 space-y-2">
@@ -66,9 +72,24 @@ const MainContent: React.FC<MainContentProps> = ({
               key={voucher.id}
               voucherUser={voucher}
               onClick={() => {
-                navigate(
-                  `/a/${page.liff_id}/${page.slug}/voucher/${voucher.code.voucher.id}`
-                );
+                const isExpired = voucher
+                  ? voucher.expired_date && new Date(voucher.expired_date) < new Date()
+                  : false;
+                let timeLeft = 0;
+                if (voucher?.used_date) {
+                  const usedDateTime = new Date(voucher.used_date).getTime();
+                  const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+                  const now = new Date().getTime();
+                  timeLeft = Math.floor((expiryTime - now) / 1000);
+                }
+                if (voucher.code.code_status === "pending_confirmation" && timeLeft >= 0 && !isExpired) {
+                  setVoucherUser(voucher);
+                setIsOpen(true);
+                } else {
+                  navigate(
+                    `/a/${page.liff_id}/${page.slug}/voucher/${voucher.code.voucher.id}`
+                  );
+                }
               }}
               language={language}
             />
@@ -77,14 +98,20 @@ const MainContent: React.FC<MainContentProps> = ({
           <EmptyListMessage activeTab={activeTab} language={language} />
         )}
       </main>
-      {/* {voucherUser && (
-        <RedeemModal
+      {voucherUser && (
+        <RedeemModalNow
+          page={page}
           voucherUser={voucherUser}
           language={language}
-          primaryColor={primaryColor}
-          onClose={() => setVoucherUser(null)}
+          primaryColor={voucherUser.code.voucher.voucher_brand_id.primaryColor ?? ""}
+          state={"redeem"}
+          isOpen={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+            setVoucherUser(null);
+          }}
         />
-      )} */}
+      )}
     </>
   );
 };

@@ -10,6 +10,7 @@ import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "./Button";
 
+
 interface RedeemModalProps {
   page: PageLiff;
   voucherUser: VoucherUser;
@@ -21,7 +22,7 @@ interface RedeemModalProps {
   onClose: () => void;
 }
 
-const RedeemModal: React.FC<RedeemModalProps> = ({
+const RedeemModalNow: React.FC<RedeemModalProps> = ({
   page,
   voucherUser,
   language,
@@ -557,4 +558,4 @@ const getTimeColor = (remainingTime: number) => {
   return "text-primary"; // > 5 นาที: สีน้ำเงิน
 };
 
-export default RedeemModal;
+export default RedeemModalNow;

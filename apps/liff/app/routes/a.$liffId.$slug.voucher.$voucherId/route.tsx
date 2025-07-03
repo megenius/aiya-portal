@@ -1,30 +1,29 @@
 import {
   ShouldRevalidateFunction,
-  useLoaderData,
-  useNavigate,
+  useLoaderData
 } from "@remix-run/react";
 
 import { json, MetaFunction } from "@remix-run/cloudflare";
 
-import { useLiff } from "~/hooks/useLiff";
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
-import Footer from "./components/Footer";
-import { useState } from "react";
-import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
-import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
-import { useLineProfile } from "~/hooks/useLineProfile";
-import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
-import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import confetti from "canvas-confetti";
+import _ from "lodash";
+import { useState } from "react";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
-import FullyCollectedModal from "./components/FullyCollectedModal";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
+import { useLiff } from "~/hooks/useLiff";
+import { useLineLiff } from "~/hooks/useLineLiff";
+import { useLineProfile } from "~/hooks/useLineProfile";
+import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
+import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
+import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import { fetchVoucher } from "~/services/vouchers";
-import { useLineLiff } from "~/hooks/useLineLiff";
+import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
+import Footer from "./components/Footer";
+import FullyCollectedModal from "./components/FullyCollectedModal";
+import Header from "./components/Header";
+import MainContent from "./components/MainContent";
 import RedeemModal from "./components/RedeemModal";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
@@ -94,7 +93,7 @@ const Route = () => {
       instant: "เก็บคูปอง",
       form: "ลงทะเบียน",
       collected: "ใช้คูปอง",
-      pending_confirmation: "ใช้คูปอง",
+      pending_confirmation: "แตะเพื่อใช้",
       used: "ใช้แล้ว",
       expired: "หมดอายุแล้ว",
       fully_collected: "หมดแล้ว",
@@ -103,7 +102,7 @@ const Route = () => {
       instant: "Collect",
       form: "Register",
       collected: "Redeem",
-      pending_confirmation: "Redeem",
+      pending_confirmation: "Tap to Use",
       used: "Redeemed",
       expired: "Expired",
       fully_collected: "Fully Collected",
@@ -225,7 +224,7 @@ const Route = () => {
             voucher={voucher}
             codeStats={codeStats}
             pageState={pageState}
-            status={isExpired ? "expired" : status}
+            status={isExpired || (status === "pending_confirmation" && timeLeft <= 0)  ? "expired" : status}
             onFormValidationChange={setIsFormValid}
             onFormDataChange={setFormData}
           />

@@ -1,9 +1,9 @@
+import { readItems } from "@directus/sdk";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
-import { Env } from "~/types/hono.types";
 import * as _ from "lodash";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
-import { readItem, readItems } from "@directus/sdk";
+import { Env } from "~/types/hono.types";
 
 const factory = createFactory<Env>();
 
@@ -14,26 +14,26 @@ export const getByLiffIdAndSlug = factory.createHandlers(
     const lang = c.req.query("lang") || "en-US";
     const directus = c.get("directAdmin");
 
-// const [page] = await directus.request(
-//       readItems("pages_liff", {
-//         filter: {
-//           liff_id: { _eq: c.req.param("liffId") },
-//           slug:    { _eq: c.req.param("slug")   },
-//         },
-//         fields: [
-//           "*",
-//           "vouchers.*",
-//           "populars.vouchers_id.*",
-//           "brands.vouchers_brands_id.*",
-//         ],
-//         locale: lang,   // <-- Directus จะ swap fields ให้เป็นภาษานั้นๆ ให้เอง
-//       })
-//     ).then((res) => res || []);
+    // const [page] = await directus.request(
+    //       readItems("pages_liff", {
+    //         filter: {
+    //           liff_id: { _eq: c.req.param("liffId") },
+    //           slug:    { _eq: c.req.param("slug")   },
+    //         },
+    //         fields: [
+    //           "*",
+    //           "vouchers.*",
+    //           "populars.vouchers_id.*",
+    //           "brands.vouchers_brands_id.*",
+    //         ],
+    //         locale: lang,   // <-- Directus จะ swap fields ให้เป็นภาษานั้นๆ ให้เอง
+    //       })
+    //     ).then((res) => res || []);
 
-//     if (!page) {
-//       return c.json({ error: "Not found" }, 404);
-//     }
-//     return c.json(page);
+    //     if (!page) {
+    //       return c.json({ error: "Not found" }, 404);
+    //     }
+    //     return c.json(page);
 
     const page = await directus
       .request(
@@ -92,8 +92,11 @@ export const getByLiffIdAndSlug = factory.createHandlers(
                     "*",
                     { voucher_brand_id: ["*"] },
                     { translations: ["*"] },
+
                   ],
+
                 },
+
               ],
             },
           ],
@@ -104,6 +107,7 @@ export const getByLiffIdAndSlug = factory.createHandlers(
             slug: {
               _eq: c.req.param("slug"),
             },
+            
           },
         })
       )
@@ -117,24 +121,30 @@ export const getByLiffIdAndSlug = factory.createHandlers(
 
     // map populars have translations
     if (page?.populars) {
-      page.populars = (page.populars || []).map((popular) => {
-        // หา translation ตามภาษาที่ต้องการ
-        const langTrans = _.find(popular.vouchers_id.translations, {
-          languages_code: lang,
-        });
-
-        // ถ้าเจอค่อย omit id กับ languages_code
-        const cleanTrans = langTrans
-          ? _.omit(langTrans, ["id", "languages_code"])
-          : {};
-
-        // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
-        return {
-          ..._.omit(popular.vouchers_id, ["translations"]),
-          ...cleanTrans,
-        };
+  page.populars = (page.populars || [])
+    .filter((popular) => {
+      // วันที่สิ้นสุดของ voucher ต้องมีและต้องมากกว่าวันนี้
+      return popular?.vouchers_id?.end_date && 
+             new Date(popular.vouchers_id.end_date) > new Date();
+    })
+    .map((popular) => {
+      // หา translation ตามภาษาที่ต้องการ
+      const langTrans = _.find(popular.vouchers_id?.translations, {
+        languages_code: lang,
       });
-    }
+
+      // ถ้าเจอค่อย omit id กับ languages_code
+      const cleanTrans = langTrans
+        ? _.omit(langTrans, ["id", "languages_code"])
+        : {};
+
+      // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
+      return {
+        ..._.omit(popular.vouchers_id, ["translations"]),
+        ...cleanTrans,
+      };
+    });
+}
 
     // map vouchers have translations
     if (page?.vouchers) {

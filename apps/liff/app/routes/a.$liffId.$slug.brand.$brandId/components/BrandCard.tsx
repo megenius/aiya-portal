@@ -1,9 +1,9 @@
+import { Store, Ticket, Users } from "lucide-react";
 import React from "react";
-import { Users, Ticket, Store } from "lucide-react";
 import FollowButton from "~/components/FollowButton";
+import { Brand } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import InfoItem from "./InfoItem";
-import { Brand } from "~/types/app";
 
 interface BrandCardProps {
   brand: Brand;
@@ -19,7 +19,7 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
   
   const vouchersText = {
     th: "คูปอง",
-    en: "Vouchers",
+    en: "Coupons",
   };
   
   const branchesText = {

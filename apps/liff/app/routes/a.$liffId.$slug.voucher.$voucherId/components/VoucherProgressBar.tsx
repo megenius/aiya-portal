@@ -15,9 +15,9 @@ const VoucherProgressBar: React.FC<VoucherProgressBarProps> = ({
 }) => {
   // Calculate remaining coupons and percentage
   const remainingPercentage = Math.round((availableVouchers / totalVouchers) * 100);
-  const remainingText = { th: "คูปองคงเหลือ", en: "Remaining Vouchers" };
-  const warningText = { th: "คูปองใกล้หมด! รีบใช้ก่อนหมดเวลา", en: "Vouchers are running out! Use them before they expire" };
-  const fullyCollectedText = { th: "คูปองถูกเก็บหมดแล้ว", en: "Vouchers fully collected" };
+  const remainingText = { th: "คูปองคงเหลือ", en: "Remaining Coupons" };
+  const warningText = { th: "คูปองใกล้หมด! รีบใช้ก่อนหมดเวลา", en: "Coupons are running out! Use them before they expire" };
+  const fullyCollectedText = { th: "คูปองถูกเก็บหมดแล้ว", en: "Coupons fully collected" };
   
   const isFullyCollected = availableVouchers === 0;
 
