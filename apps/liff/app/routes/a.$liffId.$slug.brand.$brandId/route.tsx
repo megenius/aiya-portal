@@ -2,10 +2,7 @@ import {
   ShouldRevalidateFunction,
   useLoaderData,
 } from "@remix-run/react";
-
 import { json, MetaFunction } from '@remix-run/cloudflare';
-
-
 import { useLiff } from "~/hooks/useLiff";
 import MainContent from "./components/MainContent";
 import { LoaderFunctionArgs } from "@remix-run/node";
@@ -47,7 +44,7 @@ export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
 const BrandDetailRoute = () => {
   // const { page } = useOutletContext<{ page: PageLiff }>();
   const { page, brand } = useLoaderData<typeof clientLoader>();
-  const { language } = useLiff({ liffId: page.liff_id });
+  const { language } = useLiff({ liffId: page.liff_id  as string});
   const isThaiLanguage = language.startsWith("th");
   // Using English as default language for now
   const lang = "th";
@@ -56,7 +53,7 @@ const BrandDetailRoute = () => {
     <>
       {page?.liff_id && (
         <>
-          <MainContent brand={brand} language={lang} />
+          <MainContent brand={brand} language={lang} page={page} />
         </>
       )}
     </>

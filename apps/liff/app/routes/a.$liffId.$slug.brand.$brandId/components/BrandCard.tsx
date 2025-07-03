@@ -7,11 +7,12 @@ import InfoItem from "./InfoItem";
 
 interface BrandCardProps {
   brand: Brand;
+  couponCount: number;
   language: string;
   isInClient: boolean;
 }
 
-const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) => {
+const BrandCard: React.FC<BrandCardProps> = ({ brand, couponCount, language, isInClient }) => {
   const followerText = {
     th: "ผู้ติดตาม",
     en: "Followers",
@@ -74,7 +75,7 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
         <div className="flex flex-wrap mt-4 pt-4 border-t border-gray-100">
           <InfoItem
             icon={<Ticket className="h-4 w-4" />}
-            count={brand?.vouchers.length.toString() ?? '0'}
+            count={couponCount.toString() ?? '0'}
             subtitle={vouchersText[language]}
           />
           {/* <InfoItem 

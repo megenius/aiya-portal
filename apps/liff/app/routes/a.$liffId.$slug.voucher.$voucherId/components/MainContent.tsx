@@ -108,7 +108,7 @@ const MainContent: React.FC<MainContentProps> = ({
       {pageState === "landing" && (
         <>
          {/* ratio="16/9" */}
-          <div className="relative w-full" style={{ paddingBottom: "50%" }}>
+          <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             {/* Background Image */}
             <img
               src={getDirectusFileUrl(voucher?.banner as string)}

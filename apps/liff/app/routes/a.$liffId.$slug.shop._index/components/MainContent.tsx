@@ -39,8 +39,8 @@ const MainContent: React.FC<MainContentProps> = ({
     categories[0]
   );
   const popularVouchersText = {
-    th: "คูปองยอดนิยม",
-    en: "Popular Coupons",
+    th: "คูปองใกล้ฉัน",
+    en: "Coupons Close to You"
   };
 
   const filterVouchers = () => {
