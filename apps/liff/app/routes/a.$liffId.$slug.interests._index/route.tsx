@@ -46,7 +46,8 @@ const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
   const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
   const isThaiLanguage = language.startsWith("th");
-  const lang = isThaiLanguage ? "th" : "en";
+  // const lang = isThaiLanguage ? "th" : "en";
+  const lang = "th";
   const [search] = useSearchParams()
   const dest = search.get("dest") || "";
   const referrerId = search.get("ref") || undefined; // เพิ่มการดึงค่า referrer จาก URL

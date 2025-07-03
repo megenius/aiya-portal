@@ -57,7 +57,7 @@ const Route = () => {
   });
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "en";
+  const lang = "th";
 
   if (isLineProfileLoading || isProfileLoading) {
     return <Loading />;

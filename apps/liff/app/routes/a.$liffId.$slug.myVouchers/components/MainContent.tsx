@@ -25,6 +25,13 @@ const MainContent: React.FC<MainContentProps> = ({
   const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
   const filteredVouchers = vouchers
     .filter((voucher) => {
+      // Check if voucher exists in page.vouchers or page.populars
+      const isVoucherInPage = 
+        (page.vouchers || []).some((v: any) => v.id === voucher.code.voucher.id) ||
+        (page.populars || []).some((p: any) => p.id === voucher.code.voucher.id);
+      
+      if (!isVoucherInPage) return false;
+
       let timeLeft = 0;
       if (voucher.used_date) {
         const usedDateTime = new Date(voucher.used_date).getTime();
@@ -50,7 +57,7 @@ const MainContent: React.FC<MainContentProps> = ({
           (voucher.code.code_status === "pending_confirmation" && timeLeft <= 0)
         );
       }
-      return [];
+      return false;
     })
     .sort((a, b) => {
       const dateA = a.used_date ? new Date(a.used_date).getTime() : Infinity;

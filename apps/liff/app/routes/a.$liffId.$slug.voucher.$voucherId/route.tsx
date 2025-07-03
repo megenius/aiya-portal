@@ -64,7 +64,7 @@ const Route = () => {
   const { language } = useLiff({ liffId: page?.liff_id as string });
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "en";
+  const lang = "th";
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });

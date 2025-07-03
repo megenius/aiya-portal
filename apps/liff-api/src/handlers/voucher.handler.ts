@@ -195,7 +195,6 @@ export const getVouchersByUser = factory.createHandlers(
       })
     );
     
-
     const vouchersUserCode = await Promise.all(
       vouchers.map(async (voucher: any) => {        
         const voucherData = await directus.request(
@@ -307,10 +306,11 @@ export const getStatVoucherUser = factory.createHandlers(
     const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
         filter: filters,
-        fields: ["code"],
+        fields: ["code","expired_date"],
       })
     );
 
+    const currentDate = new Date();
     const voucherCodes = await Promise.all(
       vouchersUsers.map(async (voucherUser: any) => {
         const voucherCode = await directus.request(
@@ -323,7 +323,15 @@ export const getStatVoucherUser = factory.createHandlers(
             limit: 1,
           })
         );
-        return { ...voucherUser, code_status: voucherCode[0]?.code_status };
+        
+        // If expired_date is in the past, set status to 'expired'
+        const expiredDate = new Date(voucherUser.expired_date);
+        const isExpired = expiredDate < currentDate;
+        
+        return { 
+          ...voucherUser, 
+          code_status: isExpired ? 'expired' : voucherCode[0]?.code_status || 'available'
+        };
       })
     );
 

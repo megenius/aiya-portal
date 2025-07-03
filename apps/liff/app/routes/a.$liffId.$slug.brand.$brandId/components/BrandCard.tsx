@@ -47,10 +47,10 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
                 <Star size={16} className="mr-1 text-yellow-500" />
                 <span className="font-medium">{brand.rating}</span>
               </div> */}
-              <div className="flex items-center mr-4 mb-2">
+              {/* <div className="flex items-center mr-4 mb-2">
                 <Users size={16} className="mr-1 text-gray-500" />
                 <span className="text-gray-600">10K {followerText[language]}</span>
-              </div>
+              </div> */}
               <span
                 className="bg-blue-50 text-primary text-xs px-2 py-1 rounded-full mb-2"
                 style={{
@@ -63,12 +63,12 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
             </div>
           </div>
 
-          <FollowButton
+          {/* <FollowButton
             language={language}
             onClick={() => {}}
             isFollowed={false}
             primaryColor={brand?.primaryColor ?? ""}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-wrap mt-4 pt-4 border-t border-gray-100">
@@ -77,11 +77,11 @@ const BrandCard: React.FC<BrandCardProps> = ({ brand, language, isInClient }) =>
             count={brand?.vouchers.length.toString() ?? '0'}
             subtitle={vouchersText[language]}
           />
-          <InfoItem 
+          {/* <InfoItem 
             icon={<Store className="h-4 w-4" />} 
             count="285" 
             subtitle={branchesText[language]} 
-          />
+          /> */}
           {/* <InfoItem icon={<ClockIcon />} title="24 ชม." subtitle="เปิดตลอด" /> */}
         </div>
       </div>

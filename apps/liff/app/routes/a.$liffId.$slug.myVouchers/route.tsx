@@ -5,7 +5,7 @@ import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
 import { json, MetaFunction } from "@remix-run/cloudflare";
 
 import Tabs from "~/components/Tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
@@ -50,7 +50,7 @@ const Route = () => {
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "en";
+  const lang = "th";
   // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
   //   q: "",
   //   status: "published",

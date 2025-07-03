@@ -50,7 +50,7 @@ const BrandDetailRoute = () => {
   const { language } = useLiff({ liffId: page.liff_id });
   const isThaiLanguage = language.startsWith("th");
   // Using English as default language for now
-  const lang = "en";
+  const lang = "th";
 
   return (
     <>

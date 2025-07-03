@@ -66,7 +66,7 @@ const MainContent: React.FC<MainContentProps> = ({
         <VoucherSummary
           totalVouchers={voucherUserStats?.total}
           availableVouchers={voucherUserStats?.collected}
-          usedVouchers={voucherUserStats?.used + voucherUserStats?.expired}
+          usedVouchers={voucherUserStats?.used}
           primaryColor={page.bg_color ?? ""}
           language={language}
         />

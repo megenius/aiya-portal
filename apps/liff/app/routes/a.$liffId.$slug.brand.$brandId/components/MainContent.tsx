@@ -35,17 +35,15 @@ const MainContent: React.FC<MainContentProps> = ({ brand,language }) => {
 
       {/* Tab Navigation */}
       <div className="sticky top-0 bg-white z-10 mt-4">
-        <div className="flex justify-center overflow-x-auto py-3 scrollbar-hide shadow-sm">
+        <div className="flex justify-start overflow-x-auto mx-4 py-3 space-x-4 scrollbar-hide">
           {[
             { id: "all", label: "All" },
             { id: "popular", label: "Popular" },
-            { id: "discount", label: "Discount" },
-            { id: "freebie", label: "Freebie" },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setSelectedTab(tab.id as any)}
-              className={`mx-2 px-4 py-2 rounded-lg text-sm whitespace-nowrap font-medium ${
+              className={`px-4 py-2 rounded-lg text-sm whitespace-nowrap font-medium ${
                 selectedTab === tab.id
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-600"
