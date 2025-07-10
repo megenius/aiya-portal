@@ -388,6 +388,7 @@ export const searchBotHandler = factory.createHandlers(
             knowledge_id: x.metadata?.knowledge_id,
             lang: knowledge?.lang,
             intent_id: x.metadata?.intent_id,
+            text: x.text,
             score: x.score,
             intent: intent?.intent,
             responses: intent?.responses,
