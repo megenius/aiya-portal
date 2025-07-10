@@ -23,6 +23,12 @@ knowledgesRoutes.patch(
   ...KnowledgesHandler.updateBotKnowledgeHandler
 );
 
+// train knowledge
+knowledgesRoutes.post(
+  "/:knowledgeId/train",
+  ...KnowledgesHandler.trainBotKnowledgeHandler
+);
+
 // deploy knowledge
 knowledgesRoutes.post(
   "/:knowledgeId/deploy",

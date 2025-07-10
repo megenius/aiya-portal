@@ -45,9 +45,9 @@ export const getBotKnowledgeHandler = factory.createHandlers(
     const directus = c.get("directus");
     let knowledge = c.get("knowledge");
 
-    if (!knowledge || !knowledge.intents) {
+    // if (!knowledge || !knowledge.intents) {
       knowledge = await getKnowledge(directus, knowledgeId);
-    }
+    // }
     return c.json(knowledge);
   }
 );
@@ -117,24 +117,169 @@ export const updateBotKnowledgeHandler = factory.createHandlers(
   }
 );
 
+// train knowledge
+export const trainBotKnowledgeHandler = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  textEmbeddingMiddleware,
+  knowledgeMiddleware,
+  async (c: Context<Env>) => {
+    const knowledgeId = c.req.param("knowledgeId");
+    const textEmbedding = c.get("textEmbedding");
+    const directus = c.get("directus");
+    let knowledge = c.get("knowledge");
+    function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
+      const addQuestions = [];
+
+      // Iterate over each intent object in the provided data
+      intentsData.forEach((intent) => {
+        const intentId = intent.id; // Get the intent's ID
+
+        // Iterate over each question within the current intent
+        intent.questions.forEach((question) => {
+          // Create an object in the desired "addQuestion" format
+          addQuestions.push({
+            body: {
+              operation: "addQuestion", // Static operation type
+              text: question.question, // The question text
+              bot_id: botId, // Provided bot ID
+              knowledge_id: knowledgeId, // Provided knowledge ID
+              intent_id: intentId, // The ID of the parent intent
+              id: question.id, // The ID of the specific question
+            },
+          });
+        });
+      });
+
+      return addQuestions; // Return the array of converted operations
+    }
+
+    await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
+
+    await textEmbedding.clearDocuments({
+      filters: { knowledge_id: knowledgeId },
+    });
+
+    if (knowledge?.intents?.length > 0) {
+      // Check if the intents array is not empty
+      // Convert intents to add questions format
+      const convertedData = convertIntentsToAddQuestions(
+        knowledge.intents,
+        knowledge.bot,
+        knowledge.id
+      );
+
+      try {
+        // Send the converted data to the queue for processing
+        const batches = [];
+        for (let i = 0; i < convertedData.length; i += 100) {
+          batches.push(convertedData.slice(i, i + 100));
+        }
+
+        for (const batch of batches) {
+          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(batch);
+        }
+      } catch (queueError) {
+        console.error("Error sending to queue:", queueError);
+        // Continue execution even if queue fails
+      }
+    }
+
+    try {
+      await c.env.CACHING.put(
+        ["bots_knowledges", knowledge.id].join("|"),
+        JSON.stringify(knowledge)
+      );
+    } catch (cacheError) {
+      console.error("Error caching knowledge:", cacheError);
+      // Continue execution even if caching fails
+    }
+
+    return c.json(knowledge);
+  }
+);
+
 // deploy knowledge
 export const deployBotKnowledgeHandler = factory.createHandlers(
   logger(),
   directusMiddleware,
   textEmbeddingMiddleware,
+  knowledgeMiddleware,
   async (c: Context<Env>) => {
     const knowledgeId = c.req.param("knowledgeId");
     const textEmbedding = c.get("textEmbedding");
     const directus = c.get("directus");
+    const knowledge = c.get("knowledge");
     const item = await directus.request(
       updateItem("bots_knowledges", knowledgeId, {
         status: "published",
       })
     );
 
-    await textEmbedding.enableDocumentByMetadata({
-      knowledge_id: knowledgeId,
-    });
+    function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
+      const addQuestions = [];
+
+      // Iterate over each intent object in the provided data
+      intentsData.forEach((intent) => {
+        const intentId = intent.id; // Get the intent's ID
+
+        // Iterate over each question within the current intent
+        intent.questions.forEach((question) => {
+          // Create an object in the desired "addQuestion" format
+          addQuestions.push({
+            body: {
+              operation: "addQuestion", // Static operation type
+              text: question.question, // The question text
+              bot_id: botId, // Provided bot ID
+              knowledge_id: knowledgeId, // Provided knowledge ID
+              intent_id: intentId, // The ID of the parent intent
+              id: question.id, // The ID of the specific question
+            },
+          });
+        });
+      });
+
+      return addQuestions; // Return the array of converted operations
+    }
+
+    if (knowledge?.intents?.length > 0) {
+      // Check if the intents array is not empty
+      // Convert intents to add questions format
+      const convertedData = convertIntentsToAddQuestions(
+        knowledge.intents,
+        knowledge.bot,
+        knowledge.id
+      );
+
+      try {
+        // Send the converted data to the queue for processing
+        const batches = [];
+        for (let i = 0; i < convertedData.length; i += 100) {
+          batches.push(convertedData.slice(i, i + 100));
+        }
+
+        for (const batch of batches) {
+          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(batch);
+        }
+      } catch (queueError) {
+        console.error("Error sending to queue:", queueError);
+        // Continue execution even if queue fails
+      }
+    }
+
+    try {
+      await c.env.CACHING.put(
+        ["bots_knowledges", knowledge.id].join("|"),
+        JSON.stringify(knowledge)
+      );
+    } catch (cacheError) {
+      console.error("Error caching knowledge:", cacheError);
+      // Continue execution even if caching fails
+    }
+
+    // await textEmbedding.enableDocumentByMetadata({
+    //   knowledge_id: knowledgeId,
+    // });
 
     await c.env.CACHING.put(
       ["bots_knowledges", knowledgeId].join("|"),
@@ -160,9 +305,15 @@ export const undeployBotKnowledgeHandler = factory.createHandlers(
       })
     );
 
-    await textEmbedding.disableDocumentByMetadata({
-      knowledge_id: knowledgeId,
+    // await c.env.CACHING.delete(["bots_knowledges", knowledgeId].join("|"));
+
+    await textEmbedding.clearDocuments({
+      filters: { knowledge_id: knowledgeId },
     });
+
+    // await textEmbedding.disableDocumentByMetadata({
+    //   knowledge_id: knowledgeId,
+    // });
 
     await c.env.CACHING.put(
       ["bots_knowledges", knowledgeId].join("|"),
@@ -231,8 +382,8 @@ export const createIntentHandler = factory.createHandlers(
       name: body.name,
       intent: body.intent,
       quick_reply: body.quick_reply,
-      questions: (body.questions || []),
-      responses: (body.responses || []),
+      questions: body.questions || [],
+      responses: body.responses || [],
       tags: body.tags || [],
     };
 

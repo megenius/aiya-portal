@@ -7,13 +7,16 @@ import { Avatar } from "@repo/preline/Avatar";
 
 interface ContactTableProps {
   botId: string;
+  workspaceId: string;
   searchValue: string;
 }
 
-const ContactTable: React.FC<ContactTableProps> = ({ botId, searchValue }) => {
+const ContactTable: React.FC<ContactTableProps> = ({ botId, workspaceId, searchValue }) => {
   const { data: contacts, isLoading } = useBotContacts({
     id: botId,
+    workspaceId: workspaceId,
   });
+  
   const { data: mutedBotUsers, isLoading: isMutedBotUsersLoading } =
     useBotMutedUsers({ botId });
 

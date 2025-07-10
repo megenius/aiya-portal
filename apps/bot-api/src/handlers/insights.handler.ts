@@ -41,11 +41,7 @@ export const getLogsHandler = factory.createHandlers(
       .order("created", { ascending: false })
       .range(0, 10000);
 
-    const result = {
-      start,
-      end,
-      data: res.data,
-    };
+    const result = { start, end, data: res.data };
     return c.json(result);
   }
 );
@@ -326,74 +322,33 @@ export const getStatsHandler = factory.createHandlers(
       query: {
         bool: {
           filter: [
-            {
-              term: {
-                "bot_id.keyword": id,
-              },
-            },
+            { term: { "bot_id.keyword": id } },
             {
               range: {
-                created_at: {
-                  gte: start,
-                  lte: end,
-                  time_zone: "Asia/Bangkok",
-                },
+                created_at: { gte: start, lte: end, time_zone: "Asia/Bangkok" },
               },
             },
           ],
         },
       },
       aggs: {
-        total_conversations: {
-          value_count: {
-            field: "_id",
-          },
-        },
+        total_conversations: { value_count: { field: "_id" } },
         confidence_summary: {
-          stats: {
-            script: {
-              source: "doc['confidence'].value",
-            },
-          },
+          stats: { script: { source: "doc['confidence'].value" } },
         },
-        total_stats: {
-          stats_bucket: {
-            buckets_path: `${breakdown}>_count`,
-          },
-        },
+        total_stats: { stats_bucket: { buckets_path: `${breakdown}>_count` } },
         platform_metrics: {
           terms: {
             field: "platform.keyword",
             missing: "unknown",
             size: 10,
-            order: {
-              _count: "desc",
-            },
+            order: { _count: "desc" },
           },
           aggs: {
-            unique_users: {
-              cardinality: {
-                field: "social_id.keyword",
-              },
-            },
-            avg_confidence: {
-              avg: {
-                field: "confidence",
-              },
-            },
-            fallback_rate: {
-              filter: {
-                term: {
-                  fallback: 1,
-                },
-              },
-            },
-            top_intents: {
-              terms: {
-                field: "intent.keyword",
-                size: 5,
-              },
-            },
+            unique_users: { cardinality: { field: "social_id.keyword" } },
+            avg_confidence: { avg: { field: "confidence" } },
+            fallback_rate: { filter: { term: { fallback: 1 } } },
+            top_intents: { terms: { field: "intent.keyword", size: 5 } },
           },
         },
         intent_analysis: {
@@ -401,28 +356,13 @@ export const getStatsHandler = factory.createHandlers(
             field: "intent.keyword",
             missing: "unknown",
             size: 20,
-            order: {
-              _count: "desc",
-            },
+            order: { _count: "desc" },
           },
           aggs: {
-            avg_confidence: {
-              avg: {
-                field: "confidence",
-              },
-            },
-            platforms: {
-              terms: {
-                field: "platform.keyword",
-                size: 5,
-              },
-            },
+            avg_confidence: { avg: { field: "confidence" } },
+            platforms: { terms: { field: "platform.keyword", size: 5 } },
             success_rate: {
-              avg: {
-                script: {
-                  source: "doc['fallback'].value == 0 ? 1 : 0",
-                },
-              },
+              avg: { script: { source: "doc['fallback'].value == 0 ? 1 : 0" } },
             },
           },
         },
@@ -431,28 +371,12 @@ export const getStatsHandler = factory.createHandlers(
             field: "knowledge_id.keyword",
             missing: "unknown",
             size: 20,
-            order: {
-              _count: "desc",
-            },
+            order: { _count: "desc" },
           },
           aggs: {
-            avg_confidence: {
-              avg: {
-                field: "confidence",
-              },
-            },
-            platforms: {
-              terms: {
-                field: "platform.keyword",
-                size: 5,
-              },
-            },
-            top_intents: {
-              terms: {
-                field: "intent.keyword",
-                size: 5,
-              },
-            },
+            avg_confidence: { avg: { field: "confidence" } },
+            platforms: { terms: { field: "platform.keyword", size: 5 } },
+            top_intents: { terms: { field: "intent.keyword", size: 5 } },
           },
         },
         fallback_analysis: {
@@ -463,18 +387,8 @@ export const getStatsHandler = factory.createHandlers(
             term: { "action.keyword": "Fallback" },
           },
           aggs: {
-            by_platform: {
-              terms: {
-                field: "platform.keyword",
-                size: 10,
-              },
-            },
-            by_intent: {
-              terms: {
-                field: "intent.keyword",
-                size: 20,
-              },
-            },
+            by_platform: { terms: { field: "platform.keyword", size: 10 } },
+            by_intent: { terms: { field: "intent.keyword", size: 20 } },
             low_confidence: {
               range: {
                 field: "confidence",
@@ -501,15 +415,10 @@ export const getStatsHandler = factory.createHandlers(
           },
         },
         rag_intent_analysis: {
-          nested: {
-            path: "rag_intents.keyword",
-          },
+          nested: { path: "rag_intents.keyword" },
           aggs: {
             top_rag_intents: {
-              terms: {
-                field: "rag_intents.keyword",
-                size: 20,
-              },
+              terms: { field: "rag_intents.keyword", size: 20 },
             },
           },
         },
@@ -522,35 +431,13 @@ export const getStatsHandler = factory.createHandlers(
           calendar_interval: interval,
           time_zone: "Asia/Bangkok",
           min_doc_count: 0,
-          extended_bounds: {
-            min: start,
-            max: end,
-          },
+          extended_bounds: { min: start, max: end },
         },
         aggs: {
-          platforms: {
-            terms: {
-              field: "platform.keyword",
-              size: 10,
-            },
-          },
-          unique_users: {
-            cardinality: {
-              field: "social_id.keyword",
-            },
-          },
-          avg_confidence: {
-            avg: {
-              field: "confidence",
-            },
-          },
-          fallback_rate: {
-            filter: {
-              term: {
-                fallback: 1,
-              },
-            },
-          },
+          platforms: { terms: { field: "platform.keyword", size: 10 } },
+          unique_users: { cardinality: { field: "social_id.keyword" } },
+          avg_confidence: { avg: { field: "confidence" } },
+          fallback_rate: { filter: { term: { fallback: 1 } } },
         },
       };
     } else {
@@ -560,43 +447,18 @@ export const getStatsHandler = factory.createHandlers(
           calendar_interval: interval,
           time_zone: "Asia/Bangkok",
           min_doc_count: 0,
-          extended_bounds: {
-            min: start,
-            max: end,
-          },
+          extended_bounds: { min: start, max: end },
         },
         aggs: {
-          platforms: {
-            terms: {
-              field: "platform.keyword",
-              size: 10,
-            },
-          },
-          unique_users: {
-            cardinality: {
-              field: "social_id.keyword",
-            },
-          },
-          avg_confidence: {
-            avg: {
-              field: "confidence",
-            },
-          },
-          fallback_rate: {
-            filter: {
-              term: {
-                fallback: 1,
-              },
-            },
-          },
+          platforms: { terms: { field: "platform.keyword", size: 10 } },
+          unique_users: { cardinality: { field: "social_id.keyword" } },
+          avg_confidence: { avg: { field: "confidence" } },
+          fallback_rate: { filter: { term: { fallback: 1 } } },
         },
       };
     }
 
-    const res = await opensearch.search({
-      index: "bots_logs",
-      body: query,
-    });
+    const res = await opensearch.search({ index: "bots_logs", body: query });
 
     const transformed =
       interval === "hour"
@@ -615,6 +477,7 @@ export const getLatestLogs = factory.createHandlers(
   async (c) => {
     const supabase = c.get("supabase");
     const botId = c.req.param("id");
+    const workspaceId = c.req.param("workspaceid");
 
     // ดึงเฉพาะฟิลด์ที่จำเป็น
     const { data, error } = await supabase
@@ -644,11 +507,24 @@ export const getLatestLogs = factory.createHandlers(
       // ดึงข้อมูล channel ทั้งหมดในคำขอเดียว
       const channels = await directus.request(
         readItems("channels", {
-          fields: ["id", "provider_id", "provider_name", "provider_info", "provider_access_token"],
-          filter: { provider_id: { _in: providerIds } },
+          fields: [
+            "id",
+            "provider_id",
+            "provider_name",
+            "provider_info",
+            "provider_access_token",
+          ],
+          filter: {
+            _and: [
+              { provider_id: { _in: providerIds } },
+              { team: { _eq: workspaceId } },
+            ],
+          },
         })
       );
 
+      console.log("Fetched channels:", channels);
+      
       const channelMap = Object.fromEntries(
         channels.map((ch) => [ch.provider_id, ch])
       );

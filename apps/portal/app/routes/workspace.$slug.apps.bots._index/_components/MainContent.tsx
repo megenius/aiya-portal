@@ -6,10 +6,9 @@ import { useNavigate } from "@remix-run/react";
 import MainContainer from "~/components/MainContainer";
 import {
   Bot,
-  BotDetails,
+  BotModalDetails,
   BotIntent,
   BotType,
-  IntentQuestion,
   Workspace,
 } from "~/@types/app";
 import { useWorkspaceBots } from "~/hooks/workspace/useWorkspaceBots";
@@ -23,6 +22,7 @@ import { useBotInsert } from "~/hooks/bot/useBotInsert";
 import { useFileUpload } from "~/hooks/useFileUpload";
 import { useBotExtractChatbotConfig } from "~/hooks/bot/useBotExtractChatbotConfig";
 import { useBotKnowledgeInsert } from "~/hooks/bot/useBotKnowledgeInsert";
+import { transformKnowledgeBase } from "~/utils/utils";
 
 interface MainContentProps {
   workspace: Workspace;
@@ -189,7 +189,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     }
   }, [extractionChatbotStatus]);
 
-  const handleAddBot = async (values: BotDetails) => {
+  const handleAddBot = async (values: BotModalDetails) => {
     setIsExtracting(true);
     const bot: Partial<Bot> = { name: values.name, type: values.bot_type };
     setBot(bot);
@@ -302,7 +302,7 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
         workspaceId={workspace.id}
         isOpen={isBotTypeModalOpen}
         onClose={() => setIsBotTypeModalOpen(false)}
-        onOk={(botDetails: BotDetails & { documentFile: File[] | null }) => {
+        onOk={(botDetails: BotModalDetails & { documentFile: File[] | null }) => {
           setIsBotTypeModalOpen(false);
           console.log("Bot Details:", botDetails);
 
@@ -313,26 +313,5 @@ const MainContent: React.FC<MainContentProps> = ({ workspace }) => {
     </>
   );
 };
-
-function transformKnowledgeBase({ intents }) {
-  return intents.map(({ intent, quick_reply, questions, answer }) => ({
-    id: randomHexString(8),
-    name: intent,
-    intent,
-    quick_reply,
-    questions: questions.map((q: IntentQuestion) => ({
-      id: randomHexString(8),
-      question: q,
-    })),
-    responses: [
-      {
-        id: randomHexString(8),
-        type: "Text",
-        payload: { type: "text", text: answer },
-      },
-    ],
-    tags: [],
-  }));
-}
 
 export default MainContent;
