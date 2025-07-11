@@ -271,9 +271,13 @@ export const createBotKnowledgeHandler = factory.createHandlers(
       const botId = c.req.param("id");
       const directus = c.get("directus");
       const data = await c.req.json();
-      
+
       const item = await directus.request(
-        createItem("bots_knowledges", { bot: botId, status: "published", ...data })
+        createItem("bots_knowledges", {
+          bot: botId,
+          status: "published",
+          ...data,
+        })
       );
 
       function convertIntentsToAddQuestions(intentsData, botId, knowledgeId) {
@@ -313,7 +317,14 @@ export const createBotKnowledgeHandler = factory.createHandlers(
 
         try {
           // Send the converted data to the queue for processing
-          await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(convertedData);
+          const batches = [];
+          for (let i = 0; i < convertedData.length; i += 100) {
+            batches.push(convertedData.slice(i, i + 100));
+          }
+
+          for (const batch of batches) {
+            await c.env.SENTENCE_EMBEDINGS_QUEUE.sendBatch(batch);
+          }
         } catch (queueError) {
           console.error("Error sending to queue:", queueError);
           // Continue execution even if queue fails
@@ -333,11 +344,11 @@ export const createBotKnowledgeHandler = factory.createHandlers(
       return c.json(item);
     } catch (error) {
       console.error("Error creating bot knowledge:", error);
-      
+
       if (error instanceof DirectusError) {
         throw error;
       }
-      
+
       return c.json(
         { error: "An error occurred while creating bot knowledge" },
         500
