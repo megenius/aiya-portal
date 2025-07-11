@@ -45,9 +45,9 @@ export const getBotKnowledgeHandler = factory.createHandlers(
     const directus = c.get("directus");
     let knowledge = c.get("knowledge");
 
-    // if (!knowledge || !knowledge.intents) {
+    if (!knowledge || !knowledge.intents) {
       knowledge = await getKnowledge(directus, knowledgeId);
-    // }
+    }
     return c.json(knowledge);
   }
 );
