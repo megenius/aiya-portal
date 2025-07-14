@@ -281,10 +281,10 @@ export const deployBotKnowledgeHandler = factory.createHandlers(
     //   knowledge_id: knowledgeId,
     // });
 
-    await c.env.CACHING.put(
-      ["bots_knowledges", knowledgeId].join("|"),
-      JSON.stringify(item)
-    );
+    // await c.env.CACHING.put(
+    //   ["bots_knowledges", knowledgeId].join("|"),
+    //   JSON.stringify(item)
+    // );
 
     return c.json(item);
   }
