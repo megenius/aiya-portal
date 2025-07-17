@@ -6,11 +6,8 @@ import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
 import { HeaderSkeleton } from "./components/SkeletonLoad/HeaderSkeleton";
-import { useBrands } from "~/hooks/brands/useBrands";
-import { useVouchers } from "~/hooks/vouchers/useVouchers";
 import Header from "./components/Header";
 import { MainContentSkeleton } from "./components/SkeletonLoad/MainContentSkeleton";
-import _ from "lodash";
 import { useProfile } from "~/hooks/Profiles/useProfile";
 
 const Route = () => {

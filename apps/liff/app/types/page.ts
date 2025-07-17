@@ -40,7 +40,6 @@ export interface Metadata {
   layout: Layout;
   welcomeText: language;
   subWelcomeText: language;
-  coupons: Coupon[];
   categories: Category[];
 }
 
@@ -84,17 +83,6 @@ export interface Field {
   type: string;
   label: string;
   required?: boolean
-}
-
-export interface Coupon {
-  id: string;
-  to: string;
-  titleTH: string;
-  titleEN: string;
-  promotionTH: string;
-  promotionEN: string;
-  category: string;
-  image: string;
 }
 
 export interface Category {

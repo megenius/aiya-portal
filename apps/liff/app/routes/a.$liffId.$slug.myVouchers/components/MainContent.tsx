@@ -94,7 +94,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 setIsOpen(true);
                 } else {
                   navigate(
-                    `/a/${page.liff_id}/${page.slug}/voucher/${voucher.code.voucher.id}`
+                    `/a/${page.liff_id}/${page.slug}/coupon/${voucher.code.voucher.id}`
                   );
                 }
               }}

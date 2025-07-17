@@ -3,7 +3,7 @@ import { Ticket } from "lucide-react";
 import React from "react";
 import { lightenColor } from "~/utils/colors";
 
-interface CouponsummaryProps {
+interface CouponSummaryProps {
   language: string;
   totalVouchers?: number;
   availableVouchers?: number;
@@ -12,7 +12,7 @@ interface CouponsummaryProps {
   // totalSaved?: string;
 }
 
-const Couponsummary: React.FC<CouponsummaryProps> = ({
+const CouponSummary: React.FC<CouponSummaryProps> = ({
   language,
   totalVouchers = 12,
   availableVouchers = 8,
@@ -124,4 +124,4 @@ const Couponsummary: React.FC<CouponsummaryProps> = ({
   );
 };
 
-export default Couponsummary;
+export default CouponSummary;

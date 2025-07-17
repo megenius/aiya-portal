@@ -1,7 +1,4 @@
-import {
-  ShouldRevalidateFunction,
-  useLoaderData
-} from "@remix-run/react";
+import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
 
 import { json, MetaFunction } from "@remix-run/cloudflare";
 
@@ -25,12 +22,13 @@ import FullyCollectedModal from "./components/FullyCollectedModal";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import RedeemModal from "./components/RedeemModal";
+import LimitedTimePage from "./components/LimitedTimePage";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
-  const voucher = data?.voucher;
+  const coupon = data?.voucher;
   return [
-    { title: voucher?.voucher_brand_id?.name || "Loading..." },
+    { title: coupon?.voucher_brand_id?.name || "Loading..." },
     {
       tagName: "link",
       rel: "icon",
@@ -48,24 +46,24 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 };
 
 export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { liffId, slug, voucherId } = params;
+  const { liffId, slug, couponId } = params;
   const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
-  const voucher = await fetchVoucher({ voucherId });
+  const coupon = await fetchVoucher({ voucherId: couponId });
   return json({
     page,
-    voucher,
+    coupon,
   });
 };
 
 const Route = () => {
-  const { page, voucher } = useLoaderData<typeof clientLoader>();
+  const { page, coupon } = useLoaderData<typeof clientLoader>();
   const { data: liff } = useLineLiff();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { language } = useLiff({ liffId: page?.liff_id as string });
   const isThaiLanguage = language.startsWith("th");
   // const lang = isThaiLanguage ? "th" : "en";
   const lang = "th";
-  const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
+  const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
   const {
@@ -74,12 +72,12 @@ const Route = () => {
     refetch: refetchCodeStats,
     isRefetching: isCodeStatsRefetching,
   } = useVoucherCodeStats({
-    voucherId: voucher.id ?? "",
+    voucherId: coupon.id ?? "",
   });
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
-  const myVoucher = myVouchers?.find((v) => v.code.voucher.id === voucher.id);
-  const [isCollected, setIsCollected] = useState(Boolean(myVoucher));
+  const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon.id);
+  const [isCollected, setIsCollected] = useState(Boolean(myCoupon));
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
@@ -108,19 +106,19 @@ const Route = () => {
       fully_collected: "Fully Collected",
     },
   };
-  const status = myVoucher
-    ? (myVoucher.code.code_status ?? "collected")
+  const status = myCoupon
+    ? (myCoupon.code.code_status ?? "collected")
     : codeStats?.available === 0
       ? "fully_collected"
-      : (voucher?.metadata.redemptionType ?? "instant");
+      : (coupon?.metadata.redemptionType ?? "instant");
 
-  const isExpired = myVoucher
-    ? myVoucher.expired_date && new Date(myVoucher.expired_date) < new Date()
+  const isExpired = myCoupon
+    ? myCoupon.expired_date && new Date(myCoupon.expired_date) < new Date()
     : false;
 
   let timeLeft = 0;
-  if (myVoucher?.used_date) {
-    const usedDateTime = new Date(myVoucher.used_date).getTime();
+  if (myCoupon?.used_date) {
+    const usedDateTime = new Date(myCoupon.used_date).getTime();
     const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
     const now = new Date().getTime();
     timeLeft = Math.floor((expiryTime - now) / 1000);
@@ -146,14 +144,14 @@ const Route = () => {
 
     if (
       pageState === "landing" &&
-      voucher?.metadata.redemptionType === "form"
+      coupon?.metadata.redemptionType === "form"
     ) {
       setPageState("form");
       return;
     }
     setIsSubmitting(true);
     const collectVoucherData: CollectVoucher = {
-      voucher: voucher?.id as string,
+      voucher: coupon?.id as string,
       collected_by: profile?.userId as string,
       channel: page?.channel as string,
     };
@@ -172,10 +170,10 @@ const Route = () => {
               source: "voucher",
               source_id: res.id as string,
               data:
-                voucher?.metadata.redemptionType === "form"
+                coupon?.metadata.redemptionType === "form"
                   ? { form: { fields: formData } }
                   : undefined,
-              metadata: voucher?.metadata,
+              metadata: coupon?.metadata,
             };
             leadSubmission.mutateAsync({
               variables: data,
@@ -202,7 +200,7 @@ const Route = () => {
 
   if (
     isProfileLoading &&
-    isMyVouchersLoading &&
+    isMyCouponsLoading &&
     isCodeStatsLoading &&
     isCodeStatsRefetching
   ) {
@@ -210,45 +208,61 @@ const Route = () => {
   }
 
   return (
-    voucher && (
+    coupon && (
       <div className="h-screen-safe flex flex-col overflow-hidden">
-        <Header
-          language={lang}
-          voucher={voucher}
-          color={voucher.voucher_brand_id.primaryColor ?? ""}
-          isIsClient={liff?.isInClient() ?? false}
-        />
-        {codeStats && (
-          <MainContent
+        {coupon.metadata.redemptionType === "limited_time" ? (
+          <LimitedTimePage
+            voucher={coupon}
             language={lang}
-            voucher={voucher}
-            codeStats={codeStats}
-            pageState={pageState}
-            status={isExpired || (status === "pending_confirmation" && timeLeft <= 0)  ? "expired" : status}
-            onFormValidationChange={setIsFormValid}
-            onFormDataChange={setFormData}
+            primaryColor={page.bg_color ?? ""}
           />
+        ) : (
+          <>
+            <Header
+              language={lang}
+              voucher={coupon}
+              color={coupon.voucher_brand_id.primaryColor ?? ""}
+              isIsClient={liff?.isInClient() ?? false}
+            />
+            {codeStats && (
+              <MainContent
+                language={lang}
+                voucher={coupon}
+                codeStats={codeStats}
+                pageState={pageState}
+                status={
+                  isExpired ||
+                  (status === "pending_confirmation" && timeLeft <= 0)
+                    ? "expired"
+                    : status
+                }
+                onFormValidationChange={setIsFormValid}
+                onFormDataChange={setFormData}
+              />
+            )}
+            <Footer
+              color={coupon.voucher_brand_id.primaryColor ?? ""}
+              buttonText={
+                isSubmitting
+                  ? "Collecting"
+                  : isExpired ||
+                      (status === "pending_confirmation" && timeLeft <= 0)
+                    ? buttonText[lang]["expired"]
+                    : buttonText[lang][status]
+              }
+              onClick={handleSubmit}
+              disabled={
+                (pageState === "form" && !isFormValid) ||
+                isExpired ||
+                (status === "pending_confirmation" && timeLeft <= 0) ||
+                status === "used" ||
+                status === "expired" ||
+                status === "fully_collected" ||
+                isSubmitting
+              }
+            />
+          </>
         )}
-        <Footer
-          color={voucher.voucher_brand_id.primaryColor ?? ""}
-          buttonText={
-            isSubmitting
-              ? "Collecting"
-              : isExpired || status === "pending_confirmation" && timeLeft <= 0
-                ? buttonText[lang]["expired"]
-                  : buttonText[lang][status]
-          }
-          onClick={handleSubmit}
-          disabled={
-            (pageState === "form" && !isFormValid) ||
-            isExpired ||
-            (status === "pending_confirmation" && timeLeft <= 0) ||
-            status === "used" ||
-            status === "expired" ||
-            status === "fully_collected" ||
-            isSubmitting
-          }
-        />
 
         <FullyCollectedModal
           isOpen={showFullyCollectedModal}
@@ -257,15 +271,15 @@ const Route = () => {
             refetchCodeStats();
           }}
           language={lang}
-          primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
+          primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
         />
 
-        {myVoucher && (
+        {myCoupon && (
           <RedeemModal
             page={page}
-            voucherUser={myVoucher}
+            voucherUser={myCoupon}
             language={lang}
-            primaryColor={voucher.voucher_brand_id.primaryColor ?? ""}
+            primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
             state={state}
             isOpen={isRedeemedModalOpen}
             onClose={() => {

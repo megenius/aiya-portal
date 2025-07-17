@@ -101,13 +101,13 @@ const MainContent: React.FC<MainContentProps> = ({
       th: "คูปองหมดแล้ว",
       en: "Coupons fully collected",
     },
-  }
+  };
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {pageState === "landing" && (
         <>
-         {/* ratio="16/9" */}
+          {/* ratio="16/9" */}
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             {/* Background Image */}
             <img
@@ -116,9 +116,11 @@ const MainContent: React.FC<MainContentProps> = ({
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
             {/* Gray Overlay */}
-            {(status === "fully_collected" || status === "expired") && <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold">
-              {statusText[status][language]}
-            </div>}
+            {(status === "fully_collected" || status === "expired") && (
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold">
+                {statusText[status][language]}
+              </div>
+            )}
             {/* Brand Logo */}
           </div>
 
@@ -155,13 +157,6 @@ const MainContent: React.FC<MainContentProps> = ({
                 {activeTab === "conditions" && (
                   <p className="whitespace-pre-wrap">{condition}</p>
                 )}
-                {/* {activeTab === "locations" && (
-                <ul className="space-y-2">
-                  <li>• สาขาเซ็นทรัลเวิลด์ ชั้น 7</li>
-                  <li>• สาขาสยามพารากอน ชั้น 4</li>
-                  <li>• สาขาเอ็มควอเทียร์ ชั้น 5</li>
-                </ul>
-              )} */}
               </div>
             </div>
           </div>

@@ -1,21 +1,20 @@
 import React from "react";
-import VoucherCard from "./VoucherCard";
+import CouponCard from "./CouponCard";
 import { Voucher } from "~/types/app";
-import ComingSoonVoucher from "./ComingSoonVoucher";
 
-interface VoucherListProps {
-  vouchers?: Voucher[];
+interface CouponListProps {
+  coupons?: Voucher[];
   title: string;
   language: string;
 }
 
-const VoucherList: React.FC<VoucherListProps> = ({
-  vouchers,
+const CouponList: React.FC<CouponListProps> = ({
+  coupons,
   title,
   language
 }) => {
 
-  if (!vouchers?.length) return null;
+  if (!coupons?.length) return null;
 
   return (
     <div className="space-y-2">
@@ -27,10 +26,10 @@ const VoucherList: React.FC<VoucherListProps> = ({
           msOverflowStyle: "none",
         }}
       >
-        {vouchers?.map((voucher) => (
-          <VoucherCard
-            key={voucher.id}
-            voucher={voucher}
+        {coupons?.map((coupon) => (
+          <CouponCard
+            key={coupon.id}
+            coupon={coupon}
             language={language}
           />
         ))}
@@ -39,4 +38,4 @@ const VoucherList: React.FC<VoucherListProps> = ({
   );
 };
 
-export default VoucherList;
+export default CouponList;

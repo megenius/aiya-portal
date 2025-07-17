@@ -117,62 +117,52 @@ export const getByLiffIdAndSlug = factory.createHandlers(
 
     // map populars have translations
     if (page?.populars) {
-      page.populars = (page.populars || [])
-        .filter((popular) => {
-          // วันที่สิ้นสุดของ voucher ต้องมีและต้องมากกว่าวันนี้
-          return (
-            popular?.vouchers_id?.end_date &&
-            new Date(popular.vouchers_id.end_date) > new Date()
-          );
-        })
-        .map((popular) => {
-          // หา translation ตามภาษาที่ต้องการ
-          const langTrans = _.find(popular.vouchers_id?.translations, {
-            languages_code: lang,
-          });
-
-          // ถ้าเจอค่อย omit id กับ languages_code
-          const cleanTrans = langTrans
-            ? _.omit(langTrans, ["id", "languages_code"])
-            : {};
-
-          // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
-          return {
-            ..._.omit(popular.vouchers_id, ["translations"]),
-            ...cleanTrans,
-          };
-        });
+      page.populars = filterAndMapVouchers(
+        page.populars,
+        (popular) => popular.vouchers_id,
+        lang
+      );
     }
 
     // map vouchers have translations
     if (page?.vouchers) {
-      page.vouchers = (page.vouchers || [])
-      .filter((voucher) => {
-        // วันที่สิ้นสุดของ voucher ต้องมีและต้องมากกว่าวันนี้
-        return (
-          voucher?.end_date &&
-          new Date(voucher.end_date) > new Date()
-        );
-      })
-      .map((voucher) => {
-        // หา translation ตามภาษาที่ต้องการ
-        const langTrans = _.find(voucher.translations, {
-          languages_code: lang,
-        });
-
-        // ถ้าเจอค่อย omit id กับ languages_code
-        const cleanTrans = langTrans
-          ? _.omit(langTrans, ["id", "languages_code"])
-          : {};
-
-        // สร้าง object ใหม่ โดยดึงเฉพาะฟิลด์ของ voucher (ไม่เอา translations) + ข้อมูล translation ที่ทำความสะอาดแล้ว
-        return {
-          ..._.omit(voucher, ["translations"]),
-          ...cleanTrans,
-        };
-      });
+      page.vouchers = filterAndMapVouchers(
+        page.vouchers,
+        (voucher) => voucher,
+        lang
+      );
     }
 
     return c.json(page);
   }
 );
+
+
+function filterAndMapVouchers<T>(
+  items: T[],
+  getVoucher: (item: T) => any,
+  lang: string
+): any[] {
+  return (items || [])
+    .filter((item) => {
+      const voucher = getVoucher(item);
+      return (
+        voucher?.codes?.length > 0 &&
+        voucher?.end_date &&
+        new Date(voucher.end_date) > new Date()
+      );
+    })
+    .map((item) => {
+      const voucher = getVoucher(item);
+      const langTrans = _.find(voucher.translations, {
+        languages_code: lang,
+      });
+      const cleanTrans = langTrans
+        ? _.omit(langTrans, ["id", "languages_code"])
+        : {};
+      return {
+        ..._.omit(voucher, ["translations"]),
+        ...cleanTrans,
+      };
+    });
+}

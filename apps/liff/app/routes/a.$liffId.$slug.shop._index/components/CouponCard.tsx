@@ -4,27 +4,27 @@ import { Voucher } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 
-interface VoucherCardProps {
-  voucher: Voucher;
+interface CouponCardProps {
+  coupon: Voucher;
   language: string;
 }
 
-const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, language }) => {
+const CouponCard: React.FC<CouponCardProps> = ({ coupon, language }) => {
   const { page } = useOutletContext<{ page: PageLiff }>();
   const navigate = useNavigate();
-  const title = voucher.metadata.title[language];
+  const title = coupon.metadata.title[language];
 
-  const navigateToCollectCoupon = (voucherId: string) =>
-    navigate(`/a/${page.liff_id}/${page.slug}/voucher/${voucherId}`);
+  const navigateToCollectCoupon = (couponId: string) =>
+    navigate(`/a/${page.liff_id}/${page.slug}/coupon/${couponId}`);
 
   return (
     <button
-      onClick={() => navigateToCollectCoupon(voucher.id)}
+      onClick={() => navigateToCollectCoupon(coupon.id)}
       className="bg-white flex flex-col shrink-0 w-32"
     >
       <div className="h-32 relative">
         <img
-          src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+          src={getDirectusFileUrl(coupon.cover as string) ?? ""}
           alt={title ?? ""}
           className="w-full h-32 object-cover rounded-2xl"
         />
@@ -35,9 +35,9 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, language }) => {
         <div className="absolute bottom-2 left-2">
           <img
             src={getDirectusFileUrl(
-              (voucher?.voucher_brand_id?.logo as string) ?? ""
+              (coupon?.voucher_brand_id?.logo as string) ?? ""
             )}
-            alt={voucher?.voucher_brand_id?.name ?? ""}
+            alt={coupon?.voucher_brand_id?.name ?? ""}
             className="w-7 h-7 rounded-full object-cover border border-white shadow-sm"
           />
         </div>
@@ -45,7 +45,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, language }) => {
 
       <div className="pt-3">
         <h3 className="font-bold leading-snug text-start text-sm line-clamp-2">
-          {voucher?.voucher_brand_id?.name}
+          {coupon?.voucher_brand_id?.name}
         </h3>
 
         <div className="flex items-center justify-between">
@@ -63,4 +63,4 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, language }) => {
   );
 };
 
-export default VoucherCard;
+export default CouponCard;

@@ -4,8 +4,8 @@ import { Category, PageLiff } from "~/types/page";
 import BrandList from "./BrandList";
 import CategoryList from "./CategoryList";
 import SearchBar from "./SearchBar";
-import VoucherList from "./VoucherList";
-import VoucherSummary from "./VoucherSummary";
+import CouponList from "./CouponList";
+import CouponSummary from "./CouponSummary";
 
 interface MainContentProps {
   page: PageLiff;
@@ -63,7 +63,7 @@ const MainContent: React.FC<MainContentProps> = ({
     <div className="bg-white pb-3 space-y-3">
       <div className="px-4 pb-1 space-y-3">
         <SearchBar language={language} primaryColor={page.bg_color ?? ""} showSearch={page?.metadata?.layout?.showSearch} />
-        <VoucherSummary
+        <CouponSummary
           totalVouchers={voucherUserStats?.total}
           availableVouchers={voucherUserStats?.collected}
           usedVouchers={voucherUserStats?.used}
@@ -80,8 +80,8 @@ const MainContent: React.FC<MainContentProps> = ({
           onSelect={setSelectedCategory}
         />
       )}
-      {<VoucherList
-        vouchers={filterVouchers()}
+      {<CouponList
+        coupons={filterVouchers()}
         language={language}
         title={
           selectedCategory.name.en === "All"
@@ -103,9 +103,9 @@ const MainContent: React.FC<MainContentProps> = ({
                   voucher.voucher_brand_id?.metadata?.category.name.en ===
                   category.name.en
               ).length > 0 && (
-                <VoucherList
+                <CouponList
                   key={category.id}
-                  vouchers={
+                  coupons={
                     vouchers?.filter(
                       (voucher) =>
                         voucher.voucher_brand_id?.metadata?.category.name.en ===

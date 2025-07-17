@@ -54,8 +54,20 @@ interface VoucherMetadata {
   title: language;
   description: language;
   condition: language;
-  redemptionType: "instant" | "form";
+  redemptionType: "instant" | "form" | "limited_time";
   form?: Form;
+  discount_tiers?: DiscountTier[];
+}
+
+interface TierCondition {
+  duration_before_claim_seconds?: number;
+  default?: boolean;
+}
+
+export interface DiscountTier {
+  value: number;
+  type: 'percentage' | 'fixed_amount';
+  condition: TierCondition;
 }
 
 interface Form {
