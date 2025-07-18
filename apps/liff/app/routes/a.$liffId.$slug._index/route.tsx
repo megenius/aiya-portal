@@ -105,6 +105,8 @@ const Route = () => {
         }
       );
     } else {
+      console.log(userProfile.id);
+      
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     }
   }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile, referrerId]);

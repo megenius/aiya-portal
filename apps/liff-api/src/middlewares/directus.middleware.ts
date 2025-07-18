@@ -8,5 +8,7 @@ export const directusMiddleware = factory.createMiddleware(async (c, next) => {
   const directus = getDirectusClient(c.env.DIRECTUS_URL);
   directus.setToken(c.env.DIRECTUS_SERVICE_TOKEN);
   c.set("directAdmin", directus);
+  // directus.setToken(c.get("token"));
+  // c.set("directus", directus);
   await next();
 });

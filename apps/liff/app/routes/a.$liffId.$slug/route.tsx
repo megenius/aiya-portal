@@ -9,6 +9,7 @@ import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import Loading from "~/components/Loading";
 import { getDirectusFileUrl } from "~/utils/files";
+import { store } from "~/store";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -40,7 +41,10 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
+  const state = store.getState();
 
+  console.log(state);
+  
   if (!page) {
     return <Loading />;
   }
