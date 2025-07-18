@@ -8,7 +8,7 @@ import {
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
-import MainContent from "./components/MainContent";
+import MainContent from "./_components/MainContent";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";

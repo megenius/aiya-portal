@@ -13,6 +13,5 @@ const authRoutes = new Hono<Env>()
     directusAdminMiddleware,
     ...AuthHandler.login
   )
-  .post("/refresh", ...AuthHandler.refresh)
 
 export { authRoutes };

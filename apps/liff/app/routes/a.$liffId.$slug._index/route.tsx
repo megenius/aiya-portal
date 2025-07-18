@@ -1,7 +1,6 @@
 import { useNavigate, useOutletContext, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import Loading from '~/components/Loading';
-import { useLiff } from '~/hooks/useLiff';
 import { useLineProfile } from '~/hooks/useLineProfile';
 import { useProfile } from '~/hooks/Profiles/useProfile';
 import { PageLiff } from '~/types/page';
@@ -37,15 +36,13 @@ import { useCreateProfile } from '~/hooks/Profiles/useCreateProfile';
 
 const Route = () => {
   const { page } = useOutletContext<{ page: PageLiff }>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
-  // const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
   const navigate = useNavigate();
   const createProfile = useCreateProfile();
 
   const [search] = useSearchParams()
   const dest = search.get("dest") || ""
   const referrerId = search.get("ref") || ""; // เพิ่มการดึงค่า referrer จาก URL
+
   
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
 
@@ -54,12 +51,12 @@ const Route = () => {
     useProfile({
       uid: profile?.userId || "",
       liff_id: page.liff_id as string,
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
+      enabled: !isProfileLoading && !!profile?.userId
     });
 
   useEffect(() => {
     // Only proceed if user is logged in and profile is loaded
-    if (!isLoggedIn || isProfileLoading) {
+    if (isProfileLoading) {
       return;
     }
 
@@ -98,18 +95,16 @@ const Route = () => {
               navigate(`/a/${page.liff_id}/${page.slug}/shop`);
             }
           },
-          onError: (error: any) => {
+          onError: (error) => {
             console.error('Profile creation error:', error);
             alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
           }
         }
       );
     } else {
-      console.log(userProfile.id);
-      
       navigate(`/a/${page.liff_id}/${page.slug}/shop`);
     }
-  }, [userProfile, isUserProfileLoading, isLoggedIn, isProfileLoading, navigate, page, dest, profile, referrerId]);
+  }, [userProfile, isUserProfileLoading, isProfileLoading, navigate, page, dest, profile, referrerId]);
 
   // Show loading indicator during all processing
   return <Loading />;

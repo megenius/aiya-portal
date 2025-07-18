@@ -6,6 +6,7 @@ import QRCode from '~/components/QRCode';
 import PointButton from "./PointButton";
 import { Ticket } from "lucide-react";
 import { VoucherStats } from "~/types/app";
+import { getDirectusFileUrl } from "~/utils/files";
 
 export interface Profile {
   userId: string;
@@ -275,7 +276,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
                     level="H"
                     fgColor="#000000"
                     bgColor="#FFFFFF"
-                    logoSrc={page.logo}
+                    logoSrc={getDirectusFileUrl(page.image as string)}
                   />
                 )}
               </div>

@@ -1,5 +1,5 @@
 import { components } from "./directus";
-import { language } from "./app";
+import { Brand, language, Voucher } from "./app";
 
 // export interface PageLiff {
 //   id: string;
@@ -22,7 +22,10 @@ import { language } from "./app";
 //   favicon: string;
 // }
 
-export type PageLiff = Omit<components["schemas"]["ItemsPagesLiff"], "metadata"> & {
+export type PageLiff = Omit<components["schemas"]["ItemsPagesLiff"], "vouchers" | "populars" | "brands" | "metadata"> & {
+  vouchers: Voucher[];
+  populars: Voucher[];
+  brands: Brand[];
   metadata: Metadata;
 };
 
@@ -38,6 +41,7 @@ export interface Metadata {
   scripts: Script[];
   tracking: Tracking;
   layout: Layout;
+  template: string;
   welcomeText: language;
   subWelcomeText: language;
   categories: Category[];

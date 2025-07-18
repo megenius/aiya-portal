@@ -1,5 +1,5 @@
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
+import Header from "./_components/Header";
+import MainContent from "./_components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
 import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
 import { json, MetaFunction } from "@remix-run/cloudflare";

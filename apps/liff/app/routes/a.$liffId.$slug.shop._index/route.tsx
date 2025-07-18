@@ -1,26 +1,21 @@
 import { useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
-import MainContent from "./components/MainContent";
-import PromotionTemplate from "./components/PromotionTemplate";
-import { useLiff } from "~/hooks/useLiff";
-import Loading from "~/components/Loading";
+import MainContent from "./_components/MainContent";
+import PromotionTemplate from "./_components/PromotionTemplate";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
-import { HeaderSkeleton } from "./components/SkeletonLoad/HeaderSkeleton";
-import Header from "./components/Header";
-import { MainContentSkeleton } from "./components/SkeletonLoad/MainContentSkeleton";
-import { useProfile } from "~/hooks/Profiles/useProfile";
+import { HeaderSkeleton } from "./_components/SkeletonLoad/HeaderSkeleton";
+import Header from "./_components/Header";
+import { MainContentSkeleton } from "./_components/SkeletonLoad/MainContentSkeleton";
+import { useMe } from "~/hooks/useMe";
 
 const Route = () => {
-  const { page } = useOutletContext<{ page: PageLiff }>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id as string });
-  const isThaiLanguage = language.startsWith("th");
-  const lang = "th";
+  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
     useVoucherUserStats({
       userId: profile?.userId || "",
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId,
+      enabled: !isProfileLoading && !!profile?.userId,
     });
   // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
   //   q: "",
@@ -30,15 +25,7 @@ const Route = () => {
   //   status: "published",
   // });
 
-  const { data: userProfile, isLoading: isUserProfileLoading } = useProfile({
-    uid: profile?.userId || "",
-    liff_id: page.liff_id as string,
-    enabled: isLoggedIn && !isProfileLoading && !!profile?.userId,
-  });
-
-  if (!isLoggedIn) {
-    return <Loading />;
-  }
+  const { data: userProfile, isLoading: isUserProfileLoading } = useMe();
 
   if (isProfileLoading || isVoucherUserStatsLoading || isUserProfileLoading) {
     return (
@@ -54,7 +41,7 @@ const Route = () => {
   }
 
   // Check page template type from metadata
-  const templateType = (page?.metadata as any)?.template || 'promotion';
+  const templateType = page?.metadata?.template || "promotion";
 
   return (
     <>
@@ -67,10 +54,10 @@ const Route = () => {
             userProfileId={userProfile?.id}
             voucherUserStats={voucherUserStats}
           />
-          {templateType === 'promotion' ? (
+          {templateType === "promotion" ? (
             <PromotionTemplate
-            vouchers={page?.vouchers }
-            populars={page?.populars}
+              vouchers={page?.vouchers}
+              populars={page?.populars}
               primaryColor={page.bg_color || ""}
               language={lang}
             />

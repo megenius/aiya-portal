@@ -17,12 +17,12 @@ import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import { fetchVoucher } from "~/services/vouchers";
 import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
-import Footer from "./components/Footer";
-import FullyCollectedModal from "./components/FullyCollectedModal";
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
-import RedeemModal from "./components/RedeemModal";
-import LimitedTimePage from "./components/LimitedTimePage";
+import Footer from "./_components/Footer";
+import FullyCollectedModal from "./_components/FullyCollectedModal";
+import Header from "./_components/Header";
+import MainContent from "./_components/MainContent";
+import RedeemModal from "./_components/RedeemModal";
+import LimitedTimePage from "./_components/LimitedTimePage";
 import { PageLiff } from "~/types/page";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {

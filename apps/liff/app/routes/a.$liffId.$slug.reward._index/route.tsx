@@ -7,12 +7,12 @@ import {
 } from "@remix-run/react";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import MainContent from "./components/MainContent";
+import MainContent from "./_components/MainContent";
 import { useLiff } from "~/hooks/useLiff";
 import { useLineLiff } from "~/hooks/useLineLiff";
 import { useLineProfile } from "~/hooks/useLineProfile";
 import Loading from "~/components/Loading";
-import Header from "./components/Header";
+import Header from "./_components/Header";
 import { useProfile } from "~/hooks/Profiles/useProfile";
 import { Profile } from "~/types/app";
 

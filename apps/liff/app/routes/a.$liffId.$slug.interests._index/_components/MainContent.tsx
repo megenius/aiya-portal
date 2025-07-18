@@ -1,7 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import React, { useState } from "react";
 import { useCreateProfile } from "~/hooks/Profiles/useCreateProfile";
-import { Profile } from "~/routes/a.$liffId.$slug.shop._index/components/Header";
+import { Profile } from "~/routes/a.$liffId.$slug.shop._index/_components/Header";
 import { Category, PageLiff } from "~/types/page";
 import { lightenColor } from "~/utils/colors";
 

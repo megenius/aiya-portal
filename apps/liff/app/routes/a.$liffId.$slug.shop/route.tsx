@@ -2,7 +2,7 @@ import { Outlet, useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 
 const Route = () => {
-  const { page } = useOutletContext<{ page: PageLiff }>()
+  const { page,lang } = useOutletContext<{ page: PageLiff,lang: string }>()
   // return (
   //   <>
   //     {JSON.stringify(page)}
@@ -12,7 +12,7 @@ const Route = () => {
   return (
     <>
       <main id="content" className="h-screen-safe">
-        <Outlet context={{page}}/>
+        <Outlet context={{page,lang}}/>
       </main>
     </>
   );
