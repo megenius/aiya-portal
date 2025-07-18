@@ -1,6 +1,7 @@
 import { useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import MainContent from "./components/MainContent";
+import PromotionTemplate from "./components/PromotionTemplate";
 import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
 import { useLineProfile } from "~/hooks/useLineProfile";
@@ -17,7 +18,10 @@ const Route = () => {
   const lang = "th";
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
-    useVoucherUserStats({ userId: profile?.userId || "" });
+    useVoucherUserStats({
+      userId: profile?.userId || "",
+      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId,
+    });
   // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
   //   q: "",
   //   status: "published",
@@ -26,24 +30,17 @@ const Route = () => {
   //   status: "published",
   // });
 
-  const { data: userProfile, isLoading: isUserProfileLoading } = 
-    useProfile({ 
-      uid: profile?.userId || "",
-      liff_id: page.liff_id as string,
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
-    });
+  const { data: userProfile, isLoading: isUserProfileLoading } = useProfile({
+    uid: profile?.userId || "",
+    liff_id: page.liff_id as string,
+    enabled: isLoggedIn && !isProfileLoading && !!profile?.userId,
+  });
 
-  if (!isLoggedIn || isProfileLoading || isUserProfileLoading) {
+  if (!isLoggedIn) {
     return <Loading />;
   }
 
-  if (
-    isProfileLoading ||
-    isVoucherUserStatsLoading
-    //  ||
-    // isVouchersLoading ||
-    // isBrandsLoading
-  ) {
+  if (isProfileLoading || isVoucherUserStatsLoading || isUserProfileLoading) {
     return (
       <>
         {page?.liff_id && (
@@ -56,17 +53,28 @@ const Route = () => {
     );
   }
 
+  // Check page template type from metadata
+  const templateType = (page?.metadata as any)?.template || 'promotion';
+
   return (
     <>
       {page?.liff_id && (
         <>
-          <Header 
-            page={page} 
-            profile={profile} 
+          <Header
+            page={page}
+            profile={profile}
             language={lang}
             userProfileId={userProfile?.id}
+            voucherUserStats={voucherUserStats}
           />
-          {voucherUserStats && (
+          {templateType === 'promotion' ? (
+            <PromotionTemplate
+            vouchers={page?.vouchers }
+            populars={page?.populars}
+              primaryColor={page.bg_color || ""}
+              language={lang}
+            />
+          ) : (
             <MainContent
               page={page}
               language={lang}

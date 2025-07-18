@@ -486,7 +486,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                 <div className="flex justify-between gap-3">
                   <Button
                     onClick={() =>
-                      navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`)
+                      navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`)
                     }
                     text={seeMyVouchersText[language]}
                     secondaryColor={primaryColor}

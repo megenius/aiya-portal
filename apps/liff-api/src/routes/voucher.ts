@@ -19,5 +19,7 @@ voucherRoutes.post("/voucher-code", ...VoucherHandler.createVoucherCode);
 voucherRoutes.post("/voucher-user/edit", ...VoucherHandler.updateVoucherUser);
 voucherRoutes.post("/redeem", ...VoucherHandler.useVoucher);
 voucherRoutes.patch("/voucher-codes", ...VoucherHandler.updateVoucherCode);
+// voucher_views
+voucherRoutes.post("/voucher-views", ...VoucherHandler.createVoucherViews);
 
 export { voucherRoutes };

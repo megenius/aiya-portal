@@ -29,7 +29,12 @@ const CouponList: React.FC<CouponListProps> = ({
         {coupons?.map((coupon) => (
           <CouponCard
             key={coupon.id}
-            coupon={coupon}
+            couponId={coupon.id}
+            cover={coupon.cover as string}
+            logo={coupon.voucher_brand_id?.logo as string}
+            title={coupon.voucher_brand_id?.name as string}
+            description={coupon.metadata?.title[language]}
+            endDate={coupon.end_date as string}
             language={language}
           />
         ))}

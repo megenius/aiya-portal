@@ -73,6 +73,7 @@ export interface Layout {
   showCategory: boolean
   showSearch: boolean
   showPoint: boolean
+  showInvite: boolean
   form: {
     fields: Field[];
   };

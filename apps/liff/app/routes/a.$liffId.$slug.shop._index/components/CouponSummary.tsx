@@ -23,7 +23,7 @@ const CouponSummary: React.FC<CouponSummaryProps> = ({
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
   const navigateToMyVouchers = () => {
-    navigate(`/a/${liffId}/${slug}/myVouchers`, );
+    navigate(`/a/${liffId}/${slug}/my-coupons`, );
   };
   const availablePercentage =
     totalVouchers > 0 ? (availableVouchers / totalVouchers) * 100 : 0;

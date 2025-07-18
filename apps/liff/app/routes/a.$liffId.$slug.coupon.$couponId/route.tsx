@@ -1,4 +1,4 @@
-import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
+import { ShouldRevalidateFunction, useLoaderData, useOutletContext } from "@remix-run/react";
 
 import { json, MetaFunction } from "@remix-run/cloudflare";
 
@@ -23,18 +23,12 @@ import Header from "./components/Header";
 import MainContent from "./components/MainContent";
 import RedeemModal from "./components/RedeemModal";
 import LimitedTimePage from "./components/LimitedTimePage";
+import { PageLiff } from "~/types/page";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const page = data?.page;
-  const coupon = data?.voucher;
+  const coupon = data?.coupon;
   return [
     { title: coupon?.voucher_brand_id?.name || "Loading..." },
-    {
-      tagName: "link",
-      rel: "icon",
-      type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
-    },
   ];
 };
 
@@ -45,18 +39,17 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
   return !!!_.isEqual(currentParams, nextParams);
 };
 
-export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { liffId, slug, couponId } = params;
-  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
+export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
+  const { couponId } = params;
   const coupon = await fetchVoucher({ voucherId: couponId });
   return json({
-    page,
     coupon,
   });
 };
 
 const Route = () => {
-  const { page, coupon } = useLoaderData<typeof clientLoader>();
+  const { page } = useOutletContext<{ page: PageLiff }>();
+  const { coupon } = useLoaderData<typeof clientLoader>();
   const { data: liff } = useLineLiff();
   const { data: profile, isLoading: isProfileLoading } = useLineProfile();
   const { language } = useLiff({ liffId: page?.liff_id as string });
@@ -136,7 +129,7 @@ const Route = () => {
     }
 
     if (isCollected || status === "pending_confirmation") {
-      // navigate(`/a/${page.liff_id}/${page.slug}/myVouchers`);
+      // navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`);
       setIsRedeemedModalOpen(true);
       return;
     }

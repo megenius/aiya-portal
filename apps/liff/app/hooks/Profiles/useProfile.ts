@@ -27,7 +27,6 @@ export function useProfile({ uid, liff_id, id, enabled = true }: UseProfileParam
   return useQuery({
     queryKey: ['profiles', { id, uid, liff_id }],
     queryFn: async () => {
-      console.log("Fetching profile for:", { id, uid, liff_id });
       if (id) {
         return fetchProfile({ id });
       } else if (uid && liff_id) {

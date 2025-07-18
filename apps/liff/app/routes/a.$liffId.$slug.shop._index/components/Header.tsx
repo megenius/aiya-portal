@@ -4,6 +4,8 @@ import { useLineLiff } from "~/hooks/useLineLiff";
 import { PageLiff } from "~/types/page";
 import QRCode from '~/components/QRCode';
 import PointButton from "./PointButton";
+import { Ticket } from "lucide-react";
+import { VoucherStats } from "~/types/app";
 
 export interface Profile {
   userId: string;
@@ -17,9 +19,10 @@ interface HeaderProps {
   profile?: Profile;
   language: string;
   userProfileId?: string;
+  voucherUserStats?: VoucherStats;
 }
 
-const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId }) => {
+const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId, voucherUserStats }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState<string>('');
@@ -28,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
   const subWelcomeText = page.metadata.subWelcomeText[language];
   const { data: liff } = useLineLiff();
   const primaryColor = page.bg_color || "#1DB446";
+  const showInvite = page.metadata.layout?.showInvite ?? true;
 
   useEffect(() => {
     if (userProfileId && page) {
@@ -186,8 +190,9 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
             <div className="text-sm text-gray-500">{subWelcomeText}</div>
           </div>
         </div>
+
         <div className="flex items-center gap-2">
-          <button
+          {showInvite && <button
             onClick={handleOpenShareModal}
             className="flex items-center justify-center rounded-full border-2 text-sm gap-1 px-3 py-1.5"
             style={{ 
@@ -214,6 +219,17 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId 
               <line x1="16" y1="11" x2="22" y2="11"></line>
             </svg>
             ชวน
+          </button>}
+
+          {/* Coupon Count Button */}
+          <button
+            className="flex items-center gap-2 bg-primary rounded-full px-3 py-1.5 text-white text-lg font-medium shadow-none border-none focus:outline-none"
+            style={{ backgroundColor: primaryColor }}
+            type="button"
+            onClick={() => navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`)}
+          >
+            <Ticket />
+            <span className="text-sm">{voucherUserStats?.collected} คูปอง</span>
           </button>
 
           <PointButton points={0} primaryColor={primaryColor} onClick={navigateToReward} showPoint={page?.metadata?.layout?.showPoint} />

@@ -44,7 +44,13 @@ const Route = () => {
   if (!page) {
     return <Loading />;
   }
-  return <Outlet context={{ page }} />;
+  return (
+    <div className="bg-gray-200">
+      <div className="h-screen-safe max-w-md mx-auto bg-white">
+        <Outlet context={{ page }} />
+      </div>
+    </div>
+  );
 };
 
 export default Route;

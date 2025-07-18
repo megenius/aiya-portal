@@ -472,3 +472,35 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
     return c.json(voucherBrand);
   }
 );
+
+//voucher_views
+export const getVoucherViews = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const voucherViews = await directus.request(
+      readItems("voucher_views", {
+        filter: {
+          voucher_id: {
+            _eq: c.req.param().voucher_id,
+          },
+        },
+      })
+    );
+    return c.json(voucherViews);
+  }
+);
+
+export const createVoucherViews = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const directus = c.get("directAdmin");
+    const body = await c.req.json();
+    const voucherViews = await directus.request(
+      createItems("voucher_views", body)
+    );
+    return c.json(voucherViews);
+  }
+);

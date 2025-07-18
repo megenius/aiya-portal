@@ -156,7 +156,18 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         </div>
       </div> */}
 
-      <div className="p-4 w-full flex flex-col items-center justify-center space-y-4">
+      <div
+                className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden"
+              >
+                <img
+                  src={
+                    getDirectusFileUrl(voucher.cover as string) ||
+                    "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=450&fit=crop"
+                  }
+                  alt={voucher.name || "Promotion"}
+                  className="w-full h-full object-cover"
+                />
+                <div className="p-4 w-full flex flex-col items-center justify-center space-y-4">
         <h1 className="text-4xl font-bold">
           {voucher.metadata.title[language]}
         </h1>
@@ -168,6 +179,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           language={language}
         />
       </div>
+              </div>
+
+      
     </>
   );
 };
