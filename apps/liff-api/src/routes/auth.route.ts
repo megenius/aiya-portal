@@ -8,10 +8,10 @@ import { directusAdminMiddleware } from "~/middlewares/directus-admin.middleware
 
 const authRoutes = new Hono<Env>()
   .post(
-    "/login",
+    "/identify",
     directusMiddleware,
     directusAdminMiddleware,
-    ...AuthHandler.login
+    ...AuthHandler.identify
   )
 
 export { authRoutes };

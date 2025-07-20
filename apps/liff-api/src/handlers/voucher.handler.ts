@@ -59,11 +59,9 @@ export const collectVoucher = factory.createHandlers(
       utm_medium,
       utm_campaign,
       voucher,
-      collected_by,
       channel,
-      duration_days,
-      end_date,
     } = await c.req.json();
+    const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
 
     // get voucher by ref_code
@@ -88,8 +86,8 @@ export const collectVoucher = factory.createHandlers(
     }
 
     const voucherData = vouchers[0];
-    end_date = voucherData.end_date;
-    duration_days = voucherData.duration_days;
+    const end_date = voucherData.end_date;
+    const duration_days = voucherData.duration_days;
 
     // get available voucher code
     const voucherCodes = await directus.request(
@@ -116,7 +114,7 @@ export const collectVoucher = factory.createHandlers(
     // create voucher user
     const data = await directus.request(
       createItem("vouchers_users", {
-        collected_by,
+        collected_by: id,
         collected_date: new Date().toISOString(),
         code: voucherCode.code,
         channel,
@@ -183,35 +181,35 @@ export const getVouchersByUser = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { uid } = c.req.query();
+    const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
-    const vouchers = await directus.request(
+    const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
         filter: {
           collected_by: {
-            _eq: uid,
+            _eq: id,
           },
         },
       })
     );
     
     const vouchersUserCode = await Promise.all(
-      vouchers.map(async (voucher: any) => {        
+      vouchersUsers.map(async (voucherUser: any) => {        
         const voucherData = await directus.request(
           readItems("vouchers_codes",  {
             fields: ["*", { voucher: ["*",{voucher_brand_id: ["*"]}] }],
             filter: {
               code: {
-                _eq: voucher.code,
+                _eq: voucherUser.code,
               },
             },
             limit: 1,
           })
         );
-        voucher = _.omit(voucher, ["code"]);
+        voucherUser = _.omit(voucherUser, ["code"]);
 
         return {
-          ...voucher,
+          ...voucherUser,
           code: voucherData.length>0 ? voucherData[0] : null,
         };
       })

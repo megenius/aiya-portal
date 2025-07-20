@@ -5,7 +5,7 @@ import BrandCard from "./BrandCard";
 import Header from "./Header";
 import { Brand } from "~/types/app";
 import { PageLiff } from "~/types/page";
-import { useLineLiff } from "~/hooks/useLineLiff";
+import { useLineLiff } from "~/contexts/LineLiffContext";
 
 interface MainContentProps {
   brand: Brand;
@@ -14,7 +14,7 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
-  const { data : liff } = useLineLiff();
+  const { liff } = useLineLiff();
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
   const [selectedTab, setSelectedTab] = useState<
@@ -59,7 +59,7 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setSelectedTab(tab.id as any)}
+              onClick={() => setSelectedTab(tab.id as "all" | "popular")}
               className={`px-4 py-2 rounded-lg text-sm whitespace-nowrap font-medium ${
                 selectedTab === tab.id
                   ? "bg-primary text-white"

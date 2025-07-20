@@ -1,60 +1,16 @@
 import Header from "./_components/Header";
 import MainContent from "./_components/MainContent";
-import { useLiff } from "~/hooks/useLiff";
-import { ShouldRevalidateFunction, useLoaderData } from "@remix-run/react";
-import { json, MetaFunction } from "@remix-run/cloudflare";
-
+import { useOutletContext } from "@remix-run/react";
 import Tabs from "~/components/Tabs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";
-import { useLineProfile } from "~/hooks/useLineProfile";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
-import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import { useLineLiff } from "~/hooks/useLineLiff";
-
-export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const page = data?.page;
-  return [
-    { title: "My Vouchers" },
-    {
-      tagName: "link",
-      rel: "icon",
-      type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
-    },
-  ];
-};
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  currentParams,
-  nextParams,
-}) => {
-  return !!!_.isEqual(currentParams, nextParams);
-};
-
-export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { liffId, slug } = params;
-  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
-  return json({
-    page,
-  });
-};
+import { PageLiff } from "~/types/page";
+import { useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
-  // const { page } = useOutletContext<{ page: PageLiff }>();
-  const { page } = useLoaderData<typeof clientLoader>();
-  const { data: liff } = useLineLiff();
-  const { language } = useLiff({ liffId: page.liff_id as string });
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
-  const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "th";
-  // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
-  //   q: "",
-  //   status: "published",
-  // });
+  const { page, lang } = useOutletContext<{ page: PageLiff,lang: string }>();
+  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
   const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
@@ -69,7 +25,7 @@ const Route = () => {
   return (
     <div className="h-screen-safe bg-gray-50">
       <div className="bg-white">
-        {<Header language={lang} />}
+        <Header language={lang} />
         <Tabs
           language={lang}
           tabs={tabs}
@@ -79,8 +35,10 @@ const Route = () => {
         />
       </div>
 
-      {isMyVouchersLoading && isProfileLoading ? (
+      {isMyVouchersLoading || isProfileLoading ? (
         <VoucherCardShimmer />
+      ) : profileError ? (
+        <div className="text-red-500">{profileError.message}</div>
       ) : (
         <MainContent
           activeTab={activeTab}

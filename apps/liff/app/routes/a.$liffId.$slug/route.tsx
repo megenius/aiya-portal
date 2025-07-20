@@ -4,14 +4,12 @@ import {
   Outlet,
   ShouldRevalidateFunction,
   useLoaderData,
-  useNavigate,
 } from "@remix-run/react";
 import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import Loading from "~/components/Loading";
 import { getDirectusFileUrl } from "~/utils/files";
-import { useEffect } from "react";
-import { useLiff } from "~/hooks/useLiff";
+import { useLineLiff } from "~/contexts/LineLiffContext";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -43,16 +41,13 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
-  const { language, isLoggedIn, isInitialized } = useLiff({ liffId: page.liff_id ?? "" });
-  const lang = language.startsWith("th") ? "th" : "en"
-  const navigate = useNavigate();
+  const { isInitialized, language, isLoggedIn } = useLineLiff();
+  const lang = language.startsWith("th") ? "th" : "en";
 
-  // Redirect to login page if not logged in (client-side)
-  useEffect(() => {
-    if (isInitialized && !isLoggedIn) {
-      navigate(`/a/${page.liff_id}/${page.slug}/auth/login?dest=${encodeURIComponent(window.location.pathname)}`, { replace: true });
-    }
-  }, [isInitialized, isLoggedIn, navigate, page.liff_id, page.slug]);
+  if (!isInitialized || !isLoggedIn) {
+    return <Loading primaryColor={page?.bg_color as string} />;
+  }
+
   if (!page) {
     return <Loading />;
   }

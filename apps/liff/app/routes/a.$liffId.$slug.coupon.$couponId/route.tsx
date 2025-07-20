@@ -1,61 +1,28 @@
-import { ShouldRevalidateFunction, useLoaderData, useOutletContext } from "@remix-run/react";
-
-import { json, MetaFunction } from "@remix-run/cloudflare";
-
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { useOutletContext, useParams } from "@remix-run/react";
 import confetti from "canvas-confetti";
-import _ from "lodash";
 import { useState } from "react";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
-import { useLiff } from "~/hooks/useLiff";
-import { useLineLiff } from "~/hooks/useLineLiff";
-import { useLineProfile } from "~/hooks/useLineProfile";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
-import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import { fetchVoucher } from "~/services/vouchers";
 import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
 import Footer from "./_components/Footer";
 import FullyCollectedModal from "./_components/FullyCollectedModal";
 import Header from "./_components/Header";
 import MainContent from "./_components/MainContent";
 import RedeemModal from "./_components/RedeemModal";
-import LimitedTimePage from "./_components/LimitedTimePage";
+import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
-
-export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const coupon = data?.coupon;
-  return [
-    { title: coupon?.voucher_brand_id?.name || "Loading..." },
-  ];
-};
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  currentParams,
-  nextParams,
-}) => {
-  return !!!_.isEqual(currentParams, nextParams);
-};
-
-export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { couponId } = params;
-  const coupon = await fetchVoucher({ voucherId: couponId });
-  return json({
-    coupon,
-  });
-};
+import { useVoucher } from "~/hooks/vouchers/useVoucher";
+import { useLineLiff, useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
-  const { page } = useOutletContext<{ page: PageLiff }>();
-  const { coupon } = useLoaderData<typeof clientLoader>();
-  const { data: liff } = useLineLiff();
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
-  const { language } = useLiff({ liffId: page?.liff_id as string });
-  const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "th";
+  const { page,lang } = useOutletContext<{ page: PageLiff,lang: string }>();
+  const { couponId } = useParams();
+  const { data: coupon, isLoading: isCouponLoading } = useVoucher({ voucherId: couponId as string });
+  const { liff } = useLineLiff();
+  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
   const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser({
     userId: profile?.userId || "",
   });
@@ -65,11 +32,11 @@ const Route = () => {
     refetch: refetchCodeStats,
     isRefetching: isCodeStatsRefetching,
   } = useVoucherCodeStats({
-    voucherId: coupon.id ?? "",
+    voucherId: couponId as string,
   });
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
-  const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon.id);
+  const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
   const [isCollected, setIsCollected] = useState(Boolean(myCoupon));
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
@@ -77,7 +44,7 @@ const Route = () => {
   const [isRedeemedModalOpen, setIsRedeemedModalOpen] = useState(false);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [state, setState] = useState("redeem");
+  const [state, setState] = useState<"redeem" | "collected">("redeem");
 
   const buttonText = {
     th: {
@@ -133,7 +100,6 @@ const Route = () => {
       setIsRedeemedModalOpen(true);
       return;
     }
-    console.log(3);
 
     if (
       pageState === "landing" &&
@@ -145,7 +111,6 @@ const Route = () => {
     setIsSubmitting(true);
     const collectVoucherData: CollectVoucher = {
       voucher: coupon?.id as string,
-      collected_by: profile?.userId as string,
       channel: page?.channel as string,
     };
 
@@ -192,12 +157,14 @@ const Route = () => {
   };
 
   if (
-    isProfileLoading &&
-    isMyCouponsLoading &&
-    isCodeStatsLoading &&
+    isProfileLoading || profileError ||
+    isCouponLoading ||
+    isMyCouponsLoading ||
+    isCodeStatsLoading ||
     isCodeStatsRefetching
   ) {
-    return <Loading />;
+    if (profileError) return <div className="text-red-500">{profileError.message}</div>;
+    return <Loading primaryColor={page?.bg_color as string} />;
   }
 
   return (

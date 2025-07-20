@@ -1,65 +1,31 @@
 import {
-  json,
-  MetaFunction,
-  ShouldRevalidateFunction,
-  useLoaderData,
+  useOutletContext,
   useSearchParams,
 } from "@remix-run/react";
-import { useLiff } from "~/hooks/useLiff";
 import Loading from "~/components/Loading";
-import { useLineProfile } from "~/hooks/useLineProfile";
 import MainContent from "./_components/MainContent";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
-import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import { useEffect } from "react";
-
-export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const page = data?.page;
-  return [
-    { title: page?.name || "Loading..." },
-    {
-      tagName: "link",
-      rel: "icon",
-      type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
-    },
-  ];
-};
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  currentParams,
-  nextParams,
-}) => {
-  return !!!_.isEqual(currentParams, nextParams);
-};
-
-export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { liffId, slug } = params;
-  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
-  return json({
-    page,
-  });
-};
+import { PageLiff } from "~/types/page";
+import { useLineLiff, useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
-  const { page } = useLoaderData<typeof clientLoader>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id ?? "" });
-  const isThaiLanguage = language.startsWith("th");
-  // const lang = isThaiLanguage ? "th" : "en";
-  const lang = "th";
+  const { page, lang } = useOutletContext<{ page: PageLiff,lang: string }>();
+  const { isLoggedIn } = useLineLiff();
   const [search] = useSearchParams()
   const dest = search.get("dest") || "";
   const referrerId = search.get("ref") || undefined; // เพิ่มการดึงค่า referrer จาก URL
 
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
 
-  if (!isLoggedIn) {
-    return <Loading />;
+  if (!isLoggedIn || isProfileLoading) {
+    return <Loading primaryColor={page?.bg_color as string} />;
+  }
+
+  if (profileError) {
+    return <div className="text-red-500">{profileError.message}</div>;
   }
 
   if (!profile) {
-    return <Loading />
+    return <Loading primaryColor={page?.bg_color as string} />
   }
 
   return (

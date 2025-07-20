@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { DiscountTier, Voucher, VoucherStats } from "~/types/app";
+import { DiscountTier, Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
-import Button from "./Button";
+import Button from "../Button";
 import LimitedTimeProgressBar from "./LimitedTimeProgressBar";
+import LimitedTimeTimer from "./LimitedTimeTimer";
 
 interface LimitedTimePageProps {
   voucher: Voucher;
@@ -20,6 +21,13 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   );
   const [timeLeft, setTimeLeft] = useState(0);
   const [progress, setProgress] = useState(0);
+  const messageFromApi = voucher.metadata.title[language]; // หรือชื่อ field ที่ได้จาก API
+
+  // แทนที่ ${value} ด้วย activeTier.value
+  const displayMessage = messageFromApi.replace(
+    /\$\{value\}/g,
+    activeTier?.value ? `${activeTier.value}` : ""
+  );
 
   useEffect(() => {
     if (
@@ -112,12 +120,12 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
   const textButton = {
     th: {
-      collect: "เก็บคูปอง",
+      collect: `รับคูปอง ${activeTier?.value}% เลย`,
       redeem: "ใช้คูปอง",
       expired: "หมดอายุแล้ว",
     },
     en: {
-      collect: "Collect",
+      collect: `Collect ${activeTier?.value}%`,
       redeem: "Redeem",
       expired: "Expired",
     },
@@ -137,53 +145,58 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   };
   return (
     <>
-      {/* <div
-        className="h-full relative"
-        style={{
-          backgroundImage: `url(${getDirectusFileUrl(voucher.banner as string)})`,
-          backgroundSize: "cover",
-        }}
-      >
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <Button
-            text={textButton[language].collect}
-            className="py-4"
-            primaryColor={primaryColor}
-          />
-          <p className="text-center text-gray-600 mt-2 text-sm">
-            {descriptionButton[language].collect}
-          </p>
-        </div>
-      </div> */}
-
-      <div
-                className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden"
-              >
-                <img
-                  src={
-                    getDirectusFileUrl(voucher.cover as string) ||
-                    "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=450&fit=crop"
-                  }
-                  alt={voucher.name || "Promotion"}
-                  className="w-full h-full object-cover"
-                />
-                <div className="p-4 w-full flex flex-col items-center justify-center space-y-4">
-        <h1 className="text-4xl font-bold">
-          {voucher.metadata.title[language]}
-        </h1>
-        <h4>{activeTier?.value}%</h4>
-        <LimitedTimeProgressBar
-          percentage={progress}
-          timeLeft={timeLeft}
-          primaryColor={primaryColor}
-          language={language}
+      <div className="relative w-full h-full">
+        <img
+          src={
+            getDirectusFileUrl(voucher.banner as string) ||
+            "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=450&fit=crop"
+          }
+          alt={voucher.name || "Promotion"}
+          className="w-full h-full object-cover"
         />
-      </div>
-              </div>
+        <div className="absolute pt-[50%] p-4 inset-0 flex justify-center items-center">
+          <div className="w-full h-full flex flex-col gap-8">
+            <div className="flex flex-col items-center gap-10">
+              <h1 className="text-white text-2xl font-bold whitespace-pre-line text-center">
+                {displayMessage}
+              </h1>
 
-      
+              <LimitedTimeTimer time={formatTime(timeLeft)} />
+            </div>
+            <div className="px-3 flex flex-col gap-2 justify-center items-center">
+              <Button className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]" text={textButton[language].collect} />
+              <h5 className="text-white text-sm sm:text-base text-center">{descriptionButton[language].collect}</h5>
+            </div>
+          </div>
+        </div>
+        {timeLeft <= 0 && (
+          <div className="absolute inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center pointer-events-auto">
+            <div
+              className="rotate-[-15deg] flex flex-col items-center justify-center gap-2"
+            >
+              <div className="w-full h-0.5 bg-white rounded-lg"></div>
+              <div className="px-5">
+                <span className="text-white text-lg sm:text-xl font-extrabold text-center whitespace-pre-line">
+                  ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!
+                </span>
+              </div>
+              <div className="w-full h-0.5 bg-white rounded-lg"></div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
+
+  function formatTime(totalSeconds: number) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    if (hours > 0) {
+      return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
 };
 
 export default LimitedTimePage;

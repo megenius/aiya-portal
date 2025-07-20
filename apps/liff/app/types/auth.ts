@@ -1,5 +1,6 @@
 export type SignInCredential = {
-  id: string;
+  liffId: string;
+  IDToken: string;
 };
 
 export interface AuthState {

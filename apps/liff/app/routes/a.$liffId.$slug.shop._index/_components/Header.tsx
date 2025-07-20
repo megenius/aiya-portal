@@ -1,12 +1,12 @@
 import { useNavigate } from "@remix-run/react";
 import React, { useState, useEffect, useCallback } from "react";
-import { useLineLiff } from "~/hooks/useLineLiff";
 import { PageLiff } from "~/types/page";
 import QRCode from '~/components/QRCode';
 import PointButton from "./PointButton";
 import { Ticket } from "lucide-react";
 import { VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
+import { useLineLiff } from "~/contexts/LineLiffContext";
 
 export interface Profile {
   userId: string;
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
   const [copied, setCopied] = useState(false);
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
-  const { data: liff } = useLineLiff();
+  const { liff } = useLineLiff();
   const primaryColor = page.bg_color || "#1DB446";
   const showInvite = page.metadata.layout?.showInvite ?? true;
 
