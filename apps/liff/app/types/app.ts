@@ -59,6 +59,9 @@ interface VoucherMetadata {
   discount_tiers?: DiscountTier[];
 }
 
+export type VoucherView = components["schemas"]["ItemsVoucherViews"];
+  
+
 interface TierCondition {
   duration_before_claim_seconds?: number;
   default?: boolean;

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { DiscountTier, Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "../Button";
-import LimitedTimeProgressBar from "./LimitedTimeProgressBar";
 import LimitedTimeTimer from "./LimitedTimeTimer";
+import { useNavigate, useParams } from "@remix-run/react";
+import { ArrowLeft } from "lucide-react";
+import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
+import Loading from "~/components/Loading";
 
 interface LimitedTimePageProps {
   voucher: Voucher;
@@ -21,16 +24,36 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   );
   const [timeLeft, setTimeLeft] = useState(0);
   const [progress, setProgress] = useState(0);
-  const messageFromApi = voucher.metadata.title[language]; // หรือชื่อ field ที่ได้จาก API
+  const messageFromApi = voucher.metadata.title[language];
+  const { liffId, slug } = useParams();
+  const navigate = useNavigate();
+  const { data: voucherView, isLoading: isVoucherViewLoading } = useVoucherView(
+    {
+      voucherId: voucher.id,
+    }
+  );
 
   // แทนที่ ${value} ด้วย activeTier.value
   const displayMessage = messageFromApi.replace(
     /\$\{value\}/g,
-    activeTier?.value ? `${activeTier.value}` : ""
+    activeTier?.value ??
+      voucher.metadata.discount_tiers?.[
+        voucher.metadata.discount_tiers.length - 1
+      ].value
   );
+
+  const navigateToBack = () => {
+    const idx = window.history.state?.idx ?? window.history.length;
+    if (idx > 0) {
+      navigate(-1);
+    } else {
+      navigate(`/a/${liffId}/${slug}/shop`);
+    }
+  };
 
   useEffect(() => {
     if (
+      isVoucherViewLoading ||
       !voucher?.metadata?.discount_tiers ||
       voucher.metadata.discount_tiers.length === 0
     ) {
@@ -38,10 +61,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     }
 
     const calculateCurrentState = () => {
-      // ใช้เวลาเริ่มต้นของคูปองเป็นจุดตั้งต้น
+      // ใช้ voucherView.date_created เป็นจุดตั้งต้น
       let cumulativeStartTime = new Date(
-        voucher.start_date as string
-      ).getTime(); // <<< เวลาเริ่มต้นแบบทบต้น
+        voucherView?.date_created as string
+      ).getTime(); // <<< เวลาเริ่มต้นแบบทบต้นใหม่
       const now = new Date().getTime();
 
       let currentTier: DiscountTier | undefined = undefined;
@@ -116,16 +139,26 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     const timerId = setInterval(calculateCurrentState, 1000);
 
     return () => clearInterval(timerId);
-  }, [voucher]);
+  }, [voucher, voucherView, isVoucherViewLoading]);
 
   const textButton = {
     th: {
-      collect: `รับคูปอง ${activeTier?.value}% เลย`,
+      collect: `รับคูปอง ${
+        activeTier?.value ??
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].value
+      }% เลย`,
       redeem: "ใช้คูปอง",
       expired: "หมดอายุแล้ว",
     },
     en: {
-      collect: `Collect ${activeTier?.value}%`,
+      collect: `Collect ${
+        activeTier?.value ??
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].value
+      }%`,
       redeem: "Redeem",
       expired: "Expired",
     },
@@ -143,9 +176,35 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         "After clicking the redeem button, the voucher will expire in 15 minutes. Please show the voucher when ordering.",
     },
   };
+
+  if (isVoucherViewLoading) {
+    return <Loading primaryColor={primaryColor} />;
+  }
+
   return (
     <>
+      {timeLeft <= 0 && !activeTier && (
+        <div className="absolute inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center pointer-events-auto">
+          <div className="rotate-[-15deg] flex flex-col items-center justify-center gap-2">
+            <div className="w-full h-0.5 bg-white rounded-lg"></div>
+            <div className="px-5">
+              <span className="text-white text-lg sm:text-xl font-extrabold text-center whitespace-pre-line">
+                ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!
+              </span>
+            </div>
+            <div className="w-full h-0.5 bg-white rounded-lg"></div>
+          </div>
+        </div>
+      )}
       <div className="relative w-full h-full">
+        {/* ปุ่มย้อนกลับ */}
+        <button
+          className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-transparent text-white font-light focus:outline-none"
+          onClick={navigateToBack}
+        >
+          <ArrowLeft className="h-6 w-6" />
+          <span className="sm:text-lg">กลับหน้าหลัก</span>
+        </button>
         <img
           src={
             getDirectusFileUrl(voucher.banner as string) ||
@@ -164,26 +223,16 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <LimitedTimeTimer time={formatTime(timeLeft)} />
             </div>
             <div className="px-3 flex flex-col gap-2 justify-center items-center">
-              <Button className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]" text={textButton[language].collect} />
-              <h5 className="text-white text-sm sm:text-base text-center">{descriptionButton[language].collect}</h5>
+              <Button
+                className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]"
+                text={textButton[language].collect}
+              />
+              <h5 className="text-white text-sm sm:text-base text-center">
+                {descriptionButton[language].collect}
+              </h5>
             </div>
           </div>
         </div>
-        {timeLeft <= 0 && (
-          <div className="absolute inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center pointer-events-auto">
-            <div
-              className="rotate-[-15deg] flex flex-col items-center justify-center gap-2"
-            >
-              <div className="w-full h-0.5 bg-white rounded-lg"></div>
-              <div className="px-5">
-                <span className="text-white text-lg sm:text-xl font-extrabold text-center whitespace-pre-line">
-                  ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!
-                </span>
-              </div>
-              <div className="w-full h-0.5 bg-white rounded-lg"></div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

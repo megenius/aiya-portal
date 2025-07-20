@@ -5,6 +5,7 @@ const voucherRoutes = new Hono();
 
 voucherRoutes.get("/", ...VoucherHandler.getVouchers);
 voucherRoutes.get("/voucher-user", ...VoucherHandler.getVouchersByUser);
+voucherRoutes.post("/voucher-user/edit", ...VoucherHandler.updateVoucherUser);
 voucherRoutes.get("/voucher-codes", ...VoucherHandler.getVoucherCodes);
 voucherRoutes.get("/voucher-codes/stats", ...VoucherHandler.getStatVoucherCode);
 voucherRoutes.get("/voucher-users/stats/:collected_by", ...VoucherHandler.getStatVoucherUser);
@@ -16,10 +17,10 @@ voucherRoutes.get("/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.delete("/vouchers/:id", ...VoucherHandler.deleteVoucher);
 voucherRoutes.post("/collect", ...VoucherHandler.collectVoucher);
 voucherRoutes.post("/voucher-code", ...VoucherHandler.createVoucherCode);
-voucherRoutes.post("/voucher-user/edit", ...VoucherHandler.updateVoucherUser);
 voucherRoutes.post("/redeem", ...VoucherHandler.useVoucher);
 voucherRoutes.patch("/voucher-codes", ...VoucherHandler.updateVoucherCode);
+
 // voucher_views
-voucherRoutes.post("/voucher-views", ...VoucherHandler.createVoucherViews);
+voucherRoutes.get("/voucher-views/:voucher_id", ...VoucherHandler.getOrCreateVoucherViewByUser);
 
 export { voucherRoutes };

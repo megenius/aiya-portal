@@ -6,14 +6,10 @@ import { useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
 import { PageLiff } from "~/types/page";
-import { useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff,lang: string }>();
-  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
-  const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser({
-    userId: profile?.userId || "",
-  });
+  const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser();
   const [activeTab, setActiveTab] = useState("available");
 
   const tabs = [
@@ -35,10 +31,8 @@ const Route = () => {
         />
       </div>
 
-      {isMyVouchersLoading || isProfileLoading ? (
+      {isMyVouchersLoading ? (
         <VoucherCardShimmer />
-      ) : profileError ? (
-        <div className="text-red-500">{profileError.message}</div>
       ) : (
         <MainContent
           activeTab={activeTab}

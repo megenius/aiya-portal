@@ -192,33 +192,33 @@ export const getVouchersByUser = factory.createHandlers(
         },
       })
     );
-    
-    const vouchersUserCode = await Promise.all(
-      vouchersUsers.map(async (voucherUser: any) => {        
-        const voucherData = await directus.request(
-          readItems("vouchers_codes",  {
-            fields: ["*", { voucher: ["*",{voucher_brand_id: ["*"]}] }],
-            filter: {
-              code: {
-                _eq: voucherUser.code,
-              },
-            },
-            limit: 1,
-          })
-        );
-        voucherUser = _.omit(voucherUser, ["code"]);
 
-        return {
-          ...voucherUser,
-          code: voucherData.length>0 ? voucherData[0] : null,
-        };
+    // 1. รวม code ทั้งหมดที่ user มี
+    const codes = vouchersUsers.map((vu: any) => vu.code);
+
+    // 2. ดึง vouchers_codes ทีเดียวด้วย filter _in
+    const vouchersCodes = await directus.request(
+      readItems("vouchers_codes", {
+        fields: ["*", { voucher: ["id","name","banner","cover","metadata","start_date","end_date", { voucher_brand_id: ["*"] }] }],
+        filter: { code: { _in: codes } },
       })
     );
+
+    // 3. ทำเป็น map เพื่อ lookup ง่าย
+    const codeMap = _.keyBy(vouchersCodes, "code");
+
+    // 4. รวมข้อมูลกลับไปที่ vouchersUsers
+    const vouchersUserCode = vouchersUsers.map((voucherUser: any) => {
+      const { code, ...rest } = voucherUser;
+      return {
+        ...rest,
+        code: codeMap[code] || null,
+      };
+    });
 
     return c.json(vouchersUserCode);
   }
 );
-
 // updateVoucherUser
 export const updateVoucherUser = factory.createHandlers(
   logger(),
@@ -472,33 +472,36 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
 );
 
 //voucher_views
-export const getVoucherViews = factory.createHandlers(
+export const getOrCreateVoucherViewByUser = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
+    const { id } = c.get("jwtPayload");
+    const { voucher_id } = c.req.param();
     const directus = c.get("directAdmin");
     const voucherViews = await directus.request(
       readItems("voucher_views", {
         filter: {
           voucher_id: {
-            _eq: c.req.param().voucher_id,
+            _eq: voucher_id,
+          },
+          user_id: {
+            _eq: id,
           },
         },
+        limit: 1,
       })
     );
-    return c.json(voucherViews);
-  }
-);
+    if (!voucherViews.length) {
+      const voucherView = await directus.request(
+        createItem("voucher_views", {
+          voucher_id: voucher_id,
+          user_id: id,
+        })
+      );
+      return c.json(voucherView);
+    }
 
-export const createVoucherViews = factory.createHandlers(
-  logger(),
-  directusMiddleware,
-  async (c) => {
-    const directus = c.get("directAdmin");
-    const body = await c.req.json();
-    const voucherViews = await directus.request(
-      createItems("voucher_views", body)
-    );
-    return c.json(voucherViews);
+    return c.json(voucherViews[0]);
   }
 );

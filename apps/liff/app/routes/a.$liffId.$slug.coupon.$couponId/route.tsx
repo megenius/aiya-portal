@@ -15,17 +15,14 @@ import RedeemModal from "./_components/RedeemModal";
 import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
 import { useVoucher } from "~/hooks/vouchers/useVoucher";
-import { useLineLiff, useLineProfile } from "~/contexts/LineLiffContext";
+import { useLineLiff } from "~/contexts/LineLiffContext";
 
 const Route = () => {
   const { page,lang } = useOutletContext<{ page: PageLiff,lang: string }>();
   const { couponId } = useParams();
   const { data: coupon, isLoading: isCouponLoading } = useVoucher({ voucherId: couponId as string });
   const { liff } = useLineLiff();
-  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
-  const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser({
-    userId: profile?.userId || "",
-  });
+  const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser();
   const {
     data: codeStats,
     isLoading: isCodeStatsLoading,
@@ -157,13 +154,11 @@ const Route = () => {
   };
 
   if (
-    isProfileLoading || profileError ||
     isCouponLoading ||
     isMyCouponsLoading ||
     isCodeStatsLoading ||
     isCodeStatsRefetching
   ) {
-    if (profileError) return <div className="text-red-500">{profileError.message}</div>;
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
