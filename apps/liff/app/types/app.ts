@@ -96,7 +96,7 @@ export interface language {
 }
 
 export interface CollectVoucher {
-  voucher: string;
+  voucher_id: string;
   channel: string;
 }
 
