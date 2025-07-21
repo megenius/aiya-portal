@@ -45,7 +45,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const [pageState, setPageState] = useState("redeem");
   const title = voucher.metadata.title[language].replace(
     /\$\{value\}/g,
-    `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`
+    getVoucherValueWithType(voucherUser)
   );
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
@@ -78,8 +78,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: "Congratulations 🎉",
   };
   const collectedSuccessDescription = {
-    th: `คุณได้รับส่วนลด ${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
-    en: `You have received a discount of ${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}\nYou can use it at MBK Center, Floor 2`,
+    th: `คุณได้รับส่วนลด ${getVoucherValueWithType(voucherUser)}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
+    en: `You have received a discount of ${getVoucherValueWithType(voucherUser)}\nYou can use it at MBK Center, Floor 2`,
   };
   const collectedDescription = {
     th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
@@ -607,6 +607,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     </div>
   );
 };
+
+function getVoucherValueWithType(voucherUser: VoucherUser) {
+  return `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`;
+}
 
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);

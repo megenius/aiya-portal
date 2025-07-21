@@ -164,7 +164,7 @@ const Route = () => {
               color={coupon.voucher_brand_id.primaryColor ?? ""}
               isIsClient={liff?.isInClient() ?? false}
             />
-            {codeStats && myCoupon && (
+            {codeStats && (
               <MainContent
                 language={lang}
                 voucher={coupon}

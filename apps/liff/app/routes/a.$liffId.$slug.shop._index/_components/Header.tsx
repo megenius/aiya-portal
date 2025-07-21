@@ -33,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
   const { liff } = useLineLiff();
   const primaryColor = page.bg_color || "#1DB446";
   const showInvite = page.metadata.layout?.showInvite ?? true;
+  const couponCount = (voucherUserStats?.collected ?? 0) + (voucherUserStats?.pending_confirmation ?? 0);
 
   useEffect(() => {
     if (userProfileId && page) {
@@ -222,7 +223,6 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
             ชวน
           </button>}
 
-          {/* Coupon Count Button */}
           <button
             className="flex items-center gap-2 bg-primary rounded-full px-3 py-1.5 text-white text-lg font-medium shadow-none border-none focus:outline-none"
             style={{ backgroundColor: primaryColor }}
@@ -230,7 +230,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
             onClick={() => navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`)}
           >
             <Ticket />
-            <span className="text-sm">{voucherUserStats?.collected} คูปอง</span>
+            <span className="text-sm">{couponCount} คูปอง</span>
           </button>
 
           <PointButton points={0} primaryColor={primaryColor} onClick={navigateToReward} showPoint={page?.metadata?.layout?.showPoint} />

@@ -61,8 +61,15 @@ export const collectVoucher = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     try {
-      let { utm_source, utm_medium, utm_campaign, voucher_id, channel, discount_value, discount_type } =
-        await c.req.json();
+      let {
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        voucher_id,
+        channel,
+        discount_value,
+        discount_type,
+      } = await c.req.json();
       const { id } = c.get("jwtPayload");
       const directus = c.get("directAdmin");
 
@@ -321,6 +328,7 @@ export const getStatVoucherCode = factory.createHandlers(
     const allStatuses = [
       "available",
       "collected",
+      "pending_confirmation",
       "expired",
       "used",
       "reserved",
@@ -354,14 +362,14 @@ export const getStatVoucherUser = factory.createHandlers(
             _eq: id,
           },
         },
-        fields: ["code", "expired_date"],
+        fields: ["code", "expired_date", "used_date"],
       })
     );
 
     const currentDate = new Date();
-    const voucherCodes = await Promise.all(
+    const voucherCodesRaw = await Promise.all(
       vouchersUsers.map(async (voucherUser: any) => {
-        const voucherCode = await directus.request(
+        const voucherCodeArr = await directus.request(
           readItems("vouchers_codes", {
             filter: {
               code: {
@@ -371,21 +379,36 @@ export const getStatVoucherUser = factory.createHandlers(
             limit: 1,
           })
         );
+        const voucherCode = voucherCodeArr[0];
 
-        // If expired_date is in the past, set status to 'expired'
+        const usedDate = new Date(voucherUser.used_date);
         const expiredDate = new Date(voucherUser.expired_date);
         const isExpired = expiredDate < currentDate;
 
+        let finalStatus = "available";
+
+        if (voucherCode.code_status === "pending_confirmation") {
+          const diffMs = currentDate.getTime() - usedDate.getTime();
+          const diffMin = diffMs / (1000 * 60);
+          if (diffMin > 15) {
+            finalStatus = "expired";
+          } else {
+            finalStatus = "pending_confirmation";
+          }
+        } else if (isExpired) {
+          finalStatus = "expired";
+        } else if (voucherCode?.code_status) {
+          finalStatus = voucherCode.code_status;
+        }
+
         return {
           ...voucherUser,
-          code_status: isExpired
-            ? "expired"
-            : voucherCode[0]?.code_status || "available",
+          code_status: finalStatus,
         };
       })
     );
 
-    const grouped = _.groupBy(voucherCodes, "code_status");
+    const grouped = _.groupBy(voucherCodesRaw, "code_status");
     const allStatuses = [
       "available",
       "pending_confirmation",
@@ -400,7 +423,7 @@ export const getStatVoucherUser = factory.createHandlers(
       stats[status] = users.length;
     });
 
-    const total = voucherCodes.length;
+    const total = voucherCodesRaw.length;
     return c.json({ ...stats, total });
   }
 );

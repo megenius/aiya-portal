@@ -8,7 +8,7 @@ import VoucherProgressBar from "./VoucherProgressBar";
 
 interface MainContentProps {
   voucher: Voucher;
-  voucherUser: VoucherUser;
+  voucherUser?: VoucherUser;
   codeStats: VoucherStats;
   language: string;
   pageState: string;
@@ -27,10 +27,12 @@ const MainContent: React.FC<MainContentProps> = ({
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
-  const title = voucher.metadata.title[language].replace(
-    /\$\{value\}/g,
-    `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`
-  );
+  const title = voucherUser
+    ? voucher.metadata.title[language].replace(
+        /\$\{value\}/g,
+        getVoucherValueWithType(voucherUser)
+      )
+    : voucher.metadata.title[language];
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
     "\n"
@@ -207,6 +209,11 @@ const MainContent: React.FC<MainContentProps> = ({
     </div>
   );
 };
+
+function getVoucherValueWithType(voucherUser: VoucherUser) {
+  if (!voucherUser.discount_value && !voucherUser.discount_type) return "";
+  return `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`;
+}
 
 function getSecondsLeft(expiredDate?: string): number {
   if (!expiredDate) return 0;
