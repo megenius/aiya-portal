@@ -9,6 +9,7 @@ import { profileRoutes } from "./routes/profile";
 import { authMiddleware } from "./middlewares/auth.middleware";
 import { authRoutes } from "./routes/auth.route";
 import { meRoutes } from "./routes/me.route";
+import { fileRoutes } from "./routes/file";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -18,6 +19,7 @@ const app = new Hono<Env>()
   .use("*", async (c, next) => {
     if (
       !c.req.path.startsWith("/api/auth") &&
+      !c.req.path.startsWith("/api/files") &&
       !c.req.path.startsWith("/api/profiles") &&
       !c.req.path.startsWith("/api/liff")
     ) {
@@ -32,6 +34,7 @@ const app = new Hono<Env>()
   .route("/lead-submissions", leadSubmissionsRoutes)
   .route("/point-transactions", pointTransactionsRouter) // Added route for point transactions
   .route("/profiles", profileRoutes)
+  .route("/files", fileRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

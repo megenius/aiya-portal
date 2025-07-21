@@ -1,1 +1,1 @@
-bun dev --filter=liff --filter=liff-api --filter=portal-api
+bun dev --filter=liff --filter=liff-api
