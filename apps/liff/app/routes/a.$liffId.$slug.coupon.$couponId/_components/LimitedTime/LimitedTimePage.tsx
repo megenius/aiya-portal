@@ -190,15 +190,11 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   };
   const descriptionButton = {
     th: {
-      collect: "หลังกดรับคูปองมีอายุ 5 ชั่วโมง",
-      redeem:
-        "เมื่อกดใช้แล้วคูปองมีอายุ 15 นาที\nโปรดแสดงสิทธิ์ตอนเปิดโต๊ะหน้าร้าน",
+      collect: "หลังกดรับคูปองมีอายุ 2 ชั่วโมง",
     },
     en: {
       collect:
-        "After clicking the collect button, the voucher will expire in 5 hours.",
-      redeem:
-        "After clicking the redeem button, the voucher will expire in 15 minutes. Please show the voucher when ordering.",
+        "After clicking the collect button, the voucher will expire in 2 hours.",
     },
   };
 
