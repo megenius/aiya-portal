@@ -40,10 +40,19 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   // แทนที่ ${value} ด้วย activeTier.value
   const displayMessage = messageFromApi.replace(
     /\$\{value\}/g,
-    activeTier?.value ??
-      voucher.metadata.discount_tiers?.[
-        voucher.metadata.discount_tiers.length - 1
-      ].value
+    activeTier?.value
+      ? `${activeTier.value}${activeTier.type === "percentage" ? "%" : ""}`
+      : `${
+          voucher.metadata.discount_tiers?.[
+            voucher.metadata.discount_tiers.length - 1
+          ].value
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      }`
   );
 
   const navigateToBack = () => {
@@ -152,7 +161,13 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
         ].value
-      }% เลย`,
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      } เลย`,
       redeem: "ใช้คูปอง",
       expired: "หมดอายุแล้ว",
     },
@@ -162,7 +177,13 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
         ].value
-      }%`,
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      }`,
       redeem: "Redeem",
       expired: "Expired",
     },
@@ -236,7 +257,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                     : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
                 }`}
               >
-                {isSubmitting ? "กำลังรับคูปอง..." : textButton[language].collect}
+                {isSubmitting
+                  ? "กำลังรับคูปอง..."
+                  : textButton[language].collect}
               </button>
               <h5 className="text-white text-sm sm:text-base text-center whitespace-pre-line">
                 {descriptionButton[language].collect}
