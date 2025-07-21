@@ -11,11 +11,12 @@ interface CouponCardProps {
   endDate?: string;
   language: string;
   width?: number | "full";
+  height?: number | "full";
 }
 
 import { formatDate } from "~/utils/helpers";
 
-const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, description, endDate, language, width = "full" }) => {
+const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, description, endDate, language, width = "full", height = "full" }) => {
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
 
@@ -23,11 +24,11 @@ const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, de
     navigate(`/a/${liffId}/${slug}/coupon/${couponId}`);
   return (
     <button onClick={() => navigateToCollectCoupon()} className={`bg-white flex flex-col shrink-0 ${width === "full" ? "w-full" : `w-[${width}px]`}`}>
-      <div className="aspect-square relative">
+      <div className={`aspect-square relative ${height === "full" ? "h-full" : `h-[${height}px]`}`}>
         <img
           src={getDirectusFileUrl(cover) ?? ""}
           alt={title ?? ""}
-          className={`${width === "full" ? "w-full" : `w-[${width}px]`} h-full object-cover rounded-2xl`}
+          className={`w-full ${height === "full" ? "h-full" : `h-[${height}px]`} object-cover rounded-2xl`}
         />
         {/* Gradient Overlay */}
         <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-black/60 via-black/15 to-transparent rounded-b-2xl" />

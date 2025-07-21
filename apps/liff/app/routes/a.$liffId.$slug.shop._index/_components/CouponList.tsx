@@ -37,6 +37,7 @@ const CouponList: React.FC<CouponListProps> = ({
             endDate={coupon.end_date as string}
             language={language}
             width={32}
+            height={32}
           />
         ))}
       </div>
