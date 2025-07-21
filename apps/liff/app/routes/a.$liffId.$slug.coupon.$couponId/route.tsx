@@ -43,26 +43,7 @@ const Route = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState<"redeem" | "collected">("redeem");
 
-  const buttonText = {
-    th: {
-      instant: "เก็บคูปอง",
-      form: "ลงทะเบียน",
-      collected: "ใช้คูปอง",
-      pending_confirmation: "แตะเพื่อใช้",
-      used: "ใช้แล้ว",
-      expired: "หมดอายุแล้ว",
-      fully_collected: "หมดแล้ว",
-    },
-    en: {
-      instant: "Collect",
-      form: "Register",
-      collected: "Redeem",
-      pending_confirmation: "Tap to Use",
-      used: "Redeemed",
-      expired: "Expired",
-      fully_collected: "Fully Collected",
-    },
-  };
+  
   const status = myCoupon
     ? (myCoupon.code.code_status ?? "collected")
     : codeStats?.available === 0
@@ -80,6 +61,7 @@ const Route = () => {
     const now = new Date().getTime();
     timeLeft = Math.floor((expiryTime - now) / 1000);
   }
+  
 
   const handleSubmit = async () => {
     if (
@@ -165,11 +147,12 @@ const Route = () => {
   return (
     coupon && (
       <div className="h-screen-safe flex flex-col overflow-hidden">
-        {coupon.metadata.redemptionType === "limited_time" ? (
+        {coupon.metadata.redemptionType === "limited_time" && status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
             language={lang}
             primaryColor={page.bg_color ?? ""}
+            onSubmit={handleSubmit}
           />
         ) : (
           <>
@@ -197,13 +180,13 @@ const Route = () => {
             )}
             <Footer
               color={coupon.voucher_brand_id.primaryColor ?? ""}
-              buttonText={
+              lang={lang}
+              status={
                 isSubmitting
-                  ? "Collecting"
-                  : isExpired ||
-                      (status === "pending_confirmation" && timeLeft <= 0)
-                    ? buttonText[lang]["expired"]
-                    : buttonText[lang][status]
+                  ? "submitting"
+                  : isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+                  ? "expired"
+                  : status
               }
               onClick={handleSubmit}
               disabled={

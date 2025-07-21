@@ -12,12 +12,14 @@ interface LimitedTimePageProps {
   voucher: Voucher;
   language: string;
   primaryColor: string;
+  onSubmit: () => void;
 }
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
   language,
   primaryColor,
+  onSubmit,
 }) => {
   const [activeTier, setActiveTier] = useState<DiscountTier | undefined>(
     undefined
@@ -226,6 +228,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <Button
                 className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]"
                 text={textButton[language].collect}
+                onClick={onSubmit}
               />
               <h5 className="text-white text-sm sm:text-base text-center">
                 {descriptionButton[language].collect}

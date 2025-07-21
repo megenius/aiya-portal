@@ -2,16 +2,41 @@ import React from "react";
 
 interface FooterProps {
   onClick: () => void;
-  buttonText?: string;
   color?: string;
   disabled?: boolean;
+  lang?: "th" | "en";
+  status?: string;
 }
+
+const buttonTextMap = {
+  th: {
+    instant: "เก็บคูปอง",
+    form: "ลงทะเบียน",
+    collected: "ใช้คูปอง",
+    pending_confirmation: "แตะเพื่อใช้",
+    used: "ใช้แล้ว",
+    expired: "หมดอายุแล้ว",
+    fully_collected: "หมดแล้ว",
+    submitting: "กำลังรับคูปอง...",
+  },
+  en: {
+    instant: "Collect",
+    form: "Register",
+    collected: "Redeem",
+    pending_confirmation: "Tap to Use",
+    used: "Redeemed",
+    expired: "Expired",
+    fully_collected: "Fully Collected",
+    submitting: "Collecting...",
+  },
+};
 
 const Footer: React.FC<FooterProps> = ({
   onClick = () => {},
-  buttonText = "เก็บคูปอง",
   color,
   disabled = false,
+  lang = "th",
+  status = "instant",
 }) => {
   return (
     <div className="px-4 py-2 bg-white w-full border-t bottom-0">
@@ -28,10 +53,14 @@ const Footer: React.FC<FooterProps> = ({
           cursor: disabled ? "not-allowed" : "pointer",
         }}
       >
-        {buttonText}
+        {getButtonText(lang, status)}
       </button>
     </div>
   );
+
+  function getButtonText(lang: "th" | "en" = "th", status: string = "instant") {
+    return buttonTextMap[lang]?.[status] ?? buttonTextMap[lang]?.instant ?? "";
+  }
 };
 
 export default Footer;
