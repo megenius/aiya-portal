@@ -12,6 +12,7 @@ interface LimitedTimePageProps {
   voucher: Voucher;
   language: string;
   primaryColor: string;
+  isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
 }
 
@@ -19,6 +20,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
   language,
   primaryColor,
+  isSubmitting,
   onSubmit,
 }) => {
   const [activeTier, setActiveTier] = useState<DiscountTier | undefined>(
@@ -225,11 +227,17 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <LimitedTimeTimer time={formatTime(timeLeft)} />
             </div>
             <div className="px-3 flex flex-col gap-2 justify-center items-center">
-              <Button
-                className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]"
-                text={textButton[language].collect}
+              <button
                 onClick={() => onSubmit(activeTier)}
-              />
+                disabled={isSubmitting}
+                className={`w-full py-4 text-lg sm:text-2xl rounded-xl border-0 transition ${
+                  isSubmitting
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
+                }`}
+              >
+                {isSubmitting ? "กำลังรับคูปอง..." : textButton[language].collect}
+              </button>
               <h5 className="text-white text-sm sm:text-base text-center whitespace-pre-line">
                 {descriptionButton[language].collect}
               </h5>
