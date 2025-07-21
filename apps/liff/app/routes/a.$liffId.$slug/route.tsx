@@ -9,6 +9,7 @@ import _ from "lodash";
 import { fetchByLiffIdAndSlug } from "~/services/page-liff";
 import Loading from "~/components/Loading";
 import { getDirectusFileUrl } from "~/utils/files";
+import { useLineLiff } from "~/contexts/LineLiffContext";
 
 export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
   const page = data?.page;
@@ -40,11 +41,23 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
+  const { isInitialized, language, isLoggedIn } = useLineLiff();
+  const lang = language.startsWith("th") ? "th" : "en";
+
+  if (!isInitialized || !isLoggedIn) {
+    return <Loading primaryColor={page?.bg_color as string} />;
+  }
 
   if (!page) {
     return <Loading />;
   }
-  return <Outlet context={{ page }} />;
+  return (
+    <div className="bg-gray-200">
+      <div className="h-screen-safe max-w-md mx-auto bg-white">
+        <Outlet context={{ page, lang }} />
+      </div>
+    </div>
+  );
 };
 
 export default Route;

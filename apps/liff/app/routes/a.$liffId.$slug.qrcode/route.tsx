@@ -1,38 +1,22 @@
-import { LoaderFunctionArgs } from '@remix-run/node';
-import { json, MetaFunction, Link, useLoaderData, useSearchParams } from '@remix-run/react';
+import { MetaFunction, Link, useOutletContext, useSearchParams } from '@remix-run/react';
 import { useState, useEffect } from 'react';
-import { fetchByLiffIdAndSlug } from '~/services/page-liff';
-import { useLineProfile } from '~/hooks/useLineProfile';
 import Loading from '~/components/Loading';
 import QRCodeGenerator from '~/components/QRCodeGenerator'; // ใช้ component ที่มีอยู่แล้ว
+import { useLineProfile } from '~/contexts/LineLiffContext';
+import { PageLiff } from '~/types/page';
 
-export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const page = data?.page;
+export const meta: MetaFunction = () => {
   return [
-    { title: `${page?.name || "AIYA"} - QR Code` },
-    {
-      tagName: "link",
-      rel: "icon",
-      type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
-    },
+    { title: `QR Code` },
   ];
 };
 
-export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { liffId, slug } = params;
-  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
-  return json({
-    page,
-  });
-};
-
 export default function QrCodeRoute() {
-  const { page } = useLoaderData<typeof clientLoader>();
+  const { page } = useOutletContext<{ page: PageLiff,lang: string }>();
   const [search] = useSearchParams();
   const profileId = search.get('id');
   const [shareUrl, setShareUrl] = useState<string>('');
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
 
   useEffect(() => {
     if (profileId && page) {
@@ -43,7 +27,7 @@ export default function QrCodeRoute() {
     }
   }, [profileId, page]);
 
-  if (isProfileLoading || !page) {
+  if (isProfileLoading || profileError || !page) {
     return <Loading />;
   }
 
@@ -64,11 +48,13 @@ export default function QrCodeRoute() {
         <div className="w-6"></div> {/* Spacer to center title */}
       </div>
 
-      {shareUrl && (
+      {profileError ? (
+        <div className="text-red-500">{profileError.message}</div>
+      ) : shareUrl && (
         <QRCodeGenerator
           // ส่ง props ตามที่ QRCodeGenerator component รับ
           url={shareUrl}
-          logo={page.logo}
+          logo={page.image}
           profileImage={profile?.pictureUrl}
           profileName={profile?.displayName}
           title="สแกน QR Code เพื่อเข้าร่วมกับเรา"

@@ -1,57 +1,49 @@
 import {
-  ShouldRevalidateFunction,
-  useLoaderData,
+  useOutletContext,
+  useParams,
 } from "@remix-run/react";
-import { json, MetaFunction } from '@remix-run/cloudflare';
-import { useLiff } from "~/hooks/useLiff";
-import MainContent from "./components/MainContent";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
-import { fetchByLiffIdAndSlug } from "~/services/page-liff";
-import { fetchBrand } from "~/services/brands";
+import MainContent from "./_components/MainContent";
+import { PageLiff } from "~/types/page";
+import { useBrand } from "~/hooks/brands/useBrand";
+import Loading from "~/components/Loading";
 
-export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
-  const page = data?.page;
-  const brand = data?.brand;
-  return [
-    { title: brand?.name || "Loading..." },
-    {
-      tagName: "link",
-      rel: "icon",
-      type: "image/x-icon",
-      href: page?.favicon || "/images/favicon.ico",
-    },
-  ];
-};
+// export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
+//   const brand = data?.brand;
+//   return [
+//     { title: brand?.name || "Loading..." }
+//   ];
+// };
 
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  currentParams,
-  nextParams,
-}) => {
-  return !!!_.isEqual(currentParams, nextParams);
-};
+// export const shouldRevalidate: ShouldRevalidateFunction = ({
+//   currentParams,
+//   nextParams,
+// }) => {
+//   return !!!_.isEqual(currentParams, nextParams);
+// };
 
-export const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { liffId, slug, brandId } = params;
-  const brand = await fetchBrand({ brandId });
-  const page = await fetchByLiffIdAndSlug(liffId as string, slug as string);
-  return json({
-    page,
-    brand
-  });
-};
+// export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
+//   const { brandId } = params;
+//   const brand = await fetchBrand({ brandId });
+//   return json({
+//     brand
+//   });
+// };
 
 const BrandDetailRoute = () => {
-  // const { page } = useOutletContext<{ page: PageLiff }>();
-  const { page, brand } = useLoaderData<typeof clientLoader>();
-  const { language } = useLiff({ liffId: page.liff_id  as string});
-  const isThaiLanguage = language.startsWith("th");
-  // Using English as default language for now
-  const lang = "th";
+  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
+  // const { brand } = useLoaderData<typeof clientLoader>();
+  const { brandId } = useParams();
+  const { data: brand, isLoading: isBrandLoading } = useBrand({
+    brandId: brandId as string,
+  });
+
+  if (isBrandLoading) {
+    return <Loading primaryColor={page?.bg_color as string} />;
+  }
 
   return (
     <>
-      {page?.liff_id && (
+      {brand && (
         <>
           <MainContent brand={brand} language={lang} page={page} />
         </>

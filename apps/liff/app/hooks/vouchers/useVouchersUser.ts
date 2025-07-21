@@ -1,17 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchVouchersUser } from "~/services/vouchers";
-import { useLineLiff } from "../useLineLiff";
+import { useAppSelector } from "~/store";
 
-interface UseVouchersUserProps {
-  userId: string;
-}
-
-export function useVouchersUser({ userId }: UseVouchersUserProps) {
-  const { data: liff } = useLineLiff();
-  
+export function useVouchersUser() {
   return useQuery({
-    queryKey: ["voucher-user", userId],
-    queryFn: () => fetchVouchersUser({ userId }).then((res) => res.data),
-    enabled: liff?.isLoggedIn()
+    queryKey: ["voucher-user"],
+    queryFn: () => fetchVouchersUser().then((res) => res.data),
+    enabled: useAppSelector((state) => state.auth.isAuthenticated)
   });
 }

@@ -1,18 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface UserState {
   id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
+  uid: string;
+  display_name: string;
+  picture_url: string;
 }
 
 const initialState: UserState = {
   id: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  avatar: "", 
+  uid: "",
+  display_name: "",
+  picture_url: "",
 };
 
 const userSlice = createSlice({
@@ -23,17 +21,15 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<{
         id: string;
-        email: string;
-        first_name: string;
-        last_name: string;
-        avatar: string;
+        uid: string;
+        display_name: string;
+        picture_url: string;
       }>
     ) => {
       state.id = action.payload.id;
-      state.email = action.payload.email;
-      state.firstName = action.payload.first_name;
-      state.lastName = action.payload.last_name;
-      state.avatar = action.payload.avatar;
+      state.uid = action.payload.uid;
+      state.display_name = action.payload.display_name;
+      state.picture_url = action.payload.picture_url;
     }
   },
 });

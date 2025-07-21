@@ -1,52 +1,27 @@
 import { useOutletContext } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
-import MainContent from "./components/MainContent";
-import { useLiff } from "~/hooks/useLiff";
-import Loading from "~/components/Loading";
-import { useLineProfile } from "~/hooks/useLineProfile";
+import MainContent from "./_components/MainContent";
+import PromotionTemplate from "./_components/PromotionTemplate";
 import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
-import { HeaderSkeleton } from "./components/SkeletonLoad/HeaderSkeleton";
-import { useBrands } from "~/hooks/brands/useBrands";
-import { useVouchers } from "~/hooks/vouchers/useVouchers";
-import Header from "./components/Header";
-import { MainContentSkeleton } from "./components/SkeletonLoad/MainContentSkeleton";
-import _ from "lodash";
-import { useProfile } from "~/hooks/Profiles/useProfile";
+import { HeaderSkeleton } from "./_components/SkeletonLoad/HeaderSkeleton";
+import Header from "./_components/Header";
+import { MainContentSkeleton } from "./_components/SkeletonLoad/MainContentSkeleton";
+import { useMe } from "~/hooks/useMe";
+import { useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
-  const { page } = useOutletContext<{ page: PageLiff }>();
-  const { language, isLoggedIn } = useLiff({ liffId: page.liff_id as string });
-  const isThaiLanguage = language.startsWith("th");
-  const lang = "th";
-  const { data: profile, isLoading: isProfileLoading } = useLineProfile();
+  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
+  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
-    useVoucherUserStats({ userId: profile?.userId || "" });
-  // const { data: vouchers, isLoading: isVouchersLoading } = useVouchers({
-  //   q: "",
-  //   status: "published",
-  // });
-  // const { data: brands, isLoading: isBrandsLoading } = useBrands({
-  //   status: "published",
-  // });
-
-  const { data: userProfile, isLoading: isUserProfileLoading } = 
-    useProfile({ 
-      uid: profile?.userId || "",
-      liff_id: page.liff_id as string,
-      enabled: isLoggedIn && !isProfileLoading && !!profile?.userId
+    useVoucherUserStats({
+      userId: profile?.userId || "",
+      enabled: !isProfileLoading && !!profile?.userId,
     });
 
-  if (!isLoggedIn || isProfileLoading || isUserProfileLoading) {
-    return <Loading />;
-  }
+  const { data: me, isLoading: isMeLoading } = useMe();
 
-  if (
-    isProfileLoading ||
-    isVoucherUserStatsLoading
-    //  ||
-    // isVouchersLoading ||
-    // isBrandsLoading
-  ) {
+  if (isProfileLoading || profileError || isVoucherUserStatsLoading || isMeLoading) {
+    if (profileError) return <div className="text-red-500">{profileError.message}</div>;
     return (
       <>
         {page?.liff_id && (
@@ -59,25 +34,37 @@ const Route = () => {
     );
   }
 
+  const templateType = page?.metadata?.template || "base";
+
   return (
     <>
       {page?.liff_id && (
         <>
-          <Header 
-            page={page} 
-            profile={profile} 
+          <Header
+            page={page}
+            profile={profile}
             language={lang}
-            userProfileId={userProfile?.id}
+            userProfileId={me?.id}
+            voucherUserStats={voucherUserStats}
           />
-          {voucherUserStats && (
-            <MainContent
-              page={page}
-              language={lang}
-              voucherUserStats={voucherUserStats}
-              populars={page?.populars}
+          {templateType === "promotion" ? (
+            <PromotionTemplate
               vouchers={page?.vouchers}
-              brands={page?.brands}
+              populars={page?.populars}
+              primaryColor={page.bg_color || ""}
+              language={lang}
             />
+          ) : (
+            voucherUserStats && (
+              <MainContent
+                page={page}
+                language={lang}
+                voucherUserStats={voucherUserStats}
+                populars={page?.populars}
+                vouchers={page?.vouchers}
+                brands={page?.brands}
+              />
+            )
           )}
         </>
       )}

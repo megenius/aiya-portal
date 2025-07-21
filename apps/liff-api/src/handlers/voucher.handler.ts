@@ -59,11 +59,9 @@ export const collectVoucher = factory.createHandlers(
       utm_medium,
       utm_campaign,
       voucher,
-      collected_by,
       channel,
-      duration_days,
-      end_date,
     } = await c.req.json();
+    const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
 
     // get voucher by ref_code
@@ -88,8 +86,8 @@ export const collectVoucher = factory.createHandlers(
     }
 
     const voucherData = vouchers[0];
-    end_date = voucherData.end_date;
-    duration_days = voucherData.duration_days;
+    const end_date = voucherData.end_date;
+    const duration_days = voucherData.duration_days;
 
     // get available voucher code
     const voucherCodes = await directus.request(
@@ -116,7 +114,7 @@ export const collectVoucher = factory.createHandlers(
     // create voucher user
     const data = await directus.request(
       createItem("vouchers_users", {
-        collected_by,
+        collected_by: id,
         collected_date: new Date().toISOString(),
         code: voucherCode.code,
         channel,
@@ -183,44 +181,44 @@ export const getVouchersByUser = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { uid } = c.req.query();
+    const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
-    const vouchers = await directus.request(
+    const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
         filter: {
           collected_by: {
-            _eq: uid,
+            _eq: id,
           },
         },
       })
     );
-    
-    const vouchersUserCode = await Promise.all(
-      vouchers.map(async (voucher: any) => {        
-        const voucherData = await directus.request(
-          readItems("vouchers_codes",  {
-            fields: ["*", { voucher: ["*",{voucher_brand_id: ["*"]}] }],
-            filter: {
-              code: {
-                _eq: voucher.code,
-              },
-            },
-            limit: 1,
-          })
-        );
-        voucher = _.omit(voucher, ["code"]);
 
-        return {
-          ...voucher,
-          code: voucherData.length>0 ? voucherData[0] : null,
-        };
+    // 1. รวม code ทั้งหมดที่ user มี
+    const codes = vouchersUsers.map((vu: any) => vu.code);
+
+    // 2. ดึง vouchers_codes ทีเดียวด้วย filter _in
+    const vouchersCodes = await directus.request(
+      readItems("vouchers_codes", {
+        fields: ["*", { voucher: ["id","name","banner","cover","metadata","start_date","end_date", { voucher_brand_id: ["*"] }] }],
+        filter: { code: { _in: codes } },
       })
     );
+
+    // 3. ทำเป็น map เพื่อ lookup ง่าย
+    const codeMap = _.keyBy(vouchersCodes, "code");
+
+    // 4. รวมข้อมูลกลับไปที่ vouchersUsers
+    const vouchersUserCode = vouchersUsers.map((voucherUser: any) => {
+      const { code, ...rest } = voucherUser;
+      return {
+        ...rest,
+        code: codeMap[code] || null,
+      };
+    });
 
     return c.json(vouchersUserCode);
   }
 );
-
 // updateVoucherUser
 export const updateVoucherUser = factory.createHandlers(
   logger(),
@@ -470,5 +468,40 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
     );
     voucherBrand.vouchers = vouchers;
     return c.json(voucherBrand);
+  }
+);
+
+//voucher_views
+export const getOrCreateVoucherViewByUser = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const { id } = c.get("jwtPayload");
+    const { voucher_id } = c.req.param();
+    const directus = c.get("directAdmin");
+    const voucherViews = await directus.request(
+      readItems("voucher_views", {
+        filter: {
+          voucher_id: {
+            _eq: voucher_id,
+          },
+          user_id: {
+            _eq: id,
+          },
+        },
+        limit: 1,
+      })
+    );
+    if (!voucherViews.length) {
+      const voucherView = await directus.request(
+        createItem("voucher_views", {
+          voucher_id: voucher_id,
+          user_id: id,
+        })
+      );
+      return c.json(voucherView);
+    }
+
+    return c.json(voucherViews[0]);
   }
 );
