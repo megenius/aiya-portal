@@ -119,16 +119,13 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
             alt={mainBannerVoucher.name || "Promotion"}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-center">
+          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-center">
             <div className="p-4 text-white">
               <h2 className="text-2xl font-medium mb-1">
                 {mainBannerVoucher.name}
               </h2>
-              {/* {mainBannerVoucher.description && (
-                <p className="text-sm opacity-90">{mainBannerVoucher.description}</p>
-              )} */}
             </div>
-          </div>
+          </div> */}
         </button>
       )}
 
