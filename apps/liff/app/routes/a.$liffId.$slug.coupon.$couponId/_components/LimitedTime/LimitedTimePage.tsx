@@ -169,7 +169,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     th: {
       collect: "หลังกดรับคูปองมีอายุ 5 ชั่วโมง",
       redeem:
-        "เมื่อกดใช้เเล้วคูปองมีอายุ 15 นาที\nโปรดแสดงสิทธิ์ตอนเปิดโต๊ะหน้าร้าน",
+        "เมื่อกดใช้แล้วคูปองมีอายุ 15 นาที\nโปรดแสดงสิทธิ์ตอนเปิดโต๊ะหน้าร้าน",
     },
     en: {
       collect:
@@ -230,7 +230,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 text={textButton[language].collect}
                 onClick={() => onSubmit(activeTier)}
               />
-              <h5 className="text-white text-sm sm:text-base text-center">
+              <h5 className="text-white text-sm sm:text-base text-center whitespace-pre-line">
                 {descriptionButton[language].collect}
               </h5>
             </div>

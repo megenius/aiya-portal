@@ -116,9 +116,6 @@ export const collectVoucher = factory.createHandlers(
         ? addSeconds(now, voucherData.validity_in_seconds).toISOString()
         : voucherData.end_date;
 
-      console.log(collected_date, expires_at);
-      
-
       // create voucher user
       const newVoucherUser = await directus.request(
         createItem("vouchers_users", {
@@ -435,7 +432,7 @@ export const useVoucher = factory.createHandlers(
     // Update voucher user with used date
     const voucherUser = await directus.request(
       updateItem("vouchers_users", id, {
-        used_date: formatDateBangkok(),
+        used_date: new Date().toISOString(),
       })
     );
     console.log(voucherUser);

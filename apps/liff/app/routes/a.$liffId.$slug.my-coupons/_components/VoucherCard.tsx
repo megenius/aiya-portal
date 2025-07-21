@@ -90,28 +90,34 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                   {title}
                 </h4>
               </div>
-              <div
-                className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
-              >
-                {voucherUser.code.code_status === "used" && (
-                  <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                )}
-                {!isExpired &&
-                  ((voucherUser.code.code_status === "pending_confirmation" &&
-                    timeLeft > 0) ||
-                    voucherUser.code.code_status === "collected") && (
-                    <QrCode className="h-4 w-4 flex-shrink-0" />
+              <div className="flex flex-col items-start gap-1">
+                <div
+                  className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
+                >
+                  {voucherUser.code.code_status === "used" && (
+                    <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   )}
-                {((voucherUser.code.code_status === "pending_confirmation" &&
-                  timeLeft <= 0) ||
-                  (isExpired &&
-                    voucherUser.code.code_status !== "used") ||
-                  voucherUser.code.code_status === "expired") && (
-                  <XCircle className="h-4 w-4 flex-shrink-0" />
+                  {!isExpired &&
+                    ((voucherUser.code.code_status === "pending_confirmation" &&
+                      timeLeft > 0) ||
+                      voucherUser.code.code_status === "collected") && (
+                      <QrCode className="h-4 w-4 flex-shrink-0" />
+                    )}
+                  {((voucherUser.code.code_status === "pending_confirmation" &&
+                    timeLeft <= 0) ||
+                    (isExpired && voucherUser.code.code_status !== "used") ||
+                    voucherUser.code.code_status === "expired") && (
+                    <XCircle className="h-4 w-4 flex-shrink-0" />
+                  )}
+                  <span className="flex-1 text-start" style={textTruncateStyle}>
+                    {text()}
+                  </span>
+                </div>
+                {!isExpired && voucherUser.code.code_status === "collected" && (
+                  <span className="text-xs text-red-500">
+                    (ถึง: {formatThaiDateTime(voucherUser.expired_date as string)})
+                  </span>
                 )}
-                <span className="flex-1 text-start" style={textTruncateStyle}>
-                  {text()}
-                </span>
               </div>
             </div>
           </div>
@@ -161,5 +167,21 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     </div>
   );
 };
+
+function formatThaiDateTime(dateStr?: string): string {
+  if (!dateStr) return "-";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear() + 543; // Buddhist year
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const months = [
+    "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+    "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
+  ];
+  return `${day} ${months[month]} ${year} - ${hour}:${minute.toString().padStart(2, "0")} น.`;
+}
 
 export default VoucherCard;

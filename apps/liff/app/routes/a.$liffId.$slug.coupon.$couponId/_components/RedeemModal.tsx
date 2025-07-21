@@ -19,6 +19,7 @@ interface RedeemModalProps {
   countdown?: number;
   isOpen: boolean;
   onClose: () => void;
+  showRedeemConfirmation?: boolean;
 }
 
 const RedeemModal: React.FC<RedeemModalProps> = ({
@@ -30,6 +31,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   countdown = 15, // Default to 15 minutes
   isOpen,
   onClose,
+  showRedeemConfirmation = true,
 }) => {
   const voucher = voucherUser.code.voucher;
   const usedDate = voucherUser.used_date;
@@ -41,7 +43,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const [showExpireWarning, setShowExpireWarning] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(Boolean(usedDate));
   const [pageState, setPageState] = useState("redeem");
-  const title = voucher.metadata.title[language];
+  const title = voucher.metadata.title[language].replace(
+    /\$\{value\}/g,
+    `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`
+  );
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
     "\n"
@@ -69,16 +74,20 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   ];
   // After Collect Page
   const collectedSuccessText = {
-    th: "เก็บคูปองสำเร็จ",
-    en: "Coupons collected successfully",
+    th: "ยินดีด้วย 🎉",
+    en: "Congratulations 🎉",
+  };
+  const collectedSuccessDescription = {
+    th: `คุณได้รับส่วนลด ${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
+    en: `You have received a discount of ${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}\nYou can use it at MBK Center, Floor 2`,
   };
   const collectedDescription = {
-    th: `หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem now, the coupon will start a countdown with ${countdown} minutes to use it.`,
+    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
+    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdown} minutes after scanning`,
   };
   const seeMyVouchersText = {
-    th: "ดูคูปองของฉัน",
-    en: "See My Coupons",
+    th: "เก็บไว้ก่อน",
+    en: "Later",
   };
 
   // Confirmation Modal Page
@@ -87,16 +96,16 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: "Do you want to redeem this coupon?",
   };
   const confirmDescription = {
-    th: `หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem this coupon, it will start a countdown with ${countdown} minutes to use it.`,
+    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
+    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdown} minutes after scanning`,
   };
   const warningText = {
     th: `คูปองมีอายุ ${countdown} นาทีหลังจากกดใช้คูปอง`,
     en: `Coupon will expire in ${countdown} minutes after redeem`,
   };
   const cancelText = {
-    th: "ยกเลิก",
-    en: "Cancel",
+    th: "ไม่ใช้",
+    en: "No",
   };
   const redeemText = {
     th: "ใช้คูปองทันที",
@@ -259,19 +268,25 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="space-y-3">
                   {/* แสดงเวลาที่เหลือ */}
                   <div
-                    className={`p-4 rounded-lg ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+                    className={`p-4 rounded-lg ${page.metadata.template === "promotion" ? "bg-red-300 bg-opacity-15" : (remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50")}`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Clock
-                          className={`h-5 w-5 ${getTimeColor(remainingTime)}`}
+                          className={`h-5 w-5 ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
+                          style={{
+                            color: page.metadata.template === "promotion" ? primaryColor : undefined,
+                          }}
                         />
                         <span className="text-sm font-medium text-gray-700">
                           {voucherWillExpireInText[language]}
                         </span>
                       </div>
                       <div
-                        className={`font-bold text-xl ${getTimeColor(remainingTime)}`}
+                        className={`font-bold text-xl ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
+                        style={{
+                          color: page.metadata.template === "promotion" ? primaryColor : undefined,
+                        }}
                       >
                         {formatTime(remainingTime)}
                       </div>
@@ -281,18 +296,18 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full ${
-                          remainingTime <= 60
+                          page.metadata.template === "promotion" ? "bg-primary" : (remainingTime <= 60
                             ? "bg-red-600"
                             : remainingTime <= 5 * 60
                               ? "bg-yellow-400"
-                              : "bg-primary"
+                              : "bg-primary")
                         }`}
-                        style={{ width: `${timePercentage}%` }}
+                        style={{ width: `${timePercentage}%`, backgroundColor: page.metadata.template === "promotion" ? primaryColor : undefined }}
                       ></div>
                     </div>
 
                     {/* Expire Warning */}
-                    {showExpireWarning && (
+                    {page.metadata.template !== "promotion" && showExpireWarning && (
                       <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
                         <AlertCircle className="h-4 w-4" />
                         <span>{warningExpireText[language]}</span>
@@ -372,18 +387,20 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <span>บันทึก</span>
               </button>
             </div> */}
-                  <div className="flex items-center justify-between gap-5">
-                    <h4 className="text-sm text-nowrap">
-                      {suggestionText[language]}
-                    </h4>
-                    <Button
-                      onClick={() => {
-                        setPageState("confirm");
-                      }}
-                      text={confirmationButtonText[language]}
-                      primaryColor={primaryColor}
-                    />
-                  </div>
+                  {showRedeemConfirmation && (
+                    <div className="flex items-center justify-between gap-5">
+                      <h4 className="text-sm text-nowrap">
+                        {suggestionText[language]}
+                      </h4>
+                      <Button
+                        onClick={() => {
+                          setPageState("confirm");
+                        }}
+                        text={confirmationButtonText[language]}
+                        primaryColor={primaryColor}
+                      />
+                    </div>
+                  )}
                 </div>
               </>
             )}
@@ -444,13 +461,15 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
           <>
             {state === "redeem" && (
               <div className="space-y-3">
-                <div className="py-5 text-center space-y-4">
-                  <h2 className="text-lg font-medium text-gray-800">
+                <div className="py-5 text-center space-y-6">
+                  <h2 className="text-lg font-semibold text-gray-800">
                     {confirmText[language]}
                   </h2>
-                  <h4 className="text-gray-600">
-                    {confirmDescription[language]}
-                  </h4>
+                  <div className="p-2 px-10 bg-gray-100 rounded-2xl whitespace-pre-line">
+                    <h4 className="text-gray-600">
+                      {confirmDescription[language]}
+                    </h4>
+                  </div>
                 </div>
 
                 <div className="flex justify-between gap-3">
@@ -474,13 +493,21 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     <X className="h-6 w-6" />
                   </button>
                 </div>
-                <div className="py-5 text-center space-y-4">
-                  <h2 className="text-lg font-medium text-gray-800">
-                    {collectedSuccessText[language]}
-                  </h2>
-                  <h4 className="text-gray-600">
-                    {collectedDescription[language]}
-                  </h4>
+                <div className="pb-5 text-center space-y-6">
+                  <div className="text-center space-y-1">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      {collectedSuccessText[language]}
+                    </h2>
+                    <h3 className="text-lg text-gray-600 whitespace-pre-line">
+                      {collectedSuccessDescription[language]}
+                    </h3>
+                  </div>
+
+                  <div className="p-2 px-10 bg-gray-100 rounded-2xl whitespace-pre-line">
+                    <h4 className="text-gray-600">
+                      {collectedDescription[language]}
+                    </h4>
+                  </div>
                 </div>
                 <div className="flex justify-between gap-3">
                   <Button

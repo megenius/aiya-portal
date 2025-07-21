@@ -6,7 +6,12 @@ import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSu
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
-import { CollectVoucher, DiscountTier, FieldData, LeadSubmission } from "~/types/app";
+import {
+  CollectVoucher,
+  DiscountTier,
+  FieldData,
+  LeadSubmission,
+} from "~/types/app";
 import Footer from "./_components/Footer";
 import FullyCollectedModal from "./_components/FullyCollectedModal";
 import Header from "./_components/Header";
@@ -18,16 +23,17 @@ import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 
 const Route = () => {
-  const { page,lang } = useOutletContext<{ page: PageLiff,lang: string }>();
+  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { couponId } = useParams();
-  const { data: coupon, isLoading: isCouponLoading } = useVoucher({ voucherId: couponId as string });
+  const { data: coupon, isLoading: isCouponLoading } = useVoucher({
+    voucherId: couponId as string,
+  });
   const { liff } = useLineLiff();
   const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser();
   const {
     data: codeStats,
     isLoading: isCodeStatsLoading,
     refetch: refetchCodeStats,
-    isRefetching: isCodeStatsRefetching,
   } = useVoucherCodeStats({
     voucherId: couponId as string,
   });
@@ -43,7 +49,6 @@ const Route = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState<"redeem" | "collected">("redeem");
 
-  
   const status = myCoupon
     ? (myCoupon.code.code_status ?? "collected")
     : codeStats?.available === 0
@@ -56,12 +61,11 @@ const Route = () => {
 
   let timeLeft = 0;
   if (myCoupon?.used_date) {
-    const usedDateTime = new Date(myCoupon.used_date).getTime();
-    const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
-    const now = new Date().getTime();
+    const usedDateTime = new Date(myCoupon.used_date).getTime(); // already UTC
+    const expiryTime = usedDateTime + 15 * 60 * 1000;
+    const now = Date.now(); // also UTC
     timeLeft = Math.floor((expiryTime - now) / 1000);
   }
-  
 
   const handleSubmit = async (tier?: DiscountTier) => {
     if (
@@ -80,10 +84,7 @@ const Route = () => {
       return;
     }
 
-    if (
-      pageState === "landing" &&
-      coupon?.metadata.redemptionType === "form"
-    ) {
+    if (pageState === "landing" && coupon?.metadata.redemptionType === "form") {
       setPageState("form");
       return;
     }
@@ -139,19 +140,15 @@ const Route = () => {
       });
   };
 
-  if (
-    isCouponLoading ||
-    isMyCouponsLoading ||
-    isCodeStatsLoading ||
-    isCodeStatsRefetching
-  ) {
+  if (isCouponLoading || isMyCouponsLoading || isCodeStatsLoading) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
   return (
     coupon && (
       <div className="h-screen-safe flex flex-col overflow-hidden">
-        {coupon.metadata.redemptionType === "limited_time" && status === "limited_time" ? (
+        {coupon.metadata.redemptionType === "limited_time" &&
+        status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
             language={lang}
@@ -189,9 +186,10 @@ const Route = () => {
               status={
                 isSubmitting
                   ? "submitting"
-                  : isExpired || (status === "pending_confirmation" && timeLeft <= 0)
-                  ? "expired"
-                  : status
+                  : isExpired ||
+                      (status === "pending_confirmation" && timeLeft <= 0)
+                    ? "expired"
+                    : status
               }
               onClick={handleSubmit}
               disabled={
@@ -224,6 +222,9 @@ const Route = () => {
             language={lang}
             primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
             state={state}
+            showRedeemConfirmation={
+              page.metadata.template === "promotion" ? false : true
+            }
             isOpen={isRedeemedModalOpen}
             onClose={() => {
               refetchCodeStats();

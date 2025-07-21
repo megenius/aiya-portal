@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FieldData, Voucher, VoucherStats, VoucherUser } from "~/types/app";
-import { formatDate } from "~/utils/helpers";
 import { TimeCountdown } from "./TimeCountdown";
 import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "../../../components/Tabs";
@@ -16,14 +15,6 @@ interface MainContentProps {
   status?: string;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
-}
-
-function getSecondsLeft(expiredDate?: string): number {
-  if (!expiredDate) return 0;
-  const expired = new Date(expiredDate).getTime();
-  const now = new Date().getTime();
-  const seconds = Math.floor((expired - now) / 1000);
-  return seconds > 0 ? seconds : 0;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -141,12 +132,14 @@ const MainContent: React.FC<MainContentProps> = ({
               </div>
             )}
 
-            <div className="absolute bottom-0 w-full z-10">
-              <TimeCountdown
-                label="ใช้ภายใน"
-                seconds={getSecondsLeft(voucherUser?.expired_date ?? undefined)}
-              />
-            </div>
+            {status === "collected" && voucherUser?.expired_date && (
+              <div className="absolute bottom-0 w-full z-10">
+                <TimeCountdown
+                  label="ใช้ภายใน"
+                  seconds={getSecondsLeft(voucherUser?.expired_date)}
+                />
+              </div>
+            )}
           </div>
 
           <div className="px-4 pt-3 pb-2 space-y-2">
@@ -162,18 +155,15 @@ const MainContent: React.FC<MainContentProps> = ({
           <div className="flex-1 flex flex-col overflow-hidden">
             {(status === "instant" ||
               status === "form" ||
-              status === "fully_collected" ||
-              status === "expired") && (
-              <div className="mb-4">
-                <VoucherProgressBar
-                  totalVouchers={codeStats?.total}
-                  availableVouchers={codeStats?.available}
-                  language={language}
-                  primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
-                />
-              </div>
+              status === "fully_collected") && (
+              <VoucherProgressBar
+                totalVouchers={codeStats?.total}
+                availableVouchers={codeStats?.available}
+                language={language}
+                primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
+              />
             )}
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="mt-4 flex-1 flex flex-col overflow-hidden">
               <Tabs
                 language={language}
                 tabs={tabs}
@@ -217,5 +207,13 @@ const MainContent: React.FC<MainContentProps> = ({
     </div>
   );
 };
+
+function getSecondsLeft(expiredDate?: string): number {
+  if (!expiredDate) return 0;
+  const expired = new Date(expiredDate).getTime();
+  const now = new Date().getTime();
+  const seconds = Math.floor((expired - now) / 1000);
+  return seconds > 0 ? seconds : 0;
+}
 
 export default MainContent;
