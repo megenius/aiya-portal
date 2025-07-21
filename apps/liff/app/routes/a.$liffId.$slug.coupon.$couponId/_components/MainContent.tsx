@@ -134,7 +134,7 @@ const MainContent: React.FC<MainContentProps> = ({
               </div>
             )}
 
-            {status === "collected" && voucherUser?.expired_date && (
+            { voucher.metadata.redemptionType === "limited_time" && status === "collected" && voucherUser?.expired_date && (
               <div className="absolute bottom-0 w-full z-10">
                 <TimeCountdown
                   label="ใช้ภายใน"

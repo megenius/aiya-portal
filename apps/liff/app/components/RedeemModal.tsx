@@ -5,7 +5,7 @@ import BarcodeGenerator from "~/components/BarCodeGenerater";
 import QRCodeGenerator from "~/components/QRCodeGenerator";
 import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
-import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
+import { Voucher, VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "../routes/a.$liffId.$slug.coupon.$couponId/_components/Button";
@@ -77,8 +77,9 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     th: "ยินดีด้วย 🎉",
     en: "Congratulations 🎉",
   };
+
   const collectedSuccessDescription = {
-    th: `คุณได้รับส่วนลด ${getVoucherValueWithType(voucherUser)}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
+    th: `${getVoucherThaiDescription(voucherUser, voucher, language)}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
     en: `You have received a discount of ${getVoucherValueWithType(voucherUser)}\nYou can use it at MBK Center, Floor 2`,
   };
   const collectedDescription = {
@@ -607,6 +608,18 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     </div>
   );
 };
+
+function getVoucherThaiDescription(voucherUser: VoucherUser, voucher: Voucher, language: string) {
+  let description = "";
+  if (voucherUser.discount_type === "percentage") {
+    description = `ส่วนลด ${getVoucherValueWithType(voucherUser)}`;
+  } else if (voucherUser.discount_type === "fixed_amount") {
+    description = `ราคา ${getVoucherValueWithType(voucherUser)}`;
+  } else {
+    description = `คูปอง ${voucher.metadata.title[language]}`;
+  }
+  return `คุณได้รับ${description}`;
+}
 
 function getVoucherValueWithType(voucherUser: VoucherUser) {
   return `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`;
