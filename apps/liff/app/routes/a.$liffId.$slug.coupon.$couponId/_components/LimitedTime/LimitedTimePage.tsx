@@ -12,7 +12,7 @@ interface LimitedTimePageProps {
   voucher: Voucher;
   language: string;
   primaryColor: string;
-  onSubmit: () => void;
+  onSubmit: (tier: DiscountTier | undefined) => void;
 }
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
@@ -190,7 +190,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           <div className="rotate-[-15deg] flex flex-col items-center justify-center gap-2">
             <div className="w-full h-0.5 bg-white rounded-lg"></div>
             <div className="px-5">
-              <span className="text-white text-lg sm:text-xl font-extrabold text-center whitespace-pre-line">
+              <span className="text-white text-lg sm:text-xl text-center whitespace-pre-line">
                 ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!
               </span>
             </div>
@@ -228,7 +228,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <Button
                 className="py-4 text-lg sm:text-2xl text-white border-0 bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B]"
                 text={textButton[language].collect}
-                onClick={onSubmit}
+                onClick={() => onSubmit(activeTier)}
               />
               <h5 className="text-white text-sm sm:text-base text-center">
                 {descriptionButton[language].collect}

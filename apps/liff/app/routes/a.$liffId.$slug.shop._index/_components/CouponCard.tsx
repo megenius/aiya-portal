@@ -43,7 +43,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, de
         )}
       </div>
       <div className="text-start pt-3">
-        <h3 className="font-bold leading-snug text-start text-sm line-clamp-2">
+        <h3 className="font-semibold leading-snug text-start text-sm line-clamp-2">
           {title}
         </h3>
         {description && (

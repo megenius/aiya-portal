@@ -121,7 +121,7 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-center">
             <div className="p-4 text-white">
-              <h2 className="text-2xl font-bold mb-1">
+              <h2 className="text-2xl font-medium mb-1">
                 {mainBannerVoucher.name}
               </h2>
               {/* {mainBannerVoucher.description && (

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { FieldData, Voucher, VoucherStats } from "~/types/app";
+import { FieldData, Voucher, VoucherStats, VoucherUser } from "~/types/app";
+import { formatDate } from "~/utils/helpers";
+import { TimeCountdown } from "./TimeCountdown";
 import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "../../../components/Tabs";
 import FormField from "./FormField";
@@ -7,6 +9,7 @@ import VoucherProgressBar from "./VoucherProgressBar";
 
 interface MainContentProps {
   voucher: Voucher;
+  voucherUser: VoucherUser;
   codeStats: VoucherStats;
   language: string;
   pageState: string;
@@ -15,8 +18,17 @@ interface MainContentProps {
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
 }
 
+function getSecondsLeft(expiredDate?: string): number {
+  if (!expiredDate) return 0;
+  const expired = new Date(expiredDate).getTime();
+  const now = new Date().getTime();
+  const seconds = Math.floor((expired - now) / 1000);
+  return seconds > 0 ? seconds : 0;
+}
+
 const MainContent: React.FC<MainContentProps> = ({
   voucher,
+  voucherUser,
   codeStats,
   language,
   pageState,
@@ -24,7 +36,10 @@ const MainContent: React.FC<MainContentProps> = ({
   onFormValidationChange,
   onFormDataChange, // Receive new prop
 }) => {
-  const title = voucher.metadata.title[language];
+  const title = voucher.metadata.title[language].replace(
+    /\$\{value\}/g,
+    `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`
+  );
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
     "\n"
@@ -111,7 +126,11 @@ const MainContent: React.FC<MainContentProps> = ({
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             {/* Background Image */}
             <img
-              src={getDirectusFileUrl(voucher?.banner as string)}
+              src={
+                voucher.metadata.redemptionType === "limited_time"
+                  ? getDirectusFileUrl(voucher?.cover as string)
+                  : getDirectusFileUrl(voucher?.banner as string)
+              }
               alt={voucher?.id}
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
@@ -121,7 +140,13 @@ const MainContent: React.FC<MainContentProps> = ({
                 {statusText[status][language]}
               </div>
             )}
-            {/* Brand Logo */}
+
+            <div className="absolute bottom-0 w-full z-10">
+              <TimeCountdown
+                label="ใช้ภายใน"
+                seconds={getSecondsLeft(voucherUser?.expired_date ?? undefined)}
+              />
+            </div>
           </div>
 
           <div className="px-4 pt-3 pb-2 space-y-2">
@@ -131,7 +156,7 @@ const MainContent: React.FC<MainContentProps> = ({
           color={voucher.voucher_brand_id?.primaryColor ?? ""}
         /> */}
 
-            <h3 className="text-lg font-bold block">{title}</h3>
+            <h3 className="text-lg font-semibold block">{title}</h3>
           </div>
 
           <div className="flex-1 flex flex-col overflow-hidden">

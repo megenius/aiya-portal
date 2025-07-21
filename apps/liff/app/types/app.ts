@@ -98,6 +98,8 @@ export interface language {
 export interface CollectVoucher {
   voucher_id: string;
   channel: string;
+  discount_value?: number | null;
+  discount_type?: 'percentage' | 'fixed_amount' | 'gift' | null;
 }
 
 export interface Profile {

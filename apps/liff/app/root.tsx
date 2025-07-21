@@ -72,19 +72,19 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const {liffId} = useParams();
+  const { liffId } = useParams();
 
   return (
     <>
       <PrelineScript />
       <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          <LineLiffProvider liffId={liffId as string}>
-            <Outlet />
-          </LineLiffProvider>
-        </QueryClientProvider>
-      </PersistGate>
+        <PersistGate loading={null} persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <LineLiffProvider liffId={liffId as string}>
+              <Outlet />
+            </LineLiffProvider>
+          </QueryClientProvider>
+        </PersistGate>
       </Provider>
     </>
   );

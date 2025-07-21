@@ -5,7 +5,8 @@ import {
   readItems,
   updateItem,
 } from "@directus/sdk";
-import { addDays, endOfDay } from "date-fns";
+import { addSeconds } from "date-fns";
+import { format } from "date-fns-tz";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
 import * as _ from "lodash";
@@ -60,7 +61,7 @@ export const collectVoucher = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     try {
-      let { utm_source, utm_medium, utm_campaign, voucher_id, channel } =
+      let { utm_source, utm_medium, utm_campaign, voucher_id, channel, discount_value, discount_type } =
         await c.req.json();
       const { id } = c.get("jwtPayload");
       const directus = c.get("directAdmin");
@@ -110,17 +111,23 @@ export const collectVoucher = factory.createHandlers(
       const availableCode = availableCodes[0];
 
       const now = new Date();
+      const collected_date = now.toISOString();
       const expires_at = voucherData.validity_in_seconds
-        ? endOfDay(addDays(now, voucherData.validity_in_seconds)).toISOString()
+        ? addSeconds(now, voucherData.validity_in_seconds).toISOString()
         : voucherData.end_date;
+
+      console.log(collected_date, expires_at);
+      
 
       // create voucher user
       const newVoucherUser = await directus.request(
         createItem("vouchers_users", {
           collected_by: id,
-          collected_date: new Date().toISOString(),
+          collected_date,
           code: availableCode.code,
           channel,
+          discount_value,
+          discount_type,
           utm_source,
           utm_medium,
           utm_campaign,
@@ -545,6 +552,7 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
         createItem("voucher_views", {
           voucher_id: voucher_id,
           user_id: id,
+          first_viewed_at: new Date().toISOString(),
         })
       );
       return c.json(voucherView);

@@ -6,7 +6,7 @@ import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSu
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
 import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
-import { CollectVoucher, FieldData, LeadSubmission } from "~/types/app";
+import { CollectVoucher, DiscountTier, FieldData, LeadSubmission } from "~/types/app";
 import Footer from "./_components/Footer";
 import FullyCollectedModal from "./_components/FullyCollectedModal";
 import Header from "./_components/Header";
@@ -63,7 +63,7 @@ const Route = () => {
   }
   
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (tier?: DiscountTier) => {
     if (
       isExpired ||
       (status === "pending_confirmation" && timeLeft <= 0) ||
@@ -91,6 +91,10 @@ const Route = () => {
     const collectVoucherData: CollectVoucher = {
       voucher_id: coupon?.id as string,
       channel: page?.channel as string,
+      ...(tier && {
+        discount_value: tier.value,
+        discount_type: tier.type,
+      }),
     };
 
     await collectVoucher
@@ -162,10 +166,11 @@ const Route = () => {
               color={coupon.voucher_brand_id.primaryColor ?? ""}
               isIsClient={liff?.isInClient() ?? false}
             />
-            {codeStats && (
+            {codeStats && myCoupon && (
               <MainContent
                 language={lang}
                 voucher={coupon}
+                voucherUser={myCoupon}
                 codeStats={codeStats}
                 pageState={pageState}
                 status={
