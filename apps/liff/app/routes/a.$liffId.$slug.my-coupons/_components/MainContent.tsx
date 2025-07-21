@@ -5,13 +5,13 @@ import { PageLiff } from "~/types/page";
 import EmptyListMessage from "./EmptyListMessage";
 import RedeemModalNow from "./RedeemModalNow";
 import VoucherCard from "./VoucherCard";
+import RedeemModal from "~/components/RedeemModal";
 
 interface MainContentProps {
   page: PageLiff;
   activeTab: string;
   vouchers: VoucherUser[];
   language: string;
-  primaryColor: string;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -19,7 +19,6 @@ const MainContent: React.FC<MainContentProps> = ({
   activeTab,
   vouchers,
   language,
-  primaryColor,
 }) => {
   const navigate = useNavigate();
   const [voucherUser, setVoucherUser] = useState<VoucherUser | null>(null);
@@ -66,9 +65,6 @@ const MainContent: React.FC<MainContentProps> = ({
     });
 
   const [isOpen, setIsOpen] = useState(false);
-  const [state, setState] = useState("redeem");
-
-
 
   return (
     <>
@@ -106,12 +102,15 @@ const MainContent: React.FC<MainContentProps> = ({
         )}
       </main>
       {voucherUser && (
-        <RedeemModalNow
+        <RedeemModal
           page={page}
           voucherUser={voucherUser}
           language={language}
           primaryColor={voucherUser.code.voucher.voucher_brand_id.primaryColor ?? ""}
           state={"redeem"}
+          showRedeemConfirmation={
+            page.metadata.template === "promotion" ? false : true
+          }
           isOpen={isOpen}
           onClose={() => {
             setIsOpen(false);

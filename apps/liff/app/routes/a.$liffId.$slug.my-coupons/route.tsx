@@ -39,7 +39,6 @@ const Route = () => {
           page={page}
           vouchers={myVouchers || []}
           language={lang}
-          primaryColor={page.bg_color ?? ""}
         />
       )}
     </div>

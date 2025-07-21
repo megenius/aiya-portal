@@ -42,7 +42,8 @@ export const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 const Route = () => {
   const { page } = useLoaderData<typeof clientLoader>();
   const { isInitialized, language, isLoggedIn } = useLineLiff();
-  const lang = language.startsWith("th") ? "th" : "en";
+  // const lang = language.startsWith("th") ? "th" : "en";
+  const lang = "th";
 
   if (!isInitialized || !isLoggedIn) {
     return <Loading primaryColor={page?.bg_color as string} />;

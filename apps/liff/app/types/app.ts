@@ -44,6 +44,7 @@ export interface VoucherCodeUpdate {
 export interface VoucherStats {
   available: number;
   collected: number;
+  pending_confirmation: number;
   expired: number;
   used: number;
   reserved: number;

@@ -40,10 +40,19 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   // แทนที่ ${value} ด้วย activeTier.value
   const displayMessage = messageFromApi.replace(
     /\$\{value\}/g,
-    activeTier?.value ??
-      voucher.metadata.discount_tiers?.[
-        voucher.metadata.discount_tiers.length - 1
-      ].value
+    activeTier?.value
+      ? `${activeTier.value}${activeTier.type === "percentage" ? "%" : ""}`
+      : `${
+          voucher.metadata.discount_tiers?.[
+            voucher.metadata.discount_tiers.length - 1
+          ].value
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      }`
   );
 
   const navigateToBack = () => {
@@ -152,7 +161,13 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
         ].value
-      }% เลย`,
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      } เลย`,
       redeem: "ใช้คูปอง",
       expired: "หมดอายุแล้ว",
     },
@@ -162,22 +177,24 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
         ].value
-      }%`,
+      }${
+        voucher.metadata.discount_tiers?.[
+          voucher.metadata.discount_tiers.length - 1
+        ].type === "percentage"
+          ? "%"
+          : ""
+      }`,
       redeem: "Redeem",
       expired: "Expired",
     },
   };
   const descriptionButton = {
     th: {
-      collect: "หลังกดรับคูปองมีอายุ 5 ชั่วโมง",
-      redeem:
-        "เมื่อกดใช้แล้วคูปองมีอายุ 15 นาที\nโปรดแสดงสิทธิ์ตอนเปิดโต๊ะหน้าร้าน",
+      collect: "หลังกดรับคูปองมีอายุ 2 ชั่วโมง",
     },
     en: {
       collect:
-        "After clicking the collect button, the voucher will expire in 5 hours.",
-      redeem:
-        "After clicking the redeem button, the voucher will expire in 15 minutes. Please show the voucher when ordering.",
+        "After clicking the collect button, the voucher will expire in 2 hours.",
     },
   };
 
@@ -236,7 +253,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                     : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
                 }`}
               >
-                {isSubmitting ? "กำลังรับคูปอง..." : textButton[language].collect}
+                {isSubmitting
+                  ? "กำลังรับคูปอง..."
+                  : textButton[language].collect}
               </button>
               <h5 className="text-white text-sm sm:text-base text-center whitespace-pre-line">
                 {descriptionButton[language].collect}
