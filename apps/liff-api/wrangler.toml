@@ -16,6 +16,19 @@ DIRECTUS_URL = "https://console.portal.aiya.ai"
 binding = "CACHING"
 id = "b494201ff6b74231a02c94891f805ba7"
 
+[env.review]
+name = "liff-api_review"
+
+routes = [
+  { pattern = "liff-review.aiya.me/api/*", zone_name = "aiya.me" }, 
+]
+
+[env.review.placement]
+mode = "smart"
+
+[env.review.vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+
 [env.prod]
 name = "liff-api"
 
@@ -29,21 +42,3 @@ mode = "smart"
 
 [env.prod.vars]
 DIRECTUS_URL = "https://console.portal.aiya.ai"
-
-
-
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
-
-# [ai]
-# binding = "AI"
