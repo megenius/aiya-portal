@@ -107,7 +107,7 @@ const Route = () => {
     }
     setIsSubmitting(true);
     const collectVoucherData: CollectVoucher = {
-      voucher: coupon?.id as string,
+      voucher_id: coupon?.id as string,
       channel: page?.channel as string,
     };
 

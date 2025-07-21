@@ -1,4 +1,10 @@
-import { createItem, createItems, readItem, readItems, updateItem } from "@directus/sdk";
+import {
+  createItem,
+  createItems,
+  readItem,
+  readItems,
+  updateItem,
+} from "@directus/sdk";
 import { addDays, endOfDay } from "date-fns";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
@@ -7,7 +13,6 @@ import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 import { formatDateBangkok } from "~/utils/dateUtils";
-
 
 const factory = createFactory<Env>();
 
@@ -25,7 +30,7 @@ export const getVouchers = factory.createHandlers(
 
     const vouchers = await directus.request(
       readItems("vouchers", {
-        fields:["*", {voucher_brand_id: ["*"]}],
+        fields: ["*", { voucher_brand_id: ["*"] }],
         filter: filters,
       })
     );
@@ -42,7 +47,7 @@ export const getVoucher = factory.createHandlers(
     const directus = c.get("directAdmin");
     const voucher = await directus.request(
       readItem("vouchers", id, {
-        fields:["*", {voucher_brand_id: ["*"]}],
+        fields: ["*", { voucher_brand_id: ["*"] }],
         // fields: ["id", "name", "cover", "ref_code", "status"],
       })
     );
@@ -54,90 +59,94 @@ export const collectVoucher = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    let {
-      utm_source,
-      utm_medium,
-      utm_campaign,
-      voucher,
-      channel,
-    } = await c.req.json();
-    const { id } = c.get("jwtPayload");
-    const directus = c.get("directAdmin");
+    try {
+      let { utm_source, utm_medium, utm_campaign, voucher_id, channel } =
+        await c.req.json();
+      const { id } = c.get("jwtPayload");
+      const directus = c.get("directAdmin");
 
-    // get voucher by ref_code
-    const vouchers = await directus.request(
-      readItems("vouchers", {
-        fields: ["id", "duration_days", "end_date"],
-        filter: {
-          id: {
-            _eq: voucher as string,
+      // get voucher by ref_code
+      const vouchers = await directus.request(
+        readItems("vouchers", {
+          fields: ["id", "validity_in_seconds", "end_date"],
+          filter: {
+            id: {
+              _eq: voucher_id as string,
+            },
+            // ref_code: {
+            //   _eq: utm_campaign as string,
+            // },
           },
-          // ref_code: {
-          //   _eq: utm_campaign as string,
-          // },
-        },
-        limit: 1,
-      })
-    );
+          limit: 1,
+        })
+      );
 
+      if (!vouchers.length) {
+        return c.json({ error: "Voucher not found" }, { status: 404 });
+      }
 
-    if (!vouchers.length) {
-      return c.json({ error: "Voucher not found" }, { status: 404 });
+      const voucherData = vouchers[0];
+
+      // get available voucher code
+      const availableCodes = await directus.request(
+        readItems("vouchers_codes", {
+          fields: ["id", "code"],
+          filter: {
+            voucher: {
+              _eq: voucherData.id,
+            },
+            code_status: {
+              _eq: "available",
+            },
+          },
+          limit: 1,
+        })
+      );
+
+      if (!availableCodes.length) {
+        return c.json({ error: "No available voucher codes" }, { status: 404 });
+      }
+
+      const availableCode = availableCodes[0];
+
+      const now = new Date();
+      const expires_at = voucherData.validity_in_seconds
+        ? endOfDay(addDays(now, voucherData.validity_in_seconds)).toISOString()
+        : voucherData.end_date;
+
+      // create voucher user
+      const newVoucherUser = await directus.request(
+        createItem("vouchers_users", {
+          collected_by: id,
+          collected_date: new Date().toISOString(),
+          code: availableCode.code,
+          channel,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          expired_date: expires_at,
+        })
+      );
+
+      // update voucher code status to "collected"
+      await directus.request(
+        updateItem("vouchers_codes", availableCode.id, {
+          code_status: "collected",
+        })
+      );
+
+      return c.json({
+        success: true,
+        ...newVoucherUser,
+        voucher_id: voucher_id,
+      });
+    } catch (error) {
+      console.error(error);
+      return c.json(
+        { error: "Something went wrong", detail: error?.message ?? error },
+        500
+      );
     }
-
-    const voucherData = vouchers[0];
-    const end_date = voucherData.end_date;
-    const duration_days = voucherData.duration_days;
-
-    // get available voucher code
-    const voucherCodes = await directus.request(
-      readItems("vouchers_codes", {
-        fields: ["id", "code"],
-        filter: {
-          voucher: {
-            _eq: voucherData.id,
-          },
-          code_status: {
-            _eq: "available",
-          },
-        },
-        limit: 1,
-      })
-    );
-
-    if (!voucherCodes.length) {
-      return c.json({ error: "No available voucher codes" }, { status: 404 });
-    }
-
-    const voucherCode = voucherCodes[0];
-
-    // create voucher user
-    const data = await directus.request(
-      createItem("vouchers_users", {
-        collected_by: id,
-        collected_date: new Date().toISOString(),
-        code: voucherCode.code,
-        channel,
-        utm_source,
-        utm_medium,
-        utm_campaign,
-        expired_date: duration_days
-          ? endOfDay(addDays(new Date(), duration_days)).toISOString()
-          : end_date,
-      })
-    );
-
-    // update voucher code status to "collected"
-    await directus.request(
-      updateItem("vouchers_codes", voucherCode.id, {
-        code_status: "collected",
-      })
-    );
-
-    return c.json({
-      ...data,
-      voucher: voucher
-    });
   }
 );
 
@@ -152,26 +161,29 @@ export const createVoucherCode = factory.createHandlers(
 
       // Generate all codes at once
       const codes = Array.from({ length: count }, () =>
-        nanoid(12).toUpperCase().replace(/[^A-Z0-9]/g, "")
+        nanoid(12)
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, "")
       );
 
       // Create array of objects for batch insert
-      const items = codes.map(code => ({
+      const items = codes.map((code) => ({
         voucher: voucher_id,
         code,
         status: "draft",
-        code_status: "available"
+        code_status: "available",
       }));
 
       // Perform batch insert instead of looping
-      const data = await directus.request(
-        createItems("vouchers_codes", items)
-      );
+      const data = await directus.request(createItems("vouchers_codes", items));
 
       return c.json(data);
     } catch (error) {
       console.error("Error creating voucher codes:", error);
-      return c.json({ error: "Failed to create voucher codes" }, { status: 500 });
+      return c.json(
+        { error: "Failed to create voucher codes" },
+        { status: 500 }
+      );
     }
   }
 );
@@ -183,40 +195,64 @@ export const getVouchersByUser = factory.createHandlers(
   async (c) => {
     const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
-    const vouchersUsers = await directus.request(
-      readItems("vouchers_users", {
-        filter: {
-          collected_by: {
-            _eq: id,
+    try {
+      const vouchersUsers = await directus.request(
+        readItems("vouchers_users", {
+          filter: {
+            collected_by: {
+              _eq: id,
+            },
           },
-        },
-      })
-    );
+        })
+      );
 
-    // 1. รวม code ทั้งหมดที่ user มี
-    const codes = vouchersUsers.map((vu: any) => vu.code);
+      // 1. รวม code ทั้งหมดที่ user มี
+      const codes = vouchersUsers.map((vu: any) => vu.code);
 
-    // 2. ดึง vouchers_codes ทีเดียวด้วย filter _in
-    const vouchersCodes = await directus.request(
-      readItems("vouchers_codes", {
-        fields: ["*", { voucher: ["id","name","banner","cover","metadata","start_date","end_date", { voucher_brand_id: ["*"] }] }],
-        filter: { code: { _in: codes } },
-      })
-    );
+      // ถ้า codes เป็น array ว่าง ให้ return [] ทันที
+      if (!codes.length) {
+        return c.json([]);
+      }
 
-    // 3. ทำเป็น map เพื่อ lookup ง่าย
-    const codeMap = _.keyBy(vouchersCodes, "code");
+      // 2. ดึง vouchers_codes ทีเดียวด้วย filter _in
+      const vouchersCodes = await directus.request(
+        readItems("vouchers_codes", {
+          fields: [
+            "*",
+            {
+              voucher: [
+                "id",
+                "name",
+                "banner",
+                "cover",
+                "metadata",
+                "start_date",
+                "end_date",
+                { voucher_brand_id: ["*"] },
+              ],
+            },
+          ],
+          filter: { code: { _in: codes } },
+        })
+      );
 
-    // 4. รวมข้อมูลกลับไปที่ vouchersUsers
-    const vouchersUserCode = vouchersUsers.map((voucherUser: any) => {
-      const { code, ...rest } = voucherUser;
-      return {
-        ...rest,
-        code: codeMap[code] || null,
-      };
-    });
+      // 3. ทำเป็น map เพื่อ lookup ง่าย
+      const codeMap = _.keyBy(vouchersCodes, "code");
 
-    return c.json(vouchersUserCode);
+      // 4. รวมข้อมูลกลับไปที่ vouchersUsers
+      const vouchersUserCode = vouchersUsers.map((voucherUser: any) => {
+        const { code, ...rest } = voucherUser;
+        return {
+          ...rest,
+          code: codeMap[code] || null,
+        };
+      });
+
+      return c.json(vouchersUserCode);
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
   }
 );
 // updateVoucherUser
@@ -273,12 +309,18 @@ export const getStatVoucherCode = factory.createHandlers(
       readItems("vouchers_codes", {
         filter: filters,
         fields: ["code_status"],
-        limit:-1
+        limit: -1,
       })
     );
 
     const grouped = _.groupBy(voucherCodes, "code_status");
-    const allStatuses = ["available", "collected", "expired", "used","reserved"];
+    const allStatuses = [
+      "available",
+      "collected",
+      "expired",
+      "used",
+      "reserved",
+    ];
     const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
 
     _.forEach(grouped, (codes, status) => {
@@ -304,7 +346,7 @@ export const getStatVoucherUser = factory.createHandlers(
     const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
         filter: filters,
-        fields: ["code","expired_date"],
+        fields: ["code", "expired_date"],
       })
     );
 
@@ -321,20 +363,28 @@ export const getStatVoucherUser = factory.createHandlers(
             limit: 1,
           })
         );
-        
+
         // If expired_date is in the past, set status to 'expired'
         const expiredDate = new Date(voucherUser.expired_date);
         const isExpired = expiredDate < currentDate;
-        
-        return { 
-          ...voucherUser, 
-          code_status: isExpired ? 'expired' : voucherCode[0]?.code_status || 'available'
+
+        return {
+          ...voucherUser,
+          code_status: isExpired
+            ? "expired"
+            : voucherCode[0]?.code_status || "available",
         };
       })
     );
 
     const grouped = _.groupBy(voucherCodes, "code_status");
-    const allStatuses = ["available", "collected", "expired", "used", "reserved"];
+    const allStatuses = [
+      "available",
+      "collected",
+      "expired",
+      "used",
+      "reserved",
+    ];
     const stats = _.mapValues(_.keyBy(allStatuses), () => 0);
 
     _.forEach(grouped, (users, status) => {
@@ -373,7 +423,7 @@ export const useVoucher = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const {id} =await c.req.json();    
+    const { id } = await c.req.json();
 
     // Update voucher user with used date
     const voucherUser = await directus.request(
@@ -382,7 +432,6 @@ export const useVoucher = factory.createHandlers(
       })
     );
     console.log(voucherUser);
-    
 
     if (!voucherUser) {
       return c.json({ error: "Voucher user not found" }, { status: 404 });
@@ -419,7 +468,7 @@ export const updateVoucherCode = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const {userId,code,code_status} =await c.req.json();    
+    const { userId, code, code_status } = await c.req.json();
 
     const voucherCode = await directus.request(
       readItems("vouchers_codes", {
@@ -454,8 +503,7 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
     const directus = c.get("directAdmin");
 
     const voucherBrand = await directus.request(
-      readItem("vouchers_brands", id, {
-      })
+      readItem("vouchers_brands", id, {})
     );
     const vouchers = await directus.request(
       readItems("vouchers", {
