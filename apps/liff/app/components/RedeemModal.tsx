@@ -8,7 +8,7 @@ import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
 import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
-import Button from "./Button";
+import Button from "../routes/a.$liffId.$slug.coupon.$couponId/_components/Button";
 
 interface RedeemModalProps {
   page: PageLiff;
@@ -86,6 +86,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdown} minutes after scanning`,
   };
   const seeMyVouchersText = {
+    th: "ดูคูปองของฉัน",
+    en: "See my coupons",
+  };
+  const laterText = {
     th: "เก็บไว้ก่อน",
     en: "Later",
   };
@@ -146,12 +150,12 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 
   // Expired Page
   const expiredText = {
-    th: "คูปองหมดเวลาแลกแล้ว",
-    en: "This coupon has expired",
+    th: "คูปองหมดอายุแล้ว",
+    en: "Coupon expired",
   };
-  const closeText = {
-    th: "ปิด",
-    en: "Close",
+  const okText = {
+    th: "ตกลง",
+    en: "OK",
   };
 
   // Initialize remaining time based on usedDate if it exists
@@ -268,14 +272,17 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="space-y-3">
                   {/* แสดงเวลาที่เหลือ */}
                   <div
-                    className={`p-4 rounded-lg ${page.metadata.template === "promotion" ? "bg-red-300 bg-opacity-15" : (remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50")}`}
+                    className={`p-4 rounded-lg ${page.metadata.template === "promotion" ? "bg-red-300 bg-opacity-15" : remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Clock
                           className={`h-5 w-5 ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
                           style={{
-                            color: page.metadata.template === "promotion" ? primaryColor : undefined,
+                            color:
+                              page.metadata.template === "promotion"
+                                ? primaryColor
+                                : undefined,
                           }}
                         />
                         <span className="text-sm font-medium text-gray-700">
@@ -285,7 +292,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                       <div
                         className={`font-bold text-xl ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
                         style={{
-                          color: page.metadata.template === "promotion" ? primaryColor : undefined,
+                          color:
+                            page.metadata.template === "promotion"
+                              ? primaryColor
+                              : undefined,
                         }}
                       >
                         {formatTime(remainingTime)}
@@ -296,23 +306,32 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full ${
-                          page.metadata.template === "promotion" ? "bg-primary" : (remainingTime <= 60
-                            ? "bg-red-600"
-                            : remainingTime <= 5 * 60
-                              ? "bg-yellow-400"
-                              : "bg-primary")
+                          page.metadata.template === "promotion"
+                            ? "bg-primary"
+                            : remainingTime <= 60
+                              ? "bg-red-600"
+                              : remainingTime <= 5 * 60
+                                ? "bg-yellow-400"
+                                : "bg-primary"
                         }`}
-                        style={{ width: `${timePercentage}%`, backgroundColor: page.metadata.template === "promotion" ? primaryColor : undefined }}
+                        style={{
+                          width: `${timePercentage}%`,
+                          backgroundColor:
+                            page.metadata.template === "promotion"
+                              ? primaryColor
+                              : undefined,
+                        }}
                       ></div>
                     </div>
 
                     {/* Expire Warning */}
-                    {page.metadata.template !== "promotion" && showExpireWarning && (
-                      <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
-                        <AlertCircle className="h-4 w-4" />
-                        <span>{warningExpireText[language]}</span>
-                      </div>
-                    )}
+                    {page.metadata.template !== "promotion" &&
+                      showExpireWarning && (
+                        <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                          <AlertCircle className="h-4 w-4" />
+                          <span>{warningExpireText[language]}</span>
+                        </div>
+                      )}
                   </div>
 
                   {/* Code Type Selection */}
@@ -436,12 +455,25 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
             )}
             {pageState === "expired" && (
               <>
-                <div className="py-5 flex flex-col justify-center items-center text-center space-y-3">
-                  <div className="p-6 rounded-full bg-red-50">
-                    <TicketX className={`h-8 w-8 text-red-600`} />
+                <div className="pt-3 pb-5 flex flex-col justify-center items-center text-center space-y-3">
+                  <div className="flex items-start text-start gap-3">
+                    <img
+                      src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+                      alt={title}
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                    <div>
+                      <h3 className="font-medium text-lg">
+                        {voucher.voucher_brand_id?.name}
+                      </h3>
+                      <h4 className="text-sm text-gray-500">{title}</h4>
+                    </div>
                   </div>
+                  {/* <div className="p-6 rounded-full bg-red-50">
+                    <TicketX className={`h-8 w-8 text-red-600`} />
+                  </div> */}
 
-                  <h2 className="text-lg font-medium text-gray-800">
+                  <h2 className="text-xl font-bold text-gray-800">
                     {expiredText[language]}
                   </h2>
                 </div>
@@ -449,7 +481,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="flex justify-between gap-3">
                   <Button
                     onClick={onClose}
-                    text={closeText[language]}
+                    text={okText[language]}
                     primaryColor={primaryColor}
                   />
                 </div>
@@ -510,11 +542,16 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                   </div>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <Button
+                  {/* <Button
                     onClick={() =>
                       navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`)
                     }
                     text={seeMyVouchersText[language]}
+                    secondaryColor={primaryColor}
+                  /> */}
+                  <Button
+                    onClick={onClose}
+                    text={laterText[language]}
                     secondaryColor={primaryColor}
                   />
                   <Button

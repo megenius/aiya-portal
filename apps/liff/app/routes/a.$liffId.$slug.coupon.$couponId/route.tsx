@@ -16,7 +16,7 @@ import Footer from "./_components/Footer";
 import FullyCollectedModal from "./_components/FullyCollectedModal";
 import Header from "./_components/Header";
 import MainContent from "./_components/MainContent";
-import RedeemModal from "./_components/RedeemModal";
+import RedeemModal from "../../components/RedeemModal";
 import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
 import { useVoucher } from "~/hooks/vouchers/useVoucher";
@@ -47,7 +47,7 @@ const Route = () => {
   const [isRedeemedModalOpen, setIsRedeemedModalOpen] = useState(false);
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [state, setState] = useState<"redeem" | "collected">("redeem");
+  const [state, setState] = useState<"collected" | "redeem">("redeem");
 
   const status = myCoupon
     ? (myCoupon.code.code_status ?? "collected")
@@ -154,6 +154,7 @@ const Route = () => {
             language={lang}
             primaryColor={page.bg_color ?? ""}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         ) : (
           <>
@@ -227,6 +228,7 @@ const Route = () => {
             }
             isOpen={isRedeemedModalOpen}
             onClose={() => {
+              setState("redeem");
               refetchCodeStats();
               setIsRedeemedModalOpen(false);
             }}
