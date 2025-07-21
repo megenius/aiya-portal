@@ -19,8 +19,8 @@ export const redeemVoucher = (data: Partial<VoucherUser>) =>
 export const fetchVoucherCodeStats = ({ voucherId }) =>
   api.get<VoucherStats>(`/vouchers/voucher-codes/stats?voucher=${voucherId}`);
 
-export const fetchVoucherUserStats = ({ userId }) =>
-  api.get<VoucherStats>(`/vouchers/voucher-users/stats/${userId}`);
+export const fetchVoucherUserStats = () =>
+  api.get<VoucherStats>(`/vouchers/voucher-users/stats`);
 
 export const updateVoucherCode = (data: VoucherCodeUpdate) =>
   api.patch(`/vouchers/voucher-codes`, data);

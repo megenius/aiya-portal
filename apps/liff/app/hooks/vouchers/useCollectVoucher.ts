@@ -27,7 +27,7 @@ export function useCollectVoucher() {
         refetchType: "active",
       });
       queryClient.invalidateQueries({
-        queryKey: ["vouchers","voucher-users","stats",res.collected_by ],
+        queryKey: ["vouchers","voucher-users","stats" ],
         exact: true,
         refetchType: "active",
       });

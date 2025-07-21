@@ -341,15 +341,19 @@ export const getStatVoucherUser = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { collected_by } = c.req.param();
+    const { id } = c.get("jwtPayload");
     const directus = c.get("directAdmin");
 
-    const filters: any = {};
-    if (collected_by) filters.collected_by = { _eq: collected_by };
+    // const filters: any = {};
+    // if (collected_by) filters.collected_by = { _eq: collected_by };
 
     const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
-        filter: filters,
+        filter: {
+          collected_by: {
+            _eq: id,
+          },
+        },
         fields: ["code", "expired_date"],
       })
     );
@@ -384,6 +388,7 @@ export const getStatVoucherUser = factory.createHandlers(
     const grouped = _.groupBy(voucherCodes, "code_status");
     const allStatuses = [
       "available",
+      "pending_confirmation",
       "collected",
       "expired",
       "used",

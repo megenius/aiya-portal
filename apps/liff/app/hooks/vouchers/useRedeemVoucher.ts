@@ -12,14 +12,14 @@ export function useRedeemVoucher() {
   return useMutation({
     mutationFn: ({ variables }: MutationFn ) => 
       redeemVoucher(variables).then((response) => response.data),
-    onSuccess: (res) => {
+    onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["voucher-user",res.collected_by ],
+          queryKey: ["voucher-user" ],
           exact: true,
           refetchType: "active",
         });
         queryClient.invalidateQueries({
-          queryKey: ["vouchers","voucher-users","stats",res.collected_by ],
+          queryKey: ["vouchers","voucher-users","stats" ],
           exact: true,
           refetchType: "active",
         });
