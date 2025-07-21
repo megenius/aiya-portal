@@ -135,13 +135,20 @@ const MainContent: React.FC<MainContentProps> = ({
           </div>
 
           <div className="flex-1 flex flex-col overflow-hidden">
-            <VoucherProgressBar
-              totalVouchers={codeStats?.total}
-              availableVouchers={codeStats?.available}
-              language={language}
-              primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
-            />
-            <div className="mt-4 flex-1 flex flex-col overflow-hidden">
+            {(status === "instant" ||
+              status === "form" ||
+              status === "fully_collected" ||
+              status === "expired") && (
+              <div className="mb-4">
+                <VoucherProgressBar
+                  totalVouchers={codeStats?.total}
+                  availableVouchers={codeStats?.available}
+                  language={language}
+                  primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
+                />
+              </div>
+            )}
+            <div className="flex-1 flex flex-col overflow-hidden">
               <Tabs
                 language={language}
                 tabs={tabs}

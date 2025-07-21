@@ -27,7 +27,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, de
         <img
           src={getDirectusFileUrl(cover) ?? ""}
           alt={title ?? ""}
-          className="w-full h-full object-cover rounded-2xl"
+          className={`${width === "full" ? "w-full" : `w-[${width}px]`} h-full object-cover rounded-2xl`}
         />
         {/* Gradient Overlay */}
         <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-black/60 via-black/15 to-transparent rounded-b-2xl" />
