@@ -9,8 +9,8 @@ import { deleteBotMutedUsers } from "~/services/bots";
 export const useBotMutedUsersDelete = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ botId, uid }: { botId: string; uid: string }) =>
-      deleteBotMutedUsers({ botId, uid }).then((response) => response.data),
+    mutationFn: ({ botId, provider_id, uid }: { botId: string; provider_id: string; uid: string }) =>
+      deleteBotMutedUsers({ botId, provider_id, uid }).then((response) => response.data),
     onSuccess: (res) => {
       queryClient.invalidateQueries({
         queryKey: ["bots", res.botId, "muted-users"],
