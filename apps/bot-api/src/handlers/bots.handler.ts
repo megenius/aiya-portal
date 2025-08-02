@@ -506,14 +506,16 @@ export const muteUserHandler = factory.createHandlers(
     //  "provider_id": "XXX",
     //   "uid": "Ua29b798287b0acc26cc5ec62e30185e2",
     // }
-    const expiresOnBangkokTime = formatDateBangkok(new Date(data.expires_on));
+    const itemData: any = {
+      bot: botId,
+      provider_id: data.provider_id,
+      uid: data.uid,
+    };
+    if (data.expires_on) {
+      itemData.expires_on = formatDateBangkok(new Date(data.expires_on));
+    }
     const item = await directus.request(
-      createItem("bots_muted_users", {
-        bot: botId,
-        provider_id: data.provider_id,
-        uid: data.uid,
-        expires_on: expiresOnBangkokTime,
-      })
+      createItem("bots_muted_users", itemData)
     );
     return c.json(item);
   }
