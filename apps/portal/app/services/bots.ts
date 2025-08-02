@@ -251,8 +251,8 @@ export const fetchBotMutedUsers = (botId: string) =>
 export const insertBotMutedUser = (data:Partial<BotMutedUser>) =>
   api.post(`/bots/${data.bot}/muted-users`, data);
 
-export const deleteBotMutedUsers = ({botId,uid}) =>
-  api.delete(`/bots/${botId}/muted-users`, { data: { uid: uid } });
+export const deleteBotMutedUsers = ({botId, provider_id, uid}) =>
+  api.delete(`/bots/${botId}/muted-users`, { data: { uid: uid, provider_id: provider_id } });
 
 // --------------- stats ---------------
 export const fetchBotStatsToday = ({botId,timeUnit,startDate,endDate}) =>

@@ -34,7 +34,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
       uid: contact.social_id,
       expires_on:
         duration === "permanent"
-          ? new Date(Date.now() + toMillisecond(30, "day")).toISOString()
+          ? null
           : new Date(
               Date.now() + toMillisecond(duration, "minute")
             ).toISOString(),
@@ -58,6 +58,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
       } else {
         deleteBotMutedUser.mutate({
           botId: botId,
+          provider_id: contact.provider_id,
           uid: contact.social_id,
         });
         setIsChecked(checked);

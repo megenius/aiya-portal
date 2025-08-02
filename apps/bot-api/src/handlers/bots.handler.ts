@@ -533,7 +533,7 @@ export const unmuteUserHandler = factory.createHandlers(
     const item = await directus.request(
       readItems("bots_muted_users", {
         fields: ["id"],
-        filter: { bot: botId, uid: data.uid },
+        filter: { bot: botId, provider_id: data.provider_id, uid: data.uid },
       })
     );
 
