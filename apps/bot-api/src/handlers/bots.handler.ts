@@ -483,10 +483,15 @@ export const getMutedUsersHandler = factory.createHandlers(
   directusMiddleware,
   async (c: Context<Env>) => {
     const botId = c.req.param("id");
+    const provider_id = c.req.query("provider_id");
+    const uid = c.req.query("uid");
     const directus = c.get("directus");
 
+    const filter: any = { bot: botId };
+    if (provider_id) filter.provider_id = provider_id;
+    if (uid) filter.uid = uid;
     const items = await directus.request(
-      readItems("bots_muted_users", { fields: ["uid"], filter: { bot: botId } })
+      readItems("bots_muted_users", { fields: ["uid"], filter })
     );
 
     return c.json(items);
