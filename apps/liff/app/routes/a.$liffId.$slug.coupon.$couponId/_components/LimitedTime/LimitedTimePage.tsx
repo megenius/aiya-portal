@@ -247,10 +247,15 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <button
                 onClick={() => onSubmit(activeTier)}
                 disabled={isSubmitting}
+                // className={`w-full py-4 text-lg sm:text-2xl rounded-xl border-0 transition ${
+                //   isSubmitting
+                //     ? "bg-gray-300 text-gray-500"
+                //     : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
+                // }`}
                 className={`w-full py-4 text-lg sm:text-2xl rounded-xl border-0 transition ${
                   isSubmitting
                     ? "bg-gray-300 text-gray-500"
-                    : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
+                    : "bg-[#9AD3A8] text-[#375CA3] font-bold"
                 }`}
               >
                 {isSubmitting
