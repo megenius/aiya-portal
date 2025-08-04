@@ -22,7 +22,7 @@ interface PromotionTemplateProps {
 const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
   vouchers,
   populars,
-  location = "MBK Center ชั้น 2",
+  location = "",
   primaryColor = "#FF0000",
   language,
 }) => {
@@ -64,8 +64,8 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
 //   }, [mainBannerVoucher?.end_date]);
 
   const couponText = {
-    th: "คูปอง",
-    en: "Coupons",
+    th: "คูปองเฉพาะคุณ",
+    en: "Exclusive Coupons",
   };
 
   return (
@@ -129,7 +129,6 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
         </button>
       )}
 
-      {location && (
         <div className="flex items-center justify-start">
           <h3 className="text-lg font-bold">
             {couponText[language]} {location}
@@ -141,7 +140,6 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
             {locationText[language]} &gt;
           </button> */}
         </div>
-      )}
 
       {/* <div className="pt-3 pb-1">
         <h3 className="text-lg font-semibold">

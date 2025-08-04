@@ -79,8 +79,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   };
 
   const collectedSuccessDescription = {
-    th: `${getVoucherThaiDescription(voucherUser, voucher, language)}\nใช้ได้ที่สาขา MBK Center ชั้น 2`,
-    en: `You have received a discount of ${getVoucherValueWithType(voucherUser)}\nYou can use it at MBK Center, Floor 2`,
+    th: `${getVoucherThaiDescription(voucherUser, voucher, language)}\n`,
+    en: `You have received a discount of ${getVoucherValueWithType(voucherUser)}`,
   };
   const collectedDescription = {
     th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
@@ -273,7 +273,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="space-y-3">
                   {/* แสดงเวลาที่เหลือ */}
                   <div
-                    className={`p-4 rounded-lg ${page.metadata.template === "promotion" ? "bg-red-300 bg-opacity-15" : remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+                    className={`p-4 rounded-lg ${page.metadata.template === "promotion" ? "bg-blue-300 bg-opacity-15" : remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">

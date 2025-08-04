@@ -156,7 +156,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
   const textButton = {
     th: {
-      collect: `รับคูปอง ${
+      collect: activeTier?.type === "gift" ? `รับขวดน้ำเลย` :`รับคูปอง ${
         activeTier?.value ??
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
@@ -172,7 +172,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       expired: "หมดอายุแล้ว",
     },
     en: {
-      collect: `Collect ${
+      collect: activeTier?.type === "gift" ? `Collect` : `Collect ${
         activeTier?.value ??
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1

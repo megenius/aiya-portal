@@ -70,7 +70,7 @@ interface TierCondition {
 
 export interface DiscountTier {
   value: number;
-  type: 'percentage' | 'fixed_amount';
+  type: 'percentage' | 'fixed_amount' | 'gift';
   condition: TierCondition;
 }
 

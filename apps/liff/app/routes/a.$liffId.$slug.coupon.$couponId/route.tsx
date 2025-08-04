@@ -93,7 +93,7 @@ const Route = () => {
       voucher_id: coupon?.id as string,
       channel: page?.channel as string,
       ...(tier && {
-        discount_value: tier.value,
+        discount_value: tier.value || 0,
         discount_type: tier.type,
       }),
     };
