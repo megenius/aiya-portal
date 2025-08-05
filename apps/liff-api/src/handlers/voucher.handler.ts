@@ -569,9 +569,9 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
     
 
     // ถ้ายังไม่ถึง start_date ให้ส่ง null กลับไป
-    const now = new Date();
-    console.log(`${voucher.start_date} && ${new Date(now)} < ${new Date(voucher.start_date as string)}`);
-    if (voucher.start_date && new Date(now) < new Date(voucher.start_date)) {
+    const bangkokNow = new Date(new Date().getTime() + (7 * 60 * 60 * 1000));
+    console.log(`${voucher.start_date} && ${bangkokNow} < ${new Date(voucher.start_date as string)}`);
+    if (voucher.start_date && bangkokNow < new Date(voucher.start_date)) {
       return c.json(null);
     }
 
