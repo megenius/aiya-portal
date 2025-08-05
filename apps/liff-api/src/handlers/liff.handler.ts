@@ -64,9 +64,13 @@ export const getByLiffIdAndSlug = factory.createHandlers(
             "*",
             {
               vouchers: [
-                "*",
-                { voucher_brand_id: ["*"] },
-                { translations: ["*"] },
+                {
+                  vouchers_id: [
+                    "*",
+                    { voucher_brand_id: ["*"] },
+                    { translations: ["*"] },
+                  ],
+                },
               ],
             },
             // เอาข้อมูล brands ทั้งหมดมาโดยตรง
@@ -128,7 +132,7 @@ export const getByLiffIdAndSlug = factory.createHandlers(
     if (page?.vouchers) {
       page.vouchers = filterAndMapVouchers(
         page.vouchers,
-        (voucher) => voucher,
+        (voucher) => voucher.vouchers_id,
         lang
       );
     }
