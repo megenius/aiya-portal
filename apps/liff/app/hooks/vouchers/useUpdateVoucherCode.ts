@@ -11,9 +11,9 @@ export function useUpdateVoucherCode() {
   return useMutation({
     mutationFn: ({ variables }: MutationFn) =>
       updateVoucherCode(variables).then((response) => response.data),
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["voucher-user",res.userId],
+        queryKey: ["voucher-user"],
         exact: true,
         refetchType: "active",
       });
