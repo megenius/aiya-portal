@@ -23,12 +23,12 @@ const CouponCard: React.FC<CouponCardProps> = ({ couponId,cover, logo, title, de
   const navigateToCollectCoupon = () =>
     navigate(`/a/${liffId}/${slug}/coupon/${couponId}`);
   return (
-    <button onClick={() => navigateToCollectCoupon()} className={`bg-white flex flex-col shrink-0 ${width === "full" ? "w-full" : `w-[${width}px]`}`}>
-      <div className={`aspect-square relative ${height === "full" ? "h-full" : `h-[${height}px]`}`}>
+    <button onClick={() => navigateToCollectCoupon()} className={`bg-white flex flex-col shrink-0 ${width === "full" ? "w-full" : `w-32`}`}>
+      <div className={`aspect-square relative ${height === "full" ? "h-full" : `h-32`}`}>
         <img
           src={getDirectusFileUrl(cover) ?? ""}
           alt={title ?? ""}
-          className={`w-full ${height === "full" ? "h-full" : `h-[${height}px]`} object-cover rounded-2xl`}
+          className={`w-full ${height === "full" ? "h-full" : `h-32`} object-cover rounded-2xl`}
         />
         {/* Gradient Overlay */}
         <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-black/60 via-black/15 to-transparent rounded-b-2xl" />

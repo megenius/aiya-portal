@@ -223,7 +223,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
             ชวน
           </button>}
 
-          <button
+          {page?.metadata?.template === "promotion" && <button
             className="flex items-center gap-2 bg-primary rounded-full px-3 py-1.5 text-white text-lg font-medium shadow-none border-none focus:outline-none"
             style={{ backgroundColor: primaryColor }}
             type="button"
@@ -231,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
           >
             <Ticket />
             <span className="text-sm">{couponCount} คูปอง</span>
-          </button>
+          </button>}
 
           <PointButton points={0} primaryColor={primaryColor} onClick={navigateToReward} showPoint={page?.metadata?.layout?.showPoint} />
         </div>
