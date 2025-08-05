@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from "@remix-run/react";
 import confetti from "canvas-confetti";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
@@ -23,6 +23,22 @@ import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
 
+// Hook สำหรับ refetch voucher view เมื่อถึงเวลา start_date
+function useRefetchOnVoucherStart(startDate?: string, refetchVoucherView?: () => void) {
+  useEffect(() => {
+    if (!startDate || !refetchVoucherView) return;
+    const now = Date.now();
+    const start = new Date(startDate).getTime();
+    const msUntilStart = start - now;
+    if (msUntilStart > 0) {
+      const timeout = setTimeout(() => {
+        refetchVoucherView();
+      }, msUntilStart);
+      return () => clearTimeout(timeout);
+    }
+  }, [startDate, refetchVoucherView]);
+}
+
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { couponId } = useParams();
@@ -38,11 +54,14 @@ const Route = () => {
   } = useVoucherCodeStats({
     voucherId: couponId as string,
   });
-  const { data: voucherView, isLoading: isVoucherViewLoading } = useVoucherView(
+  const { data: voucherView, isLoading: isVoucherViewLoading,refetch: refetchVoucherView } = useVoucherView(
     {
       voucherId: couponId as string,
     }
   );
+
+  // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
+  useRefetchOnVoucherStart(coupon?.start_date, refetchVoucherView);
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
