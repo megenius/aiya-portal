@@ -559,6 +559,19 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
     const { id } = c.get("jwtPayload");
     const { voucher_id } = c.req.param();
     const directus = c.get("directAdmin");
+    const voucher = await directus.request(
+      readItem("vouchers", voucher_id)
+    );
+    if (!voucher) {
+      return c.json({ error: "Voucher not found" }, { status: 404 });
+    }
+
+    // ถ้ายังไม่ถึง start_date ให้ส่ง null กลับไป
+    const now = new Date();
+    if (voucher.start_date && new Date(now) < new Date(voucher.start_date)) {
+      return c.json(null);
+    }
+
     const voucherViews = await directus.request(
       readItems("voucher_views", {
         filter: {

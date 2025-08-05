@@ -21,6 +21,7 @@ import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
 import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
+import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -37,6 +38,11 @@ const Route = () => {
   } = useVoucherCodeStats({
     voucherId: couponId as string,
   });
+  const { data: voucherView, isLoading: isVoucherViewLoading } = useVoucherView(
+    {
+      voucherId: couponId as string,
+    }
+  );
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
@@ -140,7 +146,7 @@ const Route = () => {
       });
   };
 
-  if (isCouponLoading || isMyCouponsLoading || isCodeStatsLoading) {
+  if (isCouponLoading || isMyCouponsLoading || isCodeStatsLoading || isVoucherViewLoading) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
@@ -151,8 +157,8 @@ const Route = () => {
         status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
+            voucherView={voucherView}
             language={lang}
-            primaryColor={page.bg_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
           />

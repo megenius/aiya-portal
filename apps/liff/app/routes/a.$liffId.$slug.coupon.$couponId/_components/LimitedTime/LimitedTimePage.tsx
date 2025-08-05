@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { DiscountTier, Voucher } from "~/types/app";
+import { DiscountTier, Voucher, VoucherView } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
-import Button from "../Button";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
 import { ArrowLeft } from "lucide-react";
-import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
-import Loading from "~/components/Loading";
-
+import { th } from "date-fns/locale";
+import { formatDateTime } from "~/utils/helpers";
 interface LimitedTimePageProps {
   voucher: Voucher;
+  voucherView?: VoucherView;
   language: string;
-  primaryColor: string;
   isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
 }
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
+  voucherView,
   language,
-  primaryColor,
   isSubmitting,
   onSubmit,
 }) => {
@@ -31,29 +29,6 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   const messageFromApi = voucher.metadata.title[language];
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
-  const { data: voucherView, isLoading: isVoucherViewLoading } = useVoucherView(
-    {
-      voucherId: voucher.id,
-    }
-  );
-
-  // แทนที่ ${value} ด้วย activeTier.value
-  const displayMessage = messageFromApi.replace(
-    /\$\{value\}/g,
-    activeTier?.value
-      ? `${activeTier.value}${activeTier.type === "percentage" ? "%" : ""}`
-      : `${
-          voucher.metadata.discount_tiers?.[
-            voucher.metadata.discount_tiers.length - 1
-          ].value
-      }${
-        voucher.metadata.discount_tiers?.[
-          voucher.metadata.discount_tiers.length - 1
-        ].type === "percentage"
-          ? "%"
-          : ""
-      }`
-  );
 
   const navigateToBack = () => {
     const idx = window.history.state?.idx ?? window.history.length;
@@ -66,9 +41,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
   useEffect(() => {
     if (
-      isVoucherViewLoading ||
       !voucher?.metadata?.discount_tiers ||
-      voucher.metadata.discount_tiers.length === 0
+      voucher.metadata.discount_tiers.length === 0 ||
+      !voucherView
     ) {
       return;
     }
@@ -152,38 +127,44 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     const timerId = setInterval(calculateCurrentState, 1000);
 
     return () => clearInterval(timerId);
-  }, [voucher, voucherView, isVoucherViewLoading]);
+  }, [voucher, voucherView]);
 
-  const textButton = {
-    th: {
-      collect: activeTier?.type === "gift" ? `รับขวดน้ำเลย` :`รับคูปอง ${
-        activeTier?.value ??
-        voucher.metadata.discount_tiers?.[
-          voucher.metadata.discount_tiers.length - 1
-        ].value
+
+  // แทนที่ ${value} ด้วย activeTier.value
+  const displayMessage = messageFromApi.replace(
+    /\$\{value\}/g,
+    activeTier?.value
+      ? `${activeTier.value}${activeTier.type === "percentage" ? "%" : ""}`
+      : `${
+          voucher.metadata.discount_tiers?.[
+            voucher.metadata.discount_tiers.length - 1
+          ].value
       }${
         voucher.metadata.discount_tiers?.[
           voucher.metadata.discount_tiers.length - 1
         ].type === "percentage"
           ? "%"
           : ""
-      } เลย`,
+      }`
+  );
+  const displayDescription = {
+    th: `เริ่มแจกพร้อมกัน\n${formatDateTime(voucher.start_date as string, "th")}`,
+    en: `Starts at\n${formatDateTime(voucher.start_date as string, "en")}`,
+  };
+
+  const otherVoucherTextButton = {
+    th: "เลือกดูคูปองอื่นก่อน",
+    en: "Choose another voucher",
+  };
+
+  const textButton = {
+    th: {
+      collect: getCollectText({ lang: "th", activeTier, voucher }),
       redeem: "ใช้คูปอง",
       expired: "หมดอายุแล้ว",
     },
     en: {
-      collect: activeTier?.type === "gift" ? `Collect` : `Collect ${
-        activeTier?.value ??
-        voucher.metadata.discount_tiers?.[
-          voucher.metadata.discount_tiers.length - 1
-        ].value
-      }${
-        voucher.metadata.discount_tiers?.[
-          voucher.metadata.discount_tiers.length - 1
-        ].type === "percentage"
-          ? "%"
-          : ""
-      }`,
+      collect: getCollectText({ lang: "en", activeTier, voucher }),
       redeem: "Redeem",
       expired: "Expired",
     },
@@ -198,13 +179,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     },
   };
 
-  if (isVoucherViewLoading) {
-    return <Loading primaryColor={primaryColor} />;
-  }
-
   return (
     <>
-      {timeLeft <= 0 && !activeTier && (
+      {voucherView && timeLeft <= 0 && !activeTier && (
         <div className="absolute inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center pointer-events-auto">
           <div className="rotate-[-15deg] flex flex-col items-center justify-center gap-2">
             <div className="w-full h-0.5 bg-white rounded-lg"></div>
@@ -235,7 +212,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           className="w-full h-full object-cover"
         />
         <div className="absolute pt-[50%] p-4 inset-0 flex justify-center items-center">
-          <div className="w-full h-full flex flex-col gap-8">
+          {voucherView && <div className="w-full h-full flex flex-col gap-8">
             <div className="flex flex-col items-center gap-10">
               <h1 className="text-white text-2xl font-bold whitespace-pre-line text-center">
                 {displayMessage}
@@ -266,21 +243,74 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 {descriptionButton[language].collect}
               </h5>
             </div>
-          </div>
+          </div>}
+          {!voucherView && (
+            <div className="w-full h-full flex flex-col gap-20">
+              <div className="flex flex-col items-center gap-6">
+                <h1 className="text-white text-2xl sm:text-3xl font-bold whitespace-pre-line text-center">
+                  {displayMessage}
+                </h1>
+                <h3 className="text-white text-xl sm:text-2xl text-center whitespace-pre-line">
+                  {displayDescription[language]}
+                </h3>
+              </div>
+              <div className="px-3 flex flex-col gap-2 justify-center items-center">
+                <button
+                  onClick={() => navigateToBack()}
+                  className={`w-full py-4 text-lg sm:text-2xl rounded-xl border-0 transition bg-[#9AD3A8] text-[#375CA3] font-bold`}
+                >
+                  {otherVoucherTextButton[language]}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
   );
 
-  function formatTime(totalSeconds: number) {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    if (hours > 0) {
-      return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-    }
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  }
+  
 };
+
+function formatTime(totalSeconds: number) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function getCollectText({
+  lang,
+  activeTier,
+  voucher,
+}: {
+  lang: "th" | "en";
+  activeTier?: { value?: number; type?: string } | null;
+  voucher: Voucher;
+}) {
+  // 1. หาค่า value/type ที่จะใช้ (activeTier ก่อน, fallback เป็น tier สุดท้าย)
+  const tiers = voucher.metadata.discount_tiers;
+  const fallbackTier = tiers?.[tiers.length - 1];
+  const value = activeTier?.value ?? fallbackTier?.value ?? "";
+  const type = activeTier?.type ?? fallbackTier?.type ?? "";
+
+  // 2. แยก unit ตามภาษาและ type
+  const unit =
+    type === "percentage"
+      ? "%"
+      : type === "gift"
+        ? lang === "th" ? "ขวดน้ำ" : "Water Bottle"
+        : "";
+
+  // 3. สร้างข้อความ
+  if (lang === "th") {
+    return `รับ${value ? ` ส่วนลด ${value}` : ""}${unit}เลย`;
+  }
+  return `Collect${value ? ` Discount ${value}` : ""}${unit}`;
+}
+
 
 export default LimitedTimePage;
