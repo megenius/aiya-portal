@@ -566,8 +566,6 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
       return c.json({ error: "Voucher not found" }, { status: 404 });
     }
 
-    
-
     // ถ้ายังไม่ถึง start_date ให้ส่ง null กลับไป
     const bangkokNow = new Date(new Date().getTime() + (7 * 60 * 60 * 1000));
     // console.log(`${voucher.start_date} && ${bangkokNow} < ${new Date(voucher.start_date as string)}`);

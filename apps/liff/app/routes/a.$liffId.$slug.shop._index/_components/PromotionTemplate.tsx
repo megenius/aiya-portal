@@ -160,7 +160,7 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
                     ? voucher.voucher_brand_id.logo
                     : undefined
                 }
-                title={voucher.name ?? ""}
+                title={voucher.metadata?.title[language] ?? ""}
                 endDate={voucher.end_date as string}
                 language={language}
               />

@@ -174,6 +174,11 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
 
   const closeModal = useCallback(() => setIsShareModalOpen(false), []);
 
+  const couponText = {
+    th : "คูปอง",
+    en : "coupon"
+  }
+
   return (
     <>
       <div className="p-4 pb-3 flex items-center justify-between">
@@ -230,7 +235,7 @@ const Header: React.FC<HeaderProps> = ({ page, profile, language, userProfileId,
             onClick={() => navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`)}
           >
             <Ticket />
-            <span className="text-sm">{couponCount} คูปอง</span>
+            <span className="text-sm">{couponCount} {couponText[language]}</span>
           </button>}
 
           <PointButton points={0} primaryColor={primaryColor} onClick={navigateToReward} showPoint={page?.metadata?.layout?.showPoint} />

@@ -179,6 +179,16 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     },
   };
 
+  const endedTextButton = {
+    th: "ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!",
+    en: "Sorry, coupon collection time has ended!",
+  }
+
+  const backToHomeTextButton = {
+    th: "กลับหน้าหลัก",
+    en: "Back to Home",
+  }
+
   return (
     <>
       {voucherView && timeLeft <= 0 && !activeTier && (
@@ -187,7 +197,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
             <div className="w-full h-0.5 bg-white rounded-lg"></div>
             <div className="px-5">
               <span className="text-white text-lg sm:text-xl text-center whitespace-pre-line">
-                ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!
+                {endedTextButton[language]}
               </span>
             </div>
             <div className="w-full h-0.5 bg-white rounded-lg"></div>
@@ -201,7 +211,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           onClick={navigateToBack}
         >
           <ArrowLeft className="h-6 w-6" />
-          <span className="sm:text-lg">กลับหน้าหลัก</span>
+          <span className="sm:text-lg">{backToHomeTextButton[language]}</span>
         </button>
         <img
           src={
@@ -309,7 +319,7 @@ function getCollectText({
   if (lang === "th") {
     return `รับ${value ? ` ส่วนลด ${value}` : ""}${unit}เลย`;
   }
-  return `Collect${value ? ` Discount ${value}` : ""}${unit}`;
+  return `Collect${value ? ` Discount ${value}` : ""} ${unit}`;
 }
 
 
