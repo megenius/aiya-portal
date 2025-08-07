@@ -246,7 +246,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 }`}
               >
                 {isSubmitting
-                  ? "กำลังรับคูปอง..."
+                  ? (language === "th" ? "กำลังรับคูปอง..." : "Collecting...")
                   : textButton[language].collect}
               </button>
               <h5 className="text-white text-sm sm:text-base text-center whitespace-pre-line">

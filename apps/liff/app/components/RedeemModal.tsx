@@ -531,9 +531,9 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     <h2 className="text-xl font-semibold text-gray-800">
                       {collectedSuccessText[language]}
                     </h2>
-                    <h3 className="text-lg text-gray-600 whitespace-pre-line">
+                    {/* <h3 className="text-lg text-gray-600 whitespace-pre-line">
                       {collectedSuccessDescription[language]}
-                    </h3>
+                    </h3> */}
                   </div>
 
                   <div className="p-2 px-10 bg-gray-100 rounded-2xl whitespace-pre-line">
