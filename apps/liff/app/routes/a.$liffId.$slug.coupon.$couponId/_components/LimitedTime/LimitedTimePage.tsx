@@ -4,8 +4,8 @@ import { getDirectusFileUrl } from "~/utils/files";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
 import { ArrowLeft } from "lucide-react";
-import { th } from "date-fns/locale";
 import { formatDateTime } from "~/utils/helpers";
+
 interface LimitedTimePageProps {
   voucher: Voucher;
   voucherView?: VoucherView;
@@ -310,10 +310,8 @@ function getCollectText({
   // 2. แยก unit ตามภาษาและ type
   const unit =
     type === "percentage"
-      ? "%"
-      : type === "gift"
-        ? lang === "th" ? "ขวดน้ำ" : "Water Bottle"
-        : "";
+      ? "% "
+      : "";
 
   // 3. สร้างข้อความ
   if (lang === "th") {
