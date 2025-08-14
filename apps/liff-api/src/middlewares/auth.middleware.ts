@@ -20,7 +20,7 @@ export const authMiddleware = createMiddleware(async (c, next) => {
   const DEBUG_MODE = NODE_ENV === "development";
   const authHeader = c.req.header("Authorization");
 
-  console.log("authMiddleware:authHeader", authHeader);
+  // console.log("authMiddleware:authHeader", authHeader);
 
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);
@@ -46,7 +46,7 @@ export const authMiddleware = createMiddleware(async (c, next) => {
     if (DEBUG_MODE) {
       debugToken(payload);
     }
-    console.log(payload);
+    // console.log(payload);
 
     // Additional checks based on the Directus payload
     if (payload.iss !== "liff") {
