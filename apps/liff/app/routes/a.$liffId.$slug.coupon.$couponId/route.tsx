@@ -150,100 +150,74 @@ const Route = () => {
               variables: data,
             });
 
-            // Fire celebration effect: Lottie on Android (safe), canvas-confetti elsewhere
+            // Fire celebration effect: Pure CSS confetti on all platforms (safe for WebView)
             try {
               if (
                 typeof window !== "undefined" &&
                 typeof document !== "undefined"
               ) {
-                const isAndroid =
-                  (typeof navigator !== "undefined" &&
-                    /Android/i.test(navigator.userAgent)) ||
-                  liff?.getOS?.() === "android";
-                if (isAndroid) {
-                  // Pure CSS confetti for Android to avoid canvas/Lottie issues
-                  const styleSel = "style[data-confetti-css]";
-                  let styleEl = document.querySelector(
-                    styleSel
-                  ) as HTMLStyleElement | null;
-                  if (!styleEl) {
-                    styleEl = document.createElement("style");
-                    styleEl.setAttribute("data-confetti-css", "true");
-                    styleEl.textContent = `
+                // Use the same fast CSS confetti on all platforms
+                const styleSel = "style[data-confetti-css]";
+                let styleEl = document.querySelector(
+                  styleSel
+                ) as HTMLStyleElement | null;
+                if (!styleEl) {
+                  styleEl = document.createElement("style");
+                  styleEl.setAttribute("data-confetti-css", "true");
+                  styleEl.textContent = `
 @keyframes confetti-fall { from { transform: translate3d(0,-100vh,0) rotate(0deg); } to { transform: translate3d(0,110vh,0) rotate(720deg); } }
 .confetti-piece { position: absolute; top: -10vh; opacity: .95; will-change: transform, opacity; }
 `;
-                    document.head.appendChild(styleEl);
-                  }
+                  document.head.appendChild(styleEl);
+                }
 
-                  const overlay = document.createElement("div");
-                  overlay.style.position = "fixed";
-                  overlay.style.inset = "0";
-                  overlay.style.zIndex = "10000";
-                  overlay.style.pointerEvents = "none";
-                  overlay.style.overflow = "hidden";
-                  document.body.appendChild(overlay);
+                const overlay = document.createElement("div");
+                overlay.style.position = "fixed";
+                overlay.style.inset = "0";
+                overlay.style.zIndex = "10000";
+                overlay.style.pointerEvents = "none";
+                overlay.style.overflow = "hidden";
+                document.body.appendChild(overlay);
 
-                  const colors = [
-                    "#FFC700",
-                    "#FF3D00",
-                    "#00E0FF",
-                    "#7C4DFF",
-                    "#4CAF50",
-                    "#FF6F91",
-                  ];
-                  const pieces = 60;
-                  for (let i = 0; i < pieces; i++) {
-                    const d = document.createElement("div");
-                    d.className = "confetti-piece";
-                    const w = 6 + Math.floor(Math.random() * 8); // 6-13px
-                    const h = 8 + Math.floor(Math.random() * 10); // 8-17px
-                    d.style.width = `${w}px`;
-                    d.style.height = `${h}px`;
-                    d.style.left = `${Math.random() * 100}vw`;
-                    d.style.backgroundColor = colors[i % colors.length];
-                    d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
-                    const duration = 1200 + Math.random() * 1200; // 1.2s - 2.4s
-                    const delay = Math.random() * 200; // 0-200ms
-                    const rot = Math.floor(Math.random() * 360);
-                    d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
-                    d.style.animation = `confetti-fall ${duration}ms linear ${delay}ms forwards`;
-                    overlay.appendChild(d);
-                  }
+                const colors = [
+                  "#FFC700",
+                  "#FF3D00",
+                  "#00E0FF",
+                  "#7C4DFF",
+                  "#4CAF50",
+                  "#FF6F91",
+                ];
+                const pieces = 60;
+                for (let i = 0; i < pieces; i++) {
+                  const d = document.createElement("div");
+                  d.className = "confetti-piece";
+                  const w = 6 + Math.floor(Math.random() * 8);
+                  const h = 8 + Math.floor(Math.random() * 10);
+                  d.style.width = `${w}px`;
+                  d.style.height = `${h}px`;
+                  d.style.left = `${Math.random() * 100}vw`;
+                  d.style.backgroundColor = colors[i % colors.length];
+                  d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
+                  const duration = 800 + Math.random() * 600; // 0.8s - 1.4s
+                  const delay = Math.random() * 80; // quicker start
+                  const rot = Math.floor(Math.random() * 360);
+                  d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
+                  d.style.animation = `confetti-fall ${duration}ms linear ${delay}ms forwards`;
+                  overlay.appendChild(d);
+                }
 
-                  const cleanup = () => {
-                    try {
-                      document.body.removeChild(overlay);
-                    } catch (_e) {
-                      /* noop */
-                    }
-                  };
-                  const maxDuration = 2600; // allow all pieces to finish
-                  if (typeof requestAnimationFrame === "function") {
-                    requestAnimationFrame(() =>
-                      setTimeout(cleanup, maxDuration)
-                    );
-                  } else {
-                    setTimeout(cleanup, maxDuration);
+                const cleanup = () => {
+                  try {
+                    document.body.removeChild(overlay);
+                  } catch (_e) {
+                    /* noop */
                   }
+                };
+                const maxDuration = 1600; // quicker finish for all platforms
+                if (typeof requestAnimationFrame === "function") {
+                  requestAnimationFrame(() => setTimeout(cleanup, maxDuration));
                 } else {
-                  const { default: confetti } = await import("canvas-confetti");
-                  const fire = () =>
-                    confetti({
-                      particleCount: 100,
-                      spread: 70,
-                      origin: { y: 0.9 },
-                      disableForReducedMotion: true,
-                      zIndex: 9999,
-                      ticks: 150,
-                      scalar: 0.9,
-                      useWorker: true,
-                    });
-                  if (typeof requestAnimationFrame === "function") {
-                    requestAnimationFrame(fire);
-                  } else {
-                    setTimeout(fire, 0);
-                  }
+                  setTimeout(cleanup, maxDuration);
                 }
               }
             } catch (e) {
