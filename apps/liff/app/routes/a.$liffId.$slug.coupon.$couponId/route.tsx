@@ -165,7 +165,11 @@ const Route = () => {
                   styleEl = document.createElement("style");
                   styleEl.setAttribute("data-confetti-css", "true");
                   styleEl.textContent = `
-@keyframes confetti-up { 0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(0,-70vh,0) rotate(540deg); opacity: 0.95; } }
+@keyframes confetti-up-down {
+  0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; animation-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1); }
+  45% { transform: translate3d(0,-60vh,0) rotate(540deg); opacity: 1; animation-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1); }
+  100% { transform: translate3d(0,100vh,0) rotate(900deg); opacity: 0.95; }
+}
 .confetti-piece { position: absolute; opacity: .95; will-change: transform, opacity; }
 `;
                   document.head.appendChild(styleEl);
@@ -217,11 +221,11 @@ const Route = () => {
                   d.style.top = `${originTop}px`;
                   d.style.backgroundColor = colors[i % colors.length];
                   d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
-                  const duration = 600 + Math.random() * 500; // 0.6s - 1.1s faster pop
-                  const delay = Math.random() * 60; // quicker start
+                  const duration = 1500 + Math.random() * 600; // 1.5s - 2.1s up then down
+                  const delay = Math.random() * 60; // quick stagger
                   const rot = Math.floor(Math.random() * 360);
                   d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
-                  d.style.animation = `confetti-up ${duration}ms cubic-bezier(0.2, 0.8, 0.25, 1) ${delay}ms forwards`;
+                  d.style.animation = `confetti-up-down ${duration}ms linear ${delay}ms forwards`;
                   overlay.appendChild(d);
                 }
 
@@ -232,7 +236,7 @@ const Route = () => {
                     /* noop */
                   }
                 };
-                const maxDuration = 1200; // quicker finish for all platforms
+                const maxDuration = 2300; // allow fall to complete for the longest pieces
                 if (typeof requestAnimationFrame === "function") {
                   requestAnimationFrame(() => setTimeout(cleanup, maxDuration));
                 } else {
