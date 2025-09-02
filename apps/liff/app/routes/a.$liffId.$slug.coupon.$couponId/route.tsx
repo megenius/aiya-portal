@@ -194,9 +194,9 @@ const Route = () => {
   position: absolute; 
   opacity: .95; 
   will-change: transform, opacity; 
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,.08)); 
-}
-@media (prefers-reduced-motion: reduce) { 
+  /* filter: drop-shadow(0 1px 1px rgba(0,0,0,.08)); disabled for perf */ 
+ }
+ @media (prefers-reduced-motion: reduce) { 
   .confetti-piece { 
     animation: none !important; 
     display: none !important; 
@@ -206,107 +206,120 @@ const Route = () => {
                     document.head.appendChild(styleEl);
                   }
                 }
-                const overlay = document.createElement("div");
-                overlay.style.position = "fixed";
-                overlay.style.inset = "0";
-                overlay.style.zIndex = "10000";
-                overlay.style.pointerEvents = "none";
-                overlay.style.overflow = "hidden";
-                document.body.appendChild(overlay);
+                if (!reduceMotion) {
+                  const overlay = document.createElement("div");
+                  overlay.style.position = "fixed";
+                  overlay.style.inset = "0";
+                  overlay.style.zIndex = "10000";
+                  overlay.style.pointerEvents = "none";
+                  overlay.style.overflow = "hidden";
+                  document.body.appendChild(overlay);
 
-                const colors = [
-                  "#FFC700",
-                  "#FF3D00",
-                  "#00E0FF",
-                  "#7C4DFF",
-                  "#4CAF50",
-                  "#FF6F91",
-                ];
-                const cores =
-                  typeof navigator !== "undefined"
-                    ? navigator.hardwareConcurrency
-                    : 4;
-                const smallViewport =
-                  window.innerWidth <= 360 || window.innerHeight <= 640;
-                let pieces = 200;
-                if (cores <= 2) pieces = 90;
-                else if (cores <= 4 || smallViewport) pieces = 130;
+                  const colors = [
+                    "#FFC700",
+                    "#FF3D00",
+                    "#00E0FF",
+                    "#7C4DFF",
+                    "#4CAF50",
+                    "#FF6F91",
+                  ];
+                  const cores =
+                    typeof navigator !== "undefined"
+                      ? navigator.hardwareConcurrency
+                      : 4;
+                  const smallViewport =
+                    window.innerWidth <= 360 || window.innerHeight <= 640;
+                  let pieces = 100;
+                  if (cores <= 2) pieces = 60;
+                  else if (cores <= 4 || smallViewport) pieces = 80;
 
-                // Compute origin from the footer button center
-                const btn = document.querySelector(
-                  '[data-confetti-button="true"]'
-                ) as HTMLElement | null;
-                const rect = btn?.getBoundingClientRect();
-                const originLeft = rect
-                  ? rect.left + rect.width / 2
-                  : window.innerWidth / 2;
-                const originTop = rect
-                  ? rect.top + rect.height / 2
-                  : Math.min(
-                      window.innerHeight * 0.85,
-                      window.innerHeight - 80
-                    );
+                  // Compute origin from the footer button center
+                  const btn = document.querySelector(
+                    '[data-confetti-button="true"]'
+                  ) as HTMLElement | null;
+                  const rect = btn?.getBoundingClientRect();
+                  const originLeft = rect
+                    ? rect.left + rect.width / 2
+                    : window.innerWidth / 2;
+                  const originTop = rect
+                    ? rect.top + rect.height / 2
+                    : Math.min(
+                        window.innerHeight * 0.85,
+                        window.innerHeight - 80
+                      );
 
-                // Setup cleanup/event tracking
-                let finishedCount = 0;
-                const cleanup = () => {
-                  try {
-                    document.body.removeChild(overlay);
-                  } catch (_e) {
-                    /* noop */
+                  // Setup cleanup/event tracking
+                  let finishedCount = 0;
+                  const cleanup = () => {
+                    try {
+                      document.body.removeChild(overlay);
+                    } catch (_e) {
+                      /* noop */
+                    }
+                  };
+                  const onPieceDone = () => {
+                    finishedCount++;
+                    if (finishedCount >= pieces) cleanup();
+                  };
+
+                  const vh = window.innerHeight / 100;
+                  const spreadDeg = 70; // ~canvas-confetti spread
+                  const frag = document.createDocumentFragment();
+
+                  for (let i = 0; i < pieces; i++) {
+                    const d = document.createElement("div");
+                    d.className = "confetti-piece";
+                    const w = 6 + Math.floor(Math.random() * 8);
+                    const h = 8 + Math.floor(Math.random() * 10);
+                    const upVh = 50 + Math.random() * 20; // 50-70vh
+                    const downVh = 95 + Math.random() * 20; // 95-115vh
+                    const angle =
+                      (Math.random() * spreadDeg - spreadDeg / 2) *
+                      (Math.PI / 180);
+                    const vertPx = (upVh + downVh * 0.6) * vh; // approximate vertical distance in px
+                    const dxPx = Math.tan(angle) * vertPx;
+                    const xJitter = Math.random() * 8 - 4; // small origin jitter
+                    const sway = dxPx * 0.15; // lateral drift proportional to dx
+                    d.style.width = `${w}px`;
+                    d.style.height = `${h}px`;
+                    d.style.left = `${originLeft + xJitter}px`;
+                    d.style.top = `${originTop}px`;
+                    d.style.backgroundColor = colors[i % colors.length];
+                    d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
+                    d.style.transformOrigin = `${20 + Math.floor(Math.random() * 60)}% ${20 + Math.floor(Math.random() * 60)}%`;
+                    const duration = 1600 + Math.random() * 500; // slightly tighter duration
+                    const delay = 0; // single burst
+                    const rot = Math.floor(Math.random() * 360);
+                    const rotMid =
+                      rot + (360 + Math.floor(Math.random() * 360));
+                    const rotEnd =
+                      rotMid + (180 + Math.floor(Math.random() * 360));
+                    d.style.setProperty("--dx", `${dxPx.toFixed(1)}px`);
+                    d.style.setProperty("--upY", `-${upVh.toFixed(1)}vh`);
+                    d.style.setProperty("--downY", `${downVh.toFixed(1)}vh`);
+                    d.style.setProperty("--rot", `${rot}deg`);
+                    d.style.setProperty("--rotMid", `${rotMid}deg`);
+                    d.style.setProperty("--rotEnd", `${rotEnd}deg`);
+                    d.style.setProperty("--sx", `${sway.toFixed(1)}px`);
+                    d.addEventListener("animationend", onPieceDone, {
+                      once: true,
+                    });
+                    d.style.animation = `confetti-up-down ${duration}ms linear ${delay}ms forwards`;
+                    frag.appendChild(d);
                   }
-                };
-                const onPieceDone = () => {
-                  finishedCount++;
-                  if (finishedCount >= pieces) cleanup();
-                };
-
-                for (let i = 0; i < pieces; i++) {
-                  const d = document.createElement("div");
-                  d.className = "confetti-piece";
-                  const w = 6 + Math.floor(Math.random() * 8);
-                  const h = 8 + Math.floor(Math.random() * 10);
-                  const xSpread = rect ? rect.width : 200; // spread around button
-                  const xOffset = (Math.random() - 0.5) * xSpread;
-                  const sway = (Math.random() - 0.5) * (xSpread * 0.4);
-                  d.style.width = `${w}px`;
-                  d.style.height = `${h}px`;
-                  d.style.left = `${originLeft + xOffset}px`;
-                  d.style.top = `${originTop}px`;
-                  d.style.backgroundColor = colors[i % colors.length];
-                  d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
-                  d.style.transformOrigin = `${20 + Math.floor(Math.random() * 60)}% ${20 + Math.floor(Math.random() * 60)}%`;
-                  const duration = 1600 + Math.random() * 700; // 1.6s - 2.3s up then down
-                  const delay = Math.random() * 60; // quick stagger
-                  const rot = Math.floor(Math.random() * 360);
-                  const rotMid = rot + (360 + Math.floor(Math.random() * 360));
-                  const rotEnd =
-                    rotMid + (180 + Math.floor(Math.random() * 360));
-                  const upVh = 50 + Math.random() * 20; // 50-70vh
-                  const downVh = 95 + Math.random() * 20; // 95-115vh
-                  d.style.setProperty("--dx", `${xOffset.toFixed(1)}px`);
-                  d.style.setProperty("--upY", `-${upVh.toFixed(1)}vh`);
-                  d.style.setProperty("--downY", `${downVh.toFixed(1)}vh`);
-                  d.style.setProperty("--rot", `${rot}deg`);
-                  d.style.setProperty("--rotMid", `${rotMid}deg`);
-                  d.style.setProperty("--rotEnd", `${rotEnd}deg`);
-                  d.style.setProperty("--sx", `${sway.toFixed(1)}px`);
-                  d.addEventListener("animationend", onPieceDone, {
-                    once: true,
-                  });
-                  d.style.animation = `confetti-up-down ${duration}ms linear ${delay}ms forwards`;
-                  overlay.appendChild(d);
-                }
-                const maxDuration = 3200; // allow fall to complete for the longest pieces
-                const fallback = () => {
-                  if (finishedCount < pieces) cleanup();
-                };
-                if (typeof requestAnimationFrame === "function") {
-                  requestAnimationFrame(() =>
-                    setTimeout(fallback, maxDuration)
-                  );
-                } else {
-                  setTimeout(fallback, maxDuration);
+                  // Append all pieces at once for performance
+                  overlay.appendChild(frag);
+                  const maxDuration = 2800; // allow fall to complete for the longest pieces
+                  const fallback = () => {
+                    if (finishedCount < pieces) cleanup();
+                  };
+                  if (typeof requestAnimationFrame === "function") {
+                    requestAnimationFrame(() =>
+                      setTimeout(fallback, maxDuration)
+                    );
+                  } else {
+                    setTimeout(fallback, maxDuration);
+                  }
                 }
               }
             } catch (e) {
