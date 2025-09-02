@@ -161,83 +161,70 @@ const Route = () => {
                     /Android/i.test(navigator.userAgent)) ||
                   liff?.getOS?.() === "android";
                 if (isAndroid) {
-                  // Use lottie-web (SVG) via CDN for better Android WebView support
-                  type LottieAnimation = {
-                    destroy?: () => void;
-                    addEventListener?: (evt: string, cb: () => void) => void;
-                  };
-                  type LottieGlobal = {
-                    loadAnimation?: (params: {
-                      container: Element;
-                      renderer: 'svg' | 'canvas' | 'html';
-                      loop: boolean;
-                      autoplay: boolean;
-                      path: string;
-                    }) => LottieAnimation;
-                  };
-                  const ensureLottieWeb = () =>
-                    new Promise<void>((resolve, reject) => {
-                      const existing = document.querySelector(
-                        'script[data-lottie-web]'
-                      ) as HTMLScriptElement | null;
-                      if (existing) {
-                        existing.addEventListener('load', () => resolve());
-                        existing.addEventListener('error', () => reject(new Error('lottie-web load error')));
-                        return;
-                      }
-                      const s = document.createElement('script');
-                      s.src = 'https://unpkg.com/lottie-web/build/player/lottie.min.js';
-                      s.async = true;
-                      s.setAttribute('data-lottie-web', 'true');
-                      s.onload = () => resolve();
-                      s.onerror = () => reject(new Error('lottie-web load error'));
-                      document.head.appendChild(s);
-                    });
+                  // Pure CSS confetti for Android to avoid canvas/Lottie issues
+                  const styleSel = "style[data-confetti-css]";
+                  let styleEl = document.querySelector(
+                    styleSel
+                  ) as HTMLStyleElement | null;
+                  if (!styleEl) {
+                    styleEl = document.createElement("style");
+                    styleEl.setAttribute("data-confetti-css", "true");
+                    styleEl.textContent = `
+@keyframes confetti-fall { from { transform: translate3d(0,-100vh,0) rotate(0deg); } to { transform: translate3d(0,110vh,0) rotate(720deg); } }
+.confetti-piece { position: absolute; top: -10vh; opacity: .95; will-change: transform, opacity; }
+`;
+                    document.head.appendChild(styleEl);
+                  }
 
-                  await ensureLottieWeb();
-
-                  const overlay = document.createElement('div');
-                  overlay.style.position = 'fixed';
-                  overlay.style.inset = '0';
-                  overlay.style.zIndex = '10000';
-                  overlay.style.pointerEvents = 'none';
-                  overlay.style.display = 'flex';
-                  overlay.style.alignItems = 'center';
-                  overlay.style.justifyContent = 'center';
-                  overlay.style.background = 'transparent';
-
-                  const animEl = document.createElement('div');
-                  animEl.style.width = '100%';
-                  animEl.style.height = '100%';
-                  overlay.appendChild(animEl);
+                  const overlay = document.createElement("div");
+                  overlay.style.position = "fixed";
+                  overlay.style.inset = "0";
+                  overlay.style.zIndex = "10000";
+                  overlay.style.pointerEvents = "none";
+                  overlay.style.overflow = "hidden";
                   document.body.appendChild(overlay);
 
-                  const lottieObj = (window as unknown as { lottie?: LottieGlobal }).lottie;
-                  if (lottieObj && typeof lottieObj.loadAnimation === 'function') {
-                    let animation: LottieAnimation | undefined;
-                    const start = () => {
-                      animation = lottieObj.loadAnimation!({
-                        container: animEl,
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'https://assets9.lottiefiles.com/packages/lf20_jwkvwzqz.json',
-                      });
-                      const cleanup = () => {
-                        try { animation?.destroy?.(); } catch (_e) { /* noop */ }
-                        try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
-                      };
-                      try { animation?.addEventListener?.('complete', cleanup); } catch (_e) { /* noop */ }
-                      setTimeout(cleanup, 1500);
-                    };
-                    if (typeof requestAnimationFrame === 'function') {
-                      requestAnimationFrame(start);
-                    } else {
-                      start();
+                  const colors = [
+                    "#FFC700",
+                    "#FF3D00",
+                    "#00E0FF",
+                    "#7C4DFF",
+                    "#4CAF50",
+                    "#FF6F91",
+                  ];
+                  const pieces = 60;
+                  for (let i = 0; i < pieces; i++) {
+                    const d = document.createElement("div");
+                    d.className = "confetti-piece";
+                    const w = 6 + Math.floor(Math.random() * 8); // 6-13px
+                    const h = 8 + Math.floor(Math.random() * 10); // 8-17px
+                    d.style.width = `${w}px`;
+                    d.style.height = `${h}px`;
+                    d.style.left = `${Math.random() * 100}vw`;
+                    d.style.backgroundColor = colors[i % colors.length];
+                    d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
+                    const duration = 1200 + Math.random() * 1200; // 1.2s - 2.4s
+                    const delay = Math.random() * 200; // 0-200ms
+                    const rot = Math.floor(Math.random() * 360);
+                    d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
+                    d.style.animation = `confetti-fall ${duration}ms linear ${delay}ms forwards`;
+                    overlay.appendChild(d);
+                  }
+
+                  const cleanup = () => {
+                    try {
+                      document.body.removeChild(overlay);
+                    } catch (_e) {
+                      /* noop */
                     }
+                  };
+                  const maxDuration = 2600; // allow all pieces to finish
+                  if (typeof requestAnimationFrame === "function") {
+                    requestAnimationFrame(() =>
+                      setTimeout(cleanup, maxDuration)
+                    );
                   } else {
-                    // Fallback cleanup if lottie not available
-                    try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
+                    setTimeout(cleanup, maxDuration);
                   }
                 } else {
                   const { default: confetti } = await import("canvas-confetti");
