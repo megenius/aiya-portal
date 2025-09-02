@@ -1,5 +1,4 @@
 import { useOutletContext, useParams } from "@remix-run/react";
-import confetti from "canvas-confetti";
 import { useState, useEffect } from "react";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
@@ -24,7 +23,10 @@ import { useLineLiff } from "~/contexts/LineLiffContext";
 import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
 
 // Hook สำหรับ refetch voucher view เมื่อถึงเวลา start_date
-function useRefetchOnVoucherStart(startDate?: string, refetchVoucherView?: () => void) {
+function useRefetchOnVoucherStart(
+  startDate?: string,
+  refetchVoucherView?: () => void
+) {
   useEffect(() => {
     if (!startDate || !refetchVoucherView) return;
     const now = Date.now();
@@ -54,11 +56,13 @@ const Route = () => {
   } = useVoucherCodeStats({
     voucherId: couponId as string,
   });
-  const { data: voucherView, isLoading: isVoucherViewLoading,refetch: refetchVoucherView } = useVoucherView(
-    {
-      voucherId: couponId as string,
-    }
-  );
+  const {
+    data: voucherView,
+    isLoading: isVoucherViewLoading,
+    refetch: refetchVoucherView,
+  } = useVoucherView({
+    voucherId: couponId as string,
+  });
 
   // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
   useRefetchOnVoucherStart(coupon?.start_date, refetchVoucherView);
@@ -129,7 +133,7 @@ const Route = () => {
           variables: collectVoucherData,
         },
         {
-          onSuccess: (res) => {
+          onSuccess: async (res) => {
             setIsCollected(true);
             setPageState("landing");
             setState("collected");
@@ -146,11 +150,26 @@ const Route = () => {
               variables: data,
             });
 
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.9 },
-            });
+            // Fire confetti on client only; dynamic import avoids Android WebView issues
+            try {
+              if (
+                typeof window !== "undefined" &&
+                typeof document !== "undefined"
+              ) {
+                const { default: confetti } = await import("canvas-confetti");
+                confetti({
+                  particleCount: 100,
+                  spread: 70,
+                  origin: { y: 0.9 },
+                  disableForReducedMotion: true,
+                  zIndex: 9999,
+                  ticks: 150,
+                  scalar: 0.9,
+                });
+              }
+            } catch (e) {
+              console.warn("confetti failed", e);
+            }
             setIsRedeemedModalOpen(true);
           },
           onError: () => {
@@ -165,7 +184,12 @@ const Route = () => {
       });
   };
 
-  if (isCouponLoading || isMyCouponsLoading || isCodeStatsLoading || isVoucherViewLoading) {
+  if (
+    isCouponLoading ||
+    isMyCouponsLoading ||
+    isCodeStatsLoading ||
+    isVoucherViewLoading
+  ) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
