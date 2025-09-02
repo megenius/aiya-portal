@@ -156,25 +156,56 @@ const Route = () => {
                 typeof window !== "undefined" &&
                 typeof document !== "undefined"
               ) {
-                // Use the same fast CSS confetti on all platforms
-                const styleSel = "style[data-confetti-css]";
-                let styleEl = document.querySelector(
-                  styleSel
-                ) as HTMLStyleElement | null;
-                if (!styleEl) {
-                  styleEl = document.createElement("style");
-                  styleEl.setAttribute("data-confetti-css", "true");
-                  styleEl.textContent = `
+                const reduceMotion =
+                  typeof window.matchMedia === "function" &&
+                  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                if (!reduceMotion) {
+                  // Use the same fast CSS confetti on all platforms
+                  const styleSel = "style[data-confetti-css]";
+                  let styleEl = document.querySelector(
+                    styleSel
+                  ) as HTMLStyleElement | null;
+                  if (!styleEl) {
+                    styleEl = document.createElement("style");
+                    styleEl.setAttribute("data-confetti-css", "true");
+                    styleEl.textContent = `
 @keyframes confetti-up-down {
-  0% { transform: translate3d(0,0,0) rotate(var(--rot, 0deg)); opacity: 1; }
-  45% { transform: translate3d(var(--dx, 0px), var(--upY, -60vh), 0) rotate(var(--rotMid, 540deg)); opacity: 1; }
-  100% { transform: translate3d(calc(var(--dx, 0px) * 1.5), var(--downY, 100vh), 0) rotate(var(--rotEnd, 900deg)); opacity: 0.9; }
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
+    opacity: 0.95;
+    animation-timing-function: cubic-bezier(.12,.62,.2,1);
+  }
+  45% {
+    transform: translate3d(calc(var(--dx, 0px) * 0.7 + var(--sx, 0px) * 0.5), var(--upY, -60vh), 0) rotate(var(--rotMid, 540deg));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(.4,0,.6,.2);
+  }
+  75% {
+    transform: translate3d(calc(var(--dx, 0px) * 1.1 - var(--sx, 0px) * 0.3), calc(var(--downY, 100vh) * 0.55), 0) rotate(var(--rotEnd, 900deg));
+    opacity: .98;
+    animation-timing-function: cubic-bezier(.2,0,.2,1);
+  }
+  100% {
+    transform: translate3d(calc(var(--dx, 0px) * 1.6), var(--downY, 100vh), 0) rotate(var(--rotEnd, 900deg));
+    opacity: .9;
+  }
 }
-.confetti-piece { position: absolute; opacity: .95; will-change: transform, opacity; }
+.confetti-piece { 
+  position: absolute; 
+  opacity: .95; 
+  will-change: transform, opacity; 
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.08)); 
+}
+@media (prefers-reduced-motion: reduce) { 
+  .confetti-piece { 
+    animation: none !important; 
+    display: none !important; 
+  }
+}
 `;
-                  document.head.appendChild(styleEl);
+                    document.head.appendChild(styleEl);
+                  }
                 }
-
                 const overlay = document.createElement("div");
                 overlay.style.position = "fixed";
                 overlay.style.inset = "0";
@@ -191,7 +222,15 @@ const Route = () => {
                   "#4CAF50",
                   "#FF6F91",
                 ];
-                const pieces = 200;
+                const cores =
+                  typeof navigator !== "undefined"
+                    ? navigator.hardwareConcurrency
+                    : 4;
+                const smallViewport =
+                  window.innerWidth <= 360 || window.innerHeight <= 640;
+                let pieces = 200;
+                if (cores <= 2) pieces = 90;
+                else if (cores <= 4 || smallViewport) pieces = 130;
 
                 // Compute origin from the footer button center
                 const btn = document.querySelector(
@@ -208,6 +247,20 @@ const Route = () => {
                       window.innerHeight - 80
                     );
 
+                // Setup cleanup/event tracking
+                let finishedCount = 0;
+                const cleanup = () => {
+                  try {
+                    document.body.removeChild(overlay);
+                  } catch (_e) {
+                    /* noop */
+                  }
+                };
+                const onPieceDone = () => {
+                  finishedCount++;
+                  if (finishedCount >= pieces) cleanup();
+                };
+
                 for (let i = 0; i < pieces; i++) {
                   const d = document.createElement("div");
                   d.className = "confetti-piece";
@@ -215,12 +268,14 @@ const Route = () => {
                   const h = 8 + Math.floor(Math.random() * 10);
                   const xSpread = rect ? rect.width : 200; // spread around button
                   const xOffset = (Math.random() - 0.5) * xSpread;
+                  const sway = (Math.random() - 0.5) * (xSpread * 0.4);
                   d.style.width = `${w}px`;
                   d.style.height = `${h}px`;
                   d.style.left = `${originLeft + xOffset}px`;
                   d.style.top = `${originTop}px`;
                   d.style.backgroundColor = colors[i % colors.length];
                   d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
+                  d.style.transformOrigin = `${20 + Math.floor(Math.random() * 60)}% ${20 + Math.floor(Math.random() * 60)}%`;
                   const duration = 1600 + Math.random() * 700; // 1.6s - 2.3s up then down
                   const delay = Math.random() * 60; // quick stagger
                   const rot = Math.floor(Math.random() * 360);
@@ -235,22 +290,23 @@ const Route = () => {
                   d.style.setProperty("--rot", `${rot}deg`);
                   d.style.setProperty("--rotMid", `${rotMid}deg`);
                   d.style.setProperty("--rotEnd", `${rotEnd}deg`);
+                  d.style.setProperty("--sx", `${sway.toFixed(1)}px`);
+                  d.addEventListener("animationend", onPieceDone, {
+                    once: true,
+                  });
                   d.style.animation = `confetti-up-down ${duration}ms linear ${delay}ms forwards`;
                   overlay.appendChild(d);
                 }
-
-                const cleanup = () => {
-                  try {
-                    document.body.removeChild(overlay);
-                  } catch (_e) {
-                    /* noop */
-                  }
+                const maxDuration = 3200; // allow fall to complete for the longest pieces
+                const fallback = () => {
+                  if (finishedCount < pieces) cleanup();
                 };
-                const maxDuration = 2800; // allow fall to complete for the longest pieces
                 if (typeof requestAnimationFrame === "function") {
-                  requestAnimationFrame(() => setTimeout(cleanup, maxDuration));
+                  requestAnimationFrame(() =>
+                    setTimeout(fallback, maxDuration)
+                  );
                 } else {
-                  setTimeout(cleanup, maxDuration);
+                  setTimeout(fallback, maxDuration);
                 }
               }
             } catch (e) {
