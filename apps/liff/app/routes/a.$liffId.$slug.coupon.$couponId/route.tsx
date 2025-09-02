@@ -161,72 +161,84 @@ const Route = () => {
                     /Android/i.test(navigator.userAgent)) ||
                   liff?.getOS?.() === "android";
                 if (isAndroid) {
-                  // Use Lottie overlay via CDN to avoid canvas issues on Android WebView
-                  const ensureLottie = () =>
+                  // Use lottie-web (SVG) via CDN for better Android WebView support
+                  type LottieAnimation = {
+                    destroy?: () => void;
+                    addEventListener?: (evt: string, cb: () => void) => void;
+                  };
+                  type LottieGlobal = {
+                    loadAnimation?: (params: {
+                      container: Element;
+                      renderer: 'svg' | 'canvas' | 'html';
+                      loop: boolean;
+                      autoplay: boolean;
+                      path: string;
+                    }) => LottieAnimation;
+                  };
+                  const ensureLottieWeb = () =>
                     new Promise<void>((resolve, reject) => {
-                      if (
-                        customElements &&
-                        customElements.get &&
-                        customElements.get("lottie-player")
-                      )
-                        return resolve();
                       const existing = document.querySelector(
-                        "script[data-lottie-player]"
+                        'script[data-lottie-web]'
                       ) as HTMLScriptElement | null;
                       if (existing) {
-                        existing.addEventListener("load", () => resolve());
-                        existing.addEventListener("error", () =>
-                          reject(new Error("lottie-player load error"))
-                        );
+                        existing.addEventListener('load', () => resolve());
+                        existing.addEventListener('error', () => reject(new Error('lottie-web load error')));
                         return;
                       }
-                      const s = document.createElement("script");
-                      s.src =
-                        "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+                      const s = document.createElement('script');
+                      s.src = 'https://unpkg.com/lottie-web/build/player/lottie.min.js';
                       s.async = true;
-                      s.setAttribute("data-lottie-player", "true");
+                      s.setAttribute('data-lottie-web', 'true');
                       s.onload = () => resolve();
-                      s.onerror = () =>
-                        reject(new Error("lottie-player load error"));
+                      s.onerror = () => reject(new Error('lottie-web load error'));
                       document.head.appendChild(s);
                     });
 
-                  await ensureLottie();
+                  await ensureLottieWeb();
 
-                  const overlay = document.createElement("div");
-                  overlay.style.position = "fixed";
-                  overlay.style.inset = "0";
-                  overlay.style.zIndex = "10000";
-                  overlay.style.pointerEvents = "none";
-                  overlay.style.display = "flex";
-                  overlay.style.alignItems = "center";
-                  overlay.style.justifyContent = "center";
+                  const overlay = document.createElement('div');
+                  overlay.style.position = 'fixed';
+                  overlay.style.inset = '0';
+                  overlay.style.zIndex = '10000';
+                  overlay.style.pointerEvents = 'none';
+                  overlay.style.display = 'flex';
+                  overlay.style.alignItems = 'center';
+                  overlay.style.justifyContent = 'center';
+                  overlay.style.background = 'transparent';
 
-                  const player = document.createElement("lottie-player") as any;
-                  // Use a stable confetti animation URL
-                  player.setAttribute(
-                    "src",
-                    "https://assets9.lottiefiles.com/packages/lf20_jwkvwzqz.json"
-                  );
-                  player.setAttribute("autoplay", "");
-                  player.setAttribute("speed", "1");
-                  player.setAttribute("loop", "");
-                  player.setAttribute(
-                    "style",
-                    "width: 100%; height: 100%; max-width: 100vw; max-height: 100vh;"
-                  );
-
-                  overlay.appendChild(player);
+                  const animEl = document.createElement('div');
+                  animEl.style.width = '100%';
+                  animEl.style.height = '100%';
+                  overlay.appendChild(animEl);
                   document.body.appendChild(overlay);
 
-                  // Remove after a short duration to avoid lingering overlay
-                  setTimeout(() => {
-                    try {
-                      document.body.removeChild(overlay);
-                    } catch {
-                      console.error("Failed to remove overlay");
+                  const lottieObj = (window as unknown as { lottie?: LottieGlobal }).lottie;
+                  if (lottieObj && typeof lottieObj.loadAnimation === 'function') {
+                    let animation: LottieAnimation | undefined;
+                    const start = () => {
+                      animation = lottieObj.loadAnimation!({
+                        container: animEl,
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'https://assets9.lottiefiles.com/packages/lf20_jwkvwzqz.json',
+                      });
+                      const cleanup = () => {
+                        try { animation?.destroy?.(); } catch (_e) { /* noop */ }
+                        try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
+                      };
+                      try { animation?.addEventListener?.('complete', cleanup); } catch (_e) { /* noop */ }
+                      setTimeout(cleanup, 1500);
+                    };
+                    if (typeof requestAnimationFrame === 'function') {
+                      requestAnimationFrame(start);
+                    } else {
+                      start();
                     }
-                  }, 1200);
+                  } else {
+                    // Fallback cleanup if lottie not available
+                    try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
+                  }
                 } else {
                   const { default: confetti } = await import("canvas-confetti");
                   const fire = () =>
@@ -312,7 +324,7 @@ const Route = () => {
             )}
             <Footer
               color={coupon.voucher_brand_id.primaryColor ?? ""}
-              lang={lang}
+              lang={lang === "en" ? "en" : "th"}
               status={
                 isSubmitting
                   ? "submitting"
