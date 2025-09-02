@@ -158,7 +158,9 @@ const Route = () => {
               ) {
                 // Use the same fast CSS confetti on all platforms
                 const styleSel = "style[data-confetti-css]";
-                let styleEl = document.querySelector(styleSel) as HTMLStyleElement | null;
+                let styleEl = document.querySelector(
+                  styleSel
+                ) as HTMLStyleElement | null;
                 if (!styleEl) {
                   styleEl = document.createElement("style");
                   styleEl.setAttribute("data-confetti-css", "true");
@@ -177,21 +179,37 @@ const Route = () => {
                 overlay.style.overflow = "hidden";
                 document.body.appendChild(overlay);
 
-                const colors = ["#FFC700", "#FF3D00", "#00E0FF", "#7C4DFF", "#4CAF50", "#FF6F91"];
-                const pieces = 60;
+                const colors = [
+                  "#FFC700",
+                  "#FF3D00",
+                  "#00E0FF",
+                  "#7C4DFF",
+                  "#4CAF50",
+                  "#FF6F91",
+                ];
+                const pieces = 200;
 
                 // Compute origin from the footer button center
-                const btn = document.querySelector('[data-confetti-button="true"]') as HTMLElement | null;
+                const btn = document.querySelector(
+                  '[data-confetti-button="true"]'
+                ) as HTMLElement | null;
                 const rect = btn?.getBoundingClientRect();
-                const originLeft = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
-                const originTop = rect ? rect.top + rect.height / 2 : Math.min(window.innerHeight * 0.85, window.innerHeight - 80);
+                const originLeft = rect
+                  ? rect.left + rect.width / 2
+                  : window.innerWidth / 2;
+                const originTop = rect
+                  ? rect.top + rect.height / 2
+                  : Math.min(
+                      window.innerHeight * 0.85,
+                      window.innerHeight - 80
+                    );
 
                 for (let i = 0; i < pieces; i++) {
                   const d = document.createElement("div");
                   d.className = "confetti-piece";
                   const w = 6 + Math.floor(Math.random() * 8);
                   const h = 8 + Math.floor(Math.random() * 10);
-                  const xSpread = (rect ? rect.width : 200) * 0.6; // spread around button
+                  const xSpread = rect ? rect.width : 200; // spread around button
                   const xOffset = (Math.random() - 0.5) * xSpread;
                   d.style.width = `${w}px`;
                   d.style.height = `${h}px`;
@@ -208,7 +226,11 @@ const Route = () => {
                 }
 
                 const cleanup = () => {
-                  try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
+                  try {
+                    document.body.removeChild(overlay);
+                  } catch (_e) {
+                    /* noop */
+                  }
                 };
                 const maxDuration = 1200; // quicker finish for all platforms
                 if (typeof requestAnimationFrame === "function") {
