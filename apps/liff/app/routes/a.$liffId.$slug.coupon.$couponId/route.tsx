@@ -263,7 +263,7 @@ const Route = () => {
                   };
 
                   const vh = window.innerHeight / 100;
-                  const spreadDeg = 70; // ~canvas-confetti spread
+                  const spreadDeg = 110; // wider spread for more dispersion
                   const frag = document.createDocumentFragment();
 
                   for (let i = 0; i < pieces; i++) {
@@ -274,12 +274,11 @@ const Route = () => {
                     const upVh = 50 + Math.random() * 20; // 50-70vh
                     const downVh = 95 + Math.random() * 20; // 95-115vh
                     const angle =
-                      (Math.random() * spreadDeg - spreadDeg / 2) *
-                      (Math.PI / 180);
+                      (Math.random() * spreadDeg - spreadDeg / 2) * (Math.PI / 180);
                     const vertPx = (upVh + downVh * 0.6) * vh; // approximate vertical distance in px
-                    const dxPx = Math.tan(angle) * vertPx;
-                    const xJitter = Math.random() * 8 - 4; // small origin jitter
-                    const sway = dxPx * 0.15; // lateral drift proportional to dx
+                    const dxPx = Math.tan(angle) * vertPx * 1.15; // boost lateral distance slightly
+                    const xJitter = Math.random() * 12 - 6; // wider origin jitter
+                    const sway = dxPx * 0.22; // stronger lateral drift
                     d.style.width = `${w}px`;
                     d.style.height = `${h}px`;
                     d.style.left = `${originLeft + xJitter}px`;
