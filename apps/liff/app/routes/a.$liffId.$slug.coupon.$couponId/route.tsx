@@ -158,15 +158,13 @@ const Route = () => {
               ) {
                 // Use the same fast CSS confetti on all platforms
                 const styleSel = "style[data-confetti-css]";
-                let styleEl = document.querySelector(
-                  styleSel
-                ) as HTMLStyleElement | null;
+                let styleEl = document.querySelector(styleSel) as HTMLStyleElement | null;
                 if (!styleEl) {
                   styleEl = document.createElement("style");
                   styleEl.setAttribute("data-confetti-css", "true");
                   styleEl.textContent = `
-@keyframes confetti-fall { from { transform: translate3d(0,-100vh,0) rotate(0deg); } to { transform: translate3d(0,110vh,0) rotate(720deg); } }
-.confetti-piece { position: absolute; top: -10vh; opacity: .95; will-change: transform, opacity; }
+@keyframes confetti-up { 0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(0,-70vh,0) rotate(540deg); opacity: 0.95; } }
+.confetti-piece { position: absolute; opacity: .95; will-change: transform, opacity; }
 `;
                   document.head.appendChild(styleEl);
                 }
@@ -179,41 +177,40 @@ const Route = () => {
                 overlay.style.overflow = "hidden";
                 document.body.appendChild(overlay);
 
-                const colors = [
-                  "#FFC700",
-                  "#FF3D00",
-                  "#00E0FF",
-                  "#7C4DFF",
-                  "#4CAF50",
-                  "#FF6F91",
-                ];
+                const colors = ["#FFC700", "#FF3D00", "#00E0FF", "#7C4DFF", "#4CAF50", "#FF6F91"];
                 const pieces = 60;
+
+                // Compute origin from the footer button center
+                const btn = document.querySelector('[data-confetti-button="true"]') as HTMLElement | null;
+                const rect = btn?.getBoundingClientRect();
+                const originLeft = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+                const originTop = rect ? rect.top + rect.height / 2 : Math.min(window.innerHeight * 0.85, window.innerHeight - 80);
+
                 for (let i = 0; i < pieces; i++) {
                   const d = document.createElement("div");
                   d.className = "confetti-piece";
                   const w = 6 + Math.floor(Math.random() * 8);
                   const h = 8 + Math.floor(Math.random() * 10);
+                  const xSpread = (rect ? rect.width : 200) * 0.6; // spread around button
+                  const xOffset = (Math.random() - 0.5) * xSpread;
                   d.style.width = `${w}px`;
                   d.style.height = `${h}px`;
-                  d.style.left = `${Math.random() * 100}vw`;
+                  d.style.left = `${originLeft + xOffset}px`;
+                  d.style.top = `${originTop}px`;
                   d.style.backgroundColor = colors[i % colors.length];
                   d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
-                  const duration = 800 + Math.random() * 600; // 0.8s - 1.4s
-                  const delay = Math.random() * 80; // quicker start
+                  const duration = 600 + Math.random() * 500; // 0.6s - 1.1s faster pop
+                  const delay = Math.random() * 60; // quicker start
                   const rot = Math.floor(Math.random() * 360);
                   d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
-                  d.style.animation = `confetti-fall ${duration}ms linear ${delay}ms forwards`;
+                  d.style.animation = `confetti-up ${duration}ms cubic-bezier(0.2, 0.8, 0.25, 1) ${delay}ms forwards`;
                   overlay.appendChild(d);
                 }
 
                 const cleanup = () => {
-                  try {
-                    document.body.removeChild(overlay);
-                  } catch (_e) {
-                    /* noop */
-                  }
+                  try { document.body.removeChild(overlay); } catch (_e) { /* noop */ }
                 };
-                const maxDuration = 1600; // quicker finish for all platforms
+                const maxDuration = 1200; // quicker finish for all platforms
                 if (typeof requestAnimationFrame === "function") {
                   requestAnimationFrame(() => setTimeout(cleanup, maxDuration));
                 } else {

@@ -46,6 +46,7 @@ const Footer: React.FC<FooterProps> = ({
         className={`w-full py-4 rounded-xl font-medium transition ${
           disabled ? "bg-gray-300 text-gray-500" : "bg-primary text-white"
         }`}
+        data-confetti-button="true"
         style={{
           backgroundColor: disabled ? "#d1d5db" : color,
           color: disabled ? "#6b7280" : "white",
