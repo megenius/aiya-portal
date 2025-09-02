@@ -150,25 +150,105 @@ const Route = () => {
               variables: data,
             });
 
-            // Fire confetti on client only; dynamic import avoids Android WebView issues
+            // Fire celebration effect: Lottie on Android (safe), canvas-confetti elsewhere
             try {
               if (
                 typeof window !== "undefined" &&
                 typeof document !== "undefined"
               ) {
-                const { default: confetti } = await import("canvas-confetti");
-                confetti({
-                  particleCount: 100,
-                  spread: 70,
-                  origin: { y: 0.9 },
-                  disableForReducedMotion: true,
-                  zIndex: 9999,
-                  ticks: 150,
-                  scalar: 0.9,
-                });
+                const isAndroid =
+                  (typeof navigator !== "undefined" &&
+                    /Android/i.test(navigator.userAgent)) ||
+                  liff?.getOS?.() === "android";
+                if (isAndroid) {
+                  // Use Lottie overlay via CDN to avoid canvas issues on Android WebView
+                  const ensureLottie = () =>
+                    new Promise<void>((resolve, reject) => {
+                      if (
+                        customElements &&
+                        customElements.get &&
+                        customElements.get("lottie-player")
+                      )
+                        return resolve();
+                      const existing = document.querySelector(
+                        "script[data-lottie-player]"
+                      ) as HTMLScriptElement | null;
+                      if (existing) {
+                        existing.addEventListener("load", () => resolve());
+                        existing.addEventListener("error", () =>
+                          reject(new Error("lottie-player load error"))
+                        );
+                        return;
+                      }
+                      const s = document.createElement("script");
+                      s.src =
+                        "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+                      s.async = true;
+                      s.setAttribute("data-lottie-player", "true");
+                      s.onload = () => resolve();
+                      s.onerror = () =>
+                        reject(new Error("lottie-player load error"));
+                      document.head.appendChild(s);
+                    });
+
+                  await ensureLottie();
+
+                  const overlay = document.createElement("div");
+                  overlay.style.position = "fixed";
+                  overlay.style.inset = "0";
+                  overlay.style.zIndex = "10000";
+                  overlay.style.pointerEvents = "none";
+                  overlay.style.display = "flex";
+                  overlay.style.alignItems = "center";
+                  overlay.style.justifyContent = "center";
+
+                  const player = document.createElement("lottie-player") as any;
+                  // Use a stable confetti animation URL
+                  player.setAttribute(
+                    "src",
+                    "https://assets9.lottiefiles.com/packages/lf20_jwkvwzqz.json"
+                  );
+                  player.setAttribute("autoplay", "");
+                  player.setAttribute("speed", "1");
+                  player.setAttribute("loop", "");
+                  player.setAttribute(
+                    "style",
+                    "width: 100%; height: 100%; max-width: 100vw; max-height: 100vh;"
+                  );
+
+                  overlay.appendChild(player);
+                  document.body.appendChild(overlay);
+
+                  // Remove after a short duration to avoid lingering overlay
+                  setTimeout(() => {
+                    try {
+                      document.body.removeChild(overlay);
+                    } catch {
+                      console.error("Failed to remove overlay");
+                    }
+                  }, 1200);
+                } else {
+                  const { default: confetti } = await import("canvas-confetti");
+                  const fire = () =>
+                    confetti({
+                      particleCount: 100,
+                      spread: 70,
+                      origin: { y: 0.9 },
+                      disableForReducedMotion: true,
+                      zIndex: 9999,
+                      ticks: 150,
+                      scalar: 0.9,
+                      useWorker: true,
+                    });
+                  if (typeof requestAnimationFrame === "function") {
+                    requestAnimationFrame(fire);
+                  } else {
+                    setTimeout(fire, 0);
+                  }
+                }
               }
             } catch (e) {
-              console.warn("confetti failed", e);
+              console.warn("celebration effect failed", e);
             }
             setIsRedeemedModalOpen(true);
           },
