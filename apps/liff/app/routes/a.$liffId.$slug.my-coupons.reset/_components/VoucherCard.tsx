@@ -1,0 +1,187 @@
+import React from "react";
+import { CheckCircle, QrCode, XCircle } from "lucide-react";
+import { VoucherUser } from "~/types/app";
+import { getDirectusFileUrl } from "~/utils/files";
+
+interface VoucherCardProps {
+  voucherUser: VoucherUser;
+  onClick: (voucherUserId: string) => void;
+  language: string;
+}
+
+// สไตล์ CSS โดยตรงสำหรับการแสดงข้อความที่ตัดด้วย ...
+const textTruncateStyle = {
+  display: "block",
+  maxWidth: "100%",
+  whiteSpace: "nowrap" as const,
+  overflow: "hidden" as const,
+  textOverflow: "ellipsis" as const,
+};
+
+const VoucherCard: React.FC<VoucherCardProps> = ({
+  voucherUser,
+  onClick,
+  language,
+}) => {
+  const voucher = voucherUser.code.voucher;
+  const title = voucher.metadata.title[language];
+  const voucherText = {
+    collected: {
+      th: "แตะเพื่อใช้คูปอง",
+      en: "Tap to redeem",
+    },
+    used: {
+      th: "ใช้แล้ว",
+      en: "Redeemed",
+    },
+    expired: {
+      th: "หมดอายุแล้ว",
+      en: "Expired",
+    },
+  };
+  const isExpired =
+    voucherUser.expired_date && new Date(voucherUser.expired_date) < new Date();
+
+  let timeLeft = 0;
+  if (voucherUser.used_date) {
+    const usedDateTime = new Date(voucherUser.used_date).getTime();
+    const expiryTime = usedDateTime + 15 * 60 * 1000; // 15 minutes after used_date
+    const now = new Date().getTime();
+    timeLeft = Math.floor((expiryTime - now) / 1000);
+  }
+
+  const text = () => {
+    if (voucherUser.code.code_status === "pending_confirmation") {
+      if (timeLeft > 0) return voucherText["collected"][language];
+      else return voucherText["expired"][language];
+    }
+    if (
+      isExpired &&
+      voucherUser.code.code_status !== "used" &&
+      voucherUser.code.code_status !== "pending_confirmation"
+    ) {
+      return voucherText["expired"][language];
+    }
+    return voucherText[voucherUser.code.code_status ?? "collected"][language];
+  };
+
+  return (
+    <div className="w-full">
+      {/* Ticket outer container */}
+      <div className="relative">
+        <button
+          className="flex w-full h-28 border rounded-lg overflow-hidden"
+          onClick={() => onClick(voucherUser.id.toString())}
+        >
+          {/* Ticket inner container */}
+          {/* Main ticket area (left side) */}
+          <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
+            <img
+              src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+              alt={title}
+              className="w-24 object-cover mr-3"
+            />
+            <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
+              <div className="w-full max-w-36 text-start">
+                <h3 className="font-medium" style={textTruncateStyle}>
+                  {voucher.voucher_brand_id?.name}
+                </h3>
+                <h4 className="text-sm text-gray-600" style={textTruncateStyle}>
+                  {title}
+                </h4>
+              </div>
+              <div className="flex flex-col items-start gap-1">
+                <div
+                  className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
+                >
+                  {voucherUser.code.code_status === "used" && (
+                    <CheckCircle className="h-4 w-4 flex-shrink-0" />
+                  )}
+                  {!isExpired &&
+                    ((voucherUser.code.code_status === "pending_confirmation" &&
+                      timeLeft > 0) ||
+                      voucherUser.code.code_status === "collected") && (
+                      <QrCode className="h-4 w-4 flex-shrink-0" />
+                    )}
+                  {((voucherUser.code.code_status === "pending_confirmation" &&
+                    timeLeft <= 0) ||
+                    (isExpired && voucherUser.code.code_status !== "used") ||
+                    voucherUser.code.code_status === "expired") && (
+                    <XCircle className="h-4 w-4 flex-shrink-0" />
+                  )}
+                  <span className="flex-1 text-start" style={textTruncateStyle}>
+                    {text()}
+                  </span>
+                </div>
+                {!isExpired && voucherUser.code.code_status === "collected" && (
+                  <span className="text-xs text-red-500">
+                    (ถึง: {formatThaiDateTime(voucherUser.expired_date as string)})
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Tear-off section (right side) */}
+          <div
+            className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
+            style={{
+              backgroundColor:
+                voucher.voucher_brand_id.primaryColor || undefined,
+            }}
+          >
+            <div className="transform -rotate-90">
+              <div className="text-center space-y-2 overflow-hidden">
+                {/* <p className="text-xs">COUPON</p> */}
+                <p
+                  className="text-base font-medium w-24"
+                  style={textTruncateStyle}
+                >
+                  {voucher.voucher_brand_id?.name}
+                </p>
+                <img
+                  src={getDirectusFileUrl(
+                    (voucher?.voucher_brand_id?.logo as string) ?? ""
+                  )}
+                  alt={voucher?.voucher_brand_id?.name ?? ""}
+                  className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
+                />
+                {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
+                  LOGO
+                </div> */}
+                {/* <QrCode className="h-6 w-6 mx-auto mt-1" /> */}
+              </div>
+            </div>
+          </div>
+        </button>
+        <div className="absolute left-0 top-0 h-full">
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={`left-perf-${i}`}
+              className="absolute w-2 h-2 bg-gray-50 border-r border-gray-400 rounded-full -translate-x-1"
+              style={{ top: `${(i * 100) / 10}%` }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function formatThaiDateTime(dateStr?: string): string {
+  if (!dateStr) return "-";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear() + 543; // Buddhist year
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const months = [
+    "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+    "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
+  ];
+  return `${day} ${months[month]} ${year} - ${hour}:${minute.toString().padStart(2, "0")} น.`;
+}
+
+export default VoucherCard;

@@ -5,5 +5,10 @@ import * as meHadlers from "../handlers/me.handlers";
 
 const meRoutes = new Hono<Env>()
   .get("/", directusAdminMiddleware, ...meHadlers.getMe)
+  .post(
+    "/vouchers/reset",
+    directusAdminMiddleware,
+    ...meHadlers.resetMyVoucher
+  );
 
 export { meRoutes };
