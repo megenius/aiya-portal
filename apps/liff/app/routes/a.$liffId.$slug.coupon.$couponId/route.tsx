@@ -166,9 +166,9 @@ const Route = () => {
                   styleEl.setAttribute("data-confetti-css", "true");
                   styleEl.textContent = `
 @keyframes confetti-up-down {
-  0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; animation-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1); }
-  45% { transform: translate3d(0,-60vh,0) rotate(540deg); opacity: 1; animation-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1); }
-  100% { transform: translate3d(0,100vh,0) rotate(900deg); opacity: 0.95; }
+  0% { transform: translate3d(0,0,0) rotate(var(--rot, 0deg)); opacity: 1; }
+  45% { transform: translate3d(var(--dx, 0px), var(--upY, -60vh), 0) rotate(var(--rotMid, 540deg)); opacity: 1; }
+  100% { transform: translate3d(calc(var(--dx, 0px) * 1.5), var(--downY, 100vh), 0) rotate(var(--rotEnd, 900deg)); opacity: 0.9; }
 }
 .confetti-piece { position: absolute; opacity: .95; will-change: transform, opacity; }
 `;
@@ -221,10 +221,20 @@ const Route = () => {
                   d.style.top = `${originTop}px`;
                   d.style.backgroundColor = colors[i % colors.length];
                   d.style.borderRadius = `${Math.random() < 0.3 ? 50 : 4}%`;
-                  const duration = 1500 + Math.random() * 600; // 1.5s - 2.1s up then down
+                  const duration = 1600 + Math.random() * 700; // 1.6s - 2.3s up then down
                   const delay = Math.random() * 60; // quick stagger
                   const rot = Math.floor(Math.random() * 360);
-                  d.style.transform = `translate3d(0,0,0) rotate(${rot}deg)`;
+                  const rotMid = rot + (360 + Math.floor(Math.random() * 360));
+                  const rotEnd =
+                    rotMid + (180 + Math.floor(Math.random() * 360));
+                  const upVh = 50 + Math.random() * 20; // 50-70vh
+                  const downVh = 95 + Math.random() * 20; // 95-115vh
+                  d.style.setProperty("--dx", `${xOffset.toFixed(1)}px`);
+                  d.style.setProperty("--upY", `-${upVh.toFixed(1)}vh`);
+                  d.style.setProperty("--downY", `${downVh.toFixed(1)}vh`);
+                  d.style.setProperty("--rot", `${rot}deg`);
+                  d.style.setProperty("--rotMid", `${rotMid}deg`);
+                  d.style.setProperty("--rotEnd", `${rotEnd}deg`);
                   d.style.animation = `confetti-up-down ${duration}ms linear ${delay}ms forwards`;
                   overlay.appendChild(d);
                 }
@@ -236,7 +246,7 @@ const Route = () => {
                     /* noop */
                   }
                 };
-                const maxDuration = 2300; // allow fall to complete for the longest pieces
+                const maxDuration = 2800; // allow fall to complete for the longest pieces
                 if (typeof requestAnimationFrame === "function") {
                   requestAnimationFrame(() => setTimeout(cleanup, maxDuration));
                 } else {
