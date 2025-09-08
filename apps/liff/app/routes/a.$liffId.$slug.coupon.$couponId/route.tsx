@@ -22,6 +22,7 @@ import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
 import { triggerConfettiFromButton } from "~/utils/confetti";
+import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
 
 // Hook สำหรับ refetch voucher view เมื่อถึงเวลา start_date
 function useRefetchOnVoucherStart(
@@ -66,9 +67,10 @@ const Route = () => {
   });
 
   // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
-  useRefetchOnVoucherStart(coupon?.start_date, refetchVoucherView);
+  useRefetchOnVoucherStart(coupon?.start_date as string, refetchVoucherView);
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
+  const sendServiceMessage = useSendServiceMessage();
   const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
   const [isCollected, setIsCollected] = useState(Boolean(myCoupon));
   const [pageState, setPageState] = useState("landing");
@@ -128,47 +130,57 @@ const Route = () => {
       }),
     };
 
-    await collectVoucher
-      .mutateAsync(
-        {
-          variables: collectVoucherData,
-        },
-        {
-          onSuccess: async (res) => {
-            setIsCollected(true);
-            setPageState("landing");
-            setState("collected");
-            const data: Partial<LeadSubmission> = {
-              source: "voucher",
-              source_id: res.id as string,
-              data:
-                coupon?.metadata.redemptionType === "form"
-                  ? { form: { fields: formData } }
-                  : undefined,
-              metadata: coupon?.metadata,
-            };
-            leadSubmission.mutateAsync({
-              variables: data,
-            });
+    collectVoucher.mutate(
+      {
+        variables: collectVoucherData,
+      },
+      {
+        onSuccess: async (res) => {
+          setIsCollected(true);
+          setPageState("landing");
+          setState("collected");
+          const data: Partial<LeadSubmission> = {
+            source: "voucher",
+            source_id: res.id as string,
+            data:
+              coupon?.metadata.redemptionType === "form"
+                ? { form: { fields: formData } }
+                : undefined,
+            metadata: coupon?.metadata,
+          };
 
-            // Fire celebration effect: Pure CSS confetti on all platforms (safe for WebView)
-            try {
-              triggerConfettiFromButton();
-            } catch (e) {
-              console.warn("celebration effect failed", e);
-            }
-            setIsRedeemedModalOpen(true);
-          },
-          onError: () => {
-            // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
-            setShowFullyCollectedModal(true);
-            // }
-          },
-        }
-      )
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+          // Fire celebration effect: Pure CSS confetti on all platforms (safe for WebView)
+          try {
+            triggerConfettiFromButton();
+          } catch (e) {
+            console.warn("celebration effect failed", e);
+          }
+          setIsRedeemedModalOpen(true);
+          setIsSubmitting(false);
+
+          await leadSubmission.mutateAsync({
+            variables: data,
+          });
+          await sendServiceMessage.mutateAsync({
+            variables: {
+              liff_access_token: liff?.getAccessToken() || "",
+              template_name:
+                lang === "th" ? "couponnoti_s_c_th" : "couponnoti_s_c_en",
+              template_params: {
+                btn1_url: `https://miniapp.line.me/${page?.liff_id}/coupon/${coupon?.id}`,
+              },
+            },
+          });
+        },
+        onError: (error) => {
+          console.error(error);
+          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+          setShowFullyCollectedModal(true);
+          setIsSubmitting(false);
+          // }
+        },
+      }
+    );
   };
 
   if (

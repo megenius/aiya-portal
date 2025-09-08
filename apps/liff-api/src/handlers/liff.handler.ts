@@ -4,6 +4,8 @@ import { logger } from "hono/logger";
 import * as _ from "lodash";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
+import { getLineChannelAccessToken } from "~/utils/line";
+import { decryptWithSecret, encryptWithSecret } from "~/utils/secretHelper";
 
 const factory = createFactory<Env>();
 
@@ -141,7 +143,6 @@ export const getByLiffIdAndSlug = factory.createHandlers(
   }
 );
 
-
 function filterAndMapVouchers<T>(
   items: T[],
   getVoucher: (item: T) => any,
@@ -170,3 +171,85 @@ function filterAndMapVouchers<T>(
       };
     });
 }
+
+export const encryptChannelSecret = factory.createHandlers(
+  logger(),
+  async (c) => {
+    try {
+      const { channel_secret } = await c.req.json();
+
+      if (!channel_secret || typeof channel_secret !== "string") {
+        return c.json({ error: "channel_secret is required" }, 400);
+      }
+
+      const { LIFF_SECRET_KEY } = c.env;
+      if (!LIFF_SECRET_KEY) {
+        return c.json(
+          { error: "Server misconfiguration: LIFF_SECRET_KEY is missing" },
+          500
+        );
+      }
+
+      const encrypted = await encryptWithSecret(
+        LIFF_SECRET_KEY,
+        channel_secret
+      );
+      return c.json({ encrypted_secret: encrypted });
+    } catch (err: any) {
+      return c.json(
+        {
+          error: "Failed to encrypt channel_secret",
+          detail: err?.message ?? String(err),
+        },
+        500
+      );
+    }
+  }
+);
+
+export const requestChannelAccessToken = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { liff_id } = c.get("jwtPayload");
+      const directus = c.get("directAdmin");
+
+      // หา secret ciphertext จาก DB
+      const pageLiff = await directus.request(
+        readItems("pages_liff", {
+          fields: ["liff_id", "liff_secret_ciphertext"],
+          filter: { liff_id: { _eq: liff_id } },
+          limit: 1,
+        })
+      );
+
+      if (!pageLiff.length) {
+        return c.json({ error: "Page liff not found" }, 404);
+      }
+      if (!pageLiff[0].liff_secret_ciphertext) {
+        return c.json({ error: "Page liff secret not found" }, 404);
+      }
+
+      // decrypt client_secret
+      const liffSecret = await decryptWithSecret(
+        c.env.LIFF_SECRET_KEY,
+        pageLiff[0].liff_secret_ciphertext
+      );
+
+      // ใช้ helper function
+      const token = await getLineChannelAccessToken({
+        liffId: liff_id,
+        liffSecret,
+      });
+
+      return c.json({ success: true, ...token });
+    } catch (error: any) {
+      console.error("Error getting channel access token:", error);
+      return c.json(
+        { error: "Something went wrong", detail: error?.message ?? error },
+        500
+      );
+    }
+  }
+);
