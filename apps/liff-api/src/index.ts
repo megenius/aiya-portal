@@ -10,6 +10,7 @@ import { authMiddleware } from "./middlewares/auth.middleware";
 import { authRoutes } from "./routes/auth.route";
 import { meRoutes } from "./routes/me.route";
 import { fileRoutes } from "./routes/file";
+import { notifiesRoutes } from "./routes/notifies";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -35,6 +36,7 @@ const app = new Hono<Env>()
   .route("/point-transactions", pointTransactionsRouter) // Added route for point transactions
   .route("/profiles", profileRoutes)
   .route("/files", fileRoutes)
+  .route("/notifies", notifiesRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });

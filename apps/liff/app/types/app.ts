@@ -5,7 +5,10 @@ export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
 // export type Profile = components["schemas"]["ItemsProfiles"];
 export type AdvanceProfile = components["schemas"]["ItemsAdvanceProfiles"];
 export type PointTransaction = components["schemas"]["ItemsPointTransactions"];
-export type Brand = Omit<components["schemas"]["ItemsVouchersBrands"], "metadata"> & {
+export type Brand = Omit<
+  components["schemas"]["ItemsVouchersBrands"],
+  "metadata"
+> & {
   metadata: BrandMetadata;
   vouchers: Voucher[];
 };
@@ -15,7 +18,8 @@ interface BrandMetadata {
 }
 
 export type Voucher = Omit<
-  components["schemas"]["ItemsVouchers"], "metadata" | "voucher_brand_id"
+  components["schemas"]["ItemsVouchers"],
+  "metadata" | "voucher_brand_id"
 > & {
   metadata: VoucherMetadata;
   voucher_brand_id: Brand;
@@ -37,7 +41,7 @@ export type VoucherUser = Omit<
 
 export interface VoucherCodeUpdate {
   userId: string;
-  code:string;
+  code: string;
   code_status: string;
 }
 
@@ -61,7 +65,6 @@ interface VoucherMetadata {
 }
 
 export type VoucherView = components["schemas"]["ItemsVoucherViews"];
-  
 
 interface TierCondition {
   duration_before_claim_seconds?: number;
@@ -70,7 +73,7 @@ interface TierCondition {
 
 export interface DiscountTier {
   value: number;
-  type: 'percentage' | 'fixed_amount' | 'gift';
+  type: "percentage" | "fixed_amount" | "gift";
   condition: TierCondition;
 }
 
@@ -100,7 +103,13 @@ export interface CollectVoucher {
   voucher_id: string;
   channel: string;
   discount_value?: number | null;
-  discount_type?: 'percentage' | 'fixed_amount' | 'gift' | null;
+  discount_type?: "percentage" | "fixed_amount" | "gift" | null;
+}
+
+export interface ServiceMessage {
+  liff_access_token: string;
+  template_name: string;
+  template_params: Record<string, string>;
 }
 
 export interface Profile {

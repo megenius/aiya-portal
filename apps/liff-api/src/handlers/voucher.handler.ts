@@ -14,6 +14,12 @@ import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 import { formatDateBangkok } from "~/utils/dateUtils";
+import {
+  getLineChannelAccessToken,
+  issueServiceNotificationToken,
+  sendServiceMessage,
+} from "~/utils/line";
+import { decryptWithSecret } from "~/utils/secretHelper";
 
 const factory = createFactory<Env>();
 
@@ -70,7 +76,7 @@ export const collectVoucher = factory.createHandlers(
         discount_value,
         discount_type,
       } = await c.req.json();
-      const { id } = c.get("jwtPayload");
+      const { id, liff_id } = c.get("jwtPayload");
       const directus = c.get("directAdmin");
 
       // get voucher by ref_code
@@ -559,15 +565,13 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
     const { id } = c.get("jwtPayload");
     const { voucher_id } = c.req.param();
     const directus = c.get("directAdmin");
-    const voucher = await directus.request(
-      readItem("vouchers", voucher_id)
-    );
+    const voucher = await directus.request(readItem("vouchers", voucher_id));
     if (!voucher) {
       return c.json({ error: "Voucher not found" }, { status: 404 });
     }
 
     // ถ้ายังไม่ถึง start_date ให้ส่ง null กลับไป
-    const bangkokNow = new Date(new Date().getTime() + (7 * 60 * 60 * 1000));
+    const bangkokNow = new Date(new Date().getTime() + 7 * 60 * 60 * 1000);
     // console.log(`${voucher.start_date} && ${bangkokNow} < ${new Date(voucher.start_date as string)}`);
     if (voucher.start_date && bangkokNow < new Date(voucher.start_date)) {
       return c.json(null);
