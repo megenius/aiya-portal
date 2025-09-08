@@ -19,46 +19,54 @@ export const sendLineServiceMessage = factory.createHandlers(
   async (c) => {
     try {
       const { liff_id } = c.get("jwtPayload");
-      const { liffAccessToken, templateName, templateParams } =
+      const { liff_access_token, template_name, template_params } =
         await c.req.json();
       const directus = c.get("directAdmin");
 
       // 1) ดึง secret ciphertext ของ liff แล้ว decrypt เป็น liffSecret
       const pageLiff = await directus.request(
         readItems("pages_liff", {
-          fields: ["liff_id", "liff_secret_ciphertext"],
+          fields: [
+            "liff_id",
+            {
+              channel: ["provider_access_token"],
+            },
+          ],
           filter: { liff_id: { _eq: liff_id } },
           limit: 1,
         })
       );
-      if (!pageLiff.length || !pageLiff[0].liff_secret_ciphertext) {
+      if (!pageLiff.length || !pageLiff[0].channel?.provider_access_token) {
         return c.json({ error: "Page liff or secret not found" }, 404);
       }
-      const liffSecret = await decryptWithSecret(
-        c.env.LIFF_SECRET_KEY,
-        pageLiff[0].liff_secret_ciphertext
-      );
+
+      // const channelId = liff_id.split("-")[0];
+      // const channelSecret = await decryptWithSecret(
+      //   c.env.LIFF_SECRET_KEY,
+      //   pageLiff[0].liff_secret_ciphertext
+      // );
 
       // 2) ขอ channel access token (stateless)
-      const cat = await getLineChannelAccessToken({
-        liffId: liff_id,
-        liffSecret,
-      });
-      const channelAccessToken = cat.access_token;
+      // const cat = await getLineChannelAccessToken({
+      //   channelId,
+      //   channelSecret,
+      // });
+      // const channelAccessToken = cat.access_token;
+      const channelAccessToken = pageLiff[0].channel?.provider_access_token;
 
       // 3) แลก service notification token จาก LIFF access token
       const nt = await issueServiceNotificationToken({
         channelAccessToken,
-        liffAccessToken,
+        liffAccessToken: liff_access_token,
       });
       let notificationToken = nt.notificationToken;
 
       // 4) ส่ง Service Message ตาม template (ตัวอย่างใช้ ticket_issued_simple_th)
       const sendResult = await sendServiceMessage({
         channelAccessToken,
-        templateName,
+        templateName: template_name,
         notificationToken,
-        templateParams,
+        templateParams: template_params,
       });
 
       // 5) อัปเดต notificationToken ใหม่ที่ LINE ส่งกลับ (เพื่อใช้ครั้งถัดไป)

@@ -1,23 +1,23 @@
 export async function getLineChannelAccessToken(params: {
-  liffId: string;
-  liffSecret: string;
+  channelId: string;
+  channelSecret: string;
 }): Promise<{ access_token: string; token_type: string; expires_in: number }> {
-  const { liffId, liffSecret } = params;
+  const { channelId: channelId, channelSecret: channelSecret } = params;
 
   const res = await fetch("https://api.line.me/oauth2/v2.1/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      client_id: liffId,
-      client_secret: liffSecret,
+      client_id: channelId,
+      client_secret: channelSecret,
     }),
   });
 
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     throw new Error(
-      `LINE token request failed (liff_id=${liffId}, status=${res.status}): ${detail}`
+      `LINE token request failed (channelId=${channelId}, status=${res.status}): ${detail}`
     );
   }
 
