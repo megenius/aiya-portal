@@ -238,10 +238,7 @@ export const requestChannelAccessToken = factory.createHandlers(
       );
 
       // ใช้ helper function
-      const token = await getLineChannelAccessToken({
-        channelId: liff_id,
-        channelSecret: liffSecret,
-      });
+      const token = await getLineChannelAccessToken(liff_id, liffSecret);
 
       return c.json({ success: true, ...token });
     } catch (error: any) {

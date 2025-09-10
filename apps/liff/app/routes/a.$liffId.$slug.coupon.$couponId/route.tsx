@@ -27,7 +27,7 @@ import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
 // Hook สำหรับ refetch voucher view เมื่อถึงเวลา start_date
 function useRefetchOnVoucherStart(
   startDate?: string,
-  refetchVoucherView?: () => void
+  refetchVoucherView?: () => void,
 ) {
   useEffect(() => {
     if (!startDate || !refetchVoucherView) return;
@@ -55,16 +55,12 @@ const Route = () => {
     data: codeStats,
     isLoading: isCodeStatsLoading,
     refetch: refetchCodeStats,
-  } = useVoucherCodeStats({
-    voucherId: couponId as string,
-  });
+  } = useVoucherCodeStats({ voucherId: couponId as string });
   const {
     data: voucherView,
     isLoading: isVoucherViewLoading,
     refetch: refetchVoucherView,
-  } = useVoucherView({
-    voucherId: couponId as string,
-  });
+  } = useVoucherView({ voucherId: couponId as string });
 
   // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
   useRefetchOnVoucherStart(coupon?.start_date as string, refetchVoucherView);
@@ -131,9 +127,7 @@ const Route = () => {
     };
 
     collectVoucher.mutate(
-      {
-        variables: collectVoucherData,
-      },
+      { variables: collectVoucherData },
       {
         onSuccess: async (res) => {
           setIsCollected(true);
@@ -158,9 +152,7 @@ const Route = () => {
           setIsRedeemedModalOpen(true);
           setIsSubmitting(false);
 
-          await leadSubmission.mutateAsync({
-            variables: data,
-          });
+          await leadSubmission.mutateAsync({ variables: data });
           await sendServiceMessage.mutateAsync({
             variables: {
               liff_access_token: liff?.getAccessToken() || "",
@@ -179,7 +171,7 @@ const Route = () => {
           setIsSubmitting(false);
           // }
         },
-      }
+      },
     );
   };
 
@@ -194,13 +186,14 @@ const Route = () => {
 
   return (
     coupon && (
-      <div className="h-screen-safe flex flex-col overflow-hidden">
+      <div className="flex h-screen-safe flex-col overflow-hidden">
         {coupon.metadata.redemptionType === "limited_time" &&
         status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
             voucherView={voucherView}
             language={lang}
+            primaryColor={coupon.primary_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
           />

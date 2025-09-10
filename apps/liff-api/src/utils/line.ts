@@ -1,10 +1,8 @@
-export async function getLineChannelAccessToken(params: {
-  channelId: string;
-  channelSecret: string;
-}): Promise<{ access_token: string; token_type: string; expires_in: number }> {
-  const { channelId: channelId, channelSecret: channelSecret } = params;
-
-  const res = await fetch("https://api.line.me/oauth2/v2.1/token", {
+export async function getLineChannelAccessToken(
+  channelId: string,
+  channelSecret: string
+): Promise<{ access_token: string; token_type: string; expires_in: number }> {
+  const res = await fetch("https://api.line.me/v2/oauth/accessToken", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -31,12 +29,10 @@ export async function getLineChannelAccessToken(params: {
 }
 
 // 1) แลก LIFF access token -> service notification token
-export async function issueServiceNotificationToken(params: {
-  channelAccessToken: string;
-  liffAccessToken: string;
-}) {
-  const { channelAccessToken, liffAccessToken } = params;
-
+export async function issueServiceNotificationToken(
+  channelAccessToken: string,
+  liffAccessToken: string
+) {
   const res = await fetch("https://api.line.me/message/v3/notifier/token", {
     method: "POST",
     headers: {
@@ -64,19 +60,12 @@ export async function issueServiceNotificationToken(params: {
 }
 
 // 2) ส่ง service message ตาม template + notificationToken
-export async function sendServiceMessage(params: {
-  channelAccessToken: string;
-  templateName: string;
-  notificationToken: string;
-  templateParams: Record<string, string>;
-}) {
-  const {
-    channelAccessToken,
-    templateName,
-    notificationToken,
-    templateParams,
-  } = params;
-
+export async function sendServiceMessage(
+  channelAccessToken: string,
+  templateName: string,
+  notificationToken: string,
+  templateParams: Record<string, string>
+) {
   const url = "https://api.line.me/message/v3/notifier/send?target=service";
   const res = await fetch(url, {
     method: "POST",

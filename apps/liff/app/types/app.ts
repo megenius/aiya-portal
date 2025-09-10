@@ -8,10 +8,7 @@ export type PointTransaction = components["schemas"]["ItemsPointTransactions"];
 export type Brand = Omit<
   components["schemas"]["ItemsVouchersBrands"],
   "metadata"
-> & {
-  metadata: BrandMetadata;
-  vouchers: Voucher[];
-};
+> & { metadata: BrandMetadata; vouchers: Voucher[] };
 
 interface BrandMetadata {
   category: Category;
@@ -20,24 +17,17 @@ interface BrandMetadata {
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
   "metadata" | "voucher_brand_id"
-> & {
-  metadata: VoucherMetadata;
-  voucher_brand_id: Brand;
-};
+> & { metadata: VoucherMetadata; voucher_brand_id: Brand };
 
 export type VoucherCode = Omit<
   components["schemas"]["ItemsVouchersCodes"],
   "voucher"
-> & {
-  voucher: Voucher;
-};
+> & { voucher: Voucher };
 
 export type VoucherUser = Omit<
   components["schemas"]["ItemsVouchersUsers"],
   "code"
-> & {
-  code: VoucherCode;
-};
+> & { code: VoucherCode };
 
 export interface VoucherCodeUpdate {
   userId: string;
@@ -55,6 +45,21 @@ export interface VoucherStats {
   total: number;
 }
 
+interface LayoutRule {
+  visible: boolean;
+}
+
+interface ContainerLayoutRule {
+  paddingTop?: string;
+}
+
+interface LayoutOptions {
+  title?: LayoutRule;
+  description?: LayoutRule;
+  conditions?: LayoutRule;
+  container?: ContainerLayoutRule;
+}
+
 interface VoucherMetadata {
   title: language;
   description: language;
@@ -62,6 +67,7 @@ interface VoucherMetadata {
   redemptionType: "instant" | "form" | "limited_time";
   form?: Form;
   discount_tiers?: DiscountTier[];
+  layout?: LayoutOptions;
 }
 
 export type VoucherView = components["schemas"]["ItemsVoucherViews"];
