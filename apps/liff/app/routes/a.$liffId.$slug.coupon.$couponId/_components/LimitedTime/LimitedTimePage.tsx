@@ -51,9 +51,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     }
 
     const calculateCurrentState = () => {
-      // ใช้ voucherView.date_created เป็นจุดตั้งต้น
+      // ใช้ voucherView.first_viewed_at เป็นจุดตั้งต้น
       let cumulativeStartTime = new Date(
-        voucherView?.date_created as string,
+        voucherView?.first_viewed_at as string,
       ).getTime(); // <<< เวลาเริ่มต้นแบบทบต้นใหม่
       const now = new Date().getTime();
 
