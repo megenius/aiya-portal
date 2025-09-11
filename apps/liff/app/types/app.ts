@@ -68,6 +68,21 @@ export interface VoucherViewV2 {
   deniedReason?: "group_quota_full" | "already_collected" | null;
 }
 
+// v2 - My Coupons response & computed fields
+export type VoucherEffectiveStatus = "available" | "used" | "expired";
+
+export type VoucherUserComputed = VoucherUser & {
+  timeLeftSeconds: number;
+  isExpired: boolean;
+  effectiveStatus: VoucherEffectiveStatus;
+};
+
+export interface MyVouchersV2 {
+  serverNow: string;
+  stats: VoucherStats;
+  items: VoucherUserComputed[];
+}
+
 interface LayoutRule {
   visible: boolean;
 }

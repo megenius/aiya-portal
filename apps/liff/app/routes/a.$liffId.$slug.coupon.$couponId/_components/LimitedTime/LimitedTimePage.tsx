@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "@remix-run/react";
 import { ArrowLeft } from "lucide-react";
 import { formatDateTime } from "~/utils/helpers";
 import InlineNotice from "~/components/InlineNotice";
+import ChooseAnotherVoucherButton from "~/components/ChooseAnotherVoucherButton";
 
 interface LimitedTimePageProps {
   voucher: Voucher;
@@ -123,11 +124,6 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     en: `Starts at\n${formatDateTime(voucher.start_date as string, "en")}`,
   };
 
-  const otherVoucherTextButton = {
-    th: "เลือกดูคูปองอื่นก่อน",
-    en: "Choose another voucher",
-  };
-
   const textButton = {
     th: {
       collect: getCollectText({ lang: "th", activeTier, voucher }),
@@ -170,7 +166,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       {mounted &&
         isEnded &&
         !(
-          serverComputed && serverComputed.deniedReason === "group_quota_full"
+          serverComputed &&
+          (serverComputed.deniedReason === "group_quota_full" ||
+            (serverComputed.available ?? 0) <= 0)
         ) && (
           <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
             <div className="flex rotate-[-15deg] flex-col items-center justify-center gap-2">
@@ -224,8 +222,26 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                   <InlineNotice
                     language={language as "th" | "en"}
                     deniedReason={serverComputed.deniedReason ?? null}
+                    message={
+                      serverComputed.deniedReason
+                        ? undefined
+                        : serverComputed.available <= 0
+                          ? language === "th"
+                            ? "คูปองถูกเก็บครบแล้ว"
+                            : "All vouchers have been collected."
+                          : language === "th"
+                            ? "ขณะนี้ไม่สามารถรับคูปองได้"
+                            : "You cannot collect this voucher right now."
+                    }
                     className="mx-3 -mt-4"
                     level="soft"
+                  />
+                )}
+                {cannotCollect && (
+                  <ChooseAnotherVoucherButton
+                    onClick={navigateToBack}
+                    primaryColor={primaryColor}
+                    language={language as "th" | "en"}
                   />
                 )}
                 {!cannotCollect && (
@@ -267,6 +283,35 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
             )}
           {serverComputed &&
             isEnded &&
+            (serverComputed.available ?? 0) <= 0 && (
+              <div className="flex h-full w-full flex-col gap-8">
+                <div className="flex flex-col items-center gap-10">
+                  {!voucher.metadata.layout?.title?.visible && (
+                    <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white">
+                      {displayMessage}
+                    </h1>
+                  )}
+                </div>
+                <InlineNotice
+                  language={language as "th" | "en"}
+                  deniedReason={serverComputed.deniedReason ?? null}
+                  message={
+                    language === "th"
+                      ? "คูปองถูกเก็บครบแล้ว"
+                      : "All vouchers have been collected."
+                  }
+                  className="mx-3 -mt-4"
+                  level="medium"
+                />
+                <ChooseAnotherVoucherButton
+                  onClick={navigateToBack}
+                  primaryColor={primaryColor}
+                  language={language as "th" | "en"}
+                />
+              </div>
+            )}
+          {serverComputed &&
+            isEnded &&
             serverComputed.deniedReason === "group_quota_full" && (
               <div className="flex h-full w-full flex-col gap-8">
                 <div className="flex flex-col items-center gap-10">
@@ -282,18 +327,11 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                   className="mx-3 -mt-4"
                   level="medium"
                 />
-                <div className="flex flex-col items-center justify-center gap-2 px-3">
-                  <button
-                    onClick={() => navigateToBack()}
-                    className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
-                    style={{
-                      backgroundColor: primaryColor ? primaryColor : undefined,
-                      color: primaryColor ? "white" : undefined,
-                    }}
-                  >
-                    {otherVoucherTextButton[language]}
-                  </button>
-                </div>
+                <ChooseAnotherVoucherButton
+                  onClick={navigateToBack}
+                  primaryColor={primaryColor}
+                  language={language as "th" | "en"}
+                />
               </div>
             )}
           {serverComputed &&
@@ -317,22 +355,26 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                     <InlineNotice
                       language={language as "th" | "en"}
                       deniedReason={serverComputed.deniedReason ?? null}
+                      message={
+                        serverComputed.deniedReason
+                          ? undefined
+                          : serverComputed.available <= 0
+                            ? language === "th"
+                              ? "คูปองถูกเก็บครบแล้ว"
+                              : "All vouchers have been collected."
+                            : language === "th"
+                              ? "ขณะนี้ไม่สามารถรับคูปองได้"
+                              : "You cannot collect this voucher right now."
+                      }
                       className="mx-3 -mt-6"
                       level="soft"
                     />
                   )}
-                <div className="flex flex-col items-center justify-center gap-2 px-3">
-                  <button
-                    onClick={() => navigateToBack()}
-                    className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
-                    style={{
-                      backgroundColor: primaryColor ? primaryColor : undefined,
-                      color: primaryColor ? "white" : undefined,
-                    }}
-                  >
-                    {otherVoucherTextButton[language]}
-                  </button>
-                </div>
+                <ChooseAnotherVoucherButton
+                  onClick={navigateToBack}
+                  primaryColor={primaryColor}
+                  language={language as "th" | "en"}
+                />
               </div>
             )}
         </div>
