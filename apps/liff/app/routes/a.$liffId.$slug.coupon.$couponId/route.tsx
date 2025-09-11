@@ -68,7 +68,6 @@ const Route = () => {
   const leadSubmission = useInsertLeadSubmission();
   const sendServiceMessage = useSendServiceMessage();
   const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
-  const [isCollected, setIsCollected] = useState(Boolean(myCoupon));
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
@@ -96,6 +95,8 @@ const Route = () => {
   }
 
   const handleSubmit = async (tier?: DiscountTier) => {
+    // ป้องกันการกดซ้ำระหว่างกำลังส่งคำขอ
+    if (isSubmitting) return;
     if (
       isExpired ||
       (status === "pending_confirmation" && timeLeft <= 0) ||
@@ -105,6 +106,8 @@ const Route = () => {
     ) {
       return;
     }
+
+    const isCollected = Boolean(myCoupon);
 
     if (isCollected || status === "pending_confirmation") {
       // navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`);
@@ -130,29 +133,32 @@ const Route = () => {
       { variables: collectVoucherData },
       {
         onSuccess: async (res) => {
-          setIsCollected(true);
-          setPageState("landing");
-          setState("collected");
-          const data: Partial<LeadSubmission> = {
-            source: "voucher",
-            source_id: res.id as string,
-            data:
-              coupon?.metadata.redemptionType === "form"
-                ? { form: { fields: formData } }
-                : undefined,
-            metadata: coupon?.metadata,
-          };
-
-          // Fire celebration effect: Pure CSS confetti on all platforms (safe for WebView)
           try {
-            triggerConfettiFromButton();
-          } catch (e) {
-            console.warn("celebration effect failed", e);
-          }
-          setIsRedeemedModalOpen(true);
-          setIsSubmitting(false);
+            setPageState("landing");
+            setState("collected");
 
-          await leadSubmission.mutateAsync({ variables: data });
+            // Fire celebration effect: Pure CSS confetti on all platforms (safe for WebView)
+            try {
+              triggerConfettiFromButton();
+            } catch (e) {
+              console.warn("celebration effect failed", e);
+            }
+            setIsRedeemedModalOpen(true);
+          } finally {
+            // ปลดล็อกปุ่มหลังจากงาน async ทั้งหมดเสร็จแล้ว หรือแม้เกิด error ระหว่าง onSuccess
+            setIsSubmitting(false);
+            const data: Partial<LeadSubmission> = {
+              source: "voucher",
+              source_id: res.id as string,
+              data:
+                coupon?.metadata.redemptionType === "form"
+                  ? { form: { fields: formData } }
+                  : undefined,
+              metadata: coupon?.metadata,
+            };
+            await leadSubmission.mutateAsync({ variables: data });
+          }
+
           await sendServiceMessage.mutateAsync({
             variables: {
               liff_access_token: liff?.getAccessToken() || "",
