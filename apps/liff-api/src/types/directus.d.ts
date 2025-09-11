@@ -6552,7 +6552,7 @@ export interface components {
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      voucher?: ((number | components["schemas"]["ItemsVoucherGroupsVouchers"])[]) | null;
+      vouchers?: ((number | components["schemas"]["ItemsVoucherGroupsVouchers"])[]) | null;
     };
     ItemsAdAds: {
       sort?: number | null;

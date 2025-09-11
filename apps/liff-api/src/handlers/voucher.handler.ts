@@ -192,12 +192,74 @@ export const getVoucherPageV2 = factory.createHandlers(
         (vu) => vu.code?.voucher?.id === voucher_id
       ) || null;
 
+      // Evaluate duplicate and voucher group quota to drive canCollect
+      const alreadyCollected = Boolean(myCoupon);
+      let blockedByGroup = false;
+      // Find active groups this voucher belongs to
+      const groupLinks = await directus.request(
+        readItems("voucher_groups_vouchers", {
+          filter: {
+            vouchers_id: { _eq: voucher_id },
+            voucher_groups_id: { status: { _eq: "active" } },
+          },
+          fields: [{ voucher_groups_id: ["id", "name", "claim_limit", "status"] }],
+          limit: -1,
+        })
+      );
+      if ((groupLinks as any[]).length) {
+        for (const link of groupLinks as any[]) {
+          const group = (link as any).voucher_groups_id;
+          if (!group || group.status !== "active") continue;
+          // All voucher ids under this group
+          const groupVouchers = await directus.request(
+            readItems("voucher_groups_vouchers", {
+              filter: { voucher_groups_id: { _eq: group.id } },
+              fields: ["vouchers_id"],
+              limit: -1,
+            })
+          );
+          const voucherIds = (groupVouchers as any[])
+            .map((x: any) => x.vouchers_id)
+            .filter(Boolean);
+          if (!voucherIds.length) continue;
+          // Count user's collected vouchers in this group
+          const claims = await directus.request(
+            readItems("vouchers_users", {
+              filter: {
+                collected_by: { _eq: userId },
+                code: { voucher: { _in: voucherIds } },
+              },
+              fields: ["id"],
+              limit: -1,
+            })
+          );
+          // Enforce only when claim_limit is positive (null/undefined/<=0 means unlimited)
+          if (
+            typeof group.claim_limit === "number" &&
+            group.claim_limit > 0 &&
+            (claims as any[]).length >= group.claim_limit
+          ) {
+            blockedByGroup = true;
+            break;
+          }
+        }
+      }
+      const canCollectAllowed = snapshot.canCollect && !alreadyCollected && !blockedByGroup;
+      const deniedReason = canCollectAllowed
+        ? null
+        : alreadyCollected
+        ? "already_collected"
+        : blockedByGroup
+        ? "group_quota_full"
+        : null;
+
       return c.json({
         serverComputed: {
           serverNow: serverNow.toISOString(),
           firstViewedAt: firstViewedAt.toISOString(),
           effectiveStatus: snapshot.effectiveStatus,
-          canCollect: snapshot.canCollect,
+          canCollect: canCollectAllowed,
+          deniedReason,
           currentTier: snapshot.currentTier,
           timeLeftSeconds: snapshot.timeLeftSeconds,
           progressPercent: snapshot.progressPercent,
@@ -312,6 +374,82 @@ export const collectVoucherV2 = factory.createHandlers(
         }
         finalDiscountValue = snapshot.currentTier.value;
         finalDiscountType = snapshot.currentTier.type;
+      }
+
+      // Stage 1: Basic rule — prevent duplicate collection of the same voucher
+      const duplicate = await directus.request(
+        readItems("vouchers_users", {
+          filter: {
+            collected_by: { _eq: userId },
+            code: { voucher: { _eq: voucher_id } },
+          },
+          fields: ["id"],
+          limit: 1,
+        })
+      );
+      if ((duplicate as any[]).length) {
+        return c.json(
+          { error: "already_collected", message: "คุณเคยรับคูปองนี้ไปแล้ว" },
+          409
+        );
+      }
+
+      // Stage 2: Group rule — enforce claim_limit per group if voucher is in any active group
+      let groupQuotaBlocked = false;
+      const groupLinks2 = await directus.request(
+        readItems("voucher_groups_vouchers", {
+          filter: {
+            vouchers_id: { _eq: voucher_id },
+            voucher_groups_id: { status: { _eq: "active" } },
+          },
+          fields: [{ voucher_groups_id: ["id", "name", "claim_limit", "status"] }],
+          limit: -1,
+        })
+      );
+      if ((groupLinks2 as any[]).length) {
+        for (const link of groupLinks2 as any[]) {
+          const group = (link as any).voucher_groups_id;
+          if (!group || group.status !== "active") continue;
+
+          const groupVouchers2 = await directus.request(
+            readItems("voucher_groups_vouchers", {
+              filter: { voucher_groups_id: { _eq: group.id } },
+              fields: ["vouchers_id"],
+              limit: -1,
+            })
+          );
+          const voucherIds2 = (groupVouchers2 as any[])
+            .map((x: any) => x.vouchers_id)
+            .filter(Boolean);
+          if (!voucherIds2.length) continue;
+
+          const claims2 = await directus.request(
+            readItems("vouchers_users", {
+              filter: {
+                collected_by: { _eq: userId },
+                code: { voucher: { _in: voucherIds2 } },
+              },
+              fields: ["id"],
+              limit: -1,
+            })
+          );
+
+          // Enforce only when claim_limit is positive (null/undefined/<=0 means unlimited)
+          if (
+            typeof group.claim_limit === "number" &&
+            group.claim_limit > 0 &&
+            (claims2 as any[]).length >= group.claim_limit
+          ) {
+            groupQuotaBlocked = true;
+            break;
+          }
+        }
+      }
+      if (groupQuotaBlocked) {
+        return c.json(
+          { error: "group_quota_full", message: "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว" },
+          409
+        );
       }
 
       // Reserve available code with retry to handle races (emulates WHERE code_status='available')

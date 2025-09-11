@@ -5,6 +5,7 @@ import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
 import { ArrowLeft } from "lucide-react";
 import { formatDateTime } from "~/utils/helpers";
+import InlineNotice from "~/components/InlineNotice";
 
 interface LimitedTimePageProps {
   voucher: Voucher;
@@ -158,26 +159,31 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   if (isLeaving) return null;
 
   // Consider UI as ended when server says ended OR countdown reached 0 in started phase (avoid short mismatch window)
-  const isEnded = !!serverComputed && (
-    serverComputed.effectiveStatus === "ended" ||
-    (serverComputed.effectiveStatus !== "not_started" && timeLeft <= 0)
-  );
+  const isEnded =
+    !!serverComputed &&
+    (serverComputed.effectiveStatus === "ended" ||
+      (serverComputed.effectiveStatus !== "not_started" && timeLeft <= 0));
+  const cannotCollect = !!serverComputed && serverComputed.canCollect === false;
 
   return (
     <>
-      {mounted && isEnded && (
-        <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-          <div className="flex rotate-[-15deg] flex-col items-center justify-center gap-2">
-            <div className="h-0.5 w-full rounded-lg bg-white"></div>
-            <div className="px-5">
-              <span className="whitespace-pre-line text-center text-lg text-white sm:text-xl">
-                {endedTextButton[language]}
-              </span>
+      {mounted &&
+        isEnded &&
+        !(
+          serverComputed && serverComputed.deniedReason === "group_quota_full"
+        ) && (
+          <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+            <div className="flex rotate-[-15deg] flex-col items-center justify-center gap-2">
+              <div className="h-0.5 w-full rounded-lg bg-white"></div>
+              <div className="px-5">
+                <span className="whitespace-pre-line text-center text-lg text-white sm:text-xl">
+                  {endedTextButton[language]}
+                </span>
+              </div>
+              <div className="h-0.5 w-full rounded-lg bg-white"></div>
             </div>
-            <div className="h-0.5 w-full rounded-lg bg-white"></div>
           </div>
-        </div>
-      )}
+        )}
       <div className="relative h-full w-full">
         {/* ปุ่มย้อนกลับ */}
         <button
@@ -202,86 +208,138 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           {serverComputed &&
             serverComputed.effectiveStatus !== "not_started" &&
             !isEnded && (
-            <div className="flex h-full w-full flex-col gap-8">
-              <div className="flex flex-col items-center gap-10">
-                {!voucher.metadata.layout?.title?.visible && (
-                  <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white">
-                    {displayMessage}
-                  </h1>
-                )}
+              <div className="flex h-full w-full flex-col gap-8">
+                <div className="flex flex-col items-center gap-10">
+                  {!voucher.metadata.layout?.title?.visible && (
+                    <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white">
+                      {displayMessage}
+                    </h1>
+                  )}
 
-                <LimitedTimeTimer time={formatTime(timeLeft)} />
-              </div>
-              <div className="flex flex-col items-center justify-center gap-2 px-3">
-                {(() => {
-                  const cannotCollect =
-                    !!serverComputed && serverComputed.canCollect === false;
-                  const disabled = isSubmitting || cannotCollect || timeLeft <= 0;
-                  return (
-                    <button
-                      onClick={() => onSubmit(activeTier)}
-                      disabled={disabled}
-                      className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
-                        disabled
-                          ? "bg-gray-300 text-gray-500"
-                          : "bg-[#9AD3A8] font-bold text-[#375CA3]"
-                      }`}
-                      style={{
-                        backgroundColor: disabled ? "#d1d5db" : primaryColor,
-                        color: disabled ? "#6b7280" : "white",
-                        opacity: disabled ? 0.7 : 1,
-                        cursor: disabled ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      {isSubmitting
-                        ? language === "th"
-                          ? "กำลังรับคูปอง..."
-                          : "Collecting..."
-                        : textButton[language].collect}
-                    </button>
-                  );
-                })()}
-                <h5 className="whitespace-pre-line text-center text-sm text-white sm:text-base">
-                  {descriptionButton[language].collect}
-                </h5>
-              </div>
-            </div>
-          )}
-          {serverComputed && serverComputed.effectiveStatus === "not_started" && (
-            <div className="flex h-full w-full flex-col gap-20">
-              <div className="flex flex-col items-center gap-6">
-                {!voucher.metadata.layout?.title?.visible && (
-                  <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white sm:text-3xl">
-                    {displayMessage}
-                  </h1>
+                  {!cannotCollect && (
+                    <LimitedTimeTimer time={formatTime(timeLeft)} />
+                  )}
+                </div>
+                {serverComputed && serverComputed.canCollect === false && (
+                  <InlineNotice
+                    language={language as "th" | "en"}
+                    deniedReason={serverComputed.deniedReason ?? null}
+                    className="mx-3 -mt-4"
+                    level="soft"
+                  />
                 )}
-                {!voucher.metadata.layout?.description?.visible && (
-                  <h3 className="whitespace-pre-line text-center text-xl text-white sm:text-2xl">
-                    {displayDescription[language]}
-                  </h3>
+                {!cannotCollect && (
+                  <div className="flex flex-col items-center justify-center gap-2 px-3">
+                    {(() => {
+                      const disabled = isSubmitting || timeLeft <= 0;
+                      return (
+                        <button
+                          onClick={() => onSubmit(activeTier)}
+                          disabled={disabled}
+                          className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
+                            disabled
+                              ? "bg-gray-300 text-gray-500"
+                              : "bg-[#9AD3A8] font-bold text-[#375CA3]"
+                          }`}
+                          style={{
+                            backgroundColor: disabled
+                              ? "#d1d5db"
+                              : primaryColor,
+                            color: disabled ? "#6b7280" : "white",
+                            opacity: disabled ? 0.7 : 1,
+                            cursor: disabled ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          {isSubmitting
+                            ? language === "th"
+                              ? "กำลังรับคูปอง..."
+                              : "Collecting..."
+                            : textButton[language].collect}
+                        </button>
+                      );
+                    })()}
+                    <h5 className="whitespace-pre-line text-center text-sm text-white sm:text-base">
+                      {descriptionButton[language].collect}
+                    </h5>
+                  </div>
                 )}
               </div>
-              <div className="flex flex-col items-center justify-center gap-2 px-3">
-                <button
-                  onClick={() => navigateToBack()}
-                  className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
-                  style={{
-                    backgroundColor: primaryColor ? primaryColor : undefined,
-                    color: primaryColor ? "white" : undefined,
-                  }}
-                >
-                  {otherVoucherTextButton[language]}
-                </button>
+            )}
+          {serverComputed &&
+            isEnded &&
+            serverComputed.deniedReason === "group_quota_full" && (
+              <div className="flex h-full w-full flex-col gap-8">
+                <div className="flex flex-col items-center gap-10">
+                  {!voucher.metadata.layout?.title?.visible && (
+                    <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white">
+                      {displayMessage}
+                    </h1>
+                  )}
+                </div>
+                <InlineNotice
+                  language={language as "th" | "en"}
+                  deniedReason={serverComputed.deniedReason ?? null}
+                  className="mx-3 -mt-4"
+                  level="medium"
+                />
+                <div className="flex flex-col items-center justify-center gap-2 px-3">
+                  <button
+                    onClick={() => navigateToBack()}
+                    className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
+                    style={{
+                      backgroundColor: primaryColor ? primaryColor : undefined,
+                      color: primaryColor ? "white" : undefined,
+                    }}
+                  >
+                    {otherVoucherTextButton[language]}
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          {serverComputed &&
+            serverComputed.effectiveStatus === "not_started" && (
+              <div className="flex h-full w-full flex-col gap-20">
+                <div className="flex flex-col items-center gap-6">
+                  {!voucher.metadata.layout?.title?.visible && (
+                    <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white sm:text-3xl">
+                      {displayMessage}
+                    </h1>
+                  )}
+                  {!voucher.metadata.layout?.description?.visible && (
+                    <h3 className="whitespace-pre-line text-center text-xl text-white sm:text-2xl">
+                      {displayDescription[language]}
+                    </h3>
+                  )}
+                </div>
+                {serverComputed &&
+                  (serverComputed.canCollect === false ||
+                    serverComputed.deniedReason) && (
+                    <InlineNotice
+                      language={language as "th" | "en"}
+                      deniedReason={serverComputed.deniedReason ?? null}
+                      className="mx-3 -mt-6"
+                      level="soft"
+                    />
+                  )}
+                <div className="flex flex-col items-center justify-center gap-2 px-3">
+                  <button
+                    onClick={() => navigateToBack()}
+                    className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
+                    style={{
+                      backgroundColor: primaryColor ? primaryColor : undefined,
+                      color: primaryColor ? "white" : undefined,
+                    }}
+                  >
+                    {otherVoucherTextButton[language]}
+                  </button>
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </>
   );
-}
-;
-
+};
 function formatTime(totalSeconds: number) {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);

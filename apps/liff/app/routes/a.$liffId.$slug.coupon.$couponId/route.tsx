@@ -2,6 +2,7 @@ import { useOutletContext, useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "~/components/Loading";
+import InlineNotice from "~/components/InlineNotice";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { useCouponPageV2 } from "~/hooks/vouchers/useCouponPageV2";
@@ -73,12 +74,12 @@ const Route = () => {
       return;
     }
 
-    // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม
-    if (serverComputed?.canCollect === false) {
+    const isCollected = Boolean(myCoupon);
+
+    // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม (เฉพาะกรณียังไม่เคยรับ)
+    if (!isCollected && serverComputed?.canCollect === false) {
       return;
     }
-
-    const isCollected = Boolean(myCoupon);
 
     if (isCollected || status === "pending_confirmation") {
       // navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`);
@@ -141,10 +142,35 @@ const Route = () => {
         },
         onError: (error) => {
           console.error(error);
-          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+          // Distinguish server-side rules via safe type guards (no any)
+          type Resp = { data?: unknown };
+          type Err = { response?: Resp } & { data?: unknown };
+          const e = error as Err;
+          const rawData: unknown = e?.response?.data ?? e?.data ?? undefined;
+          let code: string | undefined = undefined;
+          if (typeof rawData === "object" && rawData !== null) {
+            const maybe = (rawData as Record<string, unknown>)["error"];
+            if (typeof maybe === "string") code = maybe;
+          }
+          if (code === "already_collected") {
+            // treat as success UI-wise: show the existing coupon modal
+            setPageState("landing");
+            setState("collected");
+            setIsRedeemedModalOpen(true);
+            setIsSubmitting(false);
+            return;
+          }
+          if (code === "group_quota_full") {
+            // campaign quota reached
+            const msg = lang === "th" ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว" : "You have reached the claim limit for this campaign.";
+            // simple UX for now
+            window.alert(msg);
+            setIsSubmitting(false);
+            return;
+          }
+          // Fallback: out of stock or unknown => show fully collected modal
           setShowFullyCollectedModal(true);
           setIsSubmitting(false);
-          // }
         },
       },
     );
@@ -208,30 +234,41 @@ const Route = () => {
                 }
                 onFormValidationChange={setIsFormValid}
                 onFormDataChange={setFormData}
+                canCollect={serverComputed?.canCollect}
               />
             )}
-            <Footer
-              color={coupon.voucher_brand_id.primaryColor ?? ""}
-              lang={lang === "en" ? "en" : "th"}
-              status={
-                isSubmitting
-                  ? "submitting"
-                  : isExpired ||
-                      (status === "pending_confirmation" && timeLeft <= 0)
-                    ? "expired"
-                    : status
-              }
-              onClick={handleSubmit}
-              disabled={
-                (pageState === "form" && !isFormValid) ||
-                isExpired ||
-                (status === "pending_confirmation" && timeLeft <= 0) ||
-                status === "used" ||
-                status === "expired" ||
-                status === "fully_collected" ||
-                isSubmitting
-              }
-            />
+            {(!myCoupon && serverComputed?.canCollect === false) ? (
+              <InlineNotice
+                language={(lang === "en" ? "en" : "th")}
+                deniedReason={serverComputed?.deniedReason ?? null}
+                className="mx-4 mb-4"
+                level="medium"
+              />
+            ) : (
+              <Footer
+                color={coupon.voucher_brand_id.primaryColor ?? ""}
+                lang={lang === "en" ? "en" : "th"}
+                status={
+                  isSubmitting
+                    ? "submitting"
+                    : isExpired ||
+                        (status === "pending_confirmation" && timeLeft <= 0)
+                      ? "expired"
+                      : status
+                }
+                onClick={handleSubmit}
+                disabled={
+                  (pageState === "form" && !isFormValid) ||
+                  isExpired ||
+                  (status === "pending_confirmation" && timeLeft <= 0) ||
+                  status === "used" ||
+                  status === "expired" ||
+                  status === "fully_collected" ||
+                  isSubmitting ||
+                  (!myCoupon && serverComputed?.canCollect === false)
+                }
+              />
+            )}
           </>
         )}
 
