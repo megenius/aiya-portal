@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DiscountTier, Voucher, VoucherView } from "~/types/app";
+import { DiscountTier, Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
@@ -8,7 +8,6 @@ import { formatDateTime } from "~/utils/helpers";
 
 interface LimitedTimePageProps {
   voucher: Voucher;
-  voucherView?: VoucherView;
   language: string;
   primaryColor?: string;
   isSubmitting: boolean;
@@ -34,7 +33,6 @@ interface ServerComputed {
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
-  voucherView,
   language,
   primaryColor,
   isSubmitting,
@@ -63,19 +61,21 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   // If serverComputed is provided, drive UI from it and schedule boundary-based refetch
   useEffect(() => {
     if (!serverComputed) return;
+    // Freeze UI re-initialization while submitting to avoid timer jump
+    if (!isSubmitting) {
+      if (serverComputed.currentTier) {
+        setActiveTier({
+          value: serverComputed.currentTier.value as number,
+          type: serverComputed.currentTier.type as DiscountTier["type"],
+          condition: {},
+        });
+      } else {
+        setActiveTier(undefined);
+      }
 
-    if (serverComputed.currentTier) {
-      setActiveTier({
-        value: serverComputed.currentTier.value as number,
-        type: serverComputed.currentTier.type as DiscountTier["type"],
-        condition: {},
-      });
-    } else {
-      setActiveTier(undefined);
+      setTimeLeft(Math.max(0, serverComputed.timeLeftSeconds || 0));
+      setProgress(Math.max(0, serverComputed.progressPercent || 0));
     }
-
-    setTimeLeft(Math.max(0, serverComputed.timeLeftSeconds || 0));
-    setProgress(Math.max(0, serverComputed.progressPercent || 0));
 
     let tickId: number | undefined;
     if ((serverComputed.timeLeftSeconds || 0) > 0) {
@@ -101,7 +101,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       if (tickId) window.clearInterval(tickId);
       if (boundaryId) window.clearTimeout(boundaryId);
     };
-  }, [serverComputed, onBoundaryRefetch]);
+  }, [serverComputed, onBoundaryRefetch, isSubmitting]);
 
   // Removed client-side fallback calculator: we now rely exclusively on serverComputed (v2)
 
@@ -162,7 +162,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
   return (
     <>
-      {voucherView && timeLeft <= 0 && !activeTier && (
+      {serverComputed && timeLeft <= 0 && !activeTier && (
         <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
           <div className="flex rotate-[-15deg] flex-col items-center justify-center gap-2">
             <div className="h-0.5 w-full rounded-lg bg-white"></div>
@@ -196,7 +196,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           className="absolute inset-0 p-4 pt-[50%]"
           style={{ paddingTop: voucher.metadata.layout?.container?.paddingTop }}
         >
-          {voucherView && (
+          {serverComputed && serverComputed.effectiveStatus !== "not_started" && (
             <div className="flex h-full w-full flex-col gap-8">
               <div className="flex flex-col items-center gap-10">
                 {!voucher.metadata.layout?.title?.visible && (
@@ -209,30 +209,31 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               </div>
               <div className="flex flex-col items-center justify-center gap-2 px-3">
                 {(() => {
-                  const cannotCollect = !!serverComputed && serverComputed.canCollect === false;
+                  const cannotCollect =
+                    !!serverComputed && serverComputed.canCollect === false;
                   const disabled = isSubmitting || cannotCollect;
                   return (
-                  <button
-                    onClick={() => onSubmit(activeTier)}
-                    disabled={disabled}
-                    className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
-                    disabled
-                      ? "bg-gray-300 text-gray-500"
-                      : "bg-[#9AD3A8] font-bold text-[#375CA3]"
-                    }`}
-                    style={{
-                    backgroundColor: disabled ? "#d1d5db" : primaryColor,
-                    color: disabled ? "#6b7280" : "white",
-                    opacity: disabled ? 0.7 : 1,
-                    cursor: disabled ? "not-allowed" : "pointer",
-                    }}
-                  >
-                  {isSubmitting
-                    ? language === "th"
-                      ? "กำลังรับคูปอง..."
-                      : "Collecting..."
-                    : textButton[language].collect}
-                  </button>
+                    <button
+                      onClick={() => onSubmit(activeTier)}
+                      disabled={disabled}
+                      className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
+                        disabled
+                          ? "bg-gray-300 text-gray-500"
+                          : "bg-[#9AD3A8] font-bold text-[#375CA3]"
+                      }`}
+                      style={{
+                        backgroundColor: disabled ? "#d1d5db" : primaryColor,
+                        color: disabled ? "#6b7280" : "white",
+                        opacity: disabled ? 0.7 : 1,
+                        cursor: disabled ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      {isSubmitting
+                        ? language === "th"
+                          ? "กำลังรับคูปอง..."
+                          : "Collecting..."
+                        : textButton[language].collect}
+                    </button>
                   );
                 })()}
                 <h5 className="whitespace-pre-line text-center text-sm text-white sm:text-base">
@@ -241,7 +242,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               </div>
             </div>
           )}
-          {!voucherView && (
+          {serverComputed && serverComputed.effectiveStatus === "not_started" && (
             <div className="flex h-full w-full flex-col gap-20">
               <div className="flex flex-col items-center gap-6">
                 {!voucher.metadata.layout?.title?.visible && (
@@ -273,7 +274,8 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       </div>
     </>
   );
-};
+}
+;
 
 function formatTime(totalSeconds: number) {
   const hours = Math.floor(totalSeconds / 3600);
