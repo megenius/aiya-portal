@@ -44,4 +44,7 @@ voucherRoutes.post(
   ...VoucherHandler.collectVoucherV2
 );
 
+// v2 - my vouchers (scoped by liff_id from JWT)
+voucherRoutes.get("/v2/my-vouchers", ...VoucherHandler.getMyCouponsV2);
+
 export { voucherRoutes };

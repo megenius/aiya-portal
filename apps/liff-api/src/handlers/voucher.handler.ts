@@ -528,6 +528,176 @@ export const collectVoucherV2 = factory.createHandlers(
   }
 );
 
+// v2 - my coupons for a page (filtered and server-computed)
+export const getMyCouponsV2 = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { id: userId, liff_id } = c.get("jwtPayload");
+      const directus = c.get("directAdmin");
+
+      const serverNow = new Date();
+
+      // Load all pages for this liff_id to get allowed voucher ids (from vouchers and populars)
+      const pages: any[] = await directus.request(
+        readItems("pages_liff", {
+          filter: {
+            liff_id: { _eq: liff_id },
+          },
+          fields: [
+            {
+              vouchers: [
+                {
+                  vouchers_id: ["id"],
+                },
+              ],
+            },
+            {
+              populars: [
+                {
+                  vouchers_id: ["id"],
+                },
+              ],
+            },
+          ],
+          limit: -1,
+        } as any)
+      );
+      if (!pages?.length) return c.json({ error: "Page not found" }, 404);
+
+      const allowedVoucherIds = new Set<string>();
+      for (const page of pages) {
+        for (const v of page?.vouchers ?? []) {
+          const id = v?.vouchers_id?.id;
+          if (id) allowedVoucherIds.add(id);
+        }
+        for (const p of page?.populars ?? []) {
+          const id = p?.vouchers_id?.id;
+          if (id) allowedVoucherIds.add(id);
+        }
+      }
+
+      // Load user's vouchers
+      const vouchersUsers: any[] = await directus.request(
+        readItems("vouchers_users", {
+          filter: { collected_by: { _eq: userId } },
+          fields: [
+            "id",
+            "collected_by",
+            "collected_date",
+            "expired_date",
+            "used_date",
+            "discount_value",
+            "discount_type",
+            "channel",
+            {
+              code: [
+                "id",
+                "code",
+                "code_status",
+                {
+                  voucher: [
+                    "id",
+                    "name",
+                    "banner",
+                    "cover",
+                    "metadata",
+                    "start_date",
+                    "end_date",
+                    { voucher_brand_id: ["*"] },
+                  ],
+                },
+              ],
+            },
+          ],
+          limit: -1,
+        })
+      );
+
+      // Filter by page's vouchers
+      const filtered = (vouchersUsers || []).filter(
+        (vu: any) => allowedVoucherIds.has(vu?.code?.voucher?.id)
+      );
+
+      // Compute server-side fields
+      const nowTs = serverNow.getTime();
+      const withComputed = filtered.map((vu: any) => {
+        let timeLeftSeconds = 0;
+        if (vu?.used_date) {
+          const usedTs = new Date(vu.used_date).getTime();
+          const expiryTs = usedTs + 15 * 60 * 1000; // 15 minutes window
+          timeLeftSeconds = Math.floor((expiryTs - nowTs) / 1000);
+        }
+        const isExpired = Boolean(
+          vu?.expired_date && new Date(vu.expired_date) < serverNow
+        );
+
+        let effectiveStatus = "available";
+        const codeStatus = vu?.code?.code_status;
+        if (codeStatus === "used") {
+          effectiveStatus = "used";
+        } else if (isExpired) {
+          effectiveStatus = "expired";
+        } else if (codeStatus === "pending_confirmation" && timeLeftSeconds <= 0) {
+          effectiveStatus = "expired";
+        } else {
+          effectiveStatus = "available";
+        }
+
+        return { ...vu, timeLeftSeconds, isExpired, effectiveStatus };
+      });
+
+      // Build stats
+      const statsBase: any = {
+        available: 0,
+        collected: 0,
+        pending_confirmation: 0,
+        expired: 0,
+        used: 0,
+        reserved: 0,
+        total: 0,
+      };
+      for (const vu of withComputed) {
+        if (vu.effectiveStatus === "available") statsBase.available++;
+        if (vu.effectiveStatus === "used") statsBase.used++;
+        if (vu.effectiveStatus === "expired") statsBase.expired++;
+        const cs = vu?.code?.code_status;
+        if (cs === "pending_confirmation" && vu.timeLeftSeconds > 0)
+          statsBase.pending_confirmation++;
+        if (cs === "collected") statsBase.collected++;
+      }
+      statsBase.total = withComputed.length;
+
+      // Optional tab filter
+      const tab = c.req.query("tab");
+      let items = withComputed as any[];
+      if (tab === "available" || tab === "used" || tab === "expired") {
+        items = withComputed.filter((x: any) => x.effectiveStatus === tab);
+      }
+
+      // Sort by used_date ascending (used first by earliest time); non-used at the end
+      items = items.sort((a: any, b: any) => {
+        const dateA = a?.used_date ? new Date(a.used_date).getTime() : Infinity;
+        const dateB = b?.used_date ? new Date(b.used_date).getTime() : Infinity;
+        return dateA - dateB;
+      });
+
+      return c.json({
+        serverNow: serverNow.toISOString(),
+        stats: statsBase,
+        items,
+      });
+    } catch (error: any) {
+      console.error(error);
+      return c.json(
+        { error: "Failed to get my coupons for page", detail: error?.message ?? String(error) },
+        500
+      );
+    }
+  }
+);
+
 // getVoucher
 export const getVoucher = factory.createHandlers(
   logger(),

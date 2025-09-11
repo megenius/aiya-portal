@@ -4,13 +4,16 @@ import { useOutletContext } from "@remix-run/react";
 import Tabs from "~/components/Tabs";
 import { useState } from "react";
 import VoucherCardShimmer from "../../components/VoucherCardShimmer";
-import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
+import { useMyVouchersV2 } from "~/hooks/vouchers/useMyVouchersV2";
 import { PageLiff } from "~/types/page";
 
 const Route = () => {
-  const { page, lang } = useOutletContext<{ page: PageLiff,lang: string }>();
-  const { data: myVouchers, isLoading: isMyVouchersLoading } = useVouchersUser();
+  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const [activeTab, setActiveTab] = useState("available");
+  const { data: myCouponsResp, isLoading: isMyVouchersLoading } =
+    useMyVouchersV2({
+      tab: activeTab,
+    });
 
   const tabs = [
     { id: "available", label: { th: "ใช้ได้", en: "Available" } },
@@ -37,7 +40,7 @@ const Route = () => {
         <MainContent
           activeTab={activeTab}
           page={page}
-          vouchers={myVouchers || []}
+          vouchers={myCouponsResp?.data.items || []}
           language={lang}
         />
       )}

@@ -19,6 +19,10 @@ export function useRedeemVoucher() {
           refetchType: "active",
         });
         queryClient.invalidateQueries({
+          queryKey: ["my-vouchers-v2"],
+          refetchType: "active",
+        });
+        queryClient.invalidateQueries({
           queryKey: ["vouchers","voucher-users","stats" ],
           exact: true,
           refetchType: "active",

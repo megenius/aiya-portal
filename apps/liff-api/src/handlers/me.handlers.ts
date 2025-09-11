@@ -49,12 +49,19 @@ export const resetMyVoucher = factory.createHandlers(
 
       const vouchersUsers = await directus.request(
         readItems("vouchers_users", {
-          fields: ["id", "code", "collected_by"],
+          fields: [
+            "id",
+            "collected_by",
+            {
+              code: ["id", "code", "code_status"],
+            },
+          ],
           filter: {
             collected_by: {
               _eq: id,
             },
           },
+          limit: -1,
         })
       );
 
@@ -62,30 +69,25 @@ export const resetMyVoucher = factory.createHandlers(
         return c.json({ error: "Vouchers not found" }, 404);
       }
 
-      // เก็บ code เป็น array ของ string ทั้งหมดของผู้ใช้
-      const codes: string[] = vouchersUsers
-        .map((vu: any) => vu.code)
+      // ดึงรหัสโค้ด (id) และค่ารหัส (code) ที่ผู้ใช้งานถืออยู่
+      const codeIds: string[] = (vouchersUsers as any[])
+        .map((vu: any) => vu?.code?.id)
+        .filter(Boolean);
+      const codeValues: string[] = (vouchersUsers as any[])
+        .map((vu: any) => vu?.code?.code)
         .filter(Boolean);
 
-      if (!codes.length) {
+      if (!codeIds.length) {
         return c.json(
           { success: true, updated_codes: [], total_updated: 0 },
           200
         );
       }
 
-      // ดึง vouchers_codes ที่ตรงกับ codes เหล่านี้
-      const voucherCodes = await directus.request(
-        readItems("vouchers_codes", {
-          fields: ["id", "code", "code_status"],
-          filter: { code: { _in: codes } },
-          limit: -1,
-        })
-      );
-
-      for (const vc of voucherCodes) {
+      // ตั้งสถานะ codes ที่ถืออยู่กลับเป็น available โดยอิงตามรหัส id ของ relation
+      for (const codeId of codeIds) {
         await directus.request(
-          updateItem("vouchers_codes", vc.id, { code_status: "available" })
+          updateItem("vouchers_codes", codeId, { code_status: "available" })
         );
       }
 
@@ -102,8 +104,8 @@ export const resetMyVoucher = factory.createHandlers(
       return c.json(
         {
           success: true,
-          updated_codes: voucherCodes.map((vc) => vc.code),
-          total_updated: voucherCodes.length,
+          updated_codes: codeValues,
+          total_updated: codeIds.length,
         },
         200
       );

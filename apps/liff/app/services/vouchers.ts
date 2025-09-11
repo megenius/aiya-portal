@@ -6,6 +6,7 @@ import {
   VoucherUser,
   VoucherView,
   VoucherPageV2,
+  MyVouchersV2,
 } from "~/types/app";
 import api from "./api";
 
@@ -47,4 +48,12 @@ export const fetchVoucherViewV2 = ({ voucherId }) =>
 
 // v2 combined page
 export const fetchVoucherPageV2 = ({ voucherId }) =>
-  api.get<VoucherPageV2>(`/vouchers/v2/${voucherId}/page`).then((res) => res.data);
+  api
+    .get<VoucherPageV2>(`/vouchers/v2/${voucherId}/page`)
+    .then((res) => res.data);
+
+// v2 - my vouchers (filtered + server computed)
+export const fetchMyVouchersV2 = ({ tab }: { tab?: string }) =>
+  api.get<MyVouchersV2>(
+    `/vouchers/v2/my-vouchers` + (tab ? `?tab=${tab}` : ""),
+  );

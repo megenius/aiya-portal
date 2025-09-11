@@ -162,7 +162,10 @@ const Route = () => {
           }
           if (code === "group_quota_full") {
             // campaign quota reached
-            const msg = lang === "th" ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว" : "You have reached the claim limit for this campaign.";
+            const msg =
+              lang === "th"
+                ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว"
+                : "You have reached the claim limit for this campaign.";
             // simple UX for now
             window.alert(msg);
             setIsSubmitting(false);
@@ -237,9 +240,9 @@ const Route = () => {
                 canCollect={serverComputed?.canCollect}
               />
             )}
-            {(!myCoupon && serverComputed?.canCollect === false) ? (
+            {!myCoupon && serverComputed?.canCollect === false ? (
               <InlineNotice
-                language={(lang === "en" ? "en" : "th")}
+                language={lang === "en" ? "en" : "th"}
                 deniedReason={serverComputed?.deniedReason ?? null}
                 className="mx-4 mb-4"
                 level="medium"
@@ -289,9 +292,9 @@ const Route = () => {
             language={lang}
             primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
             state={state}
-            showRedeemConfirmation={
-              page.metadata.template === "promotion" ? false : true
-            }
+            // showRedeemConfirmation={
+            //   page.metadata.template === "promotion" ? false : true
+            // }
             isOpen={isRedeemedModalOpen}
             onClose={() => {
               setState("redeem");
