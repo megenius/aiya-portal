@@ -2,6 +2,7 @@ import { useOutletContext, useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "~/components/Loading";
+import InlineNotice from "~/components/InlineNotice";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
 import { useCouponPageV2 } from "~/hooks/vouchers/useCouponPageV2";
@@ -73,12 +74,12 @@ const Route = () => {
       return;
     }
 
-    // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม
-    if (serverComputed?.canCollect === false) {
+    const isCollected = Boolean(myCoupon);
+
+    // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม (เฉพาะกรณียังไม่เคยรับ)
+    if (!isCollected && serverComputed?.canCollect === false) {
       return;
     }
-
-    const isCollected = Boolean(myCoupon);
 
     if (isCollected || status === "pending_confirmation") {
       // navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`);
@@ -218,13 +219,6 @@ const Route = () => {
               color={coupon.voucher_brand_id.primaryColor ?? ""}
               isIsClient={liff?.isInClient() ?? false}
             />
-            {serverComputed && serverComputed.canCollect === false && !myCoupon && (
-              <div className="mx-4 mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-center text-sm text-yellow-800 sm:text-base">
-                {lang === "th"
-                  ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว"
-                  : "You have reached the claim limit for this campaign."}
-              </div>
-            )}
             {codeStats && (
               <MainContent
                 language={lang}
@@ -240,30 +234,41 @@ const Route = () => {
                 }
                 onFormValidationChange={setIsFormValid}
                 onFormDataChange={setFormData}
+                canCollect={serverComputed?.canCollect}
               />
             )}
-            <Footer
-              color={coupon.voucher_brand_id.primaryColor ?? ""}
-              lang={lang === "en" ? "en" : "th"}
-              status={
-                isSubmitting
-                  ? "submitting"
-                  : isExpired ||
-                      (status === "pending_confirmation" && timeLeft <= 0)
-                    ? "expired"
-                    : status
-              }
-              onClick={handleSubmit}
-              disabled={
-                (pageState === "form" && !isFormValid) ||
-                isExpired ||
-                (status === "pending_confirmation" && timeLeft <= 0) ||
-                status === "used" ||
-                status === "expired" ||
-                status === "fully_collected" ||
-                isSubmitting
-              }
-            />
+            {(!myCoupon && serverComputed?.canCollect === false) ? (
+              <InlineNotice
+                language={(lang === "en" ? "en" : "th")}
+                deniedReason={serverComputed?.deniedReason ?? null}
+                className="mx-4 mb-4"
+                level="medium"
+              />
+            ) : (
+              <Footer
+                color={coupon.voucher_brand_id.primaryColor ?? ""}
+                lang={lang === "en" ? "en" : "th"}
+                status={
+                  isSubmitting
+                    ? "submitting"
+                    : isExpired ||
+                        (status === "pending_confirmation" && timeLeft <= 0)
+                      ? "expired"
+                      : status
+                }
+                onClick={handleSubmit}
+                disabled={
+                  (pageState === "form" && !isFormValid) ||
+                  isExpired ||
+                  (status === "pending_confirmation" && timeLeft <= 0) ||
+                  status === "used" ||
+                  status === "expired" ||
+                  status === "fully_collected" ||
+                  isSubmitting ||
+                  (!myCoupon && serverComputed?.canCollect === false)
+                }
+              />
+            )}
           </>
         )}
 

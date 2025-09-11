@@ -15,6 +15,8 @@ interface MainContentProps {
   status?: string;
   onFormValidationChange?: (isValid: boolean) => void;
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
+  // Server-computed flags (optional)
+  canCollect?: boolean;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -26,6 +28,7 @@ const MainContent: React.FC<MainContentProps> = ({
   status = "collected",
   onFormValidationChange,
   onFormDataChange, // Receive new prop
+  canCollect,
 }) => {
   const title = voucherUser
     ? voucher.metadata.title[language].replace(
@@ -147,18 +150,23 @@ const MainContent: React.FC<MainContentProps> = ({
             <h3 className="block text-lg font-semibold">{title}</h3>
           </div>
 
-          <div className="flex flex-1 flex-col overflow-hidden">
-            {(status === "instant" ||
-              status === "form" ||
-              status === "fully_collected") && (
-              <VoucherProgressBar
-                totalVouchers={codeStats?.total}
-                availableVouchers={codeStats?.available}
-                language={language}
-                primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
-              />
-            )}
-            <div className="mt-4 flex flex-1 flex-col overflow-hidden">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            {(() => {
+              const hideProgress = !voucherUser && canCollect === false; // e.g., group_quota_full
+              const shouldShowStatus =
+                status === "instant" ||
+                status === "form" ||
+                status === "fully_collected";
+              return !hideProgress && shouldShowStatus ? (
+                <VoucherProgressBar
+                  totalVouchers={codeStats?.total}
+                  availableVouchers={codeStats?.available}
+                  language={language}
+                  primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
+                />
+              ) : null;
+            })()}
+            <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
               <Tabs
                 language={language}
                 tabs={tabs}
@@ -167,7 +175,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 primaryColor={voucher?.voucher_brand_id.primaryColor || ""}
               />
 
-              <div className="flex-1 overflow-y-auto p-4 text-gray-700">
+              <div className="min-h-0 flex-1 overflow-y-auto p-4 text-gray-700">
                 {activeTab === "details" && (
                   <p className="whitespace-pre-wrap">{description}</p>
                 )}

@@ -64,6 +64,8 @@ export interface VoucherViewV2 {
   nextBoundaryAt: string | null;
   campaignEndAt: string | null;
   available: number;
+  // Optional reason why canCollect is false
+  deniedReason?: "group_quota_full" | "already_collected" | null;
 }
 
 interface LayoutRule {

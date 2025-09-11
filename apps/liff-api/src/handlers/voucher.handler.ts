@@ -245,6 +245,13 @@ export const getVoucherPageV2 = factory.createHandlers(
         }
       }
       const canCollectAllowed = snapshot.canCollect && !alreadyCollected && !blockedByGroup;
+      const deniedReason = canCollectAllowed
+        ? null
+        : alreadyCollected
+        ? "already_collected"
+        : blockedByGroup
+        ? "group_quota_full"
+        : null;
 
       return c.json({
         serverComputed: {
@@ -252,6 +259,7 @@ export const getVoucherPageV2 = factory.createHandlers(
           firstViewedAt: firstViewedAt.toISOString(),
           effectiveStatus: snapshot.effectiveStatus,
           canCollect: canCollectAllowed,
+          deniedReason,
           currentTier: snapshot.currentTier,
           timeLeftSeconds: snapshot.timeLeftSeconds,
           progressPercent: snapshot.progressPercent,
