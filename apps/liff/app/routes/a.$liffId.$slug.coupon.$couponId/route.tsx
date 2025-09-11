@@ -141,10 +141,35 @@ const Route = () => {
         },
         onError: (error) => {
           console.error(error);
-          // if (error?.message?.includes('fully collected') || error?.message?.includes('out of stock')) {
+          // Distinguish server-side rules via safe type guards (no any)
+          type Resp = { data?: unknown };
+          type Err = { response?: Resp } & { data?: unknown };
+          const e = error as Err;
+          const rawData: unknown = e?.response?.data ?? e?.data ?? undefined;
+          let code: string | undefined = undefined;
+          if (typeof rawData === "object" && rawData !== null) {
+            const maybe = (rawData as Record<string, unknown>)["error"];
+            if (typeof maybe === "string") code = maybe;
+          }
+          if (code === "already_collected") {
+            // treat as success UI-wise: show the existing coupon modal
+            setPageState("landing");
+            setState("collected");
+            setIsRedeemedModalOpen(true);
+            setIsSubmitting(false);
+            return;
+          }
+          if (code === "group_quota_full") {
+            // campaign quota reached
+            const msg = lang === "th" ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว" : "You have reached the claim limit for this campaign.";
+            // simple UX for now
+            window.alert(msg);
+            setIsSubmitting(false);
+            return;
+          }
+          // Fallback: out of stock or unknown => show fully collected modal
           setShowFullyCollectedModal(true);
           setIsSubmitting(false);
-          // }
         },
       },
     );
@@ -193,6 +218,13 @@ const Route = () => {
               color={coupon.voucher_brand_id.primaryColor ?? ""}
               isIsClient={liff?.isInClient() ?? false}
             />
+            {serverComputed && serverComputed.canCollect === false && !myCoupon && (
+              <div className="mx-4 mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-center text-sm text-yellow-800 sm:text-base">
+                {lang === "th"
+                  ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว"
+                  : "You have reached the claim limit for this campaign."}
+              </div>
+            )}
             {codeStats && (
               <MainContent
                 language={lang}

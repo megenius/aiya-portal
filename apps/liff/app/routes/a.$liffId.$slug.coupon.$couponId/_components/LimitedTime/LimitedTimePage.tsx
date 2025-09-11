@@ -212,6 +212,13 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
                 <LimitedTimeTimer time={formatTime(timeLeft)} />
               </div>
+              {serverComputed && serverComputed.canCollect === false && (
+                <div className="mx-3 -mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-center text-sm text-yellow-800 sm:text-base">
+                  {language === "th"
+                    ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว"
+                    : "You have reached the claim limit for this campaign."}
+                </div>
+              )}
               <div className="flex flex-col items-center justify-center gap-2 px-3">
                 {(() => {
                   const cannotCollect =
