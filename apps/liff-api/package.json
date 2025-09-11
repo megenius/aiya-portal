@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts --port 14200 --inspector-port 24200",
     "deploy": "wrangler deploy --minify src/index.ts",
+    "test": "bun test",
     "typegen": "wrangler types src/types/worker-configuration.d.ts --env-interface WorkerEnv"
   },
   "dependencies": {

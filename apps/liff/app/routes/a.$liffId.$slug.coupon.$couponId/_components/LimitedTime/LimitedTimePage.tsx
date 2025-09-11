@@ -13,6 +13,23 @@ interface LimitedTimePageProps {
   primaryColor?: string;
   isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
+  // v2 server-computed snapshot (optional)
+  serverComputed?: ServerComputed;
+  onBoundaryRefetch?: () => void;
+}
+
+// Shape returned by v2 view endpoint
+interface ServerComputed {
+  serverNow: string;
+  firstViewedAt: string | null;
+  effectiveStatus: string;
+  canCollect: boolean;
+  currentTier: { id?: string; value?: number; type?: string } | null;
+  timeLeftSeconds: number;
+  progressPercent: number;
+  nextBoundaryAt: string | null;
+  campaignEndAt: string | null;
+  available: number;
 }
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
@@ -22,6 +39,8 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   primaryColor,
   isSubmitting,
   onSubmit,
+  serverComputed,
+  onBoundaryRefetch,
 }) => {
   const [activeTier, setActiveTier] = useState<DiscountTier | undefined>(
     undefined,
@@ -41,95 +60,50 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     }
   };
 
+  // If serverComputed is provided, drive UI from it and schedule boundary-based refetch
   useEffect(() => {
-    if (
-      !voucher?.metadata?.discount_tiers ||
-      voucher.metadata.discount_tiers.length === 0 ||
-      !voucherView
-    ) {
-      return;
+    if (!serverComputed) return;
+
+    if (serverComputed.currentTier) {
+      setActiveTier({
+        value: serverComputed.currentTier.value as number,
+        type: serverComputed.currentTier.type as DiscountTier["type"],
+        condition: {},
+      });
+    } else {
+      setActiveTier(undefined);
     }
 
-    const calculateCurrentState = () => {
-      // ใช้ voucherView.first_viewed_at เป็นจุดตั้งต้น
-      let cumulativeStartTime = new Date(
-        voucherView?.first_viewed_at as string,
-      ).getTime(); // <<< เวลาเริ่มต้นแบบทบต้นใหม่
-      const now = new Date().getTime();
+    setTimeLeft(Math.max(0, serverComputed.timeLeftSeconds || 0));
+    setProgress(Math.max(0, serverComputed.progressPercent || 0));
 
-      let currentTier: DiscountTier | undefined = undefined;
-      let tierDeadline = 0;
-      let totalDurationForTier = 0;
-      let isDefaultTierActive = false;
+    let tickId: number | undefined;
+    if ((serverComputed.timeLeftSeconds || 0) > 0) {
+      tickId = window.setInterval(() => {
+        setTimeLeft((t) => (t > 0 ? t - 1 : 0));
+      }, 1000);
+    }
 
-      // วน Loop หา Tier ที่กำลังทำงานอยู่
-      for (const tier of voucher.metadata.discount_tiers || []) {
-        if (tier.condition.duration_before_claim_seconds) {
-          const tierDuration =
-            tier.condition.duration_before_claim_seconds * 1000;
-          // คำนวณเส้นตายของ Tier นี้จากเวลาเริ่มต้นล่าสุด
-          const deadline = cumulativeStartTime + tierDuration;
-
-          // ถ้าเวลาปัจจุบันยังไม่เลยเส้นตายของ Tier นี้
-          if (now < deadline) {
-            currentTier = tier;
-            tierDeadline = deadline;
-            totalDurationForTier = tierDuration; // <<< ใช้ระยะเวลาของ Tier นี้เป็นตัวหาร
-            break; // เจอ Tier ที่ทำงานอยู่แล้ว ออกจาก Loop
-          } else {
-            // ถ้าเวลาเลย Tier นี้ไปแล้ว ให้อัปเดตเวลาเริ่มต้นสำหรับ Loop ถัดไป
-            cumulativeStartTime = deadline; // <<< จุดสำคัญที่เปลี่ยนแปลง
-          }
-        }
+    let boundaryId: number | undefined;
+    if (serverComputed.nextBoundaryAt && onBoundaryRefetch) {
+      const serverNowMs = new Date(serverComputed.serverNow).getTime();
+      const skew = Date.now() - serverNowMs;
+      const boundaryMs = new Date(serverComputed.nextBoundaryAt).getTime();
+      const msToBoundary = boundaryMs - (Date.now() - skew);
+      if (msToBoundary > 0 && msToBoundary < 24 * 3600 * 1000) {
+        boundaryId = window.setTimeout(() => {
+          onBoundaryRefetch();
+        }, msToBoundary);
       }
+    }
 
-      // ถ้าไม่เจอ Tier ที่มีเงื่อนไขเวลา ให้หา Tier ที่เป็น default
-      if (!currentTier && voucher.metadata.discount_tiers) {
-        const defaultTier = voucher.metadata.discount_tiers.find(
-          (t) => t.condition.default === true,
-        );
-        if (defaultTier) {
-          currentTier = defaultTier;
-          isDefaultTierActive = true; // ตั้งค่าสถานะว่าเป็น Tier default
-        }
-      }
-
-      setActiveTier(currentTier);
-
-      // --- ตรรกะการคำนวณเวลาและ ProgressBar ที่อัปเดตแล้ว ---
-      if (isDefaultTierActive && currentTier && voucher.end_date) {
-        // กรณีเป็น Tier default: นับถอยหลังจากวันหมดอายุของคูปอง
-        const campaignEndDate = new Date(voucher.end_date).getTime();
-        const finalPhaseTotalDuration = campaignEndDate - cumulativeStartTime;
-        const remainingTime = Math.round((campaignEndDate - now) / 1000);
-
-        setTimeLeft(remainingTime > 0 ? remainingTime : 0);
-        setProgress(
-          remainingTime > 0 && finalPhaseTotalDuration > 0
-            ? ((remainingTime * 1000) / finalPhaseTotalDuration) * 100
-            : 0,
-        );
-      } else if (tierDeadline > 0 && currentTier) {
-        // กรณีเป็น Tier ที่มีเงื่อนไขเวลา
-        const remainingTime = Math.round((tierDeadline - now) / 1000);
-        setTimeLeft(remainingTime > 0 ? remainingTime : 0);
-        setProgress(
-          remainingTime > 0
-            ? ((remainingTime * 1000) / totalDurationForTier) * 100
-            : 0,
-        );
-      } else {
-        // กรณีอื่นๆ หรือหมดเวลาแล้ว
-        setTimeLeft(0);
-        setProgress(0);
-      }
+    return () => {
+      if (tickId) window.clearInterval(tickId);
+      if (boundaryId) window.clearTimeout(boundaryId);
     };
+  }, [serverComputed, onBoundaryRefetch]);
 
-    calculateCurrentState();
-    const timerId = setInterval(calculateCurrentState, 1000);
-
-    return () => clearInterval(timerId);
-  }, [voucher, voucherView]);
+  // Removed client-side fallback calculator: we now rely exclusively on serverComputed (v2)
 
   // แทนที่ ${value} ด้วย activeTier.value
   const displayMessage = messageFromApi.replace(
@@ -234,32 +208,33 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <LimitedTimeTimer time={formatTime(timeLeft)} />
               </div>
               <div className="flex flex-col items-center justify-center gap-2 px-3">
-                <button
-                  onClick={() => onSubmit(activeTier)}
-                  disabled={isSubmitting}
-                  // className={`w-full py-4 text-lg sm:text-2xl rounded-xl border-0 transition ${
-                  //   isSubmitting
-                  //     ? "bg-gray-300 text-gray-500"
-                  //     : "bg-gradient-to-r from-[#D43E0B] via-[#FDBF44] to-[#D43E0B] text-white"
-                  // }`}
-                  className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
-                    isSubmitting
+                {(() => {
+                  const cannotCollect = !!serverComputed && serverComputed.canCollect === false;
+                  const disabled = isSubmitting || cannotCollect;
+                  return (
+                  <button
+                    onClick={() => onSubmit(activeTier)}
+                    disabled={disabled}
+                    className={`w-full rounded-xl border-0 py-4 text-lg transition sm:text-2xl ${
+                    disabled
                       ? "bg-gray-300 text-gray-500"
                       : "bg-[#9AD3A8] font-bold text-[#375CA3]"
-                  }`}
-                  style={{
-                    backgroundColor: isSubmitting ? "#d1d5db" : primaryColor,
-                    color: isSubmitting ? "#6b7280" : "white",
-                    opacity: isSubmitting ? 0.7 : 1,
-                    cursor: isSubmitting ? "not-allowed" : "pointer",
-                  }}
-                >
+                    }`}
+                    style={{
+                    backgroundColor: disabled ? "#d1d5db" : primaryColor,
+                    color: disabled ? "#6b7280" : "white",
+                    opacity: disabled ? 0.7 : 1,
+                    cursor: disabled ? "not-allowed" : "pointer",
+                    }}
+                  >
                   {isSubmitting
                     ? language === "th"
                       ? "กำลังรับคูปอง..."
                       : "Collecting..."
                     : textButton[language].collect}
-                </button>
+                  </button>
+                  );
+                })()}
                 <h5 className="whitespace-pre-line text-center text-sm text-white sm:text-base">
                   {descriptionButton[language].collect}
                 </h5>

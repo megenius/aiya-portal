@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CollectVoucher } from "~/types/app";
-import { collectVoucher } from "~/services/vouchers";
+import { collectVoucher, collectVoucherV2 } from "~/services/vouchers";
 
 // interface TrackingMethods {
 //   tracking: Tracking;
@@ -13,21 +13,53 @@ interface MutationFn {
 export function useCollectVoucher() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ variables }: MutationFn) =>
-      collectVoucher(variables).then((response) => response.data),
-    onSuccess: (res) => {
+    mutationFn: async ({ variables }: MutationFn) => {
+      // Try v2 first; fallback to legacy on unsupported
+      try {
+        const res = await collectVoucherV2(variables);
+        return res.data;
+      } catch (err: unknown) {
+        // Extract HTTP status safely from unknown error (Axios-like)
+        let status: number | undefined;
+        if (
+          typeof err === "object" &&
+          err !== null &&
+          "response" in err &&
+          (err as { response?: { status?: number } }).response
+        ) {
+          status = (err as { response?: { status?: number } }).response?.status;
+        }
+        if (status === 404 || status === 405) {
+          const legacy = await collectVoucher(variables);
+          return legacy.data;
+        }
+        throw err;
+      }
+    },
+    onSuccess: (_res, { variables }) => {
       queryClient.invalidateQueries({
         queryKey: ["voucher-user"],
         exact: true,
         refetchType: "active",
       });
       queryClient.invalidateQueries({
-        queryKey: ["vouchers","voucher-codes","stats",res.voucher ],
+        queryKey: ["vouchers", "voucher-codes", "stats", variables.voucher_id],
         exact: true,
         refetchType: "active",
       });
       queryClient.invalidateQueries({
-        queryKey: ["vouchers","voucher-users","stats" ],
+        queryKey: ["vouchers", "voucher-users", "stats"],
+        exact: true,
+        refetchType: "active",
+      });
+      // keep both v1 and v2 views in sync
+      queryClient.invalidateQueries({
+        queryKey: ["voucher-views", variables.voucher_id],
+        exact: true,
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["voucher-views-v2", variables.voucher_id],
         exact: true,
         refetchType: "active",
       });

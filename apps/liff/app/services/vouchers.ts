@@ -20,6 +20,10 @@ export const fetchVouchersUser = () =>
 export const collectVoucher = (data: CollectVoucher) =>
   api.post("/vouchers/collect", data);
 
+// v2 collect (server-verified). Non-breaking: keep old export and add this.
+export const collectVoucherV2 = (data: CollectVoucher) =>
+  api.post(`/vouchers/v2/${data.voucher_id}/collect`, data);
+
 export const redeemVoucher = (data: Partial<VoucherUser>) =>
   api.post(`/vouchers/redeem`, data);
 
@@ -35,3 +39,7 @@ export const updateVoucherCode = (data: VoucherCodeUpdate) =>
 // voucher_views
 export const fetchVoucherView = ({ voucherId }) =>
   api.get<VoucherView>(`/vouchers/voucher-views/${voucherId}`);
+
+// voucher_views v2 (server-computed limited-time state)
+export const fetchVoucherViewV2 = ({ voucherId }) =>
+  api.get(`/vouchers/v2/${voucherId}/view`);

@@ -13,6 +13,7 @@ import * as _ from "lodash";
 import { nanoid } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
+import { computeLimitedTimeSnapshot } from "../utils/limitedTime";
 
 const factory = createFactory<Env>();
 
@@ -35,6 +36,170 @@ export const getVouchers = factory.createHandlers(
       })
     );
     return c.json(vouchers);
+  }
+);
+
+// v2 - collect with server verification
+export const collectVoucherV2 = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { id: userId } = c.get("jwtPayload");
+      const { id: voucher_id } = c.req.param();
+      const directus = c.get("directAdmin");
+
+      const {
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        channel,
+        discount_value,
+        discount_type,
+      } = await c.req.json();
+
+      const serverNow = new Date();
+
+      // Load voucher with fields needed for validation
+      const voucher: any = await directus.request(
+        readItem("vouchers", voucher_id, {
+          fields: [
+            "id",
+            "start_date",
+            "end_date",
+            "validity_in_seconds",
+            "metadata",
+          ],
+        })
+      );
+      if (!voucher) return c.json({ error: "Voucher not found" }, 404);
+
+      const start = voucher.start_date ? new Date(voucher.start_date) : null;
+      const end = voucher.end_date ? new Date(voucher.end_date) : null;
+
+      // Not started yet
+      if (start && serverNow < start) {
+        return c.json({ error: "not started" }, 400);
+      }
+
+      // Ensure voucher_view exists and get first_viewed_at as anchor
+      let voucherViews: any[] = await directus.request(
+        readItems("voucher_views", {
+          filter: {
+            voucher_id: { _eq: voucher_id },
+            user_id: { _eq: userId },
+          },
+          limit: 1,
+        })
+      );
+      let voucherView = voucherViews[0];
+      if (!voucherView) {
+        voucherView = await directus.request(
+          createItem("voucher_views", {
+            voucher_id,
+            user_id: userId,
+            first_viewed_at: serverNow.toISOString(),
+          })
+        );
+      }
+
+      const firstViewedAt = new Date(
+        voucherView?.first_viewed_at || serverNow.toISOString()
+      );
+
+      // Calculate current tier and status via utility
+      const snapshot = computeLimitedTimeSnapshot({
+        serverNow,
+        firstViewedAt,
+        start,
+        end,
+        redemptionType: voucher?.metadata?.redemptionType,
+        discountTiers: voucher?.metadata?.discount_tiers || [],
+        available: 1, // not used for collect decision here
+      });
+
+      // Determine allowed discount for this collect
+      let finalDiscountValue = discount_value ?? null;
+      let finalDiscountType = discount_type ?? null;
+      const isLimited = Array.isArray(voucher?.metadata?.discount_tiers) && (voucher?.metadata?.discount_tiers?.length ?? 0) > 0;
+      if (voucher?.metadata?.redemptionType === "limited_time" && isLimited) {
+        // enforce current tier
+        if (!snapshot.currentTier) {
+          return c.json({ error: "no active tier" }, 400);
+        }
+        finalDiscountValue = snapshot.currentTier.value;
+        finalDiscountType = snapshot.currentTier.type;
+      }
+
+      // Find an available code
+      const availableCodes = await directus.request(
+        readItems("vouchers_codes", {
+          fields: ["id", "code", "code_status"],
+          filter: {
+            voucher: { _eq: voucher_id },
+            code_status: { _eq: "available" },
+          },
+          limit: 1,
+        })
+      );
+      if (!availableCodes.length) {
+        return c.json({ error: "fully collected" }, 409);
+      }
+      const availableCode = availableCodes[0];
+
+      // Reserve the code by switching status to collected, optimistic approach
+      await directus.request(
+        updateItem("vouchers_codes", availableCode.id, {
+          code_status: "collected",
+        })
+      );
+
+      const now = new Date();
+      const collected_date = now.toISOString();
+      const expires_at = voucher.validity_in_seconds
+        ? addSeconds(now, voucher.validity_in_seconds).toISOString()
+        : voucher.end_date;
+
+      try {
+        // Create voucher user
+        const newVoucherUser = await directus.request(
+          createItem("vouchers_users", {
+            collected_by: userId,
+            collected_date,
+            code: availableCode.code,
+            channel,
+            discount_value: finalDiscountValue,
+            discount_type: finalDiscountType,
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            expired_date: expires_at,
+          })
+        );
+
+        return c.json({
+          success: true,
+          ...newVoucherUser,
+          voucher_id,
+          discount_value: finalDiscountValue,
+          discount_type: finalDiscountType,
+        });
+      } catch (err) {
+        // rollback code status
+        await directus.request(
+          updateItem("vouchers_codes", availableCode.id, {
+            code_status: "available",
+          })
+        );
+        throw err;
+      }
+    } catch (error: any) {
+      console.error(error);
+      return c.json(
+        { error: "Failed to collect voucher", detail: error?.message ?? String(error) },
+        500
+      );
+    }
   }
 );
 
@@ -150,7 +315,7 @@ export const collectVoucher = factory.createHandlers(
         ...newVoucherUser,
         voucher_id: voucher_id,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       return c.json(
         { error: "Something went wrong", detail: error?.message ?? error },
@@ -545,8 +710,7 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
         },
       })
     );
-    voucherBrand.vouchers = vouchers;
-    return c.json(voucherBrand);
+    return c.json({ ...voucherBrand, vouchers });
   }
 );
 
@@ -597,5 +761,108 @@ export const getOrCreateVoucherViewByUser = factory.createHandlers(
     }
 
     return c.json(voucherViews[0]);
+  }
+);
+
+// v2 - Compute limited-time tier state on server with time anchors
+export const getVoucherViewV2 = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { id: userId } = c.get("jwtPayload");
+      const { id: voucher_id } = c.req.param();
+      const directus = c.get("directAdmin");
+
+      const serverNow = new Date();
+
+      // Load voucher
+      const voucher: any = await directus.request(
+        readItem("vouchers", voucher_id, {
+          fields: ["id", "start_date", "end_date", "metadata"],
+        })
+      );
+      if (!voucher) return c.json({ error: "Voucher not found" }, 404);
+
+      const start = voucher.start_date ? new Date(voucher.start_date) : null;
+      const end = voucher.end_date ? new Date(voucher.end_date) : null;
+
+      // Count available codes (optimize later with aggregate)
+      const availableCodes = await directus.request(
+        readItems("vouchers_codes", {
+          fields: ["code_status"],
+          filter: { voucher: { _eq: voucher_id }, code_status: { _eq: "available" } },
+          limit: -1,
+        })
+      );
+      const available = availableCodes.length;
+
+      if (start && serverNow < start) {
+        return c.json({
+          serverNow: serverNow.toISOString(),
+          firstViewedAt: null,
+          effectiveStatus: "not_started",
+          canCollect: false,
+          currentTier: null,
+          timeLeftSeconds: Math.max(0, Math.round((start.getTime() - serverNow.getTime()) / 1000)),
+          progressPercent: 0,
+          nextBoundaryAt: start.toISOString(),
+          campaignEndAt: end ? end.toISOString() : null,
+          available,
+        });
+      }
+
+      // Ensure voucher_view for this user exists
+      let voucherViews: any[] = await directus.request(
+        readItems("voucher_views", {
+          filter: {
+            voucher_id: { _eq: voucher_id },
+            user_id: { _eq: userId },
+          },
+          limit: 1,
+        })
+      );
+
+      let voucherView = voucherViews[0];
+      if (!voucherView) {
+        voucherView = await directus.request(
+          createItem("voucher_views", {
+            voucher_id,
+            user_id: userId,
+            first_viewed_at: serverNow.toISOString(),
+          })
+        );
+      }
+
+      const firstViewedAt = new Date(
+        voucherView?.first_viewed_at || serverNow.toISOString()
+      );
+
+      const snapshot = computeLimitedTimeSnapshot({
+        serverNow,
+        firstViewedAt,
+        start,
+        end,
+        redemptionType: voucher?.metadata?.redemptionType,
+        discountTiers: voucher?.metadata?.discount_tiers || [],
+        available,
+      });
+
+      return c.json({
+        serverNow: serverNow.toISOString(),
+        firstViewedAt: firstViewedAt.toISOString(),
+        effectiveStatus: snapshot.effectiveStatus,
+        canCollect: snapshot.canCollect,
+        currentTier: snapshot.currentTier,
+        timeLeftSeconds: snapshot.timeLeftSeconds,
+        progressPercent: snapshot.progressPercent,
+        nextBoundaryAt: snapshot.nextBoundaryAt ? snapshot.nextBoundaryAt.toISOString() : null,
+        campaignEndAt: snapshot.campaignEndAt ? snapshot.campaignEndAt.toISOString() : null,
+        available,
+      });
+    } catch (error: any) {
+      console.error(error);
+      return c.json({ error: "Failed to compute voucher view", detail: error?.message ?? error }, 500);
+    }
   }
 );

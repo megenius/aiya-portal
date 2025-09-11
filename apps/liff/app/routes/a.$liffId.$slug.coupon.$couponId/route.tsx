@@ -10,6 +10,7 @@ import {
   DiscountTier,
   FieldData,
   LeadSubmission,
+  VoucherView,
 } from "~/types/app";
 import Footer from "./_components/Footer";
 import FullyCollectedModal from "./_components/FullyCollectedModal";
@@ -20,7 +21,7 @@ import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
 import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
-import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
+import { useVoucherViewV2 } from "~/hooks/vouchers/useVoucherViews";
 import { triggerConfettiFromButton } from "~/utils/confetti";
 import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
 
@@ -57,13 +58,22 @@ const Route = () => {
     refetch: refetchCodeStats,
   } = useVoucherCodeStats({ voucherId: couponId as string });
   const {
-    data: voucherView,
-    isLoading: isVoucherViewLoading,
-    refetch: refetchVoucherView,
-  } = useVoucherView({ voucherId: couponId as string });
+    data: voucherViewV2,
+    isLoading: isVoucherViewV2Loading,
+    refetch: refetchVoucherViewV2,
+  } = useVoucherViewV2({ voucherId: couponId as string });
 
-  // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
-  useRefetchOnVoucherStart(coupon?.start_date as string, refetchVoucherView);
+  // Derive a compatibility object to keep LimitedTimePage's UI branching the same as before.
+  // If v2 says not_started, pass undefined (pre-start UI). Otherwise pass a minimal object.
+  const voucherViewCompat: VoucherView | undefined =
+    voucherViewV2 && voucherViewV2.effectiveStatus !== "not_started"
+      ? ({
+          first_viewed_at: voucherViewV2.firstViewedAt,
+        } as unknown as VoucherView)
+      : undefined;
+
+  // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date (ใช้ v2)
+  useRefetchOnVoucherStart(coupon?.start_date as string, refetchVoucherViewV2);
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const sendServiceMessage = useSendServiceMessage();
@@ -184,7 +194,7 @@ const Route = () => {
     isCouponLoading ||
     isMyCouponsLoading ||
     isCodeStatsLoading ||
-    isVoucherViewLoading
+    isVoucherViewV2Loading
   ) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
@@ -196,11 +206,13 @@ const Route = () => {
         status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
-            voucherView={voucherView}
+            voucherView={voucherViewCompat}
             language={lang}
             primaryColor={coupon.primary_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
+            serverComputed={voucherViewV2 || undefined}
+            onBoundaryRefetch={refetchVoucherViewV2}
           />
         ) : (
           <>
