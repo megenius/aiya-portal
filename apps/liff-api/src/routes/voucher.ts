@@ -26,4 +26,22 @@ voucherRoutes.get(
   ...VoucherHandler.getOrCreateVoucherViewByUser
 );
 
+// v2 - server-computed view (non-breaking addition)
+voucherRoutes.get(
+  "/v2/:id/view",
+  ...VoucherHandler.getVoucherViewV2
+);
+
+// v2 - combined page payload
+voucherRoutes.get(
+  "/v2/:id/page",
+  ...VoucherHandler.getVoucherPageV2
+);
+
+// v2 - collect with server verification (non-breaking addition)
+voucherRoutes.post(
+  "/v2/:id/collect",
+  ...VoucherHandler.collectVoucherV2
+);
+
 export { voucherRoutes };

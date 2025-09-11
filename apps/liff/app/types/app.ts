@@ -14,6 +14,13 @@ interface BrandMetadata {
   category: Category;
 }
 
+// Combined page payload for v2 endpoint
+export interface VoucherPageV2 {
+  serverComputed: VoucherViewV2;
+  stats: VoucherStats;
+  myCoupon: VoucherUser | null;
+}
+
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
   "metadata" | "voucher_brand_id"
@@ -43,6 +50,20 @@ export interface VoucherStats {
   used: number;
   reserved: number;
   total: number;
+}
+
+// Server-computed view (v2) used by LimitedTime page
+export interface VoucherViewV2 {
+  serverNow: string;
+  firstViewedAt: string | null;
+  effectiveStatus: string; // "not_started" | "started" | "ended" etc.
+  canCollect: boolean;
+  currentTier: { id?: string; value?: number; type?: string } | null;
+  timeLeftSeconds: number;
+  progressPercent: number;
+  nextBoundaryAt: string | null;
+  campaignEndAt: string | null;
+  available: number;
 }
 
 interface LayoutRule {

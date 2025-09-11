@@ -1,10 +1,10 @@
 import { useOutletContext, useParams } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
-import { useVoucherCodeStats } from "~/hooks/vouchers/useVoucherCodeStats";
-import { useVouchersUser } from "~/hooks/vouchers/useVouchersUser";
+import { useCouponPageV2 } from "~/hooks/vouchers/useCouponPageV2";
 import {
   CollectVoucher,
   DiscountTier,
@@ -18,56 +18,32 @@ import MainContent from "./_components/MainContent";
 import RedeemModal from "../../components/RedeemModal";
 import LimitedTimePage from "./_components/LimitedTime/LimitedTimePage";
 import { PageLiff } from "~/types/page";
-import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import { useLineLiff } from "~/contexts/LineLiffContext";
-import { useVoucherView } from "~/hooks/vouchers/useVoucherViews";
 import { triggerConfettiFromButton } from "~/utils/confetti";
 import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
 
-// Hook สำหรับ refetch voucher view เมื่อถึงเวลา start_date
-function useRefetchOnVoucherStart(
-  startDate?: string,
-  refetchVoucherView?: () => void,
-) {
-  useEffect(() => {
-    if (!startDate || !refetchVoucherView) return;
-    const now = Date.now();
-    const start = new Date(startDate).getTime();
-    const msUntilStart = start - now;
-    if (msUntilStart > 0) {
-      const timeout = setTimeout(() => {
-        refetchVoucherView();
-      }, msUntilStart);
-      return () => clearTimeout(timeout);
-    }
-  }, [startDate, refetchVoucherView]);
-}
+// ใช้ v2 view เป็น single source of truth จึงไม่ต้อง refetch ตาม start_date ในระดับ route อีกต่อไป
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { couponId } = useParams();
-  const { data: coupon, isLoading: isCouponLoading } = useVoucher({
-    voucherId: couponId as string,
-  });
   const { liff } = useLineLiff();
-  const { data: myCoupons, isLoading: isMyCouponsLoading } = useVouchersUser();
+  const queryClient = useQueryClient();
   const {
-    data: codeStats,
-    isLoading: isCodeStatsLoading,
-    refetch: refetchCodeStats,
-  } = useVoucherCodeStats({ voucherId: couponId as string });
-  const {
-    data: voucherView,
-    isLoading: isVoucherViewLoading,
-    refetch: refetchVoucherView,
-  } = useVoucherView({ voucherId: couponId as string });
-
-  // เรียกใช้ hook เพื่อ refetch voucher view เมื่อถึง start_date
-  useRefetchOnVoucherStart(coupon?.start_date as string, refetchVoucherView);
+    coupon,
+    isCouponLoading,
+    myCoupon,
+    codeStats,
+    serverComputed,
+    status,
+    isExpired,
+    refetchCodeStats,
+    onBoundaryRefetch,
+    isVoucherPageV2Loading,
+  } = useCouponPageV2(couponId as string);
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const sendServiceMessage = useSendServiceMessage();
-  const myCoupon = myCoupons?.find((v) => v.code.voucher.id === coupon?.id);
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
@@ -75,16 +51,6 @@ const Route = () => {
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState<"collected" | "redeem">("redeem");
-
-  const status = myCoupon
-    ? (myCoupon.code.code_status ?? "collected")
-    : codeStats?.available === 0
-      ? "fully_collected"
-      : (coupon?.metadata.redemptionType ?? "instant");
-
-  const isExpired = myCoupon
-    ? myCoupon.expired_date && new Date(myCoupon.expired_date) < new Date()
-    : false;
 
   let timeLeft = 0;
   if (myCoupon?.used_date) {
@@ -104,6 +70,11 @@ const Route = () => {
       status === "expired" ||
       status === "fully_collected"
     ) {
+      return;
+    }
+
+    // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม
+    if (serverComputed?.canCollect === false) {
       return;
     }
 
@@ -145,8 +116,7 @@ const Route = () => {
             }
             setIsRedeemedModalOpen(true);
           } finally {
-            // ปลดล็อกปุ่มหลังจากงาน async ทั้งหมดเสร็จแล้ว หรือแม้เกิด error ระหว่าง onSuccess
-            setIsSubmitting(false);
+            // ปล่อย isSubmitting ใน effect เมื่อ myCoupon มา หรือ canCollect=false
             const data: Partial<LeadSubmission> = {
               source: "voucher",
               source_id: res.id as string,
@@ -180,12 +150,24 @@ const Route = () => {
     );
   };
 
-  if (
-    isCouponLoading ||
-    isMyCouponsLoading ||
-    isCodeStatsLoading ||
-    isVoucherViewLoading
-  ) {
+  // ปล่อย isSubmitting หลังสำเร็จ เมื่อ myCoupon โผล่หรือ server ยืนยันว่าเก็บไม่ได้แล้ว
+  useEffect(() => {
+    if (!isSubmitting) return;
+    if (myCoupon || serverComputed?.canCollect === false) {
+      setIsSubmitting(false);
+    }
+  }, [isSubmitting, myCoupon, serverComputed?.canCollect]);
+
+  // Clear cached v2 page when leaving this route, so next entry starts fresh
+  useEffect(() => {
+    return () => {
+      if (couponId) {
+        queryClient.removeQueries({ queryKey: ["coupon-page-v2", couponId] });
+      }
+    };
+  }, [couponId, queryClient]);
+
+  if (isCouponLoading || isVoucherPageV2Loading) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
@@ -196,11 +178,12 @@ const Route = () => {
         status === "limited_time" ? (
           <LimitedTimePage
             voucher={coupon}
-            voucherView={voucherView}
             language={lang}
             primaryColor={coupon.primary_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
+            serverComputed={serverComputed || undefined}
+            onBoundaryRefetch={onBoundaryRefetch}
           />
         ) : (
           <>
@@ -256,7 +239,7 @@ const Route = () => {
           isOpen={showFullyCollectedModal}
           onClose={() => {
             setShowFullyCollectedModal(false);
-            refetchCodeStats();
+            onBoundaryRefetch();
           }}
           language={lang}
           primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
