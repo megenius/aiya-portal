@@ -248,8 +248,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                       : "bg-[#9AD3A8] font-bold text-[#375CA3]"
                   }`}
                   style={{
-                    backgroundColor: primaryColor,
-                    color: primaryColor ? "white" : "",
+                    backgroundColor: isSubmitting ? "#d1d5db" : primaryColor,
+                    color: isSubmitting ? "#6b7280" : "white",
+                    opacity: isSubmitting ? 0.7 : 1,
+                    cursor: isSubmitting ? "not-allowed" : "pointer",
                   }}
                 >
                   {isSubmitting
@@ -283,8 +285,8 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                   onClick={() => navigateToBack()}
                   className={`w-full rounded-xl border-0 bg-[#9AD3A8] py-4 text-lg font-bold text-[#375CA3] transition sm:text-2xl`}
                   style={{
-                    backgroundColor: primaryColor,
-                    color: primaryColor ? "white" : "",
+                    backgroundColor: primaryColor ? primaryColor : undefined,
+                    color: primaryColor ? "white" : undefined,
                   }}
                 >
                   {otherVoucherTextButton[language]}

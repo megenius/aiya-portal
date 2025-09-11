@@ -2,6 +2,7 @@ import React from "react";
 import { CheckCircle, QrCode, XCircle } from "lucide-react";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
+import { formatDateTimeShort } from "~/utils/helpers";
 
 interface VoucherCardProps {
   voucherUser: VoucherUser;
@@ -18,7 +19,7 @@ const textTruncateStyle = {
   textOverflow: "ellipsis" as const,
 };
 
-const VoucherCard: React.FC<VoucherCardProps> = ({
+const CouponCard: React.FC<VoucherCardProps> = ({
   voucherUser,
   onClick,
   language,
@@ -70,18 +71,18 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       {/* Ticket outer container */}
       <div className="relative">
         <button
-          className="flex w-full h-28 border rounded-lg overflow-hidden"
+          className="flex h-28 w-full overflow-hidden rounded-lg border"
           onClick={() => onClick(voucherUser.id.toString())}
         >
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
-          <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
+          <div className="relative flex h-full flex-1 rounded-l-lg bg-white">
             <img
               src={getDirectusFileUrl(voucher.cover as string) ?? ""}
               alt={title}
-              className="w-24 object-cover mr-3"
+              className="mr-3 w-24 object-cover"
             />
-            <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
+            <div className="flex flex-1 flex-col justify-between space-y-3 py-2">
               <div className="w-full max-w-36 text-start">
                 <h3 className="font-medium" style={textTruncateStyle}>
                   {voucher.voucher_brand_id?.name}
@@ -115,7 +116,12 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 </div>
                 {!isExpired && voucherUser.code.code_status === "collected" && (
                   <span className="text-xs text-red-500">
-                    (ถึง: {formatThaiDateTime(voucherUser.expired_date as string)})
+                    {language === "th" ? "(ถึง: " : "(Until: "}
+                    {formatDateTimeShort(
+                      voucherUser.expired_date as string,
+                      language as "th" | "en",
+                    )}
+                    )
                   </span>
                 )}
               </div>
@@ -124,27 +130,27 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
 
           {/* Tear-off section (right side) */}
           <div
-            className="w-20 h-full bg-primary flex flex-col items-center justify-center border-l-2 border-dotted border-white text-white"
+            className="flex h-full w-20 flex-col items-center justify-center border-l-2 border-dotted border-white bg-primary text-white"
             style={{
               backgroundColor:
                 voucher.voucher_brand_id.primaryColor || undefined,
             }}
           >
-            <div className="transform -rotate-90">
-              <div className="text-center space-y-2 overflow-hidden">
+            <div className="-rotate-90 transform">
+              <div className="space-y-2 overflow-hidden text-center">
                 {/* <p className="text-xs">COUPON</p> */}
                 <p
-                  className="text-base font-medium w-24"
+                  className="w-24 text-base font-medium"
                   style={textTruncateStyle}
                 >
                   {voucher.voucher_brand_id?.name}
                 </p>
                 <img
                   src={getDirectusFileUrl(
-                    (voucher?.voucher_brand_id?.logo as string) ?? ""
+                    (voucher?.voucher_brand_id?.logo as string) ?? "",
                   )}
                   alt={voucher?.voucher_brand_id?.name ?? ""}
-                  className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
+                  className="mx-auto h-7 w-7 rounded-full border border-white object-cover shadow-sm"
                 />
                 {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
                   LOGO
@@ -158,7 +164,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {[...Array(10)].map((_, i) => (
             <div
               key={`left-perf-${i}`}
-              className="absolute w-2 h-2 bg-gray-50 border-r border-gray-400 rounded-full -translate-x-1"
+              className="absolute h-2 w-2 -translate-x-1 rounded-full border-r border-gray-400 bg-gray-50"
               style={{ top: `${(i * 100) / 10}%` }}
             />
           ))}
@@ -168,20 +174,4 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   );
 };
 
-function formatThaiDateTime(dateStr?: string): string {
-  if (!dateStr) return "-";
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return dateStr;
-  const day = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear() + 543; // Buddhist year
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const months = [
-    "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
-    "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
-  ];
-  return `${day} ${months[month]} ${year} - ${hour}:${minute.toString().padStart(2, "0")} น.`;
-}
-
-export default VoucherCard;
+export default CouponCard;

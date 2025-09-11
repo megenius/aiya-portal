@@ -113,11 +113,7 @@ const MainContent: React.FC<MainContentProps> = ({
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             {/* Background Image */}
             <img
-              src={
-                voucher.metadata.redemptionType === "limited_time"
-                  ? getDirectusFileUrl(voucher?.cover as string)
-                  : getDirectusFileUrl(voucher?.banner as string)
-              }
+              src={getDirectusFileUrl(voucher?.banner as string)}
               alt={voucher?.id}
               className="absolute left-0 top-0 h-full w-full object-cover"
             />
@@ -133,8 +129,9 @@ const MainContent: React.FC<MainContentProps> = ({
               voucherUser?.expired_date && (
                 <div className="absolute bottom-0 z-10 w-full">
                   <TimeCountdown
-                    label="ใช้ภายใน"
                     seconds={getSecondsLeft(voucherUser?.expired_date)}
+                    expiredDate={voucherUser?.expired_date}
+                    language={language}
                   />
                 </div>
               )}
