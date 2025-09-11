@@ -37,29 +37,19 @@ export function useCollectVoucher() {
       }
     },
     onSuccess: (_res, { variables }) => {
+      // New unified page v2
+      queryClient.invalidateQueries({
+        queryKey: ["coupon-page-v2", variables.voucher_id],
+        exact: true,
+        refetchType: "active",
+      });
       queryClient.invalidateQueries({
         queryKey: ["voucher-user"],
         exact: true,
         refetchType: "active",
       });
       queryClient.invalidateQueries({
-        queryKey: ["vouchers", "voucher-codes", "stats", variables.voucher_id],
-        exact: true,
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
         queryKey: ["vouchers", "voucher-users", "stats"],
-        exact: true,
-        refetchType: "active",
-      });
-      // keep both v1 and v2 views in sync
-      queryClient.invalidateQueries({
-        queryKey: ["voucher-views", variables.voucher_id],
-        exact: true,
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["voucher-views-v2", variables.voucher_id],
         exact: true,
         refetchType: "active",
       });

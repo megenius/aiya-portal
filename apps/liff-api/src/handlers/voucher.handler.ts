@@ -39,6 +39,189 @@ export const getVouchers = factory.createHandlers(
   }
 );
 
+// v2 - Combined page payload: serverComputed view + code stats + myCoupon
+export const getVoucherPageV2 = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { id: userId } = c.get("jwtPayload");
+      const { id: voucher_id } = c.req.param();
+      const directus = c.get("directAdmin");
+
+      const serverNow = new Date();
+
+      // Load voucher minimal fields needed
+      const voucher: any = await directus.request(
+        readItem("vouchers", voucher_id, {
+          fields: [
+            "id",
+            "start_date",
+            "end_date",
+            "validity_in_seconds",
+            "metadata",
+          ],
+        })
+      );
+      if (!voucher) return c.json({ error: "Voucher not found" }, 404);
+
+      const start = voucher.start_date ? new Date(voucher.start_date) : null;
+      const end = voucher.end_date ? new Date(voucher.end_date) : null;
+
+      // Count voucher code stats
+      const codeItems = await directus.request(
+        readItems("vouchers_codes", {
+          fields: ["code_status"],
+          filter: { voucher: { _eq: voucher_id } },
+          limit: -1,
+        })
+      );
+      const allStatuses = [
+        "available",
+        "collected",
+        "pending_confirmation",
+        "expired",
+        "used",
+        "reserved",
+      ];
+      const grouped = _.groupBy(codeItems as any[], "code_status");
+      const statsBase = _.mapValues(_.keyBy(allStatuses), () => 0);
+      _.forEach(grouped, (codes, status) => {
+        (statsBase as any)[status] = codes.length;
+      });
+      const total = (codeItems as any[]).length;
+      const stats = { ...statsBase, total } as any;
+
+      const available = stats.available ?? 0;
+
+      // Not started view (serverComputed)
+      if (start && serverNow < start) {
+        return c.json({
+          serverComputed: {
+            serverNow: serverNow.toISOString(),
+            firstViewedAt: null,
+            effectiveStatus: "not_started",
+            canCollect: false,
+            currentTier: null,
+            timeLeftSeconds: Math.max(
+              0,
+              Math.round((start.getTime() - serverNow.getTime()) / 1000)
+            ),
+            progressPercent: 0,
+            nextBoundaryAt: start.toISOString(),
+            campaignEndAt: end ? end.toISOString() : null,
+            available,
+          },
+          stats,
+          myCoupon: null,
+        });
+      }
+
+      // Ensure voucher_view for this user exists
+      let voucherViews: any[] = await directus.request(
+        readItems("voucher_views", {
+          filter: {
+            voucher_id: { _eq: voucher_id },
+            user_id: { _eq: userId },
+          },
+          limit: 1,
+        })
+      );
+      let voucherView = voucherViews[0];
+      if (!voucherView) {
+        voucherView = await directus.request(
+          createItem("voucher_views", {
+            voucher_id,
+            user_id: userId,
+            first_viewed_at: serverNow.toISOString(),
+          })
+        );
+      }
+
+      const firstViewedAt = new Date(
+        voucherView?.first_viewed_at || serverNow.toISOString()
+      );
+
+      const snapshot = computeLimitedTimeSnapshot({
+        serverNow,
+        firstViewedAt,
+        start,
+        end,
+        redemptionType: voucher?.metadata?.redemptionType,
+        discountTiers: voucher?.metadata?.discount_tiers || [],
+        available,
+      });
+
+      // myCoupon for this voucher (if any)
+      const myCoupons = await directus.request(
+        readItems("vouchers_users", {
+          filter: { collected_by: { _eq: userId } },
+          fields: [
+            "id",
+            "collected_by",
+            "collected_date",
+            "expired_date",
+            "used_date",
+            "discount_value",
+            "discount_type",
+            "channel",
+            {
+              code: [
+                "id",
+                "code",
+                "code_status",
+                {
+                  voucher: [
+                    "id",
+                    "name",
+                    "banner",
+                    "cover",
+                    "metadata",
+                    "start_date",
+                    "end_date",
+                    { voucher_brand_id: ["*"] },
+                  ],
+                },
+              ],
+            },
+          ],
+          limit: -1,
+        })
+      );
+      const myCoupon = (myCoupons as any[]).find(
+        (vu) => vu.code?.voucher?.id === voucher_id
+      ) || null;
+
+      return c.json({
+        serverComputed: {
+          serverNow: serverNow.toISOString(),
+          firstViewedAt: firstViewedAt.toISOString(),
+          effectiveStatus: snapshot.effectiveStatus,
+          canCollect: snapshot.canCollect,
+          currentTier: snapshot.currentTier,
+          timeLeftSeconds: snapshot.timeLeftSeconds,
+          progressPercent: snapshot.progressPercent,
+          nextBoundaryAt: snapshot.nextBoundaryAt
+            ? snapshot.nextBoundaryAt.toISOString()
+            : null,
+          campaignEndAt: snapshot.campaignEndAt
+            ? snapshot.campaignEndAt.toISOString()
+            : null,
+          available,
+        },
+        stats,
+        myCoupon,
+      });
+    } catch (error: any) {
+      console.error(error);
+      return c.json(
+        { error: "Failed to build voucher page", detail: error?.message ?? error },
+        500
+      );
+    }
+  }
+);
+
 // v2 - collect with server verification
 export const collectVoucherV2 = factory.createHandlers(
   logger(),

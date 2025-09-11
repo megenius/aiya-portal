@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DiscountTier, Voucher } from "~/types/app";
+import { DiscountTier, Voucher, VoucherViewV2 } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
@@ -13,23 +13,11 @@ interface LimitedTimePageProps {
   isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
   // v2 server-computed snapshot (optional)
-  serverComputed?: ServerComputed;
+  serverComputed?: VoucherViewV2;
   onBoundaryRefetch?: () => void;
 }
 
-// Shape returned by v2 view endpoint
-interface ServerComputed {
-  serverNow: string;
-  firstViewedAt: string | null;
-  effectiveStatus: string;
-  canCollect: boolean;
-  currentTier: { id?: string; value?: number; type?: string } | null;
-  timeLeftSeconds: number;
-  progressPercent: number;
-  nextBoundaryAt: string | null;
-  campaignEndAt: string | null;
-  available: number;
-}
+// Shape is defined in VoucherViewV2 type
 
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
@@ -44,12 +32,15 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     undefined,
   );
   const [timeLeft, setTimeLeft] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const messageFromApi = voucher.metadata.title[language];
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
+  const [isLeaving, setIsLeaving] = useState(false);
 
   const navigateToBack = () => {
+    // Hide current content immediately to avoid flash of stale data
+    setIsLeaving(true);
     const idx = window.history.state?.idx ?? window.history.length;
     if (idx > 0) {
       navigate(-1);
@@ -57,6 +48,11 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       navigate(`/a/${liffId}/${slug}/shop`);
     }
   };
+
+  // Avoid initial flicker by delaying overlay rendering until after first mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // If serverComputed is provided, drive UI from it and schedule boundary-based refetch
   useEffect(() => {
@@ -74,7 +70,6 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       }
 
       setTimeLeft(Math.max(0, serverComputed.timeLeftSeconds || 0));
-      setProgress(Math.max(0, serverComputed.progressPercent || 0));
     }
 
     let tickId: number | undefined;
@@ -160,9 +155,17 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
 
   const backToHomeTextButton = { th: "กลับหน้าหลัก", en: "Back to Home" };
 
+  if (isLeaving) return null;
+
+  // Consider UI as ended when server says ended OR countdown reached 0 in started phase (avoid short mismatch window)
+  const isEnded = !!serverComputed && (
+    serverComputed.effectiveStatus === "ended" ||
+    (serverComputed.effectiveStatus !== "not_started" && timeLeft <= 0)
+  );
+
   return (
     <>
-      {serverComputed && timeLeft <= 0 && !activeTier && (
+      {mounted && isEnded && (
         <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
           <div className="flex rotate-[-15deg] flex-col items-center justify-center gap-2">
             <div className="h-0.5 w-full rounded-lg bg-white"></div>
@@ -196,7 +199,9 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           className="absolute inset-0 p-4 pt-[50%]"
           style={{ paddingTop: voucher.metadata.layout?.container?.paddingTop }}
         >
-          {serverComputed && serverComputed.effectiveStatus !== "not_started" && (
+          {serverComputed &&
+            serverComputed.effectiveStatus !== "not_started" &&
+            !isEnded && (
             <div className="flex h-full w-full flex-col gap-8">
               <div className="flex flex-col items-center gap-10">
                 {!voucher.metadata.layout?.title?.visible && (
@@ -211,7 +216,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 {(() => {
                   const cannotCollect =
                     !!serverComputed && serverComputed.canCollect === false;
-                  const disabled = isSubmitting || cannotCollect;
+                  const disabled = isSubmitting || cannotCollect || timeLeft <= 0;
                   return (
                     <button
                       onClick={() => onSubmit(activeTier)}

@@ -32,6 +32,12 @@ voucherRoutes.get(
   ...VoucherHandler.getVoucherViewV2
 );
 
+// v2 - combined page payload
+voucherRoutes.get(
+  "/v2/:id/page",
+  ...VoucherHandler.getVoucherPageV2
+);
+
 // v2 - collect with server verification (non-breaking addition)
 voucherRoutes.post(
   "/v2/:id/collect",

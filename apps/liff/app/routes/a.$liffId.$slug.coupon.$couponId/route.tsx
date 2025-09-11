@@ -1,9 +1,10 @@
 import { useOutletContext, useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import Loading from "~/components/Loading";
 import { useInsertLeadSubmission } from "~/hooks/leadSubmissions/useInsertLeadSubmissions";
 import { useCollectVoucher } from "~/hooks/vouchers/useCollectVoucher";
-import { useCouponPageData } from "~/hooks/vouchers/useCouponPageData";
+import { useCouponPageV2 } from "~/hooks/vouchers/useCouponPageV2";
 import {
   CollectVoucher,
   DiscountTier,
@@ -27,20 +28,19 @@ const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { couponId } = useParams();
   const { liff } = useLineLiff();
+  const queryClient = useQueryClient();
   const {
     coupon,
     isCouponLoading,
-    isMyCouponsLoading,
-    codeStats,
-    isCodeStatsLoading,
-    voucherViewV2,
-    isVoucherViewV2Loading,
     myCoupon,
+    codeStats,
+    serverComputed,
     status,
     isExpired,
     refetchCodeStats,
     onBoundaryRefetch,
-  } = useCouponPageData(couponId as string);
+    isVoucherPageV2Loading,
+  } = useCouponPageV2(couponId as string);
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const sendServiceMessage = useSendServiceMessage();
@@ -74,7 +74,7 @@ const Route = () => {
     }
 
     // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม
-    if (voucherViewV2 && voucherViewV2.canCollect === false) {
+    if (serverComputed?.canCollect === false) {
       return;
     }
 
@@ -153,17 +153,21 @@ const Route = () => {
   // ปล่อย isSubmitting หลังสำเร็จ เมื่อ myCoupon โผล่หรือ server ยืนยันว่าเก็บไม่ได้แล้ว
   useEffect(() => {
     if (!isSubmitting) return;
-    if (myCoupon || voucherViewV2?.canCollect === false) {
+    if (myCoupon || serverComputed?.canCollect === false) {
       setIsSubmitting(false);
     }
-  }, [isSubmitting, myCoupon, voucherViewV2?.canCollect]);
+  }, [isSubmitting, myCoupon, serverComputed?.canCollect]);
 
-  if (
-    isCouponLoading ||
-    isMyCouponsLoading ||
-    isCodeStatsLoading ||
-    isVoucherViewV2Loading
-  ) {
+  // Clear cached v2 page when leaving this route, so next entry starts fresh
+  useEffect(() => {
+    return () => {
+      if (couponId) {
+        queryClient.removeQueries({ queryKey: ["coupon-page-v2", couponId] });
+      }
+    };
+  }, [couponId, queryClient]);
+
+  if (isCouponLoading || isVoucherPageV2Loading) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 
@@ -178,7 +182,7 @@ const Route = () => {
             primaryColor={coupon.primary_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
-            serverComputed={voucherViewV2 || undefined}
+            serverComputed={serverComputed || undefined}
             onBoundaryRefetch={onBoundaryRefetch}
           />
         ) : (
@@ -235,7 +239,7 @@ const Route = () => {
           isOpen={showFullyCollectedModal}
           onClose={() => {
             setShowFullyCollectedModal(false);
-            refetchCodeStats();
+            onBoundaryRefetch();
           }}
           language={lang}
           primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}

@@ -5,6 +5,7 @@ import {
   VoucherStats,
   VoucherUser,
   VoucherView,
+  VoucherPageV2,
 } from "~/types/app";
 import api from "./api";
 
@@ -43,3 +44,7 @@ export const fetchVoucherView = ({ voucherId }) =>
 // voucher_views v2 (server-computed limited-time state)
 export const fetchVoucherViewV2 = ({ voucherId }) =>
   api.get(`/vouchers/v2/${voucherId}/view`);
+
+// v2 combined page
+export const fetchVoucherPageV2 = ({ voucherId }) =>
+  api.get<VoucherPageV2>(`/vouchers/v2/${voucherId}/page`).then((res) => res.data);
