@@ -157,18 +157,17 @@ const Route = () => {
               metadata: coupon?.metadata,
             };
             await leadSubmission.mutateAsync({ variables: data });
-          }
-
-          await sendServiceMessage.mutateAsync({
-            variables: {
-              liff_access_token: liff?.getAccessToken() || "",
-              template_name:
-                lang === "th" ? "couponnoti_s_c_th" : "couponnoti_s_c_en",
-              template_params: {
-                btn1_url: `https://miniapp.line.me/${page?.liff_id}/coupon/${coupon?.id}`,
+            await sendServiceMessage.mutateAsync({
+              variables: {
+                liff_access_token: liff?.getAccessToken() || "",
+                template_name:
+                  lang === "th" ? "couponnoti_s_c_th" : "couponnoti_s_c_en",
+                template_params: {
+                  btn1_url: `https://miniapp.line.me/${page?.liff_id}/coupon/${coupon?.id}`,
+                },
               },
-            },
-          });
+            });
+          }
         },
         onError: (error) => {
           console.error(error);
