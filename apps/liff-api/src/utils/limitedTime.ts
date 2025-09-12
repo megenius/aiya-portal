@@ -52,6 +52,19 @@ export function computeLimitedTimeSnapshot(input: ComputeInput): ComputeResult {
     };
   }
 
+  // Ended path: campaign end reached
+  if (end && serverNow >= end) {
+    return {
+      effectiveStatus: "ended",
+      currentTier: null,
+      timeLeftSeconds: 0,
+      progressPercent: 0,
+      nextBoundaryAt: null,
+      campaignEndAt: end,
+      canCollect: false,
+    };
+  }
+
   const isLimitedTime = Array.isArray(discountTiers) && discountTiers.length > 0;
   const effectiveStatus = isLimitedTime ? "limited_time" : (redemptionType || "instant");
 
@@ -70,13 +83,16 @@ export function computeLimitedTimeSnapshot(input: ComputeInput): ComputeResult {
       if (durSec) {
         const durMs = durSec * 1000;
         const deadline = cumulativeStart + durMs;
-        if (nowMs < deadline) {
+        // Clamp deadline by campaign end if provided
+        const clampedDeadline = end ? Math.min(deadline, end.getTime()) : deadline;
+        if (nowMs < clampedDeadline) {
           currentTier = { id: t.id, value: t.value, type: t.type };
-          totalDurationForTier = durMs;
-          nextBoundaryAt = new Date(deadline);
-          timeLeftSeconds = Math.max(0, Math.round((deadline - nowMs) / 1000));
+          // Total duration for this tier segment, clamped by end when applicable
+          totalDurationForTier = clampedDeadline - cumulativeStart;
+          nextBoundaryAt = new Date(clampedDeadline);
+          timeLeftSeconds = Math.max(0, Math.round((clampedDeadline - nowMs) / 1000));
           progressPercent = totalDurationForTier > 0
-            ? ((deadline - nowMs) / totalDurationForTier) * 100
+            ? ((clampedDeadline - nowMs) / totalDurationForTier) * 100
             : 0;
           break;
         } else {
@@ -101,7 +117,7 @@ export function computeLimitedTimeSnapshot(input: ComputeInput): ComputeResult {
     }
   }
 
-  const canCollect = available > 0 && effectiveStatus !== "not_started" && (!!currentTier || effectiveStatus !== "limited_time");
+  const canCollect = available > 0 && effectiveStatus !== "not_started" && effectiveStatus !== "ended" && (!!currentTier || effectiveStatus !== "limited_time");
 
   return {
     effectiveStatus,

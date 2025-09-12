@@ -17,6 +17,18 @@ interface MainContentProps {
   onFormDataChange?: (formData: FieldData[]) => void; // Add new prop
   // Server-computed flags (optional)
   canCollect?: boolean;
+  // Not-started countdown (optional)
+  startInSeconds?: number;
+  startAt?: string;
+  // Callback when start countdown reaches zero
+  onStartReached?: () => void;
+  // Campaign end countdown (optional)
+  endInSeconds?: number;
+  endAt?: string;
+  // Callback when end countdown reaches zero
+  onEndReached?: () => void;
+  // Server/client time offset in milliseconds (optional)
+  offsetMs?: number;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -29,6 +41,13 @@ const MainContent: React.FC<MainContentProps> = ({
   onFormValidationChange,
   onFormDataChange, // Receive new prop
   canCollect,
+  startInSeconds,
+  startAt,
+  onStartReached,
+  endInSeconds,
+  endAt,
+  onEndReached,
+  offsetMs,
 }) => {
   const title = voucherUser
     ? voucher.metadata.title[language].replace(
@@ -135,6 +154,37 @@ const MainContent: React.FC<MainContentProps> = ({
                     seconds={getSecondsLeft(voucherUser?.expired_date)}
                     expiredDate={voucherUser?.expired_date}
                     language={language}
+                  />
+                </div>
+              )}
+
+            {/* Not started countdown overlay at the same position */}
+            {status === "not_started" && (startInSeconds ?? 0) > 0 && (
+              <div className="absolute bottom-0 z-10 w-full">
+                <TimeCountdown
+                  seconds={Math.max(0, startInSeconds ?? 0)}
+                  expiredDate={startAt || ""}
+                  targetDate={startAt}
+                  language={language}
+                  variant="start"
+                  offsetMs={offsetMs}
+                  onComplete={onStartReached}
+                />
+              </div>
+            )}
+
+            {/* Campaign end countdown overlay at the same position for instant/form */}
+            {(status === "instant" || status === "form") &&
+              (endInSeconds ?? 0) > 0 && (
+                <div className="absolute bottom-0 z-10 w-full">
+                  <TimeCountdown
+                    seconds={Math.max(0, endInSeconds ?? 0)}
+                    expiredDate={endAt || ""}
+                    targetDate={endAt}
+                    language={language}
+                    variant="end"
+                    offsetMs={offsetMs}
+                    onComplete={onEndReached}
                   />
                 </div>
               )}

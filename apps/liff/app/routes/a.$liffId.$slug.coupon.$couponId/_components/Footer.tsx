@@ -17,6 +17,7 @@ const buttonTextMap = {
     used: "ใช้แล้ว",
     expired: "หมดอายุแล้ว",
     fully_collected: "หมดแล้ว",
+    not_started: "ยังไม่เริ่ม",
     submitting: "กำลังรับคูปอง...",
   },
   en: {
@@ -27,6 +28,7 @@ const buttonTextMap = {
     used: "Redeemed",
     expired: "Expired",
     fully_collected: "Fully Collected",
+    not_started: "Not started",
     submitting: "Collecting...",
   },
 };

@@ -61,10 +61,45 @@ const Route = () => {
     timeLeft = Math.floor((expiryTime - now) / 1000);
   }
 
+  // Map server-computed effective status to UI status and disable rules
+  const campaignEndAtTs = serverComputed?.campaignEndAt
+    ? new Date(serverComputed.campaignEndAt).getTime()
+    : null;
+  const isCampaignEnded = campaignEndAtTs !== null && Date.now() >= campaignEndAtTs;
+  // Compute server-client offset so that now_server ≈ Date.now() - offsetMs
+  const clientNowTs = Date.now();
+  const serverNowTs = serverComputed?.serverNow
+    ? new Date(serverComputed.serverNow).getTime()
+    : clientNowTs;
+  const offsetMs = clientNowTs - serverNowTs;
+  const isNotStarted = serverComputed?.effectiveStatus === "not_started";
+  const statusForUi = isNotStarted
+    ? ("not_started" as const)
+    : isCampaignEnded || isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+      ? ("expired" as const)
+      : status;
+
+  // For instant/form, show end countdown until campaignEndAt then refetch
+  const endInSeconds =
+    campaignEndAtTs !== null && !isCampaignEnded
+      ? Math.max(0, Math.floor((campaignEndAtTs - (clientNowTs - offsetMs)) / 1000))
+      : undefined;
+
+  // Compute start countdown based on nextBoundaryAt vs client time (avoid using server-computed seconds)
+  const startAtTs = serverComputed?.nextBoundaryAt
+    ? new Date(serverComputed.nextBoundaryAt).getTime()
+    : null;
+  const computedStartInSeconds =
+    isNotStarted && startAtTs !== null
+      ? Math.max(0, Math.floor((startAtTs - (clientNowTs - offsetMs)) / 1000))
+      : undefined;
+
   const handleSubmit = async (tier?: DiscountTier) => {
     // ป้องกันการกดซ้ำระหว่างกำลังส่งคำขอ
     if (isSubmitting) return;
     if (
+      isNotStarted ||
+      isCampaignEnded ||
       isExpired ||
       (status === "pending_confirmation" && timeLeft <= 0) ||
       status === "used" ||
@@ -229,18 +264,31 @@ const Route = () => {
                 voucherUser={myCoupon}
                 codeStats={codeStats}
                 pageState={pageState}
-                status={
-                  isExpired ||
-                  (status === "pending_confirmation" && timeLeft <= 0)
-                    ? "expired"
-                    : status
-                }
+                status={statusForUi}
                 onFormValidationChange={setIsFormValid}
                 onFormDataChange={setFormData}
                 canCollect={serverComputed?.canCollect}
+                startInSeconds={computedStartInSeconds}
+                startAt={isNotStarted ? serverComputed?.nextBoundaryAt ?? undefined : undefined}
+                onStartReached={onBoundaryRefetch}
+                endInSeconds={endInSeconds}
+                endAt={serverComputed?.campaignEndAt ?? undefined}
+                onEndReached={onBoundaryRefetch}
+                offsetMs={offsetMs}
               />
             )}
-            {!myCoupon && serverComputed?.canCollect === false ? (
+            {!myCoupon && isNotStarted ? (
+              <InlineNotice
+                language={lang === "en" ? "en" : "th"}
+                message={
+                  lang === "en"
+                    ? "This coupon is not yet available."
+                    : "คูปองยังไม่เปิดให้รับ"
+                }
+                className="mx-4 mb-6"
+                level="medium"
+              />
+            ) : !myCoupon && serverComputed?.canCollect === false ? (
               <InlineNotice
                 language={lang === "en" ? "en" : "th"}
                 deniedReason={serverComputed?.deniedReason ?? null}
@@ -251,22 +299,17 @@ const Route = () => {
               <Footer
                 color={coupon.voucher_brand_id.primaryColor ?? ""}
                 lang={lang === "en" ? "en" : "th"}
-                status={
-                  isSubmitting
-                    ? "submitting"
-                    : isExpired ||
-                        (status === "pending_confirmation" && timeLeft <= 0)
-                      ? "expired"
-                      : status
-                }
+                status={isSubmitting ? "submitting" : statusForUi}
                 onClick={handleSubmit}
                 disabled={
                   (pageState === "form" && !isFormValid) ||
+                  isCampaignEnded ||
                   isExpired ||
                   (status === "pending_confirmation" && timeLeft <= 0) ||
-                  status === "used" ||
-                  status === "expired" ||
-                  status === "fully_collected" ||
+                  statusForUi === "used" ||
+                  statusForUi === "expired" ||
+                  statusForUi === "fully_collected" ||
+                  isNotStarted ||
                   isSubmitting ||
                   (!myCoupon && serverComputed?.canCollect === false)
                 }
