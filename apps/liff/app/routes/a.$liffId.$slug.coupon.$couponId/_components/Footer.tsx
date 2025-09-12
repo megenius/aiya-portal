@@ -39,11 +39,11 @@ const Footer: React.FC<FooterProps> = ({
   status = "instant",
 }) => {
   return (
-    <div className="px-4 py-2 bg-white w-full border-t bottom-0">
+    <div className="bottom-0 w-full border-t bg-white px-4 py-2 pb-6">
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`w-full py-4 rounded-xl font-medium transition ${
+        className={`w-full rounded-xl py-4 font-medium transition ${
           disabled ? "bg-gray-300 text-gray-500" : "bg-primary text-white"
         }`}
         data-confetti-button="true"
