@@ -10,7 +10,6 @@ import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "./Button";
 
-
 interface RedeemModalProps {
   page: PageLiff;
   voucherUser: VoucherUser;
@@ -45,7 +44,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
   const title = voucher.metadata.title[language];
   const description = voucher.metadata.description[language]?.replace(
     /\\n/g,
-    "\n"
+    "\n",
   );
   const condition = voucher.metadata.condition[language]?.replace(/\\n/g, "\n");
 
@@ -198,24 +197,28 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
     };
     redeemVoucher.mutate(
       { variables: data },
-      { onSuccess: () => setIsRedeemed(true) }
+      { onSuccess: () => setIsRedeemed(true) },
     );
   };
 
   const handleConfirmState = () => {
     const data: VoucherCodeUpdate = {
-      userId: voucherUser.collected_by as string,
-      code: voucherUser.code.code as string,
+      code_id: voucherUser.code.id as string,
+      voucher_id: voucherUser.code.voucher.id as string,
       code_status: "used",
     };
-    updateVoucherCode.mutateAsync(
+    updateVoucherCode.mutate(
       { variables: data },
       {
         onSuccess: () => {
           setPageState("redeem");
           onClose();
         },
-      }
+        onError: (err) => {
+          console.error(err);
+          onClose();
+        },
+      },
     );
   };
 
@@ -225,8 +228,8 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="p-4 bg-white rounded-2xl w-full max-w-sm m-4 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="m-4 w-full max-w-sm overflow-hidden rounded-2xl bg-white p-4">
         {isRedeemed ? (
           <>
             {pageState === "redeem" && (
@@ -236,10 +239,10 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                     <img
                       src={getDirectusFileUrl(voucher.cover as string) ?? ""}
                       alt={title}
-                      className="w-20 h-20 object-cover rounded-lg"
+                      className="h-20 w-20 rounded-lg object-cover"
                     />
                     <div>
-                      <h3 className="font-medium text-lg">
+                      <h3 className="text-lg font-medium">
                         {voucher.voucher_brand_id?.name}
                       </h3>
                       <h4 className="text-sm text-gray-500">{title}</h4>
@@ -260,7 +263,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                 <div className="space-y-3">
                   {/* แสดงเวลาที่เหลือ */}
                   <div
-                    className={`p-4 rounded-lg ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+                    className={`rounded-lg p-4 ${remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -272,14 +275,14 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                         </span>
                       </div>
                       <div
-                        className={`font-bold text-xl ${getTimeColor(remainingTime)}`}
+                        className={`text-xl font-bold ${getTimeColor(remainingTime)}`}
                       >
                         {formatTime(remainingTime)}
                       </div>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                    <div className="mt-2 h-2 w-full rounded-full bg-gray-200">
                       <div
                         className={`h-2 rounded-full ${
                           remainingTime <= 60
@@ -294,7 +297,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
 
                     {/* Expire Warning */}
                     {showExpireWarning && (
-                      <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                      <div className="mt-2 flex items-center gap-2 text-sm text-red-600">
                         <AlertCircle className="h-4 w-4" />
                         <span>{warningExpireText[language]}</span>
                       </div>
@@ -302,7 +305,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                   </div>
 
                   {/* Code Type Selection */}
-                  <div className="flex rounded-lg overflow-hidden">
+                  <div className="flex overflow-hidden rounded-lg">
                     <button
                       className={`flex-1 py-3 text-center ${
                         codeType === "qrcode"
@@ -340,7 +343,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
                   </div>
 
                   {/* Code Display */}
-                  <div className="border rounded-lg p-4 mb-4">
+                  <div className="mb-4 rounded-lg border p-4">
                     <div className="flex flex-col items-center">
                       {/* <img
                     src="/api/placeholder/200/200"
@@ -374,7 +377,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
               </button>
             </div> */}
                   <div className="flex items-center justify-between gap-5">
-                    <h4 className="text-sm text-nowrap">
+                    <h4 className="text-nowrap text-sm">
                       {suggestionText[language]}
                     </h4>
                     <Button
@@ -391,7 +394,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
             {pageState === "confirm" && (
               <>
                 <div className="space-y-3">
-                  <div className="py-5 text-center space-y-4">
+                  <div className="space-y-4 py-5 text-center">
                     <h2 className="text-lg font-medium text-gray-800">
                       {confirmRedeemText[language]}
                     </h2>
@@ -420,8 +423,8 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
             )}
             {pageState === "expired" && (
               <>
-                <div className="py-5 flex flex-col justify-center items-center text-center space-y-3">
-                  <div className="p-6 rounded-full bg-red-50">
+                <div className="flex flex-col items-center justify-center space-y-3 py-5 text-center">
+                  <div className="rounded-full bg-red-50 p-6">
                     <TicketX className={`h-8 w-8 text-red-600`} />
                   </div>
 
@@ -445,7 +448,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
           <>
             {state === "redeem" && (
               <div className="space-y-3">
-                <div className="py-5 text-center space-y-4">
+                <div className="space-y-4 py-5 text-center">
                   <h2 className="text-lg font-medium text-gray-800">
                     {confirmText[language]}
                   </h2>
@@ -470,12 +473,12 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
             )}
             {state === "collected" && (
               <>
-                <div className="w-full flex justify-end">
+                <div className="flex w-full justify-end">
                   <button onClick={onClose} className="text-gray-500">
                     <X className="h-6 w-6" />
                   </button>
                 </div>
-                <div className="py-5 text-center space-y-4">
+                <div className="space-y-4 py-5 text-center">
                   <h2 className="text-lg font-medium text-gray-800">
                     {collectedSuccessText[language]}
                   </h2>

@@ -1,6 +1,7 @@
 import { useNavigate } from "@remix-run/react";
 import { AlertCircle, Barcode, Clock, QrCode, TicketX, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import BarcodeGenerator from "~/components/BarCodeGenerater";
 import QRCodeGenerator from "~/components/QRCodeGenerator";
 import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
@@ -38,6 +39,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const redeemVoucher = useRedeemVoucher();
   const updateVoucherCode = useUpdateVoucherCode();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [codeType, setCodeType] = useState("qrcode");
   const [remainingTime, setRemainingTime] = useState(countdown * 60);
   const [showExpireWarning, setShowExpireWarning] = useState(false);
@@ -203,6 +205,21 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     }
   }, [remainingTime]);
 
+  // เมื่อคูปองหมดเวลา ให้รีเฟรชรายการคูปองของฉันทันที
+  useEffect(() => {
+    if (pageState === "expired") {
+      queryClient.invalidateQueries({
+        queryKey: ["my-vouchers-v2"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["voucher-user"],
+        exact: true,
+        refetchType: "active",
+      });
+    }
+  }, [pageState, queryClient]);
+
   if (!voucher) return null;
 
   const handleRedeem = () => {
@@ -217,15 +234,19 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 
   const handleConfirmState = () => {
     const data: VoucherCodeUpdate = {
-      userId: voucherUser.collected_by as string,
-      code: voucherUser.code.code as string,
+      code_id: voucherUser.code.id as string,
+      voucher_id: voucherUser.code.voucher.id as string,
       code_status: "used",
     };
-    updateVoucherCode.mutateAsync(
+    updateVoucherCode.mutate(
       { variables: data },
       {
         onSuccess: () => {
           setPageState("redeem");
+          onClose();
+        },
+        onError: (err) => {
+          console.error(err);
           onClose();
         },
       },

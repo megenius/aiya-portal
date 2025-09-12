@@ -37,8 +37,9 @@ export type VoucherUser = Omit<
 > & { code: VoucherCode };
 
 export interface VoucherCodeUpdate {
-  userId: string;
-  code: string;
+  code_id?: string;
+  code?: string;
+  voucher_id: string;
   code_status: string;
 }
 

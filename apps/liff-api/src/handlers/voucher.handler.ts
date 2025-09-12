@@ -188,9 +188,10 @@ export const getVoucherPageV2 = factory.createHandlers(
           limit: -1,
         })
       );
-      const myCoupon = (myCoupons as any[]).find(
-        (vu) => vu.code?.voucher?.id === voucher_id
-      ) || null;
+      const myCoupon =
+        (myCoupons as any[]).find(
+          (vu) => vu.code?.voucher?.id === voucher_id
+        ) || null;
 
       // Evaluate duplicate and voucher group quota to drive canCollect
       const alreadyCollected = Boolean(myCoupon);
@@ -202,7 +203,9 @@ export const getVoucherPageV2 = factory.createHandlers(
             vouchers_id: { _eq: voucher_id },
             voucher_groups_id: { status: { _eq: "active" } },
           },
-          fields: [{ voucher_groups_id: ["id", "name", "claim_limit", "status"] }],
+          fields: [
+            { voucher_groups_id: ["id", "name", "claim_limit", "status"] },
+          ],
           limit: -1,
         })
       );
@@ -244,14 +247,15 @@ export const getVoucherPageV2 = factory.createHandlers(
           }
         }
       }
-      const canCollectAllowed = snapshot.canCollect && !alreadyCollected && !blockedByGroup;
+      const canCollectAllowed =
+        snapshot.canCollect && !alreadyCollected && !blockedByGroup;
       const deniedReason = canCollectAllowed
         ? null
         : alreadyCollected
-        ? "already_collected"
-        : blockedByGroup
-        ? "group_quota_full"
-        : null;
+          ? "already_collected"
+          : blockedByGroup
+            ? "group_quota_full"
+            : null;
 
       return c.json({
         serverComputed: {
@@ -277,7 +281,10 @@ export const getVoucherPageV2 = factory.createHandlers(
     } catch (error: any) {
       console.error(error);
       return c.json(
-        { error: "Failed to build voucher page", detail: error?.message ?? error },
+        {
+          error: "Failed to build voucher page",
+          detail: error?.message ?? error,
+        },
         500
       );
     }
@@ -366,7 +373,9 @@ export const collectVoucherV2 = factory.createHandlers(
       // Determine allowed discount for this collect
       let finalDiscountValue = discount_value ?? null;
       let finalDiscountType = discount_type ?? null;
-      const isLimited = Array.isArray(voucher?.metadata?.discount_tiers) && (voucher?.metadata?.discount_tiers?.length ?? 0) > 0;
+      const isLimited =
+        Array.isArray(voucher?.metadata?.discount_tiers) &&
+        (voucher?.metadata?.discount_tiers?.length ?? 0) > 0;
       if (voucher?.metadata?.redemptionType === "limited_time" && isLimited) {
         // enforce current tier
         if (!snapshot.currentTier) {
@@ -402,7 +411,9 @@ export const collectVoucherV2 = factory.createHandlers(
             vouchers_id: { _eq: voucher_id },
             voucher_groups_id: { status: { _eq: "active" } },
           },
-          fields: [{ voucher_groups_id: ["id", "name", "claim_limit", "status"] }],
+          fields: [
+            { voucher_groups_id: ["id", "name", "claim_limit", "status"] },
+          ],
           limit: -1,
         })
       );
@@ -447,7 +458,10 @@ export const collectVoucherV2 = factory.createHandlers(
       }
       if (groupQuotaBlocked) {
         return c.json(
-          { error: "group_quota_full", message: "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว" },
+          {
+            error: "group_quota_full",
+            message: "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว",
+          },
           409
         );
       }
@@ -459,7 +473,10 @@ export const collectVoucherV2 = factory.createHandlers(
         const candidates = await directus.request(
           readItems("vouchers_codes", {
             fields: ["id", "code", "code_status"],
-            filter: { voucher: { _eq: voucher_id }, code_status: { _eq: "available" } },
+            filter: {
+              voucher: { _eq: voucher_id },
+              code_status: { _eq: "available" },
+            },
             limit: 1,
           })
         );
@@ -470,7 +487,9 @@ export const collectVoucherV2 = factory.createHandlers(
 
         // 2) attempt to reserve (set to collected)
         await directus.request(
-          updateItem("vouchers_codes", candidate.id, { code_status: "collected" })
+          updateItem("vouchers_codes", candidate.id, {
+            code_status: "collected",
+          })
         );
 
         const now = new Date();
@@ -505,12 +524,15 @@ export const collectVoucherV2 = factory.createHandlers(
           });
         } catch (err: any) {
           const message = String(err?.message ?? err);
-          const isUniqueOnCode = /unique|duplicate/i.test(message) && /code/i.test(message);
+          const isUniqueOnCode =
+            /unique|duplicate/i.test(message) && /code/i.test(message);
           // If unique violation on code, another request got this code; don't rollback (code is truly taken). Retry next candidate.
           if (!isUniqueOnCode) {
             // unknown failure: rollback to available so it can be retried later
             await directus.request(
-              updateItem("vouchers_codes", candidate.id, { code_status: "available" })
+              updateItem("vouchers_codes", candidate.id, {
+                code_status: "available",
+              })
             );
           }
           // try next attempt
@@ -521,7 +543,10 @@ export const collectVoucherV2 = factory.createHandlers(
     } catch (error: any) {
       console.error(error);
       return c.json(
-        { error: "Failed to collect voucher", detail: error?.message ?? String(error) },
+        {
+          error: "Failed to collect voucher",
+          detail: error?.message ?? String(error),
+        },
         500
       );
     }
@@ -616,8 +641,8 @@ export const getMyCouponsV2 = factory.createHandlers(
       );
 
       // Filter by page's vouchers
-      const filtered = (vouchersUsers || []).filter(
-        (vu: any) => allowedVoucherIds.has(vu?.code?.voucher?.id)
+      const filtered = (vouchersUsers || []).filter((vu: any) =>
+        allowedVoucherIds.has(vu?.code?.voucher?.id)
       );
 
       // Compute server-side fields
@@ -639,7 +664,10 @@ export const getMyCouponsV2 = factory.createHandlers(
           effectiveStatus = "used";
         } else if (isExpired) {
           effectiveStatus = "expired";
-        } else if (codeStatus === "pending_confirmation" && timeLeftSeconds <= 0) {
+        } else if (
+          codeStatus === "pending_confirmation" &&
+          timeLeftSeconds <= 0
+        ) {
           effectiveStatus = "expired";
         } else {
           effectiveStatus = "available";
@@ -691,7 +719,10 @@ export const getMyCouponsV2 = factory.createHandlers(
     } catch (error: any) {
       console.error(error);
       return c.json(
-        { error: "Failed to get my coupons for page", detail: error?.message ?? String(error) },
+        {
+          error: "Failed to get my coupons for page",
+          detail: error?.message ?? String(error),
+        },
         500
       );
     }
@@ -1003,8 +1034,12 @@ export const getStatVoucherUser = factory.createHandlers(
 
     const currentDate = new Date();
     const withStatus = (vouchersUsers as any[]).map((voucherUser: any) => {
-      const usedDate = voucherUser.used_date ? new Date(voucherUser.used_date) : null;
-      const expiredDate = voucherUser.expired_date ? new Date(voucherUser.expired_date) : null;
+      const usedDate = voucherUser.used_date
+        ? new Date(voucherUser.used_date)
+        : null;
+      const expiredDate = voucherUser.expired_date
+        ? new Date(voucherUser.expired_date)
+        : null;
       const isExpired = expiredDate ? expiredDate < currentDate : false;
       const codeStatus = voucherUser.code?.code_status;
 
@@ -1090,7 +1125,9 @@ export const useVoucher = factory.createHandlers(
     }
 
     await directus.request(
-      updateItem("vouchers_codes", relatedCodeId, { code_status: "pending_confirmation" })
+      updateItem("vouchers_codes", relatedCodeId, {
+        code_status: "pending_confirmation",
+      })
     );
 
     return c.json({ collected_by: updatedVoucherUser.collected_by });
@@ -1102,7 +1139,9 @@ export const updateVoucherCode = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const { userId, code, code_status, code_id } = await c.req.json();
+    // Read from body (code, code_status, code_id). userId is taken from JWT for security.
+    const { code, code_status, code_id } = await c.req.json();
+    const { id: userId } = c.get("jwtPayload");
 
     let targetCodeId = code_id as string | undefined;
     // Resolve when only "code" provided; try as id first, then as string code
@@ -1124,11 +1163,65 @@ export const updateVoucherCode = factory.createHandlers(
       return c.json({ error: "Voucher code not found" }, { status: 404 });
     }
 
+    // Load current code for ownership and status validation
+    const codeItem: any = await directus.request(
+      readItem("vouchers_codes", targetCodeId, { fields: ["id", "voucher", "code_status"] })
+    );
+    if (!codeItem) {
+      return c.json({ error: "Voucher code not found" }, { status: 404 });
+    }
+
+    // Verify ownership: there must be a vouchers_users entry linking this code to the same user
+    const vu = await directus.request(
+      readItems("vouchers_users", {
+        filter: { code: { _eq: targetCodeId }, collected_by: { _eq: userId } },
+        fields: ["id", "collected_by"],
+        limit: 1,
+      })
+    );
+    if (!vu.length) {
+      return c.json({ error: "Forbidden: code not owned by user" }, { status: 403 });
+    }
+
+    const previous_status = codeItem.code_status as string | null;
+
+    // Idempotent path: same status requested
+    if (previous_status === code_status) {
+      return c.json({
+        success: true,
+        idempotent: true,
+        userId,
+        code_id: targetCodeId,
+        voucher_id: codeItem.voucher,
+        previous_status,
+        new_status: code_status,
+        updated_at: new Date().toISOString(),
+      });
+    }
+
+    // Guard transitions (simple rule): allow pending_confirmation -> used, otherwise reject
+    const allowed = previous_status === "pending_confirmation" && code_status === "used";
+    if (!allowed) {
+      return c.json(
+        { error: "invalid_transition", previous_status, requested_status: code_status },
+        { status: 409 },
+      );
+    }
+
     await directus.request(
       updateItem("vouchers_codes", targetCodeId, { code_status })
     );
 
-    return c.json({ userId });
+    return c.json({
+      success: true,
+      idempotent: false,
+      userId,
+      code_id: targetCodeId,
+      voucher_id: codeItem.voucher,
+      previous_status,
+      new_status: code_status,
+      updated_at: new Date().toISOString(),
+    });
   }
 );
 
@@ -1232,7 +1325,10 @@ export const getVoucherViewV2 = factory.createHandlers(
       const availableCodes = await directus.request(
         readItems("vouchers_codes", {
           fields: ["code_status"],
-          filter: { voucher: { _eq: voucher_id }, code_status: { _eq: "available" } },
+          filter: {
+            voucher: { _eq: voucher_id },
+            code_status: { _eq: "available" },
+          },
           limit: -1,
         })
       );
@@ -1245,7 +1341,10 @@ export const getVoucherViewV2 = factory.createHandlers(
           effectiveStatus: "not_started",
           canCollect: false,
           currentTier: null,
-          timeLeftSeconds: Math.max(0, Math.round((start.getTime() - serverNow.getTime()) / 1000)),
+          timeLeftSeconds: Math.max(
+            0,
+            Math.round((start.getTime() - serverNow.getTime()) / 1000)
+          ),
           progressPercent: 0,
           nextBoundaryAt: start.toISOString(),
           campaignEndAt: end ? end.toISOString() : null,
@@ -1297,13 +1396,23 @@ export const getVoucherViewV2 = factory.createHandlers(
         currentTier: snapshot.currentTier,
         timeLeftSeconds: snapshot.timeLeftSeconds,
         progressPercent: snapshot.progressPercent,
-        nextBoundaryAt: snapshot.nextBoundaryAt ? snapshot.nextBoundaryAt.toISOString() : null,
-        campaignEndAt: snapshot.campaignEndAt ? snapshot.campaignEndAt.toISOString() : null,
+        nextBoundaryAt: snapshot.nextBoundaryAt
+          ? snapshot.nextBoundaryAt.toISOString()
+          : null,
+        campaignEndAt: snapshot.campaignEndAt
+          ? snapshot.campaignEndAt.toISOString()
+          : null,
         available,
       });
     } catch (error: any) {
       console.error(error);
-      return c.json({ error: "Failed to compute voucher view", detail: error?.message ?? error }, 500);
+      return c.json(
+        {
+          error: "Failed to compute voucher view",
+          detail: error?.message ?? error,
+        },
+        500
+      );
     }
   }
 );
