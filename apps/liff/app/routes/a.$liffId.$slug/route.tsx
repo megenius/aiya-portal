@@ -58,11 +58,21 @@ const Route = () => {
       const utm_source = params.get("utm_source") || undefined;
       const utm_medium = params.get("utm_medium") || undefined;
       const utm_campaign = params.get("utm_campaign") || undefined;
+      // Compute path after $slug only
+      const basePrefix = `/a/${page?.liff_id}/${page?.slug}`;
+      let relPath = location.pathname.startsWith(basePrefix)
+        ? location.pathname.slice(basePrefix.length)
+        : location.pathname;
+      if (!relPath || relPath.length === 0) relPath = "/";
+      if (!relPath.startsWith("/")) relPath = "/" + relPath;
+      const fullRelPath = `${relPath}${location.search}${location.hash}`;
       track("page_view", {
         page_id: page?.id,
         liff_id: page?.liff_id,
         slug: page?.slug,
         lang,
+        path: relPath,
+        full_path: fullRelPath,
         utm_source,
         utm_medium,
         utm_campaign,
@@ -71,7 +81,16 @@ const Route = () => {
       console.warn("track page_view failed", e);
     }
     // fire when key identities change
-  }, [isInitialized, isLoggedIn, page, lang, location.search, track]);
+  }, [
+    isInitialized,
+    isLoggedIn,
+    page,
+    lang,
+    location.pathname,
+    location.search,
+    location.hash,
+    track,
+  ]);
 
   if (!isInitialized || !isLoggedIn) {
     return <Loading primaryColor={page?.bg_color as string} />;
@@ -82,7 +101,7 @@ const Route = () => {
   }
   return (
     <div className="bg-gray-200">
-      <div className="h-screen-safe max-w-md mx-auto bg-white">
+      <div className="mx-auto h-screen-safe max-w-md bg-white">
         <Outlet context={{ page, lang }} />
       </div>
     </div>
