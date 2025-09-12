@@ -11,6 +11,7 @@ import { authRoutes } from "./routes/auth.route";
 import { meRoutes } from "./routes/me.route";
 import { fileRoutes } from "./routes/file";
 import { notifiesRoutes } from "./routes/notifies";
+import { userEventsRoutes } from "./routes/userEvents";
 
 const app = new Hono<Env>()
   .basePath("/api")
@@ -37,6 +38,7 @@ const app = new Hono<Env>()
   .route("/profiles", profileRoutes)
   .route("/files", fileRoutes)
   .route("/notifies", notifiesRoutes)
+  .route("/user-events", userEventsRoutes)
   .onError((err, c) => {
     return c.json({ error: err.message });
   });
