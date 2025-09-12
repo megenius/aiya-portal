@@ -10,6 +10,7 @@ interface TimeCountdownProps {
   variant?: "end" | "start"; // default: "end"
   onComplete?: () => void; // called when countdown hits 0
   offsetMs?: number; // optional client - server offset in ms; now_server ≈ Date.now() - offsetMs
+  phase?: "collect" | "use"; // wording context for 'end' variant
 }
 
 const pad = (n: number) => n.toString().padStart(2, "0");
@@ -23,6 +24,7 @@ export const TimeCountdown: React.FC<TimeCountdownProps> = ({
   variant = "end",
   onComplete,
   offsetMs = 0,
+  phase = "use",
 }) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
   const [completed, setCompleted] = useState(false);
@@ -72,17 +74,23 @@ export const TimeCountdown: React.FC<TimeCountdownProps> = ({
   const minutes = Math.floor((timeLeft % 3600) / 60);
   const secs = timeLeft % 60;
 
-  // Labels for both variants
+  // Labels for both variants (dynamic by phase for 'end')
   const labels = {
     end: {
-      within: { th: "ใช้ภายใน", en: "Expires in" },
-      on: { th: "ใช้ได้ถึง", en: "Used in" },
+      within: {
+        th: phase === "collect" ? "เก็บภายใน" : "ใช้ภายใน",
+        en: phase === "collect" ? "Collect within" : "Expires in",
+      },
+      on: {
+        th: phase === "collect" ? "เก็บได้ถึง" : "ใช้ได้ถึง",
+        en: phase === "collect" ? "Collect by" : "Expires on",
+      },
     },
     start: {
       within: { th: "เริ่มใน", en: "Starts in" },
       on: { th: "เริ่มวันที่", en: "Starts on" },
     },
-  } as const;
+  };
 
   // target already defined above
 

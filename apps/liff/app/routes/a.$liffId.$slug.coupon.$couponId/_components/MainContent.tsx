@@ -125,6 +125,7 @@ const MainContent: React.FC<MainContentProps> = ({
   const statusText = {
     expired: { th: "คูปองหมดอายุ", en: "Coupons expired" },
     fully_collected: { th: "คูปองหมดแล้ว", en: "Coupons fully collected" },
+    ended: { th: "หมดเวลารับคูปอง", en: "Collection ended" },
   };
 
   return (
@@ -140,7 +141,7 @@ const MainContent: React.FC<MainContentProps> = ({
               className="absolute left-0 top-0 h-full w-full object-cover"
             />
             {/* Gray Overlay */}
-            {(status === "fully_collected" || status === "expired") && (
+            {(status === "fully_collected" || status === "expired" || status === "ended") && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-2xl font-bold text-white">
                 {statusText[status][language]}
               </div>
@@ -184,6 +185,7 @@ const MainContent: React.FC<MainContentProps> = ({
                     language={language}
                     variant="end"
                     offsetMs={offsetMs}
+                    phase={voucherUser ? "use" : "collect"}
                     onComplete={onEndReached}
                   />
                 </div>

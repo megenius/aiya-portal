@@ -73,11 +73,14 @@ const Route = () => {
     : clientNowTs;
   const offsetMs = clientNowTs - serverNowTs;
   const isNotStarted = serverComputed?.effectiveStatus === "not_started";
+  const isEndedEffective = isCampaignEnded || serverComputed?.effectiveStatus === "ended";
   const statusForUi = isNotStarted
     ? ("not_started" as const)
-    : isCampaignEnded || isExpired || (status === "pending_confirmation" && timeLeft <= 0)
-      ? ("expired" as const)
-      : status;
+    : isEndedEffective
+      ? ("ended" as const)
+      : isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+        ? ("expired" as const)
+        : status;
 
   // For instant/form, show end countdown until campaignEndAt then refetch
   const endInSeconds =
@@ -288,7 +291,10 @@ const Route = () => {
                 className="mx-4 mb-6"
                 level="medium"
               />
-            ) : !myCoupon && serverComputed?.canCollect === false ? (
+            ) :
+            !myCoupon &&
+            serverComputed?.canCollect === false &&
+            !(isCampaignEnded || statusForUi === "expired" || serverComputed?.effectiveStatus === "ended") ? (
               <InlineNotice
                 language={lang === "en" ? "en" : "th"}
                 deniedReason={serverComputed?.deniedReason ?? null}
@@ -308,6 +314,7 @@ const Route = () => {
                   (status === "pending_confirmation" && timeLeft <= 0) ||
                   statusForUi === "used" ||
                   statusForUi === "expired" ||
+                  statusForUi === "ended" ||
                   statusForUi === "fully_collected" ||
                   isNotStarted ||
                   isSubmitting ||
