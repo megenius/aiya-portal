@@ -11,17 +11,26 @@ import { useLineProfile } from "~/contexts/LineLiffContext";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
-  const { profile, isLoading: isProfileLoading, error: profileError } = useLineProfile();
+  const {
+    profile,
+    isLoading: isProfileLoading,
+    error: profileError,
+  } = useLineProfile();
   const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
     useVoucherUserStats({
-      userId: profile?.userId || "",
       enabled: !isProfileLoading && !!profile?.userId,
     });
 
   const { data: me, isLoading: isMeLoading } = useMe();
 
-  if (isProfileLoading || profileError || isVoucherUserStatsLoading || isMeLoading) {
-    if (profileError) return <div className="text-red-500">{profileError.message}</div>;
+  if (
+    isProfileLoading ||
+    profileError ||
+    isVoucherUserStatsLoading ||
+    isMeLoading
+  ) {
+    if (profileError)
+      return <div className="text-red-500">{profileError.message}</div>;
     return (
       <>
         {page?.liff_id && (
