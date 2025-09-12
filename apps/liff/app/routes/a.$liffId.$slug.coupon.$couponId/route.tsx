@@ -1,5 +1,5 @@
 import { useOutletContext, useParams } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "~/components/Loading";
 import InlineNotice from "~/components/InlineNotice";
@@ -22,6 +22,7 @@ import { PageLiff } from "~/types/page";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import { triggerConfettiFromButton } from "~/utils/confetti";
 import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
+import { useTrackUserEvent } from "~/hooks/analytics/useTrackUserEvent";
 
 // ใช้ v2 view เป็น single source of truth จึงไม่ต้อง refetch ตาม start_date ในระดับ route อีกต่อไป
 
@@ -45,6 +46,7 @@ const Route = () => {
   const collectVoucher = useCollectVoucher();
   const leadSubmission = useInsertLeadSubmission();
   const sendServiceMessage = useSendServiceMessage();
+  const track = useTrackUserEvent();
   const [pageState, setPageState] = useState("landing");
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
@@ -52,6 +54,7 @@ const Route = () => {
   const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState<"collected" | "redeem">("redeem");
+  const sentViewRef = useRef(false);
 
   let timeLeft = 0;
   if (myCoupon?.used_date) {
@@ -96,6 +99,28 @@ const Route = () => {
     isNotStarted && startAtTs !== null
       ? Math.max(0, Math.floor((startAtTs - (clientNowTs - offsetMs)) / 1000))
       : undefined;
+
+  // Track voucher_click as page view of the coupon detail (once per mount)
+  useEffect(() => {
+    if (sentViewRef.current) return;
+    if (!coupon || !page) return;
+    sentViewRef.current = true;
+    (async () => {
+      try {
+        await track("voucher_click", {
+          voucher_id: coupon?.id,
+          page_id: page?.id,
+          liff_id: page?.liff_id,
+          status_before: status,
+          isCollected: Boolean(myCoupon),
+          canCollect: serverComputed?.canCollect ?? null,
+          redemptionType: coupon?.metadata.redemptionType,
+        } as Record<string, unknown>);
+      } catch (e) {
+        console.warn("track voucher_click failed", e);
+      }
+    })();
+  }, [coupon, page, status, myCoupon, serverComputed?.canCollect, track]);
 
   const handleSubmit = async (tier?: DiscountTier) => {
     // ป้องกันการกดซ้ำระหว่างกำลังส่งคำขอ
