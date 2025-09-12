@@ -244,7 +244,7 @@ const Route = () => {
               <InlineNotice
                 language={lang === "en" ? "en" : "th"}
                 deniedReason={serverComputed?.deniedReason ?? null}
-                className="mx-4 mb-4"
+                className="mx-4 mb-6"
                 level="medium"
               />
             ) : (
