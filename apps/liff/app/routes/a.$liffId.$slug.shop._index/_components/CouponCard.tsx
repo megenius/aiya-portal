@@ -14,7 +14,16 @@ interface CouponCardProps {
   height?: number | "full";
 }
 
-import { formatDateTimeShort } from "~/utils/helpers";
+import { formatDate } from "~/utils/helpers";
+
+function formatHHMM(dateStr?: string) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "";
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
 
 const CouponCard: React.FC<CouponCardProps> = ({
   couponId,
@@ -66,10 +75,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
         )}
         {endDate && (
           <p className="mt-1 text-xs text-gray-500">
-            {language === "th" ? "หมดเขต" : "Expires"}:{" "}
-            {formatDateTimeShort(endDate, language === "th" ? "th" : "en", {
-              includeTime: true,
-            })}
+            {language === "th" ? "หมดเขต" : "Expires"}: {formatDate(endDate)} - {formatHHMM(endDate)}
           </p>
         )}
       </div>
