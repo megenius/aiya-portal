@@ -152,6 +152,7 @@ function filterAndMapVouchers<T>(
     .filter((item) => {
       const voucher = getVoucher(item);
       return (
+        voucher?.hide_on_homepage !== true &&
         voucher?.codes?.length > 0 &&
         voucher?.end_date &&
         new Date(voucher.end_date) > new Date()
