@@ -5,6 +5,8 @@ import {
   Scripts,
   ScrollRestoration,
   useParams,
+  useRouteError,
+  isRouteErrorResponse,
 } from "@remix-run/react";
 
 import PrelineScript from "./PrelineScript";
@@ -17,6 +19,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import { persistor, store } from "~/store";
 import { LineLiffProvider } from "./contexts/LineLiffContext";
+import ErrorView from "~/components/ErrorView";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: prelineCss },
@@ -93,4 +96,29 @@ export default function App() {
 export function HydrateFallback() {
   return <div></div>;
   // return <p>Loading...</p>;
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  let status = 500;
+  let message: string | undefined;
+  if (isRouteErrorResponse(error)) {
+    status = error.status;
+    message = error.statusText;
+  } else if (error instanceof Error) {
+    message = error.message;
+  }
+
+  return (
+    <ErrorView
+      status={status}
+      message={message}
+      language={
+        typeof navigator !== "undefined" && navigator.language?.startsWith("en")
+          ? "en"
+          : "th"
+      }
+    />
+  );
 }

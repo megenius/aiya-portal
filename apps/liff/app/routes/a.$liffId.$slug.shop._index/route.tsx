@@ -1,4 +1,4 @@
-import { useOutletContext } from "@remix-run/react";
+import { useOutletContext, useRouteError, isRouteErrorResponse } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import MainContent from "./_components/MainContent";
 import PromotionTemplate from "./_components/PromotionTemplate";
@@ -8,6 +8,7 @@ import Header from "./_components/Header";
 import { MainContentSkeleton } from "./_components/SkeletonLoad/MainContentSkeleton";
 import { useMe } from "~/hooks/useMe";
 import { useLineProfile } from "~/contexts/LineLiffContext";
+import ErrorView from "~/components/ErrorView";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -29,8 +30,19 @@ const Route = () => {
     isVoucherUserStatsLoading ||
     isMeLoading
   ) {
-    if (profileError)
-      return <div className="text-red-500">{profileError.message}</div>;
+    if (profileError) {
+      const language =
+        typeof navigator !== "undefined" && navigator.language?.startsWith("en")
+          ? ("en" as const)
+          : ("th" as const);
+      return (
+        <ErrorView
+          status={500}
+          message={profileError.message}
+          language={language}
+        />
+      );
+    }
     return (
       <>
         {page?.liff_id && (
@@ -82,3 +94,22 @@ const Route = () => {
 };
 
 export default Route;
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const isResponse = isRouteErrorResponse(error);
+  const status = isResponse ? error.status : 500;
+  const message = isResponse
+    ? error.statusText
+    : error instanceof Error
+      ? error.message
+      : undefined;
+
+  // Safe language detection without relying on outlet context (which may not exist during errors)
+  const language =
+    typeof navigator !== "undefined" && navigator.language?.startsWith("en")
+      ? ("en" as const)
+      : ("th" as const);
+
+  return <ErrorView status={status} message={message} language={language} />;
+}
