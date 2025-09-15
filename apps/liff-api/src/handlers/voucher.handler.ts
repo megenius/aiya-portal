@@ -33,6 +33,7 @@ export const getVouchers = factory.createHandlers(
       readItems("vouchers", {
         fields: ["*", { voucher_brand_id: ["*"] }],
         filter: filters,
+        limit: -1,
       })
     );
     return c.json(vouchers);
@@ -929,6 +930,7 @@ export const getVouchersByUser = factory.createHandlers(
               ],
             },
           ],
+          limit: -1,
         })
       );
 
@@ -970,6 +972,7 @@ export const getVoucherCodes = factory.createHandlers(
     const voucherCodes = await directus.request(
       readItems("vouchers_codes", {
         filter: filters,
+        limit: -1,
       })
     );
 
@@ -1029,6 +1032,7 @@ export const getStatVoucherUser = factory.createHandlers(
       readItems("vouchers_users", {
         filter: { collected_by: { _eq: id } },
         fields: ["expired_date", "used_date", { code: ["id", "code_status"] }],
+        limit: -1,
       })
     );
 
@@ -1092,6 +1096,7 @@ export const getVoucherBrands = factory.createHandlers(
     const voucherBrands = await directus.request(
       readItems("vouchers_brands", {
         filter: filters,
+        limit: -1,
       })
     );
     return c.json(voucherBrands);
@@ -1147,13 +1152,21 @@ export const updateVoucherCode = factory.createHandlers(
     // Resolve when only "code" provided; try as id first, then as string code
     if (!targetCodeId && code) {
       const byId = await directus.request(
-        readItems("vouchers_codes", { filter: { id: { _eq: code } }, fields: ["id"], limit: 1 })
+        readItems("vouchers_codes", {
+          filter: { id: { _eq: code } },
+          fields: ["id"],
+          limit: 1,
+        })
       );
       if (byId.length) {
         targetCodeId = byId[0].id as string;
       } else {
         const byCode = await directus.request(
-          readItems("vouchers_codes", { filter: { code: { _eq: code } }, fields: ["id"], limit: 1 })
+          readItems("vouchers_codes", {
+            filter: { code: { _eq: code } },
+            fields: ["id"],
+            limit: 1,
+          })
         );
         if (byCode.length) targetCodeId = byCode[0].id as string;
       }
@@ -1165,7 +1178,9 @@ export const updateVoucherCode = factory.createHandlers(
 
     // Load current code for ownership and status validation
     const codeItem: any = await directus.request(
-      readItem("vouchers_codes", targetCodeId, { fields: ["id", "voucher", "code_status"] })
+      readItem("vouchers_codes", targetCodeId, {
+        fields: ["id", "voucher", "code_status"],
+      })
     );
     if (!codeItem) {
       return c.json({ error: "Voucher code not found" }, { status: 404 });
@@ -1180,7 +1195,10 @@ export const updateVoucherCode = factory.createHandlers(
       })
     );
     if (!vu.length) {
-      return c.json({ error: "Forbidden: code not owned by user" }, { status: 403 });
+      return c.json(
+        { error: "Forbidden: code not owned by user" },
+        { status: 403 }
+      );
     }
 
     const previous_status = codeItem.code_status as string | null;
@@ -1200,11 +1218,16 @@ export const updateVoucherCode = factory.createHandlers(
     }
 
     // Guard transitions (simple rule): allow pending_confirmation -> used, otherwise reject
-    const allowed = previous_status === "pending_confirmation" && code_status === "used";
+    const allowed =
+      previous_status === "pending_confirmation" && code_status === "used";
     if (!allowed) {
       return c.json(
-        { error: "invalid_transition", previous_status, requested_status: code_status },
-        { status: 409 },
+        {
+          error: "invalid_transition",
+          previous_status,
+          requested_status: code_status,
+        },
+        { status: 409 }
       );
     }
 
@@ -1242,6 +1265,7 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
             _eq: id,
           },
         },
+        limit: -1,
       })
     );
     return c.json({ ...voucherBrand, vouchers });
