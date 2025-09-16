@@ -5,6 +5,7 @@ import { getDirectusFileUrl } from "~/utils/files";
 import Tabs from "../../../components/Tabs";
 import FormField from "./FormField";
 import VoucherProgressBar from "./VoucherProgressBar";
+import LazyImage from "~/components/LazyImage";
 
 interface MainContentProps {
   voucher: Voucher;
@@ -135,10 +136,25 @@ const MainContent: React.FC<MainContentProps> = ({
           {/* ratio="16/9" */}
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             {/* Background Image */}
-            <img
+            <LazyImage
               src={getDirectusFileUrl(voucher?.banner as string)}
-              alt={voucher?.id}
-              className="absolute left-0 top-0 h-full w-full object-cover"
+              alt={"banner"}
+              className="h-full w-full object-cover"
+              wrapperClassName="w-full h-full"
+              wrapperStyle={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(voucher?.banner as string, {
+                width: 64,
+                height: 36,
+              })}
+              rootMargin="200px"
+              priority
             />
             {/* Gray Overlay */}
             {(status === "fully_collected" ||

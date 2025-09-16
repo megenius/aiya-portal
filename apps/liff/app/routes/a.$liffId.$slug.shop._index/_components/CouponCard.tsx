@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "@remix-run/react";
 import React from "react";
 import { getDirectusFileUrl } from "~/utils/files";
+import LazyImage from "~/components/LazyImage";
 
 interface CouponCardProps {
   couponId: string;
@@ -49,19 +50,28 @@ const CouponCard: React.FC<CouponCardProps> = ({
       <div
         className={`relative aspect-square ${height === "full" ? "h-full" : `h-32`}`}
       >
-        <img
+        <LazyImage
           src={getDirectusFileUrl(cover) ?? ""}
           alt={title ?? ""}
           className={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl object-cover`}
+          wrapperClassName={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl`}
+          placeholder="blur"
+          blurDataURL={getDirectusFileUrl(cover, { width: 24, height: 24 })}
+          rootMargin="200px"
+          priority={false}
         />
         {/* Gradient Overlay */}
         <div className="absolute bottom-0 left-0 h-[35%] w-full rounded-b-2xl bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
         {logo && (
           <div className="absolute bottom-2 left-2">
-            <img
+            <LazyImage
               src={getDirectusFileUrl(logo) ?? ""}
               alt="Logo"
               className="h-7 w-7 rounded-full border border-white object-cover shadow-sm"
+              wrapperClassName="h-7 w-7 rounded-full"
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(logo, { width: 12, height: 12 })}
+              rootMargin="200px"
             />
           </div>
         )}
