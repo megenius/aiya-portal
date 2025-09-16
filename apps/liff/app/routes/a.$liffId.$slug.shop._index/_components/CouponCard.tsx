@@ -81,13 +81,15 @@ const CouponCard: React.FC<CouponCardProps> = ({
           {title}
         </h3>
         {description && (
-          <p className="mt-1 text-xs text-gray-600">{description}</p>
+          <p className="mt-1 line-clamp-2 text-xs text-gray-600">
+            {description}
+          </p>
         )}
-        {endDate && (
+        {/* {endDate && (
           <p className="mt-1 text-xs text-gray-500">
             {language === "th" ? "หมดเขต" : "Expires"}: {formatDate(endDate)} - {formatHHMM(endDate)}
           </p>
-        )}
+        )} */}
       </div>
     </button>
   );

@@ -1,5 +1,4 @@
 import { components } from "./directus";
-import { Category } from "./page";
 
 export type LeadSubmission = components["schemas"]["ItemsLeadSubmissions"];
 // export type Profile = components["schemas"]["ItemsProfiles"];
@@ -10,21 +9,28 @@ export type Brand = Omit<
   "metadata"
 > & { metadata: BrandMetadata; vouchers: Voucher[] };
 
-interface BrandMetadata {
-  category: Category;
-}
+interface BrandMetadata {}
 
 // Combined page payload for v2 endpoint
-export interface VoucherPageV2 {
-  serverComputed: VoucherViewV2;
+export interface VoucherPage {
+  serverComputed: VoucherView;
   stats: VoucherStats;
   myCoupon: VoucherUser | null;
 }
 
 export type Voucher = Omit<
   components["schemas"]["ItemsVouchers"],
-  "metadata" | "voucher_brand_id"
-> & { metadata: VoucherMetadata; voucher_brand_id: Brand };
+  "metadata" | "voucher_brand_id" | "categories"
+> & {
+  metadata: VoucherMetadata;
+  voucher_brand_id: Brand;
+  categories: Category[];
+};
+
+export type Category = Omit<
+  components["schemas"]["ItemsVoucherCategories"],
+  "name"
+> & { name: language };
 
 export type VoucherCode = Omit<
   components["schemas"]["ItemsVouchersCodes"],
@@ -54,7 +60,7 @@ export interface VoucherStats {
 }
 
 // Server-computed view (v2) used by LimitedTime page
-export interface VoucherViewV2 {
+export interface VoucherView {
   serverNow: string;
   firstViewedAt: string | null;
   effectiveStatus: string; // "not_started" | "started" | "ended" etc.
@@ -108,8 +114,6 @@ interface VoucherMetadata {
   discount_tiers?: DiscountTier[];
   layout?: LayoutOptions;
 }
-
-export type VoucherView = components["schemas"]["ItemsVoucherViews"];
 
 interface TierCondition {
   duration_before_claim_seconds?: number;

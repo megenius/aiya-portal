@@ -4,8 +4,7 @@ import {
   VoucherCodeUpdate,
   VoucherStats,
   VoucherUser,
-  VoucherView,
-  VoucherPageV2,
+  VoucherPage,
   MyVouchersV2,
 } from "~/types/app";
 import api from "./api";
@@ -38,18 +37,10 @@ export const fetchVoucherUserStats = () =>
 export const updateVoucherCode = (data: VoucherCodeUpdate) =>
   api.patch(`/vouchers/voucher-codes`, data);
 
-// voucher_views
-export const fetchVoucherView = ({ voucherId }) =>
-  api.get<VoucherView>(`/vouchers/voucher-views/${voucherId}`);
-
-// voucher_views v2 (server-computed limited-time state)
-export const fetchVoucherViewV2 = ({ voucherId }) =>
-  api.get(`/vouchers/v2/${voucherId}/view`);
-
 // v2 combined page
 export const fetchVoucherPageV2 = ({ voucherId }) =>
   api
-    .get<VoucherPageV2>(`/vouchers/v2/${voucherId}/page`)
+    .get<VoucherPage>(`/vouchers/v2/${voucherId}/page`)
     .then((res) => res.data);
 
 // v2 - my vouchers (filtered + server computed)

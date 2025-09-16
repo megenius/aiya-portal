@@ -16,27 +16,6 @@ export const getByLiffIdAndSlug = factory.createHandlers(
     const lang = c.req.query("lang") || "en-US";
     const directus = c.get("directAdmin");
 
-    // const [page] = await directus.request(
-    //       readItems("pages_liff", {
-    //         filter: {
-    //           liff_id: { _eq: c.req.param("liffId") },
-    //           slug:    { _eq: c.req.param("slug")   },
-    //         },
-    //         fields: [
-    //           "*",
-    //           "vouchers.*",
-    //           "populars.vouchers_id.*",
-    //           "brands.vouchers_brands_id.*",
-    //         ],
-    //         locale: lang,   // <-- Directus จะ swap fields ให้เป็นภาษานั้นๆ ให้เอง
-    //       })
-    //     ).then((res) => res || []);
-
-    //     if (!page) {
-    //       return c.json({ error: "Not found" }, 404);
-    //     }
-    //     return c.json(page);
-
     const page = await directus
       .request(
         readItems("pages_liff", {
@@ -65,10 +44,20 @@ export const getByLiffIdAndSlug = factory.createHandlers(
           fields: [
             "*",
             {
+              categories: [
+                {
+                  voucher_categories_id: ["*"],
+                },
+              ],
+            },
+            {
               vouchers: [
                 {
                   vouchers_id: [
                     "*",
+                    {
+                      categories: [{ voucher_categories_id: ["*"] }],
+                    },
                     { voucher_brand_id: ["*"] },
                     { translations: ["*"] },
                   ],
@@ -96,6 +85,9 @@ export const getByLiffIdAndSlug = factory.createHandlers(
                 {
                   vouchers_id: [
                     "*",
+                    {
+                      categories: [{ voucher_categories_id: ["*"] }],
+                    },
                     { voucher_brand_id: ["*"] },
                     { translations: ["*"] },
                   ],
@@ -118,6 +110,12 @@ export const getByLiffIdAndSlug = factory.createHandlers(
     if (page?.brands) {
       page.brands = page.brands.map(
         ({ vouchers_brands_id }) => vouchers_brands_id
+      );
+    }
+
+    if (page?.categories) {
+      page.categories = page.categories.map(
+        ({ voucher_categories_id }) => voucher_categories_id
       );
     }
 
@@ -166,9 +164,16 @@ function filterAndMapVouchers<T>(
       const cleanTrans = langTrans
         ? _.omit(langTrans, ["id", "languages_code"])
         : {};
+      const rawCats = Array.isArray(voucher.categories)
+        ? voucher.categories
+        : [];
+      const categories = rawCats
+        .map((x: any) => x?.voucher_categories_id ?? x)
+        .filter(Boolean);
       return {
-        ..._.omit(voucher, ["translations"]),
+        ..._.omit(voucher, ["translations", "categories"]),
         ...cleanTrans,
+        categories,
       };
     });
 }
