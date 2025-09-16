@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DiscountTier, Voucher, VoucherViewV2 } from "~/types/app";
+import { DiscountTier, Voucher, VoucherView } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
@@ -19,7 +19,7 @@ interface LimitedTimePageProps {
   isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
   // v2 server-computed snapshot (optional)
-  serverComputed?: VoucherViewV2;
+  serverComputed?: VoucherView;
   onBoundaryRefetch?: () => void;
 }
 

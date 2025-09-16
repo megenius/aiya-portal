@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchVoucherPageV2 } from "~/services/vouchers";
 import { useAppSelector } from "~/store";
 import { useVoucher } from "~/hooks/vouchers/useVoucher";
-import type { VoucherPageV2 } from "~/types/app";
+import type { VoucherPage } from "~/types/app";
 
 export function useCouponPageV2(voucherId: string) {
   const { data: coupon, isLoading: isCouponLoading } = useVoucher({
@@ -14,7 +14,7 @@ export function useCouponPageV2(voucherId: string) {
     data,
     isLoading: isVoucherPageV2Loading,
     refetch,
-  } = useQuery<VoucherPageV2>({
+  } = useQuery<VoucherPage>({
     queryKey: ["coupon-page-v2", voucherId],
     queryFn: () => fetchVoucherPageV2({ voucherId }),
     enabled,

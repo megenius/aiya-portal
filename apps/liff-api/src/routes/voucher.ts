@@ -20,29 +20,11 @@ voucherRoutes.post("/voucher-code", ...VoucherHandler.createVoucherCode);
 voucherRoutes.post("/redeem", ...VoucherHandler.useVoucher);
 voucherRoutes.patch("/voucher-codes", ...VoucherHandler.updateVoucherCode);
 
-// voucher_views
-voucherRoutes.get(
-  "/voucher-views/:voucher_id",
-  ...VoucherHandler.getOrCreateVoucherViewByUser
-);
-
-// v2 - server-computed view (non-breaking addition)
-voucherRoutes.get(
-  "/v2/:id/view",
-  ...VoucherHandler.getVoucherViewV2
-);
-
 // v2 - combined page payload
-voucherRoutes.get(
-  "/v2/:id/page",
-  ...VoucherHandler.getVoucherPageV2
-);
+voucherRoutes.get("/v2/:id/page", ...VoucherHandler.getVoucherPageV2);
 
 // v2 - collect with server verification (non-breaking addition)
-voucherRoutes.post(
-  "/v2/:id/collect",
-  ...VoucherHandler.collectVoucherV2
-);
+voucherRoutes.post("/v2/:id/collect", ...VoucherHandler.collectVoucherV2);
 
 // v2 - my vouchers (scoped by liff_id from JWT)
 voucherRoutes.get("/v2/my-vouchers", ...VoucherHandler.getMyCouponsV2);
