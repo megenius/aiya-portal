@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { formatDateTime } from "~/utils/helpers";
 import InlineNotice from "~/components/InlineNotice";
 import ChooseAnotherVoucherButton from "~/components/ChooseAnotherVoucherButton";
+import LazyImage from "~/components/LazyImage";
 
 // Extend Voucher type locally to include optional teaser field from Directus
 type VoucherWithTeaser = Voucher & { teaser?: string | null };
@@ -165,9 +166,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   const cannotCollect = !!serverComputed && serverComputed.canCollect === false;
 
   // Teaser handling: show teaser exclusively when not_started and voucher.teaser provided
-  const teaserRaw = (voucher as VoucherWithTeaser).teaser ?? null;
+  const teaserImage = (voucher as VoucherWithTeaser).teaser ?? null;
   const showTeaser =
-    (serverComputed?.effectiveStatus === "not_started" && Boolean(teaserRaw)) ||
+    (serverComputed?.effectiveStatus === "not_started" &&
+      Boolean(teaserImage)) ||
     false;
 
   return (
@@ -200,13 +202,18 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           <ArrowLeft className="h-6 w-6" />
           <span className="sm:text-lg">{backToHomeTextButton[language]}</span>
         </button>
-        <img
-          src={
-            getDirectusFileUrl(voucher.poster as string) ||
-            "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=450&fit=crop"
-          }
+        <LazyImage
+          src={getDirectusFileUrl(voucher.poster as string)}
           alt={voucher.name || "Promotion"}
           className="h-full w-full object-cover"
+          wrapperClassName="h-full w-full"
+          placeholder="blur"
+          blurDataURL={getDirectusFileUrl(voucher.poster as string, {
+            width: 64,
+            height: 36,
+          })}
+          rootMargin="200px"
+          priority
         />
         <div
           className={`absolute inset-0 ${showTeaser ? "" : "p-4 pt-[50%]"}`}
@@ -349,71 +356,63 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               </div>
             )}
           {serverComputed &&
-            serverComputed.effectiveStatus === "not_started" && (
-              (() => {
-                // Prefer voucher.teaser as the teaser image source
-                const teaserUrl = teaserRaw
-                  ? /^https?:\/\//.test(String(teaserRaw))
-                    ? String(teaserRaw)
-                    : getDirectusFileUrl(String(teaserRaw))
-                  : null;
-
-                if (teaserUrl) {
-                  // Show only teaser image (full bleed). Keep the global Back button (outside this block).
-                  return (
-                    <div className="flex h-full w-full">
-                      <img
-                        src={teaserUrl}
-                        alt={voucher.name || "Teaser"}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  );
-                }
-
-                // Fallback to existing not-started UI when no teaser provided
-                return (
-                  <div className="flex h-full w-full flex-col gap-8">
-                    <div className="flex flex-col items-center gap-6">
-                      {!voucher.metadata.layout?.title?.visible && (
-                        <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white sm:text-3xl">
-                          {displayMessage}
-                        </h1>
-                      )}
-                      {!voucher.metadata.layout?.description?.visible && (
-                        <h3 className="whitespace-pre-line text-center text-xl text-white sm:text-2xl">
-                          {displayDescription[language]}
-                        </h3>
-                      )}
-                    </div>
-                    {serverComputed &&
-                      (serverComputed.deniedReason ||
-                        (serverComputed.available ?? 0) <= 0) && (
-                        <InlineNotice
-                          language={language as "th" | "en"}
-                          deniedReason={serverComputed.deniedReason ?? null}
-                          message={
-                            serverComputed.deniedReason
-                              ? undefined
-                              : (serverComputed.available ?? 0) <= 0
-                                ? language === "th"
-                                  ? "คูปองถูกเก็บครบแล้ว"
-                                  : "All vouchers have been collected."
-                                : undefined
-                          }
-                          className="mx-3 -mt-6"
-                          level="soft"
-                        />
-                      )}
-                    <ChooseAnotherVoucherButton
-                      onClick={navigateToBack}
-                      primaryColor={primaryColor}
+            serverComputed.effectiveStatus === "not_started" &&
+            (teaserImage ? (
+              <div className="flex h-full w-full">
+                <LazyImage
+                  src={teaserImage}
+                  alt={"Teaser"}
+                  className="h-full w-full object-cover"
+                  wrapperClassName="h-full w-full"
+                  placeholder="blur"
+                  blurDataURL={getDirectusFileUrl(String(teaserImage), {
+                    width: 64,
+                    height: 36,
+                  })}
+                  rootMargin="200px"
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="flex h-full w-full flex-col gap-8">
+                <div className="flex flex-col items-center gap-6">
+                  {!voucher.metadata.layout?.title?.visible && (
+                    <h1 className="whitespace-pre-line text-center text-2xl font-bold text-white sm:text-3xl">
+                      {displayMessage}
+                    </h1>
+                  )}
+                  {!voucher.metadata.layout?.description?.visible && (
+                    <h3 className="whitespace-pre-line text-center text-xl text-white sm:text-2xl">
+                      {displayDescription[language]}
+                    </h3>
+                  )}
+                </div>
+                {serverComputed &&
+                  (serverComputed.deniedReason ||
+                    (serverComputed.available ?? 0) <= 0) && (
+                    <InlineNotice
                       language={language as "th" | "en"}
+                      deniedReason={serverComputed.deniedReason ?? null}
+                      message={
+                        serverComputed.deniedReason
+                          ? undefined
+                          : (serverComputed.available ?? 0) <= 0
+                            ? language === "th"
+                              ? "คูปองถูกเก็บครบแล้ว"
+                              : "All vouchers have been collected."
+                            : undefined
+                      }
+                      className="mx-3 -mt-6"
+                      level="soft"
                     />
-                  </div>
-                );
-              })()
-            )}
+                  )}
+                <ChooseAnotherVoucherButton
+                  onClick={navigateToBack}
+                  primaryColor={primaryColor}
+                  language={language as "th" | "en"}
+                />
+              </div>
+            ))}
         </div>
       </div>
     </>
