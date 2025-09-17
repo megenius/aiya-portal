@@ -17,6 +17,9 @@ export default () => {
       }),
       tsconfigPaths(),
     ],
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
     server: {
       port: PORT ? Number(PORT) : 4200,
       proxy: {
