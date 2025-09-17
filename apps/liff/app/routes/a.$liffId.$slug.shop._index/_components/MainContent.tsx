@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "@remix-run/react";
+import { Search } from "lucide-react";
 import { Brand, Category, Voucher, VoucherStats } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import BrandList from "./BrandList";
@@ -9,6 +10,13 @@ import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
 import { getDirectusFileUrl } from "~/utils/files";
+import {
+  CouponListSkeleton,
+  BrandListSkeleton,
+  CategorySkeleton,
+  BannerSkeleton,
+  SearchResultsSkeleton,
+} from "./LoadingStates";
 
 interface MainContentProps {
   page: PageLiff;
@@ -16,7 +24,9 @@ interface MainContentProps {
   voucherUserStats: VoucherStats;
   vouchers?: Voucher[];
   populars?: Voucher[];
+  banner_vouchers?: Voucher[];
   brands?: Brand[];
+  isLoading?: boolean;
 }
 
 const MainContent: React.FC<MainContentProps> = ({
@@ -25,47 +35,136 @@ const MainContent: React.FC<MainContentProps> = ({
   voucherUserStats,
   vouchers,
   populars,
+  banner_vouchers,
   brands,
+  isLoading = false,
 }) => {
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
-  const showVoucherSummary = page?.metadata?.layout?.showVoucherSummary ?? true;
-  const showCategory = page?.metadata?.layout?.showCategory ?? true;
-  const showPopulars = page?.metadata?.layout?.showPopulars ?? true;
-  const showBrands = page?.metadata?.layout?.showBrands ?? true;
-  const showBannerVouchers = page?.metadata?.layout?.showBannerVouchers ?? true;
-  const categories = page?.categories ?? [];
-  const allCategory = {
-    id: "all",
-    icon_name: "Component",
-    name: { th: "ทั้งหมด", en: "All" },
-  } as Category;
-  const categoriesWithAll = [allCategory, ...categories];
-  const [selectedCategory, setSelectedCategory] =
-    useState<Category>(allCategory);
-  const popularVouchersText = page.metadata.popularVouchersText ?? {
-    th: "คูปองยอดนิยม",
-    en: "Popular Coupons",
-  };
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null,
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Convert populars to banner items
-  const bannerItems: BannerItem[] = (populars || [])
-    .filter((popular) => popular.banner) // Only show vouchers with banner images
-    .map((popular) => ({
-      id: popular.id,
-      image: getDirectusFileUrl(popular.banner as string),
-      alt: `Banner for ${popular.name?.[language] || popular.name?.th || popular.name?.en}`,
-    }));
+  // Memoized layout settings
+  const layoutSettings = useMemo(
+    () => ({
+      showVoucherSummary: page?.metadata?.layout?.showVoucherSummary ?? true,
+      showCategory: page?.metadata?.layout?.showCategory ?? true,
+      showPopulars: page?.metadata?.layout?.showPopulars ?? true,
+      showBrands: page?.metadata?.layout?.showBrands ?? true,
+      showBannerVouchers: page?.metadata?.layout?.showBannerVouchers ?? true,
+      showSearch: page?.metadata?.layout?.showSearch ?? true,
+    }),
+    [page?.metadata?.layout],
+  );
 
-  const handleBannerClick = (banner: BannerItem) => {
-    navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
-  };
+  // Memoized categories
+  const { categories, allCategory, categoriesWithAll } = useMemo(() => {
+    const cats = page?.categories ?? [];
+    const allCat = {
+      id: "all",
+      icon_name: "Component",
+      name: { th: "ทั้งหมด", en: "All" },
+    } as Category;
+    return {
+      categories: cats,
+      allCategory: allCat,
+      categoriesWithAll: [allCat, ...cats],
+    };
+  }, [page?.categories]);
 
-  const filterVouchers = () => {
-    return vouchers?.filter((voucher) =>
-      (voucher.categories || []).some((cat) => cat.id === selectedCategory.id),
+  // Initialize selected category
+  useEffect(() => {
+    if (!selectedCategory) {
+      setSelectedCategory(allCategory);
+    }
+  }, [selectedCategory, allCategory]);
+
+  const popularVouchersText = useMemo(() => {
+    const defaultText = {
+      th: "คูปองยอดนิยม",
+      en: "Popular Coupons",
+    };
+    return page.metadata?.popularVouchersText || defaultText;
+  }, [page.metadata?.popularVouchersText]);
+
+  // Memoized banner items
+  const bannerItems = useMemo(() => {
+    return (banner_vouchers || [])
+      .filter((banner_voucher) => banner_voucher.banner)
+      .map((banner_voucher) => ({
+        id: banner_voucher.id,
+        image: getDirectusFileUrl(banner_voucher.banner as string),
+        alt: `Banner for ${banner_voucher.name?.[language] || banner_voucher.name?.th || banner_voucher.name?.en}`,
+      }));
+  }, [banner_vouchers, language]);
+
+  // Callbacks
+  const handleBannerClick = useCallback(
+    (banner: BannerItem) => {
+      navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+    },
+    [navigate, liffId, slug],
+  );
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query.toLowerCase());
+  }, []);
+
+  const handleCategorySelect = useCallback((category: Category) => {
+    setSelectedCategory(category);
+    setSearchQuery(""); // Clear search when changing category
+  }, []);
+
+  // Memoized filtered vouchers
+  const filteredVouchers = useMemo(() => {
+    if (!vouchers) return [];
+
+    let filtered = vouchers;
+
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter((voucher) => {
+        const title = voucher.metadata?.title?.[language]?.toLowerCase() || "";
+        const brandName = voucher.voucher_brand_id?.name?.toLowerCase() || "";
+        return title.includes(searchQuery) || brandName.includes(searchQuery);
+      });
+    }
+
+    // Filter by category (only if not searching)
+    if (!searchQuery && selectedCategory && selectedCategory.id !== "all") {
+      filtered = filtered.filter((voucher) =>
+        (voucher.categories || []).some(
+          (cat) => cat.id === selectedCategory.id,
+        ),
+      );
+    }
+
+    return filtered;
+  }, [vouchers, searchQuery, selectedCategory, language]);
+
+  // Memoized vouchers by category
+  const vouchersByCategory = useMemo(() => {
+    if (!vouchers || searchQuery) return {};
+
+    const grouped: Record<string, Voucher[]> = {};
+    categories.forEach((category) => {
+      grouped[category.id] = vouchers.filter((voucher) =>
+        (voucher.categories || []).some((cat) => cat.id === category.id),
+      );
+    });
+    return grouped;
+  }, [vouchers, categories, searchQuery]);
+
+  // Memoized filtered brands
+  const filteredBrands = useMemo(() => {
+    if (!brands || !searchQuery) return brands;
+
+    return brands.filter((brand) =>
+      brand.name?.toLowerCase().includes(searchQuery),
     );
-  };
+  }, [brands, searchQuery]);
 
   return (
     <div className="space-y-3 bg-white pb-3">
@@ -74,9 +173,11 @@ const MainContent: React.FC<MainContentProps> = ({
         <SearchBar
           language={language}
           primaryColor={page.bg_color ?? ""}
-          showSearch={page?.metadata?.layout?.showSearch}
+          showSearch={layoutSettings.showSearch}
+          onSearch={handleSearch}
+          isLoading={isLoading}
         />
-        {showVoucherSummary && (
+        {layoutSettings.showVoucherSummary && (
           <CouponSummary
             totalVouchers={voucherUserStats?.total}
             availableVouchers={voucherUserStats?.collected}
@@ -86,62 +187,163 @@ const MainContent: React.FC<MainContentProps> = ({
           />
         )}
 
-        {showBannerVouchers && bannerItems.length > 0 && (
+        {layoutSettings.showBannerVouchers && !searchQuery && (
           <div className="overflow-hidden rounded-xl">
-            <BannerSlider
-              banners={bannerItems}
-              autoPlay={true}
-              autoPlayInterval={4000}
-              showDots={true}
-              aspectRatio="16/9"
-              onBannerClick={handleBannerClick}
-            />
+            {isLoading ? (
+              <BannerSkeleton />
+            ) : bannerItems.length > 0 ? (
+              <BannerSlider
+                banners={bannerItems}
+                autoPlay={true}
+                autoPlayInterval={4000}
+                showDots={true}
+                aspectRatio="16/9"
+                onBannerClick={handleBannerClick}
+              />
+            ) : null}
           </div>
         )}
       </div>
-      {showCategory && (
-        <CategoryList
-          language={language}
-          categories={categoriesWithAll}
-          selected={selectedCategory}
-          primaryColor={page.bg_color || ""}
-          onSelect={setSelectedCategory}
-        />
-      )}
-
-      {selectedCategory.id === "all" && showPopulars && (
-        <CouponList
-          coupons={populars}
-          language={language}
-          title={popularVouchersText[language]}
-        />
-      )}
-
-      {selectedCategory.id === "all" && showBrands && (
-        <BrandList brands={brands} page={page} language={language} />
-      )}
-
-      {selectedCategory.id === "all" &&
-        categories?.map((category) => {
-          const byCategory = (vouchers ?? []).filter((voucher) =>
-            (voucher.categories ?? []).some((cat) => cat.id === category.id),
-          );
-          return byCategory.length > 0 ? (
-            <CouponList
-              key={category.id}
-              coupons={byCategory}
+      {layoutSettings.showCategory && !searchQuery && selectedCategory && (
+        <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4 pt-2">
+          {isLoading ? (
+            <CategorySkeleton />
+          ) : (
+            <CategoryList
               language={language}
-              title={category.name[language]}
+              categories={categoriesWithAll}
+              selected={selectedCategory}
+              primaryColor={page.bg_color || ""}
+              onSelect={handleCategorySelect}
             />
-          ) : null;
-        })}
+          )}
+        </div>
+      )}
 
-      {selectedCategory.id !== "all" && (
-        <CouponList
-          coupons={filterVouchers()}
-          language={language}
-          scrollDirection="vertical"
-        />
+      {/* Search Results */}
+      {searchQuery && (
+        <div className="space-y-4">
+          {isLoading ? (
+            <SearchResultsSkeleton />
+          ) : (
+            <>
+              <div className="px-4">
+                <h2 className="text-lg font-medium">
+                  {language === "th"
+                    ? `ผลการค้นหา "${searchQuery}"`
+                    : `Search results for "${searchQuery}"`}
+                </h2>
+                <p
+                  id="search-results-count"
+                  className="text-sm text-gray-500"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {language === "th"
+                    ? `พบ ${filteredVouchers.length + (filteredBrands?.length || 0)} รายการ`
+                    : `Found ${filteredVouchers.length + (filteredBrands?.length || 0)} results`}
+                </p>
+              </div>
+
+              {filteredVouchers.length > 0 && (
+                <CouponList
+                  coupons={filteredVouchers}
+                  language={language}
+                  title={language === "th" ? "คูปอง" : "Vouchers"}
+                  scrollDirection="vertical"
+                />
+              )}
+
+              {filteredBrands && filteredBrands.length > 0 && (
+                <BrandList
+                  brands={filteredBrands}
+                  page={page}
+                  language={language}
+                />
+              )}
+
+              {filteredVouchers.length === 0 &&
+                (!filteredBrands || filteredBrands.length === 0) && (
+                  <div className="flex flex-col items-center justify-center px-4 py-12">
+                    <div className="mb-4 text-gray-400">
+                      <Search className="h-12 w-12" />
+                    </div>
+                    <h3 className="mb-2 text-lg font-medium text-gray-900">
+                      {language === "th"
+                        ? "ไม่พบผลการค้นหา"
+                        : "No results found"}
+                    </h3>
+                    <p className="text-center text-gray-500">
+                      {language === "th"
+                        ? "ลองค้นหาด้วยคำอื่น หรือเลือกดูตามหมวดหมู่"
+                        : "Try searching with different keywords or browse by category"}
+                    </p>
+                  </div>
+                )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Category-based content (when not searching) */}
+      {!searchQuery && selectedCategory && (
+        <>
+          {selectedCategory.id === "all" &&
+            layoutSettings.showPopulars &&
+            (isLoading ? (
+              <CouponListSkeleton />
+            ) : (
+              <CouponList
+                coupons={populars}
+                language={language}
+                title={
+                  popularVouchersText[
+                    language as keyof typeof popularVouchersText
+                  ]
+                }
+              />
+            ))}
+
+          {selectedCategory.id === "all" &&
+            layoutSettings.showBrands &&
+            (isLoading ? (
+              <BrandListSkeleton />
+            ) : (
+              <BrandList brands={brands} page={page} language={language} />
+            ))}
+
+          {selectedCategory.id === "all" &&
+            !isLoading &&
+            categories?.map((category) => {
+              const byCategory = vouchersByCategory[category.id] || [];
+              return byCategory.length > 0 ? (
+                <CouponList
+                  key={category.id}
+                  coupons={byCategory}
+                  language={language}
+                  title={category.name[language as keyof typeof category.name]}
+                />
+              ) : null;
+            })}
+
+          {selectedCategory.id === "all" && isLoading && (
+            <>
+              <CouponListSkeleton />
+              <CouponListSkeleton />
+            </>
+          )}
+
+          {selectedCategory.id !== "all" &&
+            (isLoading ? (
+              <CouponListSkeleton vertical />
+            ) : (
+              <CouponList
+                coupons={vouchersByCategory[selectedCategory.id] || []}
+                language={language}
+                scrollDirection="vertical"
+              />
+            ))}
+        </>
       )}
     </div>
   );

@@ -1,4 +1,8 @@
-import { useOutletContext, useRouteError, isRouteErrorResponse } from "@remix-run/react";
+import {
+  useOutletContext,
+  useRouteError,
+  isRouteErrorResponse,
+} from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import MainContent from "./_components/MainContent";
 import PromotionTemplate from "./_components/PromotionTemplate";
@@ -83,6 +87,7 @@ const Route = () => {
                 voucherUserStats={voucherUserStats}
                 populars={page?.populars}
                 vouchers={page?.vouchers}
+                banner_vouchers={page?.banner_vouchers}
                 brands={page?.brands}
               />
             )
