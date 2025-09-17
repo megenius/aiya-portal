@@ -9,10 +9,9 @@ import {
   isRouteErrorResponse,
 } from "@remix-run/react";
 
-import PrelineScript from "./PrelineScript";
+// import PrelineScript from "./PrelineScript";
 import { LinksFunction } from "@remix-run/cloudflare";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import prelineCss from "@repo/preline/preline.css?url";
 import tailwindCss from "~/styles/tailwind.css?url";
 import globalCss from "~/styles/global.css?url";
 import { Provider } from "react-redux";
@@ -22,7 +21,6 @@ import { LineLiffProvider } from "./contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: prelineCss },
   { rel: "stylesheet", href: globalCss },
   { rel: "stylesheet", href: tailwindCss },
 ];
@@ -79,7 +77,7 @@ export default function App() {
 
   return (
     <>
-      <PrelineScript />
+      {/* <PrelineScript /> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient}>

@@ -11278,7 +11278,7 @@ div.code-toolbar .copy-to-clipboard-button:hover {
 @media print {
   .line-highlight {
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 
