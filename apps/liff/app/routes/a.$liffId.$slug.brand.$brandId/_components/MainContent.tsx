@@ -26,12 +26,13 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
     if (!brand?.vouchers) return [];
 
     const pageVoucherIds = new Set([
+      ...(page.banner_vouchers?.map((b) => b.id) || []),
       ...(page.vouchers?.map((v) => v.id) || []),
       ...(page.populars?.map((p) => p.id) || []),
     ]);
 
     return brand.vouchers.filter((voucher) => pageVoucherIds.has(voucher.id));
-  }, [brand?.vouchers, page.vouchers, page.populars]);
+  }, [brand?.vouchers, page.vouchers, page.populars, page.banner_vouchers]);
 
   // Filter vouchers by selected tab
   const displayedVouchers = React.useMemo(() => {
@@ -40,7 +41,7 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
       return filteredVouchers.filter((v) => popularVoucherIds.has(v.id));
     }
     return filteredVouchers;
-  }, [filteredVouchers, selectedTab, page.populars]);
+  }, [filteredVouchers, selectedTab, page.populars, page.banner_vouchers]);
 
   return (
     <>
