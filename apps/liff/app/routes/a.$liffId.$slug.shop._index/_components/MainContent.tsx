@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "@remix-run/react";
 import { Brand, Category, Voucher, VoucherStats } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import BrandList from "./BrandList";
@@ -6,6 +7,8 @@ import CategoryList from "./CategoryList";
 import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
+import BannerSlider, { BannerItem } from "~/components/BannerSlider";
+import { getDirectusFileUrl } from "~/utils/files";
 
 interface MainContentProps {
   page: PageLiff;
@@ -24,10 +27,13 @@ const MainContent: React.FC<MainContentProps> = ({
   populars,
   brands,
 }) => {
+  const navigate = useNavigate();
+  const { liffId, slug } = useParams();
   const showVoucherSummary = page?.metadata?.layout?.showVoucherSummary ?? true;
   const showCategory = page?.metadata?.layout?.showCategory ?? true;
   const showPopulars = page?.metadata?.layout?.showPopulars ?? true;
   const showBrands = page?.metadata?.layout?.showBrands ?? true;
+  const showBannerVouchers = page?.metadata?.layout?.showBannerVouchers ?? true;
   const categories = page?.categories ?? [];
   const allCategory = {
     id: "all",
@@ -42,6 +48,19 @@ const MainContent: React.FC<MainContentProps> = ({
     en: "Popular Coupons",
   };
 
+  // Convert populars to banner items
+  const bannerItems: BannerItem[] = (populars || [])
+    .filter((popular) => popular.banner) // Only show vouchers with banner images
+    .map((popular) => ({
+      id: popular.id,
+      image: getDirectusFileUrl(popular.banner as string),
+      alt: `Banner for ${popular.name?.[language] || popular.name?.th || popular.name?.en}`,
+    }));
+
+  const handleBannerClick = (banner: BannerItem) => {
+    navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+  };
+
   const filterVouchers = () => {
     return vouchers?.filter((voucher) =>
       (voucher.categories || []).some((cat) => cat.id === selectedCategory.id),
@@ -50,6 +69,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
   return (
     <div className="space-y-3 bg-white pb-3">
+      {/* Banner Slider */}
       <div className="space-y-3 px-4 pb-1">
         <SearchBar
           language={language}
@@ -64,6 +84,19 @@ const MainContent: React.FC<MainContentProps> = ({
             primaryColor={page.bg_color ?? ""}
             language={language}
           />
+        )}
+
+        {showBannerVouchers && bannerItems.length > 0 && (
+          <div className="overflow-hidden rounded-xl">
+            <BannerSlider
+              banners={bannerItems}
+              autoPlay={true}
+              autoPlayInterval={4000}
+              showDots={true}
+              aspectRatio="16/9"
+              onBannerClick={handleBannerClick}
+            />
+          </div>
         )}
       </div>
       {showCategory && (

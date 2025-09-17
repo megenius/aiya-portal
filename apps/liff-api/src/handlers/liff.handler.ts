@@ -40,6 +40,17 @@ export const getByLiffIdAndSlug = factory.createHandlers(
                 },
               },
             },
+            banner_vouchers: {
+              vouchers: {
+                translations: {
+                  _filter: {
+                    languages_code: {
+                      _eq: lang,
+                    },
+                  },
+                },
+              },
+            },
           },
           fields: [
             "*",
@@ -94,6 +105,20 @@ export const getByLiffIdAndSlug = factory.createHandlers(
                 },
               ],
             },
+            {
+              banner_vouchers: [
+                {
+                  vouchers_id: [
+                    "*",
+                    {
+                      categories: [{ voucher_categories_id: ["*"] }],
+                    },
+                    { voucher_brand_id: ["*"] },
+                    { translations: ["*"] },
+                  ],
+                },
+              ],
+            },
           ],
           filter: {
             liff_id: {
@@ -132,6 +157,15 @@ export const getByLiffIdAndSlug = factory.createHandlers(
     if (page?.vouchers) {
       page.vouchers = filterAndMapVouchers(
         page.vouchers,
+        (voucher) => voucher.vouchers_id,
+        lang
+      );
+    }
+
+    // map banner vouchers have translations
+    if (page?.banner_vouchers) {
+      page.banner_vouchers = filterAndMapVouchers(
+        page.banner_vouchers,
         (voucher) => voucher.vouchers_id,
         lang
       );

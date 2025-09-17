@@ -80,6 +80,7 @@ export interface Layout {
   showBrands: boolean;
   showPopulars: boolean;
   showMyCoupons: boolean;
+  showBannerVouchers: boolean;
   form: {
     fields: Field[];
   };
