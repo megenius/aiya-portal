@@ -24,10 +24,16 @@ import { Brand, Category, language, Voucher } from "./app";
 
 export type PageLiff = Omit<
   components["schemas"]["ItemsPagesLiff"],
-  "vouchers" | "populars" | "brands" | "categories" | "metadata"
+  | "vouchers"
+  | "populars"
+  | "banner_vouchers"
+  | "brands"
+  | "categories"
+  | "metadata"
 > & {
   vouchers: Voucher[];
   populars: Voucher[];
+  banner_vouchers: Voucher[];
   brands: Brand[];
   categories: Category[];
   metadata: Metadata;
