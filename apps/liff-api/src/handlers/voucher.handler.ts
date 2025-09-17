@@ -586,6 +586,13 @@ export const getMyCouponsV2 = factory.createHandlers(
                 },
               ],
             },
+            {
+              banner_vouchers: [
+                {
+                  vouchers_id: ["id"],
+                },
+              ],
+            },
           ],
           limit: -1,
         } as any)
@@ -600,6 +607,10 @@ export const getMyCouponsV2 = factory.createHandlers(
         }
         for (const p of page?.populars ?? []) {
           const id = p?.vouchers_id?.id;
+          if (id) allowedVoucherIds.add(id);
+        }
+        for (const b of page?.banner_vouchers ?? []) {
+          const id = b?.vouchers_id?.id;
           if (id) allowedVoucherIds.add(id);
         }
       }
