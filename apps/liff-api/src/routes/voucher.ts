@@ -9,7 +9,6 @@ voucherRoutes.post("/voucher-user/edit", ...VoucherHandler.updateVoucherUser);
 voucherRoutes.get("/voucher-codes", ...VoucherHandler.getVoucherCodes);
 voucherRoutes.get("/voucher-codes/stats", ...VoucherHandler.getStatVoucherCode);
 voucherRoutes.get("/voucher-users/stats", ...VoucherHandler.getStatVoucherUser);
-voucherRoutes.get("/voucher-brands", ...VoucherHandler.getVoucherBrands);
 voucherRoutes.get(
   "/voucher-brands/:id",
   ...VoucherHandler.getVoucherBrandByIdWithVouchers

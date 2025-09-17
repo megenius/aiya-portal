@@ -6,8 +6,8 @@ export type AdvanceProfile = components["schemas"]["ItemsAdvanceProfiles"];
 export type PointTransaction = components["schemas"]["ItemsPointTransactions"];
 export type Brand = Omit<
   components["schemas"]["ItemsVouchersBrands"],
-  "metadata"
-> & { metadata: BrandMetadata; vouchers: Voucher[] };
+  "metadata" | "categories"
+> & { metadata: BrandMetadata; vouchers: Voucher[]; categories: Category[] };
 
 interface BrandMetadata {}
 

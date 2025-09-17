@@ -1081,28 +1081,6 @@ export const getStatVoucherUser = factory.createHandlers(
   }
 );
 
-// getVoucherBrands
-export const getVoucherBrands = factory.createHandlers(
-  logger(),
-  directusMiddleware,
-  async (c) => {
-    const directus = c.get("directAdmin");
-    const { status, q } = c.req.query();
-
-    const filters: any = {};
-    if (status) filters.status = { _eq: status };
-    if (q) filters.name = { _icontains: q };
-
-    const voucherBrands = await directus.request(
-      readItems("vouchers_brands", {
-        filter: filters,
-        limit: -1,
-      })
-    );
-    return c.json(voucherBrands);
-  }
-);
-
 // useVoucher
 export const useVoucher = factory.createHandlers(
   logger(),
@@ -1256,13 +1234,25 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
     const directus = c.get("directAdmin");
 
     const voucherBrand = await directus.request(
-      readItem("vouchers_brands", id, {})
+      readItem("vouchers_brands", id, {
+        fields: ["*", { categories: [{ voucher_categories_id: ["*"] }] }],
+      })
     );
+    if (!voucherBrand) {
+      return c.json(null);
+    }
+
+    if (voucherBrand?.categories) {
+      voucherBrand.categories = voucherBrand.categories.map(
+        ({ voucher_categories_id }) => voucher_categories_id
+      );
+    }
+
     const vouchers = await directus.request(
       readItems("vouchers", {
         filter: {
           voucher_brand_id: {
-            _eq: id,
+            _eq: voucherBrand.id,
           },
         },
         limit: -1,
