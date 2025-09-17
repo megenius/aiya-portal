@@ -37,9 +37,9 @@ const MainContent: React.FC<MainContentProps> = ({
   const categoriesWithAll = [allCategory, ...categories];
   const [selectedCategory, setSelectedCategory] =
     useState<Category>(allCategory);
-  const popularVouchersText = {
-    th: "คูปองใกล้ฉัน",
-    en: "Coupons Close to You",
+  const popularVouchersText = page.metadata.popularVouchersText ?? {
+    th: "คูปองยอดนิยม",
+    en: "Popular Coupons",
   };
 
   const filterVouchers = () => {
@@ -76,7 +76,7 @@ const MainContent: React.FC<MainContentProps> = ({
         />
       )}
 
-      {showPopulars && (
+      {selectedCategory.id === "all" && showPopulars && (
         <CouponList
           coupons={populars}
           language={language}

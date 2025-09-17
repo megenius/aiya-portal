@@ -18,7 +18,12 @@ export default () => {
       tsconfigPaths(),
     ],
     resolve: {
-      dedupe: ["react", "react-dom"],
+      dedupe: [
+        "react",
+        "react-dom",
+        "@tanstack/react-query",
+        "@remix-run/react",
+      ],
     },
     server: {
       port: PORT ? Number(PORT) : 4200,

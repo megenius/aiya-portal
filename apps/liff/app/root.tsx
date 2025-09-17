@@ -19,6 +19,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { persistor, store } from "~/store";
 import { LineLiffProvider } from "./contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
+import { useState } from "react";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: globalCss },
@@ -61,33 +62,34 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
-
 export default function App() {
   const { liffId } = useParams();
 
+  // สำคัญ: สร้างด้วย useState + lazy init เพื่อให้คงตัวผ่าน HMR/รี-mount
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 60 * 1000,
+            gcTime: 10 * 60 * 1000,
+            refetchOnWindowFocus: false,
+            retry: 1,
+          },
+        },
+      }),
+  );
+
   return (
-    <>
-      {/* <PrelineScript /> */}
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <QueryClientProvider client={queryClient}>
-            <LineLiffProvider liffId={liffId as string}>
-              <Outlet />
-            </LineLiffProvider>
-          </QueryClientProvider>
-        </PersistGate>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <LineLiffProvider liffId={liffId as string}>
+            <Outlet />
+          </LineLiffProvider>
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

@@ -10,7 +10,7 @@ import { useLineLiff } from "~/contexts/LineLiffContext";
 interface MainContentProps {
   brand: Brand;
   language: string;
-  page:PageLiff;
+  page: PageLiff;
 }
 
 const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
@@ -24,20 +24,20 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
   // Filter vouchers to only include those in page.vouchers or page.populars
   const filteredVouchers = React.useMemo(() => {
     if (!brand?.vouchers) return [];
-    
+
     const pageVoucherIds = new Set([
-      ...(page.vouchers?.map(v => v.id) || []),
-      ...(page.populars?.map(p => p.id) || [])
+      ...(page.vouchers?.map((v) => v.id) || []),
+      ...(page.populars?.map((p) => p.id) || []),
     ]);
-    
-    return brand.vouchers.filter(voucher => pageVoucherIds.has(voucher.id));
+
+    return brand.vouchers.filter((voucher) => pageVoucherIds.has(voucher.id));
   }, [brand?.vouchers, page.vouchers, page.populars]);
 
   // Filter vouchers by selected tab
   const displayedVouchers = React.useMemo(() => {
-    if (selectedTab === 'popular') {
-      const popularVoucherIds = new Set(page.populars?.map(p => p.id) || []);
-      return filteredVouchers.filter(v => popularVoucherIds.has(v.id));
+    if (selectedTab === "popular") {
+      const popularVoucherIds = new Set(page.populars?.map((p) => p.id) || []);
+      return filteredVouchers.filter((v) => popularVoucherIds.has(v.id));
     }
     return filteredVouchers;
   }, [filteredVouchers, selectedTab, page.populars]);
@@ -45,14 +45,21 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
   return (
     <>
       {/* Header */}
-       <Header brand={brand} isInClient={liff?.isInClient() ?? false} />
+      <Header brand={brand} isInClient={liff?.isInClient() ?? false} />
 
       {/* Brand Card Component */}
-      {brand && <BrandCard brand={brand} couponCount={filteredVouchers.length} language={language} isInClient={liff?.isInClient() ?? false} />}
+      {brand && (
+        <BrandCard
+          brand={brand}
+          couponCount={filteredVouchers.length}
+          language={language}
+          isInClient={liff?.isInClient() ?? false}
+        />
+      )}
 
       {/* Tab Navigation */}
-      <div className="sticky top-0 bg-white z-10 mt-4">
-        <div className="flex justify-start overflow-x-auto mx-4 py-3 space-x-4 scrollbar-hide">
+      <div className="sticky top-0 z-10 mt-4 bg-white">
+        {/* <div className="scrollbar-hide mx-4 flex justify-start space-x-4 overflow-x-auto py-3">
           {[
             { id: "all", label: "All" },
             { id: "popular", label: "Popular" },
@@ -60,7 +67,7 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
             <button
               key={tab.id}
               onClick={() => setSelectedTab(tab.id as "all" | "popular")}
-              className={`px-4 py-2 rounded-lg text-sm whitespace-nowrap font-medium ${
+              className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium ${
                 selectedTab === tab.id
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-600"
@@ -75,8 +82,8 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
               {tab.label}
             </button>
           ))}
-        </div>
-        <div className="h-full py-4 px-4 space-y-4">
+        </div> */}
+        <div className="h-full space-y-4 px-4 py-4">
           {displayedVouchers.length > 0 ? (
             displayedVouchers.map((voucher) => (
               <VoucherCard
@@ -85,13 +92,13 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
                 voucher={voucher}
                 language={language}
                 onClick={() =>
-                  navigate(`/a/${liffId}/${slug}/voucher/${voucher.id}`)
+                  navigate(`/a/${liffId}/${slug}/coupon/${voucher.id}`)
                 }
               />
             ))
           ) : (
-            <div className="text-center py-8 text-gray-500">
-              No vouchers available
+            <div className="py-8 text-center text-gray-500">
+              No coupons available
             </div>
           )}
         </div>

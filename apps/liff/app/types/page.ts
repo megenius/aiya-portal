@@ -42,6 +42,7 @@ export interface Metadata {
   template: string;
   welcomeText: language;
   subWelcomeText: language;
+  popularVouchersText: language;
 }
 
 export interface Condition {
