@@ -96,7 +96,7 @@ const MainContent: React.FC<MainContentProps> = ({
       .map((banner_voucher) => ({
         id: banner_voucher.id,
         image: getDirectusFileUrl(banner_voucher.banner as string),
-        alt: `Banner for ${banner_voucher.name?.[language] || banner_voucher.name?.th || banner_voucher.name?.en}`,
+        alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
       }));
   }, [banner_vouchers, language]);
 
@@ -169,7 +169,7 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div className="space-y-3 bg-white pb-3">
       {/* Banner Slider */}
-      <div className="space-y-3 px-4 pb-1">
+      <div className="space-y-3 px-4">
         <SearchBar
           language={language}
           primaryColor={page.bg_color ?? ""}

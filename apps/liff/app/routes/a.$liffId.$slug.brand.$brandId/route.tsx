@@ -1,11 +1,8 @@
-import {
-  useOutletContext,
-  useParams,
-} from "@remix-run/react";
+import { useOutletContext, useParams } from "@remix-run/react";
 import MainContent from "./_components/MainContent";
 import { PageLiff } from "~/types/page";
 import { useBrand } from "~/hooks/brands/useBrand";
-import Loading from "~/components/Loading";
+import BrandPageSkeleton from "./_components/BrandPageSkeleton";
 
 // export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
 //   const brand = data?.brand;
@@ -38,7 +35,7 @@ const BrandDetailRoute = () => {
   });
 
   if (isBrandLoading) {
-    return <Loading primaryColor={page?.bg_color as string} />;
+    return <BrandPageSkeleton />;
   }
 
   return (
