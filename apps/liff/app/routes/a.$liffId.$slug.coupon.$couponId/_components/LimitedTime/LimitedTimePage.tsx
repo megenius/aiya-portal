@@ -140,12 +140,28 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
       expired: "Expired",
     },
   };
+  // กรณีไม่มี validity_in_seconds ให้ใช้เวลาที่เหลือจนถึง end_date แทน
+  const validitySecondsForDescription = (() => {
+    const s = voucher.validity_in_seconds;
+    if (typeof s === "number" && s > 0) return s;
+    const endStr = voucher.end_date as string | null;
+    if (endStr) {
+      const nowMs = serverComputed
+        ? new Date(serverComputed.serverNow).getTime()
+        : Date.now();
+      const endMs = new Date(endStr).getTime();
+      if (!Number.isNaN(endMs)) {
+        return Math.max(0, Math.floor((endMs - nowMs) / 1000));
+      }
+    }
+    return 0;
+  })();
   const descriptionButton = {
     th: {
-      collect: `หลังกดรับคูปองมีอายุ ${formatDurationSingleUnit(voucher.validity_in_seconds ?? 0, "th")}`,
+      collect: `หลังกดรับคูปองมีอายุ ${formatDurationSingleUnit(validitySecondsForDescription, "th")}`,
     },
     en: {
-      collect: `After clicking the collect button, the voucher will expire in ${formatDurationSingleUnit(voucher.validity_in_seconds ?? 0, "en")}.`,
+      collect: `After clicking the collect button, the voucher will expire in ${formatDurationSingleUnit(validitySecondsForDescription, "en")}.`,
     },
   };
 

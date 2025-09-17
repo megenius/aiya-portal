@@ -167,9 +167,9 @@ const MainContent: React.FC<MainContentProps> = ({
   }, [brands, searchQuery]);
 
   return (
-    <div className="space-y-3 bg-white pb-3">
+    <div className="space-y-6 bg-white pb-3">
       {/* Banner Slider */}
-      <div className="space-y-3 px-4">
+      <div className="space-y-6 px-4">
         <SearchBar
           language={language}
           primaryColor={page.bg_color ?? ""}
@@ -314,20 +314,23 @@ const MainContent: React.FC<MainContentProps> = ({
               <BrandList brands={brands} page={page} language={language} />
             ))}
 
-          {selectedCategory.id === "all" &&
-            !isLoading &&
-            categories?.map((category) => {
-              const byCategory = vouchersByCategory[category.id] || [];
-              return byCategory.length > 0 ? (
-                <CouponList
-                  key={category.id}
-                  coupons={byCategory}
-                  language={language}
-                  title={category.name[language as keyof typeof category.name]}
-                />
-              ) : null;
-            })}
-
+          <div className="space-y-4">
+            {selectedCategory.id === "all" &&
+              !isLoading &&
+              categories?.map((category) => {
+                const byCategory = vouchersByCategory[category.id] || [];
+                return byCategory.length > 0 ? (
+                  <CouponList
+                    key={category.id}
+                    coupons={byCategory}
+                    language={language}
+                    title={
+                      category.name[language as keyof typeof category.name]
+                    }
+                  />
+                ) : null;
+              })}
+          </div>
           {selectedCategory.id === "all" && isLoading && (
             <>
               <CouponListSkeleton />

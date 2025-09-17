@@ -57,7 +57,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
                 onSelect(category);
               }
             }}
-            className={`flex flex-none snap-start flex-col items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2`}
+            className={`flex w-16 flex-none snap-start flex-col items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2`}
           >
             <div
               className={`flex h-14 w-14 items-center justify-center rounded-full border-2 bg-white transition-all duration-200 ease-out ${
@@ -80,7 +80,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
               />
             </div>
             <h4
-              className={`mt-1 max-w-20 truncate text-[11px] text-gray-700 ${
+              className={`mt-1 text-center text-balance text-[11px] leading-tight text-gray-700 ${
                 category.id === selected?.id ? "font-semibold" : "font-normal"
               }`}
             >
