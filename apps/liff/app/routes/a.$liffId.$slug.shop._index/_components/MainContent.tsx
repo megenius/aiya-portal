@@ -205,9 +205,11 @@ const MainContent: React.FC<MainContentProps> = ({
         )}
       </div>
       {layoutSettings.showCategory && !searchQuery && selectedCategory && (
-        <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4 pt-2">
+        <>
           {isLoading ? (
-            <CategorySkeleton />
+            <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4 pt-2">
+              <CategorySkeleton />
+            </div>
           ) : (
             <CategoryList
               language={language}
@@ -217,7 +219,7 @@ const MainContent: React.FC<MainContentProps> = ({
               onSelect={handleCategorySelect}
             />
           )}
-        </div>
+        </>
       )}
 
       {/* Search Results */}

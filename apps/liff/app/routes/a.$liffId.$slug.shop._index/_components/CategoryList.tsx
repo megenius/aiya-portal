@@ -43,10 +43,14 @@ const CategoryList: React.FC<CategoryListProps> = ({
             onClick={() => onSelect(category)}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight" && index < categories.length - 1) {
-                const nextButton = e.currentTarget.parentElement?.children[index + 1] as HTMLButtonElement;
+                const nextButton = e.currentTarget.parentElement?.children[
+                  index + 1
+                ] as HTMLButtonElement;
                 nextButton?.focus();
               } else if (e.key === "ArrowLeft" && index > 0) {
-                const prevButton = e.currentTarget.parentElement?.children[index - 1] as HTMLButtonElement;
+                const prevButton = e.currentTarget.parentElement?.children[
+                  index - 1
+                ] as HTMLButtonElement;
                 prevButton?.focus();
               } else if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
