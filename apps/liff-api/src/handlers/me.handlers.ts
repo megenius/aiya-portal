@@ -188,6 +188,43 @@ export const resetMyVoucher = factory.createHandlers(
         })
       );
 
+      // Reset my campaign-related data as well
+      // 1) Delete reward credit transactions (must go first because they can reference submissions)
+      await directus.request(
+        deleteItems("reward_credit_transactions", {
+          filter: {
+            user_id: { _eq: id },
+          },
+        })
+      );
+
+      // 2) Delete mission submissions
+      await directus.request(
+        deleteItems("user_mission_submissions", {
+          filter: {
+            user_id: { _eq: id },
+          },
+        })
+      );
+
+      // 3) Delete accumulated user credits per campaign
+      await directus.request(
+        deleteItems("user_reward_credits", {
+          filter: {
+            user_id: { _eq: id },
+          },
+        })
+      );
+
+      // 4) Delete campaign registrations (includes PDPA + registration state)
+      await directus.request(
+        deleteItems("user_campaign_registrations", {
+          filter: {
+            user: { _eq: id },
+          },
+        })
+      );
+
       return c.json(
         {
           success: true,

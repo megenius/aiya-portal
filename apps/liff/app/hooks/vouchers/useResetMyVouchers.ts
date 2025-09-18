@@ -17,6 +17,13 @@ export function useResetMyVouchers() {
         exact: true,
         refetchType: "active",
       });
+
+      // Refetch profile so voucherUserStats is up to date
+      queryClient.invalidateQueries({
+        queryKey: ["me"],
+        exact: true,
+        refetchType: "active",
+      });
     },
   });
 }
