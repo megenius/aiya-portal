@@ -71,7 +71,11 @@ export const Mission = ({
               ? "border-blue-500 text-blue-600 hover:bg-blue-50"
               : "cursor-not-allowed border-gray-300 text-gray-400")
           }
-          onClick={() => {}}
+          onClick={() => {
+            navigate(
+              `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
+            );
+          }}
         >
           {lang === "th" ? "ทำภารกิจ" : "Start Mission"}
         </button>
@@ -80,15 +84,14 @@ export const Mission = ({
   );
 
   return (
-    <div className="rounded-3xl border border-gray-200">
+    <div>
       {isAccessible ? (
         <button
-          onClick={
-            () => {}
-            // navigate(
-            //   `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
-            // )
-          }
+          onClick={() => {
+            navigate(
+              `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
+            );
+          }}
           className="block"
         >
           {CardInner}

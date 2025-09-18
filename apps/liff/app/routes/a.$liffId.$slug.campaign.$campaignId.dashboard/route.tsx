@@ -157,7 +157,7 @@ const Route = () => {
                 <ArrowLeft className="h-6 w-6" />
                 <span>{lang === "th" ? "กลับหน้าหลัก" : "Back"}</span>
               </button>
-              <button
+              {/* <button
                 onClick={() =>
                   navigate(
                     `/a/${liffId}/${slug}/campaign/${campaignId}/credits`,
@@ -167,7 +167,7 @@ const Route = () => {
                 title={lang === "th" ? "ประวัติเครดิต" : "Credit History"}
               >
                 <History className="h-6 w-6" />
-              </button>
+              </button> */}
             </div>
             <h1 className="mt-6 text-center text-3xl font-semibold tracking-tight text-white">
               {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
