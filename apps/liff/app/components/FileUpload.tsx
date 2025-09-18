@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Upload, X, AlertCircle } from "lucide-react";
+import { Upload, X, AlertCircle, Camera, Image } from "lucide-react";
 import { resizeImage } from "~/utils/resizeImg";
 
 interface FileUploadProps {
@@ -196,26 +196,28 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   if (preview || originalFileName) {
     return (
-      <div className="space-y-2">
-        <div className={`relative overflow-hidden rounded-lg border p-3 ${error ? 'border-red-300 bg-red-50' : 'border-green-300 bg-green-50'}`}>
+      <div className="space-y-3">
+        <div className={`relative overflow-hidden rounded-xl p-3 ${error ? 'border border-red-300 bg-red-50' : 'bg-green-50'}`}>
           <div className="flex items-center gap-3">
             {preview && preview.type.startsWith('image/') ? (
-              <img src={preview.url} alt={originalFileName} className="h-16 w-16 rounded object-cover" />
+              <img src={preview.url} alt={originalFileName} className="h-14 w-14 rounded-lg object-cover" />
             ) : (
-              <div className="flex h-16 w-16 items-center justify-center rounded bg-white text-gray-500">FILE</div>
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-white text-gray-500">
+                <Image size={20} />
+              </div>
             )}
             <div className="min-w-0 flex-1">
-              <div className="truncate font-medium text-green-800">{originalFileName || (lang === 'th' ? 'ไฟล์ที่เลือก' : 'Selected file')}</div>
+              <div className="truncate text-sm font-medium text-green-800">{originalFileName || (lang === 'th' ? 'ไฟล์ที่เลือก' : 'Selected file')}</div>
               {preview?.size ? (
-                <div className="text-sm text-green-700">{formatFileSize(preview.size)}</div>
+                <div className="text-xs text-green-700">{formatFileSize(preview.size)}</div>
               ) : null}
             </div>
             <button
               type="button"
               onClick={handleRemoveFile}
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100 text-red-600 active:bg-red-200 transition-colors tap-highlight-transparent"
             >
-              <X size={14} />
+              <X size={16} />
             </button>
           </div>
         </div>
@@ -224,14 +226,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div
-        className={`relative rounded-lg border-2 border-dashed p-6 transition-colors ${
+        className={`relative rounded-xl border-2 border-dashed p-4 transition-colors active:scale-[0.98] tap-highlight-transparent ${
           dragOver
             ? 'border-blue-400 bg-blue-50'
             : error
             ? 'border-red-300 bg-red-50'
-            : 'border-gray-300 bg-gray-50 hover:border-gray-400'
+            : 'border-gray-300 bg-gray-50'
         }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -255,23 +257,32 @@ const FileUpload: React.FC<FileUploadProps> = ({
         />
 
         <div className="text-center">
-          <div className="space-y-2">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-                <Upload size={24} className="text-gray-400" />
+          <div className="space-y-3">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+                {accept && accept.includes('image/') ? (
+                  <Camera size={24} className="text-gray-400" />
+                ) : (
+                  <Upload size={24} className="text-gray-400" />
+                )}
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="font-medium text-blue-600 hover:underline">
-                  {lang === 'th' ? 'คลิกเพื่อเลือกไฟล์' : 'Click to select file'}
-                </span>{' '}
-                {lang === 'th' ? 'หรือลากไฟล์มาวาง' : 'or drag and drop'}
-              </div>
-              {accept && (
-                <div className="text-xs text-gray-500">
-                  {lang === 'th' ? 'ประเภทไฟล์ที่รองรับ:' : 'Supported types:'} {accept}
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-blue-600">
+                  {accept && accept.includes('image/') ? (
+                    lang === 'th' ? 'เลือกรูปภาพ' : 'Select Image'
+                  ) : (
+                    lang === 'th' ? 'เลือกไฟล์' : 'Select File'
+                  )}
                 </div>
-              )}
+                <div className="text-xs text-gray-500">
+                  {accept && accept.includes('image/') ? (
+                    lang === 'th' ? 'จากแกลเลอรี่หรือถ่ายรูป' : 'From gallery or camera'
+                  ) : (
+                    lang === 'th' ? 'แตะเพื่อเลือก' : 'Tap to select'
+                  )}
+                </div>
+              </div>
               <div className="text-xs text-gray-500">
-                {lang === 'th' ? `ขนาดไฟล์สูงสุด ${maxSize}MB` : `Max file size ${maxSize}MB`}
+                {lang === 'th' ? `สูงสุด ${maxSize}MB` : `Max ${maxSize}MB`}
               </div>
           </div>
         </div>
