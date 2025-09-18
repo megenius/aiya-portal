@@ -4,16 +4,14 @@ import VoucherCard from "./VoucherCard";
 import BrandCard from "./BrandCard";
 import Header from "./Header";
 import { Brand } from "~/types/app";
-import { PageLiff } from "~/types/page";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 
 interface MainContentProps {
   brand: Brand;
   language: string;
-  page: PageLiff;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
+const MainContent: React.FC<MainContentProps> = ({ brand, language }) => {
   const { liff } = useLineLiff();
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
@@ -21,27 +19,14 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
     "all" | "popular" | "discount" | "freebie"
   >("all");
 
-  // Filter vouchers to only include those in page.vouchers or page.populars
-  const filteredVouchers = React.useMemo(() => {
-    if (!brand?.vouchers) return [];
-
-    const pageVoucherIds = new Set([
-      ...(page.banner_vouchers?.map((b) => b.id) || []),
-      ...(page.vouchers?.map((v) => v.id) || []),
-      ...(page.populars?.map((p) => p.id) || []),
-    ]);
-
-    return brand.vouchers.filter((voucher) => pageVoucherIds.has(voucher.id));
-  }, [brand?.vouchers, page.vouchers, page.populars, page.banner_vouchers]);
-
-  // Filter vouchers by selected tab
+  // V2: backend already returns vouchers filtered by page. Only handle tab filtering here.
   const displayedVouchers = React.useMemo(() => {
+    const source = brand?.vouchers ?? [];
     if (selectedTab === "popular") {
-      const popularVoucherIds = new Set(page.populars?.map((p) => p.id) || []);
-      return filteredVouchers.filter((v) => popularVoucherIds.has(v.id));
+      return source.filter((v) => v.isPopular === true);
     }
-    return filteredVouchers;
-  }, [filteredVouchers, selectedTab, page.populars, page.banner_vouchers]);
+    return source;
+  }, [brand?.vouchers, selectedTab]);
 
   return (
     <>
@@ -52,7 +37,7 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language, page }) => {
       {brand && (
         <BrandCard
           brand={brand}
-          couponCount={filteredVouchers.length}
+          couponCount={brand?.vouchers?.length ?? 0}
           language={language}
           isInClient={liff?.isInClient() ?? false}
         />

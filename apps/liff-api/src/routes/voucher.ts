@@ -22,6 +22,12 @@ voucherRoutes.patch("/voucher-codes", ...VoucherHandler.updateVoucherCode);
 // v2 - combined page payload
 voucherRoutes.get("/v2/:id/page", ...VoucherHandler.getVoucherPageV2);
 
+// v2 - brand page filtered by page
+voucherRoutes.get(
+  "/v2/brands/:id/page",
+  ...VoucherHandler.getBrandPageV2
+);
+
 // v2 - collect with server verification (non-breaking addition)
 voucherRoutes.post("/v2/:id/collect", ...VoucherHandler.collectVoucherV2);
 

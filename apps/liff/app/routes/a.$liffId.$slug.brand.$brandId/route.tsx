@@ -1,7 +1,7 @@
 import { useOutletContext, useParams } from "@remix-run/react";
 import MainContent from "./_components/MainContent";
 import { PageLiff } from "~/types/page";
-import { useBrand } from "~/hooks/brands/useBrand";
+import { useBrandPageV2 } from "~/hooks/brands/useBrandPageV2";
 import BrandPageSkeleton from "./_components/BrandPageSkeleton";
 
 // export const meta: MetaFunction<typeof clientLoader> = ({ data }) => {
@@ -27,12 +27,12 @@ import BrandPageSkeleton from "./_components/BrandPageSkeleton";
 // };
 
 const BrandDetailRoute = () => {
-  const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
-  // const { brand } = useLoaderData<typeof clientLoader>();
+  const { lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { brandId } = useParams();
-  const { data: brand, isLoading: isBrandLoading } = useBrand({
-    brandId: brandId as string,
-  });
+  const {
+    data: brand,
+    isLoading: isBrandLoading,
+  } = useBrandPageV2({ brandId: brandId as string, lang });
 
   if (isBrandLoading) {
     return <BrandPageSkeleton />;
@@ -42,7 +42,7 @@ const BrandDetailRoute = () => {
     <>
       {brand && (
         <>
-          <MainContent brand={brand} language={lang} page={page} />
+          <MainContent brand={brand} language={lang} />
         </>
       )}
     </>
