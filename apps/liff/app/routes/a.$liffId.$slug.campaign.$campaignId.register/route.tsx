@@ -13,6 +13,7 @@ import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import DynamicForm from "~/components/DynamicForm";
 import { ArrowLeft, UserPlus, AlertCircle } from "lucide-react";
+import { getDirectusFileUrl } from "~/utils/files";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -65,7 +66,8 @@ const Route = () => {
         }
       : {
           pageTitle: "Campaign Registration",
-          introDesc: "Please fill in the information to register for the campaign",
+          introDesc:
+            "Please fill in the information to register for the campaign",
           formTitle: "Registration Information",
           errorsSummary: "Please fix the following errors:",
           errors: {
@@ -117,7 +119,15 @@ const Route = () => {
       });
       return;
     }
-  }, [campaign, isProfileLoading, isCampaignLoading, navigate, liffId, slug, campaignId]);
+  }, [
+    campaign,
+    isProfileLoading,
+    isCampaignLoading,
+    navigate,
+    liffId,
+    slug,
+    campaignId,
+  ]);
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {
@@ -216,7 +226,9 @@ const Route = () => {
   };
 
   const handleFieldChange = (fieldName: string, value: string) => {
-    const field = campaign.registration_form.fields.find((f) => f.name === fieldName);
+    const field = campaign.registration_form.fields.find(
+      (f) => f.name === fieldName,
+    );
 
     // Sanitize and format phone input
     if (field && (field.type === "tel" || field.name === "phone")) {
@@ -320,93 +332,99 @@ const Route = () => {
   const pageTitle = messages.pageTitle;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div
+      className="flex min-h-screen flex-col"
+      style={{
+        backgroundImage: `url(${getDirectusFileUrl(campaign.poster_image as string)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* Header */}
-      <div className="bg-white p-4 shadow-sm">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div className="flex items-center gap-2">
-            <UserPlus size={20} style={{ color: primaryColor }} />
-            <h1 className="text-lg font-semibold text-gray-900">{pageTitle}</h1>
-          </div>
-        </div>
-      </div>
+      <header className="flex items-center px-4 py-4 text-white">
+        <button className="flex gap-2" onClick={() => navigate(-1)}>
+          <ArrowLeft className="h-6 w-6" />
+          <span className="text-lg font-medium">
+            {lang === "th" ? "ย้อนกลับ" : "Back"}
+          </span>
+        </button>
+      </header>
 
       {/* Content */}
-      <div className="bg-white p-4">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Campaign Info */}
-          <div className="rounded-lg bg-blue-50 p-4">
-            <h2 className="font-semibold text-blue-900">
-              {campaign.title[lang]}
-            </h2>
-            <p className="text-sm text-blue-700">{messages.introDesc}</p>
-          </div>
+      <div className="flex flex-1 items-center justify-center p-4">
+        <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+          <form noValidate onSubmit={handleSubmit} className="space-y-6">
+            {/* Campaign Info */}
+            <div className="rounded-lg bg-blue-50 p-4">
+              <h2 className="font-semibold text-blue-900">
+                {campaign.title[lang]}
+              </h2>
+              <p className="text-sm text-blue-700">{messages.introDesc}</p>
+            </div>
 
-          {/* Registration Form */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-lg font-semibold">
+            {/* Registration Form */}
+            <div className="space-y-4">
+              {/* <div className="flex items-center gap-2 text-lg font-semibold">
               <UserPlus size={20} />
               {messages.formTitle}
+            </div> */}
+
+              <DynamicForm
+                fields={campaign.registration_form.fields}
+                values={formValues}
+                errors={formErrors}
+                language={lang}
+                onChange={handleFieldChange}
+                onBlur={handleFieldBlur}
+              />
             </div>
 
-            <DynamicForm
-              fields={campaign.registration_form.fields}
-              values={formValues}
-              errors={formErrors}
-              language={lang}
-              onChange={handleFieldChange}
-              onBlur={handleFieldBlur}
-            />
-          </div>
-
-          {/* Error Summary */}
-          {Object.keys(formErrors).some((key) => formErrors[key]) && (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-              <div className="flex items-center gap-2 text-red-800">
-                <AlertCircle size={16} />
-                <span className="text-sm font-medium">
-                  {messages.errorsSummary}
-                </span>
+            {/* Error Summary */}
+            {Object.keys(formErrors).some((key) => formErrors[key]) && (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                <div className="flex items-center gap-2 text-red-800">
+                  <AlertCircle size={16} />
+                  <span className="text-sm font-medium">
+                    {messages.errorsSummary}
+                  </span>
+                </div>
+                <ul className="mt-2 text-sm text-red-700">
+                  {Object.entries(formErrors)
+                    .filter(([, error]) => error)
+                    .map(([fieldName, error]) => {
+                      const field = campaign.registration_form.fields.find(
+                        (f) => f.name === fieldName,
+                      );
+                      const fieldLabel =
+                        field?.label[lang as "th" | "en"] ||
+                        field?.label.th ||
+                        fieldName;
+                      return (
+                        <li key={fieldName} className="mt-1">
+                          {fieldLabel}: {error}
+                        </li>
+                      );
+                    })}
+                </ul>
               </div>
-              <ul className="mt-2 text-sm text-red-700">
-                {Object.entries(formErrors)
-                  .filter(([, error]) => error)
-                  .map(([fieldName, error]) => {
-                    const field = campaign.registration_form.fields.find(
-                      (f) => f.name === fieldName,
-                    );
-                    const fieldLabel =
-                      field?.label[lang as "th" | "en"] ||
-                      field?.label.th ||
-                      fieldName;
-                    return (
-                      <li key={fieldName} className="mt-1">
-                        {fieldLabel}: {error}
-                      </li>
-                    );
-                  })}
-              </ul>
-            </div>
-          )}
+            )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitDisabled}
-            className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundColor: isSubmitDisabled ? "#9CA3AF" : primaryColor,
-            }}
-          >
-            {registerMutation.isPending ? messages.submitting : messages.submit}
-          </button>
-        </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmitDisabled}
+              className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                backgroundColor: isSubmitDisabled ? "#9CA3AF" : primaryColor,
+              }}
+            >
+              {registerMutation.isPending
+                ? messages.submitting
+                : messages.submit}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

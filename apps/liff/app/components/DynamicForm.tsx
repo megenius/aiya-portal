@@ -19,55 +19,65 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   onChange,
   onBlur,
 }) => {
-  const lang = language as 'th' | 'en';
+  const lang = language as "th" | "en";
 
   const renderField = (field: FormField) => {
-    const value = values[field.name] || '';
+    const value = values[field.name] || "";
     const error = errors[field.name];
     const label = field.label[lang] || field.label.th;
-    const placeholder = field.placeholder?.[lang] || field.placeholder?.th || '';
+    const placeholder =
+      field.placeholder?.[lang] || field.placeholder?.th || "";
 
     const commonProps = {
       id: field.name,
       name: field.name,
       value,
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-        onChange(field.name, e.target.value),
+      onChange: (
+        e: React.ChangeEvent<
+          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >,
+      ) => onChange(field.name, e.target.value),
       onBlur: () => onBlur?.(field.name),
       className: `w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 transition-colors ${
         error
-          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-          : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+          ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+          : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
       }`,
       placeholder,
       required: field.required,
     };
 
     switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'tel': {
-        const isPhone = field.type === 'tel' || field.name === 'phone';
+      case "text":
+      case "email":
+      case "tel": {
+        const isPhone = field.type === "tel" || field.name === "phone";
         return (
           <input
             {...commonProps}
             type={field.type}
-            autoComplete={field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'name'}
-            {...(isPhone ? { inputMode: 'numeric', pattern: '[0-9]*' } : {})}
+            autoComplete={
+              field.type === "tel"
+                ? "tel"
+                : field.type === "email"
+                  ? "email"
+                  : "name"
+            }
+            {...(isPhone ? { inputMode: "numeric" } : {})}
           />
         );
       }
 
-      case 'textarea':
+      case "textarea":
         return (
           <textarea
             {...commonProps}
             rows={4}
-            style={{ resize: 'vertical', minHeight: '80px' }}
+            style={{ resize: "vertical", minHeight: "80px" }}
           />
         );
 
-      case 'select':
+      case "select":
         return (
           <select {...commonProps}>
             <option value="">{placeholder || `เลือก${label}`}</option>
@@ -79,7 +89,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           </select>
         );
 
-      case 'file':
+      case "file":
         return (
           <FileUpload
             name={field.name}
@@ -94,15 +104,17 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           />
         );
 
-      case 'checkbox':
+      case "checkbox":
         return (
           <div className="flex items-center space-x-2">
             <input
               id={field.name}
               name={field.name}
               type="checkbox"
-              checked={value === 'true'}
-              onChange={(e) => onChange(field.name, e.target.checked ? 'true' : 'false')}
+              checked={value === "true"}
+              onChange={(e) =>
+                onChange(field.name, e.target.checked ? "true" : "false")
+              }
               onBlur={() => onBlur?.(field.name)}
               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               required={field.required}
@@ -114,12 +126,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         );
 
       default:
-        return (
-          <input
-            {...commonProps}
-            type="text"
-          />
-        );
+        return <input {...commonProps} type="text" />;
     }
   };
 
@@ -127,8 +134,11 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
     <div className="space-y-4">
       {fields.map((field) => (
         <div key={field.name} className="space-y-1">
-          {field.type !== 'checkbox' && (
-            <label htmlFor={field.name} className="block text-sm font-medium text-gray-700">
+          {field.type !== "checkbox" && (
+            <label
+              htmlFor={field.name}
+              className="block text-sm font-medium text-gray-700"
+            >
               {field.label[lang] || field.label.th}
               {field.required && <span className="text-red-500">*</span>}
             </label>
