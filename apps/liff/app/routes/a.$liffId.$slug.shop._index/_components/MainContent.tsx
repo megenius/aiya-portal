@@ -112,8 +112,8 @@ const MainContent: React.FC<MainContentProps> = ({
     const campaignBanners = (banner_campaigns || []).map((campaign) => ({
       id: campaign.id,
       image: getDirectusFileUrl(campaign.banner_image as string),
-      title: campaign.title?.[language],
-      alt: `Campaign banner for ${campaign.title?.[language]}`,
+      title: campaign.title[language],
+      alt: `Campaign banner for ${campaign.title[language]}`,
       type: "campaign" as const,
     }));
 

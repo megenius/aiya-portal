@@ -5,12 +5,13 @@ import {
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageLiff } from "~/types/page";
-import { useCampaign, useConsentPDPA } from "~/hooks/campaigns";
+import { useCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import { ArrowLeft, FileText, Shield } from "lucide-react";
+import { getDirectusFileUrl } from "~/utils/files";
 import MainContent from "./_components/MainContent";
 import Header from "./_components/Header";
 
@@ -35,9 +36,19 @@ const Route = () => {
     enabled: !!campaignId && !isProfileLoading && !!profile?.userId,
   });
 
-  const consentMutation = useConsentPDPA();
-
   const primaryColor = page.bg_color || "#1DB446";
+
+  // Handle redirects in useEffect to avoid render-time navigation
+  useEffect(() => {
+    if (!campaign) return;
+
+    if (campaign.user_stats.has_agreed_pdpa) {
+      const target = campaign.user_stats.is_registered
+        ? `/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`
+        : `/a/${liffId}/${slug}/campaign/${campaignId}/register`;
+      navigate(target, { replace: true });
+    }
+  }, [campaign, navigate, liffId, slug, campaignId]);
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {
@@ -80,17 +91,8 @@ const Route = () => {
     return null;
   }
 
-  // Redirect if already consented
+  // Don't render content if we need to redirect (handled by useEffect)
   if (campaign.user_stats.has_agreed_pdpa) {
-    if (campaign.user_stats.is_registered) {
-      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`, {
-        replace: true,
-      });
-    } else {
-      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/register`, {
-        replace: true,
-      });
-    }
     return null;
   }
 
@@ -106,41 +108,32 @@ const Route = () => {
       return;
     }
 
-    try {
-      await consentMutation.mutateAsync({
-        campaignId: campaignId!,
-        data: {
-          has_agreed_pdpa: true,
-          pdpa_agreed_at: new Date().toISOString(),
-        },
-      });
-
-      // Navigate to registration form
-      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/register`);
-    } catch (error) {
-      console.error("Failed to consent PDPA:", error);
-      alert(
-        lang === "th"
-          ? "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
-          : "An error occurred. Please try again.",
-      );
-    }
+    const agreedAt = new Date().toISOString();
+    // Navigate to registration with PDPA params; registration will submit both in one request
+    navigate(
+      `/a/${liffId}/${slug}/campaign/${campaignId}/register?pdpa=1&pdpaAt=${encodeURIComponent(
+        agreedAt,
+      )}`,
+    );
   };
 
   return (
-    <div className="flex h-screen-safe flex-col bg-primary">
-      <Header />
-      <img
-        className="mx-auto my-2"
-        src="/images/aiya_logo.png"
-        alt="AIYA Logo"
-      />
+    <div
+      className="flex h-screen-safe flex-col"
+      style={{
+        backgroundImage: `url(${getDirectusFileUrl(campaign.poster_image as string)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Header lang={lang} />
       <MainContent
         lang={lang}
         handleSubmit={handleSubmit}
         hasAgreed={hasAgreed}
         setHasAgreed={setHasAgreed}
-        isPending={consentMutation.isPending}
+        isPending={false}
         primaryColor={primaryColor}
       />
     </div>

@@ -156,8 +156,8 @@ const Route = () => {
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-gray-900">{campaign.title}</h2>
-              <p className="mt-1 text-sm text-gray-600">{campaign.description}</p>
+              <h2 className="text-xl font-bold text-gray-900">{campaign.title[lang]}</h2>
+              <p className="mt-1 text-sm text-gray-600">{campaign.description[lang]}</p>
 
               {/* Progress Bar */}
               <div className="mt-4">
@@ -230,7 +230,7 @@ const Route = () => {
                         {getMissionStatusIcon(mission)}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900">{mission.title}</h3>
+                        <h3 className="font-semibold text-gray-900">{mission.title[lang]}</h3>
                         <p className="text-sm text-gray-600">{mission.description}</p>
                         <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
                           <div className="flex items-center gap-1">
@@ -250,7 +250,7 @@ const Route = () => {
                         {getMissionStatusIcon(mission)}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900">{mission.title}</h3>
+                        <h3 className="font-semibold text-gray-900">{mission.title[lang]}</h3>
                         <p className="text-sm text-gray-600">{mission.description}</p>
                         <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
                           <div className="flex items-center gap-1">

@@ -2,10 +2,11 @@ import {
   useOutletContext,
   useParams,
   useNavigate,
+  useSearchParams,
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageLiff } from "~/types/page";
 import { useCampaign, useRegisterCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
@@ -17,10 +18,13 @@ const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { liffId, slug, campaignId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const {
     profile,
@@ -32,11 +36,27 @@ const Route = () => {
     data: campaign,
     isLoading: isCampaignLoading,
     error: campaignError,
-  } = useCampaign({ campaignId: campaignId || "", enabled: !!campaignId && !isProfileLoading && !!profile?.userId });
+  } = useCampaign({
+    campaignId: campaignId || "",
+    enabled: !!campaignId && !isProfileLoading && !!profile?.userId,
+  });
 
   const registerMutation = useRegisterCampaign();
 
   const primaryColor = page.bg_color || "#1DB446";
+
+  // Handle redirects in useEffect to avoid render-time navigation
+  useEffect(() => {
+    if (!campaign || isProfileLoading || isCampaignLoading) return;
+
+    // If already registered, go to dashboard
+    if (campaign.user_stats.is_registered) {
+      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`, {
+        replace: true,
+      });
+      return;
+    }
+  }, [campaign, isProfileLoading, isCampaignLoading, navigate, liffId, slug, campaignId]);
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {
@@ -82,57 +102,62 @@ const Route = () => {
     return null;
   }
 
-  // Redirect if not consented to PDPA
-  if (!campaign.user_stats.has_agreed_pdpa) {
-    navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/consent`, { replace: true });
-    return null;
-  }
-
-  // Redirect if already registered
+  // Don't render content if we need to redirect (handled by useEffect)
   if (campaign.user_stats.is_registered) {
-    navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`, { replace: true });
     return null;
   }
 
-  const validateField = (fieldName: string, value: string, required: boolean): string => {
+  const validateField = (
+    fieldName: string,
+    value: string,
+    required: boolean,
+  ): string => {
     if (required && !value.trim()) {
-      return lang === 'th' ? 'กรุณากรอกข้อมูล' : 'This field is required';
+      return lang === "th" ? "กรุณากรอกข้อมูล" : "This field is required";
     }
 
     // Additional validation rules
-    if (fieldName === 'email' && value) {
+    if (fieldName === "email" && value) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        return lang === 'th' ? 'รูปแบบอีเมลไม่ถูกต้อง' : 'Invalid email format';
+        return lang === "th" ? "รูปแบบอีเมลไม่ถูกต้อง" : "Invalid email format";
       }
     }
 
-    if (fieldName === 'phone' && value) {
+    if (fieldName === "phone" && value) {
       const phoneRegex = /^[0-9]{9,10}$/;
-      if (!phoneRegex.test(value.replace(/-/g, ''))) {
-        return lang === 'th' ? 'รูปแบบเบอร์โทรไม่ถูกต้อง' : 'Invalid phone number format';
+      if (!phoneRegex.test(value.replace(/-/g, ""))) {
+        return lang === "th"
+          ? "รูปแบบเบอร์โทรไม่ถูกต้อง"
+          : "Invalid phone number format";
       }
     }
 
-    return '';
+    return "";
   };
 
   const handleFieldChange = (fieldName: string, value: string) => {
-    setFormValues(prev => ({ ...prev, [fieldName]: value }));
+    setFormValues((prev) => ({ ...prev, [fieldName]: value }));
 
     // Clear error when user starts typing
     if (formErrors[fieldName]) {
-      setFormErrors(prev => ({ ...prev, [fieldName]: '' }));
+      setFormErrors((prev) => ({ ...prev, [fieldName]: "" }));
     }
   };
 
   const handleFieldBlur = (fieldName: string) => {
-    setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
 
-    const field = campaign.registration_form.fields.find(f => f.name === fieldName);
+    const field = campaign.registration_form.fields.find(
+      (f) => f.name === fieldName,
+    );
     if (field) {
-      const error = validateField(fieldName, formValues[fieldName] || '', field.required);
-      setFormErrors(prev => ({ ...prev, [fieldName]: error }));
+      const error = validateField(
+        fieldName,
+        formValues[fieldName] || "",
+        field.required,
+      );
+      setFormErrors((prev) => ({ ...prev, [fieldName]: error }));
     }
   };
 
@@ -140,8 +165,8 @@ const Route = () => {
     const errors: Record<string, string> = {};
     let isValid = true;
 
-    campaign.registration_form.fields.forEach(field => {
-      const value = formValues[field.name] || '';
+    campaign.registration_form.fields.forEach((field) => {
+      const value = formValues[field.name] || "";
       const error = validateField(field.name, value, field.required);
 
       if (error) {
@@ -160,7 +185,7 @@ const Route = () => {
     // Mark all fields as touched
     const allFields = campaign.registration_form.fields.reduce(
       (acc, field) => ({ ...acc, [field.name]: true }),
-      {}
+      {},
     );
     setTouchedFields(allFields);
 
@@ -169,22 +194,33 @@ const Route = () => {
     }
 
     try {
+      const cameWithPdpa = searchParams.get("pdpa") === "1";
+      const pdpaAt = searchParams.get("pdpaAt") || new Date().toISOString();
+
       await registerMutation.mutateAsync({
         campaignId: campaignId!,
         data: {
           registration_data: formValues,
+          ...(cameWithPdpa
+            ? { has_agreed_pdpa: true, pdpa_agreed_at: pdpaAt }
+            : {}),
         },
       });
 
       // Navigate to campaign dashboard
       navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`);
     } catch (error) {
-      console.error('Failed to register:', error);
-      alert(lang === 'th' ? 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง' : 'An error occurred. Please try again.');
+      console.error("Failed to register:", error);
+      alert(
+        lang === "th"
+          ? "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+          : "An error occurred. Please try again.",
+      );
     }
   };
 
-  const pageTitle = lang === 'th' ? 'ลงทะเบียนเข้าร่วมแคมเปญ' : 'Campaign Registration';
+  const pageTitle =
+    lang === "th" ? "ลงทะเบียนเข้าร่วมแคมเปญ" : "Campaign Registration";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -199,9 +235,7 @@ const Route = () => {
           </button>
           <div className="flex items-center gap-2">
             <UserPlus size={20} style={{ color: primaryColor }} />
-            <h1 className="text-lg font-semibold text-gray-900">
-              {pageTitle}
-            </h1>
+            <h1 className="text-lg font-semibold text-gray-900">{pageTitle}</h1>
           </div>
         </div>
       </div>
@@ -211,11 +245,13 @@ const Route = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Campaign Info */}
           <div className="rounded-lg bg-blue-50 p-4">
-            <h2 className="font-semibold text-blue-900">{campaign.title}</h2>
+            <h2 className="font-semibold text-blue-900">
+              {campaign.title[lang]}
+            </h2>
             <p className="text-sm text-blue-700">
-              {lang === 'th'
-                ? 'กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ'
-                : 'Please fill in the information to register for the campaign'}
+              {lang === "th"
+                ? "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ"
+                : "Please fill in the information to register for the campaign"}
             </p>
           </div>
 
@@ -223,7 +259,9 @@ const Route = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-lg font-semibold">
               <UserPlus size={20} />
-              {lang === 'th' ? 'ข้อมูลสำหรับลงทะเบียน' : 'Registration Information'}
+              {lang === "th"
+                ? "ข้อมูลสำหรับลงทะเบียน"
+                : "Registration Information"}
             </div>
 
             <DynamicForm
@@ -237,20 +275,27 @@ const Route = () => {
           </div>
 
           {/* Error Summary */}
-          {Object.keys(formErrors).some(key => formErrors[key]) && (
-            <div className="rounded-lg bg-red-50 border border-red-200 p-4">
+          {Object.keys(formErrors).some((key) => formErrors[key]) && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
               <div className="flex items-center gap-2 text-red-800">
                 <AlertCircle size={16} />
                 <span className="text-sm font-medium">
-                  {lang === 'th' ? 'กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:' : 'Please fix the following errors:'}
+                  {lang === "th"
+                    ? "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:"
+                    : "Please fix the following errors:"}
                 </span>
               </div>
               <ul className="mt-2 text-sm text-red-700">
                 {Object.entries(formErrors)
-                  .filter(([_, error]) => error)
+                  .filter(([, error]) => error)
                   .map(([fieldName, error]) => {
-                    const field = campaign.registration_form.fields.find(f => f.name === fieldName);
-                    const fieldLabel = field?.label[lang as 'th' | 'en'] || field?.label.th || fieldName;
+                    const field = campaign.registration_form.fields.find(
+                      (f) => f.name === fieldName,
+                    );
+                    const fieldLabel =
+                      field?.label[lang as "th" | "en"] ||
+                      field?.label.th ||
+                      fieldName;
                     return (
                       <li key={fieldName} className="mt-1">
                         {fieldLabel}: {error}
@@ -265,14 +310,20 @@ const Route = () => {
           <button
             type="submit"
             disabled={registerMutation.isPending}
-            className="w-full rounded-lg py-3 px-4 font-semibold text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             style={{
-              backgroundColor: registerMutation.isPending ? '#9CA3AF' : primaryColor,
+              backgroundColor: registerMutation.isPending
+                ? "#9CA3AF"
+                : primaryColor,
             }}
           >
             {registerMutation.isPending
-              ? (lang === 'th' ? 'กำลังลงทะเบียน...' : 'Registering...')
-              : (lang === 'th' ? 'ลงทะเบียน' : 'Register')}
+              ? lang === "th"
+                ? "กำลังลงทะเบียน..."
+                : "Registering..."
+              : lang === "th"
+                ? "ลงทะเบียน"
+                : "Register"}
           </button>
         </form>
       </div>

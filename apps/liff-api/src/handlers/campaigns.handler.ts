@@ -257,7 +257,7 @@ export const registerCampaign = factory.createHandlers(
     try {
       const { id: userId } = c.get("jwtPayload");
       const { id: campaignId } = c.req.param();
-      const { registration_data } = await c.req.json();
+      const { registration_data, has_agreed_pdpa, pdpa_agreed_at } = await c.req.json();
       const directus = c.get("directAdmin");
 
       // Get existing registration
@@ -271,22 +271,35 @@ export const registerCampaign = factory.createHandlers(
         })
       );
 
-      if (existingRegistrations.length === 0) {
-        return c.json({ error: "PDPA consent required first" }, 400);
+      let registration = existingRegistrations[0];
+
+      // If no registration exists yet, create one now
+      if (!registration) {
+        registration = await directus.request(
+          createItem("user_campaign_registrations", {
+            campaign: campaignId,
+            user: userId,
+          })
+        );
       }
 
-      const registration = existingRegistrations[0];
+      // Prepare fields to update in one go
+      const nowIso = new Date().toISOString();
+      const updatePayload: Record<string, any> = {
+        registration_data,
+        registered_at: nowIso,
+      };
 
-      if (!registration.has_agreed_pdpa) {
-        return c.json({ error: "PDPA consent required first" }, 400);
+      // If PDPA values are provided, store them as part of this request
+      if (typeof has_agreed_pdpa !== "undefined") {
+        updatePayload.has_agreed_pdpa = !!has_agreed_pdpa;
+        if (has_agreed_pdpa) {
+          updatePayload.pdpa_agreed_at = pdpa_agreed_at || nowIso;
+        }
       }
 
-      // Update registration with user data
       const updatedRegistration = await directus.request(
-        updateItem("user_campaign_registrations", registration.id, {
-          registration_data,
-          registered_at: new Date().toISOString(),
-        })
+        updateItem("user_campaign_registrations", registration.id, updatePayload)
       );
 
       return c.json({

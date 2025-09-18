@@ -1,42 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "@remix-run/react";
-import { ArrowLeft, Calendar, Trophy, Users } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { CampaignWithUserStats } from "~/types/campaign";
 import { PageLiff } from "~/types/page";
-import LazyImage from "~/components/LazyImage";
 import { getDirectusFileUrl } from "~/utils/files";
 
 interface CampaignDetailContentProps {
   campaign: CampaignWithUserStats;
   page: PageLiff;
   language: string;
-  profile?: {
-    userId: string;
-    displayName: string;
-    pictureUrl?: string;
-  } | null;
 }
 
 const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
   campaign,
   page,
   language,
-  profile,
 }) => {
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
-  const [imageLoading, setImageLoading] = useState(true);
 
   const primaryColor = page.bg_color || "#1DB446";
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(language === "th" ? "th-TH" : "en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   const handleJoinCampaign = () => {
     if (campaign.user_stats.has_agreed_pdpa) {
@@ -65,93 +48,66 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
     }
   };
 
-  const isExpired = new Date() > new Date(campaign.end_date);
-  const isNotStarted = new Date() < new Date(campaign.start_date);
+  const isExpired = campaign.end_date
+    ? new Date() > new Date(campaign.end_date)
+    : false;
+  const isNotStarted = campaign.start_date
+    ? new Date() < new Date(campaign.start_date)
+    : false;
+
+  const backToHomeTextButton = {
+    th: "กลับหน้าหลัก",
+    en: "Back to Home",
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white p-4 shadow-sm">
-        <div className="flex items-center gap-3">
+    <div
+      className="relative flex min-h-screen flex-col"
+      style={{
+        backgroundImage: `url(${getDirectusFileUrl(campaign.poster_image as string)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Overlay for better text readability */}
+      {/* <div className="absolute inset-0 bg-black bg-opacity-20"></div> */}
+
+      {/* Header - Back button */}
+      <button
+        className="absolute left-4 top-4 z-50 flex items-center gap-2 bg-transparent font-light text-white focus:outline-none"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft className="h-6 w-6" />
+        <span className="text-lg font-medium">
+          {backToHomeTextButton[language]}
+        </span>
+      </button>
+
+      {/* Spacer to push button to bottom */}
+      <div className="flex-1"></div>
+
+      {/* Action Button - Bottom center */}
+      <div className="relative z-10 pb-20">
+        <div className="flex justify-center px-10">
           <button
-            onClick={() => navigate(-1)}
-            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
+            onClick={handleJoinCampaign}
+            disabled={isExpired || isNotStarted}
+            className="mx-auto w-full transform rounded-xl border-0 bg-white py-4 text-lg font-semibold text-primary transition sm:text-2xl"
+            style={{
+              backgroundColor:
+                isExpired || isNotStarted ? "#9CA3AF" : undefined,
+              minWidth: "200px",
+            }}
           >
-            <ArrowLeft size={20} />
+            {getActionButtonText()}
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">
-            {language === "th" ? "รายละเอียดแคมเปญ" : "Campaign Details"}
-          </h1>
-        </div>
-      </div>
-
-      {/* Campaign Banner */}
-      <div className="bg-white">
-        <div className="relative aspect-video w-full overflow-hidden">
-          <LazyImage
-            src={getDirectusFileUrl(campaign.banner_image)}
-            alt={`Banner for ${campaign.title}`}
-            className="h-full w-full object-cover"
-            aspectRatio="16/9"
-            placeholder="blur"
-            onLoad={() => setImageLoading(false)}
-          />
-          {imageLoading && (
-            <div className="absolute inset-0 animate-pulse bg-gray-200"></div>
-          )}
-        </div>
-      </div>
-
-      {/* Campaign Content */}
-      <div className="space-y-6 bg-white p-4">
-        {/* Title and Status */}
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {campaign.title?.[language]}
-          </h2>
         </div>
 
-        {/* Description */}
-        <div className="prose prose-sm max-w-none text-gray-700">
-          <p className="whitespace-pre-line">
-            {campaign.description?.[language] || ""}
-          </p>
-        </div>
-
-        {/* Campaign Period */}
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Calendar size={16} />
-          <span>
-            {formatDate(campaign.start_date)} - {formatDate(campaign.end_date)}
-          </span>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-lg border border-gray-200 p-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-gray-900">
-              <Trophy size={24} style={{ color: primaryColor }} />
-              {campaign.user_stats.total_credits}
-            </div>
-            <p className="text-sm text-gray-600">
-              {language === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
-            </p>
-          </div>
-          <div className="rounded-lg border border-gray-200 p-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-gray-900">
-              <Users size={24} style={{ color: primaryColor }} />
-              {campaign.user_stats.is_registered ? "1" : "0"}
-            </div>
-            <p className="text-sm text-gray-600">
-              {language === "th" ? "สถานะการเข้าร่วม" : "Participation Status"}
-            </p>
-          </div>
-        </div>
-
-        {/* Warning Messages */}
+        {/* Warning Messages - if needed */}
         {(isExpired || isNotStarted) && (
-          <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
-            <p className="text-sm text-yellow-800">
+          <div className="mx-4 mt-4 rounded-lg bg-yellow-500 bg-opacity-90 p-3">
+            <p className="text-center text-sm font-medium text-white">
               {isExpired &&
                 (language === "th"
                   ? "แคมเปญนี้สิ้นสุดแล้ว"
@@ -163,23 +119,6 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
             </p>
           </div>
         )}
-
-        {/* Action Button */}
-        <div className="pt-4">
-          <button
-            onClick={handleJoinCampaign}
-            disabled={isExpired || isNotStarted}
-            className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundColor:
-                isExpired || isNotStarted
-                  ? "#9CA3AF"
-                  : primaryColor,
-            }}
-          >
-            {getActionButtonText()}
-          </button>
-        </div>
       </div>
     </div>
   );

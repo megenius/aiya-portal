@@ -11,6 +11,7 @@ import { useMission, useSubmitMission } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import DynamicForm from "~/components/DynamicForm";
+import { FormField } from "~/types/campaign";
 import { ArrowLeft, Target, Star, Clock, CheckCircle, AlertCircle, Trophy } from "lucide-react";
 
 const Route = () => {
@@ -20,7 +21,6 @@ const Route = () => {
 
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
   const {
     profile,
@@ -130,9 +130,7 @@ const Route = () => {
   };
 
   const handleFieldBlur = (fieldName: string) => {
-    setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
-
-    const field = mission.submission_form?.fields.find(f => f.name === fieldName);
+    const field = mission.submission_form?.fields.find((f: FormField) => f.name === fieldName);
     if (field) {
       const error = validateField(fieldName, formValues[fieldName] || '', field.required);
       setFormErrors(prev => ({ ...prev, [fieldName]: error }));
@@ -145,7 +143,7 @@ const Route = () => {
     const errors: Record<string, string> = {};
     let isValid = true;
 
-    mission.submission_form.fields.forEach(field => {
+    mission.submission_form.fields.forEach((field: FormField) => {
       const value = formValues[field.name] || '';
       const error = validateField(field.name, value, field.required);
 
@@ -163,13 +161,6 @@ const Route = () => {
     e.preventDefault();
 
     if (!mission.submission_form?.fields) return;
-
-    // Mark all fields as touched
-    const allFields = mission.submission_form.fields.reduce(
-      (acc, field) => ({ ...acc, [field.name]: true }),
-      {}
-    );
-    setTouchedFields(allFields);
 
     if (!validateForm()) {
       return;
@@ -258,8 +249,8 @@ const Route = () => {
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-gray-900">{mission.title}</h2>
-              <p className="mt-1 text-gray-600">{mission.description}</p>
+              <h2 className="text-xl font-bold text-gray-900">{mission.title[lang]}</h2>
+              <p className="mt-1 text-gray-600">{mission.description[lang]}</p>
 
               {/* Mission Metadata */}
               <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
@@ -304,7 +295,7 @@ const Route = () => {
               {lang === 'th' ? 'คำแนะนำ' : 'Instructions'}
             </h3>
             <div className="mt-2 whitespace-pre-wrap text-gray-600">
-              {mission.instructions}
+              {mission.instructions[lang]}
             </div>
           </div>
         )}
@@ -338,7 +329,7 @@ const Route = () => {
                   </div>
                   <ul className="mt-2 text-sm text-red-700">
                     {Object.entries(formErrors)
-                      .filter(([_, error]) => error)
+                      .filter(([, error]) => error)
                       .map(([fieldName, error]) => {
                         const field = mission.submission_form?.fields.find(f => f.name === fieldName);
                         const fieldLabel = field?.label[lang as 'th' | 'en'] || field?.label.th || fieldName;

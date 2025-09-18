@@ -302,7 +302,7 @@ Data Protection Officer (DPO)
 
   return (
     <>
-      <div className="m-4 flex min-h-0 flex-1">
+      <div className="m-4 mt-16 flex min-h-0 flex-1">
         <div className="flex min-h-0 w-full flex-1 flex-col rounded-xl bg-white p-4">
           <form
             onSubmit={handleSubmit}

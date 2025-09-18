@@ -1,12 +1,17 @@
+import { language } from "./app";
 import { components } from "./directus";
 
-export type CampaignStatus = 'draft' | 'published' | 'archived';
+export type CampaignStatus = "draft" | "published" | "archived";
 
-export type MissionFrequency = 'ONCE' | 'MULTIPLE';
+export type MissionFrequency = "ONCE" | "MULTIPLE";
 
-export type SubmissionStatus = 'pending' | 'approved' | 'rejected';
+export type SubmissionStatus = "pending" | "approved" | "rejected";
 
-export type RegistrationStatus = 'not_started' | 'pdpa_pending' | 'form_pending' | 'registered';
+export type RegistrationStatus =
+  | "not_started"
+  | "pdpa_pending"
+  | "form_pending"
+  | "registered";
 
 export interface FormField {
   name: string;
@@ -14,7 +19,7 @@ export interface FormField {
     th: string;
     en: string;
   };
-  type: 'text' | 'tel' | 'email' | 'textarea' | 'file' | 'select' | 'checkbox';
+  type: "text" | "tel" | "email" | "textarea" | "file" | "select" | "checkbox";
   required: boolean;
   placeholder?: {
     th?: string;
@@ -37,17 +42,22 @@ export interface FormStructure {
 
 export type Campaign = Omit<
   components["schemas"]["ItemsCampaigns"],
-  "registration_form"
+  "registration_form" | "title" | "description"
 > & {
   registration_form: FormStructure;
+  title: language;
+  description: language;
 };
 
 export type CampaignMission = Omit<
   components["schemas"]["ItemsCampaignMissions"],
-  "mission_type" | "submission_form"
+  "mission_type" | "title" | "submission_form"
 > & {
+  title: language;
+  description: language;
+  instructions?: language;
   mission_type: string;
-  submission_form: FormStructure | null;
+  submission_form?: FormStructure | null;
 };
 
 export type UserCampaignRegistration = Omit<
@@ -66,7 +76,8 @@ export type UserMissionSubmission = Omit<
 
 export type UserRewardCredits = components["schemas"]["ItemsUserRewardCredits"];
 
-export type RewardCreditTransaction = components["schemas"]["ItemsRewardCreditTransactions"];
+export type RewardCreditTransaction =
+  components["schemas"]["ItemsRewardCreditTransactions"];
 
 export interface CampaignWithUserStats extends Campaign {
   user_stats: {
@@ -82,6 +93,10 @@ export interface MissionWithUserProgress extends CampaignMission {
     completed_count: number;
     can_submit: boolean;
     last_submission_at: string | null;
+    is_completed: boolean;
+    has_started: boolean;
+    is_available: boolean;
+    submitted_at?: string | null;
   };
   user_submissions: UserMissionSubmission[];
 }
@@ -110,6 +125,9 @@ export interface MissionSubmissionResponse {
 
 export interface CampaignRegistrationRequest {
   registration_data: Record<string, unknown>;
+  // Optional PDPA fields when sending consent together with registration
+  has_agreed_pdpa?: boolean;
+  pdpa_agreed_at?: string;
 }
 
 export interface PDPAConsentRequest {

@@ -24,7 +24,10 @@ const Route = () => {
     data: campaign,
     isLoading: isCampaignLoading,
     error: campaignError,
-  } = useCampaign({ campaignId: campaignId || "", enabled: !!campaignId && !isProfileLoading && !!profile?.userId });
+  } = useCampaign({
+    campaignId: campaignId || "",
+    enabled: !!campaignId && !isProfileLoading && !!profile?.userId,
+  });
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {
@@ -66,12 +69,7 @@ const Route = () => {
   }
 
   return (
-    <CampaignDetailContent
-      campaign={campaign}
-      page={page}
-      language={lang}
-      profile={profile}
-    />
+    <CampaignDetailContent campaign={campaign} page={page} language={lang} />
   );
 };
 

@@ -2,21 +2,24 @@ import React from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "@remix-run/react";
 
-interface HeaderProps {}
+interface HeaderProps {
+  lang: string;
+}
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({ lang }) => {
   const navigate = useNavigate();
 
+  const backText = {
+    th: "ย้อนกลับ",
+    en: "Back",
+  };
+
   return (
-    <header className={`text-white`}>
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center">
-          <button className="mr-2 p-1" onClick={() => navigate(-1)}>
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium">ย้อนกลับ</h1>
-        </div>
-      </div>
+    <header className="flex items-center px-4 py-4 text-white">
+      <button className="flex gap-2" onClick={() => navigate(-1)}>
+        <ArrowLeft className="h-6 w-6" />
+        <span className="text-lg font-medium">{backText[lang]}</span>
+      </button>
     </header>
   );
 };
