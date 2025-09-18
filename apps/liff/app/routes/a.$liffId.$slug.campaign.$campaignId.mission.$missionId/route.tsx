@@ -20,8 +20,8 @@ import {
   Star,
   CheckCircle,
   AlertCircle,
-  Trophy,
 } from "lucide-react";
+import { getDirectusFileUrl } from "~/utils/files";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -71,30 +71,30 @@ const Route = () => {
   // Handle loading states
   if (isProfileLoading || isMissionLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white px-4 py-3">
+      <div className="min-h-screen bg-white">
+        <div className="sticky top-0 z-10 bg-white px-4 py-3 border-b border-gray-100">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200"></div>
-            <div className="h-6 w-40 animate-pulse rounded-lg bg-gray-200"></div>
+            <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
+            <div className="h-5 w-32 animate-pulse rounded-lg bg-gray-200"></div>
           </div>
         </div>
-        <div className="px-4 pb-6">
-          <div className="bg-white rounded-2xl p-6 mb-6 animate-pulse">
-            <div className="flex items-start gap-4">
-              <div className="h-20 w-20 rounded-2xl bg-gray-200"></div>
-              <div className="flex-1 space-y-3">
-                <div className="h-6 w-3/4 bg-gray-200 rounded-lg"></div>
-                <div className="h-4 w-full bg-gray-200 rounded-lg"></div>
-                <div className="h-4 w-2/3 bg-gray-200 rounded-lg"></div>
+        <div className="px-4 pb-8">
+          <div className="animate-pulse py-4">
+            <div className="flex items-start gap-3">
+              <div className="h-16 w-16 rounded-xl bg-gray-200"></div>
+              <div className="flex-1 space-y-2">
+                <div className="h-5 w-3/4 rounded-lg bg-gray-200"></div>
+                <div className="h-4 w-full rounded-lg bg-gray-200"></div>
+                <div className="h-4 w-2/3 rounded-lg bg-gray-200"></div>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 animate-pulse">
-            <div className="space-y-4">
+          <div className="animate-pulse py-4">
+            <div className="space-y-3">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="space-y-2">
-                  <div className="h-4 w-24 bg-gray-200 rounded-lg"></div>
-                  <div className="h-12 w-full bg-gray-200 rounded-xl"></div>
+                  <div className="h-4 w-20 rounded-lg bg-gray-200"></div>
+                  <div className="h-10 w-full rounded-lg bg-gray-200"></div>
                 </div>
               ))}
             </div>
@@ -162,7 +162,6 @@ const Route = () => {
     typeof mission.thumbnail_image === "string"
       ? mission.thumbnail_image
       : (mission.thumbnail_image as { id?: string } | null | undefined)?.id;
-  const thumbnailUrl = thumbId ? `/api/files/${thumbId}` : "";
 
   // Disable submit if any required field is missing
   const isRequiredIncomplete = !!submissionFields?.some((field: FormField) => {
@@ -314,64 +313,67 @@ const Route = () => {
 
   const pageTitle = lang === "th" ? "รายละเอียดภารกิจ" : "Mission Details";
 
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-white px-4 py-3">
+      <div className="sticky top-0 z-10 bg-white px-4 py-3 border-b border-gray-100">
         <div className="flex items-center gap-3">
           <button
             onClick={() =>
               navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`)
             }
-            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            className="flex h-12 w-12 items-center justify-center rounded-full transition-colors active:bg-gray-200 tap-highlight-transparent"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={22} />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">{pageTitle}</h1>
+          <h1 className="text-lg font-semibold text-gray-900 truncate">{pageTitle}</h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-6">
-        {/* Mission Info Card */}
-        <div className="bg-white rounded-2xl p-6 mb-6">
-          <div className="flex items-start gap-4">
+      <div className="px-4 pb-8">
+        {/* Mission Info */}
+        <div className="py-4">
+          <div className="flex items-start gap-3">
             <div className="flex-shrink-0">
-              {thumbnailUrl ? (
+              {thumbId ? (
                 <LazyImage
-                  src={thumbnailUrl}
+                  src={getDirectusFileUrl(thumbId)}
+                  blurDataURL={getDirectusFileUrl(thumbId, {
+                    width: 24,
+                    height: 24,
+                  })}
                   alt={mission.title?.[lang] || "mission"}
-                  wrapperClassName="h-20 w-20 rounded-2xl overflow-hidden bg-gray-100"
+                  wrapperClassName="h-16 w-16 rounded-xl overflow-hidden"
                   className="h-full w-full object-cover"
                   placeholder="shimmer"
                   priority
                 />
               ) : (
                 <div
-                  className="flex h-20 w-20 items-center justify-center rounded-2xl text-white"
+                  className="flex h-16 w-16 items-center justify-center rounded-xl text-white"
                   style={{ backgroundColor: primaryColor }}
                 >
-                  <Target size={28} />
+                  <Target size={24} />
                 </div>
               )}
             </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-2xl font-bold text-gray-900 leading-tight">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xl font-bold leading-tight text-gray-900">
                 {mission.title[lang]}
               </h2>
               {mission.description?.[lang] && (
-                <p className="mt-2 text-gray-600 leading-relaxed">
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">
                   {mission.description[lang]}
                 </p>
               )}
 
               {missionData?.hashtags && missionData.hashtags.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {missionData.hashtags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700"
+                      className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700"
                     >
                       {tag}
                     </span>
@@ -380,15 +382,15 @@ const Route = () => {
               )}
 
               {/* Mission Metadata */}
-              <div className="mt-4 flex items-center gap-6">
+              <div className="mt-3 flex items-center">
                 <div className="flex items-center gap-2">
                   <div
-                    className="p-2 rounded-full"
+                    className="rounded-full p-1.5"
                     style={{ backgroundColor: `${primaryColor}20` }}
                   >
-                    <Star size={16} style={{ color: primaryColor }} />
+                    <Star size={14} style={{ color: primaryColor }} />
                   </div>
-                  <span className="font-semibold text-gray-900">
+                  <span className="text-sm font-medium text-gray-900">
                     {mission.reward_credits}{" "}
                     {lang === "th" ? "สิทธิ์" : "Credits"}
                   </span>
@@ -423,123 +425,132 @@ const Route = () => {
 
         {/* Mission Instructions */}
         {mission.instructions && (
-          <div className="bg-white rounded-2xl p-6 mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              {lang === "th" ? "คำแนะนำ" : "Instructions"}
-            </h3>
-            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-              {mission.instructions[lang]}
+          <>
+            <div className="my-4 border-t border-gray-100"></div>
+            <div className="py-3">
+              <h3 className="mb-3 text-lg font-bold text-gray-900">
+                {lang === "th" ? "คำแนะนำ" : "Instructions"}
+              </h3>
+              <div className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700">
+                {mission.instructions[lang]}
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Submission Form */}
         {!mission.user_progress.is_completed && submissionFields && (
-          <div className="bg-white rounded-2xl p-6 mb-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="p-2 rounded-full"
-                  style={{ backgroundColor: `${primaryColor}20` }}
-                >
-                  <Target size={20} style={{ color: primaryColor }} />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">
-                  {lang === "th" ? "ส่งผลงาน" : "Submit Your Work"}
-                </h3>
-              </div>
-
-              <DynamicForm
-                fields={submissionFields}
-                values={formValues}
-                errors={formErrors}
-                language={lang}
-                onChange={handleFieldChange}
-                onFileChange={handleFileChange}
-                onBlur={handleFieldBlur}
-              />
-
-              {/* Error Summary */}
-              {Object.keys(formErrors).some((key) => formErrors[key]) && (
-                <div className="rounded-2xl bg-red-50 p-4">
-                  <div className="flex items-center gap-3 text-red-800">
-                    <AlertCircle size={20} />
-                    <span className="font-medium">
-                      {lang === "th"
-                        ? "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:"
-                        : "Please fix the following errors:"}
-                    </span>
+          <>
+            <div className="my-4 border-t border-gray-100"></div>
+            <div className="py-3">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="mb-5 flex items-center gap-3">
+                  <div
+                    className="rounded-full p-2"
+                    style={{ backgroundColor: `${primaryColor}20` }}
+                  >
+                    <Target size={18} style={{ color: primaryColor }} />
                   </div>
-                  <ul className="mt-3 space-y-1 text-sm text-red-700">
-                    {Object.entries(formErrors)
-                      .filter(([, error]) => error)
-                      .map(([fieldName, error]) => {
-                        const field = submissionFields?.find(
-                          (f) => f.name === fieldName,
-                        );
-                        const fieldLabel =
-                          field?.label[lang as "th" | "en"] ||
-                          field?.label.th ||
-                          fieldName;
-                        return (
-                          <li key={fieldName}>
-                            {fieldLabel}: {error}
-                          </li>
-                        );
-                      })}
-                  </ul>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {lang === "th" ? "ส่งภารกิจ" : "Submit Mission"}
+                  </h3>
                 </div>
-              )}
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={
-                  submitMutation.isPending ||
-                  isUploading ||
-                  isRequiredIncomplete
-                }
-                className="w-full rounded-2xl py-4 px-6 font-bold text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 hover:shadow-lg"
-                style={{
-                  backgroundColor:
+                <DynamicForm
+                  fields={submissionFields}
+                  values={formValues}
+                  errors={formErrors}
+                  language={lang}
+                  onChange={handleFieldChange}
+                  onFileChange={handleFileChange}
+                  onBlur={handleFieldBlur}
+                />
+
+                {/* Error Summary */}
+                {Object.keys(formErrors).some((key) => formErrors[key]) && (
+                  <div className="rounded-xl bg-red-50 p-4">
+                    <div className="flex items-center gap-3 text-red-800">
+                      <AlertCircle size={18} />
+                      <span className="text-sm font-medium">
+                        {lang === "th"
+                          ? "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:"
+                          : "Please fix the following errors:"}
+                      </span>
+                    </div>
+                    <ul className="mt-2 space-y-1 text-xs text-red-700">
+                      {Object.entries(formErrors)
+                        .filter(([, error]) => error)
+                        .map(([fieldName, error]) => {
+                          const field = submissionFields?.find(
+                            (f) => f.name === fieldName,
+                          );
+                          const fieldLabel =
+                            field?.label[lang as "th" | "en"] ||
+                            field?.label.th ||
+                            fieldName;
+                          return (
+                            <li key={fieldName}>
+                              {fieldLabel}: {error}
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={
                     submitMutation.isPending ||
                     isUploading ||
                     isRequiredIncomplete
-                      ? "#9CA3AF"
-                      : primaryColor,
-                }}
-              >
-                {submitMutation.isPending || isUploading
-                  ? lang === "th"
-                    ? "กำลังส่ง..."
-                    : "Submitting..."
-                  : lang === "th"
-                    ? "ส่งผลงาน"
-                    : "Submit Work"}
-              </button>
-            </form>
-          </div>
+                  }
+                  className="w-full rounded-xl px-6 py-4 font-semibold text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95 tap-highlight-transparent"
+                  style={{
+                    backgroundColor:
+                      submitMutation.isPending ||
+                      isUploading ||
+                      isRequiredIncomplete
+                        ? "#9CA3AF"
+                        : primaryColor,
+                  }}
+                >
+                  {submitMutation.isPending || isUploading
+                    ? lang === "th"
+                      ? "กำลังส่ง..."
+                      : "Submitting..."
+                    : lang === "th"
+                      ? "ส่งภารกิจ"
+                      : "Submit Mission"}
+                </button>
+              </form>
+            </div>
+          </>
         )}
 
         {/* Completed Mission Info */}
         {mission.user_progress.is_completed && (
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 mb-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-green-100 rounded-full">
-                <CheckCircle size={28} className="text-green-600" />
-              </div>
-              <div>
-                <div className="text-xl font-bold text-green-800">
-                  {lang === "th" ? "ภารกิจเสร็จสิ้น!" : "Mission Completed!"}
+          <>
+            <div className="my-4 border-t border-gray-100"></div>
+            <div className="py-3">
+              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4">
+                <div className="rounded-full bg-green-100 p-2.5">
+                  <CheckCircle size={24} className="text-green-600" />
                 </div>
-                <div className="text-green-700 mt-1">
-                  {lang === "th"
-                    ? `คุณได้รับ ${mission.reward_credits} เครดิต`
-                    : `You earned ${mission.reward_credits} credits`}
+                <div>
+                  <div className="text-lg font-bold text-green-800">
+                    {lang === "th" ? "ภารกิจเสร็จสิ้น!" : "Mission Completed!"}
+                  </div>
+                  <div className="mt-0.5 text-sm text-green-700">
+                    {lang === "th"
+                      ? `คุณได้รับ ${mission.reward_credits} เครดิต`
+                      : `You earned ${mission.reward_credits} credits`}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Back to Dashboard Button */}
