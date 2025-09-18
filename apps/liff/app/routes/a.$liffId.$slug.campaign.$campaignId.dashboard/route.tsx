@@ -147,7 +147,7 @@ const Route = () => {
     <div className="flex h-full flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Gradient Hero */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between">
               <button
@@ -203,7 +203,7 @@ const Route = () => {
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {missions.map((mission) => (
-                <div key={mission.id} className="w-48 flex-shrink-0 snap-start">
+                <div key={mission.id} className="w-40 flex-shrink-0 snap-start">
                   <Mission
                     mission={mission}
                     liffId={liffId || ""}
