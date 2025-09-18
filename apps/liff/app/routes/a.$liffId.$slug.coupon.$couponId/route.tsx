@@ -33,7 +33,6 @@ const Route = () => {
   const queryClient = useQueryClient();
   const {
     coupon,
-    isCouponLoading,
     myCoupon,
     codeStats,
     serverComputed,
@@ -274,7 +273,7 @@ const Route = () => {
     };
   }, [couponId, queryClient]);
 
-  if (isCouponLoading || isVoucherPageV2Loading) {
+  if (isVoucherPageV2Loading) {
     return <Loading primaryColor={page?.bg_color as string} />;
   }
 

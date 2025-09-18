@@ -12,8 +12,9 @@ import { useCampaign, useRegisterCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import DynamicForm from "~/components/DynamicForm";
-import { ArrowLeft, UserPlus, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
+import BackButton from "~/components/BackButton";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -23,9 +24,6 @@ const Route = () => {
 
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>(
-    {},
-  );
 
   const {
     profile,
@@ -246,8 +244,6 @@ const Route = () => {
   };
 
   const handleFieldBlur = (fieldName: string) => {
-    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
-
     const field = campaign.registration_form.fields.find(
       (f) => f.name === fieldName,
     );
@@ -278,12 +274,6 @@ const Route = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Mark all fields as touched
-    const allFields = campaign.registration_form.fields.reduce(
-      (acc, field) => ({ ...acc, [field.name]: true }),
-      {},
-    );
-    setTouchedFields(allFields);
 
     if (!validateForm()) {
       return;
@@ -329,7 +319,6 @@ const Route = () => {
     }
   };
 
-  const pageTitle = messages.pageTitle;
 
   return (
     <div
@@ -343,12 +332,12 @@ const Route = () => {
     >
       {/* Header */}
       <header className="flex items-center px-4 py-4 text-white">
-        <button className="flex gap-2" onClick={() => navigate(-1)}>
-          <ArrowLeft className="h-6 w-6" />
-          <span className="text-lg font-medium">
-            {lang === "th" ? "ย้อนกลับ" : "Back"}
-          </span>
-        </button>
+        <BackButton
+          onClick={() => navigate(-1)}
+          variant="overlay"
+          showText={true}
+          text={lang === "th" ? "ย้อนกลับ" : "Back"}
+        />
       </header>
 
       {/* Content */}

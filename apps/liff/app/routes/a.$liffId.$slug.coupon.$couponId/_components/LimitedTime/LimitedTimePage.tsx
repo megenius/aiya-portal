@@ -3,11 +3,11 @@ import { DiscountTier, Voucher, VoucherView } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import LimitedTimeTimer from "./LimitedTimeTimer";
 import { useNavigate, useParams } from "@remix-run/react";
-import { ArrowLeft } from "lucide-react";
 import { formatDateTime } from "~/utils/helpers";
 import InlineNotice from "~/components/InlineNotice";
 import ChooseAnotherVoucherButton from "~/components/ChooseAnotherVoucherButton";
 import LazyImage from "~/components/LazyImage";
+import BackButton from "~/components/BackButton";
 
 // Extend Voucher type locally to include optional teaser field from Directus
 type VoucherWithTeaser = Voucher & { teaser?: string | null };
@@ -170,8 +170,6 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     en: "Sorry, coupon collection time has ended!",
   };
 
-  const backToHomeTextButton = { th: "กลับหน้าหลัก", en: "Back to Home" };
-
   if (isLeaving) return null;
 
   // Consider UI as ended when server says ended OR countdown reached 0 in started phase (avoid short mismatch window)
@@ -211,13 +209,12 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
         )}
       <div className="relative h-full w-full">
         {/* ปุ่มย้อนกลับ */}
-        <button
-          className="absolute left-4 top-4 z-50 flex items-center gap-2 bg-transparent font-light text-white focus:outline-none"
+        <BackButton
           onClick={navigateToBack}
-        >
-          <ArrowLeft className="h-6 w-6" />
-          <span className="sm:text-lg">{backToHomeTextButton[language]}</span>
-        </button>
+          variant="overlay"
+          showText={true}
+          text={language === "th" ? "กลับหน้าหลัก" : "Back"}
+        />
         <LazyImage
           src={getDirectusFileUrl(voucher.poster as string)}
           alt={voucher.name || "Promotion"}

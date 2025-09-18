@@ -52,20 +52,25 @@ export const getVoucherPageV2 = factory.createHandlers(
 
       const serverNow = new Date();
 
-      // Load voucher minimal fields needed
-      const voucher: any = await directus.request(
-        readItem("vouchers", voucher_id, {
+      // Load voucher with full fields needed for UI (brand, categories, metadata, etc.)
+      const voucherList: any[] = await directus.request(
+        readItems("vouchers", {
+          filter: { id: { _eq: voucher_id } },
           fields: [
-            "id",
-            "start_date",
-            "end_date",
-            "validity_in_seconds",
-            "usage_end_date",
-            "metadata",
+            "*",
+            { voucher_brand_id: ["*"] },
+            { categories: [{ voucher_categories_id: ["*"] }] },
           ],
-        })
+          limit: 1,
+        } as any)
       );
+      let voucher: any = voucherList[0];
       if (!voucher) return c.json({ error: "Voucher not found" }, 404);
+      if (Array.isArray(voucher.categories)) {
+        voucher.categories = voucher.categories
+          .map((x: any) => x?.voucher_categories_id ?? x)
+          .filter(Boolean);
+      }
 
       const start = voucher.start_date ? new Date(voucher.start_date) : null;
       const end = voucher.end_date ? new Date(voucher.end_date) : null;
@@ -116,6 +121,7 @@ export const getVoucherPageV2 = factory.createHandlers(
           },
           stats,
           myCoupon: null,
+          voucher,
         });
       }
 
@@ -280,6 +286,7 @@ export const getVoucherPageV2 = factory.createHandlers(
         },
         stats,
         myCoupon,
+        voucher,
       });
     } catch (error: any) {
       console.error(error);

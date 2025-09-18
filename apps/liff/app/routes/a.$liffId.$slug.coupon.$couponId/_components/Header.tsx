@@ -1,9 +1,8 @@
 import React from "react";
-import { ArrowLeft } from "lucide-react";
-import { useNavigate, useParams, useSearchParams } from "@remix-run/react";
+import { useNavigate, useParams } from "@remix-run/react";
 import { getDirectusFileUrl } from "~/utils/files";
 import { Voucher } from "~/types/app";
-import FollowButton from "~/components/FollowButton";
+import BackButton from "~/components/BackButton";
 
 interface HeaderProps {
   language: string;
@@ -39,11 +38,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="flex items-center justify-between px-4 py-3">
       <div className="flex items-center">
-        {
-          <button onClick={navigateToBack} className="mr-4">
-            <ArrowLeft className="h-6 w-6" />
-          </button>
-        }
+        <BackButton onClick={navigateToBack} variant="header" />
         <div className="flex items-center space-x-2">
           <img
             src={getDirectusFileUrl(
@@ -52,9 +47,6 @@ const Header: React.FC<HeaderProps> = ({
             alt={voucher?.voucher_brand_id?.name ?? ""}
             className="border-gray h-7 w-7 rounded-full border object-cover shadow-sm"
           />
-          {/* <div className="w-6 h-6 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-gray-300 shadow-sm text-[6px]">
-            LOGO
-          </div> */}
           <h1 className="text-lg font-semibold">
             {voucher?.voucher_brand_id?.name}
           </h1>

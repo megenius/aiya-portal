@@ -13,9 +13,10 @@ import {
 } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
-import { ArrowLeft, Target, History } from "lucide-react";
+import { Target, History } from "lucide-react";
 import { useEffect } from "react";
 import { Mission } from "~/components/Mission";
+import BackButton from "~/components/BackButton";
 
 const Route = () => {
   const { lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -147,11 +148,13 @@ const Route = () => {
   const sortedMissions = missions.slice().sort((a: any, b: any) => {
     const aCompleted = !!(
       a?.user_progress?.is_completed ||
-      (typeof a?.user_progress?.completed_count === "number" && a?.user_progress?.completed_count > 0)
+      (typeof a?.user_progress?.completed_count === "number" &&
+        a?.user_progress?.completed_count > 0)
     );
     const bCompleted = !!(
       b?.user_progress?.is_completed ||
-      (typeof b?.user_progress?.completed_count === "number" && b?.user_progress?.completed_count > 0)
+      (typeof b?.user_progress?.completed_count === "number" &&
+        b?.user_progress?.completed_count > 0)
     );
     // false (0) comes before true (1) so completed go last
     return Number(aCompleted) - Number(bCompleted);
@@ -164,13 +167,12 @@ const Route = () => {
         <div className="space-y-2">
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between">
-              <button
+              <BackButton
                 onClick={() => navigate(`/a/${liffId}/${slug}`)}
-                className="flex items-center gap-2 text-lg text-white/90"
-              >
-                <ArrowLeft className="h-6 w-6" />
-                <span>{lang === "th" ? "กลับหน้าหลัก" : "Back"}</span>
-              </button>
+                variant="overlay"
+                showText={true}
+                text={lang === "th" ? "กลับหน้าหลัก" : "Back"}
+              />
               {/* <button
                 onClick={() =>
                   navigate(
@@ -183,7 +185,7 @@ const Route = () => {
                 <History className="h-6 w-6" />
               </button> */}
             </div>
-            <h1 className="mt-6 text-center text-3xl font-semibold tracking-tight text-white">
+            <h1 className="mt-12 text-center text-3xl font-semibold tracking-tight text-white">
               {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
             </h1>
 

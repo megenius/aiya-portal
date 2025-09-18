@@ -8,7 +8,7 @@ export interface BannerItem {
   title?: string;
   link?: string;
   alt?: string;
-  type?: 'voucher' | 'campaign';
+  type?: "voucher" | "campaign";
 }
 
 export interface BannerSliderProps {

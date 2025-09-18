@@ -16,6 +16,7 @@ export interface VoucherPage {
   serverComputed: VoucherView;
   stats: VoucherStats;
   myCoupon: VoucherUser | null;
+  voucher: Voucher;
 }
 
 export type Voucher = Omit<
@@ -174,5 +175,6 @@ export interface Profile {
   referrer_id?: string; // เพิ่มฟิลด์เก็บข้อมูลผู้แนะนำ (referrer)
   point_transaction?: PointTransaction[];
   totalPoints: number;
+  voucherUserStats?: VoucherStats;
   // Add any other profile fields you need
 }
