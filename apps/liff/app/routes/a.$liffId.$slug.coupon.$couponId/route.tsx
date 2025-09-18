@@ -131,28 +131,37 @@ const Route = () => {
   const handleSubmit = async (tier?: DiscountTier) => {
     // ป้องกันการกดซ้ำระหว่างกำลังส่งคำขอ
     if (isSubmitting) return;
+    const isCollected = Boolean(myCoupon);
+
+    // ผู้ใช้มีคูปองอยู่แล้ว: เปิด modal ใช้งาน/แสดงคูปองได้เสมอ ไม่ต้องสนใจช่วงรับ (ended)
+    if (isCollected) {
+      setIsRedeemedModalOpen(true);
+      return;
+    }
+
+    // อยู่สถานะรอการยืนยัน ให้เข้าหน้าใช้ได้ถ้ายังอยู่ในเวลาที่กำหนด
+    if (status === "pending_confirmation") {
+      if (timeLeft > 0) {
+        setIsRedeemedModalOpen(true);
+      }
+      return;
+    }
+
+    // บล็อคเฉพาะ flow การ "รับ" เมื่อยังไม่เริ่ม/จบแคมเปญ/หมดอายุ/ใช้ไม่ได้
     if (
       isNotStarted ||
       isCampaignEnded ||
       isExpired ||
-      (status === "pending_confirmation" && timeLeft <= 0) ||
       status === "used" ||
       status === "expired" ||
-      status === "fully_collected"
+      status === "fully_collected" ||
+      (status === "pending_confirmation" && timeLeft <= 0)
     ) {
       return;
     }
 
-    const isCollected = Boolean(myCoupon);
-
     // ใช้ serverComputed (v2) เป็นตัวตัดสินล่าสุดว่ากดรับได้ไหม (เฉพาะกรณียังไม่เคยรับ)
-    if (!isCollected && serverComputed?.canCollect === false) {
-      return;
-    }
-
-    if (isCollected || status === "pending_confirmation") {
-      // navigate(`/a/${page.liff_id}/${page.slug}/my-coupons`);
-      setIsRedeemedModalOpen(true);
+    if (serverComputed?.canCollect === false) {
       return;
     }
 
