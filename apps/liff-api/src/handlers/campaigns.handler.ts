@@ -330,12 +330,27 @@ export const getCampaignMissions = factory.createHandlers(
       const { id: userId } = c.get("jwtPayload");
       const { id: campaignId } = c.req.param();
       const directus = c.get("directAdmin");
+      const nowIso = new Date().toISOString();
 
-      // Get missions for campaign
+      // Get missions for campaign (filter by time window if start_date/end_date exist)
       const missions = await directus.request(
         readItems("campaign_missions", {
           filter: {
             campaign: { _eq: campaignId },
+            _and: [
+              {
+                _or: [
+                  { start_date: { _null: true } },
+                  { start_date: { _lte: nowIso } },
+                ],
+              },
+              {
+                _or: [
+                  { end_date: { _null: true } },
+                  { end_date: { _gte: nowIso } },
+                ],
+              },
+            ],
           },
           sort: ["sort"],
         })
@@ -385,7 +400,14 @@ export const getCampaignMissions = factory.createHandlers(
         }
         const has_started = submissions.length > 0;
         const is_completed = freq === "ONCE" ? submissions.length > 0 : false;
-        const is_available = (mission as any)?.status === "published";
+        const published = (mission as any)?.status === "published";
+        const startOk = !(mission as any)?.start_date
+          ? true
+          : new Date((mission as any).start_date) <= new Date(nowIso);
+        const endOk = !(mission as any)?.end_date
+          ? true
+          : new Date((mission as any).end_date) >= new Date(nowIso);
+        const is_available = published && startOk && endOk;
 
         return {
           ...mission,
@@ -421,6 +443,7 @@ export const submitMission = factory.createHandlers(
       const { missionId } = c.req.param();
       const { submission_data } = await c.req.json();
       const directus = c.get("directAdmin");
+      const now = new Date();
 
       // Get mission details
       const mission = await directus.request(
@@ -431,6 +454,18 @@ export const submitMission = factory.createHandlers(
 
       if (!mission) {
         return c.json({ error: "Mission not found" }, 404);
+      }
+
+      // Prevent submission if mission is not available (status/time window)
+      const published = (mission as any)?.status === "published";
+      const startOk = !(mission as any)?.start_date
+        ? true
+        : new Date((mission as any).start_date) <= now;
+      const endOk = !(mission as any)?.end_date
+        ? true
+        : new Date((mission as any).end_date) >= now;
+      if (!published || !startOk || !endOk) {
+        return c.json({ error: "Mission is not available" }, 403);
       }
 
       // Check if user can submit (for ONCE missions)
@@ -794,7 +829,17 @@ export const getMission = factory.createHandlers(
           // additional fields expected by app
           is_completed: freqGet === "ONCE" ? userSubmissions.length > 0 : false,
           has_started: userSubmissions.length > 0,
-          is_available: (mission as any)?.status === "published",
+          is_available: (() => {
+            const published = (mission as any)?.status === "published";
+            const now = new Date();
+            const startOk = !(mission as any)?.start_date
+              ? true
+              : new Date((mission as any).start_date) <= now;
+            const endOk = !(mission as any)?.end_date
+              ? true
+              : new Date((mission as any).end_date) >= now;
+            return published && startOk && endOk;
+          })(),
           submitted_at: lastSubmission?.submitted_at || null,
         },
         user_submissions: userSubmissions,
