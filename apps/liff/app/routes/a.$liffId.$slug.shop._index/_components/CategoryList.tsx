@@ -19,15 +19,15 @@ const CategoryList: React.FC<CategoryListProps> = ({
 }) => {
   return (
     <div
-      className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4 pt-2"
+      className="relative flex snap-x snap-mandatory scroll-px-4 overflow-x-auto overflow-y-hidden whitespace-nowrap px-4 pt-2"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       role="tablist"
       aria-label={language === "th" ? "หมวดหมู่สินค้า" : "Product categories"}
     >
       {/* All category button */}
       {/* Left/Right fade to hint scrollable area */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-6 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-white to-transparent" />
+      {/* <div className="pointer-events-none absolute left-0 top-0 h-full w-4 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-4 bg-gradient-to-l from-white to-transparent" /> */}
 
       <div className="flex gap-3">
         {categories.map((category, index) => (
@@ -80,7 +80,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
               />
             </div>
             <h4
-              className={`mt-1 text-center text-balance text-[11px] leading-tight text-gray-700 ${
+              className={`mt-1 line-clamp-2 text-balance text-center text-[11px] leading-tight text-gray-700 ${
                 category.id === selected?.id ? "font-semibold" : "font-normal"
               }`}
             >

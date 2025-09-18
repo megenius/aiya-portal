@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import LazyImage from "./LazyImage";
+import { getDirectusFileUrl } from "~/utils/files";
 
 export interface BannerItem {
   id: string;
@@ -37,16 +38,19 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
 
   const totalBanners = banners.length;
 
-  const goToSlide = useCallback((index: number) => {
-    if (isTransitioning || totalBanners === 0) return;
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (isTransitioning || totalBanners === 0) return;
 
-    setIsTransitioning(true);
-    setCurrentIndex(index);
+      setIsTransitioning(true);
+      setCurrentIndex(index);
 
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 300);
-  }, [isTransitioning, totalBanners]);
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+    },
+    [isTransitioning, totalBanners],
+  );
 
   const goToNext = useCallback(() => {
     const nextIndex = (currentIndex + 1) % totalBanners;
@@ -115,7 +119,7 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
     if (onBannerClick) {
       onBannerClick(banner);
     } else if (banner.link) {
-      window.open(banner.link, '_blank');
+      window.open(banner.link, "_blank");
     }
   };
 
@@ -136,7 +140,7 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
         style={{ aspectRatio: String(aspectRatio) }}
       >
         <div
-          className="flex transition-transform duration-300 ease-in-out h-full"
+          className="flex h-full transition-transform duration-300 ease-in-out"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
@@ -148,16 +152,20 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
               onClick={() => handleBannerClick(banner)}
             >
               <LazyImage
-                src={banner.image}
-                alt={banner.alt || banner.title || `Banner ${index + 1}`}
+                src={getDirectusFileUrl(banner.image)}
+                alt={banner.alt || `Banner ${index + 1}`}
                 className="h-full object-cover"
                 aspectRatio={aspectRatio}
-                priority={index === 0}
-                placeholder="shimmer"
+                placeholder="blur"
+                blurDataURL={getDirectusFileUrl(banner.image, {
+                  width: 24,
+                  height: 24,
+                })}
+                priority
               />
               {banner.title && (
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                  <h3 className="text-white text-lg font-semibold">
+                  <h3 className="text-lg font-semibold text-white">
                     {banner.title}
                   </h3>
                 </div>
@@ -169,14 +177,14 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
 
       {/* Dots indicator */}
       {showDots && totalBanners > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 transform space-x-2">
           {banners.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-200 ${
+              className={`h-2 w-2 rounded-full transition-all duration-200 ${
                 index === currentIndex
-                  ? "bg-white scale-125"
+                  ? "scale-125 bg-white"
                   : "bg-white/50 hover:bg-white/75"
               }`}
               aria-label={`Go to slide ${index + 1}`}
@@ -190,20 +198,40 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
         <>
           <button
             onClick={goToPrev}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 hidden sm:block"
+            className="absolute left-2 top-1/2 hidden -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all duration-200 hover:bg-black/50 sm:block"
             aria-label="Previous banner"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 hidden sm:block"
+            className="absolute right-2 top-1/2 hidden -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all duration-200 hover:bg-black/50 sm:block"
             aria-label="Next banner"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </>

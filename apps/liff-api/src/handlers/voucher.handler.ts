@@ -47,7 +47,7 @@ export const getVoucherPageV2 = factory.createHandlers(
   async (c) => {
     try {
       const { id: userId } = c.get("jwtPayload");
-      const { id: voucher_id } = c.req.param();
+      const { id: voucher_id } = c.req.param() as { id: string };
       const directus = c.get("directAdmin");
 
       const serverNow = new Date();
@@ -735,6 +735,145 @@ export const getMyCouponsV2 = factory.createHandlers(
           error: "Failed to get my coupons for page",
           detail: error?.message ?? String(error),
         },
+        500
+      );
+    }
+  }
+);
+
+// getVoucher
+export const getBrandPageV2 = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { id: brandId } = c.req.param() as { id: string };
+      const { liff_id } = c.get("jwtPayload");
+      const lang = c.req.query("lang") || "en-US";
+      const directus = c.get("directAdmin");
+
+      // Load all pages for this liff_id to determine allowed voucher ids
+      const pages: any[] = await directus.request(
+        readItems("pages_liff", {
+          filter: { liff_id: { _eq: liff_id } },
+          fields: [
+            { vouchers: [{ vouchers_id: ["id"] }] },
+            { populars: [{ vouchers_id: ["id"] }] },
+            { banner_vouchers: [{ vouchers_id: ["id"] }] },
+          ],
+          limit: -1,
+        } as any)
+      );
+      if (!pages?.length) {
+        return c.json({ error: "Page not found" }, 404);
+      }
+
+      const allowedVoucherIds = new Set<string>();
+      const popularVoucherIds = new Set<string>();
+      for (const page of pages) {
+        for (const v of page?.vouchers ?? []) {
+          const id = v?.vouchers_id?.id;
+          if (id) allowedVoucherIds.add(id);
+        }
+        for (const p of page?.populars ?? []) {
+          const id = p?.vouchers_id?.id;
+          if (id) {
+            allowedVoucherIds.add(id);
+            popularVoucherIds.add(id);
+          }
+        }
+        for (const b of page?.banner_vouchers ?? []) {
+          const id = b?.vouchers_id?.id;
+          if (id) allowedVoucherIds.add(id);
+        }
+      }
+
+      // Load brand with categories
+      const voucherBrand: any = await directus.request(
+        readItem("vouchers_brands", brandId, {
+          fields: ["*", { categories: [{ voucher_categories_id: ["*"] }] }],
+        })
+      );
+      if (!voucherBrand) return c.json(null);
+      if (voucherBrand?.categories) {
+        voucherBrand.categories = voucherBrand.categories
+          .map((x: any) => x?.voucher_categories_id ?? x)
+          .filter(Boolean);
+      }
+
+      // If no allowed vouchers for this page, return empty list with brand
+      if (!allowedVoucherIds.size) {
+        return c.json({ ...voucherBrand, vouchers: [] });
+      }
+
+      // Load vouchers for brand intersecting page's allowed list
+      const vouchersRaw: any[] = await directus.request(
+        readItems(
+          "vouchers",
+          {
+            filter: {
+              id: { _in: Array.from(allowedVoucherIds) },
+              voucher_brand_id: { _eq: brandId },
+            },
+            fields: [
+              "*",
+              { categories: [{ voucher_categories_id: ["*"] }] },
+              { voucher_brand_id: ["*"] },
+              { translations: ["*"] },
+            ],
+            limit: -1,
+          } as any
+        )
+      );
+
+      const now = new Date();
+
+      // Batch load available code counts for these vouchers
+      const codeItems: any[] = await directus.request(
+        readItems("vouchers_codes", {
+          fields: ["voucher", "code_status"],
+          filter: {
+            voucher: { _in: Array.from(allowedVoucherIds) },
+            code_status: { _eq: "available" },
+          },
+          limit: -1,
+        })
+      );
+      const availableByVoucher = _.countBy(codeItems, (x: any) => x.voucher);
+
+      // Map vouchers: filter by visibility and availability, apply translations and categories
+      const mapped = (vouchersRaw || [])
+        .filter((v: any) => v?.hide_on_homepage !== true)
+        .filter((v: any) => !v?.end_date || new Date(v.end_date) > now)
+        .map((voucher: any) => {
+          const langTrans = _.find(voucher.translations, {
+            languages_code: lang,
+          });
+          const cleanTrans = langTrans
+            ? _.omit(langTrans, ["id", "languages_code"]) 
+            : {};
+          const rawCats = Array.isArray(voucher.categories)
+            ? voucher.categories
+            : [];
+          const categories = rawCats
+            .map((x: any) => x?.voucher_categories_id ?? x)
+            .filter(Boolean);
+          const available = availableByVoucher[voucher.id] || 0;
+          return {
+            ..._.omit(voucher, ["translations", "categories"]),
+            ...cleanTrans,
+            categories,
+            isPopular: popularVoucherIds.has(voucher.id),
+            stats: { available },
+          };
+        })
+        .filter((v: any) => (v?.stats?.available ?? 0) > 0);
+
+      return c.json({ ...voucherBrand, vouchers: mapped });
+    } catch (error: any) {
+      console.error(error);
+      return c.json(
+        { error: "Failed to get brand page", detail: error?.message ?? String(error) },
         500
       );
     }

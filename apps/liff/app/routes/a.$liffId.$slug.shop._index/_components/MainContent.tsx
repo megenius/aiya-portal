@@ -9,7 +9,6 @@ import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
-import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
   BrandListSkeleton,
@@ -90,12 +89,12 @@ const MainContent: React.FC<MainContentProps> = ({
   }, [page.metadata?.popularVouchersText]);
 
   // Memoized banner items
-  const bannerItems = useMemo(() => {
+  const bannerItems: BannerItem[] = useMemo(() => {
     return (banner_vouchers || [])
       .filter((banner_voucher) => banner_voucher.banner)
       .map((banner_voucher) => ({
         id: banner_voucher.id,
-        image: getDirectusFileUrl(banner_voucher.banner as string),
+        image: banner_voucher.banner,
         alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
       }));
   }, [banner_vouchers, language]);
@@ -207,7 +206,7 @@ const MainContent: React.FC<MainContentProps> = ({
       {layoutSettings.showCategory && !searchQuery && selectedCategory && (
         <>
           {isLoading ? (
-            <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4 pt-2">
+            <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4">
               <CategorySkeleton />
             </div>
           ) : (

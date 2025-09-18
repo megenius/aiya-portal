@@ -25,6 +25,9 @@ export type Voucher = Omit<
   metadata: VoucherMetadata;
   voucher_brand_id: Brand;
   categories: Category[];
+  // v2 optional computed fields
+  isPopular?: boolean;
+  stats?: VoucherStats;
 };
 
 export type Category = Omit<
