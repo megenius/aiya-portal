@@ -296,6 +296,8 @@ const Route = () => {
         data: {
           submission_data: submissionData,
         },
+        // pass campaignId to ensure precise invalidation on dashboard queries
+        campaignId: campaignId,
       });
 
       // Navigate back to dashboard
