@@ -203,6 +203,10 @@ export const getFile = factory.createHandlers(
         const assetUrl = getDirectusAssetUrl(c.env, fileId, key);
         console.log("Falling back to direct URL:", assetUrl);
 
+        if (!assetUrl) {
+          return c.json({ error: "Invalid asset URL" }, 400);
+        }
+
         const response = await fetch(assetUrl);
         if (!response.ok) {
           throw new Error(`Failed to fetch file: ${response.status}`);
@@ -274,8 +278,21 @@ export const uploadFile = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const body = await c.req.parseBody();
+    const file = body.file as unknown as File | undefined;
+    const folder = (body as Record<string, unknown>)["folder"] as
+      | string
+      | undefined;
+
+    if (!file) {
+      return c.json({ error: "Missing file" }, 400);
+    }
+
     const formData = new FormData();
-    formData.append("file", body.file);
+    formData.append("file", file);
+    if (folder) {
+      formData.append("folder", folder);
+    }
+
     const directus = c.get("directAdmin");
     const result = await directus.request(sdk.uploadFiles(formData));
     return c.json(result);

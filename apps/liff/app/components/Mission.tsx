@@ -17,10 +17,13 @@ export const Mission = ({
   lang,
 }: MissionProps) => {
   const navigate = useNavigate();
-  const isAccessible =
-    mission.user_progress.is_available ||
-    mission.user_progress.has_started ||
-    mission.user_progress.is_completed;
+  const baseAccessible =
+    mission.user_progress.is_available || mission.user_progress.has_started;
+  const claimed =
+    !!mission.user_progress.is_completed ||
+    (typeof mission.user_progress.completed_count === "number" &&
+      mission.user_progress.completed_count > 0);
+  const canEnter = baseAccessible && !claimed && !!mission.user_progress.can_submit;
 
   // Resolve thumbnail image id and URL (supports string ID or object with id)
   const thumbId =
@@ -67,38 +70,31 @@ export const Mission = ({
         <button
           className={
             "w-full rounded-full border px-4 py-2 text-center text-sm font-semibold " +
-            (isAccessible
+            (canEnter
               ? "border-blue-500 text-blue-600 hover:bg-blue-50"
               : "cursor-not-allowed border-gray-300 text-gray-400")
           }
-          onClick={() => {
-            navigate(
-              `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
-            );
-          }}
+          onClick={
+            canEnter
+              ? () =>
+                  navigate(
+                    `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
+                  )
+              : undefined
+          }
+          disabled={!canEnter}
         >
-          {lang === "th" ? "ทำภารกิจ" : "Start Mission"}
+          {lang === "th"
+            ? claimed
+              ? "รับสิทธิ์แล้ว"
+              : "ทำภารกิจ"
+            : claimed
+              ? "Claimed"
+              : "Start Mission"}
         </button>
       </div>
     </div>
   );
 
-  return (
-    <div>
-      {isAccessible ? (
-        <button
-          onClick={() => {
-            navigate(
-              `/a/${liffId}/${slug}/campaign/${campaignId}/mission/${mission.id}`,
-            );
-          }}
-          className="block"
-        >
-          {CardInner}
-        </button>
-      ) : (
-        <div className="opacity-80">{CardInner}</div>
-      )}
-    </div>
-  );
+  return <div>{canEnter ? CardInner : <div className="opacity-80">{CardInner}</div>}</div>;
 };

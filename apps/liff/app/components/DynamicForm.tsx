@@ -9,6 +9,7 @@ interface DynamicFormProps {
   language: string;
   onChange: (name: string, value: string) => void;
   onBlur?: (name: string) => void;
+  onFileChange?: (name: string, file: File | null) => void; // optional for deferred upload
 }
 
 const DynamicForm: React.FC<DynamicFormProps> = ({
@@ -18,6 +19,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   language,
   onChange,
   onBlur,
+  onFileChange,
 }) => {
   const lang = language as "th" | "en";
 
@@ -90,16 +92,18 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         );
 
       case "file":
+      case "image_upload":
         return (
           <FileUpload
             name={field.name}
             value={value}
-            accept={field.accept}
+            accept={field.accept ?? (field.type === "image_upload" ? "image/*" : undefined)}
             maxSize={field.max_size}
             required={field.required}
             error={error}
             language={language}
             onChange={onChange}
+            onFileChange={onFileChange}
             onBlur={onBlur}
           />
         );
@@ -145,6 +149,10 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           )}
 
           {renderField(field)}
+
+          {field.description?.[lang] && (
+            <p className="text-xs text-gray-500">{field.description[lang] || field.description.th}</p>
+          )}
 
           {errors[field.name] && (
             <p className="text-sm text-red-600">{errors[field.name]}</p>

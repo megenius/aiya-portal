@@ -41,18 +41,3 @@ export const submitMission = (missionId: string, data: MissionSubmissionRequest)
 
 export const fetchCampaignCredits = (campaignId: string) =>
   api.get<{ data: CampaignCreditsResponse }>(`/campaigns/${campaignId}/credits`).then((res) => res.data);
-
-export const uploadFile = (file: File) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  return api.post<{ data: { file_id: string; url: string; mime_type: string; size: number } }>(
-    "/upload",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  ).then((res) => res.data);
-};

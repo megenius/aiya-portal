@@ -143,6 +143,20 @@ const Route = () => {
 
   // const pageTitle = lang === "th" ? "แดชบอร์ดแคมเปญ" : "Campaign Dashboard";
 
+  // Sort missions: push claimed/completed to the end
+  const sortedMissions = missions.slice().sort((a: any, b: any) => {
+    const aCompleted = !!(
+      a?.user_progress?.is_completed ||
+      (typeof a?.user_progress?.completed_count === "number" && a?.user_progress?.completed_count > 0)
+    );
+    const bCompleted = !!(
+      b?.user_progress?.is_completed ||
+      (typeof b?.user_progress?.completed_count === "number" && b?.user_progress?.completed_count > 0)
+    );
+    // false (0) comes before true (1) so completed go last
+    return Number(aCompleted) - Number(bCompleted);
+  });
+
   return (
     <div className="flex h-full flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -202,7 +216,7 @@ const Route = () => {
               className="flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-5 overflow-x-auto overscroll-x-contain px-4 pb-4"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {missions.map((mission) => (
+              {sortedMissions.map((mission) => (
                 <div key={mission.id} className="w-40 flex-shrink-0 snap-start">
                   <Mission
                     mission={mission}

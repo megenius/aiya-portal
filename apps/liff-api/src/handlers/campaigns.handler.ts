@@ -356,13 +356,18 @@ export const getCampaignMissions = factory.createHandlers(
             )
           : [];
 
-      // Group submissions by mission
-      const submissionsByMission = userSubmissions.reduce(
+      // Group submissions by mission (normalize mission_id to string)
+      const submissionsByMission = (userSubmissions as any[]).reduce(
         (acc, submission) => {
-          if (!acc[submission.mission_id]) {
-            acc[submission.mission_id] = [];
+          const mid =
+            typeof submission.mission_id === "object"
+              ? submission.mission_id?.id
+              : submission.mission_id;
+          if (!mid) return acc;
+          if (!acc[mid]) {
+            acc[mid] = [];
           }
-          acc[submission.mission_id].push(submission);
+          acc[mid].push(submission);
           return acc;
         },
         {} as Record<string, any[]>
@@ -372,18 +377,21 @@ export const getCampaignMissions = factory.createHandlers(
       const missionsWithProgress = missions.map((mission) => {
         const submissions = submissionsByMission[mission.id] || [];
         const lastSubmission = submissions[0]; // Most recent first due to sort
-
+        let freq = (mission as any)?.frequency
+          ? String((mission as any).frequency).toUpperCase()
+          : "";
+        if (freq !== "ONCE" && freq !== "MULTIPLE") {
+          freq = "ONCE";
+        }
         const has_started = submissions.length > 0;
-        const is_completed =
-          mission.frequency === "ONCE" ? submissions.length > 0 : false;
+        const is_completed = freq === "ONCE" ? submissions.length > 0 : false;
         const is_available = (mission as any)?.status === "published";
 
         return {
           ...mission,
           user_progress: {
             completed_count: submissions.length,
-            can_submit:
-              mission.frequency === "MULTIPLE" || submissions.length === 0,
+            can_submit: freq === "MULTIPLE" || submissions.length === 0,
             last_submission_at: lastSubmission?.submitted_at || null,
             // additional fields expected by app
             is_completed,
@@ -426,7 +434,13 @@ export const submitMission = factory.createHandlers(
       }
 
       // Check if user can submit (for ONCE missions)
-      if (mission.frequency === "ONCE") {
+      let freqSubmit = (mission as any)?.frequency
+        ? String((mission as any).frequency).toUpperCase()
+        : "";
+      if (freqSubmit !== "ONCE" && freqSubmit !== "MULTIPLE") {
+        freqSubmit = "ONCE";
+      }
+      if (freqSubmit === "ONCE") {
         const existingSubmissions = await directus.request(
           readItems("user_mission_submissions", {
             filter: {
@@ -452,13 +466,20 @@ export const submitMission = factory.createHandlers(
         })
       );
 
-      // Create credit transaction
+      // Resolve campaign id from mission relation
+      const missionCampaignId =
+        typeof mission.campaign === "object"
+          ? mission.campaign?.id
+          : (mission.campaign as any);
+      if (!missionCampaignId) {
+        return c.json({ error: "Mission campaign is missing" }, 400);
+      }
+
+      // Create credit transaction (link to submission; amount is derived later from mission.reward_credits)
       const transaction = await directus.request(
         createItem("reward_credit_transactions", {
-          campaign_id: mission.campaign.id,
+          campaign_id: missionCampaignId,
           user_id: userId,
-          mission_id: missionId,
-          credits: mission.reward_credits,
           related_submission_id: submission.id,
         })
       );
@@ -467,7 +488,7 @@ export const submitMission = factory.createHandlers(
       const existingCredits = await directus.request(
         readItems("user_reward_credits", {
           filter: {
-            campaign_id: { _eq: mission.campaign.id },
+            campaign_id: { _eq: missionCampaignId },
             user_id: { _eq: userId },
           },
           limit: 1,
@@ -489,7 +510,7 @@ export const submitMission = factory.createHandlers(
 
         await directus.request(
           createItem("user_reward_credits", {
-            campaign_id: mission.campaign.id,
+            campaign_id: missionCampaignId,
             user_id: userId,
             total_earned: newTotalCredits,
           })
@@ -547,47 +568,78 @@ export const getCampaignCredits = factory.createHandlers(
         })
       );
 
-      // Fetch mission titles for referenced mission IDs
-      const txMissionIds = Array.from(
+      // Build transactions by following related_submission_id -> submission -> mission
+      const submissionIds = Array.from(
         new Set(
           (transactions as any[])
             .map((t) =>
-              typeof t.mission_id === "object" ? t.mission_id?.id : t.mission_id
+              typeof t.related_submission_id === "object"
+                ? t.related_submission_id?.id
+                : t.related_submission_id
             )
             .filter(Boolean)
         )
-      );
+      ) as string[];
 
-      const txMissionDetails = txMissionIds.length
+      const submissions = submissionIds.length
         ? await directus.request(
-            readItems("campaign_missions", {
-              fields: ["id", "title"],
-              filter: { id: { _in: txMissionIds as string[] } },
+            readItems("user_mission_submissions", {
+              fields: ["id", "mission_id", "submitted_at"],
+              filter: { id: { _in: submissionIds } },
             })
           )
         : [];
-      const missionTitleMap = new Map<string, string>(
-        (txMissionDetails as any[]).map((m) => [m.id, m.title])
+
+      const subById = new Map<string, any>(
+        (submissions as any[]).map((s) => [s.id, s])
       );
 
-      const formattedTransactions = (transactions as any[]).map(
-        (transaction) => {
-          const missionId =
-            typeof transaction.mission_id === "object"
-              ? transaction.mission_id?.id
-              : transaction.mission_id;
-          const title = missionTitleMap.get(missionId) || "";
-          return {
-            id: transaction.id,
-            mission_id: missionId,
-            mission_title: title,
-            amount: transaction.credits, // positive for rewards
-            type: "mission_reward" as const,
-            description: title,
-            created_at: transaction.date_created,
-          };
-        }
+      const missionIds = Array.from(
+        new Set(
+          (submissions as any[])
+            .map((s) =>
+              typeof s.mission_id === "object" ? s.mission_id?.id : s.mission_id
+            )
+            .filter(Boolean)
+        )
+      ) as string[];
+
+      const missionDetails = missionIds.length
+        ? await directus.request(
+            readItems("campaign_missions", {
+              fields: ["id", "title", "reward_credits"],
+              filter: { id: { _in: missionIds } },
+            })
+          )
+        : [];
+      const missionMap = new Map<string, any>(
+        (missionDetails as any[]).map((m) => [m.id, m])
       );
+
+      const formattedTransactions = (transactions as any[]).map((t) => {
+        const subId =
+          typeof t.related_submission_id === "object"
+            ? t.related_submission_id?.id
+            : t.related_submission_id;
+        const submission = subById.get(subId);
+        const missionId = submission
+          ? typeof submission.mission_id === "object"
+            ? submission.mission_id?.id
+            : submission.mission_id
+          : undefined;
+        const mission = missionId ? missionMap.get(missionId) : undefined;
+        const title = mission?.title || "";
+        const amount = mission?.reward_credits || 0;
+        return {
+          id: t.id,
+          mission_id: missionId,
+          mission_title: title,
+          amount,
+          type: "mission_reward" as const,
+          description: title,
+          created_at: t.date_created,
+        };
+      });
 
       const current_balance = formattedTransactions.reduce(
         (sum, t) => sum + (t.amount || 0),
@@ -727,16 +779,20 @@ export const getMission = factory.createHandlers(
 
       const lastSubmission = userSubmissions[0];
 
+      let freqGet = (mission as any)?.frequency
+        ? String((mission as any).frequency).toUpperCase()
+        : "";
+      if (freqGet !== "ONCE" && freqGet !== "MULTIPLE") {
+        freqGet = "ONCE";
+      }
       const missionWithProgress = {
         ...mission,
         user_progress: {
           completed_count: userSubmissions.length,
-          can_submit:
-            mission.frequency === "MULTIPLE" || userSubmissions.length === 0,
+          can_submit: freqGet === "MULTIPLE" || userSubmissions.length === 0,
           last_submission_at: lastSubmission?.submitted_at || null,
           // additional fields expected by app
-          is_completed:
-            mission.frequency === "ONCE" ? userSubmissions.length > 0 : false,
+          is_completed: freqGet === "ONCE" ? userSubmissions.length > 0 : false,
           has_started: userSubmissions.length > 0,
           is_available: (mission as any)?.status === "published",
           submitted_at: lastSubmission?.submitted_at || null,

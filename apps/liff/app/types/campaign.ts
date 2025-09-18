@@ -19,9 +19,13 @@ export interface FormField {
     th: string;
     en: string;
   };
-  type: "text" | "tel" | "email" | "textarea" | "file" | "select" | "checkbox";
+  type: "text" | "tel" | "email" | "textarea" | "file" | "select" | "checkbox" | "image_upload";
   required: boolean;
   placeholder?: {
+    th?: string;
+    en?: string;
+  };
+  description?: {
     th?: string;
     en?: string;
   };
@@ -54,7 +58,7 @@ export type CampaignMission = Omit<
   "mission_type" | "title" | "submission_form"
 > & {
   title: language;
-  description: language;
+  description?: language;
   instructions?: language;
   mission_type: string;
   submission_form?: FormStructure | null;

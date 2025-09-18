@@ -1,25 +1,21 @@
-import React, { useState, useRef } from "react";
-import { useUploadFile } from "~/hooks/campaigns";
-import { Upload, X, CheckCircle, AlertCircle, File } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { Upload, X, AlertCircle } from "lucide-react";
+import { resizeImage } from "~/utils/resizeImg";
 
 interface FileUploadProps {
   name: string;
-  value?: string; // file_id or URL
+  value?: string; // string for controlled form value (e.g., filename or file_id)
   accept?: string;
   maxSize?: number; // in MB
   required?: boolean;
   error?: string;
   language: string;
   onChange: (name: string, value: string) => void;
+  onFileChange?: (name: string, file: File | null) => void; // for deferred upload
   onBlur?: (name: string) => void;
 }
 
-interface UploadedFileInfo {
-  file_id: string;
-  url: string;
-  mime_type: string;
-  size: number;
-}
+type SelectedPreview = { url: string; name: string; size: number; type: string } | null;
 
 const FileUpload: React.FC<FileUploadProps> = ({
   name,
@@ -30,29 +26,39 @@ const FileUpload: React.FC<FileUploadProps> = ({
   error,
   language,
   onChange,
+  onFileChange,
   onBlur,
 }) => {
   const lang = language as 'th' | 'en';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<UploadedFileInfo | null>(null);
+  const [preview, setPreview] = useState<SelectedPreview>(null);
   const [originalFileName, setOriginalFileName] = useState<string>("");
 
-  const uploadMutation = useUploadFile();
+  type CaptureAttr = { capture?: 'environment' | 'user' | boolean };
 
-  // Initialize uploaded file info if value exists
-  React.useEffect(() => {
-    if (value && !uploadedFile) {
-      // If value is a file_id, we'll show it as uploaded
-      // In a real scenario, you might want to fetch file info from the API
-      setUploadedFile({
-        file_id: value,
-        url: value,
-        mime_type: 'unknown',
-        size: 0,
+  // Build preview from incoming value
+  useEffect(() => {
+    // Clean old object URL
+    return () => {
+      setPreview((prev) => {
+        if (prev?.url?.startsWith('blob:')) {
+          try { URL.revokeObjectURL(prev.url); } catch { /* noop */ }
+        }
+        return null;
       });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!value) {
+      setPreview(null);
+      setOriginalFileName("");
+      return;
     }
-  }, [value, uploadedFile]);
+    // value is just a string; preview is only from locally picked File
+    setOriginalFileName(value);
+  }, [value]);
 
   const validateFile = (file: File): string | null => {
     // Check file size
@@ -89,25 +95,53 @@ const FileUpload: React.FC<FileUploadProps> = ({
     return null;
   };
 
-  const handleFileSelect = async (file: File) => {
-    const validationError = validateFile(file);
-    if (validationError) {
-      alert(validationError);
+  const handleFileSelect = async (picked: File) => {
+    const isImage = (accept && accept.includes('image/')) || picked.type.startsWith('image/');
+
+    // Snapshot file to avoid cloud permission revokes (Google Photos/iCloud)
+    let file: File = picked;
+    try {
+      const ab = await picked.arrayBuffer();
+      const blob = new Blob([ab], { type: picked.type || 'application/octet-stream' });
+      file = new File([blob], picked.name || `image-${Date.now()}.jpg`, { type: picked.type || 'application/octet-stream' });
+    } catch (e) {
+      console.warn('[file-pick] snapshot failed (likely cloud/permission issue):', e);
+      alert(
+        lang === 'th'
+          ? 'ไม่สามารถอ่านไฟล์จากตัวเลือกนี้ได้ อาจเป็นไฟล์จากคลาวด์\nโปรดดาวน์โหลดรูปลงเครื่องก่อนแล้วลองใหม่ หรือถ่ายรูปด้วยกล้องโดยตรง'
+          : "Cannot read the selected file (possibly from cloud). Please download the photo locally and try again, or use camera."
+      );
       return;
     }
 
     setOriginalFileName(file.name);
 
+    // Compress images before storing (deferred upload)
+    let processed: File = file;
     try {
-      const response = await uploadMutation.mutateAsync(file);
-      const fileInfo = response.data;
-
-      setUploadedFile(fileInfo);
-      onChange(name, fileInfo.file_id);
-    } catch (error) {
-      console.error('Upload failed:', error);
-      alert(lang === 'th' ? 'การอัปโหลดไฟล์ล้มเหลว กรุณาลองใหม่อีกครั้ง' : 'File upload failed. Please try again.');
+      if (isImage) {
+        processed = await resizeImage(file, { maxSizeMB: maxSize || 2 });
+      }
+    } catch (resizeErr) {
+      console.error('[resizeImage-error]', resizeErr);
+      // Fallback to original file
+      processed = file;
     }
+
+    // Validate after compression (for images) or directly (for non-images)
+    const validationError = validateFile(processed);
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+
+    // Set local preview and propagate File to parent (deferred upload)
+    try {
+      const url = URL.createObjectURL(processed);
+      setPreview({ url, name: processed.name, size: processed.size, type: processed.type });
+    } catch { /* noop */ }
+    onFileChange?.(name, processed);
+    onChange(name, processed.name);
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,8 +172,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const handleRemoveFile = () => {
-    setUploadedFile(null);
+    if (preview?.url?.startsWith('blob:')) {
+      try { URL.revokeObjectURL(preview.url); } catch { /* noop */ }
+    }
+    setPreview(null);
     setOriginalFileName("");
+    onFileChange?.(name, null);
     onChange(name, "");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -154,41 +192,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getFileIcon = (mimeType: string) => {
-    if (mimeType.startsWith('image/')) {
-      return '🖼️';
-    }
-    if (mimeType.includes('pdf')) {
-      return '📄';
-    }
-    if (mimeType.includes('video/')) {
-      return '🎥';
-    }
-    if (mimeType.includes('audio/')) {
-      return '🎵';
-    }
-    return '📎';
-  };
+  // Note: if you want to show file-type icons, implement here. Currently unused.
 
-  if (uploadedFile) {
+  if (preview || originalFileName) {
     return (
       <div className="space-y-2">
-        <div className={`relative rounded-lg border-2 border-dashed p-4 ${
-          error ? 'border-red-300 bg-red-50' : 'border-green-300 bg-green-50'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <CheckCircle size={20} className="text-green-500" />
-              <div className="flex-1">
-                <div className="font-medium text-green-800">
-                  {originalFileName || (lang === 'th' ? 'ไฟล์ที่อัปโหลด' : 'Uploaded file')}
-                </div>
-                {uploadedFile.size > 0 && (
-                  <div className="text-sm text-green-600">
-                    {formatFileSize(uploadedFile.size)}
-                  </div>
-                )}
-              </div>
+        <div className={`relative overflow-hidden rounded-lg border p-3 ${error ? 'border-red-300 bg-red-50' : 'border-green-300 bg-green-50'}`}>
+          <div className="flex items-center gap-3">
+            {preview && preview.type.startsWith('image/') ? (
+              <img src={preview.url} alt={originalFileName} className="h-16 w-16 rounded object-cover" />
+            ) : (
+              <div className="flex h-16 w-16 items-center justify-center rounded bg-white text-gray-500">FILE</div>
+            )}
+            <div className="min-w-0 flex-1">
+              <div className="truncate font-medium text-green-800">{originalFileName || (lang === 'th' ? 'ไฟล์ที่เลือก' : 'Selected file')}</div>
+              {preview?.size ? (
+                <div className="text-sm text-green-700">{formatFileSize(preview.size)}</div>
+              ) : null}
             </div>
             <button
               type="button"
@@ -225,20 +245,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
           onBlur={() => onBlur?.(name)}
           className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           required={required}
+          {...((): CaptureAttr => {
+            const isImageAccept = !!accept && accept.includes('image/');
+            const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
+            const props: CaptureAttr = {};
+            if (isImageAccept && isAndroid) props.capture = 'environment';
+            return props;
+          })()}
         />
 
         <div className="text-center">
-          {uploadMutation.isPending ? (
-            <div className="space-y-2">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
-              </div>
-              <div className="text-sm text-blue-600">
-                {lang === 'th' ? 'กำลังอัปโหลด...' : 'Uploading...'}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2">
+          <div className="space-y-2">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
                 <Upload size={24} className="text-gray-400" />
               </div>
@@ -256,8 +273,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <div className="text-xs text-gray-500">
                 {lang === 'th' ? `ขนาดไฟล์สูงสุด ${maxSize}MB` : `Max file size ${maxSize}MB`}
               </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
 

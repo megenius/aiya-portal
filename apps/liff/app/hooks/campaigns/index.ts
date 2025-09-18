@@ -6,4 +6,3 @@ export { useCampaignCredits } from "./useCampaignCredits";
 export { useConsentPDPA } from "./useConsentPDPA";
 export { useRegisterCampaign } from "./useRegisterCampaign";
 export { useSubmitMission } from "./useSubmitMission";
-export { useUploadFile } from "./useUploadFile";
