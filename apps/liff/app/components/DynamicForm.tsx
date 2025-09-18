@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormField } from "~/types/campaign";
 import FileUpload from "./FileUpload";
 
@@ -46,14 +46,17 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
     switch (field.type) {
       case 'text':
       case 'email':
-      case 'tel':
+      case 'tel': {
+        const isPhone = field.type === 'tel' || field.name === 'phone';
         return (
           <input
             {...commonProps}
             type={field.type}
             autoComplete={field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'name'}
+            {...(isPhone ? { inputMode: 'numeric', pattern: '[0-9]*' } : {})}
           />
         );
+      }
 
       case 'textarea':
         return (

@@ -318,7 +318,7 @@ Data Protection Officer (DPO)
 
             {/* PDPA Content */}
             <div className="flex min-h-0 flex-1 flex-col space-y-4 overflow-hidden">
-              <div className="flex items-center justify-center text-balance text-center font-semibold">
+              <div className="flex items-center justify-center text-balance text-center text-lg font-semibold">
                 {content.title}
               </div>
 

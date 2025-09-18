@@ -6,7 +6,7 @@ import {
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PageLiff } from "~/types/page";
 import { useCampaign, useRegisterCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
@@ -44,6 +44,67 @@ const Route = () => {
   const registerMutation = useRegisterCampaign();
 
   const primaryColor = page.bg_color || "#1DB446";
+
+  // i18n messages
+  const messages = useMemo(() => {
+    return lang === "th"
+      ? {
+          pageTitle: "ลงทะเบียนเข้าร่วมแคมเปญ",
+          introDesc: "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ",
+          formTitle: "ข้อมูลสำหรับลงทะเบียน",
+          errorsSummary: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:",
+          errors: {
+            required: "กรุณากรอกข้อมูล",
+            emailInvalid: "รูปแบบอีเมลไม่ถูกต้อง",
+            phoneInvalid: "รูปแบบเบอร์โทรไม่ถูกต้อง",
+            checkboxRequired: "กรุณาติ๊กยอมรับ",
+            selectRequired: "กรุณาเลือกข้อมูล",
+          },
+          submitting: "กำลังลงทะเบียน...",
+          submit: "ลงทะเบียน",
+        }
+      : {
+          pageTitle: "Campaign Registration",
+          introDesc: "Please fill in the information to register for the campaign",
+          formTitle: "Registration Information",
+          errorsSummary: "Please fix the following errors:",
+          errors: {
+            required: "This field is required",
+            emailInvalid: "Invalid email format",
+            phoneInvalid: "Invalid phone number format",
+            checkboxRequired: "Please accept",
+            selectRequired: "Please select an option",
+          },
+          submitting: "Registering...",
+          submit: "Register",
+        };
+  }, [lang]);
+
+  // Disable submit until required fields are provided and no errors exist
+  const isSubmitDisabled = useMemo(() => {
+    if (!campaign) return true;
+    const hasErrors = Object.values(formErrors).some(Boolean);
+
+    const missingRequired = campaign.registration_form.fields.some((field) => {
+      if (!field.required) return false;
+      const raw = (formValues[field.name] ?? "").toString();
+      const value = raw.trim();
+      if (field.type === "checkbox") {
+        const truthy = ["true", "1", "on", "yes"].includes(value.toLowerCase());
+        return !truthy;
+      }
+      if (field.type === "select") {
+        return !value;
+      }
+      if (field.type === "tel" || field.name === "phone") {
+        const digits = value.replace(/[^0-9]/g, "");
+        return digits.length !== 10;
+      }
+      return !value;
+    });
+
+    return registerMutation.isPending || hasErrors || missingRequired;
+  }, [campaign, formErrors, formValues, registerMutation.isPending]);
 
   // Handle redirects in useEffect to avoid render-time navigation
   useEffect(() => {
@@ -108,36 +169,63 @@ const Route = () => {
   }
 
   const validateField = (
-    fieldName: string,
-    value: string,
-    required: boolean,
+    field: { name: string; required: boolean; type?: string },
+    valueRaw: string,
   ): string => {
-    if (required && !value.trim()) {
-      return lang === "th" ? "กรุณากรอกข้อมูล" : "This field is required";
-    }
+    const value = (valueRaw ?? "").toString().trim();
 
-    // Additional validation rules
-    if (fieldName === "email" && value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) {
-        return lang === "th" ? "รูปแบบอีเมลไม่ถูกต้อง" : "Invalid email format";
+    // Required validation by type
+    if (field.required) {
+      if (field.type === "checkbox") {
+        const truthy = ["true", "1", "on", "yes"].includes(value.toLowerCase());
+        if (!truthy) return messages.errors.checkboxRequired;
+      } else if (field.type === "select") {
+        if (!value) return messages.errors.selectRequired;
+      } else {
+        if (!value) return messages.errors.required;
       }
     }
 
-    if (fieldName === "phone" && value) {
-      const phoneRegex = /^[0-9]{9,10}$/;
-      if (!phoneRegex.test(value.replace(/-/g, ""))) {
-        return lang === "th"
-          ? "รูปแบบเบอร์โทรไม่ถูกต้อง"
-          : "Invalid phone number format";
+    // Type-specific validation
+    const isEmailField = field.type === "email" || field.name === "email";
+    if (isEmailField && value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        return messages.errors.emailInvalid;
+      }
+    }
+
+    const isPhoneField = field.type === "tel" || field.name === "phone";
+    if (isPhoneField && value) {
+      const digits = value.replace(/[^0-9]/g, "");
+      const phoneRegex = /^[0-9]{10}$/; // enforce 10 digits
+      if (!phoneRegex.test(digits)) {
+        return messages.errors.phoneInvalid;
       }
     }
 
     return "";
   };
 
+  // Format Thai phone number as 0xx-xxx-xxxx while typing
+  const formatThaiPhone = (digits: string) => {
+    const d = digits.slice(0, 10);
+    if (d.length <= 3) return d;
+    if (d.length <= 6) return `${d.slice(0, 3)}-${d.slice(3)}`;
+    return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
+  };
+
   const handleFieldChange = (fieldName: string, value: string) => {
-    setFormValues((prev) => ({ ...prev, [fieldName]: value }));
+    const field = campaign.registration_form.fields.find((f) => f.name === fieldName);
+
+    // Sanitize and format phone input
+    if (field && (field.type === "tel" || field.name === "phone")) {
+      const digitsOnly = (value || "").replace(/\D/g, "").slice(0, 10);
+      const formatted = formatThaiPhone(digitsOnly);
+      setFormValues((prev) => ({ ...prev, [fieldName]: formatted }));
+    } else {
+      setFormValues((prev) => ({ ...prev, [fieldName]: value }));
+    }
 
     // Clear error when user starts typing
     if (formErrors[fieldName]) {
@@ -152,11 +240,7 @@ const Route = () => {
       (f) => f.name === fieldName,
     );
     if (field) {
-      const error = validateField(
-        fieldName,
-        formValues[fieldName] || "",
-        field.required,
-      );
+      const error = validateField(field, formValues[fieldName] || "");
       setFormErrors((prev) => ({ ...prev, [fieldName]: error }));
     }
   };
@@ -167,7 +251,7 @@ const Route = () => {
 
     campaign.registration_form.fields.forEach((field) => {
       const value = formValues[field.name] || "";
-      const error = validateField(field.name, value, field.required);
+      const error = validateField(field, value);
 
       if (error) {
         errors[field.name] = error;
@@ -197,10 +281,24 @@ const Route = () => {
       const cameWithPdpa = searchParams.get("pdpa") === "1";
       const pdpaAt = searchParams.get("pdpaAt") || new Date().toISOString();
 
+      // Sanitize phone fields (strip non-digits) before submit
+      const sanitizedValues = campaign.registration_form.fields.reduce(
+        (acc, field) => {
+          const v = (formValues[field.name] ?? "").toString();
+          if (field.type === "tel" || field.name === "phone") {
+            acc[field.name] = v.replace(/[^0-9]/g, "");
+          } else {
+            acc[field.name] = v;
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+
       await registerMutation.mutateAsync({
         campaignId: campaignId!,
         data: {
-          registration_data: formValues,
+          registration_data: sanitizedValues,
           ...(cameWithPdpa
             ? { has_agreed_pdpa: true, pdpa_agreed_at: pdpaAt }
             : {}),
@@ -219,8 +317,7 @@ const Route = () => {
     }
   };
 
-  const pageTitle =
-    lang === "th" ? "ลงทะเบียนเข้าร่วมแคมเปญ" : "Campaign Registration";
+  const pageTitle = messages.pageTitle;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -248,20 +345,14 @@ const Route = () => {
             <h2 className="font-semibold text-blue-900">
               {campaign.title[lang]}
             </h2>
-            <p className="text-sm text-blue-700">
-              {lang === "th"
-                ? "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ"
-                : "Please fill in the information to register for the campaign"}
-            </p>
+            <p className="text-sm text-blue-700">{messages.introDesc}</p>
           </div>
 
           {/* Registration Form */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-lg font-semibold">
               <UserPlus size={20} />
-              {lang === "th"
-                ? "ข้อมูลสำหรับลงทะเบียน"
-                : "Registration Information"}
+              {messages.formTitle}
             </div>
 
             <DynamicForm
@@ -280,9 +371,7 @@ const Route = () => {
               <div className="flex items-center gap-2 text-red-800">
                 <AlertCircle size={16} />
                 <span className="text-sm font-medium">
-                  {lang === "th"
-                    ? "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:"
-                    : "Please fix the following errors:"}
+                  {messages.errorsSummary}
                 </span>
               </div>
               <ul className="mt-2 text-sm text-red-700">
@@ -309,21 +398,13 @@ const Route = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={registerMutation.isPending}
+            disabled={isSubmitDisabled}
             className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             style={{
-              backgroundColor: registerMutation.isPending
-                ? "#9CA3AF"
-                : primaryColor,
+              backgroundColor: isSubmitDisabled ? "#9CA3AF" : primaryColor,
             }}
           >
-            {registerMutation.isPending
-              ? lang === "th"
-                ? "กำลังลงทะเบียน..."
-                : "Registering..."
-              : lang === "th"
-                ? "ลงทะเบียน"
-                : "Register"}
+            {registerMutation.isPending ? messages.submitting : messages.submit}
           </button>
         </form>
       </div>
