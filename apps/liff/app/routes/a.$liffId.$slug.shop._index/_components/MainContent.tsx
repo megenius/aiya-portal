@@ -98,12 +98,7 @@ const MainContent: React.FC<MainContentProps> = ({
       .filter((banner_voucher) => banner_voucher.banner)
       .map((banner_voucher) => ({
         id: banner_voucher.id,
-        image:
-          typeof banner_voucher.banner === "string"
-            ? banner_voucher.banner
-            : banner_voucher.banner
-              ? getDirectusFileUrl(banner_voucher.banner as string)
-              : "",
+        image: banner_voucher.banner,
         alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
         type: "voucher" as const,
       }))
@@ -111,8 +106,8 @@ const MainContent: React.FC<MainContentProps> = ({
 
     const campaignBanners = (banner_campaigns || []).map((campaign) => ({
       id: campaign.id,
-      image: getDirectusFileUrl(campaign.banner_image as string),
-      title: campaign.title[language],
+      image: campaign.banner_image,
+      // title: campaign.title[language],
       alt: `Campaign banner for ${campaign.title[language]}`,
       type: "campaign" as const,
     }));

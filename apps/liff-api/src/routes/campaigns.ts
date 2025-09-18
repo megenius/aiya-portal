@@ -13,11 +13,6 @@ campaignRoutes.post("/:id/register", ...CampaignHandler.registerCampaign);
 
 // Mission management
 campaignRoutes.get("/:id/missions", ...CampaignHandler.getCampaignMissions);
-campaignRoutes.get("/missions/:missionId", ...CampaignHandler.getMission);
-campaignRoutes.post("/missions/:missionId/submissions", ...CampaignHandler.submitMission);
-
-// File upload
-campaignRoutes.post("/upload", ...CampaignHandler.uploadFile);
 
 // Credits and stats
 campaignRoutes.get("/:id/credits", ...CampaignHandler.getCampaignCredits);

@@ -257,7 +257,8 @@ export const registerCampaign = factory.createHandlers(
     try {
       const { id: userId } = c.get("jwtPayload");
       const { id: campaignId } = c.req.param();
-      const { registration_data, has_agreed_pdpa, pdpa_agreed_at } = await c.req.json();
+      const { registration_data, has_agreed_pdpa, pdpa_agreed_at } =
+        await c.req.json();
       const directus = c.get("directAdmin");
 
       // Get existing registration
@@ -299,7 +300,11 @@ export const registerCampaign = factory.createHandlers(
       }
 
       const updatedRegistration = await directus.request(
-        updateItem("user_campaign_registrations", registration.id, updatePayload)
+        updateItem(
+          "user_campaign_registrations",
+          registration.id,
+          updatePayload
+        )
       );
 
       return c.json({
@@ -331,9 +336,8 @@ export const getCampaignMissions = factory.createHandlers(
         readItems("campaign_missions", {
           filter: {
             campaign: { _eq: campaignId },
-            is_active: { _eq: true },
           },
-          sort: ["sort_order"],
+          sort: ["sort"],
         })
       );
 
@@ -364,10 +368,15 @@ export const getCampaignMissions = factory.createHandlers(
         {} as Record<string, any[]>
       );
 
-      // Add user progress to missions
+      // Add user progress to missions (augment fields used by frontend)
       const missionsWithProgress = missions.map((mission) => {
         const submissions = submissionsByMission[mission.id] || [];
         const lastSubmission = submissions[0]; // Most recent first due to sort
+
+        const has_started = submissions.length > 0;
+        const is_completed =
+          mission.frequency === "ONCE" ? submissions.length > 0 : false;
+        const is_available = (mission as any)?.status === "published";
 
         return {
           ...mission,
@@ -376,6 +385,11 @@ export const getCampaignMissions = factory.createHandlers(
             can_submit:
               mission.frequency === "MULTIPLE" || submissions.length === 0,
             last_submission_at: lastSubmission?.submitted_at || null,
+            // additional fields expected by app
+            is_completed,
+            has_started,
+            is_available,
+            submitted_at: lastSubmission?.submitted_at || null,
           },
           user_submissions: submissions,
         };
@@ -521,15 +535,10 @@ export const getCampaignCredits = factory.createHandlers(
 
       const credits = userCredits[0];
 
-      // Get transactions with mission details
+      // Get transactions first
       const transactions = await directus.request(
         readItems("reward_credit_transactions", {
-          fields: [
-            "*",
-            {
-              mission_id: ["id", "title"],
-            },
-          ],
+          fields: ["*"],
           filter: {
             campaign_id: { _eq: campaignId },
             user_id: { _eq: userId },
@@ -538,17 +547,60 @@ export const getCampaignCredits = factory.createHandlers(
         })
       );
 
-      const formattedTransactions = transactions.map((transaction) => ({
-        id: transaction.id,
-        mission_id: transaction.mission_id.id,
-        mission_title: transaction.mission_id.title,
-        credits: transaction.credits,
-        created_at: transaction.date_created,
-      }));
+      // Fetch mission titles for referenced mission IDs
+      const txMissionIds = Array.from(
+        new Set(
+          (transactions as any[])
+            .map((t) =>
+              typeof t.mission_id === "object" ? t.mission_id?.id : t.mission_id
+            )
+            .filter(Boolean)
+        )
+      );
+
+      const txMissionDetails = txMissionIds.length
+        ? await directus.request(
+            readItems("campaign_missions", {
+              fields: ["id", "title"],
+              filter: { id: { _in: txMissionIds as string[] } },
+            })
+          )
+        : [];
+      const missionTitleMap = new Map<string, string>(
+        (txMissionDetails as any[]).map((m) => [m.id, m.title])
+      );
+
+      const formattedTransactions = (transactions as any[]).map(
+        (transaction) => {
+          const missionId =
+            typeof transaction.mission_id === "object"
+              ? transaction.mission_id?.id
+              : transaction.mission_id;
+          const title = missionTitleMap.get(missionId) || "";
+          return {
+            id: transaction.id,
+            mission_id: missionId,
+            mission_title: title,
+            amount: transaction.credits, // positive for rewards
+            type: "mission_reward" as const,
+            description: title,
+            created_at: transaction.date_created,
+          };
+        }
+      );
+
+      const current_balance = formattedTransactions.reduce(
+        (sum, t) => sum + (t.amount || 0),
+        0
+      );
+      const total_earned = formattedTransactions
+        .filter((t) => (t.amount || 0) > 0)
+        .reduce((sum, t) => sum + (t.amount || 0), 0);
 
       return c.json({
         data: {
-          total_earned: credits?.total_earned || 0,
+          total_earned,
+          current_balance,
           transactions: formattedTransactions,
         },
       });
@@ -572,31 +624,61 @@ export const getCampaignSubmissions = factory.createHandlers(
       // Get submissions for this campaign
       const submissions = await directus.request(
         readItems("user_mission_submissions", {
-          fields: [
-            "*",
-            {
-              mission_id: ["id", "title", "campaign", "reward_credits"],
-            },
-          ],
+          fields: ["*"],
           filter: {
             user_id: { _eq: userId },
-            mission_id: {
-              campaign: { _eq: campaignId },
-            },
           },
           sort: ["-submitted_at"],
         })
       );
 
-      const formattedSubmissions = submissions.map((submission) => ({
-        id: submission.id,
-        mission_id: submission.mission_id.id,
-        mission_title: submission.mission_id.title,
-        submission_data: submission.submission_data,
-        credits_earned: submission.mission_id.reward_credits,
-        submitted_at: submission.submitted_at,
-        status: submission.status || "approved",
-      }));
+      // Fetch mission details for submissions
+      const subMissionIds = Array.from(
+        new Set(
+          (submissions as any[])
+            .map((s) =>
+              typeof s.mission_id === "object" ? s.mission_id?.id : s.mission_id
+            )
+            .filter(Boolean)
+        )
+      );
+
+      const subMissionDetails = subMissionIds.length
+        ? await directus.request(
+            readItems("campaign_missions", {
+              fields: ["id", "title", "campaign", "reward_credits"],
+              filter: {
+                id: { _in: subMissionIds as string[] },
+                campaign: { _eq: campaignId },
+              },
+            })
+          )
+        : [];
+      const subMissionMap = new Map<string, any>(
+        (subMissionDetails as any[]).map((m) => [m.id, m])
+      );
+
+      const formattedSubmissions = (submissions as any[])
+        .filter((s) => {
+          const mid =
+            typeof s.mission_id === "object" ? s.mission_id?.id : s.mission_id;
+          return subMissionMap.has(mid);
+        })
+        .map((submission) => {
+          const missionId =
+            typeof submission.mission_id === "object"
+              ? submission.mission_id?.id
+              : submission.mission_id;
+          const mission = subMissionMap.get(missionId);
+          return {
+            id: submission.id,
+            mission_id: missionId,
+            mission_title: mission?.title,
+            submission_data: submission.submission_data,
+            credits_earned: mission?.reward_credits,
+            submitted_at: submission.submitted_at,
+          };
+        });
 
       return c.json({ data: formattedSubmissions });
     } catch (error) {
@@ -652,6 +734,12 @@ export const getMission = factory.createHandlers(
           can_submit:
             mission.frequency === "MULTIPLE" || userSubmissions.length === 0,
           last_submission_at: lastSubmission?.submitted_at || null,
+          // additional fields expected by app
+          is_completed:
+            mission.frequency === "ONCE" ? userSubmissions.length > 0 : false,
+          has_started: userSubmissions.length > 0,
+          is_available: (mission as any)?.status === "published",
+          submitted_at: lastSubmission?.submitted_at || null,
         },
         user_submissions: userSubmissions,
       };

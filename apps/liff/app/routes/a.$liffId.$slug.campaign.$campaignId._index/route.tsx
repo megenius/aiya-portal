@@ -3,6 +3,7 @@ import {
   useParams,
   useRouteError,
   isRouteErrorResponse,
+  useNavigate,
 } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
 import { useCampaign } from "~/hooks/campaigns";
@@ -10,10 +11,12 @@ import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import CampaignDetailContent from "./_components/CampaignDetailContent";
 import CampaignDetailSkeleton from "./_components/CampaignDetailSkeleton";
+import { useEffect } from "react";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
-  const { campaignId } = useParams();
+  const { liffId, slug, campaignId } = useParams();
+  const navigate = useNavigate();
   const {
     profile,
     isLoading: isProfileLoading,
@@ -28,6 +31,32 @@ const Route = () => {
     campaignId: campaignId || "",
     enabled: !!campaignId && !isProfileLoading && !!profile?.userId,
   });
+
+  // If user already registered/has data, redirect to dashboard (in effect to avoid navigating during render)
+  useEffect(() => {
+    if (
+      !isProfileLoading &&
+      !isCampaignLoading &&
+      campaign?.user_stats?.is_registered
+    ) {
+      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`, {
+        replace: true,
+      });
+    }
+  }, [
+    isProfileLoading,
+    isCampaignLoading,
+    campaign?.user_stats?.is_registered,
+    navigate,
+    liffId,
+    slug,
+    campaignId,
+  ]);
+
+  // Guard to prevent flicker while the redirect triggers
+  if (campaign?.user_stats?.is_registered) {
+    return null;
+  }
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {

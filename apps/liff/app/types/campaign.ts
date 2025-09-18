@@ -103,11 +103,14 @@ export interface MissionWithUserProgress extends CampaignMission {
 
 export interface CampaignCreditsResponse {
   total_earned: number;
+  current_balance: number;
   transactions: Array<{
     id: string;
-    mission_id: string;
+    mission_id: string | null;
     mission_title: string;
-    credits: number;
+    amount: number;
+    type: "mission_reward" | "bonus" | "redemption" | "refund" | string;
+    description?: string;
     created_at: string;
   }>;
 }
