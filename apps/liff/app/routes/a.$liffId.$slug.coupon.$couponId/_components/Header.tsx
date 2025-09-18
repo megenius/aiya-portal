@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "@remix-run/react";
+import LazyImage from "~/components/LazyImage";
 import { getDirectusFileUrl } from "~/utils/files";
 import { Voucher } from "~/types/app";
 import BackButton from "~/components/BackButton";
@@ -40,12 +41,18 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center">
         <BackButton onClick={navigateToBack} variant="header" />
         <div className="flex items-center space-x-2">
-          <img
+          <LazyImage
             src={getDirectusFileUrl(
               (voucher?.voucher_brand_id?.logo as string) ?? "",
             )}
             alt={voucher?.voucher_brand_id?.name ?? ""}
-            className="border-gray h-7 w-7 rounded-full border object-cover shadow-sm"
+            wrapperClassName="h-7 w-7"
+            className="h-full w-full rounded-full border object-cover shadow-sm"
+            placeholder="blur"
+            blurDataURL={getDirectusFileUrl(
+              (voucher?.voucher_brand_id?.logo as string) ?? "",
+              { width: 24, height: 24 },
+            )}
           />
           <h1 className="text-lg font-semibold">
             {voucher?.voucher_brand_id?.name}

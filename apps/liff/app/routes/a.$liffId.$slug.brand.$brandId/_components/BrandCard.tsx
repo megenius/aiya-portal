@@ -1,6 +1,6 @@
-import { Store, Ticket, Users } from "lucide-react";
+import { Ticket } from "lucide-react";
 import React from "react";
-import FollowButton from "~/components/FollowButton";
+import LazyImage from "~/components/LazyImage";
 import { Brand } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import InfoItem from "./InfoItem";
@@ -9,28 +9,16 @@ interface BrandCardProps {
   brand: Brand;
   couponCount: number;
   language: string;
-  isInClient: boolean;
 }
 
 const BrandCard: React.FC<BrandCardProps> = ({
   brand,
   couponCount,
   language,
-  isInClient,
 }) => {
-  const followerText = {
-    th: "ผู้ติดตาม",
-    en: "Followers",
-  };
-
   const vouchersText = {
     th: "คูปอง",
     en: "Coupons",
-  };
-
-  const branchesText = {
-    th: "สาขา",
-    en: "Branches",
   };
 
   return (
@@ -39,10 +27,16 @@ const BrandCard: React.FC<BrandCardProps> = ({
     >
       <div className="p-5">
         <div className="flex items-start">
-          <img
+          <LazyImage
             src={getDirectusFileUrl(brand?.logo as string) ?? ""}
             alt={brand?.name ?? ""}
-            className="mr-4 h-20 w-20 rounded-xl border border-gray-100 object-cover shadow-sm"
+            wrapperClassName="mr-4 h-20 w-20"
+            className="h-full w-full rounded-xl border border-gray-100 object-cover shadow-sm"
+            placeholder="blur"
+            blurDataURL={getDirectusFileUrl(brand?.logo as string, {
+              width: 24,
+              height: 24,
+            })}
           />
           <div className="flex-1">
             <div className="mb-1 flex items-center">

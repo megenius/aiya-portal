@@ -1,4 +1,5 @@
 import React from "react";
+import LazyImage from "~/components/LazyImage";
 import { getDirectusFileUrl } from "~/utils/files";
 import { Brand, Voucher } from "~/types/app";
 import { format } from "date-fns";
@@ -43,10 +44,16 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
           <div className="relative flex h-full flex-1 rounded-l-lg bg-white">
-            <img
+            <LazyImage
               src={getDirectusFileUrl(voucher.cover as string) ?? ""}
               alt={title}
-              className="mr-3 w-24 object-cover"
+              wrapperClassName="mr-3 w-24"
+              className="h-full w-full object-cover"
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(voucher.cover as string, {
+                width: 24,
+                height: 24,
+              })}
             />
             <div className="flex flex-1 flex-col justify-between space-y-3 py-3">
               <div className="w-full max-w-48 text-start">
@@ -93,18 +100,21 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 >
                   {brand.name}
                 </p>
-                <img
+                <LazyImage
                   src={getDirectusFileUrl(
-                    (brand.logo as string) ?? ""
+                    (voucher?.voucher_brand_id?.logo as string) ?? "",
                   )}
-                  alt={brand.name ?? ""}
-                  className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
+                  alt={voucher?.voucher_brand_id?.name ?? ""}
+                  wrapperClassName="mx-auto h-7 w-7"
+                  className="h-full w-full rounded-full border border-white object-cover shadow-sm"
+                  placeholder="shimmer"
                 />
                 <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
                   LOGO
                 </div>
               </div>
             </div>
+          </div>
           </div> */}
         </button>
         <div className="absolute left-0 top-0 h-full">

@@ -39,7 +39,6 @@ const MainContent: React.FC<MainContentProps> = ({ brand, language }) => {
           brand={brand}
           couponCount={brand?.vouchers?.length ?? 0}
           language={language}
-          isInClient={liff?.isInClient() ?? false}
         />
       )}
 

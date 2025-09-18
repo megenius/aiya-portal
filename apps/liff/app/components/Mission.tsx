@@ -1,5 +1,7 @@
 import { useNavigate } from "@remix-run/react";
+import LazyImage from "~/components/LazyImage";
 import { MissionWithUserProgress } from "~/types/campaign";
+import { getDirectusFileUrl } from "~/utils/files";
 
 interface MissionProps {
   mission: MissionWithUserProgress;
@@ -23,14 +25,10 @@ export const Mission = ({
     !!mission.user_progress.is_completed ||
     (typeof mission.user_progress.completed_count === "number" &&
       mission.user_progress.completed_count > 0);
-  const canEnter = baseAccessible && !claimed && !!mission.user_progress.can_submit;
+  const canEnter =
+    baseAccessible && !claimed && !!mission.user_progress.can_submit;
 
   // Resolve thumbnail image id and URL (supports string ID or object with id)
-  const thumbId =
-    typeof mission.thumbnail_image === "string"
-      ? mission.thumbnail_image
-      : (mission.thumbnail_image as { id?: string } | null | undefined)?.id;
-  const thumbnailUrl = thumbId ? `/api/files/${thumbId}` : "";
 
   const CardInner = (
     <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-md">
@@ -38,12 +36,17 @@ export const Mission = ({
       <div className="relative overflow-hidden rounded-2xl bg-gray-100">
         {/* Keep aspect ratio similar to mock */}
         <div className="aspect-square w-full">
-          {thumbnailUrl ? (
-            <img
-              src={thumbnailUrl}
+          {mission.thumbnail_image ? (
+            <LazyImage
+              src={getDirectusFileUrl(mission.thumbnail_image as string) ?? ""}
               alt={mission.title?.[lang] || "mission"}
               className="h-full w-full object-cover"
-              loading="lazy"
+              aspectRatio={1}
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(
+                mission.thumbnail_image as string,
+                { width: 24, height: 24 },
+              )}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-gray-400">
@@ -96,5 +99,9 @@ export const Mission = ({
     </div>
   );
 
-  return <div>{canEnter ? CardInner : <div className="opacity-80">{CardInner}</div>}</div>;
+  return (
+    <div>
+      {canEnter ? CardInner : <div className="opacity-80">{CardInner}</div>}
+    </div>
+  );
 };

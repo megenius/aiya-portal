@@ -1,12 +1,12 @@
-import { useNavigate } from "@remix-run/react";
-import { AlertCircle, Barcode, Clock, QrCode, TicketX, X } from "lucide-react";
+import { AlertCircle, Barcode, Clock, QrCode, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import LazyImage from "~/components/LazyImage";
 import { useQueryClient } from "@tanstack/react-query";
 import BarcodeGenerator from "~/components/BarCodeGenerater";
 import QRCodeGenerator from "~/components/QRCodeGenerator";
 import { useRedeemVoucher } from "~/hooks/vouchers/useRedeemVoucher";
 import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
-import { Voucher, VoucherCodeUpdate, VoucherUser } from "~/types/app";
+import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "../routes/a.$liffId.$slug.coupon.$couponId/_components/Button";
@@ -38,7 +38,6 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const usedDate = voucherUser.used_date;
   const redeemVoucher = useRedeemVoucher();
   const updateVoucherCode = useUpdateVoucherCode();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [codeType, setCodeType] = useState("qrcode");
   const [remainingTime, setRemainingTime] = useState(countdown * 60);
@@ -178,7 +177,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
         setShowExpireWarning(true);
       }
     }
-  }, [usedDate]);
+  }, [usedDate, countdown]);
 
   // ฟังก์ชันนับถอยหลัง
   useEffect(() => {
@@ -267,10 +266,16 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
               <>
                 <div className="mb-3 flex justify-between">
                   <div className="flex items-start gap-3">
-                    <img
+                    <LazyImage
                       src={getDirectusFileUrl(voucher.cover as string) ?? ""}
                       alt={title}
-                      className="h-20 w-20 rounded-lg object-cover"
+                      wrapperClassName="h-20 w-20"
+                      className="h-full w-full rounded-lg object-cover"
+                      placeholder="blur"
+                      blurDataURL={getDirectusFileUrl(voucher.cover as string, {
+                        width: 24,
+                        height: 24,
+                      })}
                     />
                     <div>
                       <h3 className="text-lg font-medium">
@@ -479,10 +484,16 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
               <>
                 <div className="flex flex-col items-center justify-center space-y-3 pb-5 pt-3 text-center">
                   <div className="flex items-start gap-3 text-start">
-                    <img
+                    <LazyImage
                       src={getDirectusFileUrl(voucher.cover as string) ?? ""}
                       alt={title}
-                      className="h-20 w-20 rounded-lg object-cover"
+                      wrapperClassName="h-20 w-20"
+                      className="h-full w-full rounded-lg object-cover"
+                      placeholder="blur"
+                      blurDataURL={getDirectusFileUrl(voucher.cover as string, {
+                        width: 24,
+                        height: 24,
+                      })}
                     />
                     <div>
                       <h3 className="text-lg font-medium">
@@ -629,22 +640,6 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     </div>
   );
 };
-
-function getVoucherThaiDescription(
-  voucherUser: VoucherUser,
-  voucher: Voucher,
-  language: string,
-) {
-  let description = "";
-  if (voucherUser.discount_type === "percentage") {
-    description = `ส่วนลด ${getVoucherValueWithType(voucherUser)}`;
-  } else if (voucherUser.discount_type === "fixed_amount") {
-    description = `ราคา ${getVoucherValueWithType(voucherUser)}`;
-  } else {
-    description = `คูปอง ${voucher.metadata.title[language]}`;
-  }
-  return `คุณได้รับ${description}`;
-}
 
 function getVoucherValueWithType(voucherUser: VoucherUser) {
   return `${voucherUser.discount_value}${voucherUser.discount_type === "percentage" ? "%" : ""}`;
