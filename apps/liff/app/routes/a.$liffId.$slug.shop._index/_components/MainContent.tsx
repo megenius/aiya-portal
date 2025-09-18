@@ -3,12 +3,14 @@ import { useNavigate, useParams } from "@remix-run/react";
 import { Search } from "lucide-react";
 import { Brand, Category, Voucher, VoucherStats } from "~/types/app";
 import { PageLiff } from "~/types/page";
+import { Campaign } from "~/types/campaign";
 import BrandList from "./BrandList";
 import CategoryList from "./CategoryList";
 import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
+import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
   BrandListSkeleton,
@@ -24,6 +26,7 @@ interface MainContentProps {
   vouchers?: Voucher[];
   populars?: Voucher[];
   banner_vouchers?: Voucher[];
+  banner_campaigns?: Campaign[];
   brands?: Brand[];
   isLoading?: boolean;
 }
@@ -35,6 +38,7 @@ const MainContent: React.FC<MainContentProps> = ({
   vouchers,
   populars,
   banner_vouchers,
+  banner_campaigns,
   brands,
   isLoading = false,
 }) => {
@@ -88,21 +92,38 @@ const MainContent: React.FC<MainContentProps> = ({
     return page.metadata?.popularVouchersText || defaultText;
   }, [page.metadata?.popularVouchersText]);
 
-  // Memoized banner items
+  // Memoized banner items (vouchers + campaigns)
   const bannerItems: BannerItem[] = useMemo(() => {
-    return (banner_vouchers || [])
+    const voucherBanners = (banner_vouchers || [])
       .filter((banner_voucher) => banner_voucher.banner)
       .map((banner_voucher) => ({
         id: banner_voucher.id,
         image: banner_voucher.banner,
         alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
-      }));
-  }, [banner_vouchers, language]);
+        type: "voucher" as const,
+      }))
+      .filter((banner) => banner.image); // Remove empty images
+
+    const campaignBanners = (banner_campaigns || []).map((campaign) => ({
+      id: campaign.id,
+      image: campaign.banner_image,
+      // title: campaign.title[language],
+      alt: `Campaign banner for ${campaign.title[language]}`,
+      type: "campaign" as const,
+    }));
+
+    return [...campaignBanners, ...voucherBanners];
+  }, [banner_vouchers, banner_campaigns, language]);
 
   // Callbacks
   const handleBannerClick = useCallback(
     (banner: BannerItem) => {
-      navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+      if (banner.type === "campaign") {
+        navigate(`/a/${liffId}/${slug}/campaign/${banner.id}`);
+      } else {
+        // Default to voucher/coupon
+        navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+      }
     },
     [navigate, liffId, slug],
   );

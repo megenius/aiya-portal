@@ -88,6 +88,7 @@ const Route = () => {
                 populars={page?.populars}
                 vouchers={page?.vouchers}
                 banner_vouchers={page?.banner_vouchers}
+                banner_campaigns={page?.campaigns}
                 brands={page?.brands}
               />
             )
