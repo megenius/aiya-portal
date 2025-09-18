@@ -77,13 +77,19 @@ const Route = () => {
   const offsetMs = clientNowTs - serverNowTs;
   const isNotStarted = serverComputed?.effectiveStatus === "not_started";
   const isEndedEffective = isCampaignEnded || serverComputed?.effectiveStatus === "ended";
-  const statusForUi = isNotStarted
-    ? ("not_started" as const)
-    : isEndedEffective
-      ? ("ended" as const)
-      : isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+  const hasCoupon = Boolean(myCoupon);
+  // If user already has a coupon, do NOT override UI to 'ended' (that's for collection phase only)
+  const statusForUi = hasCoupon
+    ? (isExpired || (status === "pending_confirmation" && timeLeft <= 0)
         ? ("expired" as const)
-        : status;
+        : status)
+    : (isNotStarted
+        ? ("not_started" as const)
+        : isEndedEffective
+          ? ("ended" as const)
+          : (isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+              ? ("expired" as const)
+              : status));
 
   // For instant/form, show end countdown until campaignEndAt then refetch
   const endInSeconds =
@@ -334,7 +340,7 @@ const Route = () => {
                 onClick={handleSubmit}
                 disabled={
                   (pageState === "form" && !isFormValid) ||
-                  isCampaignEnded ||
+                  (!hasCoupon && isCampaignEnded) ||
                   isExpired ||
                   (status === "pending_confirmation" && timeLeft <= 0) ||
                   statusForUi === "used" ||
@@ -343,7 +349,7 @@ const Route = () => {
                   statusForUi === "fully_collected" ||
                   isNotStarted ||
                   isSubmitting ||
-                  (!myCoupon && serverComputed?.canCollect === false)
+                  (!hasCoupon && serverComputed?.canCollect === false)
                 }
               />
             )}
