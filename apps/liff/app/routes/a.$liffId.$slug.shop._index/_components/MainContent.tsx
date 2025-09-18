@@ -96,21 +96,25 @@ const MainContent: React.FC<MainContentProps> = ({
   const bannerItems: BannerItem[] = useMemo(() => {
     const voucherBanners = (banner_vouchers || [])
       .filter((banner_voucher) => banner_voucher.banner)
-      .map((banner_voucher) => ({
-        id: banner_voucher.id,
-        image: banner_voucher.banner,
-        alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
-        type: "voucher" as const,
-      }))
-      .filter((banner) => banner.image); // Remove empty images
+      .map((banner_voucher) => {
+        return {
+          id: banner_voucher.id,
+          image: banner_voucher.banner,
+          alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
+          type: "voucher" as const,
+        };
+      })
+      .filter((banner) => !!banner.image); // Remove empty images
 
-    const campaignBanners = (banner_campaigns || []).map((campaign) => ({
-      id: campaign.id,
-      image: campaign.banner_image,
-      // title: campaign.title[language],
-      alt: `Campaign banner for ${campaign.title[language]}`,
-      type: "campaign" as const,
-    }));
+    const campaignBanners = (banner_campaigns || []).map((campaign) => {
+      return {
+        id: campaign.id,
+        image: campaign.banner_image,
+        // title: campaign.title[language],
+        alt: `Campaign banner for ${campaign.title[language]}`,
+        type: "campaign" as const,
+      };
+    });
 
     return [...campaignBanners, ...voucherBanners];
   }, [banner_vouchers, banner_campaigns, language]);
@@ -137,11 +141,25 @@ const MainContent: React.FC<MainContentProps> = ({
     setSearchQuery(""); // Clear search when changing category
   }, []);
 
+  // Merge vouchers from multiple sources (vouchers, populars, banner_vouchers) with de-duplication
+  const allVouchers = useMemo(() => {
+    const list = [
+      ...(vouchers || []),
+      ...(populars || []),
+      ...(banner_vouchers || []),
+    ];
+    const map = new Map<string, Voucher>();
+    for (const v of list) {
+      if (v && !map.has(v.id)) {
+        map.set(v.id, v);
+      }
+    }
+    return Array.from(map.values());
+  }, [vouchers, populars, banner_vouchers]);
+
   // Memoized filtered vouchers
   const filteredVouchers = useMemo(() => {
-    if (!vouchers) return [];
-
-    let filtered = vouchers;
+    let filtered = allVouchers;
 
     // Filter by search query
     if (searchQuery) {
@@ -162,20 +180,20 @@ const MainContent: React.FC<MainContentProps> = ({
     }
 
     return filtered;
-  }, [vouchers, searchQuery, selectedCategory, language]);
+  }, [allVouchers, searchQuery, selectedCategory, language]);
 
   // Memoized vouchers by category
   const vouchersByCategory = useMemo(() => {
-    if (!vouchers || searchQuery) return {};
+    if (searchQuery) return {};
 
     const grouped: Record<string, Voucher[]> = {};
     categories.forEach((category) => {
-      grouped[category.id] = vouchers.filter((voucher) =>
+      grouped[category.id] = allVouchers.filter((voucher) =>
         (voucher.categories || []).some((cat) => cat.id === category.id),
       );
     });
     return grouped;
-  }, [vouchers, categories, searchQuery]);
+  }, [allVouchers, categories, searchQuery]);
 
   // Memoized filtered brands
   const filteredBrands = useMemo(() => {

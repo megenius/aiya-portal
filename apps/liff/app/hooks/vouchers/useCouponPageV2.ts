@@ -1,13 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchVoucherPageV2 } from "~/services/vouchers";
 import { useAppSelector } from "~/store";
-import { useVoucher } from "~/hooks/vouchers/useVoucher";
 import type { VoucherPage } from "~/types/app";
 
 export function useCouponPageV2(voucherId: string) {
-  const { data: coupon, isLoading: isCouponLoading } = useVoucher({
-    voucherId,
-  });
   const enabled = useAppSelector((s) => s.auth.isAuthenticated);
 
   const {
@@ -25,6 +21,7 @@ export function useCouponPageV2(voucherId: string) {
     refetchOnReconnect: "always",
   });
 
+  const coupon = data?.voucher || undefined;
   const myCoupon = data?.myCoupon || undefined;
   const codeStats = data?.stats;
   const serverComputed = data?.serverComputed;
@@ -54,7 +51,6 @@ export function useCouponPageV2(voucherId: string) {
 
   return {
     coupon,
-    isCouponLoading,
     myCoupon,
     codeStats,
     serverComputed,

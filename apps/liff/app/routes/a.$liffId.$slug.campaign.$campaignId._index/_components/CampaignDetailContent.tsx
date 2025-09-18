@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate, useParams } from "@remix-run/react";
-import { ArrowLeft } from "lucide-react";
 import { CampaignWithUserStats } from "~/types/campaign";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
+import BackButton from "~/components/BackButton";
 
 interface CampaignDetailContentProps {
   campaign: CampaignWithUserStats;
@@ -55,10 +55,6 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
     ? new Date() < new Date(campaign.start_date)
     : false;
 
-  const backToHomeTextButton = {
-    th: "กลับหน้าหลัก",
-    en: "Back to Home",
-  };
 
   return (
     <div
@@ -74,15 +70,14 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
       {/* <div className="absolute inset-0 bg-black bg-opacity-20"></div> */}
 
       {/* Header - Back button */}
-      <button
-        className="absolute left-4 top-4 z-50 flex items-center gap-2 bg-transparent font-light text-white focus:outline-none"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeft className="h-6 w-6" />
-        <span className="text-lg font-medium">
-          {backToHomeTextButton[language]}
-        </span>
-      </button>
+      <div className="absolute left-4 top-4 z-50">
+        <BackButton
+          onClick={() => navigate(-1)}
+          variant="overlay"
+          showText={true}
+          text={language === "th" ? "กลับหน้าหลัก" : "Back"}
+        />
+      </div>
 
       {/* Spacer to push button to bottom */}
       <div className="flex-1"></div>

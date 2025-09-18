@@ -1,7 +1,7 @@
 import React from "react";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
 import { Brand } from "~/types/app";
+import BackButton from "~/components/BackButton";
 
 interface HeaderProps {
   brand: Brand;
@@ -18,19 +18,14 @@ const Header: React.FC<HeaderProps> = ({ brand, isInClient }) => {
       style={{ backgroundColor: brand?.primaryColor ?? undefined }}
     >
       {/* {!isInClient && ( */}
-      <div className="flex items-center justify-between px-4 py-2">
-        <div className="flex items-center">
-          <button
-            className="mr-2 p-1"
-            onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium">{brand?.name}</h1>
-        </div>
-        {/* <button className="p-1">
-            <Search size={20} />
-          </button> */}
+      <div className="flex items-center gap-4 px-4 py-2">
+        <BackButton
+          onClick={() => navigate(`/a/${liffId}/${slug}/shop`)}
+          variant="inline"
+          size="lg"
+          className="text-white"
+        />
+        <h1 className="text-lg font-medium">{brand?.name}</h1>
       </div>
       {/* )} */}
     </header>

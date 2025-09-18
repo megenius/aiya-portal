@@ -6,7 +6,6 @@ import {
 import { PageLiff } from "~/types/page";
 import MainContent from "./_components/MainContent";
 import PromotionTemplate from "./_components/PromotionTemplate";
-import { useVoucherUserStats } from "~/hooks/vouchers/useVoucherUserStats";
 import { HeaderSkeleton } from "./_components/SkeletonLoad/HeaderSkeleton";
 import Header from "./_components/Header";
 import { MainContentSkeleton } from "./_components/SkeletonLoad/MainContentSkeleton";
@@ -21,17 +20,11 @@ const Route = () => {
     isLoading: isProfileLoading,
     error: profileError,
   } = useLineProfile();
-  const { data: voucherUserStats, isLoading: isVoucherUserStatsLoading } =
-    useVoucherUserStats({
-      enabled: !isProfileLoading && !!profile?.userId,
-    });
-
   const { data: me, isLoading: isMeLoading } = useMe();
 
   if (
     isProfileLoading ||
     profileError ||
-    isVoucherUserStatsLoading ||
     isMeLoading
   ) {
     if (profileError) {
@@ -70,7 +63,7 @@ const Route = () => {
             profile={profile}
             language={lang}
             userProfileId={me?.id}
-            voucherUserStats={voucherUserStats}
+            voucherUserStats={me?.voucherUserStats}
           />
           {templateType === "promotion" ? (
             <PromotionTemplate
@@ -80,11 +73,11 @@ const Route = () => {
               language={lang}
             />
           ) : (
-            voucherUserStats && (
+            me?.voucherUserStats && (
               <MainContent
                 page={page}
                 language={lang}
-                voucherUserStats={voucherUserStats}
+                voucherUserStats={me.voucherUserStats}
                 populars={page?.populars}
                 vouchers={page?.vouchers}
                 banner_vouchers={page?.banner_vouchers}

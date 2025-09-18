@@ -15,13 +15,13 @@ import DynamicForm from "~/components/DynamicForm";
 import LazyImage from "~/components/LazyImage";
 import { FormField } from "~/types/campaign";
 import {
-  ArrowLeft,
   Target,
   Star,
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
+import BackButton from "~/components/BackButton";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -72,9 +72,9 @@ const Route = () => {
   if (isProfileLoading || isMissionLoading) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="sticky top-0 z-10 bg-white px-4 py-3 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
+        <div className="bg-white">
+          <div className="flex items-center p-4">
+            <BackButton onClick={() => {}} variant="header" disabled />
             <div className="h-5 w-32 animate-pulse rounded-lg bg-gray-200"></div>
           </div>
         </div>
@@ -316,17 +316,15 @@ const Route = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-white px-4 py-3 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <button
+      <div className="bg-white">
+        <div className="flex items-center p-4">
+          <BackButton
             onClick={() =>
               navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`)
             }
-            className="flex h-12 w-12 items-center justify-center rounded-full transition-colors active:bg-gray-200 tap-highlight-transparent"
-          >
-            <ArrowLeft size={22} />
-          </button>
-          <h1 className="text-lg font-semibold text-gray-900 truncate">{pageTitle}</h1>
+            variant="header"
+          />
+          <h1 className="text-lg font-semibold">{pageTitle}</h1>
         </div>
       </div>
 
