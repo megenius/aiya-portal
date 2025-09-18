@@ -13,7 +13,7 @@ import {
 } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
-import { ArrowLeft, Target, CheckCircle, History } from "lucide-react";
+import { ArrowLeft, Target, History } from "lucide-react";
 import { useEffect } from "react";
 import { Mission } from "~/components/Mission";
 
@@ -74,7 +74,7 @@ const Route = () => {
     isCreditsLoading
   ) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="h-full overflow-hidden bg-gray-50">
         <div className="bg-white p-4">
           <div className="flex items-center gap-3">
             <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
@@ -120,13 +120,6 @@ const Route = () => {
     return null;
   }
 
-  const completedMissions = missions.filter(
-    (m) => m.user_progress.is_completed,
-  ).length;
-  const totalMissions = missions.length;
-  const progressPercentage =
-    totalMissions > 0 ? (completedMissions / totalMissions) * 100 : 0;
-
   // Compute last updated from latest credit transaction or campaign updated date
   const locale = lang === "th" ? "th-TH" : "en-US";
   const latestTxAt =
@@ -151,77 +144,79 @@ const Route = () => {
   // const pageTitle = lang === "th" ? "แดชบอร์ดแคมเปญ" : "Campaign Dashboard";
 
   return (
-    <div className="h-full bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
-      {/* Gradient Hero */}
-      <div className="space-y-6">
-        <div className="px-4 pt-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate(`/a/${liffId}/${slug}`)}
-              className="flex items-center gap-2 text-lg text-white/90"
-            >
-              <ArrowLeft className="h-6 w-6" />
-              <span>{lang === "th" ? "กลับหน้าหลัก" : "Back"}</span>
-            </button>
-            <button
-              onClick={() =>
-                navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/credits`)
-              }
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-gray-400"
-              title={lang === "th" ? "ประวัติเครดิต" : "Credit History"}
-            >
-              <History className="h-6 w-6" />
-            </button>
-          </div>
+    <div className="flex h-full flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        {/* Gradient Hero */}
+        <div className="space-y-6">
+          <div className="px-4 pt-4">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => navigate(`/a/${liffId}/${slug}`)}
+                className="flex items-center gap-2 text-lg text-white/90"
+              >
+                <ArrowLeft className="h-6 w-6" />
+                <span>{lang === "th" ? "กลับหน้าหลัก" : "Back"}</span>
+              </button>
+              <button
+                onClick={() =>
+                  navigate(
+                    `/a/${liffId}/${slug}/campaign/${campaignId}/credits`,
+                  )
+                }
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-gray-400"
+                title={lang === "th" ? "ประวัติเครดิต" : "Credit History"}
+              >
+                <History className="h-6 w-6" />
+              </button>
+            </div>
+            <h1 className="mt-8 text-center text-3xl font-semibold tracking-tight text-white">
+              {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
+            </h1>
 
-          <h1 className="mt-8 text-center text-3xl font-semibold tracking-tight text-white">
-            {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
-          </h1>
-
-          {/* Big Circle */}
-          <div className="mt-5 flex items-center justify-center">
-            <div className="flex h-56 w-56 flex-col items-center justify-center rounded-full bg-white text-indigo-700 shadow-xl">
-              <div className="text-6xl font-extrabold leading-none">
-                {credits.total_earned ?? 0}
-              </div>
-              <div className="mt-2 text-2xl font-semibold text-indigo-600">
-                {lang === "th" ? "สิทธิ์" : "credits"}
+            {/* Big Circle */}
+            <div className="mt-5 flex items-center justify-center">
+              <div className="flex h-56 w-56 flex-col items-center justify-center rounded-full bg-white text-indigo-700 shadow-xl">
+                <div className="text-6xl font-extrabold leading-none">
+                  {credits.total_earned ?? 0}
+                </div>
+                <div className="mt-2 text-2xl font-semibold text-indigo-600">
+                  {lang === "th" ? "สิทธิ์" : "credits"}
+                </div>
               </div>
             </div>
-          </div>
-          {lastUpdatedText && (
-            <div className="mt-4 text-center text-xs text-white/80">
-              {lang === "th" ? "อัปเดตล่าสุด: " : "Last updated: "}
-              {lastUpdatedText}
-            </div>
-          )}
-        </div>
-
-        {/* Missions Section */}
-        <div>
-          <div className="flex items-center gap-2 p-4 text-lg font-semibold text-white">
-            <Target size={20} />
-            {lang === "th" ? "ภารกิจทั้งหมด" : "All Missions"}
-          </div>
-          <div
-            className="flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-5 overflow-x-auto overscroll-x-contain px-4 pb-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {missions.map((mission) => (
-              <div key={mission.id} className="w-48 flex-shrink-0 snap-start">
-                <Mission
-                  mission={mission}
-                  liffId={liffId || ""}
-                  slug={slug || ""}
-                  campaignId={campaignId || ""}
-                  lang={lang}
-                />
+            {lastUpdatedText && (
+              <div className="mt-4 text-center text-xs text-white/80">
+                {lang === "th" ? "อัปเดตล่าสุด: " : "Last updated: "}
+                {lastUpdatedText}
               </div>
-            ))}
+            )}
           </div>
 
-          {/* Campaign Status */}
-          {/* <div className="rounded-2xl bg-white p-6 shadow-sm">
+          {/* Missions Section */}
+          <div>
+            <div className="flex items-center gap-2 p-4 text-lg font-semibold text-white">
+              <Target size={20} />
+              {lang === "th" ? "ภารกิจทั้งหมด" : "All Missions"}
+            </div>
+            <div
+              className="flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-5 overflow-x-auto overscroll-x-contain px-4 pb-4"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {missions.map((mission) => (
+                <div key={mission.id} className="w-48 flex-shrink-0 snap-start">
+                  <Mission
+                    mission={mission}
+                    liffId={liffId || ""}
+                    slug={slug || ""}
+                    campaignId={campaignId || ""}
+                    lang={lang}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Campaign Status */}
+            {/* <div className="rounded-2xl bg-white p-6 shadow-sm">
           <div className="text-center">
             {progressPercentage === 100 ? (
               <div className="text-green-600">
@@ -249,6 +244,7 @@ const Route = () => {
             )}
           </div>
         </div> */}
+          </div>
         </div>
       </div>
     </div>
