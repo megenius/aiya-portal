@@ -60,6 +60,7 @@ export const getVoucherPageV2 = factory.createHandlers(
             "start_date",
             "end_date",
             "validity_in_seconds",
+            "usage_end_date",
             "metadata",
           ],
         })
@@ -180,6 +181,7 @@ export const getVoucherPageV2 = factory.createHandlers(
                     "metadata",
                     "start_date",
                     "end_date",
+                    "usage_end_date",
                     { voucher_brand_id: ["*"] },
                   ],
                 },
@@ -321,6 +323,7 @@ export const collectVoucherV2 = factory.createHandlers(
             "start_date",
             "end_date",
             "validity_in_seconds",
+            "usage_end_date",
             "metadata",
           ],
         })
@@ -495,9 +498,24 @@ export const collectVoucherV2 = factory.createHandlers(
 
         const now = new Date();
         const collected_date = now.toISOString();
-        const expires_at = voucher.validity_in_seconds
-          ? addSeconds(now, voucher.validity_in_seconds).toISOString()
-          : voucher.end_date;
+        const validityCutoff = voucher.validity_in_seconds
+          ? addSeconds(now, voucher.validity_in_seconds)
+          : null;
+        const usageCutoff = voucher.usage_end_date
+          ? new Date(voucher.usage_end_date)
+          : null;
+        let expiresAtDate: Date | null = null;
+        if (validityCutoff && usageCutoff) {
+          expiresAtDate = new Date(
+            Math.min(validityCutoff.getTime(), usageCutoff.getTime())
+          );
+        } else {
+          expiresAtDate =
+            validityCutoff ||
+            usageCutoff ||
+            (voucher.end_date ? new Date(voucher.end_date) : null);
+        }
+        const expires_at = expiresAtDate ? expiresAtDate.toISOString() : null;
 
         try {
           // 3) create vouchers_users with code relation (unique on code_id prevents double assign)
@@ -642,6 +660,7 @@ export const getMyCouponsV2 = factory.createHandlers(
                     "metadata",
                     "start_date",
                     "end_date",
+                    "usage_end_date",
                     { voucher_brand_id: ["*"] },
                   ],
                 },
@@ -808,22 +827,19 @@ export const getBrandPageV2 = factory.createHandlers(
 
       // Load vouchers for brand intersecting page's allowed list
       const vouchersRaw: any[] = await directus.request(
-        readItems(
-          "vouchers",
-          {
-            filter: {
-              id: { _in: Array.from(allowedVoucherIds) },
-              voucher_brand_id: { _eq: brandId },
-            },
-            fields: [
-              "*",
-              { categories: [{ voucher_categories_id: ["*"] }] },
-              { voucher_brand_id: ["*"] },
-              { translations: ["*"] },
-            ],
-            limit: -1,
-          } as any
-        )
+        readItems("vouchers", {
+          filter: {
+            id: { _in: Array.from(allowedVoucherIds) },
+            voucher_brand_id: { _eq: brandId },
+          },
+          fields: [
+            "*",
+            { categories: [{ voucher_categories_id: ["*"] }] },
+            { voucher_brand_id: ["*"] },
+            { translations: ["*"] },
+          ],
+          limit: -1,
+        } as any)
       );
 
       const now = new Date();
@@ -845,12 +861,13 @@ export const getBrandPageV2 = factory.createHandlers(
       const mapped = (vouchersRaw || [])
         .filter((v: any) => v?.hide_on_homepage !== true)
         .filter((v: any) => !v?.end_date || new Date(v.end_date) > now)
+        .filter((v: any) => !v?.usage_end_date || new Date(v.usage_end_date) > now)
         .map((voucher: any) => {
           const langTrans = _.find(voucher.translations, {
             languages_code: lang,
           });
           const cleanTrans = langTrans
-            ? _.omit(langTrans, ["id", "languages_code"]) 
+            ? _.omit(langTrans, ["id", "languages_code"])
             : {};
           const rawCats = Array.isArray(voucher.categories)
             ? voucher.categories
@@ -873,7 +890,10 @@ export const getBrandPageV2 = factory.createHandlers(
     } catch (error: any) {
       console.error(error);
       return c.json(
-        { error: "Failed to get brand page", detail: error?.message ?? String(error) },
+        {
+          error: "Failed to get brand page",
+          detail: error?.message ?? String(error),
+        },
         500
       );
     }
@@ -917,7 +937,7 @@ export const collectVoucher = factory.createHandlers(
       // get voucher by ref_code
       const vouchers = await directus.request(
         readItems("vouchers", {
-          fields: ["id", "validity_in_seconds", "end_date"],
+          fields: ["id", "validity_in_seconds", "end_date", "usage_end_date"],
           filter: {
             id: {
               _eq: voucher_id as string,
@@ -960,9 +980,24 @@ export const collectVoucher = factory.createHandlers(
 
       const now = new Date();
       const collected_date = now.toISOString();
-      const expires_at = voucherData.validity_in_seconds
-        ? addSeconds(now, voucherData.validity_in_seconds).toISOString()
-        : voucherData.end_date;
+      const validityCutoff2 = voucherData.validity_in_seconds
+        ? addSeconds(now, voucherData.validity_in_seconds)
+        : null;
+      const usageCutoff2 = voucherData.usage_end_date
+        ? new Date(voucherData.usage_end_date)
+        : null;
+      let expiresAtDate2: Date | null = null;
+      if (validityCutoff2 && usageCutoff2) {
+        expiresAtDate2 = new Date(
+          Math.min(validityCutoff2.getTime(), usageCutoff2.getTime())
+        );
+      } else {
+        expiresAtDate2 =
+          validityCutoff2 ||
+          usageCutoff2 ||
+          (voucherData.end_date ? new Date(voucherData.end_date) : null);
+      }
+      const expires_at = expiresAtDate2 ? expiresAtDate2.toISOString() : null;
 
       // create voucher user
       const newVoucherUser = await directus.request(

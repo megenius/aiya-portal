@@ -17,7 +17,7 @@ const textTruncateStyle = {
   maxWidth: "100%",
   whiteSpace: "nowrap" as const,
   overflow: "hidden" as const,
-  textOverflow: "ellipsis" as const
+  textOverflow: "ellipsis" as const,
 };
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
@@ -27,43 +27,37 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   language,
 }) => {
   const title = voucher.metadata.title[language];
-  const validUntilText = {
-    th: "ใช้ได้ถึง",
-    en: "Valid Until",
-  }
+  const collectUntilText = {
+    th: "เก็บได้ถึง",
+    en: "Collect Until",
+  };
 
   return (
     <div className="w-full">
       {/* Ticket outer container */}
       <div className="relative">
         <button
-          className="flex w-full h-28 border rounded-lg overflow-hidden"
+          className="flex h-28 w-full overflow-hidden rounded-lg border"
           onClick={() => onClick(voucher.id)}
         >
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
-          <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
-              <img
-                src={getDirectusFileUrl(voucher.cover as string) ?? ""}
-                alt={title}
-                className="w-24 object-cover mr-3"
-              />
-              <div className="py-3 space-y-3 flex flex-1 flex-col justify-between">
-                <div className="w-full max-w-48 text-start">
-                  <h3 
-                    className="font-medium" 
-                    style={textTruncateStyle}
-                  >
-                    {brand.name}
-                  </h3>
-                  <h4 
-                    className="text-sm text-gray-600" 
-                    style={textTruncateStyle}
-                  >
-                    {title}
-                  </h4>
-                </div>
-                {/* <div className={`flex items-center gap-2 text-sm`}>
+          <div className="relative flex h-full flex-1 rounded-l-lg bg-white">
+            <img
+              src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+              alt={title}
+              className="mr-3 w-24 object-cover"
+            />
+            <div className="flex flex-1 flex-col justify-between space-y-3 py-3">
+              <div className="w-full max-w-48 text-start">
+                <h3 className="font-medium" style={textTruncateStyle}>
+                  {brand.name}
+                </h3>
+                <h4 className="text-sm text-gray-600" style={textTruncateStyle}>
+                  {title}
+                </h4>
+              </div>
+              {/* <div className={`flex items-center gap-2 text-sm`}>
                   <span 
                     className="flex-1 text-start" 
                     style={textTruncateStyle}
@@ -75,15 +69,15 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                         ][language]}
                   </span>
                 </div> */}
-                <div className={`flex items-center gap-2 text-xs text-gray-600`}>
-                  <span 
-                    className="flex-1 text-start" 
-                    style={textTruncateStyle}
-                  >
-                    {validUntilText[language]}: {format(new Date(voucher.end_date as string), 'dd MMM yyyy', { locale: language === "th" ? th : undefined })}
-                  </span>
-                </div>
+              <div className={`flex items-center gap-2 text-xs text-gray-600`}>
+                <span className="flex-1 text-start" style={textTruncateStyle}>
+                  {collectUntilText[language]}:{" "}
+                  {format(new Date(voucher.end_date as string), "dd MMM yyyy", {
+                    locale: language === "th" ? th : undefined,
+                  })}
+                </span>
               </div>
+            </div>
           </div>
 
           {/* Tear-off section (right side) */}
@@ -117,7 +111,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {[...Array(10)].map((_, i) => (
             <div
               key={`left-perf-${i}`}
-              className="absolute w-2 h-2 bg-gray-50 border-r border-gray-400 rounded-full -translate-x-1"
+              className="absolute h-2 w-2 -translate-x-1 rounded-full border-r border-gray-400 bg-gray-50"
               style={{ top: `${(i * 100) / 10}%` }}
             />
           ))}

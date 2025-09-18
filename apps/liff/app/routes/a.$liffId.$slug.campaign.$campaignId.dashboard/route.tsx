@@ -147,7 +147,7 @@ const Route = () => {
     <div className="flex h-full flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Gradient Hero */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between">
               <button
@@ -169,7 +169,7 @@ const Route = () => {
                 <History className="h-6 w-6" />
               </button>
             </div>
-            <h1 className="mt-8 text-center text-3xl font-semibold tracking-tight text-white">
+            <h1 className="mt-6 text-center text-3xl font-semibold tracking-tight text-white">
               {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
             </h1>
 
