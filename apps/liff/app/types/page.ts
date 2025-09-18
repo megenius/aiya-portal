@@ -1,5 +1,6 @@
 import { components } from "./directus";
 import { Brand, Category, language, Voucher } from "./app";
+import { Campaign } from "./campaign";
 
 // export interface PageLiff {
 //   id: string;
@@ -27,6 +28,7 @@ export type PageLiff = Omit<
   | "vouchers"
   | "populars"
   | "banner_vouchers"
+  | "banner_campaigns"
   | "brands"
   | "categories"
   | "metadata"
@@ -34,6 +36,7 @@ export type PageLiff = Omit<
   vouchers: Voucher[];
   populars: Voucher[];
   banner_vouchers: Voucher[];
+  campaigns?: Campaign[];
   brands: Brand[];
   categories: Category[];
   metadata: Metadata;
@@ -70,7 +73,7 @@ export interface Tracking {
     id: string;
     onClick: {
       url: string;
-      body: any;
+      body: Record<string, unknown>;
     };
   };
 }

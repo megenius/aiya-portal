@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FormField } from "~/types/campaign";
+import FileUpload from "./FileUpload";
 
 interface DynamicFormProps {
   fields: FormField[];
@@ -77,11 +78,16 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case 'file':
         return (
-          <input
-            {...commonProps}
-            type="file"
+          <FileUpload
+            name={field.name}
+            value={value}
             accept={field.accept}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-blue-700 hover:file:bg-blue-100"
+            maxSize={field.max_size}
+            required={field.required}
+            error={error}
+            language={language}
+            onChange={onChange}
+            onBlur={onBlur}
           />
         );
 

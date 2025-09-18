@@ -62,6 +62,13 @@ export const getByLiffIdAndSlug = factory.createHandlers(
               ],
             },
             {
+              campaigns: [
+                {
+                  campaigns_id: ["*"],
+                },
+              ],
+            },
+            {
               vouchers: [
                 {
                   vouchers_id: [
@@ -142,6 +149,11 @@ export const getByLiffIdAndSlug = factory.createHandlers(
       page.categories = page.categories.map(
         ({ voucher_categories_id }) => voucher_categories_id
       );
+    }
+
+    // map campaigns
+    if (page?.campaigns) {
+      page.campaigns = page.campaigns.map(({ campaigns_id }) => campaigns_id);
     }
 
     // map populars have translations

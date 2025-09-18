@@ -1,4 +1,6 @@
-export type CampaignStatus = 'draft' | 'active' | 'ended' | 'cancelled';
+import { components } from "./directus";
+
+export type CampaignStatus = 'draft' | 'published' | 'archived';
 
 export type MissionFrequency = 'ONCE' | 'MULTIPLE';
 
@@ -19,6 +21,7 @@ export interface FormField {
     en?: string;
   };
   accept?: string;
+  max_size?: number; // in MB
   options?: Array<{
     value: string;
     label: {
@@ -32,76 +35,38 @@ export interface FormStructure {
   fields: FormField[];
 }
 
-export interface Campaign {
-  id: string;
-  title: string;
-  description: string;
-  banner_image: string;
-  start_date: string;
-  end_date: string;
-  status: CampaignStatus;
+export type Campaign = Omit<
+  components["schemas"]["ItemsCampaigns"],
+  "registration_form"
+> & {
   registration_form: FormStructure;
-  created_at: string;
-  updated_at: string;
-}
+};
 
-export interface CampaignMission {
-  id: string;
-  campaign_id: string;
-  title: string;
-  description: string;
-  reward_credits: number;
-  frequency: MissionFrequency;
-  mission_data: FormStructure;
-  sort_order: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
+export type CampaignMission = Omit<
+  components["schemas"]["ItemsCampaignMissions"],
+  "mission_type" | "submission_form"
+> & {
+  mission_type: string;
+  submission_form: FormStructure | null;
+};
 
-export interface UserCampaignRegistration {
-  id: string;
-  campaign_id: string;
-  user_id: string;
-  has_agreed_pdpa: boolean;
-  pdpa_agreed_at: string | null;
+export type UserCampaignRegistration = Omit<
+  components["schemas"]["ItemsUserCampaignRegistrations"],
+  "registration_data"
+> & {
   registration_data: Record<string, unknown> | null;
-  registered_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
+};
 
-export interface UserMissionSubmission {
-  id: string;
-  mission_id: string;
-  user_id: string;
+export type UserMissionSubmission = Omit<
+  components["schemas"]["ItemsUserMissionSubmissions"],
+  "submission_data"
+> & {
   submission_data: Record<string, unknown>;
-  status: SubmissionStatus;
-  admin_notes: string | null;
-  submitted_at: string;
-  reviewed_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
+};
 
-export interface UserRewardCredits {
-  id: string;
-  campaign_id: string;
-  user_id: string;
-  total_earned: number;
-  created_at: string;
-  updated_at: string;
-}
+export type UserRewardCredits = components["schemas"]["ItemsUserRewardCredits"];
 
-export interface RewardCreditTransaction {
-  id: string;
-  campaign_id: string;
-  user_id: string;
-  mission_id: string;
-  credits: number;
-  submission_id: string | null;
-  created_at: string;
-}
+export type RewardCreditTransaction = components["schemas"]["ItemsRewardCreditTransactions"];
 
 export interface CampaignWithUserStats extends Campaign {
   user_stats: {

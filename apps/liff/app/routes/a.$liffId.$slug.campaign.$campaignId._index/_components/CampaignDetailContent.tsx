@@ -31,10 +31,10 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(language === 'th' ? 'th-TH' : 'en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    return date.toLocaleDateString(language === "th" ? "th-TH" : "en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -57,11 +57,11 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
     const { user_stats } = campaign;
 
     if (user_stats.is_registered) {
-      return language === 'th' ? 'เข้าสู่แคมเปญ' : 'Enter Campaign';
+      return language === "th" ? "เข้าสู่แคมเปญ" : "Enter Campaign";
     } else if (user_stats.has_agreed_pdpa) {
-      return language === 'th' ? 'ลงทะเบียน' : 'Register';
+      return language === "th" ? "ลงทะเบียน" : "Register";
     } else {
-      return language === 'th' ? 'เข้าร่วมแคมเปญ' : 'Join Campaign';
+      return language === "th" ? "เข้าร่วมแคมเปญ" : "Join Campaign";
     }
   };
 
@@ -80,7 +80,7 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-gray-900">
-            {language === 'th' ? 'รายละเอียดแคมเปญ' : 'Campaign Details'}
+            {language === "th" ? "รายละเอียดแคมเปญ" : "Campaign Details"}
           </h1>
         </div>
       </div>
@@ -107,28 +107,15 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
         {/* Title and Status */}
         <div className="space-y-2">
           <h2 className="text-2xl font-bold text-gray-900">
-            {campaign.title}
+            {campaign.title?.[language]}
           </h2>
-          <div className="flex items-center gap-2">
-            <div
-              className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${{
-                active: 'bg-green-100 text-green-800',
-                ended: 'bg-gray-100 text-gray-800',
-                draft: 'bg-yellow-100 text-yellow-800',
-              }[campaign.status]}`}
-            >
-              {{
-                active: language === 'th' ? 'กำลังดำเนินการ' : 'Active',
-                ended: language === 'th' ? 'สิ้นสุดแล้ว' : 'Ended',
-                draft: language === 'th' ? 'แบบร่าง' : 'Draft',
-              }[campaign.status]}
-            </div>
-          </div>
         </div>
 
         {/* Description */}
         <div className="prose prose-sm max-w-none text-gray-700">
-          <p className="whitespace-pre-line">{campaign.description}</p>
+          <p className="whitespace-pre-line">
+            {campaign.description?.[language] || ""}
+          </p>
         </div>
 
         {/* Campaign Period */}
@@ -147,28 +134,32 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
               {campaign.user_stats.total_credits}
             </div>
             <p className="text-sm text-gray-600">
-              {language === 'th' ? 'สิทธิ์ที่ได้รับ' : 'Credits Earned'}
+              {language === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 p-4 text-center">
             <div className="flex items-center justify-center gap-2 text-2xl font-bold text-gray-900">
               <Users size={24} style={{ color: primaryColor }} />
-              {campaign.user_stats.is_registered ? '1' : '0'}
+              {campaign.user_stats.is_registered ? "1" : "0"}
             </div>
             <p className="text-sm text-gray-600">
-              {language === 'th' ? 'สถานะการเข้าร่วม' : 'Participation Status'}
+              {language === "th" ? "สถานะการเข้าร่วม" : "Participation Status"}
             </p>
           </div>
         </div>
 
         {/* Warning Messages */}
-        {(isExpired || isNotStarted || campaign.status !== 'active') && (
-          <div className="rounded-lg bg-yellow-50 border border-yellow-200 p-4">
+        {(isExpired || isNotStarted) && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
             <p className="text-sm text-yellow-800">
-              {isExpired && (language === 'th' ? 'แคมเปญนี้สิ้นสุดแล้ว' : 'This campaign has ended')}
-              {isNotStarted && (language === 'th' ? 'แคมเปญนี้ยังไม่เริ่ม' : 'This campaign has not started yet')}
-              {campaign.status !== 'active' && !isExpired && !isNotStarted &&
-                (language === 'th' ? 'แคมเปญนี้ยังไม่เปิดใช้งาน' : 'This campaign is not active')}
+              {isExpired &&
+                (language === "th"
+                  ? "แคมเปญนี้สิ้นสุดแล้ว"
+                  : "This campaign has ended")}
+              {isNotStarted &&
+                (language === "th"
+                  ? "แคมเปญนี้ยังไม่เริ่ม"
+                  : "This campaign has not started yet")}
             </p>
           </div>
         )}
@@ -177,12 +168,13 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
         <div className="pt-4">
           <button
             onClick={handleJoinCampaign}
-            disabled={isExpired || isNotStarted || campaign.status !== 'active'}
-            className="w-full rounded-lg py-3 px-4 text-white font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isExpired || isNotStarted}
+            className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             style={{
-              backgroundColor: isExpired || isNotStarted || campaign.status !== 'active'
-                ? '#9CA3AF'
-                : primaryColor
+              backgroundColor:
+                isExpired || isNotStarted
+                  ? "#9CA3AF"
+                  : primaryColor,
             }}
           >
             {getActionButtonText()}

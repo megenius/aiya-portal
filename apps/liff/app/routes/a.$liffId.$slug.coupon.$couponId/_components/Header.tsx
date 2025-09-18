@@ -44,13 +44,13 @@ const Header: React.FC<HeaderProps> = ({
             <ArrowLeft className="h-6 w-6" />
           </button>
         }
-        <div className="flex items-center  space-x-2">
+        <div className="flex items-center space-x-2">
           <img
             src={getDirectusFileUrl(
-              (voucher?.voucher_brand_id?.logo as string) ?? ""
+              (voucher?.voucher_brand_id?.logo as string) ?? "",
             )}
             alt={voucher?.voucher_brand_id?.name ?? ""}
-            className="w-7 h-7 rounded-full object-cover border border-gray shadow-sm"
+            className="border-gray h-7 w-7 rounded-full border object-cover shadow-sm"
           />
           {/* <div className="w-6 h-6 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-gray-300 shadow-sm text-[6px]">
             LOGO

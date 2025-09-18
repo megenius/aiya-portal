@@ -9,14 +9,6 @@ import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
-import type {
-  ItemsCampaigns,
-  ItemsCampaignMissions,
-  ItemsUserCampaignRegistrations,
-  ItemsUserMissionSubmissions,
-  ItemsUserRewardCredits,
-  ItemsRewardCreditTransactions,
-} from "~/types/directus";
 
 const factory = createFactory<Env>();
 
@@ -33,28 +25,25 @@ export const getCampaigns = factory.createHandlers(
       // Get campaigns that belong to this LIFF page
       const campaigns = await directus.request(
         readItems("campaigns", {
-          fields: [
-            "*",
-            {
-              banner_image: ["id", "filename_disk", "type"]
-            }
-          ],
+          fields: ["*"],
           filter: {
-            status: { _eq: "active" },
+            status: { _eq: "published" },
             // Filter by page association through pages_liff_campaigns
-            _and: [{
-              id: {
-                _in: {
-                  _query: {
-                    collection: "pages_liff_campaigns",
-                    field: ["campaigns_id"],
-                    filter: {
-                      pages_liff_id: { _eq: liff_id }
-                    }
-                  }
-                }
-              }
-            }]
+            // _and: [
+            //   {
+            //     id: {
+            //       _in: {
+            //         _query: {
+            //           collection: "pages_liff_campaigns",
+            //           field: ["campaigns_id"],
+            //           filter: {
+            //             pages_liff_id: { _eq: liff_id },
+            //           },
+            //         },
+            //       },
+            //     },
+            //   },
+            // ],
           },
           sort: ["-date_created"],
         })
@@ -127,6 +116,7 @@ export const getCampaign = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     try {
+      console.log("ddd");
       const { id: userId } = c.get("jwtPayload");
       const { id: campaignId } = c.req.param();
       const directus = c.get("directAdmin");
@@ -134,12 +124,7 @@ export const getCampaign = factory.createHandlers(
       // Get campaign
       const campaign = await directus.request(
         readItem("campaigns", campaignId, {
-          fields: [
-            "*",
-            {
-              banner_image: ["id", "filename_disk", "type"]
-            }
-          ],
+          fields: ["*"],
         })
       );
 
@@ -229,10 +214,14 @@ export const consentPDPA = factory.createHandlers(
       if (existingRegistrations.length > 0) {
         // Update existing registration
         registration = await directus.request(
-          updateItem("user_campaign_registrations", existingRegistrations[0].id, {
-            has_agreed_pdpa,
-            pdpa_agreed_at,
-          })
+          updateItem(
+            "user_campaign_registrations",
+            existingRegistrations[0].id,
+            {
+              has_agreed_pdpa,
+              pdpa_agreed_at,
+            }
+          )
         );
       } else {
         // Create new registration
@@ -336,25 +325,31 @@ export const getCampaignMissions = factory.createHandlers(
       );
 
       // Get user submissions for these missions
-      const missionIds = missions.map(m => m.id);
-      const userSubmissions = missionIds.length > 0 ? await directus.request(
-        readItems("user_mission_submissions", {
-          filter: {
-            mission_id: { _in: missionIds },
-            user_id: { _eq: userId },
-          },
-          sort: ["-submitted_at"],
-        })
-      ) : [];
+      const missionIds = missions.map((m) => m.id);
+      const userSubmissions =
+        missionIds.length > 0
+          ? await directus.request(
+              readItems("user_mission_submissions", {
+                filter: {
+                  mission_id: { _in: missionIds },
+                  user_id: { _eq: userId },
+                },
+                sort: ["-submitted_at"],
+              })
+            )
+          : [];
 
       // Group submissions by mission
-      const submissionsByMission = userSubmissions.reduce((acc, submission) => {
-        if (!acc[submission.mission_id]) {
-          acc[submission.mission_id] = [];
-        }
-        acc[submission.mission_id].push(submission);
-        return acc;
-      }, {} as Record<string, any[]>);
+      const submissionsByMission = userSubmissions.reduce(
+        (acc, submission) => {
+          if (!acc[submission.mission_id]) {
+            acc[submission.mission_id] = [];
+          }
+          acc[submission.mission_id].push(submission);
+          return acc;
+        },
+        {} as Record<string, any[]>
+      );
 
       // Add user progress to missions
       const missionsWithProgress = missions.map((mission) => {
@@ -365,7 +360,8 @@ export const getCampaignMissions = factory.createHandlers(
           ...mission,
           user_progress: {
             completed_count: submissions.length,
-            can_submit: mission.frequency === "MULTIPLE" || submissions.length === 0,
+            can_submit:
+              mission.frequency === "MULTIPLE" || submissions.length === 0,
             last_submission_at: lastSubmission?.submitted_at || null,
           },
           user_submissions: submissions,
@@ -518,8 +514,8 @@ export const getCampaignCredits = factory.createHandlers(
           fields: [
             "*",
             {
-              mission_id: ["id", "title"]
-            }
+              mission_id: ["id", "title"],
+            },
           ],
           filter: {
             campaign_id: { _eq: campaignId },
@@ -566,14 +562,14 @@ export const getCampaignSubmissions = factory.createHandlers(
           fields: [
             "*",
             {
-              mission_id: ["id", "title", "campaign", "reward_credits"]
-            }
+              mission_id: ["id", "title", "campaign", "reward_credits"],
+            },
           ],
           filter: {
             user_id: { _eq: userId },
             mission_id: {
-              campaign: { _eq: campaignId }
-            }
+              campaign: { _eq: campaignId },
+            },
           },
           sort: ["-submitted_at"],
         })
@@ -613,8 +609,8 @@ export const getMission = factory.createHandlers(
           fields: [
             "*",
             {
-              campaign: ["id", "title"]
-            }
+              campaign: ["id", "title"],
+            },
           ],
         })
       );
@@ -640,7 +636,8 @@ export const getMission = factory.createHandlers(
         ...mission,
         user_progress: {
           completed_count: userSubmissions.length,
-          can_submit: mission.frequency === "MULTIPLE" || userSubmissions.length === 0,
+          can_submit:
+            mission.frequency === "MULTIPLE" || userSubmissions.length === 0,
           last_submission_at: lastSubmission?.submitted_at || null,
         },
         user_submissions: userSubmissions,
@@ -682,22 +679,19 @@ export const uploadFile = factory.createHandlers(
       const uploadFormData = new FormData();
       uploadFormData.append("file", file);
 
-      const uploadResponse = await fetch(
-        `${c.env.DIRECTUS_URL}/files`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${c.get("token")}`,
-          },
-          body: uploadFormData,
-        }
-      );
+      const uploadResponse = await fetch(`${c.env.DIRECTUS_URL}/files`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${c.get("token")}`,
+        },
+        body: uploadFormData,
+      });
 
       if (!uploadResponse.ok) {
         throw new Error("Failed to upload file to Directus");
       }
 
-      const uploadResult = await uploadResponse.json() as any;
+      const uploadResult = (await uploadResponse.json()) as any;
 
       return c.json({
         data: {

@@ -7,7 +7,7 @@ import {
 } from "@remix-run/react";
 import { useState } from "react";
 import { PageLiff } from "~/types/page";
-import { useCampaign, useRegisterCampaign } from "~/hooks/campaigns/useCampaigns";
+import { useCampaign, useRegisterCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import DynamicForm from "~/components/DynamicForm";
@@ -32,7 +32,7 @@ const Route = () => {
     data: campaign,
     isLoading: isCampaignLoading,
     error: campaignError,
-  } = useCampaign(campaignId || "", !!campaignId && !isProfileLoading && !!profile?.userId);
+  } = useCampaign({ campaignId: campaignId || "", enabled: !!campaignId && !isProfileLoading && !!profile?.userId });
 
   const registerMutation = useRegisterCampaign();
 

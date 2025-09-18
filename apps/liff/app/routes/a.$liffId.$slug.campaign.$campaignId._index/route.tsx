@@ -5,7 +5,7 @@ import {
   isRouteErrorResponse,
 } from "@remix-run/react";
 import { PageLiff } from "~/types/page";
-import { useCampaign } from "~/hooks/campaigns/useCampaigns";
+import { useCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import CampaignDetailContent from "./_components/CampaignDetailContent";
@@ -24,7 +24,7 @@ const Route = () => {
     data: campaign,
     isLoading: isCampaignLoading,
     error: campaignError,
-  } = useCampaign(campaignId || "", !!campaignId && !isProfileLoading && !!profile?.userId);
+  } = useCampaign({ campaignId: campaignId || "", enabled: !!campaignId && !isProfileLoading && !!profile?.userId });
 
   // Handle loading states
   if (isProfileLoading || isCampaignLoading) {

@@ -3,13 +3,13 @@ import { useNavigate, useParams } from "@remix-run/react";
 import { Search } from "lucide-react";
 import { Brand, Category, Voucher, VoucherStats } from "~/types/app";
 import { PageLiff } from "~/types/page";
+import { Campaign } from "~/types/campaign";
 import BrandList from "./BrandList";
 import CategoryList from "./CategoryList";
 import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
-import { useCampaigns } from "~/hooks/campaigns/useCampaigns";
 import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
@@ -26,6 +26,7 @@ interface MainContentProps {
   vouchers?: Voucher[];
   populars?: Voucher[];
   banner_vouchers?: Voucher[];
+  banner_campaigns?: Campaign[];
   brands?: Brand[];
   isLoading?: boolean;
 }
@@ -37,14 +38,12 @@ const MainContent: React.FC<MainContentProps> = ({
   vouchers,
   populars,
   banner_vouchers,
+  banner_campaigns,
   brands,
   isLoading = false,
 }) => {
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
-
-  // Fetch campaigns for banners
-  const { data: campaigns, isLoading: isLoadingCampaigns } = useCampaigns();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null,
   );
@@ -99,28 +98,32 @@ const MainContent: React.FC<MainContentProps> = ({
       .filter((banner_voucher) => banner_voucher.banner)
       .map((banner_voucher) => ({
         id: banner_voucher.id,
-        image: banner_voucher.banner,
+        image:
+          typeof banner_voucher.banner === "string"
+            ? banner_voucher.banner
+            : banner_voucher.banner
+              ? getDirectusFileUrl(banner_voucher.banner as string)
+              : "",
         alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
-        type: 'voucher' as const,
-      }));
+        type: "voucher" as const,
+      }))
+      .filter((banner) => banner.image); // Remove empty images
 
-    const campaignBanners = (campaigns || [])
-      .filter((campaign) => campaign.status === 'active')
-      .map((campaign) => ({
-        id: campaign.id,
-        image: getDirectusFileUrl(campaign.banner_image),
-        title: campaign.title,
-        alt: `Campaign banner for ${campaign.title}`,
-        type: 'campaign' as const,
-      }));
+    const campaignBanners = (banner_campaigns || []).map((campaign) => ({
+      id: campaign.id,
+      image: getDirectusFileUrl(campaign.banner_image as string),
+      title: campaign.title?.[language],
+      alt: `Campaign banner for ${campaign.title?.[language]}`,
+      type: "campaign" as const,
+    }));
 
     return [...campaignBanners, ...voucherBanners];
-  }, [banner_vouchers, campaigns, language]);
+  }, [banner_vouchers, banner_campaigns, language]);
 
   // Callbacks
   const handleBannerClick = useCallback(
     (banner: BannerItem) => {
-      if (banner.type === 'campaign') {
+      if (banner.type === "campaign") {
         navigate(`/a/${liffId}/${slug}/campaign/${banner.id}`);
       } else {
         // Default to voucher/coupon
@@ -211,7 +214,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
         {layoutSettings.showBannerVouchers && !searchQuery && (
           <div className="overflow-hidden rounded-xl">
-            {isLoading || isLoadingCampaigns ? (
+            {isLoading ? (
               <BannerSkeleton />
             ) : bannerItems.length > 0 ? (
               <BannerSlider
