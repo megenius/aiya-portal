@@ -15,22 +15,21 @@ export type DirectusFile = {
 
 export function uploadFile(folderId: string, file: File): Promise<DirectusFile>;
 export function uploadFile(file: File): Promise<DirectusFile>;
-export function uploadFile(arg1: string | File, arg2?: File): Promise<DirectusFile> {
+export function uploadFile(
+  arg1: string | File,
+  arg2?: File,
+): Promise<DirectusFile> {
   const formData = new FormData();
-  const hasFolder = typeof arg1 === 'string';
+  const hasFolder = typeof arg1 === "string";
   const file = (hasFolder ? arg2 : arg1) as File;
   const folderId = hasFolder ? (arg1 as string) : undefined;
 
-  formData.append("file", file);
   if (folderId) {
     formData.append("folder", folderId);
   }
+  formData.append("file", file);
 
   return api
-    .post<DirectusFile>("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+    .post<DirectusFile>("/files/upload", formData)
     .then((res) => res.data);
 }

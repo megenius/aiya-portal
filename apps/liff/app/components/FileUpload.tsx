@@ -37,6 +37,21 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   type CaptureAttr = { capture?: 'environment' | 'user' | boolean };
 
+  // Helper: best-effort MIME guessing by file extension (for Android/iCloud cases)
+  const IMAGE_MIME_BY_EXT: Record<string, string> = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    heic: 'image/heic',
+    heif: 'image/heif',
+  };
+  const guessMimeByExt = (name?: string): string | undefined => {
+    const ext = name?.split('.').pop()?.toLowerCase() || '';
+    return IMAGE_MIME_BY_EXT[ext];
+  };
+
   // Build preview from incoming value
   useEffect(() => {
     // Clean old object URL
@@ -80,7 +95,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
         }
         if (acceptType.includes('/*')) {
           const mainType = acceptType.split('/')[0];
-          return fileType.startsWith(mainType + '/');
+          if (fileType.startsWith(mainType + '/')) return true;
+          // Fallback: allow by extension when MIME is missing (common on Android/iCloud)
+          if (mainType === 'image') {
+            const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.heic', '.heif'];
+            return imageExts.includes(fileExtension);
+          }
+          return false;
         }
         return fileType === acceptType;
       });
@@ -102,8 +123,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
     let file: File = picked;
     try {
       const ab = await picked.arrayBuffer();
-      const blob = new Blob([ab], { type: picked.type || 'application/octet-stream' });
-      file = new File([blob], picked.name || `image-${Date.now()}.jpg`, { type: picked.type || 'application/octet-stream' });
+      const fallbackType = guessMimeByExt(picked.name) || 'application/octet-stream';
+      const type = picked.type && picked.type !== '' ? picked.type : fallbackType;
+      const blob = new Blob([ab], { type });
+      const defaultExt = type.startsWith('image/') ? type.split('/')[1] : 'bin';
+      const name = picked.name || `image-${Date.now()}.${defaultExt}`;
+      file = new File([blob], name, { type });
     } catch (e) {
       console.warn('[file-pick] snapshot failed (likely cloud/permission issue):', e);
       alert(

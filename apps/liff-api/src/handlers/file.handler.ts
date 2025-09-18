@@ -258,13 +258,10 @@ export const downloadFile = factory.createHandlers(
         console.warn("Unable to fetch filename:", err);
       }
 
-      return stream(c, async (stream) => {
-        // Set download headers
-        stream.headers.set(
-          "Content-Disposition",
-          `attachment; filename="${filename}"`
-        );
-        await stream.pipe(anotherReadableStream);
+      // Set download headers before streaming
+      c.header("Content-Disposition", `attachment; filename="${filename}"`);
+      return stream(c, async (s) => {
+        await s.pipe(anotherReadableStream);
       });
     } catch (error) {
       console.error("Error downloading file:", error);
@@ -279,13 +276,20 @@ export const uploadFile = factory.createHandlers(
   async (c) => {
     const body = await c.req.parseBody();
     const file = body.file as unknown as File | undefined;
-    const folder = (body as Record<string, unknown>)["folder"] as
+    const folderRaw = (body as Record<string, unknown>)["folder"] as
       | string
       | undefined;
 
     if (!file) {
       return c.json({ error: "Missing file" }, 400);
     }
+
+    const folderFromEnv = (c.env as any).UPLOAD_DEFAULT_FOLDER_ID as string | undefined;
+    const folder = (typeof folderRaw === "string" && folderRaw.trim().length > 0)
+      ? folderRaw.trim()
+      : (folderFromEnv && folderFromEnv.trim().length > 0 ? folderFromEnv.trim() : undefined);
+
+    try { console.log("[uploadFile] incoming", { hasFile: true, folder }); } catch { /* noop */ }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -295,6 +299,21 @@ export const uploadFile = factory.createHandlers(
 
     const directus = c.get("directAdmin");
     const result = await directus.request(sdk.uploadFiles(formData));
+
+    // Force-assign folder if Directus didn't persist it (fallback)
+    try {
+      const fileId = (result as any)?.id || (result as any)?.data?.id;
+      const currentFolder = (result as any)?.folder || (result as any)?.data?.folder;
+      if (folder && fileId && (!currentFolder || (typeof currentFolder === "object" && !currentFolder?.id))) {
+        const updated = await directus.request(
+          sdk.updateFile(fileId as string, { folder })
+        );
+        return c.json(updated);
+      }
+    } catch (e) {
+      console.warn("[uploadFile] folder force-assign failed", e);
+    }
+
     return c.json(result);
   }
 );
