@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
 import BackButton from "~/components/BackButton";
+import { triggerConfettiFromButton } from "~/utils/confetti";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -32,6 +33,9 @@ const Route = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isUploading, setIsUploading] = useState(false);
   const [fileValues, setFileValues] = useState<Record<string, File | null>>({});
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationCredits, setCelebrationCredits] = useState(0);
+  const [isSubmittingWithEffect, setIsSubmittingWithEffect] = useState(false);
 
   const {
     profile,
@@ -273,6 +277,7 @@ const Route = () => {
 
     try {
       setIsUploading(true);
+      setIsSubmittingWithEffect(true);
       const submissionData: Record<string, unknown> = { ...formValues };
       for (const field of submissionFields) {
         if (field.type === "file" || field.type === "image_upload") {
@@ -300,8 +305,68 @@ const Route = () => {
         campaignId: campaignId,
       });
 
-      // Navigate back to dashboard
-      navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`);
+      // Show spectacular celebration with correct credits
+      const actualCredits = mission?.reward_credits || 0;
+      setCelebrationCredits(actualCredits);
+      setShowCelebration(true);
+
+      // Fire multiple confetti bursts
+      try {
+        triggerConfettiFromButton();
+        setTimeout(() => triggerConfettiFromButton({
+          colors: ["#FFD700", "#FFA500", "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4"],
+          basePieces: 150
+        }), 300);
+        setTimeout(() => triggerConfettiFromButton({
+          colors: ["#FF69B4", "#9B59B6", "#3498DB", "#2ECC71", "#F1C40F"],
+          basePieces: 120,
+          spreadDeg: 160
+        }), 600);
+      } catch (e) {
+        console.warn("celebration effect failed", e);
+      }
+
+      // Trigger haptic feedback on mobile
+      try {
+        if (typeof window !== "undefined" && "navigator" in window && "vibrate" in navigator) {
+          navigator.vibrate([100, 50, 100, 50, 200]);
+        }
+      } catch (e) {
+        console.warn("haptic feedback failed", e);
+      }
+
+      // Play success sound (create a simple beep using Web Audio API)
+      try {
+        if (typeof window !== "undefined" && "AudioContext" in window) {
+          const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const playTone = (frequency: number, duration: number, delay: number) => {
+            setTimeout(() => {
+              const oscillator = audioCtx.createOscillator();
+              const gainNode = audioCtx.createGain();
+              oscillator.connect(gainNode);
+              gainNode.connect(audioCtx.destination);
+              oscillator.frequency.value = frequency;
+              oscillator.type = 'sine';
+              gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration / 1000);
+              oscillator.start(audioCtx.currentTime);
+              oscillator.stop(audioCtx.currentTime + duration / 1000);
+            }, delay);
+          };
+          // Play a celebratory melody
+          playTone(523, 200, 0);   // C5
+          playTone(659, 200, 200); // E5
+          playTone(784, 400, 400); // G5
+        }
+      } catch (e) {
+        console.warn("audio effect failed", e);
+      }
+
+      // Navigate back to dashboard after longer delay to enjoy celebration
+      setTimeout(() => {
+        setShowCelebration(false);
+        navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`);
+      }, 4000);
     } catch (error) {
       console.error("Failed to submit mission:", error);
       alert(
@@ -501,12 +566,17 @@ const Route = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
+                  data-confetti-button="true"
                   disabled={
                     submitMutation.isPending ||
                     isUploading ||
                     isRequiredIncomplete
                   }
-                  className="w-full rounded-xl px-6 py-4 font-semibold text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95 tap-highlight-transparent"
+                  className={`w-full rounded-xl px-6 py-4 font-semibold text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 tap-highlight-transparent ${
+                    isSubmittingWithEffect
+                      ? "animate-pulse shadow-lg scale-105"
+                      : "active:scale-95"
+                  }`}
                   style={{
                     backgroundColor:
                       submitMutation.isPending ||
@@ -514,15 +584,23 @@ const Route = () => {
                       isRequiredIncomplete
                         ? "#9CA3AF"
                         : primaryColor,
+                    boxShadow: isSubmittingWithEffect
+                      ? `0 0 20px ${primaryColor}50`
+                      : "none"
                   }}
                 >
                   {submitMutation.isPending || isUploading
-                    ? lang === "th"
-                      ? "กำลังส่ง..."
-                      : "Submitting..."
-                    : lang === "th"
-                      ? "ส่งภารกิจ"
-                      : "Submit Mission"}
+                    ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <div className="animate-spin text-xl">🎯</div>
+                        {lang === "th" ? "กำลังส่ง..." : "Submitting..."}
+                      </span>
+                    )
+                    : (
+                      <span className="flex items-center justify-center gap-2">
+                        {lang === "th" ? "🚀 ส่งภารกิจ" : "🚀 Submit Mission"}
+                      </span>
+                    )}
                 </button>
               </form>
             </div>
@@ -534,23 +612,84 @@ const Route = () => {
           <>
             <div className="my-4 border-t border-gray-100"></div>
             <div className="py-3">
-              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4">
-                <div className="rounded-full bg-green-100 p-2.5">
+              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
+                <div className="rounded-full bg-green-100 p-2.5 animate-in zoom-in-0 duration-700 delay-200">
                   <CheckCircle size={24} className="text-green-600" />
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-green-800">
-                    {lang === "th" ? "ภารกิจเสร็จสิ้น!" : "Mission Completed!"}
+                  <div className="text-lg font-bold text-green-800 animate-in slide-in-from-left-2 duration-500 delay-100">
+                    {lang === "th" ? "🎉 ภารกิจเสร็จสิ้น!" : "🎉 Mission Completed!"}
                   </div>
-                  <div className="mt-0.5 text-sm text-green-700">
+                  <div className="mt-0.5 text-sm text-green-700 animate-in slide-in-from-left-2 duration-500 delay-300">
                     {lang === "th"
-                      ? `คุณได้รับ ${mission.reward_credits} เครดิต`
-                      : `You earned ${mission.reward_credits} credits`}
+                      ? `✨ คุณได้รับ ${mission.reward_credits} สิทธิ์!`
+                      : `✨ You earned ${mission.reward_credits} credits!`}
                   </div>
                 </div>
               </div>
             </div>
           </>
+        )}
+
+        {/* Spectacular Celebration Modal */}
+        {showCelebration && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
+            <div className="relative w-full max-w-md rounded-3xl bg-gradient-to-br from-yellow-400 via-pink-400 to-purple-500 p-1 shadow-2xl animate-in zoom-in-95 duration-1000">
+              <div className="rounded-3xl bg-white p-8 text-center">
+                {/* Animated Trophy */}
+                <div className="mx-auto mb-8 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg animate-in zoom-in-0 duration-1000 delay-300">
+                  <div className="text-5xl animate-bounce">🏆</div>
+                </div>
+
+                {/* Main Celebration Message */}
+                <div className="mb-6 text-3xl font-bold text-gray-800 animate-in slide-in-from-bottom-4 duration-800 delay-500 leading-relaxed">
+                  {lang === "th" ? "🎉 ยินดีด้วย !" : "🎉 Congratulations!"}
+                </div>
+
+                {/* Mission Complete Message */}
+                <div className="mb-4 text-xl font-semibold text-gray-700 animate-in slide-in-from-bottom-4 duration-800 delay-700 leading-relaxed">
+                  {lang === "th" ? "ภารกิจสำเร็จ !" : "Mission Complete!"}
+                </div>
+
+                {/* Credits Earned with Animation */}
+                <div className="mb-8 animate-in slide-in-from-bottom-4 duration-800 delay-900">
+                  <div className="text-base text-gray-600 mb-3 leading-relaxed">
+                    {lang === "th" ? "คุณได้รับสิทธิ์" : "You earned"}
+                  </div>
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                    <div className="text-4xl font-bold text-purple-600 animate-pulse">
+                      {celebrationCredits}
+                    </div>
+                    <div className="text-3xl animate-bounce delay-100">✨</div>
+                  </div>
+                  <div className="text-base text-gray-600 leading-relaxed">
+                    {lang === "th" ? "สิทธิ์" : "credits"}
+                  </div>
+                </div>
+
+                {/* Animated Sparkles */}
+                <div className="flex justify-center gap-3 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="text-2xl animate-ping"
+                      style={{
+                        animationDelay: `${i * 200}ms`,
+                        animationDuration: '1s'
+                      }}
+                    >
+                      ⭐
+                    </div>
+                  ))}
+                </div>
+
+                {/* Closing in countdown */}
+                <div className="text-sm text-gray-500 animate-pulse leading-relaxed">
+                  {lang === "th" ? "กลับสู่แดชบอร์ดในอีกสักครู่..." : "Returning to dashboard..."}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Back to Dashboard Button */}
