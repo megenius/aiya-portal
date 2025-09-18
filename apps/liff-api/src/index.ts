@@ -4,6 +4,7 @@ import { leadSubmissionsRoutes } from "./routes/leadSubmissions";
 import { liffRoutes } from "./routes/liff";
 import pointTransactionsRouter from "./routes/pointtransactions.routes";
 import { voucherRoutes } from "./routes/voucher";
+import { campaignRoutes } from "./routes/campaigns";
 import { Env } from "./types/hono.types";
 import { profileRoutes } from "./routes/profile";
 import { authMiddleware } from "./middlewares/auth.middleware";
@@ -33,6 +34,7 @@ const app = new Hono<Env>()
   .route("/me", meRoutes)
   .route("/liff", liffRoutes)
   .route("/vouchers", voucherRoutes)
+  .route("/campaigns", campaignRoutes)
   .route("/lead-submissions", leadSubmissionsRoutes)
   .route("/point-transactions", pointTransactionsRouter) // Added route for point transactions
   .route("/profiles", profileRoutes)

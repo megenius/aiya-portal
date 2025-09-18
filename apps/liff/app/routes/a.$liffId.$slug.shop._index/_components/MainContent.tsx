@@ -9,6 +9,8 @@ import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
+import { useCampaigns } from "~/hooks/campaigns/useCampaigns";
+import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
   BrandListSkeleton,
@@ -40,6 +42,9 @@ const MainContent: React.FC<MainContentProps> = ({
 }) => {
   const navigate = useNavigate();
   const { liffId, slug } = useParams();
+
+  // Fetch campaigns for banners
+  const { data: campaigns, isLoading: isLoadingCampaigns } = useCampaigns();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null,
   );
@@ -88,21 +93,39 @@ const MainContent: React.FC<MainContentProps> = ({
     return page.metadata?.popularVouchersText || defaultText;
   }, [page.metadata?.popularVouchersText]);
 
-  // Memoized banner items
+  // Memoized banner items (vouchers + campaigns)
   const bannerItems: BannerItem[] = useMemo(() => {
-    return (banner_vouchers || [])
+    const voucherBanners = (banner_vouchers || [])
       .filter((banner_voucher) => banner_voucher.banner)
       .map((banner_voucher) => ({
         id: banner_voucher.id,
         image: banner_voucher.banner,
         alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
+        type: 'voucher' as const,
       }));
-  }, [banner_vouchers, language]);
+
+    const campaignBanners = (campaigns || [])
+      .filter((campaign) => campaign.status === 'active')
+      .map((campaign) => ({
+        id: campaign.id,
+        image: getDirectusFileUrl(campaign.banner_image),
+        title: campaign.title,
+        alt: `Campaign banner for ${campaign.title}`,
+        type: 'campaign' as const,
+      }));
+
+    return [...campaignBanners, ...voucherBanners];
+  }, [banner_vouchers, campaigns, language]);
 
   // Callbacks
   const handleBannerClick = useCallback(
     (banner: BannerItem) => {
-      navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+      if (banner.type === 'campaign') {
+        navigate(`/a/${liffId}/${slug}/campaign/${banner.id}`);
+      } else {
+        // Default to voucher/coupon
+        navigate(`/a/${liffId}/${slug}/coupon/${banner.id}`);
+      }
     },
     [navigate, liffId, slug],
   );
@@ -188,7 +211,7 @@ const MainContent: React.FC<MainContentProps> = ({
 
         {layoutSettings.showBannerVouchers && !searchQuery && (
           <div className="overflow-hidden rounded-xl">
-            {isLoading ? (
+            {isLoading || isLoadingCampaigns ? (
               <BannerSkeleton />
             ) : bannerItems.length > 0 ? (
               <BannerSlider
