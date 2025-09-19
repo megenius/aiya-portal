@@ -80,9 +80,9 @@ const CouponCard: React.FC<CouponCardProps> = ({
               ].join(", ")}
               sizes="28px"
               alt="Logo"
-              className="h-7 w-7 rounded-full border border-white object-cover shadow-sm"
-              wrapperClassName="h-7 w-7 rounded-full"
-              placeholder="blur"
+              className="h-7 w-7 rounded-full object-cover"
+              wrapperClassName="h-7 w-7 rounded-full border border-white shadow-sm bg-white"
+              placeholder="none"
               blurDataURL={getDirectusFileUrl(logo, { width: 10, height: 10, format: "webp", quality: 40 })}
               rootMargin="200px"
             />
