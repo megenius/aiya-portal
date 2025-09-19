@@ -103,7 +103,7 @@ function createFileCache(name: string, duration = 3600, edgeDuration = 86400) {
       console.log(`Generated cache key for ${name}: ${cacheKey}`);
       return cacheKey;
     },
-    cacheControl: `public, max-age=${duration}, s-maxage=${edgeDuration}`,
+    cacheControl: `public, max-age=${duration}, s-maxage=${edgeDuration}, stale-while-revalidate=${edgeDuration}, stale-if-error=${edgeDuration}`,
     vary: ["Accept-Encoding", "Accept"],
   });
 }
@@ -177,43 +177,57 @@ export const getFile = factory.createHandlers(
 
       console.log("Reading file from directus:", fileId, key);
 
-      // Add ETag support for conditional requests
-      const etagValue = `"file-${fileId}${key ? `-${key}` : ""}"`;
-      c.header("ETag", etagValue);
+      // Parse transformation options from query
+      const width = c.req.query("width") ? parseInt(c.req.query("width") as string) : undefined;
+      const height = c.req.query("height") ? parseInt(c.req.query("height") as string) : undefined;
+      const fit = c.req.query("fit") as "cover" | "contain" | "inside" | "outside" | undefined;
+      const quality = c.req.query("quality") ? parseInt(c.req.query("quality") as string) : undefined;
+      const format = c.req.query("format") as "jpg" | "png" | "webp" | "tiff" | undefined;
 
-      // Check if client has a valid cached copy
+      // Try to get file metadata for strong validators
+      let fileInfo: any | undefined;
+      try {
+        fileInfo = await directus.request(sdk.readFile(fileId));
+      } catch (e) {
+        console.warn("[getFile] unable to fetch file metadata for ETag/Last-Modified", e);
+      }
+
+      const urlObj = new URL(c.req.url);
+      const sortedParams = new URLSearchParams(
+        Array.from(urlObj.searchParams.entries()).sort(([a], [b]) => a.localeCompare(b))
+      ).toString();
+      const versionToken = fileInfo?.checksum || fileInfo?.modified_on || fileInfo?.updated_on || "v0";
+      const etagValue = `"file-${fileId}-${versionToken}-${sortedParams}"`;
+      c.header("ETag", etagValue);
+      if (fileInfo?.modified_on || fileInfo?.updated_on) {
+        c.header("Last-Modified", new Date(fileInfo.modified_on || fileInfo.updated_on).toUTCString());
+      }
+
+      // Conditional request short-circuit
       const ifNoneMatch = c.req.header("If-None-Match");
       if (ifNoneMatch === etagValue) {
-        return new Response(null, { status: 304 }); // Not Modified
+        return new Response(null, { status: 304 });
       }
 
-      // First, try using the SDK method
-      try {
-        const assetStream = await directus.request(
-          sdk.readAssetRaw(fileId, { key })
-        );
-
-        return stream(c, async (stream) => {
-          await stream.pipe(assetStream);
-        });
-      } catch (error) {
-        console.error("Error using SDK to fetch file:", error);
-
-        // Fallback to direct URL access
-        const assetUrl = getDirectusAssetUrl(c.env, fileId, key);
-        console.log("Falling back to direct URL:", assetUrl);
-
-        if (!assetUrl) {
-          return c.json({ error: "Invalid asset URL" }, 400);
-        }
-
-        const response = await fetch(assetUrl);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch file: ${response.status}`);
-        }
-
-        return response;
+      // Build transformed asset URL and fetch it (lets Directus do resizing/formatting)
+      const assetUrl = getDirectusAssetUrl(c.env, fileId, key, { width, height, fit, quality, format });
+      if (!assetUrl) {
+        return c.json({ error: "Invalid asset URL" }, 400);
       }
+
+      const response = await fetch(assetUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.status}`);
+      }
+
+      // Mirror content-type to client for correct decoding
+      const headers = new Headers(response.headers);
+      headers.set("ETag", etagValue);
+      if (fileInfo?.modified_on || fileInfo?.updated_on) {
+        headers.set("Last-Modified", new Date(fileInfo.modified_on || fileInfo.updated_on).toUTCString());
+      }
+      // Hono cache middleware will inject Cache-Control
+      return new Response(response.body, { status: response.status, headers });
     } catch (error) {
       console.error("Error retrieving file:", error);
       return c.json({ error: "Failed to retrieve file" }, 500);
