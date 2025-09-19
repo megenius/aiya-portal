@@ -886,7 +886,7 @@ export const getCampaignRanking = factory.createHandlers(
       // Fetch users who registered for this campaign (include zero-credit users)
       const registrationRows = (await directus.request(
         readItems("user_campaign_registrations", {
-          fields: ["user", "registered_at"],
+          fields: ["user", "registered_at", "registration_data", "date_created"],
           filter: { campaign: { _eq: campaignId } },
         })
       )) as any[];
@@ -917,6 +917,34 @@ export const getCampaignRanking = factory.createHandlers(
         (profiles as any[]).map((p) => [p.id, p])
       );
 
+      // Build latest registration per user (prefer the most recent registered_at/date_created)
+      const regMap = new Map<string, any>();
+      for (const r of registrationRows) {
+        const uid = r?.user ? String(r.user) : undefined;
+        if (!uid) continue;
+        const prev = regMap.get(uid);
+        const prevTime = prev?.registered_at || prev?.date_created || "";
+        const currTime = r?.registered_at || r?.date_created || "";
+        if (!prev || new Date(currTime) > new Date(prevTime)) {
+          regMap.set(uid, r);
+        }
+      }
+
+      const getRegName = (reg: any): string => {
+        if (!reg || !reg.registration_data) return "";
+        const d = reg.registration_data as Record<string, any>;
+        const candidates = [
+          d.name,
+          d.full_name,
+          d.fullname,
+          [d.first_name, d.last_name].filter(Boolean).join(" "),
+          [d.firstname, d.lastname].filter(Boolean).join(" "),
+          [d["first-name"], d["last-name"]].filter(Boolean).join(" "),
+          [d["ชื่อ"], d["นามสกุล"]].filter(Boolean).join(" "),
+        ].filter((v) => typeof v === "string" && v.trim().length > 0) as string[];
+        return candidates[0] || "";
+      };
+
       // Build credits map (default 0)
       const creditsMap = new Map<string, number>();
       for (const row of creditsRows) {
@@ -925,13 +953,18 @@ export const getCampaignRanking = factory.createHandlers(
       }
 
       // Build items from profiles to guarantee liff_id scoping
-      let items = (profiles as any[]).map((p) => ({
-        id: p.id as string,
-        name: p.display_name || "",
-        displayName: p.display_name || "",
-        pictureUrl: p.picture_url || null,
-        credits: creditsMap.get(String(p.id)) || 0,
-      }));
+      let items = (profiles as any[]).map((p) => {
+        const reg = regMap.get(String(p.id));
+        const regName = getRegName(reg);
+        const name = regName || p.display_name || "";
+        return {
+          id: p.id as string,
+          name,
+          displayName: p.display_name || "",
+          pictureUrl: p.picture_url || null,
+          credits: creditsMap.get(String(p.id)) || 0,
+        };
+      });
 
       // Sort by credits desc, then name asc for stability
       items.sort((a, b) => {
@@ -963,13 +996,16 @@ export const getCampaignRanking = factory.createHandlers(
         const mp = (meProfileArr as any[])[0];
         if (mp) {
           const meCredits = creditsMap.get(String(currentUserId)) || 0;
+          const meReg = regMap.get(String(currentUserId));
+          const meRegName = getRegName(meReg);
+          const meName = meRegName || mp?.display_name || "";
           // Compute rank within filtered items
           const meRank =
             items.findIndex((u) => String(u.id) === String(currentUserId)) +
               1 || null;
           me = {
             id: String(currentUserId),
-            name: mp?.display_name || "",
+            name: meRegName || mp?.display_name || "",
             displayName: mp?.display_name || "",
             pictureUrl: mp?.picture_url || null,
             credits: meCredits,

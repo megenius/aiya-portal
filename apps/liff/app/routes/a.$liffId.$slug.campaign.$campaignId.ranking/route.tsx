@@ -128,7 +128,7 @@ const Route = () => {
                   </div>
                   <div>
                     <div className="font-semibold text-white">
-                      {profile?.displayName || ranking?.me?.name || ""}
+                      {ranking?.me?.name || profile?.displayName || ""}
                     </div>
                     <div className="text-sm text-white/80">
                       {lang === "th" ? "คุณ" : "You"}
@@ -141,7 +141,7 @@ const Route = () => {
                   {(ranking?.me?.credits ?? 0).toLocaleString()}
                 </div>
                 <div className="text-sm text-white/80">
-                  {lang === "th" ? "เครดิต" : "credits"}
+                  {lang === "th" ? "สิทธิ์" : "credits"}
                 </div>
               </div>
             </div>
@@ -288,7 +288,7 @@ const Route = () => {
                       {user.credits.toLocaleString()}
                     </div>
                     <div className="text-sm text-white/70">
-                      {lang === "th" ? "เครดิต" : "credits"}
+                      {lang === "th" ? "สิทธิ์" : "credits"}
                     </div>
                   </div>
                 </div>
