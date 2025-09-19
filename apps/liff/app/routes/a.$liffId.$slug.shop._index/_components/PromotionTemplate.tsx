@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import CouponCard from "./CouponCard";
 import { MapPin } from "lucide-react";
 import { useNavigate, useParams } from "@remix-run/react";
+import LazyImage from "~/components/LazyImage";
 
-interface Location {
-  id: string;
-  name: string;
-  distance?: string;
-}
+// removed unused Location interface
 
 interface PromotionTemplateProps {
   vouchers?: Voucher[];
@@ -111,21 +108,35 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
           }
           className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden"
         >
-          <img
+          <LazyImage
             src={
-              getDirectusFileUrl(mainBannerVoucher.cover as string) ||
+              getDirectusFileUrl(mainBannerVoucher.cover as string, { width: 720 }) ||
               "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=450&fit=crop"
             }
+            srcSet={[
+              `${getDirectusFileUrl(mainBannerVoucher.cover as string, { width: 480 })} 480w`,
+              `${getDirectusFileUrl(mainBannerVoucher.cover as string, { width: 720 })} 720w`,
+              `${getDirectusFileUrl(mainBannerVoucher.cover as string, { width: 1080 })} 1080w`,
+              `${getDirectusFileUrl(mainBannerVoucher.cover as string, { width: 1440 })} 1440w`,
+            ].join(", ")}
+            sizes="100vw"
             alt={mainBannerVoucher.name || "Promotion"}
             className="w-full h-full object-cover"
+            placeholder="blur"
+            blurDataURL={getDirectusFileUrl(mainBannerVoucher.cover as string, {
+              width: 24,
+              height: 24,
+            })}
+            rootMargin="300px"
+            priority
           />
-          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-center">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-center">
             <div className="p-4 text-white">
               <h2 className="text-2xl font-medium mb-1">
                 {mainBannerVoucher.name}
               </h2>
             </div>
-          </div> */}
+          </div>
         </button>
       )}
 

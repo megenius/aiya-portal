@@ -151,9 +151,25 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
               key={banner.id}
               className="w-full flex-shrink-0 cursor-pointer"
               onClick={() => handleBannerClick(banner)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleBannerClick(banner);
+                }
+              }}
+              aria-label={banner.alt || banner.title || `Banner ${index + 1}`}
             >
               <LazyImage
-                src={getDirectusFileUrl(banner.image)}
+                src={getDirectusFileUrl(banner.image, { width: 720 })}
+                srcSet={[
+                  `${getDirectusFileUrl(banner.image, { width: 480 })} 480w`,
+                  `${getDirectusFileUrl(banner.image, { width: 720 })} 720w`,
+                  `${getDirectusFileUrl(banner.image, { width: 1080 })} 1080w`,
+                  `${getDirectusFileUrl(banner.image, { width: 1440 })} 1440w`,
+                ].join(", ")}
+                sizes="100vw"
                 alt={banner.alt || `Banner ${index + 1}`}
                 className="h-full object-cover"
                 aspectRatio={aspectRatio}
@@ -162,7 +178,8 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
                   width: 24,
                   height: 24,
                 })}
-                priority
+                rootMargin="300px"
+                priority={index === 0}
               />
               {banner.title && (
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">

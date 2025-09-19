@@ -2,6 +2,7 @@ import React from "react";
 import { CheckCircle, QrCode, XCircle } from "lucide-react";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
+import LazyImage from "~/components/LazyImage";
 
 interface VoucherCardProps {
   voucherUser: VoucherUser;
@@ -76,10 +77,19 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           {/* Ticket inner container */}
           {/* Main ticket area (left side) */}
           <div className="flex-1 flex h-full bg-white rounded-l-lg relative">
-            <img
-              src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+            <LazyImage
+              src={getDirectusFileUrl(voucher.cover as string, { width: 192 }) ?? ""}
+              srcSet={[
+                `${getDirectusFileUrl(voucher.cover as string, { width: 128 })} 128w`,
+                `${getDirectusFileUrl(voucher.cover as string, { width: 192 })} 192w`,
+                `${getDirectusFileUrl(voucher.cover as string, { width: 256 })} 256w`,
+              ].join(", ")}
+              sizes="96px"
               alt={title}
               className="w-24 object-cover mr-3"
+              wrapperClassName="w-24 h-full"
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(voucher.cover as string, { width: 24, height: 24 })}
             />
             <div className="py-2 space-y-3 flex flex-1 flex-col justify-between">
               <div className="w-full max-w-36 text-start">
@@ -139,12 +149,19 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 >
                   {voucher.voucher_brand_id?.name}
                 </p>
-                <img
-                  src={getDirectusFileUrl(
-                    (voucher?.voucher_brand_id?.logo as string) ?? ""
-                  )}
+                <LazyImage
+                  src={getDirectusFileUrl((voucher?.voucher_brand_id?.logo as string) ?? "", { width: 56 })}
+                  srcSet={[
+                    `${getDirectusFileUrl((voucher?.voucher_brand_id?.logo as string) ?? "", { width: 28 })} 28w`,
+                    `${getDirectusFileUrl((voucher?.voucher_brand_id?.logo as string) ?? "", { width: 42 })} 42w`,
+                    `${getDirectusFileUrl((voucher?.voucher_brand_id?.logo as string) ?? "", { width: 56 })} 56w`,
+                  ].join(", ")}
+                  sizes="28px"
                   alt={voucher?.voucher_brand_id?.name ?? ""}
                   className="w-7 h-7 mx-auto rounded-full object-cover border border-white shadow-sm"
+                  wrapperClassName="w-7 h-7 rounded-full"
+                  placeholder="blur"
+                  blurDataURL={getDirectusFileUrl((voucher?.voucher_brand_id?.logo as string) ?? "", { width: 12, height: 12 })}
                 />
                 {/* <div className="w-7 h-7 mx-auto flex justify-center items-center rounded-full object-cover text-gray-500 bg-white border border-white shadow-sm text-[6px]">
                   LOGO

@@ -15,16 +15,7 @@ interface CouponCardProps {
   height?: number | "full";
 }
 
-import { formatDate } from "~/utils/helpers";
-
-function formatHHMM(dateStr?: string) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return "";
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-  return `${hh}:${mm}`;
-}
+// removed unused date formatting utilities
 
 const CouponCard: React.FC<CouponCardProps> = ({
   couponId,
@@ -32,8 +23,6 @@ const CouponCard: React.FC<CouponCardProps> = ({
   logo,
   title,
   description,
-  endDate,
-  language,
   width = "full",
   height = "full",
 }) => {
@@ -51,7 +40,21 @@ const CouponCard: React.FC<CouponCardProps> = ({
         className={`relative aspect-square ${height === "full" ? "h-full" : `h-32`}`}
       >
         <LazyImage
-          src={getDirectusFileUrl(cover) ?? ""}
+          src={
+            getDirectusFileUrl(
+              cover,
+              { width: width === "full" ? 512 : 256 }
+            ) ?? ""
+          }
+          srcSet={[
+            `${getDirectusFileUrl(cover, { width: 160 })} 160w`,
+            `${getDirectusFileUrl(cover, { width: 256 })} 256w`,
+            `${getDirectusFileUrl(cover, { width: 320 })} 320w`,
+            `${getDirectusFileUrl(cover, { width: 384 })} 384w`,
+            `${getDirectusFileUrl(cover, { width: 512 })} 512w`,
+            `${getDirectusFileUrl(cover, { width: 640 })} 640w`,
+          ].join(", ")}
+          sizes={width === "full" ? "(max-width: 640px) 100vw, 50vw" : "128px"}
           alt={title ?? ""}
           className={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl object-cover`}
           wrapperClassName={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl`}
@@ -65,7 +68,13 @@ const CouponCard: React.FC<CouponCardProps> = ({
         {logo && (
           <div className="absolute bottom-2 left-2">
             <LazyImage
-              src={getDirectusFileUrl(logo) ?? ""}
+              src={getDirectusFileUrl(logo, { width: 56 }) ?? ""}
+              srcSet={[
+                `${getDirectusFileUrl(logo, { width: 28 })} 28w`,
+                `${getDirectusFileUrl(logo, { width: 42 })} 42w`,
+                `${getDirectusFileUrl(logo, { width: 56 })} 56w`,
+              ].join(", ")}
+              sizes="28px"
               alt="Logo"
               className="h-7 w-7 rounded-full border border-white object-cover shadow-sm"
               wrapperClassName="h-7 w-7 rounded-full"
