@@ -162,23 +162,25 @@ const BannerSlider: React.FC<BannerSliderProps> = ({
               aria-label={banner.alt || banner.title || `Banner ${index + 1}`}
             >
               <LazyImage
-                src={getDirectusFileUrl(banner.image, { width: 720 })}
+                src={getDirectusFileUrl(banner.image, { width: 720, format: "webp", quality: 60, fit: "cover" })}
                 srcSet={[
-                  `${getDirectusFileUrl(banner.image, { width: 480 })} 480w`,
-                  `${getDirectusFileUrl(banner.image, { width: 720 })} 720w`,
-                  `${getDirectusFileUrl(banner.image, { width: 1080 })} 1080w`,
-                  `${getDirectusFileUrl(banner.image, { width: 1440 })} 1440w`,
+                  `${getDirectusFileUrl(banner.image, { width: 480, format: "webp", quality: 60, fit: "cover" })} 480w`,
+                  `${getDirectusFileUrl(banner.image, { width: 720, format: "webp", quality: 60, fit: "cover" })} 720w`,
+                  `${getDirectusFileUrl(banner.image, { width: 1080, format: "webp", quality: 60, fit: "cover" })} 1080w`,
+                  `${getDirectusFileUrl(banner.image, { width: 1440, format: "webp", quality: 60, fit: "cover" })} 1440w`,
                 ].join(", ")}
                 sizes="100vw"
                 alt={banner.alt || `Banner ${index + 1}`}
                 className="h-full object-cover"
                 aspectRatio={aspectRatio}
-                placeholder="blur"
+                placeholder={index === 0 ? "none" : "blur"}
                 blurDataURL={getDirectusFileUrl(banner.image, {
-                  width: 24,
-                  height: 24,
+                  width: 12,
+                  height: 12,
+                  format: "webp",
+                  quality: 40,
                 })}
-                rootMargin="300px"
+                rootMargin="800px"
                 priority={index === 0}
               />
               {banner.title && (

@@ -47,23 +47,23 @@ const CouponCard: React.FC<CouponCardProps> = ({
           src={
             getDirectusFileUrl(
               cover,
-              { width: width === "full" ? 512 : 256, format: "webp", quality: 75, fit: "cover" }
+              { width: width === "full" ? 512 : 256, format: "webp", quality: 60, fit: "cover" }
             ) ?? ""
           }
           srcSet={[
-            `${getDirectusFileUrl(cover, { width: 160, format: "webp", quality: 75, fit: "cover" })} 160w`,
-            `${getDirectusFileUrl(cover, { width: 256, format: "webp", quality: 75, fit: "cover" })} 256w`,
-            `${getDirectusFileUrl(cover, { width: 320, format: "webp", quality: 75, fit: "cover" })} 320w`,
-            `${getDirectusFileUrl(cover, { width: 384, format: "webp", quality: 75, fit: "cover" })} 384w`,
-            `${getDirectusFileUrl(cover, { width: 512, format: "webp", quality: 75, fit: "cover" })} 512w`,
-            `${getDirectusFileUrl(cover, { width: 640, format: "webp", quality: 75, fit: "cover" })} 640w`,
+            `${getDirectusFileUrl(cover, { width: 160, format: "webp", quality: 60, fit: "cover" })} 160w`,
+            `${getDirectusFileUrl(cover, { width: 256, format: "webp", quality: 60, fit: "cover" })} 256w`,
+            `${getDirectusFileUrl(cover, { width: 320, format: "webp", quality: 60, fit: "cover" })} 320w`,
+            `${getDirectusFileUrl(cover, { width: 384, format: "webp", quality: 60, fit: "cover" })} 384w`,
+            `${getDirectusFileUrl(cover, { width: 512, format: "webp", quality: 60, fit: "cover" })} 512w`,
+            `${getDirectusFileUrl(cover, { width: 640, format: "webp", quality: 60, fit: "cover" })} 640w`,
           ].join(", ")}
           sizes={width === "full" ? "(max-width: 640px) 100vw, 50vw" : "128px"}
           alt={title ?? ""}
           className={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl object-cover`}
           wrapperClassName={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl`}
           placeholder={placeholder}
-          blurDataURL={getDirectusFileUrl(cover, { width: 24, height: 24 })}
+          blurDataURL={getDirectusFileUrl(cover, { width: 12, height: 12, format: "webp", quality: 40 })}
           rootMargin="600px"
           priority={priority}
         />
@@ -72,18 +72,18 @@ const CouponCard: React.FC<CouponCardProps> = ({
         {logo && (
           <div className="absolute bottom-2 left-2">
             <LazyImage
-              src={getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 75, fit: "cover" }) ?? ""}
+              src={getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 60, fit: "cover" }) ?? ""}
               srcSet={[
-                `${getDirectusFileUrl(logo, { width: 28, format: "webp", quality: 75, fit: "cover" })} 28w`,
-                `${getDirectusFileUrl(logo, { width: 42, format: "webp", quality: 75, fit: "cover" })} 42w`,
-                `${getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 75, fit: "cover" })} 56w`,
+                `${getDirectusFileUrl(logo, { width: 28, format: "webp", quality: 60, fit: "cover" })} 28w`,
+                `${getDirectusFileUrl(logo, { width: 42, format: "webp", quality: 60, fit: "cover" })} 42w`,
+                `${getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 60, fit: "cover" })} 56w`,
               ].join(", ")}
               sizes="28px"
               alt="Logo"
               className="h-7 w-7 rounded-full border border-white object-cover shadow-sm"
               wrapperClassName="h-7 w-7 rounded-full"
               placeholder="blur"
-              blurDataURL={getDirectusFileUrl(logo, { width: 12, height: 12 })}
+              blurDataURL={getDirectusFileUrl(logo, { width: 10, height: 10, format: "webp", quality: 40 })}
               rootMargin="200px"
             />
           </div>

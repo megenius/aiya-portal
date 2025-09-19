@@ -40,8 +40,8 @@ const CouponList: React.FC<CouponListProps> = ({
               language={language}
               width={32}
               height={32}
-              priority={index < 3}
-              placeholder={index < 3 ? "shimmer" : "blur"}
+              priority={index < 2}
+              placeholder={index < 2 ? "none" : "blur"}
             />
           ))}
         </div>
@@ -60,8 +60,8 @@ const CouponList: React.FC<CouponListProps> = ({
               title={coupon.metadata?.title[language] ?? ""}
               endDate={coupon.end_date as string}
               language={language}
-              priority={index < 4}
-              placeholder={index < 4 ? "shimmer" : "blur"}
+              priority={index < 2}
+              placeholder={index < 2 ? "none" : "blur"}
             />
           ))}
         </div>
