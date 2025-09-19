@@ -3,7 +3,7 @@ import { Voucher } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import CouponCard from "./CouponCard";
 import { MapPin } from "lucide-react";
-import { useNavigate, useParams } from "@remix-run/react";
+import { Link, useParams } from "@remix-run/react";
 import LazyImage from "~/components/LazyImage";
 
 // removed unused Location interface
@@ -24,7 +24,6 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
   language,
 }) => {
   const { liffId, slug } = useParams();
-  const navigate = useNavigate();
 //   const [timeLeft, setTimeLeft] = useState({
 //     hours: 0,
 //     minutes: 0,
@@ -102,10 +101,9 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
       )}
 
       {mainBannerVoucher && (
-        <button
-          onClick={() =>
-            navigate(`/a/${liffId}/${slug}/coupon/${mainBannerVoucher.id}`)
-          }
+        <Link
+          to={`/a/${liffId}/${slug}/coupon/${mainBannerVoucher.id}`}
+          prefetch="intent"
           className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden"
         >
           <LazyImage
@@ -139,7 +137,7 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
               </h2>
             </div>
           </div>
-        </button>
+        </Link>
       )}
 
         <div className="flex items-center justify-start">

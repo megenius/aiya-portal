@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "@remix-run/react";
+import { Link, useParams } from "@remix-run/react";
 import React from "react";
 import { getDirectusFileUrl } from "~/utils/files";
 import LazyImage from "~/components/LazyImage";
@@ -31,13 +31,10 @@ const CouponCard: React.FC<CouponCardProps> = ({
   placeholder = "blur",
 }) => {
   const { liffId, slug } = useParams();
-  const navigate = useNavigate();
-
-  const navigateToCollectCoupon = () =>
-    navigate(`/a/${liffId}/${slug}/coupon/${couponId}`);
   return (
-    <button
-      onClick={() => navigateToCollectCoupon()}
+    <Link
+      to={`/a/${liffId}/${slug}/coupon/${couponId}`}
+      prefetch="intent"
       className={`flex shrink-0 flex-col bg-white ${width === "full" ? "w-full" : `w-32`}`}
     >
       <div
@@ -71,7 +68,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
             format: "webp",
             quality: 40,
           })}
-          rootMargin="600px"
+          rootMargin={priority ? "400px" : "120px"}
           priority={priority}
         />
         {/* Gradient Overlay */}
@@ -123,7 +120,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
           </p>
         )} */}
       </div>
-    </button>
+    </Link>
   );
 };
 
