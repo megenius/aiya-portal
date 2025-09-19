@@ -13,18 +13,11 @@ interface CouponCardProps {
   language: string;
   width?: number | "full";
   height?: number | "full";
+  priority?: boolean;
+  placeholder?: "shimmer" | "blur" | "none";
 }
 
-import { formatDate } from "~/utils/helpers";
-
-function formatHHMM(dateStr?: string) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return "";
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-  return `${hh}:${mm}`;
-}
+// removed unused date formatting utilities
 
 const CouponCard: React.FC<CouponCardProps> = ({
   couponId,
@@ -32,10 +25,10 @@ const CouponCard: React.FC<CouponCardProps> = ({
   logo,
   title,
   description,
-  endDate,
-  language,
   width = "full",
   height = "full",
+  priority = false,
+  placeholder = "blur",
 }) => {
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
@@ -51,26 +44,46 @@ const CouponCard: React.FC<CouponCardProps> = ({
         className={`relative aspect-square ${height === "full" ? "h-full" : `h-32`}`}
       >
         <LazyImage
-          src={getDirectusFileUrl(cover) ?? ""}
+          src={
+            getDirectusFileUrl(
+              cover,
+              { width: width === "full" ? 512 : 256, format: "webp", quality: 60, fit: "cover" }
+            ) ?? ""
+          }
+          srcSet={[
+            `${getDirectusFileUrl(cover, { width: 160, format: "webp", quality: 60, fit: "cover" })} 160w`,
+            `${getDirectusFileUrl(cover, { width: 256, format: "webp", quality: 60, fit: "cover" })} 256w`,
+            `${getDirectusFileUrl(cover, { width: 320, format: "webp", quality: 60, fit: "cover" })} 320w`,
+            `${getDirectusFileUrl(cover, { width: 384, format: "webp", quality: 60, fit: "cover" })} 384w`,
+            `${getDirectusFileUrl(cover, { width: 512, format: "webp", quality: 60, fit: "cover" })} 512w`,
+            `${getDirectusFileUrl(cover, { width: 640, format: "webp", quality: 60, fit: "cover" })} 640w`,
+          ].join(", ")}
+          sizes={width === "full" ? "(max-width: 640px) 100vw, 50vw" : "128px"}
           alt={title ?? ""}
           className={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl object-cover`}
           wrapperClassName={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl`}
-          placeholder="blur"
-          blurDataURL={getDirectusFileUrl(cover, { width: 24, height: 24 })}
-          rootMargin="200px"
-          priority={false}
+          placeholder={placeholder}
+          blurDataURL={getDirectusFileUrl(cover, { width: 12, height: 12, format: "webp", quality: 40 })}
+          rootMargin="600px"
+          priority={priority}
         />
         {/* Gradient Overlay */}
-        <div className="absolute bottom-0 left-0 h-[35%] w-full rounded-b-2xl bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-[35%] w-full rounded-b-2xl bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
         {logo && (
           <div className="absolute bottom-2 left-2">
             <LazyImage
-              src={getDirectusFileUrl(logo) ?? ""}
+              src={getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 60, fit: "cover" }) ?? ""}
+              srcSet={[
+                `${getDirectusFileUrl(logo, { width: 28, format: "webp", quality: 60, fit: "cover" })} 28w`,
+                `${getDirectusFileUrl(logo, { width: 42, format: "webp", quality: 60, fit: "cover" })} 42w`,
+                `${getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 60, fit: "cover" })} 56w`,
+              ].join(", ")}
+              sizes="28px"
               alt="Logo"
-              className="h-7 w-7 rounded-full border border-white object-cover shadow-sm"
-              wrapperClassName="h-7 w-7 rounded-full"
-              placeholder="blur"
-              blurDataURL={getDirectusFileUrl(logo, { width: 12, height: 12 })}
+              className="h-7 w-7 rounded-full object-cover"
+              wrapperClassName="h-7 w-7 rounded-full border border-white shadow-sm bg-white"
+              placeholder="none"
+              blurDataURL={getDirectusFileUrl(logo, { width: 10, height: 10, format: "webp", quality: 40 })}
               rootMargin="200px"
             />
           </div>

@@ -7,6 +7,7 @@ import { Ticket } from "lucide-react";
 import { VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import { useLineLiff } from "~/contexts/LineLiffContext";
+import LazyImage from "~/components/LazyImage";
 
 export interface Profile {
   userId: string;
@@ -199,10 +200,15 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center justify-between p-4 pb-3">
         <div className="flex items-center gap-3">
           {profile?.pictureUrl && (
-            <img
+            <LazyImage
               src={profile.pictureUrl}
               alt="Profile"
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10 rounded-full object-cover"
+              wrapperClassName="h-10 w-10 rounded-full"
+              placeholder="shimmer"
+              rootMargin="200px"
+              width={40}
+              height={40}
             />
           )}
           <div>
@@ -298,10 +304,15 @@ const Header: React.FC<HeaderProps> = ({
 
             {profile?.pictureUrl && (
               <div className="mb-2 flex justify-center">
-                <img
+                <LazyImage
                   src={profile.pictureUrl}
                   alt={profile.displayName || "โปรไฟล์"}
-                  className="h-16 w-16 rounded-full border-2 border-white shadow-md"
+                  className="h-16 w-16 rounded-full border-2 border-white shadow-md object-cover"
+                  wrapperClassName="h-16 w-16 rounded-full"
+                  placeholder="shimmer"
+                  rootMargin="200px"
+                  width={64}
+                  height={64}
                 />
               </div>
             )}

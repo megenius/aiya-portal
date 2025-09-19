@@ -123,10 +123,11 @@ const LazyImage: React.FC<LazyImageProps> = ({
     >
       {showPlaceholder && (
         <div
+          aria-hidden
           className={
             placeholder === "shimmer"
-              ? "absolute inset-0 animate-pulse bg-gray-200"
-              : "absolute inset-0 bg-gray-200"
+              ? "absolute inset-0 animate-pulse bg-gray-200 pointer-events-none"
+              : "absolute inset-0 bg-gray-200 pointer-events-none"
           }
           style={
             placeholder === "blur" && blurDataURL
@@ -136,8 +137,9 @@ const LazyImage: React.FC<LazyImageProps> = ({
                   backgroundPosition: "center",
                   filter: "blur(12px)",
                   transform: "scale(1.06)",
+                  pointerEvents: "none",
                 }
-              : undefined
+              : { pointerEvents: "none" }
           }
         />
       )}
@@ -147,8 +149,9 @@ const LazyImage: React.FC<LazyImageProps> = ({
           src={isError || !src ? fallbackSrc || DEFAULT_FALLBACK_DATA_URL : src}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
-          ref={imgRef}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
+          ref={imgRef}
           onLoad={handleLoad}
           onError={handleError}
           className={[

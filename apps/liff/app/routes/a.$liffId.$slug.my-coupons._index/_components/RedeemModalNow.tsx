@@ -9,6 +9,7 @@ import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "./Button";
+import LazyImage from "~/components/LazyImage";
 
 interface RedeemModalProps {
   page: PageLiff;
@@ -236,10 +237,19 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
               <>
                 <div className="mb-3 flex justify-between">
                   <div className="flex items-start gap-3">
-                    <img
-                      src={getDirectusFileUrl(voucher.cover as string) ?? ""}
+                    <LazyImage
+                      src={getDirectusFileUrl(voucher.cover as string, { width: 160 }) ?? ""}
+                      srcSet={[
+                        `${getDirectusFileUrl(voucher.cover as string, { width: 80 })} 80w`,
+                        `${getDirectusFileUrl(voucher.cover as string, { width: 120 })} 120w`,
+                        `${getDirectusFileUrl(voucher.cover as string, { width: 160 })} 160w`,
+                      ].join(", ")}
+                      sizes="80px"
                       alt={title}
                       className="h-20 w-20 rounded-lg object-cover"
+                      wrapperClassName="h-20 w-20 rounded-lg"
+                      placeholder="blur"
+                      blurDataURL={getDirectusFileUrl(voucher.cover as string, { width: 24, height: 24 })}
                     />
                     <div>
                       <h3 className="text-lg font-medium">
