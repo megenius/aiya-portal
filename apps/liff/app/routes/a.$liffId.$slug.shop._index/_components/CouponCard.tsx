@@ -45,10 +45,12 @@ const CouponCard: React.FC<CouponCardProps> = ({
       >
         <LazyImage
           src={
-            getDirectusFileUrl(
-              cover,
-              { width: width === "full" ? 512 : 256, format: "webp", quality: 60, fit: "cover" }
-            ) ?? ""
+            getDirectusFileUrl(cover, {
+              width: width === "full" ? 512 : 256,
+              format: "webp",
+              quality: 60,
+              fit: "cover",
+            }) ?? ""
           }
           srcSet={[
             `${getDirectusFileUrl(cover, { width: 160, format: "webp", quality: 60, fit: "cover" })} 160w`,
@@ -63,7 +65,12 @@ const CouponCard: React.FC<CouponCardProps> = ({
           className={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl object-cover`}
           wrapperClassName={`w-full ${height === "full" ? "h-full" : `h-32`} rounded-2xl`}
           placeholder={placeholder}
-          blurDataURL={getDirectusFileUrl(cover, { width: 12, height: 12, format: "webp", quality: 40 })}
+          blurDataURL={getDirectusFileUrl(cover, {
+            width: 12,
+            height: 12,
+            format: "webp",
+            quality: 40,
+          })}
           rootMargin="600px"
           priority={priority}
         />
@@ -72,7 +79,14 @@ const CouponCard: React.FC<CouponCardProps> = ({
         {logo && (
           <div className="absolute bottom-2 left-2">
             <LazyImage
-              src={getDirectusFileUrl(logo, { width: 56, format: "webp", quality: 60, fit: "cover" }) ?? ""}
+              src={
+                getDirectusFileUrl(logo, {
+                  width: 56,
+                  format: "webp",
+                  quality: 60,
+                  fit: "cover",
+                }) ?? ""
+              }
               srcSet={[
                 `${getDirectusFileUrl(logo, { width: 28, format: "webp", quality: 60, fit: "cover" })} 28w`,
                 `${getDirectusFileUrl(logo, { width: 42, format: "webp", quality: 60, fit: "cover" })} 42w`,
@@ -82,8 +96,13 @@ const CouponCard: React.FC<CouponCardProps> = ({
               alt="Logo"
               className="h-7 w-7 rounded-full object-cover"
               wrapperClassName="h-7 w-7 rounded-full border border-white shadow-sm bg-white"
-              placeholder="none"
-              blurDataURL={getDirectusFileUrl(logo, { width: 10, height: 10, format: "webp", quality: 40 })}
+              placeholder="blur"
+              blurDataURL={getDirectusFileUrl(logo, {
+                width: 10,
+                height: 10,
+                format: "webp",
+                quality: 40,
+              })}
               rootMargin="200px"
             />
           </div>
