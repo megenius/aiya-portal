@@ -28,7 +28,7 @@ const CouponList: React.FC<CouponListProps> = ({
             msOverflowStyle: "none",
           }}
         >
-          {coupons?.map((coupon) => (
+          {coupons?.map((coupon, index) => (
             <CouponCard
               key={coupon.id}
               couponId={coupon.id}
@@ -40,6 +40,8 @@ const CouponList: React.FC<CouponListProps> = ({
               language={language}
               width={32}
               height={32}
+              priority={index < 3}
+              placeholder={index < 3 ? "shimmer" : "blur"}
             />
           ))}
         </div>
@@ -58,6 +60,8 @@ const CouponList: React.FC<CouponListProps> = ({
               title={coupon.metadata?.title[language] ?? ""}
               endDate={coupon.end_date as string}
               language={language}
+              priority={index < 4}
+              placeholder={index < 4 ? "shimmer" : "blur"}
             />
           ))}
         </div>
