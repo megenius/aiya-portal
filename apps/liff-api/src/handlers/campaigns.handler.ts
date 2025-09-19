@@ -118,12 +118,16 @@ export const getCampaign = factory.createHandlers(
     try {
       console.log("ddd");
       const { id: userId } = c.get("jwtPayload");
-      const { id: campaignId } = c.req.param();
+      const campaignId = c.req.param("id");
       const directus = c.get("directAdmin");
 
       // Get campaign
+      if (!campaignId) {
+        return c.json({ error: "Campaign ID is required" }, 400);
+      }
+
       const campaign = await directus.request(
-        readItem("campaigns", campaignId, {
+        readItem("campaigns", campaignId as string, {
           fields: ["*"],
         })
       );
@@ -195,7 +199,10 @@ export const consentPDPA = factory.createHandlers(
   async (c) => {
     try {
       const { id: userId } = c.get("jwtPayload");
-      const { id: campaignId } = c.req.param();
+      const campaignId = c.req.param("id");
+      if (!campaignId) {
+        return c.json({ error: "Campaign ID is required" }, 400);
+      }
       const { has_agreed_pdpa, pdpa_agreed_at } = await c.req.json();
       const directus = c.get("directAdmin");
 
@@ -849,6 +856,135 @@ export const getMission = factory.createHandlers(
     } catch (error) {
       console.error("Error getting mission:", error);
       return c.json({ error: "Failed to get mission" }, 500);
+    }
+  }
+);
+
+// Get campaign ranking (top users by total earned credits)
+export const getCampaignRanking = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const campaignId = c.req.param("id");
+      const jwt: any = c.get("jwtPayload") as any;
+      const currentUserId = jwt?.id as string | undefined;
+      const liff_id = jwt?.liff_id as string | undefined;
+      const directus = c.get("directAdmin");
+
+      const limit = Number(c.req.query("limit") || 50);
+      const offset = Number(c.req.query("offset") || 0);
+
+      // Fetch users who earned credits for this campaign
+      const creditsRows = (await directus.request(
+        readItems("user_reward_credits", {
+          fields: ["user_id", "total_earned"],
+          filter: { campaign_id: { _eq: campaignId } },
+        })
+      )) as any[];
+
+      // Fetch users who registered for this campaign (include zero-credit users)
+      const registrationRows = (await directus.request(
+        readItems("user_campaign_registrations", {
+          fields: ["user", "registered_at"],
+          filter: { campaign: { _eq: campaignId } },
+        })
+      )) as any[];
+
+      // Build candidate user id set
+      const userIds = new Set<string>();
+      for (const r of creditsRows) {
+        if (r?.user_id) userIds.add(String(r.user_id));
+      }
+      for (const r of registrationRows) {
+        if (r?.user) userIds.add(String(r.user));
+      }
+      const userIdList = Array.from(userIds);
+
+      // Fetch profiles for these users (scoped to the same liff page if provided)
+      const profiles = userIdList.length
+        ? await directus.request(
+            readItems("profiles", {
+              fields: ["id", "display_name", "picture_url", "liff_id"],
+              filter: {
+                id: { _in: userIdList },
+                ...(liff_id ? { liff_id: { _eq: liff_id } } : {}),
+              },
+            })
+          )
+        : [];
+      const profileMap = new Map<string, any>(
+        (profiles as any[]).map((p) => [p.id, p])
+      );
+
+      // Build credits map (default 0)
+      const creditsMap = new Map<string, number>();
+      for (const row of creditsRows) {
+        if (!row?.user_id) continue;
+        creditsMap.set(String(row.user_id), Number(row.total_earned || 0));
+      }
+
+      // Build items from profiles to guarantee liff_id scoping
+      let items = (profiles as any[]).map((p) => ({
+        id: p.id as string,
+        name: p.display_name || "",
+        displayName: p.display_name || "",
+        pictureUrl: p.picture_url || null,
+        credits: creditsMap.get(String(p.id)) || 0,
+      }));
+
+      // Sort by credits desc, then name asc for stability
+      items.sort((a, b) => {
+        if (b.credits !== a.credits)
+          return Number(b.credits) - Number(a.credits);
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      });
+
+      // Apply pagination and rank
+      const totalAll = items.length;
+      const paged = items.slice(offset, offset + limit).map((it, idx) => ({
+        ...it,
+        rank: offset + idx + 1,
+      }));
+
+      // Get current user's credits and rank
+      let me: any = null;
+      if (currentUserId) {
+        const meProfileArr = await directus.request(
+          readItems("profiles", {
+            fields: ["id", "display_name", "picture_url", "liff_id"],
+            filter: {
+              id: { _eq: currentUserId },
+              ...(liff_id ? { liff_id: { _eq: liff_id } } : {}),
+            },
+            limit: 1,
+          })
+        );
+        const mp = (meProfileArr as any[])[0];
+        if (mp) {
+          const meCredits = creditsMap.get(String(currentUserId)) || 0;
+          // Compute rank within filtered items
+          const meRank =
+            items.findIndex((u) => String(u.id) === String(currentUserId)) +
+              1 || null;
+          me = {
+            id: String(currentUserId),
+            name: mp?.display_name || "",
+            displayName: mp?.display_name || "",
+            pictureUrl: mp?.picture_url || null,
+            credits: meCredits,
+            rank: meRank || undefined,
+          };
+        }
+      }
+
+      // Total is number of filtered users in current liff
+      const total = Number(totalAll);
+
+      return c.json({ data: { items: paged, me, total } });
+    } catch (error) {
+      console.error("Error getting campaign ranking:", error);
+      return c.json({ error: "Failed to get campaign ranking" }, 500);
     }
   }
 );

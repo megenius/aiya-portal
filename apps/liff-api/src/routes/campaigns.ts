@@ -17,5 +17,7 @@ campaignRoutes.get("/:id/missions", ...CampaignHandler.getCampaignMissions);
 // Credits and stats
 campaignRoutes.get("/:id/credits", ...CampaignHandler.getCampaignCredits);
 campaignRoutes.get("/:id/submissions", ...CampaignHandler.getCampaignSubmissions);
+// Ranking
+campaignRoutes.get("/:id/ranking", ...CampaignHandler.getCampaignRanking);
 
 export { campaignRoutes };

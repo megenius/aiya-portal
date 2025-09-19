@@ -41,3 +41,29 @@ export const submitMission = (missionId: string, data: MissionSubmissionRequest)
 
 export const fetchCampaignCredits = (campaignId: string) =>
   api.get<{ data: CampaignCreditsResponse }>(`/campaigns/${campaignId}/credits`).then((res) => res.data);
+
+// Ranking
+export interface CampaignRankingUser {
+  id: string;
+  name: string;
+  displayName: string;
+  pictureUrl?: string | null;
+  credits: number;
+  rank: number;
+}
+
+export interface CampaignRankingData {
+  items: CampaignRankingUser[];
+  me?: CampaignRankingUser | null;
+  total: number;
+}
+
+export const fetchCampaignRanking = (
+  campaignId: string,
+  params?: { limit?: number; offset?: number }
+) =>
+  api
+    .get<{ data: CampaignRankingData }>(`/campaigns/${campaignId}/ranking`, {
+      params,
+    })
+    .then((res) => res.data);
