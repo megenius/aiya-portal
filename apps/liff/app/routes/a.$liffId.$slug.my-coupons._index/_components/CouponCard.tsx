@@ -100,7 +100,7 @@ const CouponCard: React.FC<VoucherCardProps> = ({
               </div>
               <div className="flex flex-col items-start gap-1">
                 <div
-                  className={`flex items-center gap-2 text-sm ${timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
+                  className={`flex items-center gap-2 text-sm ${voucherUser.code.code_status === "pending_confirmation" && timeLeft > 0 ? "text-orange-500" : "text-gray-500"}`}
                 >
                   {voucherUser.code.code_status === "used" && (
                     <CheckCircle className="h-4 w-4 flex-shrink-0" />
