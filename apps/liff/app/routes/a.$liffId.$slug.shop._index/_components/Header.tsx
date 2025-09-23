@@ -9,6 +9,7 @@ import { getDirectusFileUrl } from "~/utils/files";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import LazyImage from "~/components/LazyImage";
 import { t } from "~/i18n/messages";
+import NoticeModal from "~/components/NoticeModal";
 
 export interface Profile {
   userId: string;
@@ -36,6 +37,7 @@ const Header: React.FC<HeaderProps> = ({
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState<string>("");
   const [copied, setCopied] = useState(false);
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
   const welcomeText = page.metadata.welcomeText[language];
   const subWelcomeText = page.metadata.subWelcomeText[language];
   const { liff } = useLineLiff();
@@ -63,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({
   const handleOpenShareModal = useCallback(() => {
     if (!userProfileId) {
       console.error("Missing userProfileId");
-      alert(t(language as "th" | "en", "shopHeader.inviteLinkError"));
+      setNotice({ open: true, message: t(language as "th" | "en", "shopHeader.inviteLinkError") });
       return;
     }
     setIsShareModalOpen(true);
@@ -174,7 +176,7 @@ const Header: React.FC<HeaderProps> = ({
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Failed to copy:", error);
-      alert(t(language as "th" | "en", "common.copyFailed"));
+      setNotice({ open: true, message: t(language as "th" | "en", "common.copyFailed") });
     }
   }, [shareUrl, language]);
 
@@ -439,6 +441,15 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       )}
+
+      <NoticeModal
+        isOpen={notice.open}
+        onClose={() => setNotice({ open: false })}
+        language={language as "th" | "en"}
+        primaryColor={primaryColor}
+        title={notice.title}
+        message={notice.message}
+      />
     </>
   );
 };

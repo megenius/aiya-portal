@@ -16,6 +16,7 @@ import { AlertCircle } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
 import BackButton from "~/components/BackButton";
 import { t } from "~/i18n/messages";
+import NoticeModal from "~/components/NoticeModal";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -44,6 +45,7 @@ const Route = () => {
   const registerMutation = useRegisterCampaign();
 
   const primaryColor = page.bg_color || "#1DB446";
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
 
   // i18n will be accessed via t()
 
@@ -241,7 +243,6 @@ const Route = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-
     if (!validateForm()) {
       return;
     }
@@ -278,10 +279,9 @@ const Route = () => {
       navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`);
     } catch (error) {
       console.error("Failed to register:", error);
-      alert(t(lang as "th" | "en", "mission.errors.tryAgain"));
+      setNotice({ open: true, message: t(lang as "th" | "en", "mission.errors.tryAgain") });
     }
   };
-
 
   return (
     <div
@@ -378,6 +378,15 @@ const Route = () => {
           </form>
         </div>
       </div>
+
+      <NoticeModal
+        isOpen={notice.open}
+        onClose={() => setNotice({ open: false })}
+        language={lang as "th" | "en"}
+        primaryColor={primaryColor}
+        title={notice.title}
+        message={notice.message}
+      />
     </div>
   );
 };

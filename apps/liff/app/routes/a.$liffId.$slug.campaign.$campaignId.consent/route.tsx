@@ -10,16 +10,19 @@ import { PageLiff } from "~/types/page";
 import { useCampaign } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
-import { ArrowLeft, FileText, Shield } from "lucide-react";
+// removed unused icon imports
 import { getDirectusFileUrl } from "~/utils/files";
 import MainContent from "./_components/MainContent";
 import Header from "./_components/Header";
+import NoticeModal from "~/components/NoticeModal";
+import { t, type Lang } from "~/i18n/messages";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
   const { liffId, slug, campaignId } = useParams();
   const navigate = useNavigate();
   const [hasAgreed, setHasAgreed] = useState(false);
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
 
   const {
     profile,
@@ -100,11 +103,7 @@ const Route = () => {
     e.preventDefault();
 
     if (!hasAgreed) {
-      alert(
-        lang === "th"
-          ? "กรุณายอมรับเงื่อนไขการใช้งาน"
-          : "Please agree to the terms and conditions",
-      );
+      setNotice({ open: true, message: t(lang as Lang, "campaignConsent.errors.mustAgree") });
       return;
     }
 
@@ -135,6 +134,14 @@ const Route = () => {
         setHasAgreed={setHasAgreed}
         isPending={false}
         primaryColor={primaryColor}
+      />
+      <NoticeModal
+        isOpen={notice.open}
+        onClose={() => setNotice({ open: false })}
+        language={lang as Lang}
+        primaryColor={primaryColor}
+        title={notice.title}
+        message={notice.message}
       />
     </div>
   );

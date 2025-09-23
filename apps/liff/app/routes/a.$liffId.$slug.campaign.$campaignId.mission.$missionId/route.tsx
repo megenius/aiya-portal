@@ -18,7 +18,8 @@ import { Target, Star, CheckCircle, AlertCircle } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
 import BackButton from "~/components/BackButton";
 import { triggerConfettiFromButton } from "~/utils/confetti";
-import { t } from "~/i18n/messages";
+import { t, type Lang } from "~/i18n/messages";
+import NoticeModal from "~/components/NoticeModal";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -32,6 +33,11 @@ const Route = () => {
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationCredits, setCelebrationCredits] = useState(0);
   const [isSubmittingWithEffect, setIsSubmittingWithEffect] = useState(false);
+  const [notice, setNotice] = useState<{
+    open: boolean;
+    title?: string;
+    message?: string;
+  }>({ open: false });
 
   const {
     profile,
@@ -388,7 +394,10 @@ const Route = () => {
       }, 4000);
     } catch (error) {
       console.error("Failed to submit mission:", error);
-      alert(t(lang as "th" | "en", "mission.errors.tryAgain"));
+      setNotice({
+        open: true,
+        message: t(lang as Lang, "mission.errors.tryAgain"),
+      });
       setIsUploading(false);
     }
   };
@@ -664,7 +673,9 @@ const Route = () => {
                 {/* Credits Earned with Animation */}
                 <div className="animate-in slide-in-from-bottom-4 duration-800 delay-900 mb-8">
                   <div className="mb-3 text-base leading-relaxed text-gray-600">
-                    {t(lang as "th" | "en", "mission.earnedCredits", { credits: "" })}
+                    {t(lang as "th" | "en", "mission.earnedCredits", {
+                      credits: "",
+                    })}
                   </div>
                   <div className="mb-2 flex items-center justify-center gap-3">
                     <div className="animate-pulse text-4xl font-bold text-purple-600">
@@ -672,7 +683,9 @@ const Route = () => {
                     </div>
                     <div className="animate-bounce text-3xl delay-100">✨</div>
                   </div>
-                  <div className="text-base leading-relaxed text-gray-600">&nbsp;</div>
+                  <div className="text-base leading-relaxed text-gray-600">
+                    &nbsp;
+                  </div>
                 </div>
 
                 {/* Animated Sparkles */}
@@ -699,6 +712,15 @@ const Route = () => {
             </div>
           </div>
         )}
+
+        <NoticeModal
+          isOpen={notice.open}
+          onClose={() => setNotice({ open: false })}
+          language={lang as Lang}
+          primaryColor={primaryColor}
+          title={notice.title}
+          message={notice.message}
+        />
 
         {/* Back to Dashboard Button */}
         {/* <button
