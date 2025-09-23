@@ -10,6 +10,7 @@ import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "./Button";
 import LazyImage from "~/components/LazyImage";
+import { t } from "~/i18n/messages";
 
 interface RedeemModalProps {
   page: PageLiff;
@@ -55,96 +56,45 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
     {
       id: "details",
       label: {
-        th: "รายละเอียด",
-        en: "Details",
+        th: t("th", "redeemModal.tabs.details"),
+        en: t("en", "redeemModal.tabs.details"),
       },
     },
     {
       id: "conditions",
       label: {
-        th: "เงื่อนไข",
-        en: "Conditions",
+        th: t("th", "redeemModal.tabs.conditions"),
+        en: t("en", "redeemModal.tabs.conditions"),
       },
     },
     // { id: "locations", label: "สาขา" },
   ];
   // After Collect Page
-  const collectedSuccessText = {
-    th: "เก็บคูปองสำเร็จ",
-    en: "Coupons collected successfully",
-  };
-  const collectedDescription = {
-    th: `หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem now, the coupon will start a countdown with ${countdown} minutes to use it.`,
-  };
-  const seeMyVouchersText = {
-    th: "ดูคูปองของฉัน",
-    en: "See My Coupons",
-  };
+  const collectedSuccessText = t(language as "th" | "en", "redeemModal.afterCollect.successTitle");
+  const collectedDescription = t(language as "th" | "en", "redeemModal.afterCollect.description", { minutes: countdown });
+  const seeMyVouchersText = t(language as "th" | "en", "redeemModal.afterCollect.seeMyVouchers");
 
   // Confirmation Modal Page
-  const confirmText = {
-    th: "ยืนยันการใช้คูปองไหม",
-    en: "Do you want to redeem this coupon?",
-  };
-  const confirmDescription = {
-    th: `หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน ${countdown} นาที`,
-    en: `If you redeem this coupon, it will start a countdown with ${countdown} minutes to use it.`,
-  };
-  const warningText = {
-    th: `คูปองมีอายุ ${countdown} นาทีหลังจากกดใช้คูปอง`,
-    en: `Coupon will expire in ${countdown} minutes after redeem`,
-  };
-  const cancelText = {
-    th: "ยกเลิก",
-    en: "Cancel",
-  };
-  const redeemText = {
-    th: "ใช้คูปองทันที",
-    en: "Redeem Now",
-  };
+  const confirmText = t(language as "th" | "en", "redeemModal.confirm.title");
+  const confirmDescription = t(language as "th" | "en", "redeemModal.confirm.description", { minutes: countdown });
+  const warningText = t(language as "th" | "en", "redeemModal.confirm.warning", { minutes: countdown });
+  const cancelText = t(language as "th" | "en", "common.cancel");
+  const redeemText = t(language as "th" | "en", "redeemModal.confirm.redeemNow");
 
   // Qr code and Barcode Page
-  const voucherWillExpireInText = {
-    th: "คูปองนี้จะหมดอายุในอีก",
-    en: "This coupon will expire in",
-  };
-  const warningExpireText = {
-    th: "คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที",
-    en: "Coupon is about to expire! Please use it immediately",
-  };
-  const suggestionText = {
-    th: "สำหรับพนักงานจุดขายเท่านั้น",
-    en: "For POS staff only",
-  };
-  const confirmationButtonText = {
-    th: "ยืนยันว่าใช้แล้ว",
-    en: "Confirm redeem",
-  };
+  const voucherWillExpireInText = t(language as "th" | "en", "redeemModal.codePage.willExpireIn");
+  const warningExpireText = t(language as "th" | "en", "redeemModal.codePage.expireWarning");
+  const suggestionText = t(language as "th" | "en", "redeemModal.codePage.suggestionForStaff");
+  const confirmationButtonText = t(language as "th" | "en", "redeemModal.codePage.confirmButton");
 
   // Confirmation Redeem Modal
-  const confirmRedeemText = {
-    th: "ยืนยันใช่ไหมว่าคูปองนี้ใช้งานแล้ว",
-    en: "Do you confirm that this coupon has been redeemed?",
-  };
-  const confirmRedeemDescription = {
-    th: "กรุณาตรวจสอบให้แน่ใจว่าคุณได้แสกนคูปองนี้แล้ว เพื่อป้องกันการเสียสิทธิ์ของลูกค้า",
-    en: "Please ensure that you have scanned this coupon to prevent customer rights from being lost.",
-  };
-  const confirmRedeemButtonText = {
-    th: "ยืนยัน",
-    en: "Confirm",
-  };
+  const confirmRedeemText = t(language as "th" | "en", "redeemModal.confirmRedeem.title");
+  const confirmRedeemDescription = t(language as "th" | "en", "redeemModal.confirmRedeem.description");
+  const confirmRedeemButtonText = t(language as "th" | "en", "redeemModal.confirmRedeem.button");
 
   // Expired Page
-  const expiredText = {
-    th: "คูปองหมดเวลาแลกแล้ว",
-    en: "This coupon has expired",
-  };
-  const closeText = {
-    th: "ปิด",
-    en: "Close",
-  };
+  const expiredText = t(language as "th" | "en", "redeemModal.expired.title");
+  const closeText = t(language as "th" | "en", "common.close");
 
   // Initialize remaining time based on usedDate if it exists
   useEffect(() => {

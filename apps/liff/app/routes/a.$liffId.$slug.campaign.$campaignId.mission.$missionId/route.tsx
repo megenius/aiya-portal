@@ -18,6 +18,7 @@ import { Target, Star, CheckCircle, AlertCircle } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
 import BackButton from "~/components/BackButton";
 import { triggerConfettiFromButton } from "~/utils/confetti";
+import { t } from "~/i18n/messages";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -112,7 +113,9 @@ const Route = () => {
     return (
       <ErrorView
         status={profileError ? 500 : 404}
-        message={profileError?.message || "ไม่พบภารกิจที่ต้องการ"}
+        message={
+          profileError?.message || t(language, "mission.errors.notFound")
+        }
         language={language}
       />
     );
@@ -135,11 +138,7 @@ const Route = () => {
     return (
       <ErrorView
         status={403}
-        message={
-          lang === "th"
-            ? "ภารกิจนี้ยังไม่เปิดให้ทำ"
-            : "This mission is not available yet"
-        }
+        message={t(language, "mission.errors.notAvailable")}
         language={language}
       />
     );
@@ -179,23 +178,21 @@ const Route = () => {
     required: boolean,
   ): string => {
     if (required && !value.trim()) {
-      return lang === "th" ? "กรุณากรอกข้อมูล" : "This field is required";
+      return t(lang as "th" | "en", "mission.errors.required");
     }
 
     // Additional validation rules
     if (fieldName === "email" && value) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        return lang === "th" ? "รูปแบบอีเมลไม่ถูกต้อง" : "Invalid email format";
+        return t(lang as "th" | "en", "mission.errors.invalidEmail");
       }
     }
 
     if (fieldName === "phone" && value) {
       const phoneRegex = /^[0-9]{9,10}$/;
       if (!phoneRegex.test(value.replace(/-/g, ""))) {
-        return lang === "th"
-          ? "รูปแบบเบอร์โทรไม่ถูกต้อง"
-          : "Invalid phone number format";
+        return t(lang as "th" | "en", "mission.errors.invalidPhone");
       }
     }
 
@@ -391,16 +388,12 @@ const Route = () => {
       }, 4000);
     } catch (error) {
       console.error("Failed to submit mission:", error);
-      alert(
-        lang === "th"
-          ? "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
-          : "An error occurred. Please try again.",
-      );
+      alert(t(lang as "th" | "en", "mission.errors.tryAgain"));
       setIsUploading(false);
     }
   };
 
-  const pageTitle = lang === "th" ? "รายละเอียดภารกิจ" : "Mission Details";
+  const pageTitle = t(lang as "th" | "en", "mission.pageTitle");
 
   return (
     <div className="min-h-screen bg-white">
@@ -500,7 +493,6 @@ const Route = () => {
               {mission.user_progress.is_completed &&
                 mission.user_progress.submitted_at && (
                   <div className="text-sm text-gray-600">
-                    {lang === "th" ? "ส่งเมื่อ:" : "Submitted on:"}{" "}
                     {new Date(
                       mission.user_progress.submitted_at,
                     ).toLocaleDateString(lang === "th" ? "th-TH" : "en-US")}
@@ -516,7 +508,7 @@ const Route = () => {
             <div className="my-4 border-t border-gray-100"></div>
             <div className="py-3">
               <h3 className="mb-3 text-lg font-bold text-gray-900">
-                {lang === "th" ? "คำแนะนำ" : "Instructions"}
+                {t(lang as "th" | "en", "mission.instructions")}
               </h3>
               <div className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700">
                 {mission.instructions[lang]}
@@ -539,7 +531,7 @@ const Route = () => {
                     <Target size={18} style={{ color: primaryColor }} />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">
-                    {lang === "th" ? "ส่งภารกิจ" : "Submit Mission"}
+                    {t(lang as "th" | "en", "mission.submit")}
                   </h3>
                 </div>
 
@@ -559,9 +551,7 @@ const Route = () => {
                     <div className="flex items-center gap-3 text-red-800">
                       <AlertCircle size={18} />
                       <span className="text-sm font-medium">
-                        {lang === "th"
-                          ? "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:"
-                          : "Please fix the following errors:"}
+                        {t(lang as "th" | "en", "mission.errors.fixFollowing")}
                       </span>
                     </div>
                     <ul className="mt-2 space-y-1 text-xs text-red-700">
@@ -614,11 +604,11 @@ const Route = () => {
                   {submitMutation.isPending || isUploading ? (
                     <span className="flex items-center justify-center gap-2">
                       <div className="animate-spin text-xl">🎯</div>
-                      {lang === "th" ? "กำลังส่ง..." : "Submitting..."}
+                      {t(lang as "th" | "en", "mission.submitting")}
                     </span>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
-                      {lang === "th" ? "🚀 ส่งภารกิจ" : "🚀 Submit Mission"}
+                      {`🚀 ${t(lang as "th" | "en", "mission.submit")}`}
                     </span>
                   )}
                 </button>
@@ -638,14 +628,12 @@ const Route = () => {
                 </div>
                 <div>
                   <div className="animate-in slide-in-from-left-2 text-lg font-bold text-green-800 delay-100 duration-500">
-                    {lang === "th"
-                      ? "🎉 ภารกิจเสร็จสิ้น!"
-                      : "🎉 Mission Completed!"}
+                    {t(lang as "th" | "en", "mission.completedTitle")}
                   </div>
                   <div className="animate-in slide-in-from-left-2 mt-0.5 text-sm text-green-700 delay-300 duration-500">
-                    {lang === "th"
-                      ? `✨ คุณได้รับ ${mission.reward_credits} สิทธิ์!`
-                      : `✨ You earned ${mission.reward_credits} credits!`}
+                    {t(lang as "th" | "en", "mission.earnedCredits", {
+                      credits: mission.reward_credits ?? 0,
+                    })}
                   </div>
                 </div>
               </div>
@@ -665,18 +653,18 @@ const Route = () => {
 
                 {/* Main Celebration Message */}
                 <div className="animate-in slide-in-from-bottom-4 duration-800 mb-6 text-3xl font-bold leading-relaxed text-gray-800 delay-500">
-                  {lang === "th" ? "🎉 ยินดีด้วย !" : "🎉 Congratulations!"}
+                  {t(lang as "th" | "en", "mission.completedTitle")}
                 </div>
 
                 {/* Mission Complete Message */}
                 <div className="animate-in slide-in-from-bottom-4 duration-800 mb-4 text-xl font-semibold leading-relaxed text-gray-700 delay-700">
-                  {lang === "th" ? "ภารกิจสำเร็จ !" : "Mission Complete!"}
+                  {t(lang as "th" | "en", "mission.completedTitle")}
                 </div>
 
                 {/* Credits Earned with Animation */}
                 <div className="animate-in slide-in-from-bottom-4 duration-800 delay-900 mb-8">
                   <div className="mb-3 text-base leading-relaxed text-gray-600">
-                    {lang === "th" ? "คุณได้รับสิทธิ์" : "You earned"}
+                    {t(lang as "th" | "en", "mission.earnedCredits", { credits: "" })}
                   </div>
                   <div className="mb-2 flex items-center justify-center gap-3">
                     <div className="animate-pulse text-4xl font-bold text-purple-600">
@@ -684,9 +672,7 @@ const Route = () => {
                     </div>
                     <div className="animate-bounce text-3xl delay-100">✨</div>
                   </div>
-                  <div className="text-base leading-relaxed text-gray-600">
-                    {lang === "th" ? "สิทธิ์" : "credits"}
-                  </div>
+                  <div className="text-base leading-relaxed text-gray-600">&nbsp;</div>
                 </div>
 
                 {/* Animated Sparkles */}
@@ -707,9 +693,7 @@ const Route = () => {
 
                 {/* Closing in countdown */}
                 <div className="animate-pulse text-sm leading-relaxed text-gray-500">
-                  {lang === "th"
-                    ? "กลับสู่แดชบอร์ดในอีกสักครู่..."
-                    : "Returning to dashboard..."}
+                  {t(lang as "th" | "en", "mission.returning")}
                 </div>
               </div>
             </div>

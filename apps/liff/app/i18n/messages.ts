@@ -1,0 +1,248 @@
+export type Lang = "th" | "en";
+
+// Simple message dictionary with dot-notated keys
+export const messages = {
+  th: {
+    footer: {
+      status: {
+        instant: "เก็บคูปอง",
+        form: "ลงทะเบียน",
+        collected: "ใช้คูปอง",
+        pending_confirmation: "แตะเพื่อใช้",
+        used: "ใช้แล้ว",
+        expired: "หมดอายุแล้ว",
+        ended: "หมดเวลารับแล้ว",
+        fully_collected: "หมดแล้ว",
+        not_started: "ยังไม่เริ่ม",
+        submitting: "กำลังรับคูปอง...",
+      },
+    },
+    common: {
+      cancel: "ยกเลิก",
+      close: "ปิด",
+      confirm: "ยืนยัน",
+      submitting: "กำลังส่ง...",
+      details: "รายละเอียด",
+      conditions: "เงื่อนไข",
+      copied: "คัดลอกแล้ว",
+      copyLink: "คัดลอกลิงก์",
+      copyFailed: "ไม่สามารถคัดลอกลิงก์ได้",
+      shareViaOtherApps: "แชร์ผ่านแอปอื่น",
+    },
+    limitedTime: {
+      back: "กลับหน้าหลัก",
+      collecting: "กำลังรับคูปอง...",
+      endedOverlay: "ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!",
+      allCollected: "คูปองถูกเก็บครบแล้ว",
+      redeem: "ใช้คูปอง",
+      expired: "หมดอายุแล้ว",
+      startsAt: "เริ่มแจกพร้อมกัน\n{time}",
+      collectDescription: "หลังกดรับคูปองมีอายุ {duration}",
+    },
+    redeemModal: {
+      tabs: {
+        details: "รายละเอียด",
+        conditions: "เงื่อนไข",
+      },
+      afterCollect: {
+        successTitle: "เก็บคูปองสำเร็จ",
+        description: "หากกดใช้งานทันที คูปองจะนับถอยหลังโดยมีเวลาใช้งาน {minutes} นาที",
+        seeMyVouchers: "ดูคูปองของฉัน",
+      },
+      confirm: {
+        title: "ยืนยันการใช้คูปองไหม",
+        description: "หากกดใช้คูปองแล้ว คูปองจะนับถอยหลังโดยมีเวลาใช้งาน {minutes} นาที",
+        warning: "คูปองมีอายุ {minutes} นาทีหลังจากกดใช้คูปอง",
+        redeemNow: "ใช้คูปองทันที",
+      },
+      codePage: {
+        willExpireIn: "คูปองนี้จะหมดอายุในอีก",
+        expireWarning: "คูปองกำลังจะหมดอายุ! กรุณาใช้งานทันที",
+        suggestionForStaff: "สำหรับพนักงานจุดขายเท่านั้น",
+        confirmButton: "ยืนยันว่าใช้แล้ว",
+      },
+      confirmRedeem: {
+        title: "ยืนยันใช่ไหมว่าคูปองนี้ใช้งานแล้ว",
+        description:
+          "กรุณาตรวจสอบให้แน่ใจว่าคุณได้แสกนคูปองนี้แล้ว เพื่อป้องกันการเสียสิทธิ์ของลูกค้า",
+        button: "ยืนยัน",
+      },
+      expired: {
+        title: "คูปองหมดเวลาแลกแล้ว",
+      },
+    },
+    shopHeader: {
+      invite: "ชวน",
+      inviteFriends: "ชวนเพื่อน",
+      coupon: "คูปอง",
+      inviteFriendsInLINE: "ชวนเพื่อนใน LINE",
+      scanQrToJoin: "สแกน QR Code นี้เพื่อเข้าร่วมใช้งานแอปพลิเคชัน",
+      joinNow: "เข้าร่วมเลย",
+      useStore: "ใช้บริการร้าน",
+      shareTitle: "ชวนเพื่อนใช้ {pageName}",
+      shareText: "{displayName} ชวนคุณมาใช้แอปพลิเคชัน {pageName}!",
+      inviteLinkError: "ไม่สามารถสร้างลิงก์ชวนเพื่อนได้ กรุณาลองใหม่อีกครั้ง",
+      defaultDescription: "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
+      inviteHeadline: "{displayName} ชวนคุณมาร่วมสนุก!",
+    },
+    mission: {
+      pageTitle: "รายละเอียดภารกิจ",
+      instructions: "คำแนะนำ",
+      submit: "ส่งภารกิจ",
+      submitting: "กำลังส่ง...",
+      completedTitle: "🎉 ภารกิจเสร็จสิ้น!",
+      earnedCredits: "✨ คุณได้รับ {credits} สิทธิ์!",
+      returning: "กลับสู่แดชบอร์ดในอีกสักครู่...",
+      errors: {
+        notAvailable: "ภารกิจนี้ยังไม่เปิดให้ทำ",
+        notFound: "ไม่พบภารกิจที่ต้องการ",
+        generic: "เกิดข้อผิดพลาด",
+        unexpected: "เกิดข้อผิดพลาดที่ไม่คาดคิด",
+        required: "กรุณากรอกข้อมูล",
+        invalidEmail: "รูปแบบอีเมลไม่ถูกต้อง",
+        invalidPhone: "รูปแบบเบอร์โทรไม่ถูกต้อง",
+        fixFollowing: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:",
+        tryAgain: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+      },
+    },
+  },
+  en: {
+    footer: {
+      status: {
+        instant: "Collect",
+        form: "Register",
+        collected: "Redeem",
+        pending_confirmation: "Tap to Use",
+        used: "Redeemed",
+        expired: "Expired",
+        ended: "Collection ended",
+        fully_collected: "Fully Collected",
+        not_started: "Not started",
+        submitting: "Collecting...",
+      },
+    },
+    common: {
+      cancel: "Cancel",
+      close: "Close",
+      confirm: "Confirm",
+      submitting: "Submitting...",
+      details: "Details",
+      conditions: "Conditions",
+      copied: "Copied",
+      copyLink: "Copy link",
+      copyFailed: "Failed to copy link",
+      shareViaOtherApps: "Share via other apps",
+    },
+    limitedTime: {
+      back: "Back",
+      collecting: "Collecting...",
+      endedOverlay: "Sorry, coupon collection time has ended!",
+      allCollected: "All vouchers have been collected.",
+      redeem: "Redeem",
+      expired: "Expired",
+      startsAt: "Starts at\n{time}",
+      collectDescription:
+        "After clicking the collect button, the voucher will expire in {duration}.",
+    },
+    redeemModal: {
+      tabs: {
+        details: "Details",
+        conditions: "Conditions",
+      },
+      afterCollect: {
+        successTitle: "Coupons collected successfully",
+        description:
+          "If you redeem now, the coupon will start a countdown with {minutes} minutes to use it.",
+        seeMyVouchers: "See My Coupons",
+      },
+      confirm: {
+        title: "Do you want to redeem this coupon?",
+        description:
+          "If you redeem this coupon, it will start a countdown with {minutes} minutes to use it.",
+        warning: "Coupon will expire in {minutes} minutes after redeem",
+        redeemNow: "Redeem Now",
+      },
+      codePage: {
+        willExpireIn: "This coupon will expire in",
+        expireWarning: "Coupon is about to expire! Please use it immediately",
+        suggestionForStaff: "For POS staff only",
+        confirmButton: "Confirm redeem",
+      },
+      confirmRedeem: {
+        title: "Do you confirm that this coupon has been redeemed?",
+        description:
+          "Please ensure that you have scanned this coupon to prevent customer rights from being lost.",
+        button: "Confirm",
+      },
+      expired: {
+        title: "This coupon has expired",
+      },
+    },
+    shopHeader: {
+      invite: "Invite",
+      inviteFriends: "Invite friends",
+      coupon: "coupon",
+      inviteFriendsInLINE: "Invite friends in LINE",
+      scanQrToJoin: "Scan this QR Code to join the application",
+      joinNow: "Join now",
+      useStore: "Use store",
+      shareTitle: "Invite friends to use {pageName}",
+      shareText: "{displayName} invited you to use {pageName}!",
+      inviteLinkError: "Unable to create invite link. Please try again.",
+      defaultDescription: "A new exciting application with lots of promotions and privileges!",
+      inviteHeadline: "{displayName} invited you to join!",
+    },
+    mission: {
+      pageTitle: "Mission Details",
+      instructions: "Instructions",
+      submit: "Submit Mission",
+      submitting: "Submitting...",
+      completedTitle: "🎉 Mission Completed!",
+      earnedCredits: "✨ You earned {credits} credits!",
+      returning: "Returning to dashboard...",
+      errors: {
+        notAvailable: "This mission is not available yet",
+        notFound: "Requested mission not found",
+        generic: "An error occurred",
+        unexpected: "An unexpected error occurred",
+        required: "This field is required",
+        invalidEmail: "Invalid email format",
+        invalidPhone: "Invalid phone number format",
+        fixFollowing: "Please fix the following errors:",
+        tryAgain: "An error occurred. Please try again.",
+      },
+    },
+  },
+} as const;
+
+function getByPath(obj: Record<string, unknown>, path: string): unknown {
+  return path.split(".").reduce<unknown>((acc, k) => {
+    if (
+      acc &&
+      typeof acc === "object" &&
+      k in (acc as Record<string, unknown>)
+    ) {
+      return (acc as Record<string, unknown>)[k];
+    }
+    return undefined;
+  }, obj);
+}
+
+function interpolate(template: string, params?: Record<string, string | number>) {
+  if (!params) return template;
+  return template.replace(/\{(.*?)\}/g, (_, key) => String(params[key] ?? ""));
+}
+
+export function t(
+  lang: Lang,
+  key: string,
+  params?: Record<string, string | number>,
+) {
+  const dict = (messages as Record<string, unknown>)[lang] ?? messages.th;
+  const value = getByPath(dict as Record<string, unknown>, key);
+  if (typeof value === "string") return interpolate(value, params);
+  // fallback to en
+  const fallback = getByPath(messages.en as unknown as Record<string, unknown>, key);
+  if (typeof fallback === "string") return interpolate(fallback, params);
+  return key; // as a last resort
+}

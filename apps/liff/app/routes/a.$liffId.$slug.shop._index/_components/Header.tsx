@@ -8,6 +8,7 @@ import { VoucherStats } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import LazyImage from "~/components/LazyImage";
+import { t } from "~/i18n/messages";
 
 export interface Profile {
   userId: string;
@@ -62,11 +63,11 @@ const Header: React.FC<HeaderProps> = ({
   const handleOpenShareModal = useCallback(() => {
     if (!userProfileId) {
       console.error("Missing userProfileId");
-      alert("ไม่สามารถสร้างลิงก์ชวนเพื่อนได้ กรุณาลองใหม่อีกครั้ง");
+      alert(t(language as "th" | "en", "shopHeader.inviteLinkError"));
       return;
     }
     setIsShareModalOpen(true);
-  }, [userProfileId]);
+  }, [userProfileId, language]);
 
   const shareToLine = useCallback(async () => {
     if (!liff) return;
@@ -75,15 +76,17 @@ const Header: React.FC<HeaderProps> = ({
       await liff.shareTargetPicker([
         {
           type: "flex",
-          altText: `${profile?.displayName || "เพื่อนของคุณ"} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}!`,
+          altText: t(language as "th" | "en", "shopHeader.shareText", {
+            displayName: profile?.displayName || "friend",
+            pageName: page.name || "",
+          }),
           contents: {
             type: "bubble",
             hero: {
               type: "image",
-              url:
-                page.cover ||
-                page.logo ||
-                "https://via.placeholder.com/1000x400",
+              url: page.image
+                ? getDirectusFileUrl(page.image as string)
+                : "https://via.placeholder.com/1000x400",
               size: "full",
               aspectRatio: "20:13",
               aspectMode: "cover",
@@ -95,7 +98,9 @@ const Header: React.FC<HeaderProps> = ({
               contents: [
                 {
                   type: "text",
-                  text: `${profile?.displayName || "เพื่อนของคุณ"} ชวนคุณมาร่วมสนุก!`,
+                  text: t(language as "th" | "en", "shopHeader.inviteHeadline", {
+                    displayName: profile?.displayName || "friend",
+                  }),
                   weight: "bold",
                   size: "xl",
                   wrap: true,
@@ -112,14 +117,14 @@ const Header: React.FC<HeaderProps> = ({
                     },
                     {
                       type: "text",
-                      text: "ใช้บริการร้าน",
+                      text: t(language as "th" | "en", "shopHeader.useStore"),
                       size: "sm",
                       color: "#999999",
                       margin: "md",
                     },
                     {
                       type: "text",
-                      text: page.name,
+                      text: page.name || "",
                       size: "sm",
                       color: "#666666",
                       margin: "md",
@@ -130,9 +135,7 @@ const Header: React.FC<HeaderProps> = ({
                 },
                 {
                   type: "text",
-                  text:
-                    page.description ||
-                    "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
+                  text: t(language as "th" | "en", "shopHeader.defaultDescription"),
                   size: "sm",
                   color: "#999999",
                   wrap: true,
@@ -147,7 +150,7 @@ const Header: React.FC<HeaderProps> = ({
                   type: "button",
                   action: {
                     type: "uri",
-                    label: "เข้าร่วมเลย",
+                    label: t(language as "th" | "en", "shopHeader.joinNow"),
                     uri: shareUrl,
                   },
                   style: "primary",
@@ -162,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({
     } catch (error) {
       console.error("Error sharing to LINE:", error);
     }
-  }, [liff, page, profile, shareUrl, primaryColor]);
+  }, [liff, page, profile, shareUrl, primaryColor, language]);
 
   const copyShareLink = useCallback(async () => {
     try {
@@ -171,28 +174,33 @@ const Header: React.FC<HeaderProps> = ({
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Failed to copy:", error);
-      alert("ไม่สามารถคัดลอกลิงก์ได้");
+      alert(t(language as "th" | "en", "common.copyFailed"));
     }
-  }, [shareUrl]);
+  }, [shareUrl, language]);
 
   const handleShare = useCallback(async () => {
     try {
       await navigator.share({
-        title: `ชวนเพื่อนใช้ ${page.name}`,
-        text: `${profile?.displayName || "เพื่อนของคุณ"} ชวนคุณมาใช้แอปพลิเคชัน ${page.name}!`,
+        title: t(language as "th" | "en", "shopHeader.shareTitle", {
+          pageName: page.name || "",
+        }),
+        text: t(language as "th" | "en", "shopHeader.shareText", {
+          displayName: profile?.displayName || "friend",
+          pageName: page.name || "",
+        }),
         url: shareUrl,
       });
       setIsShareModalOpen(false);
     } catch (err) {
       console.error("Error sharing:", err);
     }
-  }, [page.name, profile?.displayName, shareUrl]);
+  }, [page.name, profile?.displayName, shareUrl, language]);
 
   const closeModal = useCallback(() => setIsShareModalOpen(false), []);
 
   const couponText = {
-    th: "คูปอง",
-    en: "coupon",
+    th: t("th", "shopHeader.coupon"),
+    en: t("en", "shopHeader.coupon"),
   };
 
   return (
@@ -247,7 +255,7 @@ const Header: React.FC<HeaderProps> = ({
                 <line x1="19" y1="8" x2="19" y2="14"></line>
                 <line x1="16" y1="11" x2="22" y2="11"></line>
               </svg>
-              ชวน
+              {t(language as "th" | "en", "shopHeader.invite")}
             </button>
           )}
 
@@ -280,11 +288,11 @@ const Header: React.FC<HeaderProps> = ({
         <div className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="animate-scaleIn w-11/12 max-w-md rounded-lg bg-white p-5">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-bold">ชวนเพื่อน</h3>
+              <h3 className="text-lg font-bold">{t(language as "th" | "en", "shopHeader.inviteFriends")}</h3>
               <button
                 onClick={closeModal}
                 className="text-gray-500 transition-colors hover:text-gray-700"
-                aria-label="ปิด"
+                aria-label={t(language as "th" | "en", "common.close")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -318,7 +326,7 @@ const Header: React.FC<HeaderProps> = ({
             )}
 
             <p className="mb-4 text-center text-gray-600">
-              สแกน QR Code นี้เพื่อเข้าร่วมใช้งานแอปพลิเคชัน
+              {t(language as "th" | "en", "shopHeader.scanQrToJoin")}
             </p>
 
             <div className="mb-6 flex justify-center">
@@ -349,7 +357,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <path d="M19.952 12.992c0-3.584-3.6-6.496-8.016-6.496-4.416 0-8.016 2.912-8.016 6.496 0 3.232 2.864 5.936 6.752 6.432.272.064.64.192.736.432.08.224.048.576.024.8 0 0-.112.656-.136.8-.048.224-.208.864.752.464s4.992-2.944 6.816-5.024c1.232-1.376 1.088-2.768 1.088-3.904zm-10.928 1.6H7.792a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.76 0a.318.318 0 01-.32-.32v-2.512a.318.318 0 01.32-.32c.176 0 .32.144.32.32v2.512c0 .176-.144.32-.32.32zm4.384 0h-.912a.318.318 0 01-.32-.32V11.76c0-.176.144-.32.32-.32s.32.144.32.32v2.192h.912c.176 0 .32.144.32.32s-.144.32-.32.32zm1.824.208a.6.6 0 01-.112-.016.318.318 0 01-.288-.352l.416-2.512a.32.32 0 01.368-.272c.176.032.304.192.272.368l-.416 2.512a.394.394 0 01-.24.272z" />
                 </svg>
-                ชวนเพื่อนใน LINE
+                {t(language as "th" | "en", "shopHeader.inviteFriendsInLINE")}
               </button>
 
               <button
@@ -374,7 +382,9 @@ const Header: React.FC<HeaderProps> = ({
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                {copied ? "คัดลอกแล้ว" : "คัดลอกลิงก์"}
+                {copied
+                  ? t(language as "th" | "en", "common.copied")
+                  : t(language as "th" | "en", "common.copyLink")}
 
                 {copied && (
                   <span className="absolute right-3 text-green-500">
@@ -395,7 +405,12 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </button>
 
-              {navigator.share && (
+              {typeof navigator !== "undefined" &&
+                typeof (
+                  (navigator as Navigator & {
+                    share?: (data?: unknown) => Promise<void>;
+                  }).share
+                ) === "function" && (
                 <button
                   onClick={handleShare}
                   className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
@@ -417,7 +432,7 @@ const Header: React.FC<HeaderProps> = ({
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                   </svg>
-                  แชร์ผ่านแอปอื่น
+                  {t(language as "th" | "en", "common.shareViaOtherApps")}
                 </button>
               )}
             </div>
