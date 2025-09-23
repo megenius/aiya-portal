@@ -8,6 +8,22 @@ export const messages = {
       clear: "ล้างการค้นหา",
       searching: "กำลังค้นหา",
     },
+    campaignRegister: {
+      pageTitle: "ลงทะเบียนเข้าร่วมแคมเปญ",
+      introDesc: "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ",
+      formTitle: "ข้อมูลสำหรับลงทะเบียน",
+      errorsSummary: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:",
+      errors: {
+        required: "กรุณากรอกข้อมูล",
+        emailInvalid: "รูปแบบอีเมลไม่ถูกต้อง",
+        phoneInvalid: "รูปแบบเบอร์โทรไม่ถูกต้อง",
+        checkboxRequired: "กรุณาติ๊กยอมรับ",
+        selectRequired: "กรุณาเลือกข้อมูล",
+      },
+      submitting: "กำลังลงทะเบียน...",
+      submit: "ลงทะเบียน",
+      notFound: "ไม่พบแคมเปญที่ต้องการ",
+    },
     shopSummary: {
       myCoupons: "คูปองของฉัน",
       couponsCollected: "คูปองที่เก็บ",
@@ -194,12 +210,43 @@ export const messages = {
         tryAgain: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
       },
     },
+    campaignDashboard: {
+      title: "สิทธิ์ที่ได้รับ",
+      lastUpdatedPrefix: "อัปเดตล่าสุด: ",
+      allMissions: "ภารกิจทั้งหมด",
+      notFound: "ไม่พบข้อมูลแคมเปญ",
+    },
+    campaignConsent: {
+      title: "ข้อกำหนดและเงื่อนไขการใช้บริการมีจีเนียส",
+      subtitle: "กรุณาอ่านและยอมรับเงื่อนไขก่อนเข้าร่วมแคมเปญ",
+      agreeText: "ข้าพเจ้ายอมรับเงื่อนไขการใช้ข้อมูลส่วนบุคคล",
+      continueButton: "ยอมรับ",
+      saving: "กำลังบันทึก...",
+    },
+    reward: {
+      yourPoints: "แต้มสะสมของคุณ",
+      pointLabel: "แต้ม",
+      tabs: {
+        history: "ประวัติแต้ม",
+        rewards: "รางวัล",
+      },
+    },
+    qrcode: {
+      back: "กลับ",
+      pageTitle: "QR Code สำหรับชวนเพื่อน",
+      scanTitle: "สแกน QR Code เพื่อเข้าร่วมกับเรา",
+    },
   },
   en: {
     searchBar: {
       placeholder: "Find Voucher, Shop...",
       clear: "Clear search",
       searching: "Searching",
+    },
+    qrcode: {
+      back: "Back",
+      pageTitle: "QR Code for inviting friends",
+      scanTitle: "Scan the QR Code to join us",
     },
     shopSummary: {
       myCoupons: "My Coupons",

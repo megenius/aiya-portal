@@ -13,10 +13,11 @@ import {
 } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
-import { Target, History } from "lucide-react";
+import { Target } from "lucide-react";
 import { useEffect } from "react";
 import { Mission } from "~/components/Mission";
 import BackButton from "~/components/BackButton";
+import { t } from "~/i18n/messages";
 
 const Route = () => {
   const { lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -106,7 +107,7 @@ const Route = () => {
     return (
       <ErrorView
         status={profileError ? 500 : 404}
-        message={profileError?.message || "ไม่พบข้อมูลแคมเปญ"}
+        message={profileError?.message || t(language, "campaignDashboard.notFound")}
         language={language}
       />
     );
@@ -145,7 +146,7 @@ const Route = () => {
   // const pageTitle = lang === "th" ? "แดชบอร์ดแคมเปญ" : "Campaign Dashboard";
 
   // Sort missions: push claimed/completed to the end
-  const sortedMissions = missions.slice().sort((a: any, b: any) => {
+  const sortedMissions = missions.slice().sort((a, b) => {
     const aCompleted = !!(
       a?.user_progress?.is_completed ||
       (typeof a?.user_progress?.completed_count === "number" &&
@@ -171,7 +172,7 @@ const Route = () => {
                 onClick={() => navigate(`/a/${liffId}/${slug}`)}
                 variant="overlay"
                 showText={true}
-                text={lang === "th" ? "กลับหน้าหลัก" : "Back"}
+                text={t(lang as "th" | "en", "common.back")}
               />
               {/* <button
                 onClick={() =>
@@ -186,7 +187,7 @@ const Route = () => {
               </button> */}
             </div>
             <h1 className="mt-12 text-center text-3xl font-semibold tracking-tight text-white">
-              {lang === "th" ? "สิทธิ์ที่ได้รับ" : "Credits Earned"}
+              {t(lang as "th" | "en", "campaignDashboard.title")}
             </h1>
 
             {/* Big Circle */}
@@ -196,13 +197,13 @@ const Route = () => {
                   {credits.total_earned ?? 0}
                 </div>
                 <div className="mt-2 text-2xl font-semibold text-indigo-600">
-                  {lang === "th" ? "สิทธิ์" : "credits"}
+                  {t(lang as "th" | "en", "common.creditsLabel")}
                 </div>
               </div>
             </div>
             {lastUpdatedText && (
               <div className="mt-4 text-center text-xs text-white/80">
-                {lang === "th" ? "อัปเดตล่าสุด: " : "Last updated: "}
+                {t(lang as "th" | "en", "campaignDashboard.lastUpdatedPrefix")}
                 {lastUpdatedText}
               </div>
             )}
@@ -212,7 +213,7 @@ const Route = () => {
           <div>
             <div className="flex items-center gap-2 p-4 text-lg font-semibold text-white">
               <Target size={20} />
-              {lang === "th" ? "ภารกิจทั้งหมด" : "All Missions"}
+              {t(lang as "th" | "en", "campaignDashboard.allMissions")}
             </div>
             <div
               className="flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-5 overflow-x-auto overscroll-x-contain px-4 pb-4"

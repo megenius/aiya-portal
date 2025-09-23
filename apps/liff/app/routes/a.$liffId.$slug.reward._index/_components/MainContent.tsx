@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Tabs, { TabItem } from "~/components/Tabs";
 import HistoryCard from "./HistoryCard";
 import { Profile } from "~/types/app";
+import { t } from "~/i18n/messages";
 
 interface CouponCollectionAppProps {
   profile: Profile;
@@ -83,21 +84,15 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
     },
   ];
 
-  const yourPointText = {
-    th: "แต้มสะสมของคุณ",
-    en: "Your Points",
-  };
-  const pointText = {
-    th: "แต้ม",
-    en: "Points",
-  };
+  const yourPointText = t(language as "th" | "en", "reward.yourPoints");
+  const pointText = t(language as "th" | "en", "reward.pointLabel");
 
   const tabs: TabItem[] = [
     {
       id: "history",
-      label: { th: "ประวัติแต้ม", en: "Points History" },
+      label: { th: t("th", "reward.tabs.history"), en: t("en", "reward.tabs.history") },
     },
-    { id: "rewards", label: { th: "แลกรางวัล", en: "Rewards" } },
+    { id: "rewards", label: { th: t("th", "reward.tabs.rewards"), en: t("en", "reward.tabs.rewards") } },
   ];
 
   return (
@@ -112,14 +107,14 @@ const CouponCollectionApp: React.FC<CouponCollectionAppProps> = ({
         </div> */}
         <div className="bg-white p-4 mx-4 mb-4 rounded-lg border shadow-md">
           <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-bold">{yourPointText[language]}</h2>
+            <h2 className="text-lg font-bold">{yourPointText}</h2>
           </div>
 
           <div className="flex items-baseline mb-2">
             <span className="text-3xl font-bold text-primary">
               {profile.totalPoints}
             </span>
-            <span className="text-gray-500 ml-1">{pointText[language]}</span>
+            <span className="text-gray-500 ml-1">{pointText}</span>
             {/* <span className="text-gray-500 ml-1">
               / {totalPointsNeeded} แต้ม
             </span> */}

@@ -4,6 +4,7 @@ import Loading from '~/components/Loading';
 import QRCodeGenerator from '~/components/QRCodeGenerator'; // ใช้ component ที่มีอยู่แล้ว
 import { useLineProfile } from '~/contexts/LineLiffContext';
 import { PageLiff } from '~/types/page';
+import { t } from "~/i18n/messages";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,7 +13,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function QrCodeRoute() {
-  const { page } = useOutletContext<{ page: PageLiff,lang: string }>();
+  const { page, lang } = useOutletContext<{ page: PageLiff,lang: string }>();
   const [search] = useSearchParams();
   const profileId = search.get('id');
   const [shareUrl, setShareUrl] = useState<string>('');
@@ -42,23 +43,18 @@ export default function QrCodeRoute() {
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
-          <span className="ml-1">กลับ</span>
+          <span className="ml-1">{t(lang as "th" | "en", "qrcode.back")}</span>
         </Link>
-        <h1 className="text-xl font-bold">QR Code สำหรับชวนเพื่อน</h1>
+        <h1 className="text-xl font-bold">{t(lang as "th" | "en", "qrcode.pageTitle")}</h1>
         <div className="w-6"></div> {/* Spacer to center title */}
       </div>
 
       {profileError ? (
-        <div className="text-red-500">{profileError.message}</div>
+        <div className="text-red-500">{t(lang as "th" | "en", "mission.errors.generic")}</div>
       ) : shareUrl && (
         <QRCodeGenerator
           // ส่ง props ตามที่ QRCodeGenerator component รับ
-          url={shareUrl}
-          logo={page.image}
-          profileImage={profile?.pictureUrl}
-          profileName={profile?.displayName}
-          title="สแกน QR Code เพื่อเข้าร่วมกับเรา"
-          primaryColor={page.bg_color}
+          text={shareUrl}
         />
       )}
     </div>

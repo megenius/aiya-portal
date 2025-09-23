@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { t } from "~/i18n/messages";
 
 interface MainContentProps {
   lang: string;
@@ -252,18 +253,6 @@ We may engage third parties (processors) to process data on our behalf (e.g., ho
 
 14. How to Request Deletion
 
-You may request deletion by emailing dpo@aiya.ai with:
-  1. Your full name
-  2. The data you wish to delete (e.g., all data related to you)
-  3. Reason for the request (if any)
-We will review and delete within 30 days from receipt (for large volumes, we will inform you of the timeframe within 30 days). Deletion is subject to standards and applicable laws. If the data remain necessary or lawfully retainable to establish/exercise legal claims or defend against claims, we may retain them as appropriate. Some deletions may affect your convenience in using the Services. For questions, contact the email above.
-
-15. Security Measures
-
-We restrict access to authorized personnel on a need-to-know basis and require strict confidentiality. We implement organizational and technical safeguards in line with international standards and regulatory requirements. When transferring/disclosing to third parties, we require appropriate security and confidentiality measures by law.
-
-16. Data Protection Officer (DPO)
-
 MeGenius has appointed a DPO to advise, monitor, and ensure compliance with the PDPA and to coordinate with the Personal Data Protection Committee.
 
 17. Your Rights under the PDPA
@@ -359,9 +348,7 @@ Data Protection Officer (DPO)
               }}
             >
               {isPending
-                ? lang === "th"
-                  ? "กำลังบันทึก..."
-                  : "Saving..."
+                ? t(lang as "th" | "en", "campaignConsent.saving")
                 : content.continueButton}
             </button>
           </form>
