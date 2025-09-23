@@ -1,5 +1,6 @@
 import React from "react";
 import { Ticket, Clock } from "lucide-react";
+import { t } from "~/i18n/messages";
 
 interface ComingSoonVoucherProps {
   language: string;
@@ -7,21 +8,6 @@ interface ComingSoonVoucherProps {
 }
 
 const ComingSoonVoucher : React.FC<ComingSoonVoucherProps> = ({ language,primaryColor }) => {
-  // Translations for common phrases
-  const translations = {
-    comingSoon: {
-      en: "Coming Soon",
-      th: "เร็วๆ นี้"
-    },
-    noVouchersAvailable: {
-      en: "No vouchers available at the moment",
-      th: "ไม่มีคูปองในขณะนี้"
-    },
-    checkBack: {
-      en: "Please check back later",
-      th: "โปรดกลับมาตรวจสอบในภายหลัง"
-    }
-  };
   
   return (
     <div className="space-y-2">
@@ -34,11 +20,11 @@ const ComingSoonVoucher : React.FC<ComingSoonVoucherProps> = ({ language,primary
         </div>
         
         <span className="text-lg font-medium text-primary" style={{color : primaryColor ?? undefined}} >
-          {translations.comingSoon[language]}
+          {t(language as "th" | "en", "comingSoon.comingSoon")}
         </span>
         
         <p className="text-sm text-center text-gray-600">
-          {translations.noVouchersAvailable[language]}
+          {t(language as "th" | "en", "comingSoon.noVouchers")}
         </p>
         
         {/* <div className="flex items-center mt-4 text-sm text-gray-500">

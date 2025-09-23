@@ -3,6 +3,64 @@ export type Lang = "th" | "en";
 // Simple message dictionary with dot-notated keys
 export const messages = {
   th: {
+    searchBar: {
+      placeholder: "ค้นหาคูปอง ร้านค้า...",
+      clear: "ล้างการค้นหา",
+      searching: "กำลังค้นหา",
+    },
+    shopSummary: {
+      myCoupons: "คูปองของฉัน",
+      couponsCollected: "คูปองที่เก็บ",
+      available: "พร้อมใช้งาน",
+      used: "ใช้แล้ว",
+      viewAll: "ดูทั้งหมด",
+      couponsAvailable: "คูปองที่พร้อมใช้งาน",
+    },
+    comingSoon: {
+      comingSoon: "เร็วๆ นี้",
+      noVouchers: "ไม่มีคูปองในขณะนี้",
+      checkBack: "โปรดกลับมาตรวจสอบในภายหลัง",
+    },
+    promotion: {
+      couponExclusive: "คูปองเฉพาะคุณ",
+    },
+    myCoupons: {
+      card: {
+        tapToRedeem: "แตะเพื่อใช้คูปอง",
+        redeemed: "ใช้แล้ว",
+        expired: "หมดอายุแล้ว",
+        untilPrefix: "ถึง: ",
+      },
+      empty: {
+        available: "ไม่มีคูปองที่สามารถใช้งานได้",
+        used: "ไม่มีคูปองที่ใช้งานแล้ว",
+        expired: "ไม่มีคูปองที่หมดอายุ",
+      },
+    },
+    brandVoucher: {
+      collectUntil: "เก็บได้ถึง",
+    },
+    brandList: {
+      title: "แบรนด์",
+    },
+    categoryList: {
+      ariaLabel: "หมวดหมู่สินค้า",
+      selectCategory: "เลือกหมวดหมู่",
+    },
+    search: {
+      resultsFor: "ผลการค้นหา \"{query}\"",
+      resultsCount: "พบ {count} รายการ",
+      vouchers: "คูปอง",
+      emptyTitle: "ไม่พบผลการค้นหา",
+      emptySuggestion: "ลองค้นหาด้วยคำอื่น หรือเลือกดูตามหมวดหมู่",
+    },
+    ranking: {
+      title: "อันดับผู้เล่น",
+      subtitle: "ดูอันดับของคุณเทียบกับผู้เล่นคนอื่น",
+      yourRank: "อันดับของคุณ",
+      you: "คุณ",
+      topPlayers: "ผู้เล่นอันดับต้น",
+    },
     footer: {
       status: {
         instant: "เก็บคูปอง",
@@ -18,6 +76,8 @@ export const messages = {
       },
     },
     common: {
+      back: "กลับ",
+      creditsLabel: "สิทธิ์",
       cancel: "ยกเลิก",
       close: "ปิด",
       confirm: "ยืนยัน",
@@ -107,6 +167,64 @@ export const messages = {
     },
   },
   en: {
+    searchBar: {
+      placeholder: "Find Voucher, Shop...",
+      clear: "Clear search",
+      searching: "Searching",
+    },
+    shopSummary: {
+      myCoupons: "My Coupons",
+      couponsCollected: "Coupons collected",
+      available: "Available",
+      used: "Used",
+      viewAll: "View All",
+      couponsAvailable: "Coupons available",
+    },
+    comingSoon: {
+      comingSoon: "Coming Soon",
+      noVouchers: "No vouchers available at the moment",
+      checkBack: "Please check back later",
+    },
+    promotion: {
+      couponExclusive: "Exclusive Coupons",
+    },
+    myCoupons: {
+      card: {
+        tapToRedeem: "Tap to redeem",
+        redeemed: "Redeemed",
+        expired: "Expired",
+        untilPrefix: "Until: ",
+      },
+      empty: {
+        available: "No available Coupons",
+        used: "No used Coupons",
+        expired: "No expired Coupons",
+      },
+    },
+    brandVoucher: {
+      collectUntil: "Collect Until",
+    },
+    brandList: {
+      title: "Brands",
+    },
+    categoryList: {
+      ariaLabel: "Product categories",
+      selectCategory: "Select category",
+    },
+    search: {
+      resultsFor: "Search results for \"{query}\"",
+      resultsCount: "Found {count} results",
+      vouchers: "Vouchers",
+      emptyTitle: "No results found",
+      emptySuggestion: "Try searching with different keywords or browse by category",
+    },
+    ranking: {
+      title: "Player Ranking",
+      subtitle: "See your rank compared to other players",
+      yourRank: "Your Rank",
+      you: "You",
+      topPlayers: "Top Players",
+    },
     footer: {
       status: {
         instant: "Collect",
@@ -122,6 +240,8 @@ export const messages = {
       },
     },
     common: {
+      back: "Back",
+      creditsLabel: "credits",
       cancel: "Cancel",
       close: "Close",
       confirm: "Confirm",

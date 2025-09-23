@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Search, X } from "lucide-react";
+import { t } from "~/i18n/messages";
 
 interface SearchBarProps {
   language: string;
@@ -19,10 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const findVoucherText = {
-    th: "ค้นหาคูปอง ร้านค้า...",
-    en: "Find Voucher, Shop...",
-  };
+  const placeholder = t(language as "th" | "en", "searchBar.placeholder");
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -40,7 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div className="relative" role="search">
       <label htmlFor="search-input" className="sr-only">
-        {findVoucherText[language as keyof typeof findVoucherText]}
+        {placeholder}
       </label>
       <Search
         className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -50,9 +48,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
         id="search-input"
         type="text"
         role="searchbox"
-        aria-label={findVoucherText[language as keyof typeof findVoucherText]}
+        aria-label={placeholder}
         aria-describedby={searchQuery ? "search-results-count" : undefined}
-        placeholder={findVoucherText[language as keyof typeof findVoucherText]}
+        placeholder={placeholder}
         value={searchQuery}
         onChange={handleSearchChange}
         className="w-full pl-10 pr-10 py-2 bg-gray-100 border-transparent rounded-xl border-0
@@ -72,7 +70,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <button
           onClick={handleClearSearch}
           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2 rounded"
-          aria-label={language === "th" ? "ล้างการค้นหา" : "Clear search"}
+          aria-label={t(language as "th" | "en", "searchBar.clear")}
           type="button"
         >
           <X className="w-4 h-4" />
@@ -81,7 +79,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       {isLoading && (
         <div
           className="absolute right-3 top-1/2 transform -translate-y-1/2"
-          aria-label={language === "th" ? "กำลังค้นหา" : "Searching"}
+          aria-label={t(language as "th" | "en", "searchBar.searching")}
         >
           <div className="animate-spin w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full"></div>
         </div>

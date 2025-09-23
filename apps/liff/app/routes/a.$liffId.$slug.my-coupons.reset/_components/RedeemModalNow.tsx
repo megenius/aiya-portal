@@ -44,31 +44,26 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
   const [isRedeemed, setIsRedeemed] = useState(Boolean(usedDate));
   const [pageState, setPageState] = useState("redeem");
   const title = voucher.metadata.title[language];
-  const description = voucher.metadata.description[language]?.replace(
-    /\\n/g,
-    "\n",
-  );
-  const condition = voucher.metadata.condition[language]?.replace(/\\n/g, "\n");
+  // const description = voucher.metadata.description[language]?.replace(/\\n/g, "\n");
+  // const condition = voucher.metadata.condition[language]?.replace(/\\n/g, "\n");
 
-  const [activeTab, setActiveTab] = useState("details");
-
-  const tabs = [
-    {
-      id: "details",
-      label: {
-        th: t("th", "redeemModal.tabs.details"),
-        en: t("en", "redeemModal.tabs.details"),
-      },
-    },
-    {
-      id: "conditions",
-      label: {
-        th: t("th", "redeemModal.tabs.conditions"),
-        en: t("en", "redeemModal.tabs.conditions"),
-      },
-    },
-    // { id: "locations", label: "สาขา" },
-  ];
+  // const [activeTab, setActiveTab] = useState("details");
+  // const tabs = [
+  //   {
+  //     id: "details",
+  //     label: {
+  //       th: t("th", "redeemModal.tabs.details"),
+  //       en: t("en", "redeemModal.tabs.details"),
+  //     },
+  //   },
+  //   {
+  //     id: "conditions",
+  //     label: {
+  //       th: t("th", "redeemModal.tabs.conditions"),
+  //       en: t("en", "redeemModal.tabs.conditions"),
+  //     },
+  //   },
+  // ];
   // After Collect Page
   const collectedSuccessText = t(language as "th" | "en", "redeemModal.afterCollect.successTitle");
   const collectedDescription = t(language as "th" | "en", "redeemModal.afterCollect.description", { minutes: countdown });
@@ -77,7 +72,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
   // Confirmation Modal Page
   const confirmText = t(language as "th" | "en", "redeemModal.confirm.title");
   const confirmDescription = t(language as "th" | "en", "redeemModal.confirm.description", { minutes: countdown });
-  const warningText = t(language as "th" | "en", "redeemModal.confirm.warning", { minutes: countdown });
+  // const warningText = t(language as "th" | "en", "redeemModal.confirm.warning", { minutes: countdown });
   const cancelText = t(language as "th" | "en", "common.cancel");
   const redeemText = t(language as "th" | "en", "redeemModal.confirm.redeemNow");
 
@@ -113,7 +108,7 @@ const RedeemModalNow: React.FC<RedeemModalProps> = ({
         setShowExpireWarning(true);
       }
     }
-  }, [usedDate]);
+  }, [usedDate, countdown]);
 
   // ฟังก์ชันนับถอยหลัง
   useEffect(() => {

@@ -5,6 +5,7 @@ import CouponCard from "./CouponCard";
 import { MapPin } from "lucide-react";
 import { Link, useParams } from "@remix-run/react";
 import LazyImage from "~/components/LazyImage";
+import { t } from "~/i18n/messages";
 
 // removed unused Location interface
 
@@ -59,10 +60,7 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
 //     return () => clearInterval(timer);
 //   }, [mainBannerVoucher?.end_date]);
 
-  const couponText = {
-    th: "คูปองเฉพาะคุณ",
-    en: "Exclusive Coupons",
-  };
+  const couponText = t(language as "th" | "en", "promotion.couponExclusive");
 
   return (
     <div className="bg-white p-4 space-y-4">
@@ -142,7 +140,7 @@ const PromotionTemplate: React.FC<PromotionTemplateProps> = ({
 
         <div className="flex items-center justify-start">
           <h3 className="text-lg font-bold">
-            {couponText[language]} {location}
+            {couponText} {location}
           </h3>
           {/* <button
             className="text-sm font-medium"

@@ -11,6 +11,7 @@ import ErrorView from "~/components/ErrorView";
 import { Crown, Medal, Award } from "lucide-react";
 import BackButton from "~/components/BackButton";
 import { useCampaignRanking } from "~/hooks/campaigns/useCampaignRanking";
+import { t } from "~/i18n/messages";
 
 // use API data instead of mock
 
@@ -61,14 +62,16 @@ const Route = () => {
       typeof navigator !== "undefined" && navigator.language?.startsWith("en")
         ? ("en" as const)
         : ("th" as const);
+    let rankingMessage: string | undefined;
+    if (rankingError && typeof rankingError === "object" && "message" in rankingError) {
+      const msg = (rankingError as { message?: unknown }).message;
+      rankingMessage = typeof msg === "string" ? msg : undefined;
+    }
+    const fallback = language === "th" ? "เกิดข้อผิดพลาด" : "An error occurred";
     return (
       <ErrorView
         status={500}
-        message={
-          profileError?.message ||
-          (rankingError as any)?.message ||
-          "เกิดข้อผิดพลาด"
-        }
+        message={profileError?.message || rankingMessage || fallback}
         language={language}
       />
     );
@@ -89,23 +92,21 @@ const Route = () => {
                 }
                 variant="overlay"
                 showText={true}
-                text={lang === "th" ? "กลับ" : "Back"}
+                text={t(lang as "th" | "en", "common.back")}
               />
             </div>
             <h1 className="mt-12 text-center text-3xl font-semibold tracking-tight text-white">
-              {lang === "th" ? "อันดับผู้เล่น" : "Player Ranking"}
+              {t(lang as "th" | "en", "ranking.title")}
             </h1>
             <p className="mt-2 text-center text-white/80">
-              {lang === "th"
-                ? "ดูอันดับของคุณเทียบกับผู้เล่นคนอื่น"
-                : "See your rank compared to other players"}
+              {t(lang as "th" | "en", "ranking.subtitle")}
             </p>
           </div>
 
           {/* Current User Card */}
           <div className="px-4 py-6">
             <div className="mb-4 text-center text-sm font-medium text-white/90">
-              {lang === "th" ? "อันดับของคุณ" : "Your Rank"}
+              {t(lang as "th" | "en", "ranking.yourRank")}
             </div>
             <div className="flex items-center rounded-xl border border-white/20 bg-white/10 p-4 shadow-lg backdrop-blur-sm">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-xl font-bold text-white">
@@ -131,7 +132,7 @@ const Route = () => {
                       {ranking?.me?.name || profile?.displayName || ""}
                     </div>
                     <div className="text-sm text-white/80">
-                      {lang === "th" ? "คุณ" : "You"}
+                      {t(lang as "th" | "en", "ranking.you")}
                     </div>
                   </div>
                 </div>
@@ -141,7 +142,7 @@ const Route = () => {
                   {(ranking?.me?.credits ?? 0).toLocaleString()}
                 </div>
                 <div className="text-sm text-white/80">
-                  {lang === "th" ? "สิทธิ์" : "credits"}
+                  {t(lang as "th" | "en", "common.creditsLabel")}
                 </div>
               </div>
             </div>
@@ -150,7 +151,7 @@ const Route = () => {
           {/* Top 3 Podium */}
           <div className="px-4">
             <div className="mb-6 text-center text-sm font-medium text-white/90">
-              {lang === "th" ? "ผู้เล่นอันดับต้น" : "Top Players"}
+              {t(lang as "th" | "en", "ranking.topPlayers")}
             </div>
 
             <div className="mb-8 flex items-end justify-center gap-6">
@@ -288,7 +289,7 @@ const Route = () => {
                       {user.credits.toLocaleString()}
                     </div>
                     <div className="text-sm text-white/70">
-                      {lang === "th" ? "สิทธิ์" : "credits"}
+                      {t(lang as "th" | "en", "common.creditsLabel")}
                     </div>
                   </div>
                 </div>

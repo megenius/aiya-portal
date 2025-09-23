@@ -4,6 +4,7 @@ import { getDirectusFileUrl } from "~/utils/files";
 import { Brand, Voucher } from "~/types/app";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import { t } from "~/i18n/messages";
 
 interface VoucherCardProps {
   brand: Brand;
@@ -28,10 +29,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   language,
 }) => {
   const title = voucher.metadata.title[language];
-  const collectUntilText = {
-    th: "เก็บได้ถึง",
-    en: "Collect Until",
-  };
+  const collectUntilText = t(language as "th" | "en", "brandVoucher.collectUntil");
 
   return (
     <div className="w-full">
@@ -78,7 +76,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
                 </div> */}
               <div className={`flex items-center gap-2 text-xs text-gray-600`}>
                 <span className="flex-1 text-start" style={textTruncateStyle}>
-                  {collectUntilText[language]}:{" "}
+                  {collectUntilText}:{" "}
                   {format(new Date(voucher.end_date as string), "dd MMM yyyy", {
                     locale: language === "th" ? th : undefined,
                   })}

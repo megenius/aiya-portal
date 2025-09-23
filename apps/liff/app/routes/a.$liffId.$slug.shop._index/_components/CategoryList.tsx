@@ -1,6 +1,7 @@
 import React from "react";
 import { DynamicIcon, IconName } from "~/components/DynamicIcon";
 import { Category } from "~/types/app";
+import { t } from "~/i18n/messages";
 
 interface CategoryListProps {
   language: string;
@@ -22,7 +23,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
       className="relative flex snap-x snap-mandatory scroll-px-4 overflow-x-auto overflow-y-hidden whitespace-nowrap px-4 pt-2"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       role="tablist"
-      aria-label={language === "th" ? "หมวดหมู่สินค้า" : "Product categories"}
+      aria-label={t(language as "th" | "en", "categoryList.ariaLabel")}
     >
       {/* All category button */}
       {/* Left/Right fade to hint scrollable area */}
@@ -37,7 +38,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
             role="tab"
             aria-selected={category.id === selected?.id}
             aria-controls={`category-panel-${category.id}`}
-            aria-label={`${language === "th" ? "เลือกหมวดหมู่" : "Select category"} ${category.name[language as keyof typeof category.name]}`}
+            aria-label={`${t(language as "th" | "en", "categoryList.selectCategory")} ${category.name[language as keyof typeof category.name]}`}
             tabIndex={category.id === selected?.id ? 0 : -1}
             title={category.name[language as keyof typeof category.name]}
             onClick={() => onSelect(category)}

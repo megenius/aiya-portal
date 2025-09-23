@@ -4,6 +4,7 @@ import { CheckCircle, QrCode, XCircle } from "lucide-react";
 import { VoucherUser } from "~/types/app";
 import { getDirectusFileUrl } from "~/utils/files";
 import { formatDateTimeShort } from "~/utils/helpers";
+import { t } from "~/i18n/messages";
 
 interface VoucherCardProps {
   voucherUser: VoucherUser;
@@ -27,20 +28,9 @@ const CouponCard: React.FC<VoucherCardProps> = ({
 }) => {
   const voucher = voucherUser.code.voucher;
   const title = voucher.metadata.title[language];
-  const voucherText = {
-    collected: {
-      th: "แตะเพื่อใช้คูปอง",
-      en: "Tap to redeem",
-    },
-    used: {
-      th: "ใช้แล้ว",
-      en: "Redeemed",
-    },
-    expired: {
-      th: "หมดอายุแล้ว",
-      en: "Expired",
-    },
-  };
+  const txtTap = t(language as "th" | "en", "myCoupons.card.tapToRedeem");
+  const txtUsed = t(language as "th" | "en", "myCoupons.card.redeemed");
+  const txtExpired = t(language as "th" | "en", "myCoupons.card.expired");
   const isExpired =
     voucherUser.expired_date && new Date(voucherUser.expired_date) < new Date();
 
@@ -54,17 +44,20 @@ const CouponCard: React.FC<VoucherCardProps> = ({
 
   const text = () => {
     if (voucherUser.code.code_status === "pending_confirmation") {
-      if (timeLeft > 0) return voucherText["collected"][language];
-      else return voucherText["expired"][language];
+      if (timeLeft > 0) return txtTap;
+      else return txtExpired;
     }
     if (
       isExpired &&
       voucherUser.code.code_status !== "used" &&
       voucherUser.code.code_status !== "pending_confirmation"
     ) {
-      return voucherText["expired"][language];
+      return txtExpired;
     }
-    return voucherText[voucherUser.code.code_status ?? "collected"][language];
+    const status = voucherUser.code.code_status ?? "collected";
+    if (status === "used") return txtUsed;
+    if (status === "expired") return txtExpired;
+    return txtTap;
   };
 
   return (
@@ -123,7 +116,7 @@ const CouponCard: React.FC<VoucherCardProps> = ({
                 </div>
                 {!isExpired && voucherUser.code.code_status === "collected" && (
                   <span className="text-xs text-red-500">
-                    {language === "th" ? "(ถึง: " : "(Until: "}
+                    ({t(language as "th" | "en", "myCoupons.card.untilPrefix")}
                     {formatDateTimeShort(
                       voucherUser.expired_date as string,
                       language as "th" | "en",
