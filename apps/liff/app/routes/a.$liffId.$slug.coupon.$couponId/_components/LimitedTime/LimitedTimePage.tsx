@@ -15,7 +15,6 @@ type VoucherWithTeaser = Voucher & { teaser?: string | null };
 interface LimitedTimePageProps {
   voucher: Voucher;
   language: string;
-  primaryColor?: string;
   isSubmitting: boolean;
   onSubmit: (tier: DiscountTier | undefined) => void;
   // v2 server-computed snapshot (optional)
@@ -28,7 +27,6 @@ interface LimitedTimePageProps {
 const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   voucher,
   language,
-  primaryColor,
   isSubmitting,
   onSubmit,
   serverComputed,
@@ -43,6 +41,8 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
   const { liffId, slug } = useParams();
   const navigate = useNavigate();
   const [isLeaving, setIsLeaving] = useState(false);
+  const primaryColor = voucher.primary_color ?? undefined;
+  const foreColorButton = voucher.fore_color_button ?? undefined;
 
   const navigateToBack = () => {
     // Hide current content immediately to avoid flash of stale data
@@ -275,6 +275,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                   <ChooseAnotherVoucherButton
                     onClick={navigateToBack}
                     primaryColor={primaryColor}
+                    foreColorButton={foreColorButton}
                     language={language as "th" | "en"}
                   />
                 )}
@@ -295,7 +296,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                             backgroundColor: disabled
                               ? "#d1d5db"
                               : primaryColor,
-                            color: disabled ? "#6b7280" : "white",
+                            color: disabled ? "#6b7280" : foreColorButton,
                             opacity: disabled ? 0.7 : 1,
                             cursor: disabled ? "not-allowed" : "pointer",
                           }}
@@ -340,6 +341,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <ChooseAnotherVoucherButton
                   onClick={navigateToBack}
                   primaryColor={primaryColor}
+                  foreColorButton={foreColorButton}
                   language={language as "th" | "en"}
                 />
               </div>
@@ -364,6 +366,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <ChooseAnotherVoucherButton
                   onClick={navigateToBack}
                   primaryColor={primaryColor}
+                  foreColorButton={foreColorButton}
                   language={language as "th" | "en"}
                 />
               </div>
@@ -422,6 +425,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <ChooseAnotherVoucherButton
                   onClick={navigateToBack}
                   primaryColor={primaryColor}
+                  foreColorButton={foreColorButton}
                   language={language as "th" | "en"}
                 />
               </div>

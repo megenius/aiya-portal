@@ -67,7 +67,8 @@ const Route = () => {
   const campaignEndAtTs = serverComputed?.campaignEndAt
     ? new Date(serverComputed.campaignEndAt).getTime()
     : null;
-  const isCampaignEnded = campaignEndAtTs !== null && Date.now() >= campaignEndAtTs;
+  const isCampaignEnded =
+    campaignEndAtTs !== null && Date.now() >= campaignEndAtTs;
   // Compute server-client offset so that now_server ≈ Date.now() - offsetMs
   const clientNowTs = Date.now();
   const serverNowTs = serverComputed?.serverNow
@@ -75,25 +76,29 @@ const Route = () => {
     : clientNowTs;
   const offsetMs = clientNowTs - serverNowTs;
   const isNotStarted = serverComputed?.effectiveStatus === "not_started";
-  const isEndedEffective = isCampaignEnded || serverComputed?.effectiveStatus === "ended";
+  const isEndedEffective =
+    isCampaignEnded || serverComputed?.effectiveStatus === "ended";
   const hasCoupon = Boolean(myCoupon);
   // If user already has a coupon, do NOT override UI to 'ended' (that's for collection phase only)
   const statusForUi = hasCoupon
-    ? (isExpired || (status === "pending_confirmation" && timeLeft <= 0)
-        ? ("expired" as const)
-        : status)
-    : (isNotStarted
-        ? ("not_started" as const)
-        : isEndedEffective
-          ? ("ended" as const)
-          : (isExpired || (status === "pending_confirmation" && timeLeft <= 0)
-              ? ("expired" as const)
-              : status));
+    ? isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+      ? ("expired" as const)
+      : status
+    : isNotStarted
+      ? ("not_started" as const)
+      : isEndedEffective
+        ? ("ended" as const)
+        : isExpired || (status === "pending_confirmation" && timeLeft <= 0)
+          ? ("expired" as const)
+          : status;
 
   // For instant/form, show end countdown until campaignEndAt then refetch
   const endInSeconds =
     campaignEndAtTs !== null && !isCampaignEnded
-      ? Math.max(0, Math.floor((campaignEndAtTs - (clientNowTs - offsetMs)) / 1000))
+      ? Math.max(
+          0,
+          Math.floor((campaignEndAtTs - (clientNowTs - offsetMs)) / 1000),
+        )
       : undefined;
 
   // Compute start countdown based on nextBoundaryAt vs client time (avoid using server-computed seconds)
@@ -285,7 +290,6 @@ const Route = () => {
           <LimitedTimePage
             voucher={coupon}
             language={lang}
-            primaryColor={coupon.primary_color ?? ""}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             serverComputed={serverComputed || undefined}
@@ -311,7 +315,11 @@ const Route = () => {
                 onFormDataChange={setFormData}
                 canCollect={serverComputed?.canCollect}
                 startInSeconds={computedStartInSeconds}
-                startAt={isNotStarted ? serverComputed?.nextBoundaryAt ?? undefined : undefined}
+                startAt={
+                  isNotStarted
+                    ? (serverComputed?.nextBoundaryAt ?? undefined)
+                    : undefined
+                }
                 onStartReached={onBoundaryRefetch}
                 endInSeconds={endInSeconds}
                 endAt={serverComputed?.campaignEndAt ?? undefined}
@@ -330,10 +338,13 @@ const Route = () => {
                 className="mx-4 mb-6"
                 level="medium"
               />
-            ) :
-            !myCoupon &&
-            serverComputed?.canCollect === false &&
-            !(isCampaignEnded || statusForUi === "expired" || serverComputed?.effectiveStatus === "ended") ? (
+            ) : !myCoupon &&
+              serverComputed?.canCollect === false &&
+              !(
+                isCampaignEnded ||
+                statusForUi === "expired" ||
+                serverComputed?.effectiveStatus === "ended"
+              ) ? (
               <InlineNotice
                 language={lang === "en" ? "en" : "th"}
                 deniedReason={serverComputed?.deniedReason ?? null}
