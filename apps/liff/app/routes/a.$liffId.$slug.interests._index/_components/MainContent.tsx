@@ -6,6 +6,8 @@ import { Profile } from "~/routes/a.$liffId.$slug.shop._index/_components/Header
 import { Category } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { lightenColor } from "~/utils/colors";
+import NoticeModal from "~/components/NoticeModal";
+import { t, type Lang } from "~/i18n/messages";
 
 interface MainContentProps {
   page: PageLiff;
@@ -25,6 +27,7 @@ const MainContent: React.FC<MainContentProps> = ({
   const navigate = useNavigate();
   const createProfile = useCreateProfile();
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
 
   const toggleInterest = (category: Category) => {
     setSelectedInterests((prev) => {
@@ -45,13 +48,13 @@ const MainContent: React.FC<MainContentProps> = ({
 
     if (!lineProfile?.userId) {
       console.error("Missing userId in lineProfile");
-      alert("ไม่พบข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้ง");
+      setNotice({ open: true, message: t(language as Lang, "interests.errors.missingUser") });
       return;
     }
 
     if (!page.liff_id) {
       console.error("Missing liff_id in page");
-      alert("ไม่พบ LIFF ID กรุณาลองใหม่อีกครั้ง");
+      setNotice({ open: true, message: t(language as Lang, "interests.errors.missingLiffId") });
       return;
     }
 
@@ -79,7 +82,7 @@ const MainContent: React.FC<MainContentProps> = ({
         },
         onError: (error: any) => {
           console.error("Profile creation error:", error);
-          alert(`เกิดข้อผิดพลาดในการสร้างโปรไฟล์ [${error.message}]`);
+          setNotice({ open: true, message: t(language as Lang, "interests.errors.createFailed", { message: error?.message || "" }) });
         },
       },
     );
@@ -227,6 +230,15 @@ const MainContent: React.FC<MainContentProps> = ({
           </button>
         </div> */}
       </div>
+
+      <NoticeModal
+        isOpen={notice.open}
+        onClose={() => setNotice({ open: false })}
+        language={language as Lang}
+        primaryColor={page.bg_color ?? "#1DB446"}
+        title={notice.title}
+        message={notice.message}
+      />
     </div>
   );
 };

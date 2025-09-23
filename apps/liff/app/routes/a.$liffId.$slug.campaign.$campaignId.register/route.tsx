@@ -15,6 +15,8 @@ import DynamicForm from "~/components/DynamicForm";
 import { AlertCircle } from "lucide-react";
 import { getDirectusFileUrl } from "~/utils/files";
 import BackButton from "~/components/BackButton";
+import { t } from "~/i18n/messages";
+import NoticeModal from "~/components/NoticeModal";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -43,42 +45,9 @@ const Route = () => {
   const registerMutation = useRegisterCampaign();
 
   const primaryColor = page.bg_color || "#1DB446";
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
 
-  // i18n messages
-  const messages = useMemo(() => {
-    return lang === "th"
-      ? {
-          pageTitle: "ลงทะเบียนเข้าร่วมแคมเปญ",
-          introDesc: "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ",
-          formTitle: "ข้อมูลสำหรับลงทะเบียน",
-          errorsSummary: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:",
-          errors: {
-            required: "กรุณากรอกข้อมูล",
-            emailInvalid: "รูปแบบอีเมลไม่ถูกต้อง",
-            phoneInvalid: "รูปแบบเบอร์โทรไม่ถูกต้อง",
-            checkboxRequired: "กรุณาติ๊กยอมรับ",
-            selectRequired: "กรุณาเลือกข้อมูล",
-          },
-          submitting: "กำลังลงทะเบียน...",
-          submit: "ลงทะเบียน",
-        }
-      : {
-          pageTitle: "Campaign Registration",
-          introDesc:
-            "Please fill in the information to register for the campaign",
-          formTitle: "Registration Information",
-          errorsSummary: "Please fix the following errors:",
-          errors: {
-            required: "This field is required",
-            emailInvalid: "Invalid email format",
-            phoneInvalid: "Invalid phone number format",
-            checkboxRequired: "Please accept",
-            selectRequired: "Please select an option",
-          },
-          submitting: "Registering...",
-          submit: "Register",
-        };
-  }, [lang]);
+  // i18n will be accessed via t()
 
   // Disable submit until required fields are provided and no errors exist
   const isSubmitDisabled = useMemo(() => {
@@ -161,7 +130,7 @@ const Route = () => {
     return (
       <ErrorView
         status={profileError ? 500 : 404}
-        message={profileError?.message || "ไม่พบแคมเปญที่ต้องการ"}
+        message={profileError?.message || t(language, "campaignRegister.notFound")}
         language={language}
       />
     );
@@ -186,11 +155,11 @@ const Route = () => {
     if (field.required) {
       if (field.type === "checkbox") {
         const truthy = ["true", "1", "on", "yes"].includes(value.toLowerCase());
-        if (!truthy) return messages.errors.checkboxRequired;
+        if (!truthy) return t(lang as "th" | "en", "campaignRegister.errors.checkboxRequired");
       } else if (field.type === "select") {
-        if (!value) return messages.errors.selectRequired;
+        if (!value) return t(lang as "th" | "en", "campaignRegister.errors.selectRequired");
       } else {
-        if (!value) return messages.errors.required;
+        if (!value) return t(lang as "th" | "en", "campaignRegister.errors.required");
       }
     }
 
@@ -199,7 +168,7 @@ const Route = () => {
     if (isEmailField && value) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        return messages.errors.emailInvalid;
+        return t(lang as "th" | "en", "campaignRegister.errors.emailInvalid");
       }
     }
 
@@ -208,7 +177,7 @@ const Route = () => {
       const digits = value.replace(/[^0-9]/g, "");
       const phoneRegex = /^[0-9]{10}$/; // enforce 10 digits
       if (!phoneRegex.test(digits)) {
-        return messages.errors.phoneInvalid;
+        return t(lang as "th" | "en", "campaignRegister.errors.phoneInvalid");
       }
     }
 
@@ -274,7 +243,6 @@ const Route = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-
     if (!validateForm()) {
       return;
     }
@@ -311,14 +279,9 @@ const Route = () => {
       navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`);
     } catch (error) {
       console.error("Failed to register:", error);
-      alert(
-        lang === "th"
-          ? "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
-          : "An error occurred. Please try again.",
-      );
+      setNotice({ open: true, message: t(lang as "th" | "en", "mission.errors.tryAgain") });
     }
   };
-
 
   return (
     <div
@@ -336,7 +299,7 @@ const Route = () => {
           onClick={() => navigate(-1)}
           variant="overlay"
           showText={true}
-          text={lang === "th" ? "ย้อนกลับ" : "Back"}
+          text={t(lang as "th" | "en", "common.back")}
         />
       </header>
 
@@ -349,7 +312,7 @@ const Route = () => {
               <h2 className="font-semibold text-blue-900">
                 {campaign.title[lang]}
               </h2>
-              <p className="text-sm text-blue-700">{messages.introDesc}</p>
+              <p className="text-sm text-blue-700">{t(lang as "th" | "en", "campaignRegister.introDesc")}</p>
             </div>
 
             {/* Registration Form */}
@@ -375,7 +338,7 @@ const Route = () => {
                 <div className="flex items-center gap-2 text-red-800">
                   <AlertCircle size={16} />
                   <span className="text-sm font-medium">
-                    {messages.errorsSummary}
+                    {t(lang as "th" | "en", "campaignRegister.errorsSummary")}
                   </span>
                 </div>
                 <ul className="mt-2 text-sm text-red-700">
@@ -409,12 +372,21 @@ const Route = () => {
               }}
             >
               {registerMutation.isPending
-                ? messages.submitting
-                : messages.submit}
+                ? t(lang as "th" | "en", "campaignRegister.submitting")
+                : t(lang as "th" | "en", "campaignRegister.submit")}
             </button>
           </form>
         </div>
       </div>
+
+      <NoticeModal
+        isOpen={notice.open}
+        onClose={() => setNotice({ open: false })}
+        language={lang as "th" | "en"}
+        primaryColor={primaryColor}
+        title={notice.title}
+        message={notice.message}
+      />
     </div>
   );
 };

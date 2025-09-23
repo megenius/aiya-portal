@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "~/i18n/messages";
 
 interface FooterProps {
   onClick: () => void;
@@ -7,33 +8,6 @@ interface FooterProps {
   lang?: "th" | "en";
   status?: string;
 }
-
-const buttonTextMap = {
-  th: {
-    instant: "เก็บคูปอง",
-    form: "ลงทะเบียน",
-    collected: "ใช้คูปอง",
-    pending_confirmation: "แตะเพื่อใช้",
-    used: "ใช้แล้ว",
-    expired: "หมดอายุแล้ว",
-    ended: "หมดเวลารับแล้ว",
-    fully_collected: "หมดแล้ว",
-    not_started: "ยังไม่เริ่ม",
-    submitting: "กำลังรับคูปอง...",
-  },
-  en: {
-    instant: "Collect",
-    form: "Register",
-    collected: "Redeem",
-    pending_confirmation: "Tap to Use",
-    used: "Redeemed",
-    expired: "Expired",
-    ended: "Collection ended",
-    fully_collected: "Fully Collected",
-    not_started: "Not started",
-    submitting: "Collecting...",
-  },
-};
 
 const Footer: React.FC<FooterProps> = ({
   onClick = () => {},
@@ -64,7 +38,12 @@ const Footer: React.FC<FooterProps> = ({
   );
 
   function getButtonText(lang: "th" | "en" = "th", status: string = "instant") {
-    return buttonTextMap[lang]?.[status] ?? buttonTextMap[lang]?.instant ?? "";
+    const key = `footer.status.${status}`;
+    const text = t(lang, key);
+    if (text === key) {
+      return t(lang, "footer.status.instant");
+    }
+    return text;
   }
 };
 

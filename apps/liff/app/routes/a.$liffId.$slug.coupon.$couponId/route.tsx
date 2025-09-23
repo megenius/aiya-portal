@@ -13,7 +13,6 @@ import {
   LeadSubmission,
 } from "~/types/app";
 import Footer from "./_components/Footer";
-import FullyCollectedModal from "./_components/FullyCollectedModal";
 import Header from "./_components/Header";
 import MainContent from "./_components/MainContent";
 import RedeemModal from "../../components/RedeemModal";
@@ -23,6 +22,8 @@ import { useLineLiff } from "~/contexts/LineLiffContext";
 import { triggerConfettiFromButton } from "~/utils/confetti";
 import { useSendServiceMessage } from "~/hooks/notifies/useSendServiceMessage";
 import { useTrackUserEvent } from "~/hooks/analytics/useTrackUserEvent";
+import { t, type Lang } from "~/i18n/messages";
+import NoticeModal from "~/components/NoticeModal";
 
 // ใช้ v2 view เป็น single source of truth จึงไม่ต้อง refetch ตาม start_date ในระดับ route อีกต่อไป
 
@@ -31,6 +32,7 @@ const Route = () => {
   const { couponId } = useParams();
   const { liff } = useLineLiff();
   const queryClient = useQueryClient();
+  const i18nLang: Lang = lang === "en" ? "en" : "th";
   const {
     coupon,
     myCoupon,
@@ -50,7 +52,7 @@ const Route = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<FieldData[]>([]);
   const [isRedeemedModalOpen, setIsRedeemedModalOpen] = useState(false);
-  const [showFullyCollectedModal, setShowFullyCollectedModal] = useState(false);
+  const [notice, setNotice] = useState<{ open: boolean; title?: string; message?: string }>({ open: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState<"collected" | "redeem">("redeem");
   const sentViewRef = useRef(false);
@@ -244,17 +246,16 @@ const Route = () => {
           }
           if (code === "group_quota_full") {
             // campaign quota reached
-            const msg =
-              lang === "th"
-                ? "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว"
-                : "You have reached the claim limit for this campaign.";
-            // simple UX for now
-            window.alert(msg);
+            setNotice({ open: true, message: t(i18nLang, "coupon.errors.groupQuotaFull") });
             setIsSubmitting(false);
             return;
           }
           // Fallback: out of stock or unknown => show fully collected modal
-          setShowFullyCollectedModal(true);
+          setNotice({
+            open: true,
+            title: t(i18nLang, "coupon.modal.fullyCollected.title"),
+            message: t(i18nLang, "coupon.modal.fullyCollected.message"),
+          });
           setIsSubmitting(false);
         },
       },
@@ -329,12 +330,8 @@ const Route = () => {
             )}
             {!myCoupon && isNotStarted ? (
               <InlineNotice
-                language={lang === "en" ? "en" : "th"}
-                message={
-                  lang === "en"
-                    ? "This coupon is not yet available."
-                    : "คูปองยังไม่เปิดให้รับ"
-                }
+                language={i18nLang}
+                message={t(i18nLang, "coupon.notices.notAvailable")}
                 className="mx-4 mb-6"
                 level="medium"
               />
@@ -375,14 +372,16 @@ const Route = () => {
           </>
         )}
 
-        <FullyCollectedModal
-          isOpen={showFullyCollectedModal}
+        <NoticeModal
+          isOpen={notice.open}
           onClose={() => {
-            setShowFullyCollectedModal(false);
+            setNotice({ open: false });
             onBoundaryRefetch();
           }}
-          language={lang}
+          language={i18nLang}
           primaryColor={coupon.voucher_brand_id.primaryColor ?? ""}
+          title={notice.title}
+          message={notice.message}
         />
 
         {myCoupon && (

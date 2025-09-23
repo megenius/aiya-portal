@@ -9,7 +9,7 @@ import { useUpdateVoucherCode } from "~/hooks/vouchers/useUpdateVoucherCode";
 import { VoucherCodeUpdate, VoucherUser } from "~/types/app";
 import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
-import Button from "../routes/a.$liffId.$slug.coupon.$couponId/_components/Button";
+import Button from "./Button";
 
 // Helper: convert a color string to an rgba with alpha (supports #RGB, #RRGGBB, rgb, rgba)
 function toAlpha(color: string, alpha: number): string {

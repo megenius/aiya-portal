@@ -81,7 +81,7 @@ export interface Tracking {
 export interface Layout {
   showProfile: boolean;
   showAIProfile: boolean;
-  showCategory: boolean;
+  showCategories: boolean;
   showSearch: boolean;
   showPoint: boolean;
   showInvite: boolean;

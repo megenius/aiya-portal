@@ -10,7 +10,6 @@ import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
-import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
   BrandListSkeleton,
@@ -18,6 +17,7 @@ import {
   BannerSkeleton,
   SearchResultsSkeleton,
 } from "./LoadingStates";
+import { t } from "~/i18n/messages";
 
 interface MainContentProps {
   page: PageLiff;
@@ -53,7 +53,7 @@ const MainContent: React.FC<MainContentProps> = ({
   const layoutSettings = useMemo(
     () => ({
       showVoucherSummary: page?.metadata?.layout?.showVoucherSummary ?? true,
-      showCategory: page?.metadata?.layout?.showCategory ?? true,
+      showCategories: page?.metadata?.layout?.showCategories ?? true,
       showPopulars: page?.metadata?.layout?.showPopulars ?? true,
       showBrands: page?.metadata?.layout?.showBrands ?? true,
       showBannerVouchers: page?.metadata?.layout?.showBannerVouchers ?? true,
@@ -84,14 +84,6 @@ const MainContent: React.FC<MainContentProps> = ({
     }
   }, [selectedCategory, allCategory]);
 
-  const popularVouchersText = useMemo(() => {
-    const defaultText = {
-      th: "คูปองยอดนิยม",
-      en: "Popular Coupons",
-    };
-    return page.metadata?.popularVouchersText || defaultText;
-  }, [page.metadata?.popularVouchersText]);
-
   // Memoized banner items (vouchers + campaigns)
   const bannerItems: BannerItem[] = useMemo(() => {
     const voucherBanners = (banner_vouchers || [])
@@ -99,7 +91,7 @@ const MainContent: React.FC<MainContentProps> = ({
       .map((banner_voucher) => {
         return {
           id: banner_voucher.id,
-          image: banner_voucher.banner,
+          image: banner_voucher.banner as string,
           alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
           type: "voucher" as const,
         };
@@ -109,7 +101,7 @@ const MainContent: React.FC<MainContentProps> = ({
     const campaignBanners = (banner_campaigns || []).map((campaign) => {
       return {
         id: campaign.id,
-        image: campaign.banner_image,
+        image: campaign.banner_image as string,
         // title: campaign.title[language],
         alt: `Campaign banner for ${campaign.title[language]}`,
         type: "campaign" as const,
@@ -208,13 +200,14 @@ const MainContent: React.FC<MainContentProps> = ({
     <div className="space-y-6 bg-white pb-3">
       {/* Banner Slider */}
       <div className="space-y-6 px-4">
-        <SearchBar
-          language={language}
-          primaryColor={page.bg_color ?? ""}
-          showSearch={layoutSettings.showSearch}
-          onSearch={handleSearch}
-          isLoading={isLoading}
-        />
+        {layoutSettings.showSearch && (
+          <SearchBar
+            language={language}
+            primaryColor={page.bg_color ?? ""}
+            onSearch={handleSearch}
+            isLoading={isLoading}
+          />
+        )}
         {layoutSettings.showVoucherSummary && (
           <CouponSummary
             totalVouchers={voucherUserStats?.total}
@@ -225,40 +218,45 @@ const MainContent: React.FC<MainContentProps> = ({
           />
         )}
 
-        {layoutSettings.showBannerVouchers && !searchQuery && (
-          <div className="overflow-hidden rounded-xl">
-            {isLoading ? (
-              <BannerSkeleton />
-            ) : bannerItems.length > 0 ? (
-              <BannerSlider
-                banners={bannerItems}
-                autoPlay={true}
-                autoPlayInterval={4000}
-                showDots={true}
-                aspectRatio="16/9"
-                onBannerClick={handleBannerClick}
-              />
-            ) : null}
-          </div>
-        )}
-      </div>
-      {layoutSettings.showCategory && !searchQuery && selectedCategory && (
-        <>
-          {isLoading ? (
-            <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4">
-              <CategorySkeleton />
+        {layoutSettings.showBannerVouchers &&
+          bannerItems.length > 0 &&
+          !searchQuery && (
+            <div className="overflow-hidden rounded-xl">
+              {isLoading ? (
+                <BannerSkeleton />
+              ) : bannerItems.length > 0 ? (
+                <BannerSlider
+                  banners={bannerItems}
+                  autoPlay={true}
+                  autoPlayInterval={4000}
+                  showDots={true}
+                  aspectRatio="16/9"
+                  onBannerClick={handleBannerClick}
+                />
+              ) : null}
             </div>
-          ) : (
-            <CategoryList
-              language={language}
-              categories={categoriesWithAll}
-              selected={selectedCategory}
-              primaryColor={page.bg_color || ""}
-              onSelect={handleCategorySelect}
-            />
           )}
-        </>
-      )}
+      </div>
+      {layoutSettings.showCategories &&
+        categories.length > 0 &&
+        !searchQuery &&
+        selectedCategory && (
+          <>
+            {isLoading ? (
+              <div className="relative flex snap-x snap-mandatory overflow-x-auto overflow-y-visible whitespace-nowrap px-4">
+                <CategorySkeleton />
+              </div>
+            ) : (
+              <CategoryList
+                language={language}
+                categories={categoriesWithAll}
+                selected={selectedCategory}
+                primaryColor={page.bg_color || ""}
+                onSelect={handleCategorySelect}
+              />
+            )}
+          </>
+        )}
 
       {/* Search Results */}
       {searchQuery && (
@@ -269,9 +267,9 @@ const MainContent: React.FC<MainContentProps> = ({
             <>
               <div className="px-4">
                 <h2 className="text-lg font-medium">
-                  {language === "th"
-                    ? `ผลการค้นหา "${searchQuery}"`
-                    : `Search results for "${searchQuery}"`}
+                  {t(language as "th" | "en", "search.resultsFor", {
+                    query: searchQuery,
+                  })}
                 </h2>
                 <p
                   id="search-results-count"
@@ -279,9 +277,10 @@ const MainContent: React.FC<MainContentProps> = ({
                   role="status"
                   aria-live="polite"
                 >
-                  {language === "th"
-                    ? `พบ ${filteredVouchers.length + (filteredBrands?.length || 0)} รายการ`
-                    : `Found ${filteredVouchers.length + (filteredBrands?.length || 0)} results`}
+                  {t(language as "th" | "en", "search.resultsCount", {
+                    count:
+                      filteredVouchers.length + (filteredBrands?.length || 0),
+                  })}
                 </p>
               </div>
 
@@ -289,7 +288,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 <CouponList
                   coupons={filteredVouchers}
                   language={language}
-                  title={language === "th" ? "คูปอง" : "Vouchers"}
+                  title={t(language as "th" | "en", "search.vouchers")}
                   scrollDirection="vertical"
                 />
               )}
@@ -309,14 +308,10 @@ const MainContent: React.FC<MainContentProps> = ({
                       <Search className="h-12 w-12" />
                     </div>
                     <h3 className="mb-2 text-lg font-medium text-gray-900">
-                      {language === "th"
-                        ? "ไม่พบผลการค้นหา"
-                        : "No results found"}
+                      {t(language as "th" | "en", "search.emptyTitle")}
                     </h3>
                     <p className="text-center text-gray-500">
-                      {language === "th"
-                        ? "ลองค้นหาด้วยคำอื่น หรือเลือกดูตามหมวดหมู่"
-                        : "Try searching with different keywords or browse by category"}
+                      {t(language as "th" | "en", "search.emptySuggestion")}
                     </p>
                   </div>
                 )}
@@ -336,11 +331,7 @@ const MainContent: React.FC<MainContentProps> = ({
               <CouponList
                 coupons={populars}
                 language={language}
-                title={
-                  popularVouchersText[
-                    language as keyof typeof popularVouchersText
-                  ]
-                }
+                title={t(language as "th" | "en", "home.popularVouchers")}
               />
             ))}
 
@@ -355,19 +346,27 @@ const MainContent: React.FC<MainContentProps> = ({
           <div className="space-y-4">
             {selectedCategory.id === "all" &&
               !isLoading &&
-              categories?.map((category) => {
-                const byCategory = vouchersByCategory[category.id] || [];
-                return byCategory.length > 0 ? (
-                  <CouponList
-                    key={category.id}
-                    coupons={byCategory}
-                    language={language}
-                    title={
-                      category.name[language as keyof typeof category.name]
-                    }
-                  />
-                ) : null;
-              })}
+              ((categories?.length || 0) > 0 ? (
+                categories.map((category) => {
+                  const byCategory = vouchersByCategory[category.id] || [];
+                  return byCategory.length > 0 ? (
+                    <CouponList
+                      key={category.id}
+                      coupons={byCategory}
+                      language={language}
+                      title={
+                        category.name[language as keyof typeof category.name]
+                      }
+                    />
+                  ) : null;
+                })
+              ) : (
+                <CouponList
+                  coupons={allVouchers}
+                  language={language}
+                  title={t(language as "th" | "en", "home.allVouchers")}
+                />
+              ))}
           </div>
           {selectedCategory.id === "all" && isLoading && (
             <>

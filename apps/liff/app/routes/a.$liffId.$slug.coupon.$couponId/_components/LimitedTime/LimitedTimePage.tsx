@@ -8,6 +8,7 @@ import InlineNotice from "~/components/InlineNotice";
 import ChooseAnotherVoucherButton from "~/components/ChooseAnotherVoucherButton";
 import LazyImage from "~/components/LazyImage";
 import BackButton from "~/components/BackButton";
+import { t } from "~/i18n/messages";
 
 // Extend Voucher type locally to include optional teaser field from Directus
 type VoucherWithTeaser = Voucher & { teaser?: string | null };
@@ -123,23 +124,15 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
             : ""
         }`,
   );
-  const displayDescription = {
-    th: `เริ่มแจกพร้อมกัน\n${formatDateTime(voucher.start_date as string, "th")}`,
-    en: `Starts at\n${formatDateTime(voucher.start_date as string, "en")}`,
-  };
+  const displayDescription = t(language as "th" | "en", "limitedTime.startsAt", {
+    time: formatDateTime(voucher.start_date as string, language as "th" | "en"),
+  });
 
-  const textButton = {
-    th: {
-      collect: getCollectText({ lang: "th", activeTier, voucher }),
-      redeem: "ใช้คูปอง",
-      expired: "หมดอายุแล้ว",
-    },
-    en: {
-      collect: getCollectText({ lang: "en", activeTier, voucher }),
-      redeem: "Redeem",
-      expired: "Expired",
-    },
-  };
+  const collectText = getCollectText({
+    lang: language as "th" | "en",
+    activeTier,
+    voucher,
+  });
   // กรณีไม่มี validity_in_seconds ให้ใช้เวลาที่เหลือจนถึง end_date แทน
   const validitySecondsForDescription = (() => {
     const s = voucher.validity_in_seconds;
@@ -156,19 +149,21 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
     }
     return 0;
   })();
-  const descriptionButton = {
-    th: {
-      collect: `หลังกดรับคูปองมีอายุ ${formatDurationSingleUnit(validitySecondsForDescription, "th")}`,
+  const descriptionCollect = t(
+    language as "th" | "en",
+    "limitedTime.collectDescription",
+    {
+      duration: formatDurationSingleUnit(
+        validitySecondsForDescription,
+        language as "th" | "en",
+      ),
     },
-    en: {
-      collect: `After clicking the collect button, the voucher will expire in ${formatDurationSingleUnit(validitySecondsForDescription, "en")}.`,
-    },
-  };
+  );
 
-  const endedTextButton = {
-    th: "ขออภัย ขณะนี้หมดเวลารับคูปองแล้ว!",
-    en: "Sorry, coupon collection time has ended!",
-  };
+  const endedOverlayText = t(
+    language as "th" | "en",
+    "limitedTime.endedOverlay",
+  );
 
   if (isLeaving) return null;
 
@@ -200,7 +195,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
               <div className="h-0.5 w-full rounded-lg bg-white"></div>
               <div className="px-5">
                 <span className="whitespace-pre-line text-center text-lg text-white sm:text-xl">
-                  {endedTextButton[language]}
+                  {endedOverlayText}
                 </span>
               </div>
               <div className="h-0.5 w-full rounded-lg bg-white"></div>
@@ -213,7 +208,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
           onClick={navigateToBack}
           variant="overlay"
           showText={true}
-          text={language === "th" ? "กลับหน้าหลัก" : "Back"}
+          text={t(language as "th" | "en", "limitedTime.back")}
         />
         <LazyImage
           src={getDirectusFileUrl(voucher.poster as string)}
@@ -262,9 +257,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                         serverComputed.deniedReason
                           ? undefined
                           : (serverComputed.available ?? 0) <= 0
-                            ? language === "th"
-                              ? "คูปองถูกเก็บครบแล้ว"
-                              : "All vouchers have been collected."
+                            ? t(
+                                language as "th" | "en",
+                                "limitedTime.allCollected",
+                              )
                             : undefined
                       }
                       className="mx-3 -mt-4"
@@ -302,15 +298,16 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                           }}
                         >
                           {isSubmitting
-                            ? language === "th"
-                              ? "กำลังรับคูปอง..."
-                              : "Collecting..."
-                            : textButton[language].collect}
+                            ? t(
+                                language as "th" | "en",
+                                "limitedTime.collecting",
+                              )
+                            : collectText}
                         </button>
                       );
                     })()}
                     <h5 className="whitespace-pre-line text-center text-sm text-white sm:text-base">
-                      {descriptionButton[language].collect}
+                      {descriptionCollect}
                     </h5>
                   </div>
                 )}
@@ -330,11 +327,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <InlineNotice
                   language={language as "th" | "en"}
                   deniedReason={serverComputed.deniedReason ?? null}
-                  message={
-                    language === "th"
-                      ? "คูปองถูกเก็บครบแล้ว"
-                      : "All vouchers have been collected."
-                  }
+                  message={t(language as "th" | "en", "limitedTime.allCollected")}
                   className="mx-3 -mt-4"
                   level="medium"
                 />
@@ -399,7 +392,7 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                   )}
                   {!voucher.metadata.layout?.description?.visible && (
                     <h3 className="whitespace-pre-line text-center text-xl text-white sm:text-2xl">
-                      {displayDescription[language]}
+                      {displayDescription}
                     </h3>
                   )}
                 </div>
@@ -413,9 +406,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                         serverComputed.deniedReason
                           ? undefined
                           : (serverComputed.available ?? 0) <= 0
-                            ? language === "th"
-                              ? "คูปองถูกเก็บครบแล้ว"
-                              : "All vouchers have been collected."
+                            ? t(
+                                language as "th" | "en",
+                                "limitedTime.allCollected",
+                              )
                             : undefined
                       }
                       className="mx-3 -mt-6"
