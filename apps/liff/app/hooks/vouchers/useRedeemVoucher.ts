@@ -2,37 +2,35 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { redeemVoucher } from "~/services/vouchers";
 import { VoucherUser } from "~/types/app";
 
-
 interface MutationFn {
   variables: Partial<VoucherUser>;
 }
 
 export function useRedeemVoucher() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ variables }: MutationFn ) => 
+    mutationFn: ({ variables }: MutationFn) =>
       redeemVoucher(variables).then((response) => response.data),
     onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["voucher-user" ],
-          exact: true,
-          refetchType: "active",
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["my-vouchers-v2"],
-          refetchType: "active",
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["vouchers","voucher-users","stats" ],
-          exact: true,
-          refetchType: "active",
-        });
-        // Refetch profile so voucherUserStats is up to date
-        queryClient.invalidateQueries({
-          queryKey: ["me"],
-          exact: true,
-          refetchType: "active",
-        });
-      },
+      queryClient.invalidateQueries({
+        queryKey: ["voucher-user"],
+        exact: true,
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["my-vouchers-v2"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["coupon-page-v2"],
+        refetchType: "active",
+      });
+      // Refetch profile so voucherUserStats is up to date
+      queryClient.invalidateQueries({
+        queryKey: ["me"],
+        exact: true,
+        refetchType: "active",
+      });
+    },
   });
 }

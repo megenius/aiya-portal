@@ -11,6 +11,98 @@ import { PageLiff } from "~/types/page";
 import { getDirectusFileUrl } from "~/utils/files";
 import Button from "../routes/a.$liffId.$slug.coupon.$couponId/_components/Button";
 
+// Helper: convert a color string to an rgba with alpha (supports #RGB, #RRGGBB, rgb, rgba)
+function toAlpha(color: string, alpha: number): string {
+  const a = Math.max(0, Math.min(1, alpha));
+  if (!color) return `rgba(0,0,0,${a})`;
+
+  const trimmed = color.trim();
+
+  // Hex formats: #RGB or #RRGGBB
+  if (trimmed.startsWith("#")) {
+    const hex = trimmed.slice(1);
+    if (hex.length === 3) {
+      const r = parseInt(hex[0] + hex[0], 16);
+      const g = parseInt(hex[1] + hex[1], 16);
+      const b = parseInt(hex[2] + hex[2], 16);
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+    if (hex.length === 6) {
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+  }
+
+  // rgb or rgba
+  const rgbMatch = trimmed.match(
+    /rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d*\.?\d+))?\s*\)/i,
+  );
+  if (rgbMatch) {
+    const r = Math.min(255, parseInt(rgbMatch[1], 10));
+    const g = Math.min(255, parseInt(rgbMatch[2], 10));
+    const b = Math.min(255, parseInt(rgbMatch[3], 10));
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+
+  // Fallback: return original color (alpha may not apply)
+  return trimmed;
+}
+
+// Default primary fallback (Tailwind blue-500)
+const defaultPrimaryColor = "#3B82F6";
+
+// Utils to parse and mix colors for deriving tones from primaryColor
+function parseColorToRgb(
+  color: string,
+): { r: number; g: number; b: number } | null {
+  const c = color?.trim();
+  if (!c) return null;
+  if (c.startsWith("#")) {
+    const hex = c.slice(1);
+    if (hex.length === 3) {
+      const r = parseInt(hex[0] + hex[0], 16);
+      const g = parseInt(hex[1] + hex[1], 16);
+      const b = parseInt(hex[2] + hex[2], 16);
+      return { r, g, b };
+    }
+    if (hex.length === 6) {
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      return { r, g, b };
+    }
+  }
+  const m = c.match(/rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/i);
+  if (m) {
+    const r = Math.min(255, parseInt(m[1], 10));
+    const g = Math.min(255, parseInt(m[2], 10));
+    const b = Math.min(255, parseInt(m[3], 10));
+    return { r, g, b };
+  }
+  return null;
+}
+
+function mixWith(
+  color: string,
+  target: { r: number; g: number; b: number },
+  weight: number,
+): string {
+  const rgb = parseColorToRgb(color);
+  const w = Math.max(0, Math.min(1, weight));
+  if (!rgb) return color;
+  const r = Math.round(rgb.r * (1 - w) + target.r * w);
+  const g = Math.round(rgb.g * (1 - w) + target.g * w);
+  const b = Math.round(rgb.b * (1 - w) + target.b * w);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function darkenColor(color: string, weight: number): string {
+  // Mix with black
+  return mixWith(color, { r: 0, g: 0, b: 0 }, weight);
+}
+
 interface RedeemModalProps {
   page: PageLiff;
   voucherUser: VoucherUser;
@@ -27,7 +119,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   page,
   voucherUser,
   language,
-  primaryColor,
+  primaryColor = defaultPrimaryColor,
   state = "redeem",
   countdown = 15, // Default to 15 minutes
   isOpen,
@@ -255,6 +347,9 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
   const timePercentage = (remainingTime / (countdown * 60)) * 100;
 
+  // Derive a warning tone from primaryColor for the near-expiry alert
+  const warningColor = darkenColor(primaryColor, 0.35);
+
   if (!isOpen) return null;
 
   return (
@@ -299,54 +394,34 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                 <div className="space-y-3">
                   {/* แสดงเวลาที่เหลือ */}
                   <div
-                    className={`rounded-lg p-4 ${page.metadata.template === "promotion" ? "bg-blue-300 bg-opacity-15" : remainingTime <= 60 ? "bg-red-50" : remainingTime <= 5 * 60 ? "bg-yellow-50" : "bg-blue-50"}`}
+                    className="rounded-lg p-4"
+                    style={{ backgroundColor: toAlpha(primaryColor, 0.1) }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Clock
-                          className={`h-5 w-5 ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
-                          style={{
-                            color:
-                              page.metadata.template === "promotion"
-                                ? primaryColor
-                                : undefined,
-                          }}
+                          className="h-5 w-5"
+                          style={{ color: primaryColor }}
                         />
                         <span className="text-sm font-medium text-gray-700">
                           {voucherWillExpireInText[language]}
                         </span>
                       </div>
                       <div
-                        className={`text-xl font-bold ${page.metadata.template === "promotion" ? "text-primary" : getTimeColor(remainingTime)}`}
-                        style={{
-                          color:
-                            page.metadata.template === "promotion"
-                              ? primaryColor
-                              : undefined,
-                        }}
+                        className="text-xl font-bold"
+                        style={{ color: primaryColor }}
                       >
                         {formatTime(remainingTime)}
                       </div>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="mt-2 h-2 w-full rounded-full bg-gray-200">
+                    <div className="mt-2 h-2 w-full rounded-full bg-gray-300">
                       <div
-                        className={`h-2 rounded-full ${
-                          page.metadata.template === "promotion"
-                            ? "bg-primary"
-                            : remainingTime <= 60
-                              ? "bg-red-600"
-                              : remainingTime <= 5 * 60
-                                ? "bg-yellow-400"
-                                : "bg-primary"
-                        }`}
+                        className="h-2 rounded-full"
                         style={{
                           width: `${timePercentage}%`,
-                          backgroundColor:
-                            page.metadata.template === "promotion"
-                              ? primaryColor
-                              : undefined,
+                          backgroundColor: primaryColor,
                         }}
                       ></div>
                     </div>
@@ -354,8 +429,14 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
                     {/* Expire Warning */}
                     {page.metadata.template !== "promotion" &&
                       showExpireWarning && (
-                        <div className="mt-2 flex items-center gap-2 text-sm text-red-600">
-                          <AlertCircle className="h-4 w-4" />
+                        <div
+                          className="mt-2 flex items-center gap-2 text-sm"
+                          style={{ color: warningColor }}
+                        >
+                          <AlertCircle
+                            className="h-4 w-4"
+                            style={{ color: warningColor }}
+                          />
                           <span>{warningExpireText[language]}</span>
                         </div>
                       )}
@@ -649,13 +730,6 @@ const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
   return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-};
-
-// คำนวณสีของตัวนับเวลา
-const getTimeColor = (remainingTime: number) => {
-  if (remainingTime <= 60) return "text-red-600"; // <= 1 นาที: สีแดง
-  if (remainingTime <= 5 * 60) return "text-yellow-400"; // <= 5 นาที: สีเหลือง
-  return "text-primary"; // > 5 นาที: สีน้ำเงิน
 };
 
 export default RedeemModal;

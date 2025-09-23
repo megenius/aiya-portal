@@ -10,7 +10,7 @@ import { format } from "date-fns-tz";
 import { createFactory } from "hono/factory";
 import { logger } from "hono/logger";
 import * as _ from "lodash";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import { directusMiddleware } from "~/middlewares/directus.middleware";
 import { Env } from "~/types/hono.types";
 import { computeLimitedTimeSnapshot } from "../utils/limitedTime";
@@ -868,7 +868,9 @@ export const getBrandPageV2 = factory.createHandlers(
       const mapped = (vouchersRaw || [])
         .filter((v: any) => v?.hide_on_homepage !== true)
         .filter((v: any) => !v?.end_date || new Date(v.end_date) > now)
-        .filter((v: any) => !v?.usage_end_date || new Date(v.usage_end_date) > now)
+        .filter(
+          (v: any) => !v?.usage_end_date || new Date(v.usage_end_date) > now
+        )
         .map((voucher: any) => {
           const langTrans = _.find(voucher.translations, {
             languages_code: lang,
@@ -1050,15 +1052,17 @@ export const createVoucherCode = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     try {
-      const { voucher_id, count = 1 } = await c.req.json();
+      const { voucher_id, count = 1, length = 12 } = await c.req.json();
       const directus = c.get("directAdmin");
 
-      // Generate all codes at once
-      const codes = Array.from({ length: count }, () =>
-        nanoid(12)
-          .toUpperCase()
-          .replace(/[^A-Z0-9]/g, "")
-      );
+      // Generate all codes at once (A-Z, 0-9 only) to guarantee fixed length
+      const codeLength =
+        typeof length === "number"
+          ? length
+          : parseInt(String(length), 10) || 12;
+      const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const generateCode = customAlphabet(alphabet, Math.max(1, codeLength));
+      const codes = Array.from({ length: count }, () => generateCode());
 
       // Create array of objects for batch insert
       const items = codes.map((code) => ({
