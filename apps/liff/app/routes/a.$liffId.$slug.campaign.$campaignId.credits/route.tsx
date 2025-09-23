@@ -11,6 +11,7 @@ import { useCampaignCredits } from "~/hooks/campaigns";
 import { useLineProfile } from "~/contexts/LineLiffContext";
 import ErrorView from "~/components/ErrorView";
 import { ArrowLeft, Star, Plus, Minus, Calendar, Filter, TrendingUp, Award, Target } from "lucide-react";
+import { t } from "~/i18n/messages";
 
 const Route = () => {
   const { page, lang } = useOutletContext<{ page: PageLiff; lang: string }>();
@@ -65,7 +66,7 @@ const Route = () => {
     return (
       <ErrorView
         status={profileError ? 500 : 404}
-        message={profileError?.message || "ไม่สามารถโหลดข้อมูลเครดิตได้"}
+        message={profileError?.message || t(language, "credits.loadError")}
         language={language}
       />
     );
@@ -94,7 +95,7 @@ const Route = () => {
     );
   }
 
-  const pageTitle = lang === 'th' ? 'ประวัติเครดิต' : 'Credit History';
+  const pageTitle = t(lang as "th" | "en", "credits.pageTitle");
 
   const getTransactionIcon = (transaction: typeof credits.transactions[0]) => {
     if (transaction.amount > 0) {
@@ -108,18 +109,18 @@ const Route = () => {
 
   const getTransactionTitle = (transaction: typeof credits.transactions[0]) => {
     if (transaction.type === 'mission_reward') {
-      return lang === 'th' ? 'รางวัลจากภารกิจ' : 'Mission Reward';
+      return t(lang as "th" | "en", "credits.transactionTypes.missionReward");
     }
     if (transaction.type === 'bonus') {
-      return lang === 'th' ? 'โบนัส' : 'Bonus';
+      return t(lang as "th" | "en", "credits.transactionTypes.bonus");
     }
     if (transaction.type === 'redemption') {
-      return lang === 'th' ? 'แลกรางวัล' : 'Redemption';
+      return t(lang as "th" | "en", "credits.transactionTypes.redemption");
     }
     if (transaction.type === 'refund') {
-      return lang === 'th' ? 'เงินคืน' : 'Refund';
+      return t(lang as "th" | "en", "credits.transactionTypes.refund");
     }
-    return transaction.description || (lang === 'th' ? 'ธุรกรรมอื่นๆ' : 'Other Transaction');
+    return transaction.description || t(lang as "th" | "en", "credits.transactionTypes.other");
   };
 
   const formatDate = (dateString: string) => {
@@ -176,7 +177,7 @@ const Route = () => {
               <div className="flex-1">
                 <div className="text-2xl font-bold text-gray-900">{credits.current_balance}</div>
                 <div className="text-sm text-gray-600">
-                  {lang === 'th' ? 'เครดิตปัจจุบัน' : 'Current Balance'}
+                  {t(lang as "th" | "en", "credits.currentBalance")}
                 </div>
               </div>
             </div>
@@ -191,7 +192,7 @@ const Route = () => {
               <div className="flex-1">
                 <div className="text-2xl font-bold text-gray-900">{credits.total_earned}</div>
                 <div className="text-sm text-gray-600">
-                  {lang === 'th' ? 'รวมที่ได้รับ' : 'Total Earned'}
+                  {t(lang as "th" | "en", "credits.totalEarned")}
                 </div>
               </div>
             </div>
@@ -206,7 +207,7 @@ const Route = () => {
               <div className="flex-1">
                 <div className="text-2xl font-bold text-gray-900">{earnedThisMonth}</div>
                 <div className="text-sm text-gray-600">
-                  {lang === 'th' ? 'เดือนนี้' : 'This Month'}
+                  {t(lang as "th" | "en", "credits.thisMonth")}
                 </div>
               </div>
             </div>
@@ -225,7 +226,7 @@ const Route = () => {
                    credits.total_earned >= 100 ? '🥉' : '⭐'}
                 </div>
                 <div className="text-sm text-gray-600">
-                  {lang === 'th' ? 'ระดับ' : 'Level'}
+                  {t(lang as "th" | "en", "credits.level")}
                 </div>
               </div>
             </div>
@@ -237,7 +238,7 @@ const Route = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
               <Filter size={16} />
-              {lang === 'th' ? 'ตัวกรอง' : 'Filters'}
+              {t(lang as "th" | "en", "credits.filters")}
             </div>
 
             {/* Transaction Type Filter */}
@@ -251,7 +252,7 @@ const Route = () => {
                 }`}
                 style={filterType === 'all' ? { backgroundColor: primaryColor } : {}}
               >
-                {lang === 'th' ? 'ทั้งหมด' : 'All'}
+                {t(lang as "th" | "en", "credits.all")}
               </button>
               <button
                 onClick={() => setFilterType('earned')}
@@ -261,7 +262,7 @@ const Route = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {lang === 'th' ? 'ได้รับ' : 'Earned'}
+                {t(lang as "th" | "en", "credits.earned")}
               </button>
               <button
                 onClick={() => setFilterType('spent')}
@@ -271,7 +272,7 @@ const Route = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {lang === 'th' ? 'ใช้ไป' : 'Spent'}
+                {t(lang as "th" | "en", "credits.spent")}
               </button>
             </div>
 
@@ -286,7 +287,7 @@ const Route = () => {
                 }`}
                 style={sortOrder === 'newest' ? { backgroundColor: primaryColor } : {}}
               >
-                {lang === 'th' ? 'ใหม่สุด' : 'Newest'}
+                {t(lang as "th" | "en", "credits.newest")}
               </button>
               <button
                 onClick={() => setSortOrder('oldest')}
@@ -297,7 +298,7 @@ const Route = () => {
                 }`}
                 style={sortOrder === 'oldest' ? { backgroundColor: primaryColor } : {}}
               >
-                {lang === 'th' ? 'เก่าสุด' : 'Oldest'}
+                {t(lang as "th" | "en", "credits.oldest")}
               </button>
             </div>
           </div>
@@ -307,10 +308,10 @@ const Route = () => {
         <div className="rounded-lg bg-white shadow-sm">
           <div className="border-b border-gray-200 p-4">
             <h3 className="text-lg font-semibold text-gray-900">
-              {lang === 'th' ? 'รายการธุรกรรม' : 'Transaction History'}
+              {t(lang as "th" | "en", "credits.transactionHistory")}
             </h3>
             <p className="text-sm text-gray-600">
-              {filteredTransactions.length} {lang === 'th' ? 'รายการ' : 'transactions'}
+              {filteredTransactions.length} {t(lang as "th" | "en", "credits.transactions")}
             </p>
           </div>
 
@@ -318,7 +319,7 @@ const Route = () => {
             <div className="p-8 text-center">
               <Star size={48} className="mx-auto mb-4 text-gray-400" />
               <div className="text-gray-600">
-                {lang === 'th' ? 'ไม่มีรายการธุรกรรม' : 'No transactions found'}
+                {t(lang as "th" | "en", "credits.noTransactions")}
               </div>
             </div>
           ) : (
@@ -363,7 +364,7 @@ const Route = () => {
           onClick={() => navigate(`/a/${liffId}/${slug}/campaign/${campaignId}/dashboard`)}
           className="w-full rounded-lg border border-gray-300 bg-white py-3 px-4 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
         >
-          {lang === 'th' ? 'กลับสู่แดชบอร์ด' : 'Back to Dashboard'}
+          {t(lang as "th" | "en", "credits.backToDashboard")}
         </button>
       </div>
     </div>

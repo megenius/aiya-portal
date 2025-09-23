@@ -46,6 +46,7 @@ export const messages = {
     categoryList: {
       ariaLabel: "หมวดหมู่สินค้า",
       selectCategory: "เลือกหมวดหมู่",
+      all: "ทั้งหมด",
     },
     search: {
       resultsFor: "ผลการค้นหา \"{query}\"",
@@ -54,12 +55,40 @@ export const messages = {
       emptyTitle: "ไม่พบผลการค้นหา",
       emptySuggestion: "ลองค้นหาด้วยคำอื่น หรือเลือกดูตามหมวดหมู่",
     },
+    home: {
+      popularVouchers: "คูปองยอดนิยม",
+    },
     ranking: {
       title: "อันดับผู้เล่น",
       subtitle: "ดูอันดับของคุณเทียบกับผู้เล่นคนอื่น",
       yourRank: "อันดับของคุณ",
       you: "คุณ",
       topPlayers: "ผู้เล่นอันดับต้น",
+    },
+    credits: {
+      pageTitle: "ประวัติเครดิต",
+      currentBalance: "เครดิตปัจจุบัน",
+      totalEarned: "รวมที่ได้รับ",
+      thisMonth: "เดือนนี้",
+      level: "ระดับ",
+      filters: "ตัวกรอง",
+      all: "ทั้งหมด",
+      earned: "ได้รับ",
+      spent: "ใช้ไป",
+      newest: "ใหม่สุด",
+      oldest: "เก่าสุด",
+      transactionHistory: "รายการธุรกรรม",
+      transactions: "รายการ",
+      noTransactions: "ไม่มีรายการธุรกรรม",
+      backToDashboard: "กลับสู่แดชบอร์ด",
+      transactionTypes: {
+        missionReward: "รางวัลจากภารกิจ",
+        bonus: "โบนัส",
+        redemption: "แลกรางวัล",
+        refund: "เงินคืน",
+        other: "ธุรกรรมอื่นๆ",
+      },
+      loadError: "ไม่สามารถโหลดข้อมูลเครดิตได้",
     },
     footer: {
       status: {
@@ -210,6 +239,7 @@ export const messages = {
     categoryList: {
       ariaLabel: "Product categories",
       selectCategory: "Select category",
+      all: "All",
     },
     search: {
       resultsFor: "Search results for \"{query}\"",
@@ -218,12 +248,40 @@ export const messages = {
       emptyTitle: "No results found",
       emptySuggestion: "Try searching with different keywords or browse by category",
     },
+    home: {
+      popularVouchers: "Popular Coupons",
+    },
     ranking: {
       title: "Player Ranking",
       subtitle: "See your rank compared to other players",
       yourRank: "Your Rank",
       you: "You",
       topPlayers: "Top Players",
+    },
+    credits: {
+      pageTitle: "Credit History",
+      currentBalance: "Current Balance",
+      totalEarned: "Total Earned",
+      thisMonth: "This Month",
+      level: "Level",
+      filters: "Filters",
+      all: "All",
+      earned: "Earned",
+      spent: "Spent",
+      newest: "Newest",
+      oldest: "Oldest",
+      transactionHistory: "Transaction History",
+      transactions: "transactions",
+      noTransactions: "No transactions found",
+      backToDashboard: "Back to Dashboard",
+      transactionTypes: {
+        missionReward: "Mission Reward",
+        bonus: "Bonus",
+        redemption: "Redemption",
+        refund: "Refund",
+        other: "Other Transaction",
+      },
+      loadError: "Unable to load credits data",
     },
     footer: {
       status: {

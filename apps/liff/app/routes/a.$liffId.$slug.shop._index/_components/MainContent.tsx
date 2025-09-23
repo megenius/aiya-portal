@@ -10,7 +10,6 @@ import SearchBar from "./SearchBar";
 import CouponList from "./CouponList";
 import CouponSummary from "./CouponSummary";
 import BannerSlider, { BannerItem } from "~/components/BannerSlider";
-import { getDirectusFileUrl } from "~/utils/files";
 import {
   CouponListSkeleton,
   BrandListSkeleton,
@@ -18,6 +17,7 @@ import {
   BannerSkeleton,
   SearchResultsSkeleton,
 } from "./LoadingStates";
+import { t } from "~/i18n/messages";
 
 interface MainContentProps {
   page: PageLiff;
@@ -86,8 +86,8 @@ const MainContent: React.FC<MainContentProps> = ({
 
   const popularVouchersText = useMemo(() => {
     const defaultText = {
-      th: "คูปองยอดนิยม",
-      en: "Popular Coupons",
+      th: t("th", "home.popularVouchers"),
+      en: t("en", "home.popularVouchers"),
     };
     return page.metadata?.popularVouchersText || defaultText;
   }, [page.metadata?.popularVouchersText]);
@@ -99,7 +99,7 @@ const MainContent: React.FC<MainContentProps> = ({
       .map((banner_voucher) => {
         return {
           id: banner_voucher.id,
-          image: banner_voucher.banner,
+          image: banner_voucher.banner as string,
           alt: `Banner for ${banner_voucher.metadata?.title?.[language]}`,
           type: "voucher" as const,
         };
@@ -109,7 +109,7 @@ const MainContent: React.FC<MainContentProps> = ({
     const campaignBanners = (banner_campaigns || []).map((campaign) => {
       return {
         id: campaign.id,
-        image: campaign.banner_image,
+        image: campaign.banner_image as string,
         // title: campaign.title[language],
         alt: `Campaign banner for ${campaign.title[language]}`,
         type: "campaign" as const,
@@ -269,9 +269,9 @@ const MainContent: React.FC<MainContentProps> = ({
             <>
               <div className="px-4">
                 <h2 className="text-lg font-medium">
-                  {language === "th"
-                    ? `ผลการค้นหา "${searchQuery}"`
-                    : `Search results for "${searchQuery}"`}
+                  {t(language as "th" | "en", "search.resultsFor", {
+                    query: searchQuery,
+                  })}
                 </h2>
                 <p
                   id="search-results-count"
@@ -279,9 +279,10 @@ const MainContent: React.FC<MainContentProps> = ({
                   role="status"
                   aria-live="polite"
                 >
-                  {language === "th"
-                    ? `พบ ${filteredVouchers.length + (filteredBrands?.length || 0)} รายการ`
-                    : `Found ${filteredVouchers.length + (filteredBrands?.length || 0)} results`}
+                  {t(language as "th" | "en", "search.resultsCount", {
+                    count:
+                      filteredVouchers.length + (filteredBrands?.length || 0),
+                  })}
                 </p>
               </div>
 
@@ -289,7 +290,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 <CouponList
                   coupons={filteredVouchers}
                   language={language}
-                  title={language === "th" ? "คูปอง" : "Vouchers"}
+                  title={t(language as "th" | "en", "search.vouchers")}
                   scrollDirection="vertical"
                 />
               )}
@@ -309,14 +310,10 @@ const MainContent: React.FC<MainContentProps> = ({
                       <Search className="h-12 w-12" />
                     </div>
                     <h3 className="mb-2 text-lg font-medium text-gray-900">
-                      {language === "th"
-                        ? "ไม่พบผลการค้นหา"
-                        : "No results found"}
+                      {t(language as "th" | "en", "search.emptyTitle")}
                     </h3>
                     <p className="text-center text-gray-500">
-                      {language === "th"
-                        ? "ลองค้นหาด้วยคำอื่น หรือเลือกดูตามหมวดหมู่"
-                        : "Try searching with different keywords or browse by category"}
+                      {t(language as "th" | "en", "search.emptySuggestion")}
                     </p>
                   </div>
                 )}
