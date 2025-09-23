@@ -236,6 +236,21 @@ export const messages = {
       pageTitle: "QR Code สำหรับชวนเพื่อน",
       scanTitle: "สแกน QR Code เพื่อเข้าร่วมกับเรา",
     },
+    coupon: {
+      notices: {
+        notAvailable: "คูปองยังไม่เปิดให้รับ",
+      },
+      errors: {
+        groupQuotaFull: "คุณใช้สิทธิ์ในแคมเปญนี้ครบแล้ว",
+      },
+      modal: {
+        fullyCollected: {
+          title: "คูปองหมดแล้ว",
+          message:
+            "ขออภัย คูปองนี้หมดแล้ว โปรดกลับมาตรวจสอบโปรโมชั่นอื่นๆ ในภายหลัง",
+        },
+      },
+    },
   },
   en: {
     searchBar: {
