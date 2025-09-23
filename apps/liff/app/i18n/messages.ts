@@ -18,7 +18,8 @@ export const messages = {
       shareTitle: "ชวนเพื่อนใช้ {pageName}",
       shareText: "{displayName} ชวนคุณมาใช้แอปพลิเคชัน {pageName}!",
       inviteLinkError: "ไม่สามารถสร้างลิงก์ชวนเพื่อนได้ กรุณาลองใหม่อีกครั้ง",
-      defaultDescription: "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
+      defaultDescription:
+        "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
       inviteHeadline: "{displayName} ชวนคุณมาร่วมสนุก!",
     },
     mission: {
@@ -98,6 +99,69 @@ export const messages = {
         },
       },
     },
+    home: {
+      popularVouchers: "คูปองยอดนิยม",
+      allVouchers: "คูปองทั้งหมด",
+    },
+    brandList: {
+      title: "แบรนด์",
+    },
+    categoryList: {
+      ariaLabel: "หมวดหมู่สินค้า",
+      selectCategory: "เลือกหมวดหมู่",
+      all: "ทั้งหมด",
+    },
+    search: {
+      resultsFor: 'ผลการค้นหาสำหรับ "{query}"',
+      resultsCount: "พบ {count} รายการ",
+      vouchers: "คูปอง",
+      emptyTitle: "ไม่พบผลการค้นหา",
+      emptySuggestion: "ลองใช้คำค้นหาอื่น หรือเลือกดูตามหมวดหมู่",
+    },
+    comingSoon: {
+      comingSoon: "เร็วๆ นี้",
+      noVouchers: "ขณะนี้ยังไม่มีคูปอง",
+      checkBack: "กรุณาตรวจสอบอีกครั้งในภายหลัง",
+    },
+    promotion: {
+      couponExclusive: "คูปองพิเศษ",
+    },
+    shopSummary: {
+      myCoupons: "คูปองของฉัน",
+      couponsCollected: "คูปองที่ได้รับ",
+      available: "คงเหลือ",
+      used: "ใช้แล้ว",
+      viewAll: "ดูทั้งหมด",
+      couponsAvailable: "คูปองที่ใช้งานได้",
+    },
+    shopHeader: {
+      invite: "เชิญ",
+      inviteFriends: "เชิญเพื่อน",
+      coupon: "คูปอง",
+      inviteFriendsInLINE: "เชิญเพื่อนใน LINE",
+      scanQrToJoin: "สแกน QR Code เพื่อเข้าร่วม",
+      joinNow: "เข้าร่วมเลย",
+      useStore: "ใช้บริการร้าน",
+      shareTitle: "ชวนเพื่อนใช้ {pageName}",
+      shareText: "{displayName} ชวนคุณมาใช้ {pageName}!",
+      inviteLinkError: "ไม่สามารถสร้างลิงก์เชิญได้ กรุณาลองใหม่",
+      defaultDescription: "แอปใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
+      inviteHeadline: "{displayName} ชวนคุณมาร่วมสนุก!",
+    },
+    common: {
+      back: "กลับ",
+      creditsLabel: "เครดิต",
+      cancel: "ยกเลิก",
+      close: "ปิด",
+      confirm: "ยืนยัน",
+      submitting: "กำลังส่ง...",
+      details: "รายละเอียด",
+      conditions: "เงื่อนไข",
+      copied: "คัดลอกแล้ว",
+      copyLink: "คัดลอกลิงก์",
+      copyFailed: "คัดลอกลิงก์ไม่สำเร็จ",
+      shareViaOtherApps: "แชร์ผ่านแอปอื่น",
+    },
   },
   en: {
     searchBar: {
@@ -151,14 +215,16 @@ export const messages = {
       all: "All",
     },
     search: {
-      resultsFor: "Search results for \"{query}\"",
+      resultsFor: 'Search results for "{query}"',
       resultsCount: "Found {count} results",
       vouchers: "Vouchers",
       emptyTitle: "No results found",
-      emptySuggestion: "Try searching with different keywords or browse by category",
+      emptySuggestion:
+        "Try searching with different keywords or browse by category",
     },
     home: {
       popularVouchers: "Popular Coupons",
+      allVouchers: "All Vouchers",
     },
     ranking: {
       title: "Player Ranking",
@@ -276,7 +342,8 @@ export const messages = {
       shareTitle: "Invite friends to use {pageName}",
       shareText: "{displayName} invited you to use {pageName}!",
       inviteLinkError: "Unable to create invite link. Please try again.",
-      defaultDescription: "A new exciting application with lots of promotions and privileges!",
+      defaultDescription:
+        "A new exciting application with lots of promotions and privileges!",
       inviteHeadline: "{displayName} invited you to join!",
     },
     mission: {
@@ -301,7 +368,8 @@ export const messages = {
     },
     campaignConsent: {
       title: "Terms and conditions of using MEGenius services",
-      subtitle: "Please read and agree to the terms before joining the campaign",
+      subtitle:
+        "Please read and agree to the terms before joining the campaign",
       agreeText: "I accept the personal data usage terms",
       continueButton: "Accept",
       saving: "Saving...",
@@ -338,7 +406,10 @@ function getByPath(obj: Record<string, unknown>, path: string): unknown {
   }, obj);
 }
 
-function interpolate(template: string, params?: Record<string, string | number>) {
+function interpolate(
+  template: string,
+  params?: Record<string, string | number>,
+) {
   if (!params) return template;
   return template.replace(/\{(.*?)\}/g, (_, key) => String(params[key] ?? ""));
 }
@@ -352,7 +423,10 @@ export function t(
   const value = getByPath(dict as Record<string, unknown>, key);
   if (typeof value === "string") return interpolate(value, params);
   // fallback to en
-  const fallback = getByPath(messages.en as unknown as Record<string, unknown>, key);
+  const fallback = getByPath(
+    messages.en as unknown as Record<string, unknown>,
+    key,
+  );
   if (typeof fallback === "string") return interpolate(fallback, params);
   return key; // as a last resort
 }
