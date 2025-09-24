@@ -91,7 +91,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
               ].join(", ")}
               sizes="28px"
               alt="Logo"
-              className="h-7 w-7 rounded-full object-cover"
+              className="h-full w-full rounded-full object-cover"
               wrapperClassName="h-7 w-7 rounded-full border border-white shadow-sm bg-white"
               placeholder="blur"
               blurDataURL={getDirectusFileUrl(logo, {
