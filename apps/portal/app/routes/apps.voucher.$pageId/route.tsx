@@ -11,11 +11,7 @@ const Route = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // Use the new hook to fetch LIFF page data
-  const {
-    data: voucherPage,
-    isLoading,
-    error,
-  } = usePageLiff(pageId as string);
+  const { data: voucherPage, isLoading, error } = usePageLiff(pageId as string);
 
   useEffect(() => {
     if (!isAuthenticated) {

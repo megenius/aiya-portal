@@ -6,7 +6,6 @@ import { useVoucherDashboard } from "~/hooks/useVoucherDashboard";
 import { useAnalyticsOverview } from "~/hooks/useAnalyticsOverview";
 import { useAnalyticsTrends } from "~/hooks/useAnalyticsTrends";
 import { useAnalyticsLeaderboards } from "~/hooks/useAnalyticsLeaderboards";
-import { Loading } from "@repo/preline";
 import { getDirectusFileUrl } from "~/utils/files";
 import LineChart from "./charts/LineChart";
 import BarChart from "./charts/BarChart";
@@ -61,7 +60,19 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
 
   // Show loading if dashboard is loading
   if (dashboardLoading) {
-    return <Loading />;
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <VoucherStatsSkeleton />
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <TrendsSkeleton />
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <LeaderboardsSkeleton />
+        </div>
+      </div>
+    );
   }
 
   // Show error state if dashboard fails
@@ -232,28 +243,40 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
               <p className="text-sm font-medium text-blue-700 mb-3">
-                {dateRange === 1 ? 'Hourly New Users' : 'Daily New Users'}
+                {dateRange === 1 ? "Hourly New Users" : "Daily New Users"}
               </p>
               <LineChart
-                series={(dateRange === 1 ? trends?.usersNewHourly : trends?.usersNewDaily) || []}
+                series={
+                  (dateRange === 1
+                    ? trends?.usersNewHourly
+                    : trends?.usersNewDaily) || []
+                }
                 color="#2563eb"
               />
             </div>
             <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
               <p className="text-sm font-medium text-purple-700 mb-3">
-                {dateRange === 1 ? 'Hourly Collections' : 'Daily Collections'}
+                {dateRange === 1 ? "Hourly Collections" : "Daily Collections"}
               </p>
               <BarChart
-                series={(dateRange === 1 ? trends?.claimsHourly : trends?.claimsDaily) || []}
+                series={
+                  (dateRange === 1
+                    ? trends?.claimsHourly
+                    : trends?.claimsDaily) || []
+                }
                 color="#7c3aed"
               />
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
               <p className="text-sm font-medium text-green-700 mb-3">
-                {dateRange === 1 ? 'Hourly Events' : 'Daily Events'}
+                {dateRange === 1 ? "Hourly Events" : "Daily Events"}
               </p>
               <LineChart
-                series={(dateRange === 1 ? trends?.eventsHourly : trends?.eventsDaily) || []}
+                series={
+                  (dateRange === 1
+                    ? trends?.eventsHourly
+                    : trends?.eventsDaily) || []
+                }
                 color="#059669"
               />
             </div>
