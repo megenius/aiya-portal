@@ -9,6 +9,7 @@ import { meRoutes } from "./routes/me";
 import { publicRoutes } from "./routes/public.route";
 import { voucherRoutes } from "./routes/voucher";
 import { workspacesRoutes } from "./routes/workspaces";
+import { pagesLiffRoutes } from "./routes/pages-liff";
 
 import { cors } from "hono/cors";
 import { clientRoutes } from "./routes/client.route";
@@ -55,6 +56,7 @@ const app = new Hono<Env>()
   .route("/facebook", facebookRoutes)
   .route("/s3", s3Routes)
   .route("/vouchers", voucherRoutes)
+  .route("/pages-liff", pagesLiffRoutes)
   .route("/users", usersRoutes)
   .route("/webhook", webhookRoutes)
   .route("/chathubs",hubRoutes)
