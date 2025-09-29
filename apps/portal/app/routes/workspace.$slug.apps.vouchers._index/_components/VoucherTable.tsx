@@ -1,6 +1,5 @@
 import React from "react";
 import { format } from "date-fns";
-import { ExternalLink, Settings, BarChart3 } from "lucide-react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
 
@@ -9,6 +8,16 @@ type PageLiff = components["schemas"]["ItemsPagesLiff"];
 interface VoucherTableProps {
   pages: PageLiff[];
   onSelectPage: (page: PageLiff) => void;
+}
+
+// Resolve a Directus file reference (string id or object with id) into a string id
+function resolveFileId(file: unknown): string | undefined {
+  if (typeof file === "string") return file;
+  if (file && typeof file === "object" && "id" in file) {
+    const maybeId = (file as { id?: unknown }).id;
+    if (typeof maybeId === "string") return maybeId;
+  }
+  return undefined;
 }
 
 const StatusBadge: React.FC<{ status?: string }> = ({ status }) => {
@@ -88,21 +97,22 @@ export const VoucherTable: React.FC<VoucherTableProps> = ({
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Created
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {pages.map((page) => (
-              <tr key={page.id} className="hover:bg-gray-50">
+              <tr
+                key={page.id}
+                className="hover:bg-gray-50 cursor-pointer"
+                onClick={() => onSelectPage(page)}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10 mr-4">
                       {page.image ? (
                         <img
                           className="h-10 w-10 rounded-lg object-cover"
-                          src={getDirectusFileUrl(page.image)}
+                          src={getDirectusFileUrl(resolveFileId(page.image))}
                           alt={page.name || "Voucher App"}
                         />
                       ) : (
@@ -133,25 +143,6 @@ export const VoucherTable: React.FC<VoucherTableProps> = ({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {formatDate(page.date_created)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => onSelectPage(page)}
-                      className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200"
-                    >
-                      <BarChart3 className="h-3 w-3 mr-1" />
-                      Dashboard
-                    </button>
-                    <button className="inline-flex items-center px-3 py-1 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50">
-                      <Settings className="h-3 w-3 mr-1" />
-                      Settings
-                    </button>
-                    <button className="inline-flex items-center px-3 py-1 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50">
-                      <ExternalLink className="h-3 w-3 mr-1" />
-                      Open
-                    </button>
-                  </div>
                 </td>
               </tr>
             ))}

@@ -6,6 +6,7 @@ import React from "react";
 import { components } from "~/@types/directus";
 import { useMe } from "~/hooks/useMe";
 import { getDirectusFileUrl } from "~/utils/files";
+import { useWorkspace } from "~/hooks/workspace";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -22,6 +23,20 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
   const voucherId = voucherPage.id;
   const { data: user } = useMe();
 
+  // Resolve team id from string or populated object
+  const resolveTeamId = (team: components["schemas"]["ItemsPagesLiff"]["team"]) => {
+    if (typeof team === "string") return team;
+    if (team && typeof team === "object" && "id" in team) {
+      const maybeId = (team as { id?: unknown }).id;
+      if (typeof maybeId === "string") return maybeId;
+    }
+    return undefined;
+  };
+
+  const teamId = resolveTeamId(voucherPage?.team as components["schemas"]["ItemsPagesLiff"]["team"]);
+  const { data: workspace } = useWorkspace({ id: teamId });
+  const backTo = workspace?.slug ? `/workspace/${workspace.slug}/apps/vouchers` : "/workspace/vouchers";
+
   console.log(voucherPage);
 
   const navItems: NavItem[] = [
@@ -35,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
       <div className="bg-gray-800 border-b border-gray-700 dark:bg-black dark:border-neutral-800">
         <div className="max-w-[85rem] flex justify-between lg:grid lg:grid-cols-2 basis-full items-center w-full mx-auto py-2.5 px-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-x-3">
-            <Link to={`/workspace/vouchers`}>
+            <Link to={backTo}>
               <LogoAiya
                 colors={{
                   path1: "white",
