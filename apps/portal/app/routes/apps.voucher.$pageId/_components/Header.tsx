@@ -1,4 +1,4 @@
-import { Link, useParams } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { Avatar } from "@repo/preline/Avatar";
 import { LogoAiya } from "@repo/ui/LogoAiya";
 import { cn, isRouteActive } from "@repo/ui/utils";
@@ -26,9 +26,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
 
   const navItems: NavItem[] = [
     { label: "Dashboard", to: `/apps/voucher/${voucherId}/dashboard` },
-    // เมนูอื่น ๆ ซ่อนไว้ก่อน เพราะยังไม่ได้ implement
-    // { label: 'Vouchers', to: `/apps/voucher/${voucherId}/vouchers` },
-    // { label: 'Analytics', to: `/apps/voucher/${voucherId}/analytics` },
+    { label: "Vouchers", to: `/apps/voucher/${voucherId}/vouchers` },
     // { label: 'Settings', to: `/apps/voucher/${voucherId}/settings` },
   ];
 
@@ -100,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
           </div>
         </div>
       </div>
-      {/* <nav className="relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
+      <nav className="relative bg-white border-b border-gray-200 dark:bg-neutral-900 dark:border-neutral-800">
         <div className="max-w-[85rem] flex flex-wrap basis-full justify-between items-center w-full mx-auto md:py-2.5 px-4 sm:px-6 lg:px-8">
           <div className="basis-full grow md:basis-auto md:grow-0">
             <div
@@ -134,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
                 <Avatar
                   src={
                     voucherPage?.image
-                      ? getDirectusFileUrl(voucherPage.image)
+                      ? getDirectusFileUrl(voucherPage.image as string)
                       : ""
                   }
                   firstName={voucherPage?.name as string}
@@ -158,7 +156,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
             </div>
           </div>
         </div>
-      </nav> */}
+      </nav>
     </header>
   );
 };

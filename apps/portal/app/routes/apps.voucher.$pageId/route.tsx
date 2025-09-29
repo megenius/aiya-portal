@@ -6,7 +6,7 @@ import Header from "./_components/Header";
 import { usePageLiff } from "~/hooks/usePageLiff";
 
 const Route = () => {
-  const { voucherId } = useParams();
+  const { pageId } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
@@ -15,7 +15,7 @@ const Route = () => {
     data: voucherPage,
     isLoading,
     error,
-  } = usePageLiff(voucherId as string);
+  } = usePageLiff(pageId as string);
 
   useEffect(() => {
     if (!isAuthenticated) {

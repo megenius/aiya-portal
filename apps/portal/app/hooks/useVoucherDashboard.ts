@@ -8,6 +8,15 @@ interface VoucherDashboardData {
     active: number;
     used: number;
     redemptionRate: number;
+    totalCollections: number;
+    uniqueCollectors: number;
+    collectionRate: number;
+    totalViews: number;
+    uniqueViewers: number;
+    viewToCollectionRate: number;
+    todayCollections: number;
+    thisWeekCollections: number;
+    avgTimeToRedemption: number;
   };
   recentVouchers: any[];
   error?: string;

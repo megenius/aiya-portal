@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
 import { format } from "date-fns";
@@ -12,16 +13,23 @@ interface VoucherTabsProps {
   bannerVouchers: any[];
 }
 
+
 const VoucherTabs: React.FC<VoucherTabsProps> = ({
   voucherPage,
   allVouchers,
   popularVouchers,
   bannerVouchers,
 }) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [sortBy, setSortBy] = useState("date_created");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [viewMode, setViewMode] = useState<"card" | "table">("card");
+
+  const handleViewStats = (voucher: any) => {
+    // Navigate to voucher stats page instead of opening modal
+    navigate(`/apps/voucher/${voucherPage.id}/vouchers/${voucher.id}/stats`);
+  };
 
   const formatDate = (dateString?: string | null) => {
     if (!dateString) return "-";
@@ -32,7 +40,10 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
     }
   };
 
-  const formatDateRange = (startDate?: string | null, endDate?: string | null) => {
+  const formatDateRange = (
+    startDate?: string | null,
+    endDate?: string | null
+  ) => {
     const start = formatDate(startDate);
     const end = formatDate(endDate);
 
@@ -99,15 +110,6 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
 
   return (
     <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">
-          {voucherPage.name} Vouchers
-        </h3>
-        <p className="text-sm text-gray-500">
-          Manage vouchers for this LIFF application
-        </p>
-      </div>
-
       {/* Tab Navigation */}
       <div className="border-b border-gray-200">
         <div className="flex justify-between items-center px-6">
@@ -148,8 +150,18 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  />
                 </svg>
               </button>
               <button
@@ -160,8 +172,18 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                  />
                 </svg>
               </button>
             </div>
@@ -196,7 +218,8 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
               {activeTabData.data.map((voucher: any) => (
                 <div
                   key={voucher.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                  className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => handleViewStats(voucher)}
                 >
                   {/* Voucher Image - 1:1 aspect ratio */}
                   <div className="aspect-square bg-gray-100 relative">
@@ -208,8 +231,18 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
                         </svg>
                       </div>
                     )}
@@ -227,28 +260,33 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                   {/* Voucher Info */}
                   <div className="p-2">
                     <h4 className="text-xs font-medium text-gray-900 truncate mb-1">
-                      {voucher.metadata?.title?.th || voucher.name || "Untitled Voucher"}
+                      {voucher.metadata?.title?.th ||
+                        voucher.name ||
+                        "Untitled Voucher"}
                     </h4>
                     <div className="space-y-1">
                       <div className="flex items-center justify-end">
                         {voucher.metadata?.redemptionType && (
-                          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                            voucher.metadata.redemptionType === 'instant'
-                              ? 'bg-green-100 text-green-800'
-                              : voucher.metadata.redemptionType === 'limited_time'
-                              ? 'bg-orange-100 text-orange-800'
-                              : voucher.metadata.redemptionType === 'form'
-                              ? 'bg-blue-100 text-blue-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {voucher.metadata.redemptionType === 'instant'
-                              ? 'Instant'
-                              : voucher.metadata.redemptionType === 'limited_time'
-                              ? 'Limited Time'
-                              : voucher.metadata.redemptionType === 'form'
-                              ? 'Form Required'
-                              : voucher.metadata.redemptionType
-                            }
+                          <span
+                            className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                              voucher.metadata.redemptionType === "instant"
+                                ? "bg-green-100 text-green-800"
+                                : voucher.metadata.redemptionType ===
+                                    "limited_time"
+                                  ? "bg-orange-100 text-orange-800"
+                                  : voucher.metadata.redemptionType === "form"
+                                    ? "bg-blue-100 text-blue-800"
+                                    : "bg-gray-100 text-gray-800"
+                            }`}
+                          >
+                            {voucher.metadata.redemptionType === "instant"
+                              ? "Instant"
+                              : voucher.metadata.redemptionType ===
+                                  "limited_time"
+                                ? "Limited Time"
+                                : voucher.metadata.redemptionType === "form"
+                                  ? "Form Required"
+                                  : voucher.metadata.redemptionType}
                           </span>
                         )}
                       </div>
@@ -300,7 +338,11 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {activeTabData.data.map((voucher: any) => (
-                  <tr key={voucher.id} className="hover:bg-gray-50">
+                  <tr
+                    key={voucher.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => handleViewStats(voucher)}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
@@ -312,51 +354,67 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                             />
                           ) : (
                             <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              <svg
+                                className="w-5 h-5 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
                               </svg>
                             </div>
                           )}
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
-                            {voucher.metadata?.title?.th || voucher.name || "Untitled Voucher"}
+                            {voucher.metadata?.title?.th ||
+                              voucher.name ||
+                              "Untitled Voucher"}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        voucher.status === 'published'
-                          ? 'bg-green-100 text-green-800'
-                          : voucher.status === 'draft'
-                          ? 'bg-gray-100 text-gray-800'
-                          : voucher.status === 'archived'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          voucher.status === "published"
+                            ? "bg-green-100 text-green-800"
+                            : voucher.status === "draft"
+                              ? "bg-gray-100 text-gray-800"
+                              : voucher.status === "archived"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
                         {voucher.status || "Unknown"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {voucher.metadata?.redemptionType && (
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          voucher.metadata.redemptionType === 'instant'
-                            ? 'bg-green-100 text-green-800'
-                            : voucher.metadata.redemptionType === 'limited_time'
-                            ? 'bg-orange-100 text-orange-800'
-                            : voucher.metadata.redemptionType === 'form'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {voucher.metadata.redemptionType === 'instant'
-                            ? 'Instant'
-                            : voucher.metadata.redemptionType === 'limited_time'
-                            ? 'Limited Time'
-                            : voucher.metadata.redemptionType === 'form'
-                            ? 'Form Required'
-                            : voucher.metadata.redemptionType
-                          }
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            voucher.metadata.redemptionType === "instant"
+                              ? "bg-green-100 text-green-800"
+                              : voucher.metadata.redemptionType ===
+                                  "limited_time"
+                                ? "bg-orange-100 text-orange-800"
+                                : voucher.metadata.redemptionType === "form"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {voucher.metadata.redemptionType === "instant"
+                            ? "Instant"
+                            : voucher.metadata.redemptionType === "limited_time"
+                              ? "Limited Time"
+                              : voucher.metadata.redemptionType === "form"
+                                ? "Form Required"
+                                : voucher.metadata.redemptionType}
                         </span>
                       )}
                     </td>
@@ -390,10 +448,12 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
       {activeTabData && activeTabData.data.length > 0 && (
         <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
           <div className="text-sm text-gray-500">
-            Showing {activeTabData.data.length} voucher{activeTabData.data.length !== 1 ? "s" : ""} in {viewMode} view
+            Showing {activeTabData.data.length} voucher
+            {activeTabData.data.length !== 1 ? "s" : ""} in {viewMode} view
           </div>
         </div>
       )}
+
     </div>
   );
 };
