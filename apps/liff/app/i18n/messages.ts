@@ -13,6 +13,8 @@ export const messages = {
       introDesc: "กรุณากรอกข้อมูลเพื่อลงทะเบียนเข้าร่วมแคมเปญ",
       formTitle: "ข้อมูลสำหรับลงทะเบียน",
       errorsSummary: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้:",
+      submit: "ลงทะเบียน",
+      submitting: "กำลังส่งข้อมูล...",
       joinNow: "เข้าร่วมเลย",
       useStore: "ใช้บริการร้าน",
       shareTitle: "ชวนเพื่อนใช้ {pageName}",
@@ -21,6 +23,14 @@ export const messages = {
       defaultDescription:
         "แอปพลิเคชันใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
       inviteHeadline: "{displayName} ชวนคุณมาร่วมสนุก!",
+      notFound: "ไม่พบข้อมูลสำหรับลงทะเบียน",
+      errors: {
+        checkboxRequired: "กรุณาติ๊กยอมรับ",
+        selectRequired: "กรุณาเลือกตัวเลือก",
+        required: "กรุณากรอกข้อมูล",
+        emailInvalid: "รูปแบบอีเมลไม่ถูกต้อง",
+        phoneInvalid: "รูปแบบเบอร์โทรไม่ถูกต้อง (ต้องมี 10 หลัก)",
+      },
     },
     mission: {
       pageTitle: "รายละเอียดภารกิจ",
@@ -47,6 +57,38 @@ export const messages = {
       lastUpdatedPrefix: "อัปเดตล่าสุด: ",
       allMissions: "ภารกิจทั้งหมด",
       notFound: "ไม่พบข้อมูลแคมเปญ",
+    },
+    credits: {
+      pageTitle: "ประวัติเครดิต",
+      currentBalance: "ยอดคงเหลือปัจจุบัน",
+      totalEarned: "สะสมทั้งหมด",
+      thisMonth: "เดือนนี้",
+      level: "ระดับ",
+      filters: "ตัวกรอง",
+      all: "ทั้งหมด",
+      earned: "ได้รับ",
+      spent: "ใช้ไป",
+      newest: "ใหม่ล่าสุด",
+      oldest: "เก่าสุด",
+      transactionHistory: "ประวัติรายการ",
+      transactions: "รายการ",
+      noTransactions: "ไม่พบบันทึกรายการ",
+      backToDashboard: "กลับไปแดชบอร์ด",
+      transactionTypes: {
+        missionReward: "รางวัลภารกิจ",
+        bonus: "โบนัส",
+        redemption: "การแลกรับ",
+        refund: "คืนเงิน",
+        other: "รายการอื่นๆ",
+      },
+      loadError: "ไม่สามารถโหลดข้อมูลเครดิตได้",
+    },
+    ranking: {
+      title: "อันดับผู้เล่น",
+      subtitle: "ดูอันดับของคุณเทียบกับผู้เล่นคนอื่น",
+      yourRank: "อันดับของคุณ",
+      you: "คุณ",
+      topPlayers: "ผู้เล่นอันดับสูงสุด",
     },
     campaignConsent: {
       title: "ข้อกำหนดและเงื่อนไขการใช้บริการมีจีเนียส",
@@ -148,9 +190,34 @@ export const messages = {
       defaultDescription: "แอปใหม่ที่น่าสนใจ พร้อมโปรโมชันและสิทธิพิเศษมากมาย!",
       inviteHeadline: "{displayName} ชวนคุณมาร่วมสนุก!",
     },
+    footer: {
+      status: {
+        instant: "รับ",
+        form: "ลงทะเบียน",
+        collected: "ใช้คูปอง",
+        pending_confirmation: "แตะเพื่อใช้",
+        used: "ใช้แล้ว",
+        expired: "หมดอายุ",
+        ended: "หมดเวลารับคูปอง",
+        fully_collected: "คูปองหมดแล้ว",
+        not_started: "ยังไม่เริ่ม",
+        submitting: "กำลังรับ...",
+      },
+    },
+    limitedTime: {
+      back: "กลับ",
+      collecting: "กำลังรับ...",
+      endedOverlay: "ขออภัย หมดเวลารับคูปองแล้ว!",
+      allCollected: "คูปองถูกเก็บครบหมดแล้ว",
+      redeem: "ใช้คูปอง",
+      expired: "หมดอายุ",
+      startsAt: "เริ่มเวลา\n{time}",
+      collectDescription:
+        "หลังจากกดปุ่มรับแล้ว คูปองจะหมดอายุภายใน {duration}.",
+    },
     common: {
       back: "กลับ",
-      creditsLabel: "เครดิต",
+      creditsLabel: "สิทธิ์",
       cancel: "ยกเลิก",
       close: "ปิด",
       confirm: "ยืนยัน",
@@ -181,6 +248,12 @@ export const messages = {
       used: "Used",
       viewAll: "View All",
       couponsAvailable: "Coupons available",
+    },
+    campaignDashboard: {
+      title: "Credits Earned",
+      lastUpdatedPrefix: "Last updated: ",
+      allMissions: "All Missions",
+      notFound: "Campaign not found",
     },
     comingSoon: {
       comingSoon: "Coming Soon",
@@ -225,6 +298,21 @@ export const messages = {
     home: {
       popularVouchers: "Popular Coupons",
       allVouchers: "All Vouchers",
+    },
+    coupon: {
+      notices: {
+        notAvailable: "Coupon not available yet",
+      },
+      errors: {
+        groupQuotaFull: "You've reached your quota for this campaign",
+      },
+      modal: {
+        fullyCollected: {
+          title: "Coupons fully collected",
+          message:
+            "Sorry, this coupon is out of stock. Please check other promotions later.",
+        },
+      },
     },
     ranking: {
       title: "Player Ranking",
@@ -389,6 +477,20 @@ export const messages = {
         "Cannot read the selected file (possibly from cloud). Please download the photo locally and try again, or use camera.",
       invalidType: "Invalid file type",
       tooLarge: "File too large (max {maxSize}MB)",
+    },
+    campaignRegister: {
+      introDesc: "Please fill in the information to register for the campaign",
+      errorsSummary: "Please fix the following errors:",
+      submit: "Register",
+      submitting: "Submitting...",
+      notFound: "Registration information not found",
+      errors: {
+        checkboxRequired: "Please check to accept",
+        selectRequired: "Please select an option",
+        required: "This field is required",
+        emailInvalid: "Invalid email format",
+        phoneInvalid: "Invalid phone number (must be 10 digits)",
+      },
     },
   },
 } as const;
