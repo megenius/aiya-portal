@@ -4,6 +4,7 @@ import * as VoucherHandler from "../handlers/voucher.handler";
 const voucherRoutes = new Hono();
 
 voucherRoutes.get("/", ...VoucherHandler.getVouchers);
+voucherRoutes.get("/dashboard", ...VoucherHandler.getDashboard);
 // voucherRoutes.get("/vouchers/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.post("/vouchers", ...VoucherHandler.createVoucher);
 // voucherRoutes.put("/vouchers/:id", ...VoucherHandler.updateVoucher);
