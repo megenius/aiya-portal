@@ -181,39 +181,20 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
         </div>
       </div> */}
 
-      {/* Date Filter */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-        <div className="flex items-center justify-between">
+      {/* Performance Overview */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-gray-500 rounded-full"></div>
+            <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
             <h2 className="text-lg font-semibold text-gray-900">
-              Analytics Dashboard
+              Performance Overview
             </h2>
-            <span className="text-sm text-gray-500">
-              (
-              {dateRange === 0
-                ? "All Time"
-                : dateRange === 1
-                  ? "Today"
-                  : `Last ${dateRange} Days`}
-              )
-            </span>
           </div>
           <DateRangeSelector
             value={dateRange}
             onChange={setDateRange}
             loading={trendsLoading || boardsLoading}
           />
-        </div>
-      </div>
-
-      {/* Performance Overview */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
-          <h2 className="text-lg font-semibold text-gray-900">
-            Performance Overview
-          </h2>
         </div>
 
         {/* Voucher Stats */}
