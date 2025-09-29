@@ -10,7 +10,6 @@ import { Loading } from "@repo/preline";
 import { getDirectusFileUrl } from "~/utils/files";
 import LineChart from "./charts/LineChart";
 import BarChart from "./charts/BarChart";
-import KPICard from "./KPICard";
 import CategoryDistribution from "./CategoryDistribution";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
@@ -37,7 +36,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
   } = useVoucherDashboard(voucherPage.id as string);
 
   // Analytics data (scoped to current LIFF page)
-  const { data: overview, isLoading: kpiLoading } = useAnalyticsOverview(
+  const { data: overview } = useAnalyticsOverview(
     voucherPage.id as string
   );
   const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends(
@@ -182,59 +181,31 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
         </div>
       </div> */}
 
-      {/* Voucher Performance Overview */}
+      {/* Performance Overview */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
           <h2 className="text-lg font-semibold text-gray-900">
-            Voucher Performance
+            Performance Overview
           </h2>
         </div>
-        <VoucherStats stats={stats} />
+
+        {/* Voucher Stats */}
+        <VoucherStats stats={stats} overview={overview} />
       </div>
 
-      {/* App Performance Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-1 h-6 bg-green-500 rounded-full"></div>
-          <h2 className="text-lg font-semibold text-gray-900">
-            App Performance
-          </h2>
-        </div>
-        {kpiLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600"></div>
-            <span className="ml-3 text-sm text-gray-600">
-              Loading analytics...
-            </span>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-            <KPICard
-              label="Total Users"
-              value={overview?.kpi.totalUsers ?? 0}
-              color="blue"
-            />
-            <KPICard
-              label="Today's Collections"
-              value={overview?.kpi.claimsToday ?? 0}
-              color="orange"
-            />
-            <KPICard
-              label="Events Last Hour"
-              value={overview?.kpi.eventsLastHour ?? 0}
-              color="red"
-            />
-          </div>
-        )}
-      </div>
+      {/* Category Distribution Section */}
+      <CategoryDistribution
+        categories={boards?.categoryShareByClaims || []}
+        loading={boardsLoading}
+      />
 
-      {/* Growth Trends Section */}
+      {/* Growth Analytics */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-6 bg-purple-500 rounded-full"></div>
           <h2 className="text-lg font-semibold text-gray-900">
-            Growth Trends (30 days)
+            Growth Analytics (30 days)
           </h2>
         </div>
         {trendsLoading ? (
@@ -267,12 +238,6 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
           </div>
         )}
       </div>
-
-      {/* Category Distribution Section */}
-      <CategoryDistribution
-        categories={boards?.categoryShareByClaims || []}
-        loading={boardsLoading}
-      />
 
       {/* Leaderboards Section */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -472,7 +437,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
                       : "bg-white text-teal-700 border-teal-300 hover:bg-teal-50"
                   }`}
                 >
-                  Most Used
+                  Most Redemption
                 </button>
               </div>
               <div className="space-y-3">
@@ -533,7 +498,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
                         <div className="text-sm font-bold text-teal-600 group-hover:text-teal-700">
                           {(u[valueKey] || 0).toLocaleString()}
                         </div>
-                        <div className="text-xs text-gray-500">{valueKey}</div>
+                        <div className="text-xs text-gray-500">{valueKey === "used" ? "redemption" : valueKey}</div>
                       </div>
                     </div>
                   ));

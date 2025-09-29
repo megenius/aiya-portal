@@ -16,9 +16,15 @@ interface VoucherStatsProps {
     thisWeekCollections: number;
     avgTimeToRedemption: number;
   };
+  overview?: {
+    kpi: {
+      totalUsers: number;
+      eventsLastHour: number;
+    };
+  };
 }
 
-const VoucherStats: React.FC<VoucherStatsProps> = ({ stats }) => {
+const VoucherStats: React.FC<VoucherStatsProps> = ({ stats, overview }) => {
   const statItems = [
     {
       label: "Total Collections",
@@ -28,8 +34,8 @@ const VoucherStats: React.FC<VoucherStatsProps> = ({ stats }) => {
       icon: "collection"
     },
     {
-      label: "Unique Users",
-      value: stats.uniqueCollectors,
+      label: "Total Users",
+      value: overview?.kpi.totalUsers ?? 0,
       color: "text-green-600",
       bg: "bg-green-50",
       icon: "users"
@@ -70,8 +76,8 @@ const VoucherStats: React.FC<VoucherStatsProps> = ({ stats }) => {
       icon: "week"
     },
     {
-      label: "Avg Days to Use",
-      value: stats.avgTimeToRedemption,
+      label: "Events Last Hour",
+      value: overview?.kpi.eventsLastHour ?? 0,
       color: "text-amber-600",
       bg: "bg-amber-50",
       icon: "time"
