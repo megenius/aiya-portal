@@ -124,9 +124,16 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
             : ""
         }`,
   );
-  const displayDescription = t(language as "th" | "en", "limitedTime.startsAt", {
-    time: formatDateTime(voucher.start_date as string, language as "th" | "en"),
-  });
+  const displayDescription = t(
+    language as "th" | "en",
+    "limitedTime.startsAt",
+    {
+      time: formatDateTime(
+        voucher.start_date as string,
+        language as "th" | "en",
+      ),
+    },
+  );
 
   const collectText = getCollectText({
     lang: language as "th" | "en",
@@ -327,7 +334,10 @@ const LimitedTimePage: React.FC<LimitedTimePageProps> = ({
                 <InlineNotice
                   language={language as "th" | "en"}
                   deniedReason={serverComputed.deniedReason ?? null}
-                  message={t(language as "th" | "en", "limitedTime.allCollected")}
+                  message={t(
+                    language as "th" | "en",
+                    "limitedTime.allCollected",
+                  )}
                   className="mx-3 -mt-4"
                   level="medium"
                 />

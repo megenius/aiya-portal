@@ -55,7 +55,6 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
     ? new Date() < new Date(campaign.start_date)
     : false;
 
-
   return (
     <div
       className="relative flex min-h-screen flex-col"
@@ -70,14 +69,12 @@ const CampaignDetailContent: React.FC<CampaignDetailContentProps> = ({
       {/* <div className="absolute inset-0 bg-black bg-opacity-20"></div> */}
 
       {/* Header - Back button */}
-      <div className="absolute left-4 top-4 z-50">
-        <BackButton
-          onClick={() => navigate(-1)}
-          variant="overlay"
-          showText={true}
-          text={language === "th" ? "กลับหน้าหลัก" : "Back"}
-        />
-      </div>
+      <BackButton
+        onClick={() => navigate(-1)}
+        variant="overlay"
+        showText={true}
+        text={language === "th" ? "กลับหน้าหลัก" : "Back"}
+      />
 
       {/* Spacer to push button to bottom */}
       <div className="flex-1"></div>
