@@ -32,6 +32,18 @@ const BarChart: React.FC<BarChartProps> = ({ series, color = "#7c3aed" }) => {
     (width - padding * 2 - (series.length - 1) * barGap) / series.length
   );
 
+  // Determine if points are within the same calendar day (to decide tooltip format)
+  const isSingleDay = (() => {
+    if (!series || series.length === 0) return false;
+    const first = new Date(series[0].date);
+    const last = new Date(series[series.length - 1].date);
+    return (
+      first.getFullYear() === last.getFullYear() &&
+      first.getMonth() === last.getMonth() &&
+      first.getDate() === last.getDate()
+    );
+  })();
+
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
 
@@ -70,6 +82,9 @@ const BarChart: React.FC<BarChartProps> = ({ series, color = "#7c3aed" }) => {
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
+    if (isSingleDay) {
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 

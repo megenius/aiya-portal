@@ -3,6 +3,7 @@ import { useParams, useNavigate, useOutletContext } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
 import { useVoucherStats } from "~/hooks/useVoucherStats";
+import VoucherStatsSkeleton from "./_components/VoucherStatsSkeleton";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -25,14 +26,7 @@ const VoucherStatsPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <span className="ml-2 text-gray-600">Loading voucher statistics...</span>
-        </div>
-      </div>
-    );
+    return <VoucherStatsSkeleton />;
   }
 
   if (error || !voucherStatsData) {

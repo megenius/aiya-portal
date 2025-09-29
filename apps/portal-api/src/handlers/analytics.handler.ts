@@ -77,6 +77,8 @@ export const getAnalyticsTrends = factory.createHandlers(
     const rangeDays = Math.max(1, parseInt(String(days || 30), 10) || 30);
     const now = new Date();
     const start = new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
+    const startOfToday = new Date(now);
+    startOfToday.setHours(0, 0, 0, 0);
     const pageVoucherIds = await getVoucherIdsForPage(directus, liff_page_id);
 
     // Helper: format YYYY-MM-DD
@@ -91,120 +93,78 @@ export const getAnalyticsTrends = factory.createHandlers(
     try {
       // Users new per day from profiles
       let usersDaily: Record<string, number> = {};
+      // Users new per hour (today only)
+      let usersHourly: number[] = new Array(24).fill(0);
       try {
         const profRes = await directus.request(
           readItems("profiles", {
             fields: ["id", "date_created"],
-            filter: { date_created: { _gte: start.toISOString() } as any },
+            filter: { date_created: { _gte: (rangeDays === 1 ? startOfToday.toISOString() : start.toISOString()) } as any },
             limit: -1,
           } as any)
         );
         const profs = toArray<any>(profRes);
         profs.forEach((p) => {
           if (!p?.date_created) return;
-          const key = toDateKey(p.date_created);
+          const dt = new Date(p.date_created);
+          const key = toDateKey(dt);
           usersDaily[key] = (usersDaily[key] || 0) + 1;
+          if (rangeDays === 1) {
+            const h = dt.getHours();
+            if (h >= 0 && h < 24) usersHourly[h] = (usersHourly[h] || 0) + 1;
+          }
         });
       } catch (e) {
         console.warn("profiles usersDaily query failed", e);
         usersDaily = {};
+        usersHourly = new Array(24).fill(0);
       }
 
-      // Claims per day (vouchers_users by collected_date), optionally limited to vouchers on a page
+      // Claims per day from vouchers_codes.date_updated for statuses that represent collected-like states
       let claimsDaily: Record<string, number> = {};
+      let claimsHourly: number[] = new Array(24).fill(0);
       try {
-        const claimsRes = await directus.request(
-          readItems("vouchers_users", {
-            fields: ["id", "collected_date", "code"],
-            filter: { collected_date: { _gte: start.toISOString() } as any },
+        const codeFilter: any = {
+          date_updated: {
+            _gte: (rangeDays === 1
+              ? startOfToday.toISOString()
+              : start.toISOString()),
+          },
+          code_status: { _in: ["collected", "used", "pending_confirmation"] },
+          ...(pageVoucherIds.size > 0
+            ? { voucher: { _in: Array.from(pageVoucherIds) } }
+            : {}),
+        };
+        const codesRes = await directus.request(
+          readItems("vouchers_codes", {
+            fields: ["id", "voucher", "code_status", "date_updated"],
+            filter: codeFilter,
             limit: -1,
-          })
+          } as any)
         );
-        const claims = toArray<any>(claimsRes);
-        // If page filter is present, prefetch allowed code IDs by voucher ∈ pageVoucherIds and filter locally
-        let allowedClaims = claims;
-        if (pageVoucherIds.size > 0) {
-          try {
-            const codesRes = await directus.request(
-              readItems("vouchers_codes", {
-                fields: ["id", "voucher"],
-                filter: { voucher: { _in: Array.from(pageVoucherIds) } },
-                limit: -1,
-              } as any)
-            );
-            const codes = toArray<any>(codesRes);
-            if (codes.length > 0) {
-              const allowedCodeIds = new Set<string>(
-                codes.map((vc: any) => String(vc.id))
-              );
-              allowedClaims = claims.filter((vu) => {
-                const cid = getId(vu.code);
-                return !!cid && allowedCodeIds.has(cid);
-              });
-            } else {
-              // Fallback: map from claims' code ids with chunking
-              const codeIdsAll = Array.from(
-                new Set(
-                  claims
-                    .map((vu: any) => getId(vu.code))
-                    .filter(
-                      (x): x is string => typeof x === "string" && x.length > 0
-                    )
-                )
-              );
-              const chunkSize = 500;
-              const allowed = new Set<string>();
-              for (let i = 0; i < codeIdsAll.length; i += chunkSize) {
-                const chunk = codeIdsAll.slice(i, i + chunkSize);
-                try {
-                  const part = await directus.request(
-                    readItems("vouchers_codes", {
-                      fields: ["id", "voucher"],
-                      filter: { id: { _in: chunk } },
-                      limit: -1,
-                    } as any)
-                  );
-                  const arr = toArray<any>(part);
-                  arr.forEach((vc) => {
-                    if (vc?.voucher && pageVoucherIds.has(String(vc.voucher))) {
-                      allowed.add(String(vc.id));
-                    }
-                  });
-                } catch {}
-              }
-              allowedClaims = claims.filter((vu) => {
-                const cid = getId(vu.code);
-                return !!cid && allowed.has(cid);
-              });
-            }
-          } catch (codesErr) {
-            console.warn(
-              "profiles/trends: vouchers_codes filter failed, using global claims",
-              codesErr
-            );
-            allowedClaims = claims;
-          }
-        }
-        // If page-scope produced no data, fallback to global to avoid blank charts
-        if (pageVoucherIds.size > 0 && allowedClaims.length === 0) {
-          allowedClaims = claims;
-        }
-        allowedClaims.forEach((vu) => {
-          if (!vu.collected_date) return;
-          const key = toDateKey(vu.collected_date);
+        const codes = toArray<any>(codesRes);
+        codes.forEach((vc: any) => {
+          const dt = new Date(vc.date_updated || now);
+          const key = toDateKey(dt);
           claimsDaily[key] = (claimsDaily[key] || 0) + 1;
+          if (rangeDays === 1) {
+            const h = dt.getHours();
+            if (h >= 0 && h < 24) claimsHourly[h] = (claimsHourly[h] || 0) + 1;
+          }
         });
       } catch (e) {
-        console.warn("trends claims query failed", e);
+        console.warn("trends codes-based claims query failed", e);
+        claimsHourly = new Array(24).fill(0);
       }
 
       // Events per day (all user_events) optionally limited to current page by event_properties.page_id
       let eventsDaily: Record<string, number> = {};
+      let eventsHourly: number[] = new Array(24).fill(0);
       try {
         const eventsRes = await directus.request(
           readItems("user_events", {
             fields: ["id", "date_created", "event_properties"],
-            filter: { date_created: { _gte: start.toISOString() } as any },
+            filter: { date_created: { _gte: (rangeDays === 1 ? startOfToday.toISOString() : start.toISOString()) } as any },
             limit: -1,
           } as any)
         );
@@ -230,11 +190,17 @@ export const getAnalyticsTrends = factory.createHandlers(
           }
         }
         events.forEach((ev) => {
-          const key = toDateKey(ev.date_created || now);
+          const dt = new Date(ev.date_created || now);
+          const key = toDateKey(dt);
           eventsDaily[key] = (eventsDaily[key] || 0) + 1;
+          if (rangeDays === 1) {
+            const h = dt.getHours();
+            if (h >= 0 && h < 24) eventsHourly[h] = (eventsHourly[h] || 0) + 1;
+          }
         });
       } catch (e) {
         console.warn("trends events query failed", e);
+        eventsHourly = new Array(24).fill(0);
       }
 
       // Build series sorted by date asc
@@ -253,6 +219,22 @@ export const getAnalyticsTrends = factory.createHandlers(
         usersNewDaily: buildSeries(usersDaily),
         claimsDaily: buildSeries(claimsDaily),
         eventsDaily: buildSeries(eventsDaily),
+        ...(rangeDays === 1
+          ? {
+              usersNewHourly: usersHourly.map((count, h) => ({
+                date: new Date(new Date(startOfToday).setHours(h, 0, 0, 0)).toISOString(),
+                count,
+              })),
+              claimsHourly: claimsHourly.map((count, h) => ({
+                date: new Date(new Date(startOfToday).setHours(h, 0, 0, 0)).toISOString(),
+                count,
+              })),
+              eventsHourly: eventsHourly.map((count, h) => ({
+                date: new Date(new Date(startOfToday).setHours(h, 0, 0, 0)).toISOString(),
+                count,
+              })),
+            }
+          : {}),
       });
     } catch (error) {
       console.error("Analytics trends error:", error);
@@ -300,6 +282,7 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
       // 2) Map code -> voucher using codes fetched by voucher ∈ pageVoucherIds (or from claims codes if no page filter)
       let codeToVoucher: Record<string, string> = {};
       let voucherIdsSet = new Set<string>();
+      let allowedCodeIds: Set<string> | undefined;
       if (pid && pageVoucherIds.size > 0) {
         try {
           const codesRes = await directus.request(
@@ -310,7 +293,7 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
             } as any)
           );
           const codes = toArray<any>(codesRes);
-          let allowedCodeIds = new Set<string>();
+          allowedCodeIds = new Set<string>();
           if (codes.length > 0) {
             codes.forEach((vc: any) => {
               if (vc?.id && vc?.voucher) {
@@ -318,7 +301,7 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
                 const vid = String(vc.voucher);
                 codeToVoucher[cid] = vid;
                 voucherIdsSet.add(vid);
-                allowedCodeIds.add(cid);
+                allowedCodeIds!.add(cid);
               }
             });
           } else {
@@ -354,6 +337,7 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
                     const vid = String(vc.voucher);
                     codeToVoucher[cid] = vid;
                     voucherIdsSet.add(vid);
+                    if (!allowedCodeIds) allowedCodeIds = new Set<string>();
                     allowedCodeIds.add(cid);
                   }
                 });
@@ -363,7 +347,7 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
           // Restrict claims to allowed codes; if empty after filter, keep global claims
           const filtered = claims.filter((vu: any) => {
             const cid = getId(vu.code);
-            return !!cid && allowedCodeIds.has(cid);
+            return !!cid && !!allowedCodeIds?.has(cid);
           });
           claims = filtered.length > 0 ? filtered : claims;
         } catch (codesErr) {
@@ -642,23 +626,75 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
         (a, b) => b.claims - a.claims
       );
 
-      // 7) Top users by collected and used within timeframe (and page filter)
+      // 7) Top users by collected (within timeframe) and used (within timeframe, independent of collected timeframe)
       const countsCollected: Record<string, number> = {};
       const countsUsed: Record<string, number> = {};
       const claimsForUsers = claims; // already restricted by page if pid present
       claimsForUsers.forEach((vu: any) => {
         const uid = getId(vu.collected_by);
         if (!uid) return;
-        // collected always counted
         countsCollected[uid] = (countsCollected[uid] || 0) + 1;
-        // used within timeframe
-        if (vu.used_date) {
-          const ud = new Date(vu.used_date);
-          if (ud >= start) {
-            countsUsed[uid] = (countsUsed[uid] || 0) + 1;
+      });
+
+      // Fetch used entries in timeframe
+      try {
+        const usedRes = await directus.request(
+          readItems("vouchers_users", {
+            fields: ["id", "used_date", "collected_by", "code"],
+            filter: { used_date: { _gte: start.toISOString() } as any },
+            limit: -1,
+          } as any)
+        );
+        let usedEntries = toArray<any>(usedRes);
+        if (pid && pageVoucherIds.size > 0) {
+          if (allowedCodeIds && allowedCodeIds.size > 0) {
+            usedEntries = usedEntries.filter((vu: any) => {
+              const cid = getId(vu.code);
+              return !!cid && allowedCodeIds!.has(cid);
+            });
+          } else {
+            // Fallback: map used code ids to vouchers and filter by page vouchers
+            const usedCodeIds = Array.from(
+              new Set(
+                usedEntries
+                  .map((vu: any) => getId(vu.code))
+                  .filter((x): x is string => typeof x === "string" && x.length > 0)
+              )
+            );
+            const chunkSize = 500;
+            const allowed = new Set<string>();
+            for (let i = 0; i < usedCodeIds.length; i += chunkSize) {
+              const chunk = usedCodeIds.slice(i, i + chunkSize);
+              try {
+                const part = await directus.request(
+                  readItems("vouchers_codes", {
+                    fields: ["id", "voucher"],
+                    filter: { id: { _in: chunk } },
+                    limit: -1,
+                  } as any)
+                );
+                const arr = toArray<any>(part);
+                arr.forEach((vc: any) => {
+                  if (vc?.id && vc?.voucher && pageVoucherIds.has(String(vc.voucher))) {
+                    allowed.add(String(vc.id));
+                  }
+                });
+              } catch {}
+            }
+            usedEntries = usedEntries.filter((vu: any) => {
+              const cid = getId(vu.code);
+              return !!cid && allowed.has(cid);
+            });
           }
         }
-      });
+        usedEntries.forEach((vu: any) => {
+          const uid = getId(vu.collected_by);
+          if (!uid) return;
+          countsUsed[uid] = (countsUsed[uid] || 0) + 1;
+        });
+      } catch (usedErr) {
+        console.warn("leaderboards: used entries query failed", usedErr);
+      }
       const topUserIdsCollected = Object.entries(countsCollected)
         .sort((a, b) => b[1] - a[1])
         .slice(0, topN)
@@ -802,28 +838,76 @@ export const getAnalyticsOverview = factory.createHandlers(
         activeCampaigns = 0;
       }
 
-      // 4) Claims in range = vouchers_users with collected_date >= startOfRange
-      // If liff_page_id present, only count claims for vouchers on that page
+      // 4) Claims in range from vouchers_codes (include pending_confirmation) and unique collectors in range
+      // Claims: use vouchers_codes.date_updated and code_status ∈ [collected, used, pending_confirmation]
       let claimsInRange = 0;
       let uniqueCollectorsInRange = 0;
       try {
-        const claimsRes = await directus.request(
-          readItems("vouchers_users", {
-            fields: ["id", "collected_date", "code", "collected_by"],
-            filter: {
-              collected_date: { _gte: startOfRange.toISOString() } as any,
-              ...(pid ? { code: { _in: Array.from(pageVoucherIds) } } : {}),
-            },
-            limit: -1
-          })
+        // Build allowed code IDs for page filter (if any)
+        let allowedCodeIds: Set<string> | undefined;
+        if (pid && pageVoucherIds.size > 0) {
+          try {
+            const codesAllowedRes = await directus.request(
+              readItems("vouchers_codes", {
+                fields: ["id"],
+                filter: { voucher: { _in: Array.from(pageVoucherIds) } },
+                limit: -1,
+              } as any)
+            );
+            allowedCodeIds = new Set<string>(
+              toArray<any>(codesAllowedRes).map((vc: any) => String(vc.id))
+            );
+          } catch (e) {
+            console.warn("overview: allowed codes fetch failed", e);
+            allowedCodeIds = undefined;
+          }
+        }
+
+        // Count claims from vouchers_codes
+        const codeFilter: any = {
+          date_updated: { _gte: startOfRange.toISOString() } as any,
+          code_status: { _in: ["collected", "used", "pending_confirmation"] },
+          ...(pid && pageVoucherIds.size > 0
+            ? { voucher: { _in: Array.from(pageVoucherIds) } }
+            : {}),
+        };
+        const codesRangeRes = await directus.request(
+          readItems("vouchers_codes", {
+            fields: ["id"],
+            filter: codeFilter,
+            limit: -1,
+          } as any)
         );
-        let claims = toArray<any>(claimsRes);
-        claimsInRange = claims.length;
-        const uniq = new Set<string>();
-        claims.forEach(vu => { const uid = getId(vu.collected_by); if (uid) uniq.add(uid); });
-        uniqueCollectorsInRange = uniq.size;
+        claimsInRange = toArray<any>(codesRangeRes).length;
+
+        // Unique collectors in range: use vouchers_users by collected_date >= startOfRange; filter by allowed code ids if present
+        try {
+          const vuRes = await directus.request(
+            readItems("vouchers_users", {
+              fields: ["id", "collected_by", "code", "collected_date"],
+              filter: { collected_date: { _gte: startOfRange.toISOString() } as any },
+              limit: -1,
+            } as any)
+          );
+          let vus = toArray<any>(vuRes);
+          if (allowedCodeIds && allowedCodeIds.size > 0) {
+            vus = vus.filter((vu: any) => {
+              const cid = getId(vu.code);
+              return !!cid && allowedCodeIds!.has(cid);
+            });
+          }
+          const uniq = new Set<string>();
+          vus.forEach((vu: any) => {
+            const uid = getId(vu.collected_by);
+            if (uid) uniq.add(uid);
+          });
+          uniqueCollectorsInRange = uniq.size;
+        } catch (e) {
+          console.warn("overview: vouchers_users unique collectors failed", e);
+          uniqueCollectorsInRange = 0;
+        }
       } catch (e) {
-        console.warn("vouchers_users range query failed", e);
+        console.warn("overview: claims/collectors range query failed", e);
         claimsInRange = 0;
         uniqueCollectorsInRange = 0;
       }

@@ -9,20 +9,30 @@ export interface AnalyticsOverviewResponse {
     activeCampaigns: number;
     claimsToday: number;
     eventsLastHour: number;
+    // Optional range-based KPIs (when days > 0)
+    claimsInRange?: number;
+    uniqueCollectorsInRange?: number;
+    eventsInRange?: number;
   };
+  period?: { days: number; startDate: string; endDate: string };
   generatedAt: string;
 }
 
-const fetchAnalyticsOverview = (liffPageId?: string) =>
-  api.get<AnalyticsOverviewResponse>(
-    `/vouchers/analytics/overview${liffPageId ? `?liff_page_id=${encodeURIComponent(liffPageId)}` : ""}`
+const fetchAnalyticsOverview = (liffPageId?: string, days?: number) => {
+  const params = new URLSearchParams();
+  if (liffPageId) params.set("liff_page_id", liffPageId);
+  if (typeof days === "number") params.set("days", String(days));
+  const qs = params.toString();
+  return api.get<AnalyticsOverviewResponse>(
+    `/vouchers/analytics/overview${qs ? `?${qs}` : ""}`
   );
+};
 
-export const useAnalyticsOverview = (liffPageId?: string) => {
+export const useAnalyticsOverview = (liffPageId?: string, days?: number) => {
   const enabled = useAppSelector((s) => s.auth.isAuthenticated);
   return useQuery({
-    queryKey: ["analytics-overview", liffPageId || null],
-    queryFn: () => fetchAnalyticsOverview(liffPageId).then((r) => r.data),
+    queryKey: ["analytics-overview", liffPageId || null, days ?? null],
+    queryFn: () => fetchAnalyticsOverview(liffPageId, days).then((r) => r.data),
     enabled,
   });
 };

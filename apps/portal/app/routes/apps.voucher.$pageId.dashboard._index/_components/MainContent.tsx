@@ -12,6 +12,8 @@ import LineChart from "./charts/LineChart";
 import BarChart from "./charts/BarChart";
 import CategoryDistribution from "./CategoryDistribution";
 import DateRangeSelector from "./DateRangeSelector";
+import TrendsSkeleton from "./TrendsSkeleton";
+import LeaderboardsSkeleton from "./LeaderboardsSkeleton";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -40,10 +42,13 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
     data: dashboardData,
     isLoading: dashboardLoading,
     error: dashboardError,
-  } = useVoucherDashboard(voucherPage.id as string);
+  } = useVoucherDashboard(voucherPage.id as string, dateRange);
 
   // Analytics data (scoped to current LIFF page)
-  const { data: overview } = useAnalyticsOverview(voucherPage.id as string);
+  const { data: overview } = useAnalyticsOverview(
+    voucherPage.id as string,
+    dateRange
+  );
   const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends(
     dateRange,
     voucherPage.id as string
@@ -151,6 +156,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
             thisWeekCollections: 0,
             avgTimeToRedemption: 0,
           }}
+          dateRange={dateRange}
         />
       </div>
     );
@@ -198,13 +204,20 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
         </div>
 
         {/* Voucher Stats */}
-        <VoucherStats stats={stats} overview={overview} />
+        <VoucherStats
+          stats={stats}
+          overview={overview}
+          comparisons={dashboardData?.comparisons}
+          allTime={dashboardData?.allTime}
+          dateRange={dateRange}
+        />
       </div>
 
       {/* Category Distribution Section */}
       <CategoryDistribution
         categories={boards?.categoryShareByClaims || []}
         loading={boardsLoading}
+        dateRange={dateRange}
       />
 
       {/* Growth Analytics */}
@@ -214,31 +227,35 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
           <h2 className="text-lg font-semibold text-gray-900">Growth Trends</h2>
         </div>
         {trendsLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600"></div>
-            <span className="ml-3 text-sm text-gray-600">
-              Loading trends...
-            </span>
-          </div>
+          <TrendsSkeleton />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
               <p className="text-sm font-medium text-blue-700 mb-3">
-                Daily New Users
+                {dateRange === 1 ? 'Hourly New Users' : 'Daily New Users'}
               </p>
-              <LineChart series={trends?.usersNewDaily || []} color="#2563eb" />
+              <LineChart
+                series={(dateRange === 1 ? trends?.usersNewHourly : trends?.usersNewDaily) || []}
+                color="#2563eb"
+              />
             </div>
             <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
               <p className="text-sm font-medium text-purple-700 mb-3">
-                Daily Collections
+                {dateRange === 1 ? 'Hourly Collections' : 'Daily Collections'}
               </p>
-              <BarChart series={trends?.claimsDaily || []} color="#7c3aed" />
+              <BarChart
+                series={(dateRange === 1 ? trends?.claimsHourly : trends?.claimsDaily) || []}
+                color="#7c3aed"
+              />
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
               <p className="text-sm font-medium text-green-700 mb-3">
-                Daily Events
+                {dateRange === 1 ? 'Hourly Events' : 'Daily Events'}
               </p>
-              <LineChart series={trends?.eventsDaily || []} color="#059669" />
+              <LineChart
+                series={(dateRange === 1 ? trends?.eventsHourly : trends?.eventsDaily) || []}
+                color="#059669"
+              />
             </div>
           </div>
         )}
@@ -253,12 +270,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
           </h2>
         </div>
         {boardsLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-600"></div>
-            <span className="ml-3 text-sm text-gray-600">
-              Loading leaderboards...
-            </span>
-          </div>
+          <LeaderboardsSkeleton />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Top Brands */}

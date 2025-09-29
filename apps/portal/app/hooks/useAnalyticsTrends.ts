@@ -8,6 +8,10 @@ export interface AnalyticsTrendsResponse {
   usersNewDaily: TrendsSeries[];
   claimsDaily: TrendsSeries[];
   eventsDaily: TrendsSeries[];
+  // present when days === 1
+  usersNewHourly?: TrendsSeries[];
+  claimsHourly?: TrendsSeries[];
+  eventsHourly?: TrendsSeries[];
 }
 
 const fetchAnalyticsTrends = (days = 30, liffPageId?: string) =>

@@ -11,11 +11,13 @@ interface CategoryData {
 interface CategoryDistributionProps {
   categories: CategoryData[];
   loading?: boolean;
+  dateRange: number;
 }
 
 const CategoryDistribution: React.FC<CategoryDistributionProps> = ({
   categories,
-  loading = false
+  loading = false,
+  dateRange
 }) => {
   if (loading) {
     return (
@@ -23,10 +25,40 @@ const CategoryDistribution: React.FC<CategoryDistributionProps> = ({
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-6 bg-amber-500 rounded-full"></div>
           <h2 className="text-lg font-semibold text-gray-900">Category Distribution</h2>
+          <div className="ml-auto animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-32"></div>
+          </div>
         </div>
-        <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-600"></div>
-          <span className="ml-3 text-sm text-gray-600">Loading categories...</span>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[...Array(6)].map((_, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-200 animate-pulse"
+            >
+              {/* Donut chart skeleton */}
+              <div className="flex-shrink-0">
+                <div className="w-18 h-18 bg-gray-200 rounded-full relative">
+                  <div className="absolute inset-2 bg-white rounded-full"></div>
+                </div>
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  {/* Category name skeleton */}
+                  <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                  {/* Percentage skeleton */}
+                  <div className="h-3 bg-gray-200 rounded w-8 ml-2"></div>
+                </div>
+                {/* Collections count skeleton */}
+                <div className="h-2 bg-gray-100 rounded w-1/2 mb-2"></div>
+                {/* Progress bar skeleton */}
+                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div className="h-1.5 bg-gray-300 rounded-full w-1/3"></div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -48,13 +80,25 @@ const CategoryDistribution: React.FC<CategoryDistributionProps> = ({
 
   const total = categories.reduce((sum, category) => sum + category.claims, 0);
 
+  // Helper function to get period text for total
+  const getTotalLabel = () => {
+    switch (dateRange) {
+      case 0: return "Total";
+      case 1: return "Today";
+      case 7: return "7 Days";
+      case 30: return "30 Days";
+      case 90: return "90 Days";
+      default: return `${dateRange} Days`;
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-center gap-2 mb-6">
         <div className="w-1 h-6 bg-amber-500 rounded-full"></div>
         <h2 className="text-lg font-semibold text-gray-900">Category Distribution</h2>
         <div className="text-sm text-gray-500 ml-auto">
-          Total: {total.toLocaleString()} collections
+          {getTotalLabel()}: {total.toLocaleString()} collections
         </div>
       </div>
 

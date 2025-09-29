@@ -4,6 +4,7 @@ import { ClientOnly } from "remix-utils/client-only";
 import { Loading } from "@repo/preline";
 import { components } from "~/@types/directus";
 import VoucherTabs from "./_components/VoucherTabs";
+import VoucherListSkeleton from "./_components/VoucherListSkeleton";
 import { useVoucherDetails } from "~/hooks/useVoucherDetails";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
@@ -37,7 +38,7 @@ const Route = () => {
                 </div>
 
                 {detailsLoading ? (
-                  <Loading />
+                  <VoucherListSkeleton />
                 ) : (
                   <VoucherTabs
                     voucherPage={voucherPage}

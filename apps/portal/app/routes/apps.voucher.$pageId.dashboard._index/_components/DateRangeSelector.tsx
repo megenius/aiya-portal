@@ -17,20 +17,8 @@ const DateRangeSelector: React.FC<DateRangeSelectorProps> = ({
     { label: "Today", days: 1 },
     { label: "7 Days", days: 7 },
     { label: "30 Days", days: 30 },
-    { label: "90 Days", days: 90 },
-    { label: "All Time", days: 0 }
+    { label: "90 Days", days: 90 }
   ];
-
-  const getDisplayText = (days: number) => {
-    switch (days) {
-      case 0: return "all time";
-      case 1: return "today";
-      case 7: return "7 days";
-      case 30: return "30 days";
-      case 90: return "90 days";
-      default: return `${days} days`;
-    }
-  };
 
   return (
     <div className="flex items-center gap-1.5">

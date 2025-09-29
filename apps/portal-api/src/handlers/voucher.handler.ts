@@ -166,8 +166,13 @@ export const getDashboard = factory.createHandlers(
   directusMiddleware,
   async (c) => {
     const directus = c.get("directAdmin");
-    const { liff_page_id } = c.req.query();
+    const { liff_page_id, days } = c.req.query();
     const pageId = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
+    const rangeDays = Math.max(0, parseInt(String(days || 0), 10) || 0); // 0 = All Time
+    const now = new Date();
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const start = rangeDays > 0 ? new Date(now.getTime() - rangeDays * msPerDay) : null;
+    const prevStart = rangeDays > 0 ? new Date(now.getTime() - rangeDays * 2 * msPerDay) : null;
 
     try {
       console.log("getDashboard called with liff_page_id:", pageId);
@@ -263,7 +268,7 @@ export const getDashboard = factory.createHandlers(
       console.log("Valid voucher IDs:", voucherIds.length);
       let vouchersUsers: any[] = [];
       let collectedFromCodes = 0;
-      let usedFromCodes = 0;
+      let usedAllTimeFromVU = 0;
 
       if (voucherIds.length > 0) {
         // ก่อนอื่นดึง vouchers_codes ที่เชื่อมกับ vouchers เหล่านี้
@@ -289,11 +294,39 @@ export const getDashboard = factory.createHandlers(
 
         console.log("Valid code IDs found:", codeIds.length, voucherCodes.slice(0, 5).map((vc: any) => vc.code));
 
-        // นับจากสถานะของ codes โดยตรง เพื่อความแม่นยำกว่า vouchers_users
+        // นับจากสถานะของ codes โดยตรง สำหรับ collections รวม pending_confirmation/used
         collectedFromCodes = voucherCodes.filter((vc: any) =>
           ["collected", "used", "pending_confirmation"].includes(vc.code_status)
         ).length;
-        usedFromCodes = voucherCodes.filter((vc: any) => vc.code_status === "used").length;
+        // นับ redemptions แบบ all-time จาก vouchers_users.used_date (ไม่นับตามสถานะ code เพื่อเลี่ยงข้อมูลค้าง)
+        try {
+          const chunkSizeVU = 200;
+          const vuChunks: any[][] = [];
+          for (let i = 0; i < codeIds.length; i += chunkSizeVU) {
+            vuChunks.push(codeIds.slice(i, i + chunkSizeVU));
+          }
+          let usedCount = 0;
+          for (const ch of vuChunks) {
+            if (ch.length === 0) continue;
+            try {
+              const part = await directus.request(
+                readItems("vouchers_users", {
+                  fields: ["id", "used_date"],
+                  filter: { code: { _in: ch } },
+                  limit: -1,
+                } as any)
+              );
+              const arr = Array.isArray(part) ? part : (part as any)?.data || [];
+              usedCount += arr.filter((vu: any) => !!vu.used_date).length;
+            } catch (vuErr) {
+              console.warn("All-time used count chunk failed", vuErr);
+            }
+          }
+          usedAllTimeFromVU = usedCount;
+        } catch (aggErr) {
+          console.warn("Aggregate all-time used from vouchers_users failed", aggErr);
+          usedAllTimeFromVU = 0;
+        }
 
         // แล้วดึง vouchers_users ด้วยการแบ่ง codeIds เป็นชุดย่อย เพื่อหลีกเลี่ยงทั้ง 403 และ 431
         if (codeIds.length > 0) {
@@ -316,7 +349,15 @@ export const getDashboard = factory.createHandlers(
                     { "collected_by": ["id"] },
                     "code"
                   ],
-                  filter: { code: { _in: chunk } },
+                  filter: {
+                    code: { _in: chunk },
+                    ...(rangeDays > 0 && prevStart
+                      ? { _or: [
+                          { collected_date: { _gte: prevStart.toISOString() } as any },
+                          { used_date: { _gte: prevStart.toISOString() } as any }
+                        ] }
+                      : {}),
+                  },
                   limit: -1
                 } as any)
               );
@@ -341,18 +382,32 @@ export const getDashboard = factory.createHandlers(
         (!v.end_date || new Date(v.end_date) > new Date())
       ).length;
 
-      // สถิติหลักจากสถานะของ vouchers_codes (เสริมความแม่นยำ)
-      const collectedVouchers = (typeof collectedFromCodes !== 'undefined') ? collectedFromCodes : 0;
-      const usedVouchers = (typeof usedFromCodes !== 'undefined') ? usedFromCodes : 0;
+      // แยก current / previous period เมื่อมี days
+      const vusCurrent = (rangeDays > 0 && start)
+        ? vouchersUsers.filter((vu: any) => vu.collected_date && new Date(vu.collected_date) >= start)
+        : vouchersUsers;
+      const vusPrev = (rangeDays > 0 && start && prevStart)
+        ? vouchersUsers.filter((vu: any) => vu.collected_date && new Date(vu.collected_date) >= prevStart && new Date(vu.collected_date) < start)
+        : [];
+
+      const collectedInRange = vusCurrent.length;
+      const collectedPrev = vusPrev.length;
+
+      const usedInRange = (rangeDays > 0 && start)
+        ? vouchersUsers.filter((vu: any) => vu.used_date && new Date(vu.used_date) >= start).length
+        : vouchersUsers.filter((vu: any) => !!vu.used_date).length;
+      const usedPrev = (rangeDays > 0 && start && prevStart)
+        ? vouchersUsers.filter((vu: any) => vu.used_date && new Date(vu.used_date) >= prevStart && new Date(vu.used_date) < start).length
+        : 0;
 
       // Redemption Rate = Used / Collected (not total vouchers)
-      const redemptionRate = collectedVouchers > 0
-        ? Math.round((usedVouchers / collectedVouchers) * 100)
+      const redemptionRate = collectedInRange > 0
+        ? Math.round((usedInRange / collectedInRange) * 100)
         : 0;
 
       // สถิติการเก็บ voucher (ใช้ค่าเดียวกับ collectedVouchers)
-      const totalCollections = collectedVouchers;
-      const collectorIds = vouchersUsers
+      const totalCollections = collectedInRange;
+      const collectorIds = vusCurrent
         .filter((vu: any) => !!vu.collected_by)
         .map((vu: any) => (typeof vu.collected_by === 'object' && vu.collected_by !== null)
           ? vu.collected_by.id
@@ -360,6 +415,15 @@ export const getDashboard = factory.createHandlers(
         .filter((id: any) => !!id);
       console.log("Collected entries with user:", collectorIds.length);
       const uniqueCollectors = new Set(collectorIds).size;
+      const uniqueCollectorsPrev = (() => {
+        const ids = vusPrev
+          .filter((vu: any) => !!vu.collected_by)
+          .map((vu: any) => (typeof vu.collected_by === 'object' && vu.collected_by !== null)
+            ? vu.collected_by.id
+            : vu.collected_by)
+          .filter((id: any) => !!id);
+        return new Set(ids).size;
+      })();
 
       // คำนวณ Collection Rate - ป้องกัน error ถ้าไม่มี voucher codes
       let totalAvailableCodes: any[] = [];
@@ -385,30 +449,82 @@ export const getDashboard = factory.createHandlers(
         ? Math.round((totalCollections / totalAvailableCodes.length) * 100)
         : 0;
 
-      // สถิติการดู voucher - ป้องกัน error ถ้าตารางไม่มี
-      let voucherViews: any[] = [];
+      // สถิติการดู voucher จาก user_events: voucher_click + page scope + ช่วงเวลา
+      let totalViews = 0;
+      let uniqueViewers = 0;
+      let totalViewsPrev = 0;
+      let uniqueViewersPrev = 0;
+      let totalViewsAllTime = 0;
       try {
-        if (voucherIds.length > 0) {
-          voucherViews = await directus.request(
-            readItems("voucher_views", {
-              fields: ["id", "user_id"],
-              filter: {
-                voucher_id: { _in: voucherIds }
-              },
-              limit: -1
-            })
-          );
-        }
-      } catch (viewError) {
-        console.warn("voucher_views table not found or error:", viewError);
-        voucherViews = [];
-      }
+        const eventsRes: any = await directus.request(readItems("user_events", {
+          fields: ["id", "user", "date_created", "event_properties"],
+          filter: {
+            event_type: { _eq: "voucher_click" },
+            ...(rangeDays > 0 && prevStart ? { date_created: { _gte: prevStart.toISOString() } as any } : {}),
+          },
+          limit: -1
+        } as any));
+        const events = Array.isArray(eventsRes) ? eventsRes : (eventsRes?.data || []);
+        const filteredAll = events.filter((ev: any) => {
+          let props = ev.event_properties;
+          if (!props) return false;
+          if (typeof props === 'string') { try { props = JSON.parse(props); } catch { return false; } }
+          // ถ้ามี pageId: จำกัดเฉพาะ page นั้น
+          if (pageId && props?.page_id !== pageId) return false;
+          return true;
+        });
+        const filteredCurrent = (rangeDays > 0 && start)
+          ? filteredAll.filter((ev: any) => new Date(ev.date_created) >= start!)
+          : filteredAll;
+        const filteredPrev = (rangeDays > 0 && start && prevStart)
+          ? filteredAll.filter((ev: any) => new Date(ev.date_created) >= prevStart! && new Date(ev.date_created) < start!)
+          : [];
 
-      const totalViews = voucherViews.length;
-      const uniqueViewers = new Set(voucherViews
-        .filter(vv => vv.user_id)
-        .map(vv => vv.user_id)
-      ).size;
+        totalViews = filteredCurrent.length;
+        const viewers = new Set<string>();
+        filteredCurrent.forEach((ev: any) => {
+          const u = ev.user;
+          const uid = typeof u === 'object' && u ? (u.id || String(u)) : String(u || '');
+          if (uid) viewers.add(uid);
+        });
+        uniqueViewers = viewers.size;
+
+        totalViewsPrev = filteredPrev.length;
+        const viewersPrev = new Set<string>();
+        filteredPrev.forEach((ev: any) => {
+          const u = ev.user;
+          const uid = typeof u === 'object' && u ? (u.id || String(u)) : String(u || '');
+          if (uid) viewersPrev.add(uid);
+        });
+        uniqueViewersPrev = viewersPrev.size;
+        // All-time views (no date filter, filter by pageId in JS if provided)
+        try {
+          const allRes: any = await directus.request(readItems("user_events", {
+            fields: ["id", "date_created", "event_properties"],
+            filter: { event_type: { _eq: "voucher_click" } },
+            limit: -1
+          } as any));
+          const allEvents = Array.isArray(allRes) ? allRes : (allRes?.data || []);
+          const allFiltered = allEvents.filter((ev: any) => {
+            let props = ev.event_properties;
+            if (!props) return false;
+            if (typeof props === 'string') { try { props = JSON.parse(props); } catch { return false; } }
+            if (pageId && props?.page_id !== pageId) return false;
+            return true;
+          });
+          totalViewsAllTime = allFiltered.length;
+        } catch (allErr) {
+          console.warn("user_events all-time views query failed", allErr);
+          totalViewsAllTime = 0;
+        }
+      } catch (e) {
+        console.warn("user_events views query failed", e);
+        totalViews = 0;
+        uniqueViewers = 0;
+        totalViewsPrev = 0;
+        uniqueViewersPrev = 0;
+        totalViewsAllTime = 0;
+      }
 
       const viewToCollectionRate = totalViews > 0
         ? Math.round((totalCollections / totalViews) * 100)
@@ -444,7 +560,7 @@ export const getDashboard = factory.createHandlers(
       const stats = {
         total: totalVouchers,
         active: activeVouchers,
-        used: usedVouchers,
+        used: usedInRange,
         redemptionRate,
         totalCollections,
         uniqueCollectors,
@@ -457,6 +573,22 @@ export const getDashboard = factory.createHandlers(
         avgTimeToRedemption
       };
 
+      const comparisons = (rangeDays > 0) ? {
+        totalCollections: { current: totalCollections, prev: collectedPrev },
+        uniqueCollectors: { current: uniqueCollectors, prev: uniqueCollectorsPrev },
+        totalViews: { current: totalViews, prev: totalViewsPrev },
+        uniqueViewers: { current: uniqueViewers, prev: uniqueViewersPrev },
+        collectionRate: { current: collectionRate, prev: (() => {
+          const prevRate = totalAvailableCodes.length > 0
+            ? Math.round(((collectedPrev) / totalAvailableCodes.length) * 100)
+            : 0;
+          return prevRate;
+        })() },
+        used: { current: usedInRange, prev: usedPrev },
+        redemptionRate: { current: redemptionRate, prev: (collectedPrev > 0 ? Math.round((usedPrev / collectedPrev) * 100) : 0) },
+        viewToCollectionRate: { current: viewToCollectionRate, prev: (totalViewsPrev > 0 ? Math.round((collectedPrev / totalViewsPrev) * 100) : 0) },
+      } : undefined;
+
       // Sort vouchers by date_created desc
       const sortedVouchers = allVouchers.sort((a, b) => {
         const bt = b?.date_created ? new Date(b.date_created).getTime() : 0;
@@ -466,6 +598,13 @@ export const getDashboard = factory.createHandlers(
 
       return c.json({
         stats,
+        comparisons,
+        period: rangeDays > 0 ? { days: rangeDays, startDate: start?.toISOString(), endDate: now.toISOString() } : undefined,
+        allTime: {
+          collections: collectedFromCodes,
+          redemptions: usedAllTimeFromVU,
+          clicks: totalViewsAllTime,
+        },
         recentVouchers: sortedVouchers.slice(0, 10)
       });
     } catch (error) {

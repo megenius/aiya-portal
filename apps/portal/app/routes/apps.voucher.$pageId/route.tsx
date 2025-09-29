@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate, useParams } from "@remix-run/react";
 import { useAppSelector } from "~/store";
-import { Loading } from "@repo/preline";
 import Header from "./_components/Header";
+import PageSkeleton from "./_components/PageSkeleton";
 import { usePageLiff } from "~/hooks/usePageLiff";
 
 const Route = () => {
@@ -24,7 +24,7 @@ const Route = () => {
   }, [isAuthenticated, navigate]);
 
   if (isLoading) {
-    return <Loading />;
+    return <PageSkeleton />;
   }
 
   if (error || !voucherPage) {

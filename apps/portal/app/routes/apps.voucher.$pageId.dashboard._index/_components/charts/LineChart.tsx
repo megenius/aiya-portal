@@ -30,6 +30,14 @@ const LineChart: React.FC<LineChartProps> = ({ series, color = "#2563eb" }) => {
   const maxY = Math.max(1, ...ys);
   const minY = Math.min(0, ...ys);
 
+  // Determine if all points are within the same calendar day
+  const firstDate = new Date(series[0]?.date || Date.now());
+  const lastDate = new Date(series[series.length - 1]?.date || Date.now());
+  const isSingleDay =
+    firstDate.getFullYear() === lastDate.getFullYear() &&
+    firstDate.getMonth() === lastDate.getMonth() &&
+    firstDate.getDate() === lastDate.getDate();
+
   const scaleX = (i: number) =>
     padding + (i / Math.max(1, xs.length - 1)) * (width - padding * 2);
   const scaleY = (v: number) =>
@@ -83,6 +91,9 @@ const LineChart: React.FC<LineChartProps> = ({ series, color = "#2563eb" }) => {
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
+    if (isSingleDay) {
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
