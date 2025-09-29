@@ -11,6 +11,7 @@ import { getDirectusFileUrl } from "~/utils/files";
 import LineChart from "./charts/LineChart";
 import BarChart from "./charts/BarChart";
 import CategoryDistribution from "./CategoryDistribution";
+import DateRangeSelector from "./DateRangeSelector";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -28,6 +29,12 @@ type TopUserItem = {
 };
 
 const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
+  // Local UI state (must be declared before hooks that use them)
+  const [topUserTab, setTopUserTab] = useState<"collected" | "used">(
+    "collected"
+  );
+  const [dateRange, setDateRange] = useState<number>(30);
+
   // Dashboard data
   const {
     data: dashboardData,
@@ -36,22 +43,15 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
   } = useVoucherDashboard(voucherPage.id as string);
 
   // Analytics data (scoped to current LIFF page)
-  const { data: overview } = useAnalyticsOverview(
-    voucherPage.id as string
-  );
+  const { data: overview } = useAnalyticsOverview(voucherPage.id as string);
   const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends(
-    30,
+    dateRange,
     voucherPage.id as string
   );
   const { data: boards, isLoading: boardsLoading } = useAnalyticsLeaderboards(
-    30,
+    dateRange,
     5,
     voucherPage.id as string
-  );
-
-  // Local UI state for leaderboards tab (must be declared before any early return)
-  const [topUserTab, setTopUserTab] = useState<"collected" | "used">(
-    "collected"
   );
 
   // Show loading if dashboard is loading
@@ -181,6 +181,32 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
         </div>
       </div> */}
 
+      {/* Date Filter */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-6 bg-gray-500 rounded-full"></div>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Analytics Dashboard
+            </h2>
+            <span className="text-sm text-gray-500">
+              (
+              {dateRange === 0
+                ? "All Time"
+                : dateRange === 1
+                  ? "Today"
+                  : `Last ${dateRange} Days`}
+              )
+            </span>
+          </div>
+          <DateRangeSelector
+            value={dateRange}
+            onChange={setDateRange}
+            loading={trendsLoading || boardsLoading}
+          />
+        </div>
+      </div>
+
       {/* Performance Overview */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center gap-2 mb-6">
@@ -204,9 +230,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-6 bg-purple-500 rounded-full"></div>
-          <h2 className="text-lg font-semibold text-gray-900">
-            Growth Analytics (30 days)
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-900">Growth Trends</h2>
         </div>
         {trendsLoading ? (
           <div className="flex items-center justify-center py-8">
@@ -244,7 +268,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-6 bg-amber-500 rounded-full"></div>
           <h2 className="text-lg font-semibold text-gray-900">
-            Performance Leaderboards
+            Top Performers
           </h2>
         </div>
         {boardsLoading ? (
@@ -271,7 +295,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
                   />
                 </svg>
                 <h3 className="text-base font-semibold text-gray-900">
-                  Top Brands by Collections
+                  Top Brands by Collected Vouchers
                 </h3>
               </div>
               <div className="space-y-3">
@@ -317,7 +341,7 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
                       <div className="text-sm font-bold text-blue-600 group-hover:text-blue-700">
                         {b.claims.toLocaleString()}
                       </div>
-                      <div className="text-xs text-gray-500">collections</div>
+                      <div className="text-xs text-gray-500">vouchers</div>
                     </div>
                   </div>
                 ))}
@@ -498,7 +522,9 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
                         <div className="text-sm font-bold text-teal-600 group-hover:text-teal-700">
                           {(u[valueKey] || 0).toLocaleString()}
                         </div>
-                        <div className="text-xs text-gray-500">{valueKey === "used" ? "redemption" : valueKey}</div>
+                        <div className="text-xs text-gray-500">
+                          {valueKey === "used" ? "redemption" : valueKey}
+                        </div>
                       </div>
                     </div>
                   ));
