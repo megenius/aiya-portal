@@ -72,22 +72,33 @@ const VoucherStatsPage: React.FC = () => {
 
         {/* Voucher Header */}
         <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-          <div className="flex items-center gap-4">
-            {voucher?.cover && (
-              <img
-                className="h-12 w-12 rounded-lg object-cover"
-                src={getDirectusFileUrl(voucher.cover)}
-                alt={voucher.name}
-              />
-            )}
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {voucher?.metadata?.title?.th || voucher?.name || "Voucher Statistics"}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Detailed statistics and analytics for this voucher
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {voucher?.cover && (
+                <img
+                  className="h-12 w-12 rounded-lg object-cover"
+                  src={getDirectusFileUrl(voucher.cover)}
+                  alt={voucher.name}
+                />
+              )}
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {voucher?.metadata?.title?.th || voucher?.name || "Voucher Statistics"}
+                </h1>
+                <p className="text-gray-600 mt-1">
+                  Detailed statistics and analytics for this voucher
+                </p>
+              </div>
             </div>
+            <button
+              onClick={() => window.open(`/apps/voucher/ranking/${voucherId}`, '_blank')}
+              className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2 text-white transition-all hover:from-indigo-700 hover:to-purple-700"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              View Latest Collectors
+            </button>
           </div>
         </div>
       </div>

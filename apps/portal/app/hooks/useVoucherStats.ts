@@ -31,7 +31,14 @@ interface VoucherStatsData {
       picture_url: string | null;
       codes: Array<{
         code: string;
-        status: 'available' | 'reserved' | 'collected' | 'pending_confirmation' | 'used' | 'expired' | 'unknown';
+        status:
+          | "available"
+          | "reserved"
+          | "collected"
+          | "pending_confirmation"
+          | "used"
+          | "expired"
+          | "unknown";
         collected_date: string | null;
         used_date: string | null;
       }>;
@@ -40,15 +47,27 @@ interface VoucherStatsData {
   error?: string;
 }
 
-const fetchVoucherStats = (voucherId: string) =>
-  api.get<VoucherStatsData>(`/vouchers/${voucherId}/stats`);
+  const fetchVoucherStats = (voucherId: string) =>
+    api.get<VoucherStatsData>(`/vouchers/${voucherId}/stats`);
 
-export const useVoucherStats = (voucherId: string, enabled: boolean = true) => {
-  return useQuery({
-    queryKey: ["voucher-stats", voucherId],
-    queryFn: () => fetchVoucherStats(voucherId).then((res) => res.data),
-    enabled: useAppSelector((state) => state.auth.isAuthenticated) && !!voucherId && enabled,
-    staleTime: 60 * 1000, // 1 minute
-    refetchOnWindowFocus: false,
-  });
-};
+  export const useVoucherStats = (
+    voucherId: string,
+    enabled: boolean = true,
+    options?: {
+      refetchInterval?: number;
+      staleTime?: number;
+      refetchOnWindowFocus?: boolean;
+    }
+  ) => {
+    return useQuery({
+      queryKey: ["voucher-stats", voucherId],
+      queryFn: () => fetchVoucherStats(voucherId).then((res) => res.data),
+      enabled:
+        useAppSelector((state) => state.auth.isAuthenticated) &&
+        !!voucherId &&
+        enabled,
+      staleTime: options?.staleTime ?? 60 * 1000, // 1 minute
+      refetchOnWindowFocus: options?.refetchOnWindowFocus ?? false,
+      refetchInterval: options?.refetchInterval,
+    });
+  };
