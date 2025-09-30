@@ -956,6 +956,7 @@ export const getVoucherStats = factory.createHandlers(
             filter: {
               voucher: { _eq: id },
             },
+            limit: -1,
           })
         );
       } catch (error) {
@@ -987,6 +988,7 @@ export const getVoucherStats = factory.createHandlers(
               filter: {
                 code: { _in: codeIds },
               },
+              limit: -1,
             } as any)
           );
         } catch (error) {

@@ -87,9 +87,10 @@ const VoucherLatestCollectorsPage: React.FC = () => {
               </div>
               <div className="rounded-xl border border-white/20 bg-white/10 p-6 text-center backdrop-blur-sm">
                 <div className="text-3xl font-bold text-white">
-                  {stats.collectedCodes || 0}
+                  {stats.collectedCodes || 0} / {stats.totalCodes || 0}
                 </div>
                 <div className="mt-1 text-sm text-white/80">Total Collections</div>
+                <div className="text-xs text-white/60">Collected / Total</div>
               </div>
               <div className="rounded-xl border border-white/20 bg-white/10 p-6 text-center backdrop-blur-sm">
                 <div className="text-3xl font-bold text-white">
