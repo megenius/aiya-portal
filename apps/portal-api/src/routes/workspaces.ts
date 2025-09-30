@@ -42,4 +42,7 @@ const workspacesRoutes = new Hono<Env>()
   // New routes for chat_hub
   .get("/:id/chathubs", ...WorkspaceHandler.getWorkspaceHubs) // New route for getWorkspaceHubs
 
+  // -------- WORKSPACE LIFF PAGES --------
+  .get("/:id/liff-pages", ...WorkspaceHandler.getWorkspaceLiffPages)
+
 export { workspacesRoutes };

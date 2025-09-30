@@ -7,6 +7,6 @@ export const useWorkspace = ({ id }) => {
   return useQuery({
     queryKey: ["workspaces", id],
     queryFn: () => fetchWorkspace(id),
-    enabled: useAppSelector((state) => state.auth.isAuthenticated),
+    enabled: useAppSelector((state) => state.auth.isAuthenticated) && !!id,
   });
 };

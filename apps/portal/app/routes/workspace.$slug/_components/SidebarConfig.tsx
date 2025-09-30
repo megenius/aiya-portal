@@ -184,10 +184,10 @@ export const sidebarLinks: SidebarLink[] = [
   //   label: "AiOrders",
   //   icon: <CustomBoxIcon />,
   // },
-  // {
-  //   to: "apps/vouchers",
-  //   label: "AiVoucher",
-  //   icon: <CustomBoxIcon />,
-  // },
+  {
+    to: "apps/vouchers",
+    label: "AiVoucher",
+    icon: <CustomBoxIcon />,
+  },
 ];
 

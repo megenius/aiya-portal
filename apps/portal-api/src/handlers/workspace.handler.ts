@@ -817,7 +817,7 @@ export const createWorkspaceDocument = factory.createHandlers(
       const workspaceId = c.req.param("id") as string;
       const directus = c.get("directus");
       const body = await c.req.json();
-      
+
       const item = await directus.request(
         createItem("documents", {
           ...body,
@@ -830,7 +830,8 @@ export const createWorkspaceDocument = factory.createHandlers(
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
     }
-});
+  }
+);
 
 //update workspace document
 export const updateWorkspaceDocument = factory.createHandlers(
@@ -866,7 +867,7 @@ export const deleteWorkspaceDocument = factory.createHandlers(
       const documentId = c.req.param("documentId") as string;
       const directus = c.get("directus");
       console.log("deleteWorkspaceDocument", workspaceId, documentId);
-      
+
       await directus.request(
         updateItem("saas_teams", workspaceId, {
           documents: {
@@ -878,7 +879,7 @@ export const deleteWorkspaceDocument = factory.createHandlers(
       // Delete the document itself
       await directus.request(deleteItem("documents", documentId));
       console.log("Document deleted successfully");
-      
+
       return c.json({ workspace_id: workspaceId, document_id: documentId });
     } catch (error) {
       throw DirectusError.fromDirectusResponse(error);
@@ -886,3 +887,28 @@ export const deleteWorkspaceDocument = factory.createHandlers(
   }
 );
 
+// --------------- WORKSPACE LIFF PAGES ---------------
+// get workspace liff pages
+export const getWorkspaceLiffPages = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const workspaceId = c.req.param("id") as string;
+      const directus = c.get("directus");
+      const items = await directus.request(
+        readItems("pages_liff", {
+          filter: {
+            team: {
+              _eq: workspaceId,
+            },
+          },
+          sort: ["-date_updated"],
+        })
+      );
+      return c.json({ total: items.length, items });
+    } catch (error) {
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);

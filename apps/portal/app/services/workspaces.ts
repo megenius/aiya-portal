@@ -123,3 +123,7 @@ export const updateWorkspaceDocument = (
 export const deleteWorkspaceDocument = (id: string, documentId: string) => {
   return api.delete(`/workspaces/${id}/documents/${documentId}`);
 }
+
+// -------- WORKSPACE LIFF PAGES --------
+export const fetchWorkspaceLiffPages = (id: string) =>
+  api.get<{ items: any[] }>("/workspaces/" + id + "/liff-pages");

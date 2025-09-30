@@ -10,8 +10,8 @@ import { useEffect, useMemo, useState } from "react";
 import { SidebarLink } from "./types";
 
 interface SideBarProps {
-  workspaces: Workspace[]
-  workspace?: Workspace
+  workspaces: Workspace[];
+  workspace?: Workspace;
 }
 
 const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
@@ -27,40 +27,41 @@ const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   feature_apps_bots: true,
   feature_apps_chats: false,
   feature_apps_orderbots: true,
-  feature_apps_vourchers: false
-}
+  feature_apps_vouchers: false,
+};
 
 const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
-  const navigate = useNavigate()
-  const { data: user } = useMe()
-  const [featureFlags, setFeatureFlags] = useState<FeatureFlags>(DEFAULT_FEATURE_FLAGS);
+  const navigate = useNavigate();
+  const { data: user } = useMe();
+  const [featureFlags, setFeatureFlags] = useState<FeatureFlags>(
+    DEFAULT_FEATURE_FLAGS
+  );
 
   useEffect(() => {
     if (workspace && workspace.feature_flags) {
       setFeatureFlags({
         ...DEFAULT_FEATURE_FLAGS,
-        ...workspace.feature_flags
+        ...workspace.feature_flags,
       });
     }
     // console.log(workspace);
   }, [workspace]);
 
-
-  const filteredSidebarLinks = sidebarLinks.filter(link => {
-    if (link.to.startsWith('apps/')) {
-      const appFeature = link.to.replace('apps/', 'feature_apps_');
+  const filteredSidebarLinks = sidebarLinks.filter((link) => {
+    if (link.to.startsWith("apps/")) {
+      const appFeature = link.to.replace("apps/", "feature_apps_");
       // console.log(appFeature);
       return featureFlags[appFeature as keyof FeatureFlags] !== false;
     } else {
-      const featureName = `feature_${link.to?.replace("-", "")}` as keyof FeatureFlags;
+      const featureName =
+        `feature_${link.to?.replace("-", "")}` as keyof FeatureFlags;
       return featureFlags[featureName] !== false;
     }
   });
 
   const handleSignOut = () => {
-    navigate("/sign-out")
-  }
-
+    navigate("/sign-out");
+  };
 
   return (
     <>
@@ -96,31 +97,31 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                 {filteredSidebarLinks.map((link) => {
                   if (link.isDivider) {
                     return (
-                      <li
-                        className="hs-accordion px-5 mb-1.5" id={link.label}>
+                      <li className="hs-accordion px-5 mb-1.5" id={link.label}>
                         <button
                           type="button"
                           className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
-                          onClick={() => {
-
-                          }}
+                          onClick={() => {}}
                         >
                           {link.icon}
                           {link.label}
                         </button>
                       </li>
-                    )
+                    );
                   }
 
                   return (
-                    <li key={link.to}
-                      className="hs-accordion px-5 mb-1.5" id={link.label}>
+                    <li
+                      key={link.to}
+                      className="hs-accordion px-5 mb-1.5"
+                      id={link.label}
+                    >
                       <button
                         type="button"
                         className="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700"
                         onClick={() => {
                           if (!link.subLinks) {
-                            navigate(link.to)
+                            navigate(link.to);
                           }
                         }}
                       >
@@ -149,11 +150,12 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                           <div
                             id={`${link.label}-sub`}
                             className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  "
-                            role="region" aria-labelledby="account-accordion"
+                            role="region"
+                            aria-labelledby="account-accordion"
                           >
                             <ul
                               className="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700"
-                            // data-hs-accordion-always-open=""
+                              // data-hs-accordion-always-open=""
                             >
                               {link.subLinks.map((subLink) => (
                                 <li key={subLink.to} className="px-5 mb-1.5">
@@ -170,7 +172,7 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                         </>
                       )}
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </nav>
@@ -191,7 +193,9 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                   aria-expanded="false"
                   aria-label="Dropdown"
                 >
-                  <Avatar src={getDirectusFileUrl(workspace?.avatar as string)} />
+                  <Avatar
+                    src={getDirectusFileUrl(workspace?.avatar as string)}
+                  />
                   <span className="block ms-3">
                     <span className="block text-sm font-medium text-gray-800 group-hover:text-blue-600 group-focus-hover:text-blue-600 dark:text-neutral-200 dark:group-hover:text-blue-600 dark:group-focus-hover:text-blue-600">
                       {workspace?.name}
@@ -223,7 +227,7 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                   aria-labelledby="hs-pro-dnwpd"
                 >
                   <div className="p-1 space-y-0.5">
-                    {workspaces?.slice(0, 5).map(workspace => (
+                    {workspaces?.slice(0, 5).map((workspace) => (
                       <Link
                         key={workspace.id}
                         reloadDocument
@@ -231,7 +235,11 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
                         to={`/workspace/${workspace.slug}`}
                       >
                         <div className="flex gap-x-2 items-center">
-                          <Avatar src={getDirectusFileUrl(workspace.avatar as string)} firstName={workspace.name || ""} size={30} />
+                          <Avatar
+                            src={getDirectusFileUrl(workspace.avatar as string)}
+                            firstName={workspace.name || ""}
+                            size={30}
+                          />
                           <div className="grow">
                             <p className="text-sm font-medium text-gray-800 dark:text-neutral-200">
                               {workspace?.name}
@@ -302,7 +310,6 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
             {/* End Project Dropdown */}
           </footer>
 
-
           <div className="lg:hidden absolute top-3 -end-3 z-10">
             {/* Sidebar Close */}
             <button
@@ -341,13 +348,11 @@ const SideBar: React.FC<SideBarProps> = ({ workspaces, workspace }) => {
 
 export default SideBar;
 
-
-
 function mapFeatureFlagsToSidebarLinks(
   featureFlags: Record<string, boolean>,
   links: SidebarLink[]
 ): SidebarLink[] {
-  return links.filter(link => {
+  return links.filter((link) => {
     const featureName = `feature_${link.to}`;
     return featureFlags[featureName] !== false; // Show link if feature is undefined or true
   });

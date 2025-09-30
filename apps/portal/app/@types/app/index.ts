@@ -22,7 +22,7 @@ export interface FeatureFlags {
   feature_apps_bots: boolean;
   feature_apps_chats: boolean;
   feature_apps_orderbots: boolean;
-  feature_apps_vourchers: boolean;
+  feature_apps_vouchers: boolean;
 }
 
 export type Workspace = components["schemas"]["ItemsSaasTeams"] & {
