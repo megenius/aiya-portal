@@ -12,11 +12,16 @@ voucherRoutes.get("/:id/stats", ...VoucherHandler.getVoucherStats);
 // voucherRoutes.post("/vouchers", ...VoucherHandler.createVoucher);
 // voucherRoutes.put("/vouchers/:id", ...VoucherHandler.updateVoucher);
 // voucherRoutes.delete("/vouchers/:id", ...VoucherHandler.deleteVoucher);
-voucherRoutes.post("/collect", ...VoucherHandler.collectVoucher);
 
 // Analytics endpoints
-voucherRoutes.get("/analytics/overview", ...AnalyticsHandler.getAnalyticsOverview);
+voucherRoutes.get(
+  "/analytics/overview",
+  ...AnalyticsHandler.getAnalyticsOverview
+);
 voucherRoutes.get("/analytics/trends", ...AnalyticsHandler.getAnalyticsTrends);
-voucherRoutes.get("/analytics/leaderboards", ...AnalyticsHandler.getAnalyticsLeaderboards);
+voucherRoutes.get(
+  "/analytics/leaderboards",
+  ...AnalyticsHandler.getAnalyticsLeaderboards
+);
 
 export { voucherRoutes };
