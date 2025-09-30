@@ -40,6 +40,25 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
     }
   };
 
+  const formatDateShort = (dateString?: string | null) => {
+    if (!dateString) return "-";
+    try {
+      return format(new Date(dateString), "dd MMM yyyy");
+    } catch {
+      return "-";
+    }
+  };
+
+  const getVoucherStatus = (startDate?: string | null, endDate?: string | null) => {
+    const now = new Date();
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    if (start && now < start) return "upcoming";
+    if (end && now > end) return "ended";
+    return "active";
+  };
+
   const formatDateRange = (
     startDate?: string | null,
     endDate?: string | null
@@ -247,26 +266,64 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                       </div>
                     )}
 
-                    {/* Code Count Badge - positioned on image */}
-                    {voucher.codes && voucher.codes.length > 0 && (
-                      <div className="absolute top-2 right-2">
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          {voucher.codes.length} codes
-                        </span>
-                      </div>
-                    )}
+                    {/* Status Badge - positioned on image */}
+                    {(() => {
+                      const status = getVoucherStatus(voucher.start_date, voucher.end_date);
+                      return (
+                        <div className="absolute top-2 right-2">
+                          <span
+                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              status === "upcoming"
+                                ? "bg-blue-100 text-blue-800"
+                                : status === "active"
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-gray-100 text-gray-800"
+                            }`}
+                          >
+                            {status === "upcoming"
+                              ? "Upcoming"
+                              : status === "active"
+                                ? "Active"
+                                : "Ended"}
+                          </span>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Voucher Info */}
                   <div className="p-2">
-                    <h4 className="text-xs font-medium text-gray-900 truncate mb-1">
+                    <h4 className="text-xs font-medium text-gray-900 truncate mb-2">
                       {voucher.metadata?.title?.th ||
                         voucher.name ||
                         "Untitled Voucher"}
                     </h4>
                     <div className="space-y-1">
-                      <div className="flex items-center justify-end">
-                        {voucher.metadata?.redemptionType && (
+                      {/* Available/Total Codes */}
+                      <p className="text-xs text-gray-600">
+                        Available:{" "}
+                        <span className="font-medium text-gray-900">
+                          {voucher.codes?.filter((c: any) => c.code_status === "available").length || 0}
+                        </span>
+                        {" / "}
+                        <span className="font-medium text-gray-900">
+                          {voucher.codes?.length || 0}
+                        </span>
+                      </p>
+
+                      {/* Start Date */}
+                      <p className="text-xs text-gray-500">
+                        Start: {formatDateShort(voucher.start_date)}
+                      </p>
+
+                      {/* End Date */}
+                      <p className="text-xs text-gray-500">
+                        End: {formatDateShort(voucher.end_date)}
+                      </p>
+
+                      {/* Redemption Type Badge */}
+                      {voucher.metadata?.redemptionType && (
+                        <div className="pt-1">
                           <span
                             className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                               voucher.metadata.redemptionType === "instant"
@@ -288,11 +345,8 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                                   ? "Form Required"
                                   : voucher.metadata.redemptionType}
                           </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-gray-400">
-                        {formatDateRange(voucher.start_date, voucher.end_date)}
-                      </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -107,9 +107,24 @@ export const getLiffPageDetails = factory.createHandlers(
             },
           ],
           deep: {
-            vouchers: { limit: -1 },
-            populars: { limit: -1 },
-            banner_vouchers: { limit: -1 },
+            vouchers: {
+              limit: -1,
+              vouchers_id: {
+                codes: { limit: -1 },
+              },
+            },
+            populars: {
+              limit: -1,
+              vouchers_id: {
+                codes: { limit: -1 },
+              },
+            },
+            banner_vouchers: {
+              limit: -1,
+              vouchers_id: {
+                codes: { limit: -1 },
+              },
+            },
           },
         } as any)
       );
@@ -125,9 +140,57 @@ export const getLiffPageDetails = factory.createHandlers(
         .map((v: any) => v.vouchers_id)
         .filter(Boolean);
 
+      // ดึง codes ของทุก voucher แบบ limit: -1 เพื่อไม่ให้โดนเพจิเนชัน
+      const allVoucherIds: string[] = Array.from(
+        new Set(
+          [...vouchersFromVouchers, ...popularVouchers, ...bannerVouchers]
+            .map((v: any) => v?.id)
+            .filter((id: any) => !!id)
+        )
+      );
+
+      let codesByVoucherId: Record<string, any[]> = {};
+      try {
+        if (allVoucherIds.length > 0) {
+          const voucherCodesAll: any = await directus.request(
+            readItems("vouchers_codes", {
+              fields: ["id", "code", "code_status", "voucher"],
+              filter: { voucher: { _in: allVoucherIds } },
+              limit: -1,
+            })
+          );
+          const arr = Array.isArray(voucherCodesAll)
+            ? voucherCodesAll
+            : voucherCodesAll?.data || [];
+          codesByVoucherId = arr.reduce((acc: Record<string, any[]>, code: any) => {
+            const vId = code?.voucher;
+            if (!vId) return acc;
+            if (!acc[vId]) acc[vId] = [];
+            acc[vId].push(code);
+            return acc;
+          }, {});
+        }
+      } catch (codesErr) {
+        console.warn("Error fetching vouchers_codes for LIFF page details:", codesErr);
+        codesByVoucherId = {};
+      }
+
+      const enrichWithCodes = (v: any) => ({
+        ...v,
+        codes: codesByVoucherId[v.id] || [],
+      });
+
+      const enrichedVouchersFromVouchers = vouchersFromVouchers.map(enrichWithCodes);
+      const enrichedPopularVouchers = popularVouchers.map(enrichWithCodes);
+      const enrichedBannerVouchers = bannerVouchers.map(enrichWithCodes);
+
       // รวม all vouchers จากทุก relation และ remove duplicates
       const allVouchersSet = new Set();
-      [...vouchersFromVouchers, ...popularVouchers, ...bannerVouchers].forEach(
+      [
+        ...enrichedVouchersFromVouchers,
+        ...enrichedPopularVouchers,
+        ...enrichedBannerVouchers,
+      ].forEach(
         (voucher) => {
           if (voucher && voucher.id) {
             allVouchersSet.add(JSON.stringify(voucher));
@@ -147,8 +210,8 @@ export const getLiffPageDetails = factory.createHandlers(
       return c.json({
         liffPage,
         allVouchers,
-        popularVouchers,
-        bannerVouchers,
+        popularVouchers: enrichedPopularVouchers,
+        bannerVouchers: enrichedBannerVouchers,
         brands,
         categories,
       });
@@ -223,9 +286,24 @@ export const getDashboard = factory.createHandlers(
               },
             ],
             deep: {
-              vouchers: { limit: -1 },
-              populars: { limit: -1 },
-              banner_vouchers: { limit: -1 },
+              vouchers: {
+                limit: -1,
+                vouchers_id: {
+                  codes: { limit: -1 },
+                },
+              },
+              populars: {
+                limit: -1,
+                vouchers_id: {
+                  codes: { limit: -1 },
+                },
+              },
+              banner_vouchers: {
+                limit: -1,
+                vouchers_id: {
+                  codes: { limit: -1 },
+                },
+              },
             },
           } as any)
         );
