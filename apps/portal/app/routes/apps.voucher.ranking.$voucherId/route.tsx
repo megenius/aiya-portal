@@ -253,7 +253,7 @@ const VoucherLatestCollectorsPage: React.FC = () => {
                           </div>
                         )}
                         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white">
-                          #{index + 1}
+                          #{latestCollectors.length - index}
                         </div>
                         <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border-2 border-white/30">
                           {collector.picture_url ? (
