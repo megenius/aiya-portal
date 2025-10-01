@@ -192,7 +192,7 @@ export const messages = {
     },
     footer: {
       status: {
-        instant: "รับ",
+        instant: "เก็บคูปอง",
         form: "ลงทะเบียน",
         collected: "ใช้คูปอง",
         pending_confirmation: "แตะเพื่อใช้",
