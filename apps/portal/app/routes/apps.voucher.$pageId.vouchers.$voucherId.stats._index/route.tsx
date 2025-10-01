@@ -13,7 +13,12 @@ import {
   STATUS_BADGE_STYLES,
   VOUCHER_CONSTANTS,
 } from "~/constants/voucher.constant";
-import { sanitizeUserInput, getInitial, formatDateShort, formatDateTimeTZ } from "~/utils/voucher";
+import {
+  sanitizeUserInput,
+  getInitial,
+  formatDateShort,
+  formatDateTimeTZ,
+} from "~/utils/voucher";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -52,8 +57,18 @@ const BackButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     onClick={onClick}
     className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
   >
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M15 19l-7-7 7-7"
+      />
     </svg>
     Back to Vouchers
   </button>
@@ -96,8 +111,12 @@ const VoucherStatsPage: React.FC = () => {
         </div>
         <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
           <div className="text-center py-8">
-            <div className="text-red-600 text-lg font-medium mb-2">{validation.error}</div>
-            <div className="text-gray-500">Please check the URL and try again.</div>
+            <div className="text-red-600 text-lg font-medium mb-2">
+              {validation.error}
+            </div>
+            <div className="text-gray-500">
+              Please check the URL and try again.
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +140,9 @@ const VoucherStatsPage: React.FC = () => {
             <div className="text-red-600 text-lg font-medium mb-2">
               Failed to load voucher statistics
             </div>
-            <div className="text-gray-500">Please try refreshing the page or contact support.</div>
+            <div className="text-gray-500">
+              Please try refreshing the page or contact support.
+            </div>
           </div>
         </div>
       </div>
@@ -158,7 +179,9 @@ const VoucherStatsPage: React.FC = () => {
           collector.display_name || "",
           codeItem?.code || "",
           codeItem?.status || "",
-          codeItem?.collected_date ? formatDateTimeTZ(codeItem.collected_date) : "",
+          codeItem?.collected_date
+            ? formatDateTimeTZ(codeItem.collected_date)
+            : "",
           codeItem?.used_date ? formatDateTimeTZ(codeItem.used_date) : "",
           codeItem?.expired_date ? formatDateTimeTZ(codeItem.expired_date) : "",
         ];
@@ -169,10 +192,14 @@ const VoucherStatsPage: React.FC = () => {
         ...rows.map((r) => r.map(escape).join(",")),
       ].join("\n");
 
-      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+      const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8",
+      });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      const safeName = sanitizeUserInput(voucher?.metadata?.title?.th || voucher?.name || "voucher");
+      const safeName = sanitizeUserInput(
+        voucher?.metadata?.title?.th || voucher?.name || "voucher"
+      );
       const ts = new Date();
       const pad = (n: number) => String(n).padStart(2, "0");
       const filename = `${safeName}-collectors-${ts.getFullYear()}${pad(ts.getMonth() + 1)}${pad(ts.getDate())}-${pad(ts.getHours())}${pad(ts.getMinutes())}${pad(ts.getSeconds())}.csv`;
@@ -207,7 +234,11 @@ const VoucherStatsPage: React.FC = () => {
               )}
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {sanitizeUserInput(voucher?.metadata?.title?.th || voucher?.name || "Voucher Statistics")}
+                  {sanitizeUserInput(
+                    voucher?.metadata?.title?.th ||
+                      voucher?.name ||
+                      "Voucher Statistics"
+                  )}
                 </h1>
                 <p className="text-gray-600 mt-1">
                   Detailed statistics and analytics for this voucher
@@ -215,18 +246,25 @@ const VoucherStatsPage: React.FC = () => {
               </div>
             </div>
             <button
-              onClick={() => window.open(`/apps/voucher/ranking/${voucherId}`, "_blank")}
-              className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2 text-white transition-all hover:from-indigo-700 hover:to-purple-700"
+              onClick={() =>
+                window.open(`/apps/voucher/live-board/${voucherId}`, "_blank")
+              }
+              className="inline-flex items-center gap-2 rounded-lg border-2 border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-all hover:bg-blue-50 "
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                 />
               </svg>
-              View Latest Collectors
+              View Live Board
             </button>
           </div>
         </div>
@@ -275,19 +313,27 @@ const VoucherStatsPage: React.FC = () => {
 
         {/* Time-based Metrics */}
         <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Recent Activity</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Recent Activity
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="text-center p-3 bg-blue-50 rounded-lg">
               <div className="text-xs text-gray-600">Today Views</div>
-              <div className="text-lg font-semibold text-blue-900">{stats.todayViews || 0}</div>
+              <div className="text-lg font-semibold text-blue-900">
+                {stats.todayViews || 0}
+              </div>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
               <div className="text-xs text-gray-600">Today Collections</div>
-              <div className="text-lg font-semibold text-green-900">{stats.todayCollections}</div>
+              <div className="text-lg font-semibold text-green-900">
+                {stats.todayCollections}
+              </div>
             </div>
             <div className="text-center p-3 bg-blue-50 rounded-lg">
               <div className="text-xs text-gray-600">Week Views</div>
-              <div className="text-lg font-semibold text-blue-900">{stats.thisWeekViews || 0}</div>
+              <div className="text-lg font-semibold text-blue-900">
+                {stats.thisWeekViews || 0}
+              </div>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
               <div className="text-xs text-gray-600">Week Collections</div>
@@ -299,7 +345,9 @@ const VoucherStatsPage: React.FC = () => {
           <div className="mt-3 pt-3 border-t border-gray-200">
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-600">Avg. Time to Redemption</span>
-              <span className="font-medium text-gray-900">{stats.avgTimeToRedemption} days</span>
+              <span className="font-medium text-gray-900">
+                {stats.avgTimeToRedemption} days
+              </span>
             </div>
           </div>
         </div>
@@ -307,17 +355,31 @@ const VoucherStatsPage: React.FC = () => {
         {/* All Collectors with Pagination */}
         <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold text-gray-900">All Collectors</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              All Collectors
+            </h3>
             <div className="flex items-center gap-2">
-              <div className="text-xs text-gray-500">{totalCollectors} total</div>
+              <div className="text-xs text-gray-500">
+                {totalCollectors} total
+              </div>
               <button
                 type="button"
                 onClick={handleExportCsv}
                 className="inline-flex items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
                 title="Export collectors as CSV"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v12m0 0l-3-3m3 3l3-3M6 20h12" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v12m0 0l-3-3m3 3l3-3M6 20h12"
+                  />
                 </svg>
                 Export CSV
               </button>
@@ -351,11 +413,16 @@ const VoucherStatsPage: React.FC = () => {
                   <tbody className="divide-y divide-gray-200">
                     {currentCollectors.map((collector, index) => {
                       const codeItem = collector.codes?.[0];
-                      const safeName = sanitizeUserInput(collector.display_name);
+                      const safeName = sanitizeUserInput(
+                        collector.display_name
+                      );
                       const initial = getInitial(collector.display_name);
 
                       return (
-                        <tr key={`${collector.userId}-${index}`} className="hover:bg-gray-50">
+                        <tr
+                          key={`${collector.userId}-${index}`}
+                          className="hover:bg-gray-50"
+                        >
                           <td className="px-3 py-2 text-xs text-gray-500">
                             #{startIndex + index + 1}
                           </td>
@@ -415,13 +482,23 @@ const VoucherStatsPage: React.FC = () => {
               </div>
 
               {/* Pagination Component */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={totalCollectors}
-                itemsPerPage={VOUCHER_CONSTANTS.ITEMS_PER_PAGE}
-                onPageChange={setCurrentPage}
-              />
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-500">
+                  Showing {startIndex + 1}-
+                  {Math.min(
+                    startIndex + VOUCHER_CONSTANTS.ITEMS_PER_PAGE,
+                    totalCollectors
+                  )}{" "}
+                  of {totalCollectors}
+                </div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalCollectors}
+                  itemsPerPage={VOUCHER_CONSTANTS.ITEMS_PER_PAGE}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
             </>
           ) : (
             <div className="text-center py-8">

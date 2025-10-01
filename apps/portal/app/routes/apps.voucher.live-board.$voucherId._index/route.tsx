@@ -51,6 +51,40 @@ const VoucherLatestCollectorsPage: React.FC = () => {
     refetchInterval: VOUCHER_CONSTANTS.STATS_REFETCH_INTERVAL_MS,
   });
 
+  // Memoize collector processing - MUST be before early returns to satisfy Rules of Hooks
+  const latestCollectors = useMemo<CollectorData[]>(() => {
+    if (!voucherStatsData?.stats?.topCollectors) return [];
+
+    const topCollectors = voucherStatsData.stats.topCollectors;
+    return [...topCollectors]
+      .map((collector) => {
+        const firstCode = collector.codes?.[0];
+        const collectedDate = firstCode?.collected_date
+          ? new Date(firstCode.collected_date)
+          : null;
+
+        // Determine status from first code (or could check all codes)
+        let status = VoucherCodeStatus.COLLECTED;
+        if (firstCode?.status === VoucherCodeStatus.USED ||
+            firstCode?.status === VoucherCodeStatus.PENDING_CONFIRMATION) {
+          status = VoucherCodeStatus.USED;
+        }
+
+        return {
+          ...collector,
+          collectedDate,
+          status,
+        };
+      })
+      .sort((a, b) => {
+        // Sort by date, latest first
+        if (!a.collectedDate && !b.collectedDate) return 0;
+        if (!a.collectedDate) return 1;
+        if (!b.collectedDate) return -1;
+        return b.collectedDate.getTime() - a.collectedDate.getTime();
+      });
+  }, [voucherStatsData?.stats?.topCollectors]);
+
   // Validation error
   if (!validation.isValid) {
     return (
@@ -98,38 +132,6 @@ const VoucherLatestCollectorsPage: React.FC = () => {
   }
 
   const { stats, voucher } = voucherStatsData;
-  const topCollectors = stats.topCollectors || [];
-
-  // Memoize collector processing to avoid expensive operations on every render
-  const latestCollectors = useMemo<CollectorData[]>(() => {
-    return [...topCollectors]
-      .map((collector) => {
-        const firstCode = collector.codes?.[0];
-        const collectedDate = firstCode?.collected_date
-          ? new Date(firstCode.collected_date)
-          : null;
-
-        // Determine status from first code (or could check all codes)
-        let status = VoucherCodeStatus.COLLECTED;
-        if (firstCode?.status === VoucherCodeStatus.USED ||
-            firstCode?.status === VoucherCodeStatus.PENDING_CONFIRMATION) {
-          status = VoucherCodeStatus.USED;
-        }
-
-        return {
-          ...collector,
-          collectedDate,
-          status,
-        };
-      })
-      .sort((a, b) => {
-        // Sort by date, latest first
-        if (!a.collectedDate && !b.collectedDate) return 0;
-        if (!a.collectedDate) return 1;
-        if (!b.collectedDate) return -1;
-        return b.collectedDate.getTime() - a.collectedDate.getTime();
-      });
-  }, [topCollectors]);
 
   // Get redemption type styling
   const redemptionType = voucher.metadata?.redemptionType as RedemptionType | undefined;

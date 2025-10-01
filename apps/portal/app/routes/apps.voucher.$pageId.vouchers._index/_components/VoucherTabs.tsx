@@ -436,19 +436,19 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
           <div>
             {paginationData.paginatedItems.length > 0 ? (
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full table-fixed divide-y divide-gray-200">
                   <thead className="bg-gray-50 sticky top-0 z-10">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Voucher
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
                         Status
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-40">
                         Type
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-36">
                         Available / Total
                       </th>
                     </tr>
@@ -494,12 +494,13 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                                   "Untitled Voucher"}
                               </div>
                               <div className="text-xs text-gray-500 mt-0.5">
-                                {formatDateShort(voucher.start_date)} - {formatDateShort(voucher.end_date)}
+                                {formatDateShort(voucher.start_date)} -{" "}
+                                {formatDateShort(voucher.end_date)}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-3 whitespace-nowrap text-center">
                           {(() => {
                             const status = getVoucherStatus(
                               voucher.start_date,
@@ -524,7 +525,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                             );
                           })()}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-3 whitespace-nowrap text-center">
                           {voucher.metadata?.redemptionType && (
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -549,7 +550,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-4 py-3 whitespace-nowrap text-right text-sm text-gray-900">
                           <span className="font-medium text-green-600">
                             {voucher.codes?.filter(
                               (c: any) => c.code_status === "available"
