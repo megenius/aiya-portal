@@ -26,6 +26,8 @@ export type Voucher = Omit<
   metadata: VoucherMetadata;
   voucher_brand_id: Brand;
   categories: Category[];
+  // optional per-voucher redemption countdown in seconds (nullable on server)
+  redemption_countdown_seconds?: number | null;
   // v2 optional computed fields
   isPopular?: boolean;
   stats?: VoucherStats;

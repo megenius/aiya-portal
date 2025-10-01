@@ -3261,45 +3261,6 @@ export interface paths {
      */
     patch: operations["updateSingleItemsBotsMutedUsers"];
   };
-  "/items/vouchers_users": {
-    /**
-     * List Items
-     * @description List the vouchers_users items.
-     */
-    get: operations["readItemsVouchersUsers"];
-    /**
-     * Create an Item
-     * @description Create a new vouchers_users item.
-     */
-    post: operations["createItemsVouchersUsers"];
-    /**
-     * Delete Multiple Items
-     * @description Delete multiple existing vouchers_users items.
-     */
-    delete: operations["deleteItemsVouchersUsers"];
-    /**
-     * Update Multiple Items
-     * @description Update multiple vouchers_users items at the same time.
-     */
-    patch: operations["updateItemsVouchersUsers"];
-  };
-  "/items/vouchers_users/{id}": {
-    /**
-     * Retrieve an Item
-     * @description Retrieve a single vouchers_users item by unique identifier.
-     */
-    get: operations["readSingleItemsVouchersUsers"];
-    /**
-     * Delete an Item
-     * @description Delete an existing vouchers_users item.
-     */
-    delete: operations["deleteSingleItemsVouchersUsers"];
-    /**
-     * Update an Item
-     * @description Update an existing vouchers_users item.
-     */
-    patch: operations["updateSingleItemsVouchersUsers"];
-  };
   "/items/vouchers": {
     /**
      * List Items
@@ -3338,6 +3299,45 @@ export interface paths {
      * @description Update an existing vouchers item.
      */
     patch: operations["updateSingleItemsVouchers"];
+  };
+  "/items/vouchers_users": {
+    /**
+     * List Items
+     * @description List the vouchers_users items.
+     */
+    get: operations["readItemsVouchersUsers"];
+    /**
+     * Create an Item
+     * @description Create a new vouchers_users item.
+     */
+    post: operations["createItemsVouchersUsers"];
+    /**
+     * Delete Multiple Items
+     * @description Delete multiple existing vouchers_users items.
+     */
+    delete: operations["deleteItemsVouchersUsers"];
+    /**
+     * Update Multiple Items
+     * @description Update multiple vouchers_users items at the same time.
+     */
+    patch: operations["updateItemsVouchersUsers"];
+  };
+  "/items/vouchers_users/{id}": {
+    /**
+     * Retrieve an Item
+     * @description Retrieve a single vouchers_users item by unique identifier.
+     */
+    get: operations["readSingleItemsVouchersUsers"];
+    /**
+     * Delete an Item
+     * @description Delete an existing vouchers_users item.
+     */
+    delete: operations["deleteSingleItemsVouchersUsers"];
+    /**
+     * Update an Item
+     * @description Update an existing vouchers_users item.
+     */
+    patch: operations["updateSingleItemsVouchersUsers"];
   };
   "/items/orders": {
     /**
@@ -5516,6 +5516,8 @@ export interface components {
        * @example 137862
        */
       filesize?: number;
+      focal_point_y?: number | null;
+      focal_point_x?: number | null;
       /**
        * @description Duration of the file in seconds. Only applies to audio and video.
        * @example 0
@@ -5531,17 +5533,15 @@ export interface components {
        * @example 800
        */
       width?: number | null;
-      focal_point_y?: number | null;
-      focal_point_x?: number | null;
       /** @description Tags for the file. Is automatically populated based on Exif data for images. */
       tags?: string[] | null;
       /** @description Where the file was created. Is automatically populated based on Exif data for images. */
       location?: string | null;
       /** @description Description for the file. */
       description?: string | null;
-      tus_data?: unknown;
       /** @description IPTC, Exif, and ICC metadata extracted from file */
       metadata?: Record<string, unknown> | null;
+      tus_data?: unknown;
       tus_id?: string | null;
       /**
        * @description Where the file was embedded from.
@@ -5578,26 +5578,20 @@ export interface components {
        * @example local
        */
       storage?: string;
-      /** Format: timestamp */
-      modified_on?: string;
       /**
        * Format: date-time
        * @description When the file was created.
        * @example 2019-12-03T00:10:15+00:00
        */
       created_on?: string;
+      /** Format: timestamp */
+      modified_on?: string;
       /**
        * Format: date-time
        * @description When the file was last uploaded/replaced.
        * @example 2019-12-03T00:10:15+00:00
        */
       uploaded_on?: string;
-      /**
-       * @description Who uploaded the file.
-       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
-       */
-      uploaded_by?: string | components["schemas"]["Users"];
-      modified_by?: string | components["schemas"]["Users"] | null;
       /**
        * @description Unique identifier for the file.
        * @example 8cbb43fe-4cdf-4991-8352-c461779cec02
@@ -5608,6 +5602,12 @@ export interface components {
        * @example null
        */
       folder?: string | components["schemas"]["Folders"] | null;
+      /**
+       * @description Who uploaded the file.
+       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
+       */
+      uploaded_by?: string | components["schemas"]["Users"];
+      modified_by?: string | components["schemas"]["Users"] | null;
     };
     Folders: {
       /**
@@ -5642,13 +5642,13 @@ export interface components {
        * @example Administrator
        */
       name?: string;
-      /** @description $t:field_options.directus_roles.parent_note */
-      parent?: string | components["schemas"]["Roles"] | null;
       /**
        * @description Unique identifier for the role.
        * @example 2f24211d-d928-469a-aea3-3c8f53d4e426
        */
       id?: string;
+      /** @description $t:field_options.directus_roles.parent_note */
+      parent?: string | components["schemas"]["Roles"] | null;
       /** @description $t:field_options.directus_roles.children_note */
       children?: ((string | components["schemas"]["Roles"])[]) | null;
       policies?: unknown;
@@ -5670,27 +5670,14 @@ export interface components {
        * @example null
        */
       description?: string | null;
-      auth_data?: unknown;
-      theme_dark_overrides?: unknown;
       /**
        * @description The user's tags.
        * @example null
        */
       tags?: string[] | null;
+      theme_dark_overrides?: unknown;
       theme_light_overrides?: unknown;
-      /**
-       * @description The user's location.
-       * @example null
-       */
-      location?: string | null;
-      /** @description Password of the user. */
-      password?: string;
-      /**
-       * Format: email
-       * @description Unique email address for the user.
-       * @example admin@example.com
-       */
-      email?: string;
+      auth_data?: unknown;
       /**
        * @description Last name of the user.
        * @example User
@@ -5701,6 +5688,10 @@ export interface components {
        * @example Admin
        */
       first_name?: string;
+      stripe_customer_id?: string | null;
+      theme_light?: string | null;
+      theme_dark?: string | null;
+      appearance?: string | null;
       external_identifier?: string | null;
       provider?: string;
       /**
@@ -5731,16 +5722,30 @@ export interface components {
        * @example null
        */
       title?: string | null;
-      stripe_customer_id?: string | null;
-      theme_light?: string | null;
-      theme_dark?: string | null;
-      appearance?: string | null;
+      /**
+       * @description The user's location.
+       * @example null
+       */
+      location?: string | null;
+      /** @description Password of the user. */
+      password?: string;
+      /**
+       * Format: email
+       * @description Unique email address for the user.
+       * @example admin@example.com
+       */
+      email?: string;
       /**
        * Format: date-time
        * @description When this user used the API last.
        * @example 2020-05-31T14:32:37Z
        */
       last_access?: string | null;
+      /**
+       * @description Unique identifier for the user.
+       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
+       */
+      id?: string;
       /**
        * @description The user's avatar.
        * @example null
@@ -5751,11 +5756,6 @@ export interface components {
        * @example 2f24211d-d928-469a-aea3-3c8f53d4e426
        */
       role?: string | components["schemas"]["Roles"];
-      /**
-       * @description Unique identifier for the user.
-       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
-       */
-      id?: string;
       teams?: ((string | components["schemas"]["ItemsSaasTeamsUsers"])[]) | null;
       policies?: unknown;
     };
@@ -5809,24 +5809,24 @@ export interface components {
     };
     ItemsLLMModels: {
       model_output_length?: number | null;
-      model_context_length?: number | null;
-      max_output_tokens?: number | null;
       max_input_tokens?: number | null;
+      max_output_tokens?: number | null;
       sort?: number | null;
+      model_context_length?: number | null;
       provider?: string | null;
       id: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
     };
     ItemsAdvanceProfiles: {
-      birth_month?: number | null;
       birth_year?: number | null;
+      birth_month?: number | null;
       interests?: unknown;
-      id: string;
+      display_name?: string | null;
       email?: string | null;
       company?: string | null;
       refcode?: string | null;
@@ -5835,13 +5835,13 @@ export interface components {
       last_name?: string | null;
       first_name?: string | null;
       uid?: string | null;
-      display_name?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      id: string;
       /** Format: timestamp */
       date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
       picture_url?: string | components["schemas"]["Files"] | null;
       point_transactions?: ((string | components["schemas"]["ItemsPointTransactions"])[]) | null;
       channel_users?: string | null;
@@ -5852,16 +5852,16 @@ export interface components {
     ItemsVoucherViews: {
       user_id?: string | components["schemas"]["ItemsProfiles"] | null;
       /** Format: timestamp */
-      first_viewed_at?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      voucher_id: string | components["schemas"]["ItemsVouchers"];
+      first_viewed_at?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      voucher_id: string | components["schemas"]["ItemsVouchers"];
     };
     ItemsLanguages: {
       direction?: string | null;
@@ -5869,29 +5869,22 @@ export interface components {
       code: string;
     };
     ItemsSaasHelpdeskTranslations: {
-      saas_helpdesk_id?: number | components["schemas"]["ItemsSaasHelpdesk"] | null;
       id?: number;
+      saas_helpdesk_id?: number | components["schemas"]["ItemsSaasHelpdesk"] | null;
       content?: string | null;
       name?: string | null;
       languages_code?: string | components["schemas"]["ItemsLanguages"] | null;
     };
     Collections: {
+      versioning?: boolean;
       hidden?: boolean;
       singleton?: boolean;
       archive_app_filter?: boolean;
-      versioning?: boolean;
       sort?: number | null;
-      translations?: unknown;
-      note?: string | null;
       item_duplication_fields?: unknown;
+      note?: string | null;
+      translations?: unknown;
       preview_url?: string | null;
-      display_template?: string | null;
-      icon?: string | null;
-      /**
-       * @description The collection key.
-       * @example customers
-       */
-      collection?: string;
       collapse?: string;
       group?: string | components["schemas"]["Collections"] | null;
       color?: string | null;
@@ -5900,24 +5893,22 @@ export interface components {
       unarchive_value?: string | null;
       archive_value?: string | null;
       archive_field?: string | null;
+      display_template?: string | null;
+      icon?: string | null;
+      /**
+       * @description The collection key.
+       * @example customers
+       */
+      collection?: string;
     };
     Presets: {
+      refresh_interval?: number | null;
       /**
        * @description Unique identifier for this single collection preset.
        * @example 155
        */
       id?: number;
-      refresh_interval?: number | null;
       filter?: unknown;
-      /**
-       * @description Layout query that's saved per layout type. Controls what data is fetched on load. These follow the same format as the JS SDK parameters.
-       * @example {
-       *   "cards": {
-       *     "sort": "-published_on"
-       *   }
-       * }
-       */
-      layout_query?: unknown;
       /**
        * @description Options of the views. The properties in here are controlled by the layout.
        * @example {
@@ -5930,6 +5921,22 @@ export interface components {
        * }
        */
       layout_options?: unknown;
+      /**
+       * @description Layout query that's saved per layout type. Controls what data is fetched on load. These follow the same format as the JS SDK parameters.
+       * @example {
+       *   "cards": {
+       *     "sort": "-published_on"
+       *   }
+       * }
+       */
+      layout_query?: unknown;
+      color?: string | null;
+      icon?: string | null;
+      /**
+       * @description Key of the layout that is used.
+       * @example null
+       */
+      layout?: string;
       /** @description Search query. */
       search?: string | null;
       /**
@@ -5939,13 +5946,6 @@ export interface components {
       collection?: string | components["schemas"]["Collections"];
       /** @description Name for the bookmark. If this is set, the preset will be considered a bookmark. */
       bookmark?: string | null;
-      color?: string | null;
-      icon?: string | null;
-      /**
-       * @description Key of the layout that is used.
-       * @example null
-       */
-      layout?: string;
       /**
        * @description The unique identifier of the user to whom this collection preset applies.
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
@@ -6009,21 +6009,21 @@ export interface components {
     };
     ItemsBotsUserActiveSessions: {
       closed_notified?: boolean | null;
-      bot_id?: string | null;
       provider_id?: string | null;
       uid?: string | null;
+      bot_id?: string | null;
       /** Format: timestamp */
-      expires_at?: string | null;
-      /** Format: timestamp */
-      closed_at?: string | null;
-      /** Format: timestamp */
-      last_active?: string | null;
-      /** Format: timestamp */
-      session_started_at?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      session_started_at?: string | null;
+      /** Format: timestamp */
+      last_active?: string | null;
+      /** Format: timestamp */
+      closed_at?: string | null;
+      /** Format: timestamp */
+      expires_at?: string | null;
       /** Format: uuid */
       id: string;
     };
@@ -6035,12 +6035,12 @@ export interface components {
       id?: number;
       /** @description CSV of fields that the user is allowed to interact with. */
       fields?: string[] | null;
-      /** @description JSON structure containing the preset value for created/updated items. */
-      presets?: Record<string, unknown> | null;
-      /** @description JSON structure containing the validation checks for this permission. */
-      validation?: Record<string, unknown> | null;
       /** @description JSON structure containing the permissions checks for this permission. */
       permissions?: Record<string, unknown> | null;
+      /** @description JSON structure containing the validation checks for this permission. */
+      validation?: Record<string, unknown> | null;
+      /** @description JSON structure containing the preset value for created/updated items. */
+      presets?: Record<string, unknown> | null;
       /**
        * @description What action this permission applies to.
        * @example create
@@ -6055,18 +6055,18 @@ export interface components {
       policy?: unknown;
     };
     Fields: {
-      readonly?: boolean;
       hidden?: boolean;
       required?: boolean | null;
-      sort?: number | null;
+      readonly?: boolean;
       id?: number;
+      sort?: number | null;
+      options?: unknown;
+      validation?: unknown;
       validation_message?: string | null;
       note?: string | null;
-      validation?: unknown;
-      conditions?: unknown;
-      translations?: unknown;
       display_options?: unknown;
-      options?: unknown;
+      translations?: unknown;
+      conditions?: unknown;
       group?: number | components["schemas"]["Fields"] | null;
       width?: string | null;
       display?: string | null;
@@ -6090,16 +6090,6 @@ export interface components {
        */
       id?: number;
       one_allowed_collections?: string[] | null;
-      /**
-       * @description Foreign key. Field that holds the primary key of the related collection.
-       * @example user
-       */
-      many_field?: string;
-      /**
-       * @description Collection that has the field that holds the foreign key.
-       * @example directus_activity
-       */
-      many_collection?: string;
       one_deselect_action?: string;
       sort_field?: string | null;
       /**
@@ -6118,6 +6108,16 @@ export interface components {
        * @example directus_users
        */
       one_collection?: string;
+      /**
+       * @description Foreign key. Field that holds the primary key of the related collection.
+       * @example user
+       */
+      many_field?: string;
+      /**
+       * @description Collection that has the field that holds the foreign key.
+       * @example directus_activity
+       */
+      many_collection?: string;
     };
     Activity: {
       /**
@@ -6164,17 +6164,17 @@ export interface components {
       revisions?: ((number | components["schemas"]["Revisions"])[]) | null;
     };
     ItemsBotsEnabledUsers: {
-      last_message_text?: string | null;
       picture_url?: string | null;
+      last_message_text?: string | null;
       display_name?: string | null;
       uid?: string | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
       /** Format: date-time */
       last_message_event_at?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -6327,6 +6327,12 @@ export interface components {
        * @example 2022-05-11T13:14:52Z
        */
       date_created?: string | null;
+      flow?: string | components["schemas"]["Flows"];
+      /**
+       * @description The user who created the operation.
+       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
+       */
+      user_created?: string | components["schemas"]["Users"];
       /**
        * @description Unique identifier for the operation.
        * @example 2f24211d-d928-469a-aea3-3c8f53d4e426
@@ -6342,18 +6348,12 @@ export interface components {
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
        */
       reject?: string | components["schemas"]["Operations"];
-      flow?: string | components["schemas"]["Flows"];
-      /**
-       * @description The user who created the operation.
-       * @example 63716273-0f29-4648-8a2a-2af2948f6f78
-       */
-      user_created?: string | components["schemas"]["Users"];
     };
     Settings: {
-      /** @description $t:fields.directus_settings.public_registration_note */
-      public_registration?: boolean;
       /** @description $t:fields.directus_settings.public_registration_verify_email_note */
       public_registration_verify_email?: boolean;
+      /** @description $t:fields.directus_settings.public_registration_note */
+      public_registration?: boolean;
       /**
        * @description Allowed authentication login attempts before the user's status is set to blocked.
        * @example 25
@@ -6364,11 +6364,13 @@ export interface components {
        * @example 1
        */
       id?: number;
+      custom_css?: string | null;
       /**
        * @description Note rendered on the public pages of the app.
        * @example null
        */
       public_note?: string | null;
+      visual_editor_urls?: unknown;
       /**
        * @description Array of allowed
        * @example null
@@ -6405,30 +6407,13 @@ export interface components {
                 }[] | null;
             })[]) | null;
         })[]) | null;
+      basemaps?: unknown;
+      module_bar?: unknown;
+      custom_aspect_ratios?: unknown;
+      theme_light_overrides?: unknown;
       theme_dark_overrides?: unknown;
-      custom_css?: string | null;
-      visual_editor_urls?: unknown;
       /** @description $t:fields.directus_settings.public_registration_email_filter_note */
       public_registration_email_filter?: unknown;
-      custom_aspect_ratios?: unknown;
-      module_bar?: unknown;
-      basemaps?: unknown;
-      theme_light_overrides?: unknown;
-      report_feature_url?: string | null;
-      report_bug_url?: string | null;
-      report_error_url?: string | null;
-      default_theme_dark?: string | null;
-      default_theme_light?: string | null;
-      default_appearance?: string;
-      default_language?: string;
-      project_descriptor?: string | null;
-      mapbox_key?: string | null;
-      /**
-       * @description What transformations are allowed in the assets endpoint.
-       * @example all
-       * @enum {string|null}
-       */
-      storage_asset_transform?: "all" | "none" | "presets" | null;
       /** @description Authentication password policy. */
       auth_password_policy?: string | null;
       /**
@@ -6446,6 +6431,21 @@ export interface components {
        * @example Directus
        */
       project_name?: string;
+      report_feature_url?: string | null;
+      report_bug_url?: string | null;
+      report_error_url?: string | null;
+      default_theme_dark?: string | null;
+      default_theme_light?: string | null;
+      default_appearance?: string;
+      default_language?: string;
+      project_descriptor?: string | null;
+      mapbox_key?: string | null;
+      /**
+       * @description What transformations are allowed in the assets endpoint.
+       * @example all
+       * @enum {string|null}
+       */
+      storage_asset_transform?: "all" | "none" | "presets" | null;
       /**
        * @description The logo of the project.
        * @example null
@@ -6487,14 +6487,14 @@ export interface components {
     ItemsSaasProjects: {
       sort?: number | null;
       description?: string | null;
-      status?: string;
       name?: string | null;
+      status?: string;
       /** Format: timestamp */
-      due_date?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      due_date?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -6562,16 +6562,16 @@ export interface components {
       key?: string;
       /**
        * Format: date-time
-       * @description When the Content Version was last updated.
-       * @example 2022-05-11T13:14:53Z
-       */
-      date_updated?: string | null;
-      /**
-       * Format: date-time
        * @description When the Content Version was created.
        * @example 2022-05-11T13:14:52Z
        */
       date_created?: string | null;
+      /**
+       * Format: date-time
+       * @description When the Content Version was last updated.
+       * @example 2022-05-11T13:14:53Z
+       */
+      date_updated?: string | null;
       /**
        * @description Primary key of the Content Version.
        * @example 63716273-0f29-4648-8a2a-2af2948f6f78
@@ -6590,9 +6590,9 @@ export interface components {
     };
     ItemsSaasEvents: {
       metadata?: unknown;
+      key?: string | null;
       ip_address?: string | null;
       service?: string | null;
-      key?: string | null;
       /** Format: timestamp */
       timestamp?: string | null;
       /** Format: uuid */
@@ -6606,15 +6606,15 @@ export interface components {
       metadata?: unknown;
       status?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: uuid */
+      id: string;
       user_updated?: string | components["schemas"]["Users"] | null;
       assigned_to?: string | components["schemas"]["Users"] | null;
       user?: string | components["schemas"]["Users"] | null;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
-      /** Format: uuid */
-      id: string;
     };
     ItemsSaasTeamsUsers: {
       is_team_admin?: boolean | null;
@@ -6622,9 +6622,9 @@ export interface components {
       role?: string | null;
       status?: string | null;
       /** Format: timestamp */
-      date_accepted?: string | null;
-      /** Format: timestamp */
       date_invited?: string | null;
+      /** Format: timestamp */
+      date_accepted?: string | null;
       /** Format: uuid */
       id: string;
       team_id?: string | components["schemas"]["ItemsSaasTeams"] | null;
@@ -6633,24 +6633,24 @@ export interface components {
     ItemsSaasTeams: {
       billing_address?: unknown;
       feature_flags?: unknown;
-      slug?: string | null;
-      type?: string | null;
-      name?: string | null;
-      status?: string;
       billing_phone?: string | null;
       stripe_customer_id?: string | null;
       color?: string | null;
       billing_email?: string | null;
+      slug?: string | null;
+      type?: string | null;
+      name?: string | null;
+      status?: string;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      /** Format: uuid */
-      id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       avatar?: string | components["schemas"]["Files"] | null;
       folder?: string | components["schemas"]["Folders"] | null;
+      /** Format: uuid */
+      id: string;
+      user_created?: string | components["schemas"]["Users"] | null;
       bots?: ((string | components["schemas"]["ItemsBots"])[]) | null;
       channels?: ((string | components["schemas"]["ItemsChannels"])[]) | null;
       products?: ((string | components["schemas"]["ItemsProducts"])[]) | null;
@@ -6672,11 +6672,11 @@ export interface components {
       name?: string | null;
       status?: string;
       /** Format: timestamp */
-      due_date?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      due_date?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -6688,17 +6688,17 @@ export interface components {
     };
     ItemsAPILogs: {
       output_tokens?: number | null;
-      input_tokens?: number | null;
       sort?: number | null;
-      response?: unknown;
+      input_tokens?: number | null;
       body?: unknown;
+      response?: unknown;
       type?: string | null;
       model?: string | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -6721,9 +6721,9 @@ export interface components {
       bot?: string | components["schemas"]["ItemsBots"] | null;
       status?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -6738,8 +6738,8 @@ export interface components {
       interval_count?: number | null;
       trial_period_days?: number | null;
       svg_icon?: string | null;
-      features?: unknown;
       metadata?: unknown;
+      features?: unknown;
       name?: string | null;
       env?: string | null;
       lookup_key?: string | null;
@@ -6755,14 +6755,9 @@ export interface components {
     ItemsSaasSubscriptions: {
       /** @description Whether subscription will be canceled at period end */
       cancel_at_period_end?: boolean;
+      features?: unknown;
       /** @description Additional subscription metadata */
       metadata?: unknown;
-      features?: unknown;
-      /** @description Stripe subscription reference */
-      id: string;
-      env?: string | null;
-      collection_method?: string;
-      status?: string;
       currency?: string;
       plan_type?: string;
       /** @description month/year */
@@ -6773,26 +6768,20 @@ export interface components {
       stripe_price_id: string;
       /** @description Stripe customer reference */
       stripe_customer_id: string;
+      /** @description Stripe subscription reference */
+      id: string;
+      env?: string | null;
+      collection_method?: string;
+      status?: string;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /**
        * Format: timestamp
-       * @description Cancellation date
+       * @description Trial period start date
        */
-      canceled_at?: string | null;
-      /**
-       * Format: timestamp
-       * @description Current billing period end date
-       */
-      current_period_end: string;
-      /**
-       * Format: timestamp
-       * @description Current billing period start date
-       */
-      current_period_start: string;
-      /**
-       * Format: timestamp
-       * @description Next billing cycle start date
-       */
-      billing_cycle_anchor: string;
+      trial_start?: string | null;
       /**
        * Format: timestamp
        * @description Trial period end date
@@ -6800,13 +6789,24 @@ export interface components {
       trial_end?: string | null;
       /**
        * Format: timestamp
-       * @description Trial period start date
+       * @description Next billing cycle start date
        */
-      trial_start?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
+      billing_cycle_anchor: string;
+      /**
+       * Format: timestamp
+       * @description Current billing period start date
+       */
+      current_period_start: string;
+      /**
+       * Format: timestamp
+       * @description Current billing period end date
+       */
+      current_period_end: string;
+      /**
+       * Format: timestamp
+       * @description Cancellation date
+       */
+      canceled_at?: string | null;
       amount: number;
       /** Format: uuid */
       user_created?: string | null;
@@ -6838,15 +6838,15 @@ export interface components {
       require_login?: number | null;
       sort?: number | null;
       metadata?: unknown;
+      liff_secret_ciphertext?: string | null;
+      favicon?: string | null;
+      env?: string | null;
       name?: string | null;
       bg_color?: string | null;
       fore_color?: string | null;
       liff_id: string;
       slug?: string | null;
       status?: string;
-      liff_secret_ciphertext?: string | null;
-      favicon?: string | null;
-      env?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -6868,10 +6868,8 @@ export interface components {
     ItemsChannels: {
       disabled?: boolean | null;
       sort?: number | null;
-      provider_info?: unknown;
       forward_urls?: unknown;
-      dataset?: string | null;
-      name?: string | null;
+      provider_info?: unknown;
       platform?: string | null;
       provider_access_token?: string | null;
       provider_secret?: string | null;
@@ -6879,18 +6877,20 @@ export interface components {
       provider_id?: string | null;
       provider?: string | null;
       status?: string;
+      dataset?: string | null;
+      name?: string | null;
       /** Format: date-time */
       expired_at?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
-      /** Format: uuid */
-      id: string;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       logo?: string | components["schemas"]["Files"] | null;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
+      /** Format: uuid */
+      id: string;
       orderbots?: ((number | components["schemas"]["ItemsOrderbotsChannels"])[]) | null;
       bots?: ((number | components["schemas"]["ItemsChannelsBots"])[]) | null;
     };
@@ -6918,14 +6918,14 @@ export interface components {
       /** @description Number of months to pay recurring commission */
       recurring_months?: number;
       tier: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
-      /** @description Commission percentage for first payment */
-      first_payment_rate: number;
       /** @description Commission percentage for recurring payments */
       recurring_rate: number;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** @description Commission percentage for first payment */
+      first_payment_rate: number;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -6936,15 +6936,15 @@ export interface components {
     ItemsAdSets: {
       sort?: number | null;
       data?: unknown;
-      name?: string | null;
       status?: string | null;
       adset_id?: string | null;
       ad_account_id?: string | null;
       campaign_id?: string | null;
-      /** Format: timestamp */
-      last_synced?: string | null;
+      name?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
+      /** Format: timestamp */
+      last_synced?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** Format: uuid */
@@ -6969,25 +6969,25 @@ export interface components {
       impressions?: number | null;
       sort?: number | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       spend?: number | null;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
+      user_created?: string | components["schemas"]["Users"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
     };
     ItemsAIRules: {
       sort?: number | null;
-      action?: unknown;
       condition?: unknown;
-      name?: string | null;
+      action?: unknown;
       status?: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      name?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -7002,34 +7002,34 @@ export interface components {
       sort?: number | null;
       id?: number;
       description?: string | null;
-      content?: unknown;
       tags?: unknown;
+      content?: unknown;
       metadata?: unknown;
+      /** Format: date-time */
+      end_date?: string | null;
+      /** Format: date-time */
+      start_date?: string | null;
       register_link?: string | null;
       name?: string | null;
       status?: string;
-      /** Format: date-time */
-      start_date?: string | null;
-      /** Format: date-time */
-      end_date?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       cover?: string | components["schemas"]["Files"] | null;
       og_image?: string | components["schemas"]["Files"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
     };
     ItemsRuleExecutions: {
       sort?: number | null;
       result?: unknown;
       /** Format: timestamp */
-      execution_date?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      execution_date?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -7054,9 +7054,9 @@ export interface components {
       status?: string;
       name?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -7065,19 +7065,19 @@ export interface components {
     };
     ItemsAdAds: {
       sort?: number | null;
+      ad_account_id?: string | null;
+      campaign_id?: string | null;
+      data?: unknown;
       adset_id?: string | null;
       status?: string | null;
-      data?: unknown;
-      campaign_id?: string | null;
       name?: string | null;
       ad_id?: string | null;
-      ad_account_id?: string | null;
       /** Format: timestamp */
-      last_synced?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      last_synced?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -7097,9 +7097,9 @@ export interface components {
        */
       converted_at?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -7147,11 +7147,11 @@ export interface components {
       /** Format: date-time */
       start_date?: string | null;
       /** Format: timestamp */
-      last_synced?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      last_synced?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -7162,15 +7162,15 @@ export interface components {
     };
     ItemsBotsDatasources: {
       sort?: number | null;
+      bot?: string | components["schemas"]["ItemsBots"] | null;
       type?: string | null;
       connection_string?: string | null;
       name?: string | null;
       status?: string;
-      bot?: string | components["schemas"]["ItemsBots"] | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -7185,11 +7185,11 @@ export interface components {
       name?: string | null;
       ad_account_id?: string | null;
       /** Format: timestamp */
-      last_synced?: string | null;
+      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
-      date_created?: string | null;
+      last_synced?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -7203,9 +7203,9 @@ export interface components {
       status?: string;
       current_tier?: string;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /** Format: uuid */
       id: string;
       /** Format: uuid */
@@ -7239,13 +7239,13 @@ export interface components {
        * @description Month/Year of stats
        */
       period: string;
+      /** Format: timestamp */
+      date_updated?: string | null;
       /**
        * Format: timestamp
        * @description When these stats were last calculated
        */
       calculated_at: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
       /** @description Total commission earned this month */
@@ -7278,7 +7278,6 @@ export interface components {
     };
     ItemsMailOutbox: {
       recipients?: unknown;
-      name?: string | null;
       field8?: string | null;
       field7?: string | null;
       field6?: string | null;
@@ -7290,6 +7289,7 @@ export interface components {
       email?: string | null;
       field2?: string | null;
       field1?: string | null;
+      name?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -7301,28 +7301,34 @@ export interface components {
       template?: string | components["schemas"]["ItemsMailTemplates"] | null;
     };
     ItemsBots: {
-      greeting_message_mobile?: string | null;
-      system_prompt_mobile?: string | null;
-      greeting_message?: string | null;
-      allowed_topics?: string | null;
-      product_description?: string | null;
-      guidelines?: string | null;
       sort?: number | null;
-      special_keywords?: unknown;
-      functions?: unknown;
       metadata?: unknown;
       context?: string | null;
+      guidelines?: string | null;
+      product_description?: string | null;
+      sql_agent_prompt?: string | null;
+      system_prompt_mobile?: string | null;
+      greeting_message_mobile?: string | null;
+      greeting_message?: string | null;
       expertise?: string | null;
       system_prompt?: string | null;
-      sql_agent_prompt?: string | null;
-      bots_enabled_messages_en?: unknown;
-      routing_config?: unknown;
+      allowed_topics?: string | null;
       bots_disabled_messages?: unknown;
-      data_sources?: unknown;
-      irrelevant_answers?: unknown;
-      greeting_quick_reply?: unknown;
-      mcp_servers?: unknown;
       bots_enabled_messages?: unknown;
+      data_sources?: unknown;
+      routing_config?: unknown;
+      greeting_quick_reply?: unknown;
+      functions?: unknown;
+      special_keywords?: unknown;
+      mcp_servers?: unknown;
+      bots_enabled_messages_en?: unknown;
+      irrelevant_answers?: unknown;
+      model?: string | components["schemas"]["ItemsLLMModels"] | null;
+      stop_keyword?: string | null;
+      start_keyword?: string | null;
+      type?: string | null;
+      product_name?: string | null;
+      slug?: string | null;
       version?: string | null;
       gender?: string | null;
       name?: string | null;
@@ -7330,23 +7336,17 @@ export interface components {
       id: string;
       start_keyword_en?: string | null;
       user_prompt?: string | null;
-      model?: string | components["schemas"]["ItemsLLMModels"] | null;
-      stop_keyword?: string | null;
-      start_keyword?: string | null;
-      type?: string | null;
-      product_name?: string | null;
-      slug?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      team: string | components["schemas"]["ItemsSaasTeams"];
-      avatar?: string | components["schemas"]["Files"] | null;
-      ad_account?: string | components["schemas"]["ItemsAdAccounts"] | null;
-      logo?: string | components["schemas"]["Files"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       icon?: string | components["schemas"]["Files"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      avatar?: string | components["schemas"]["Files"] | null;
+      team: string | components["schemas"]["ItemsSaasTeams"];
+      ad_account?: string | components["schemas"]["ItemsAdAccounts"] | null;
+      logo?: string | components["schemas"]["Files"] | null;
       knowledges?: ((string | components["schemas"]["ItemsBotsKnowledges"])[]) | null;
       context_documents?: ((number | components["schemas"]["ItemsBotDocuments"])[]) | null;
       channels?: ((number | components["schemas"]["ItemsChannelsBots"])[]) | null;
@@ -7361,36 +7361,36 @@ export interface components {
       attempt_count?: number;
       /** @description Additional invoice metadata */
       metadata?: unknown;
-      /** @description Invoice number */
-      number?: string | null;
-      /** @description URL for PDF invoice */
-      pdf_invoice_url?: string | null;
-      /** @description URL for hosted invoice page */
-      hosted_invoice_url?: string | null;
-      /** @description Payment method used */
-      payment_method?: string | null;
-      /** @description Reason for invoice generation */
-      billing_reason?: string | null;
-      status?: string;
-      currency?: string;
-      /** @description Stripe payment intent reference */
-      stripe_payment_intent_id?: string | null;
-      /** @description Stripe subscription reference */
-      stripe_subscription_id: string;
       /** @description Stripe customer reference */
       stripe_customer_id: string;
+      /** @description Stripe subscription reference */
+      stripe_subscription_id: string;
+      /** @description Stripe payment intent reference */
+      stripe_payment_intent_id?: string | null;
+      currency?: string;
+      status?: string;
+      /** @description Reason for invoice generation */
+      billing_reason?: string | null;
+      /** @description Payment method used */
+      payment_method?: string | null;
+      /** @description URL for hosted invoice page */
+      hosted_invoice_url?: string | null;
+      /** @description URL for PDF invoice */
+      pdf_invoice_url?: string | null;
+      /** @description Invoice number */
+      number?: string | null;
       /** @description Stripe invoice reference */
       id: string;
-      /**
-       * Format: timestamp
-       * @description When the invoice was paid
-       */
-      paid_at?: string | null;
       /**
        * Format: timestamp
        * @description Next automatic payment attempt
        */
       next_payment_attempt?: string | null;
+      /**
+       * Format: timestamp
+       * @description Invoice period start date
+       */
+      period_start: string;
       /**
        * Format: timestamp
        * @description Invoice due date
@@ -7403,13 +7403,13 @@ export interface components {
       period_end: string;
       /**
        * Format: timestamp
-       * @description Invoice period start date
+       * @description When the invoice was paid
        */
-      period_start: string;
-      /** @description Tax amount */
-      tax?: number | null;
+      paid_at?: string | null;
       /** @description Final total after tax and discounts */
       total: number;
+      /** @description Tax amount */
+      tax?: number | null;
       amount_due: number;
       /** @description Total before tax and discounts */
       subtotal: number;
@@ -7417,20 +7417,20 @@ export interface components {
     };
     ItemsSaasHelpdesk: {
       id?: number;
-      service?: string | null;
       status?: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      service?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       translations?: ((number | components["schemas"]["ItemsSaasHelpdeskTranslations"])[]) | null;
     };
     ItemsSaasCouponCampaigns: {
       description?: string | null;
-      status?: string;
       name: string;
+      status?: string;
       /** Format: timestamp */
       end_date: string;
       /** Format: timestamp */
@@ -7440,43 +7440,43 @@ export interface components {
       /** Format: timestamp */
       date_created: string;
       /** Format: uuid */
-      id: string;
+      user_updated: string;
       /** Format: uuid */
       user_created: string;
       /** Format: uuid */
-      user_updated: string;
+      id: string;
     };
     ItemsSaasTerms: {
       sort?: number | null;
       status?: string;
-      id: string;
       name?: string | null;
+      id: string;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       translations?: ((number | components["schemas"]["ItemsSaasTermsTranslations"])[]) | null;
     };
     ItemsSaasCoupons: {
       sort?: number | null;
-      env?: string | null;
-      code?: string | null;
       status?: string;
-      /** Format: timestamp */
-      date_updated?: string | null;
+      code?: string | null;
+      env?: string | null;
       /** Format: date-time */
       end_date?: string | null;
       /** Format: date-time */
       start_date?: string | null;
       /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
       date_created?: string | null;
+      customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      customer?: string | components["schemas"]["ItemsSaasCustomers"] | null;
       translations?: ((number | components["schemas"]["ItemsSaasCouponsTranslations"])[]) | null;
     };
     ItemsBotDocumentsFiles: {
@@ -7488,10 +7488,10 @@ export interface components {
       max_output_tokens?: number | null;
       max_input_tokens?: number | null;
       id?: number;
-      mode?: string | null;
-      api_key?: string | null;
-      provider?: string | null;
       model?: string | null;
+      provider?: string | null;
+      api_key?: string | null;
+      mode?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -7509,124 +7509,125 @@ export interface components {
     ItemsBotsDatasourcesFields: {
       is_noun?: boolean | null;
       description?: string | null;
-      example?: string | null;
-      map_type?: string | null;
-      data_type?: string | null;
       name?: string | null;
+      data_type?: string | null;
+      map_type?: string | null;
+      example?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      table?: string | components["schemas"]["ItemsBotsDatasourcesTables"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      table?: string | components["schemas"]["ItemsBotsDatasourcesTables"] | null;
     };
     ItemsTmp: {
       /** Format: uuid */
       id: string;
     };
     ItemsBotsMutedUsers: {
-      provider_id?: string | null;
-      bot?: string | components["schemas"]["ItemsBots"] | null;
       uid?: string | null;
+      bot?: string | components["schemas"]["ItemsBots"] | null;
+      provider_id?: string | null;
       /** Format: date-time */
       expires_on?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
     };
-    ItemsVouchersUsers: {
-      discount_value?: number | null;
+    ItemsVouchers: {
+      hide_on_homepage?: boolean | null;
+      redemption_countdown_seconds?: number | null;
+      validity_in_seconds?: number | null;
       sort?: number | null;
-      collected_by?: string | components["schemas"]["ItemsProfiles"] | null;
-      discount_type?: string | null;
-      ad_ref?: string | null;
-      referral?: string | null;
-      utm_campaign?: string | null;
-      utm_medium?: string | null;
-      utm_source?: string | null;
-      /** Format: timestamp */
-      used_date?: string | null;
-      /** Format: timestamp */
-      expired_date?: string | null;
-      /** Format: timestamp */
-      collected_date?: string | null;
+      metadata?: unknown;
+      primary_color?: string | null;
+      fore_color_button?: string | null;
+      status?: string;
+      ref_code?: string | null;
+      voucher_brand_id?: string | components["schemas"]["ItemsVouchersBrands"] | null;
+      name?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      channel?: string | components["schemas"]["ItemsChannels"] | null;
-      code: string | components["schemas"]["ItemsVouchersCodes"];
-      /** Format: uuid */
-      id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-    };
-    ItemsVouchers: {
-      hide_on_homepage?: boolean | null;
-      validity_in_seconds?: number | null;
-      sort?: number | null;
-      metadata?: unknown;
-      status?: string;
-      fore_color_button?: string | null;
-      primary_color?: string | null;
-      name?: string | null;
-      voucher_brand_id?: string | components["schemas"]["ItemsVouchersBrands"] | null;
-      ref_code?: string | null;
       /** Format: timestamp */
       usage_end_date?: string | null;
       /** Format: timestamp */
       end_date?: string | null;
       /** Format: timestamp */
       start_date?: string | null;
-      /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
-      cover?: string | components["schemas"]["Files"] | null;
-      page?: string | components["schemas"]["ItemsPagesLiff"] | null;
-      banner?: string | components["schemas"]["Files"] | null;
-      poster?: string | components["schemas"]["Files"] | null;
       teaser?: string | components["schemas"]["Files"] | null;
+      poster?: string | components["schemas"]["Files"] | null;
+      banner?: string | components["schemas"]["Files"] | null;
+      page?: string | components["schemas"]["ItemsPagesLiff"] | null;
+      cover?: string | components["schemas"]["Files"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       codes?: ((string | components["schemas"]["ItemsVouchersCodes"])[]) | null;
       translations?: ((number | components["schemas"]["ItemsVouchersTranslations"])[]) | null;
       categories?: ((number | components["schemas"]["ItemsVouchersVoucherCategories"])[]) | null;
     };
-    ItemsOrders: {
+    ItemsVouchersUsers: {
       sort?: number | null;
+      discount_value?: number | null;
+      utm_source?: string | null;
+      utm_medium?: string | null;
+      utm_campaign?: string | null;
+      referral?: string | null;
+      ad_ref?: string | null;
+      discount_type?: string | null;
+      collected_by?: string | components["schemas"]["ItemsProfiles"] | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
+      /** Format: timestamp */
+      redemption_expires_at?: string | null;
+      /** Format: timestamp */
+      used_date?: string | null;
+      /** Format: timestamp */
+      expired_date?: string | null;
+      /** Format: timestamp */
+      collected_date?: string | null;
+      code: string | components["schemas"]["ItemsVouchersCodes"];
+      channel?: string | components["schemas"]["ItemsChannels"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
+    };
+    ItemsOrders: {
       id?: number;
+      sort?: number | null;
       status?: string;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
     };
     ItemsProducts: {
       is_available?: boolean | null;
       sort?: number | null;
-      collections?: unknown;
       description?: string | null;
-      tags?: unknown;
-      /** Format: float */
-      weight?: number | null;
       /** Format: float */
       price?: number | null;
+      /** Format: float */
+      weight?: number | null;
+      collections?: unknown;
+      tags?: unknown;
       metadata?: unknown;
-      type?: string | null;
-      name?: string | null;
       status?: string;
       slug?: string | null;
       brand?: string | null;
@@ -7634,33 +7635,36 @@ export interface components {
       made_in?: string | null;
       vendor?: string | null;
       sku?: string | null;
+      type?: string | null;
+      name?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      thumbnail?: string | components["schemas"]["Files"] | null;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
-      /** Format: uuid */
-      id: string;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
-      thumbnail?: string | components["schemas"]["Files"] | null;
+      /** Format: uuid */
+      id: string;
     };
     ItemsOrderbots: {
       sort?: number | null;
-      system_prompt?: string | null;
-      context?: string | null;
-      expertise?: string | null;
-      product_description?: string | null;
       greeting_message_mobile?: string | null;
       system_prompt_mobile?: string | null;
-      metadata?: unknown;
       sql_agent_prompt?: string | null;
+      product_description?: string | null;
       guidelines?: string | null;
-      greeting_message?: string | null;
-      functions?: unknown;
-      routing_config?: unknown;
+      context?: string | null;
       irrelevant_answers?: unknown;
       data_sources?: unknown;
+      system_prompt?: string | null;
+      expertise?: string | null;
+      greeting_message?: string | null;
+      routing_config?: unknown;
+      functions?: unknown;
+      metadata?: unknown;
+      slug?: string | null;
       product_name?: string | null;
       type?: string | null;
       id: string;
@@ -7668,18 +7672,17 @@ export interface components {
       name?: string | null;
       gender?: string | null;
       version?: string | null;
-      slug?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
       /** Format: uuid */
       avatar?: string | null;
       /** Format: uuid */
       user_updated?: string | null;
       /** Format: uuid */
       user_created?: string | null;
+      team?: string | components["schemas"]["ItemsSaasTeams"] | null;
       channels?: ((number | components["schemas"]["ItemsOrderbotsChannels"])[]) | null;
     };
     ItemsVouchersCodes: {
@@ -7729,11 +7732,11 @@ export interface components {
       id: string;
     };
     ItemsSaasTeamsInvites: {
+      id: string;
       email?: string | null;
       team_name?: string | null;
       role?: string | null;
       token?: string | null;
-      id: string;
       /** Format: timestamp */
       date_invite?: string | null;
       user_id?: string | components["schemas"]["Users"] | null;
@@ -7741,8 +7744,8 @@ export interface components {
       user_invite?: string | components["schemas"]["Users"] | null;
     };
     ItemsBotsFallback: {
-      payload?: unknown;
       emails?: unknown;
+      payload?: unknown;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -7846,18 +7849,18 @@ export interface components {
       sort?: number | null;
       total_pages?: number | null;
       file_size?: number | null;
-      text?: string | null;
       description?: string | null;
+      text?: string | null;
       json_data?: unknown;
       example_queries?: unknown;
       json_schema?: unknown;
+      status?: string;
+      language?: string | null;
       name?: string | null;
       crc32_hash?: string | null;
       document_url?: string | null;
       callback_url?: string | null;
       bot?: string | components["schemas"]["ItemsBots"] | null;
-      status?: string;
-      language?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
@@ -7871,11 +7874,11 @@ export interface components {
     };
     ItemsMailTemplates: {
       body?: string | null;
-      name?: string | null;
-      reference?: string | null;
       to?: unknown;
       cc?: unknown;
       subject?: string | null;
+      name?: string | null;
+      reference?: string | null;
       reference_id?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
@@ -7894,9 +7897,9 @@ export interface components {
       name?: string | null;
       primaryColor?: string | null;
       /** Format: timestamp */
-      date_updated?: string | null;
-      /** Format: timestamp */
       date_created?: string | null;
+      /** Format: timestamp */
+      date_updated?: string | null;
       logo?: string | components["schemas"]["Files"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
@@ -7905,16 +7908,16 @@ export interface components {
     };
     ItemsChannelUsers: {
       bot_enabled?: boolean | null;
-      sort?: number | null;
       advanace_profiles?: number | components["schemas"]["ItemsAdvancedProfiles"] | null;
+      sort?: number | null;
       profile_pic?: string | null;
       last_message?: string | null;
+      preferred_language?: string | null;
       status?: string;
       social_id?: string | null;
       display_name?: string | null;
       first_name?: string | null;
       last_name?: string | null;
-      preferred_language?: string | null;
       /** Format: date-time */
       last_message_at?: string | null;
       /** Format: timestamp */
@@ -7940,6 +7943,7 @@ export interface components {
     ItemsBotsInquiries: {
       description: string;
       metadata?: unknown;
+      bot: string | components["schemas"]["ItemsBots"];
       name: string;
       email: string;
       subject: string;
@@ -7948,7 +7952,6 @@ export interface components {
       priority?: string | null;
       status?: string;
       uid?: string | null;
-      bot: string | components["schemas"]["ItemsBots"];
       /** Format: timestamp */
       date_created: string;
       /** Format: uuid */
@@ -7967,11 +7970,11 @@ export interface components {
       channels?: ((number | components["schemas"]["ItemsChatHubsChannels"])[]) | null;
     };
     ItemsBotDocuments: {
-      sort?: number | null;
       id?: number;
+      sort?: number | null;
+      example_queries?: unknown;
       text?: string | null;
       description?: string | null;
-      example_queries?: unknown;
       status?: string;
       bot?: string | components["schemas"]["ItemsBots"] | null;
       title?: string | null;
@@ -7992,13 +7995,13 @@ export interface components {
     ItemsLeadSubmissions: {
       data?: unknown;
       metadata?: unknown;
+      source_id?: string | null;
       status?: string;
       source?: string | null;
-      source_id?: string | null;
-      /** Format: timestamp */
-      date_created?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
+      /** Format: timestamp */
+      date_created?: string | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
@@ -8025,8 +8028,8 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
     };
     ItemsZones: {
       sort?: number | null;
@@ -8083,9 +8086,9 @@ export interface components {
     ItemsChannelOutboxes: {
       sort?: number | null;
       payload?: unknown;
+      status?: string;
       uid?: string | null;
       tag?: string | null;
-      status?: string;
       /** Format: date-time */
       sent_at?: string | null;
       /** Format: timestamp */
@@ -8133,12 +8136,12 @@ export interface components {
     ItemsPointTransactions: {
       points_amount?: number | null;
       description?: string | null;
-      source?: string | null;
-      source_id?: string | null;
       status?: string | null;
       profile?: string | components["schemas"]["ItemsProfiles"] | null;
       advance_profile?: string | components["schemas"]["ItemsAdvanceProfiles"] | null;
       transaction_type: string;
+      source?: string | null;
+      source_id?: string | null;
       /** Format: date */
       expiry_date?: string | null;
       /** Format: timestamp */
@@ -8187,34 +8190,34 @@ export interface components {
       pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
     };
     ItemsDocuments: {
-      total_pages?: number | null;
       src_file_size?: number | null;
+      total_pages?: number | null;
       text_length?: number | null;
       text_tokens?: number | null;
+      description?: string | null;
       text?: string | null;
       text_code?: string | null;
-      example_queries?: unknown;
-      description?: string | null;
       json_data?: unknown;
       json_schema?: unknown;
-      name?: string | null;
-      src_url?: string | null;
+      example_queries?: unknown;
       language?: string | null;
       callback_url?: string | null;
       src_mimetype?: string | null;
       status?: string;
+      name?: string | null;
+      src_url?: string | null;
       /** Format: timestamp */
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_created?: string | components["schemas"]["Users"] | null;
-      /** Format: uuid */
-      id: string;
       api_logs?: string | components["schemas"]["ItemsAPILogs"] | null;
       dest?: string | components["schemas"]["Files"] | null;
       src?: string | components["schemas"]["Files"] | null;
       team?: string | components["schemas"]["ItemsSaasTeams"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
+      /** Format: uuid */
+      id: string;
     };
     ItemsPagesLiffVouchers1: {
       id?: number;
@@ -8253,10 +8256,10 @@ export interface components {
       pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
     };
     ItemsCampaignMissions: {
-      reward_credits?: number | null;
       sort?: number | null;
-      mission_data?: unknown;
+      reward_credits?: number | null;
       title?: unknown;
+      mission_data?: unknown;
       frequency?: string | null;
       status?: string;
       /** Format: timestamp */
@@ -8267,17 +8270,17 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      thumbnail_image?: string | components["schemas"]["Files"] | null;
       campaign?: string | components["schemas"]["ItemsCampaigns"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
-      thumbnail_image?: string | components["schemas"]["Files"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
     };
     ItemsCampaigns: {
       sort?: number | null;
-      registration_form?: unknown;
       title?: unknown;
+      registration_form?: unknown;
       description?: unknown;
       status?: string;
       /** Format: timestamp */
@@ -8288,12 +8291,12 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      /** Format: uuid */
-      id: string;
+      poster_image?: string | components["schemas"]["Files"] | null;
       banner_image?: string | components["schemas"]["Files"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
-      poster_image?: string | components["schemas"]["Files"] | null;
+      /** Format: uuid */
+      id: string;
     };
     ItemsUserCampaignRegistrations: {
       has_agreed_pdpa?: boolean | null;
@@ -8318,11 +8321,11 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
+      campaign_id?: string | components["schemas"]["ItemsCampaigns"] | null;
       user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      campaign_id?: string | components["schemas"]["ItemsCampaigns"] | null;
     };
     ItemsUserMissionSubmissions: {
       submission_data?: unknown;
@@ -8333,8 +8336,8 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
       mission_id?: string | components["schemas"]["ItemsCampaignMissions"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
       user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
@@ -8345,17 +8348,17 @@ export interface components {
       date_updated?: string | null;
       /** Format: timestamp */
       date_created?: string | null;
-      campaign_id?: string | components["schemas"]["ItemsCampaigns"] | null;
-      related_submission_id?: string | components["schemas"]["ItemsUserMissionSubmissions"] | null;
+      user_updated?: string | components["schemas"]["Users"] | null;
+      user_created?: string | components["schemas"]["Users"] | null;
       /** Format: uuid */
       id: string;
-      user_created?: string | components["schemas"]["Users"] | null;
-      user_updated?: string | components["schemas"]["Users"] | null;
+      campaign_id?: string | components["schemas"]["ItemsCampaigns"] | null;
+      related_submission_id?: string | components["schemas"]["ItemsUserMissionSubmissions"] | null;
     };
     ItemsPagesLiffCampaigns: {
       id?: number;
-      pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
       campaigns_id?: string | components["schemas"]["ItemsCampaigns"] | null;
+      pages_liff_id?: string | components["schemas"]["ItemsPagesLiff"] | null;
     };
   };
   responses: {
@@ -24391,189 +24394,6 @@ export interface operations {
   };
   /**
    * List Items
-   * @description List the vouchers_users items.
-   */
-  readItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"][];
-            meta?: components["schemas"]["x-metadata"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Create an Item
-   * @description Create a new vouchers_users item.
-   */
-  createItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        meta?: components["parameters"]["Meta"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"][];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Delete Multiple Items
-   * @description Delete multiple existing vouchers_users items.
-   */
-  deleteItemsVouchersUsers: {
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-    };
-  };
-  /**
-   * Update Multiple Items
-   * @description Update multiple vouchers_users items at the same time.
-   */
-  updateItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        limit?: components["parameters"]["Limit"];
-        meta?: components["parameters"]["Meta"];
-        offset?: components["parameters"]["Offset"];
-        sort?: components["parameters"]["Sort"];
-        filter?: components["parameters"]["Filter"];
-        search?: components["parameters"]["Search"];
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"][];
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Retrieve an Item
-   * @description Retrieve a single vouchers_users item by unique identifier.
-   */
-  readSingleItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-        version?: components["parameters"]["Version"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Delete an Item
-   * @description Delete an existing vouchers_users item.
-   */
-  deleteSingleItemsVouchersUsers: {
-    parameters: {
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: never;
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * Update an Item
-   * @description Update an existing vouchers_users item.
-   */
-  updateSingleItemsVouchersUsers: {
-    parameters: {
-      query?: {
-        fields?: components["parameters"]["Fields"];
-        meta?: components["parameters"]["Meta"];
-      };
-      path: {
-        /** @description Index of the item. */
-        id: number | string;
-      };
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ItemsVouchersUsers"];
-      };
-    };
-    responses: {
-      /** @description Successful request */
-      200: {
-        content: {
-          "application/json": {
-            data?: components["schemas"]["ItemsVouchersUsers"];
-          };
-        };
-      };
-      401: components["responses"]["UnauthorizedError"];
-      404: components["responses"]["NotFoundError"];
-    };
-  };
-  /**
-   * List Items
    * @description List the vouchers items.
    */
   readItemsVouchers: {
@@ -24748,6 +24568,189 @@ export interface operations {
         content: {
           "application/json": {
             data?: components["schemas"]["ItemsVouchers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * List Items
+   * @description List the vouchers_users items.
+   */
+  readItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"][];
+            meta?: components["schemas"]["x-metadata"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Create an Item
+   * @description Create a new vouchers_users item.
+   */
+  createItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        meta?: components["parameters"]["Meta"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"][];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Delete Multiple Items
+   * @description Delete multiple existing vouchers_users items.
+   */
+  deleteItemsVouchersUsers: {
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+    };
+  };
+  /**
+   * Update Multiple Items
+   * @description Update multiple vouchers_users items at the same time.
+   */
+  updateItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        limit?: components["parameters"]["Limit"];
+        meta?: components["parameters"]["Meta"];
+        offset?: components["parameters"]["Offset"];
+        sort?: components["parameters"]["Sort"];
+        filter?: components["parameters"]["Filter"];
+        search?: components["parameters"]["Search"];
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"][] | components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"][];
+          };
+        };
+      };
+    };
+  };
+  /**
+   * Retrieve an Item
+   * @description Retrieve a single vouchers_users item by unique identifier.
+   */
+  readSingleItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+        version?: components["parameters"]["Version"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"];
+          };
+        };
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Delete an Item
+   * @description Delete an existing vouchers_users item.
+   */
+  deleteSingleItemsVouchersUsers: {
+    parameters: {
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: never;
+      };
+      401: components["responses"]["UnauthorizedError"];
+      404: components["responses"]["NotFoundError"];
+    };
+  };
+  /**
+   * Update an Item
+   * @description Update an existing vouchers_users item.
+   */
+  updateSingleItemsVouchersUsers: {
+    parameters: {
+      query?: {
+        fields?: components["parameters"]["Fields"];
+        meta?: components["parameters"]["Meta"];
+      };
+      path: {
+        /** @description Index of the item. */
+        id: number | string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["ItemsVouchersUsers"];
+      };
+    };
+    responses: {
+      /** @description Successful request */
+      200: {
+        content: {
+          "application/json": {
+            data?: components["schemas"]["ItemsVouchersUsers"];
           };
         };
       };
@@ -34908,8 +34911,8 @@ export type Schema = {
   bots_datasources_fields: components["schemas"]["ItemsBotsDatasourcesFields"][];
   tmp: components["schemas"]["ItemsTmp"][];
   bots_muted_users: components["schemas"]["ItemsBotsMutedUsers"][];
-  vouchers_users: components["schemas"]["ItemsVouchersUsers"][];
   vouchers: components["schemas"]["ItemsVouchers"][];
+  vouchers_users: components["schemas"]["ItemsVouchersUsers"][];
   orders: components["schemas"]["ItemsOrders"][];
   products: components["schemas"]["ItemsProducts"][];
   orderbots: components["schemas"]["ItemsOrderbots"][];

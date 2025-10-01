@@ -170,6 +170,7 @@ export const getVoucherPageV2 = factory.createHandlers(
             "collected_date",
             "expired_date",
             "used_date",
+            "redemption_expires_at",
             "discount_value",
             "discount_type",
             "channel",
@@ -308,7 +309,7 @@ export const collectVoucherV2 = factory.createHandlers(
   async (c) => {
     try {
       const { id: userId } = c.get("jwtPayload");
-      const { id: voucher_id } = c.req.param();
+      const { id: voucher_id } = c.req.param() as { id: string };
       const directus = c.get("directAdmin");
 
       const {
@@ -650,6 +651,7 @@ export const getMyCouponsV2 = factory.createHandlers(
             "collected_date",
             "expired_date",
             "used_date",
+            "redemption_expires_at",
             "discount_value",
             "discount_type",
             "channel",
@@ -687,9 +689,13 @@ export const getMyCouponsV2 = factory.createHandlers(
       const nowTs = serverNow.getTime();
       const withComputed = filtered.map((vu: any) => {
         let timeLeftSeconds = 0;
-        if (vu?.used_date) {
+        const expStr = vu?.redemption_expires_at as string | undefined;
+        if (expStr) {
+          const expiryTs = new Date(expStr).getTime();
+          timeLeftSeconds = Math.floor((expiryTs - nowTs) / 1000);
+        } else if (vu?.used_date) {
           const usedTs = new Date(vu.used_date).getTime();
-          const expiryTs = usedTs + 15 * 60 * 1000; // 15 minutes window
+          const expiryTs = usedTs + 15 * 60 * 1000; // fallback 15 minutes
           timeLeftSeconds = Math.floor((expiryTs - nowTs) / 1000);
         }
         const isExpired = Boolean(
@@ -914,7 +920,7 @@ export const getVoucher = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { id } = c.req.param();
+    const { id } = c.req.param() as { id: string };
     const directus = c.get("directAdmin");
     const voucher = await directus.request(
       readItem("vouchers", id, {
@@ -1227,7 +1233,12 @@ export const getStatVoucherUser = factory.createHandlers(
     const vouchersUsers = await directus.request(
       readItems("vouchers_users", {
         filter: { collected_by: { _eq: id } },
-        fields: ["expired_date", "used_date", { code: ["id", "code_status"] }],
+        fields: [
+          "expired_date",
+          "used_date",
+          "redemption_expires_at",
+          { code: ["id", "code_status"] },
+        ],
         limit: -1,
       })
     );
@@ -1244,10 +1255,18 @@ export const getStatVoucherUser = factory.createHandlers(
       const codeStatus = voucherUser.code?.code_status;
 
       let finalStatus = "available";
-      if (codeStatus === "pending_confirmation" && usedDate) {
-        const diffMs = currentDate.getTime() - usedDate.getTime();
-        const diffMin = diffMs / (1000 * 60);
-        finalStatus = diffMin > 15 ? "expired" : "pending_confirmation";
+      if (codeStatus === "pending_confirmation") {
+        const redemptionExpiresAt = voucherUser.redemption_expires_at
+          ? new Date(voucherUser.redemption_expires_at)
+          : null;
+        if (redemptionExpiresAt) {
+          finalStatus = currentDate > redemptionExpiresAt ? "expired" : "pending_confirmation";
+        } else if (usedDate) {
+          const fallbackExpiry = new Date(usedDate.getTime() + 15 * 60 * 1000);
+          finalStatus = currentDate > fallbackExpiry ? "expired" : "pending_confirmation";
+        } else {
+          finalStatus = "pending_confirmation";
+        }
       } else if (isExpired) {
         finalStatus = "expired";
       } else if (codeStatus) {
@@ -1285,14 +1304,46 @@ export const useVoucher = factory.createHandlers(
     const directus = c.get("directAdmin");
     const { id } = await c.req.json();
 
-    // Update voucher user with used date
-    const updatedVoucherUser = await directus.request(
-      updateItem("vouchers_users", id, { used_date: new Date().toISOString() })
-    );
+    // Update voucher user with used date and compute redemption_expires_at
+    const now = new Date();
+    const nowIso = now.toISOString();
 
-    if (!updatedVoucherUser) {
+    // Read related code id from relation to compute expiry against voucher setting
+    const vuWithCodePre = await directus.request(
+      readItem("vouchers_users", id, { fields: [{ code: ["id"] }, "collected_by"] })
+    );
+    if (!vuWithCodePre) {
       return c.json({ error: "Voucher user not found" }, { status: 404 });
     }
+    const relatedCodeIdPre = vuWithCodePre?.code?.id;
+    if (!relatedCodeIdPre) {
+      return c.json({ error: "Voucher code not found" }, { status: 404 });
+    }
+
+    // Load voucher id from code
+    const codeItemForVoucher: any = await directus.request(
+      readItem("vouchers_codes", relatedCodeIdPre, { fields: ["id", "voucher"] })
+    );
+    const voucherIdForExpiry = codeItemForVoucher?.voucher as string | undefined;
+
+    // Load countdown seconds from voucher (nullable)
+    let countdownSeconds = 15 * 60; // fallback 15 minutes
+    if (voucherIdForExpiry) {
+      const voucherItem: any = await directus.request(
+        readItem("vouchers", voucherIdForExpiry, { fields: ["redemption_countdown_seconds"] })
+      );
+      const s = voucherItem?.redemption_countdown_seconds;
+      if (typeof s === "number" && s > 0) countdownSeconds = s;
+    }
+    const redemptionExpiresAt = new Date(now.getTime() + countdownSeconds * 1000).toISOString();
+
+    // Update vouchers_users with both used_date and redemption_expires_at
+    const updatedVoucherUser = await directus.request(
+      updateItem("vouchers_users", id, {
+        used_date: nowIso,
+        redemption_expires_at: redemptionExpiresAt,
+      })
+    );
 
     // Read related code id from relation and update code status
     const vuWithCode = await directus.request(
@@ -1309,7 +1360,7 @@ export const useVoucher = factory.createHandlers(
       })
     );
 
-    return c.json({ collected_by: updatedVoucherUser.collected_by });
+    return c.json({ collected_by: updatedVoucherUser.collected_by, redemption_expires_at: redemptionExpiresAt });
   }
 );
 
@@ -1426,7 +1477,7 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const { id } = c.req.param();
+    const { id } = c.req.param() as { id: string };
     const directus = c.get("directAdmin");
 
     const voucherBrand = await directus.request(
@@ -1439,9 +1490,9 @@ export const getVoucherBrandByIdWithVouchers = factory.createHandlers(
     }
 
     if (voucherBrand?.categories) {
-      voucherBrand.categories = voucherBrand.categories.map(
-        ({ voucher_categories_id }) => voucher_categories_id
-      );
+      voucherBrand.categories = (voucherBrand.categories as any[])
+        .map((x: any) => x?.voucher_categories_id ?? x)
+        .filter(Boolean);
     }
 
     const vouchers = await directus.request(

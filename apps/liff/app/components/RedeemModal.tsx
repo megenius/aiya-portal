@@ -136,6 +136,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const [showExpireWarning, setShowExpireWarning] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(Boolean(usedDate));
   const [pageState, setPageState] = useState("redeem");
+  // Prefer per-voucher countdown seconds; fallback to prop minutes
+  const countdownSeconds =
+    voucher?.redemption_countdown_seconds ?? countdown * 60;
+  const countdownMinutes = Math.ceil(countdownSeconds / 60);
   const title = voucher.metadata.title[language].replace(
     /\$\{value\}/g,
     getVoucherValueWithType(voucherUser),
@@ -176,8 +180,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   //   en: `You have received a discount of ${getVoucherValueWithType(voucherUser)}`,
   // };
   const collectedDescription = {
-    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
-    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdown} minutes after scanning`,
+    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdownMinutes} นาทีหลังกด`,
+    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdownMinutes} minutes after scanning`,
   };
   // const seeMyVouchersText = {
   //   th: "ดูคูปองของฉัน",
@@ -194,8 +198,8 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     en: "Do you want to redeem this coupon?",
   };
   const confirmDescription = {
-    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdown} นาทีหลังกด`,
-    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdown} minutes after scanning`,
+    th: `กดปุ่มเมื่ออยู่ต่อหน้าพนักงานเท่านั้น!\nคูปองจะมีอายุใช้งาน ${countdownMinutes} นาทีหลังกด`,
+    en: `Please scan the coupon when you are in front of the cashier.\nCoupon will expire in ${countdownMinutes} minutes after scanning`,
   };
   // const warningText = {
   //   th: `คูปองมีอายุ ${countdown} นาทีหลังจากกดใช้คูปอง`,
@@ -254,22 +258,31 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
 
   // Initialize remaining time based on usedDate if it exists
   useEffect(() => {
-    if (usedDate) {
-      const usedDateTime = new Date(usedDate).getTime();
-      const expiryTime = usedDateTime + countdown * 60 * 1000; // 15 minutes after used_date
-      const now = new Date().getTime();
+    const now = Date.now();
+    const expStr = voucherUser?.redemption_expires_at as string | undefined;
+    if (expStr) {
+      const expiryTime = new Date(expStr).getTime();
       const timeLeft = Math.floor((expiryTime - now) / 1000);
-
-      // If still valid, set the remaining time
       if (timeLeft > 0) {
         setRemainingTime(timeLeft);
       } else {
-        // If already expired
+        setRemainingTime(0);
+        setShowExpireWarning(true);
+      }
+      return;
+    }
+    if (usedDate) {
+      const usedDateTime = new Date(usedDate).getTime();
+      const expiryTime = usedDateTime + (countdownSeconds || 0) * 1000;
+      const timeLeft = Math.floor((expiryTime - now) / 1000);
+      if (timeLeft > 0) {
+        setRemainingTime(timeLeft);
+      } else {
         setRemainingTime(0);
         setShowExpireWarning(true);
       }
     }
-  }, [usedDate, countdown]);
+  }, [usedDate, countdownSeconds, voucherUser]);
 
   // ฟังก์ชันนับถอยหลัง
   useEffect(() => {
@@ -319,7 +332,20 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     };
     redeemVoucher.mutate(
       { variables: data },
-      { onSuccess: () => setIsRedeemed(true) },
+      {
+        onSuccess: (
+          payload: { redemption_expires_at?: string } | undefined,
+        ) => {
+          setIsRedeemed(true);
+          const exp = payload?.redemption_expires_at as string | undefined;
+          if (exp) {
+            const diff = Math.floor(
+              (new Date(exp).getTime() - Date.now()) / 1000,
+            );
+            setRemainingTime(diff > 0 ? diff : 0);
+          }
+        },
+      },
     );
   };
 
@@ -345,7 +371,9 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   };
 
   // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
-  const timePercentage = (remainingTime / (countdown * 60)) * 100;
+  const timePercentage = countdownSeconds
+    ? (remainingTime / countdownSeconds) * 100
+    : 0;
 
   // Derive a warning tone from primaryColor for the near-expiry alert
   const warningColor = darkenColor(primaryColor, 0.35);
