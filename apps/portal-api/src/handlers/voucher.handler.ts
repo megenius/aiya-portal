@@ -34,6 +34,143 @@ export const getLiffPage = factory.createHandlers(
   }
 );
 
+// getVoucherUsers - ดึง Users ตาม LIFF พร้อม pagination/search/sort
+export const getVoucherUsers = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const directus = c.get("directAdmin");
+      const {
+        liff_id: qLiffId,
+        liff_page_id,
+        page = "1",
+        limit = "25",
+        search = "",
+        sortBy = "date",
+        sortOrder = "desc",
+        dateFrom,
+        dateTo,
+      } = c.req.query();
+
+      let liffId: string | undefined = Array.isArray(qLiffId)
+        ? qLiffId[0]
+        : (qLiffId as string | undefined);
+
+      if (!liffId && liff_page_id) {
+        const pageId = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
+        if (pageId) {
+          try {
+            const liffPage = await directus.request(
+              readItem("pages_liff", pageId as string, { fields: ["id", "liff_id"] } as any)
+            );
+            liffId = (liffPage as any)?.liff_id ? String((liffPage as any).liff_id) : undefined;
+          } catch (e) {
+            return c.json({ error: "LIFF page not found" }, 404);
+          }
+        }
+      }
+
+      if (!liffId) {
+        return c.json({ error: "Missing liff_id or liff_page_id" }, 400);
+      }
+
+      const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
+      const limitNum = Math.max(1, parseInt(String(limit), 10) || 25);
+      const offsetNum = (pageNum - 1) * limitNum;
+
+      const sortField = sortBy === "name" ? "display_name" : "date_created";
+      const sortPrefix = sortOrder === "desc" ? "-" : "";
+
+      const filter: any = { liff_id: { _eq: liffId } };
+      if (search) {
+        filter._or = [
+          { display_name: { _icontains: search } },
+          { uid: { _icontains: search } },
+        ];
+      }
+      if (dateFrom || dateTo) {
+        filter.date_created = {
+          ...(dateFrom ? { _gte: dateFrom } : {}),
+          ...(dateTo ? { _lte: dateTo } : {}),
+        } as any;
+      }
+
+      let res: any;
+      try {
+        res = await directus.request(
+          readItems("profiles", {
+            fields: ["id", "uid", "display_name", "picture_url", "date_created", "date_updated"],
+            filter,
+            sort: [`${sortPrefix}${sortField}`],
+            limit: limitNum,
+            offset: offsetNum,
+            // Do NOT request meta here; we'll compute count via aggregate to avoid SDK meta issues
+          } as any)
+        );
+      } catch (sdkErr) {
+        console.warn("Directus SDK failed for list, fallback to raw REST", sdkErr);
+        const p = new URLSearchParams();
+        p.set("fields", [
+          "id",
+          "uid",
+          "display_name",
+          "picture_url",
+          "date_created",
+          "date_updated",
+        ].join(","));
+        p.set("limit", String(limitNum));
+        p.set("offset", String(offsetNum));
+        p.set("sort", `${sortPrefix}${sortField}`);
+        p.set("filter", JSON.stringify(filter));
+        const url = `${c.env.DIRECTUS_URL}/items/profiles?${p.toString()}`;
+        const r = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${c.env.DIRECTUS_SERVICE_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!r.ok) {
+          const txt = await r.text();
+          throw new Error(`Directus REST error ${r.status}: ${txt}`);
+        }
+        res = await r.json();
+      }
+
+      const dataArr: any[] = Array.isArray(res) ? res : (res?.data || []);
+      // Fetch total via aggregate[count] to avoid meta quirks
+      let total = dataArr.length;
+      try {
+        const p2 = new URLSearchParams();
+        p2.set("aggregate[count]", "*");
+        p2.set("filter", JSON.stringify(filter));
+        const url2 = `${c.env.DIRECTUS_URL}/items/profiles?${p2.toString()}`;
+        const r2 = await fetch(url2, {
+          headers: {
+            Authorization: `Bearer ${c.env.DIRECTUS_SERVICE_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (r2.ok) {
+          const j = await r2.json();
+          const cnt = Number(j?.data?.[0]?.count ?? j?.data?.count ?? 0);
+          if (!Number.isNaN(cnt) && cnt > 0) total = cnt;
+        } else {
+          const txt = await r2.text();
+          console.warn("aggregate[count] failed", r2.status, txt);
+        }
+      } catch (aggErr) {
+        console.warn("aggregate[count] request error", aggErr);
+      }
+
+      return c.json({ items: dataArr, count: total, meta: { filter_count: total } });
+    } catch (error) {
+      console.error("getVoucherUsers error:", error);
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
 // getVouchers
 export const getVouchers = factory.createHandlers(
   logger(),

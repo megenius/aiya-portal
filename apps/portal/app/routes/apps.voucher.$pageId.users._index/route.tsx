@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useOutletContext } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { useVoucherUsers } from "~/hooks/useVoucherUsers";
@@ -19,7 +19,7 @@ const UsersPage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   // Fetch all users
-  const { data: usersData, isLoading } = useVoucherUsers(liffId, {
+  const { data: usersData, isLoading, isFetching } = useVoucherUsers(liffId, {
     page,
     limit,
     search,
@@ -27,36 +27,31 @@ const UsersPage: React.FC = () => {
     sortOrder,
   });
 
-  // Fetch new users (last 7 days)
-  const sevenDaysAgo = useMemo(() => {
-    const date = new Date();
-    date.setDate(date.getDate() - 7);
-    return date.toISOString();
-  }, []);
+  // Normalize response shapes defensively
+  const users = React.useMemo(() => {
+    const d: any = usersData as any;
+    if (!d) return [];
+    if (Array.isArray(d.data)) return d.data;
+    if (Array.isArray(d.items)) return d.items;
+    if (d.data && Array.isArray(d.data.data)) return d.data.data;
+    return [];
+  }, [usersData]);
 
-  const { data: newUsersData, isLoading: newUsersLoading } = useVoucherUsers(
-    liffId,
-    {
-      page: 1,
-      limit: 10,
-      sortBy: "date",
-      sortOrder: "desc",
-      dateFrom: sevenDaysAgo,
-    }
-  );
+  const totalUsers = React.useMemo(() => {
+    const d: any = usersData as any;
+    const filterCount = d?.meta?.filter_count ?? d?.data?.meta?.filter_count;
+    if (typeof filterCount === "number") return filterCount;
+    return d?.meta?.total_count ?? d?.meta?.total ?? d?.data?.meta?.total_count ?? d?.data?.meta?.total ?? 0;
+  }, [usersData]);
 
-  const users = usersData?.data || [];
-  const totalUsers = usersData?.meta?.total_count || 0;
-  const newUsers = newUsersData?.data || [];
+  const totalPages = Math.max(1, Math.ceil(totalUsers / limit));
 
-  const totalPages = Math.ceil(totalUsers / limit);
-
-  // Check if user is new (< 24 hours)
+  // Check if user is new today (local time)
   const isNewUser = (dateCreated: string) => {
     const created = new Date(dateCreated);
-    const now = new Date();
-    const hoursDiff = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
-    return hoursDiff < 24;
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    return created >= todayStart;
   };
 
   // Handle search
@@ -68,151 +63,7 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-6">
-      {/* Header */}
-      <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-            <p className="text-gray-600 mt-1">
-              Manage and monitor all LIFF app users
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-blue-100">
-              <svg
-                className="w-6 h-6 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <div className="text-sm text-gray-600">Total Users</div>
-              <div className="text-2xl font-bold text-gray-900">
-                {isLoading ? "-" : totalUsers.toLocaleString()}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-green-100">
-              <svg
-                className="w-6 h-6 text-green-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <div className="text-sm text-gray-600">New Users (7 days)</div>
-              <div className="text-2xl font-bold text-gray-900">
-                {newUsersLoading ? "-" : newUsers.length}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-purple-100">
-              <svg
-                className="w-6 h-6 text-purple-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <div className="text-sm text-gray-600">New Today</div>
-              <div className="text-2xl font-bold text-gray-900">
-                {newUsersLoading
-                  ? "-"
-                  : newUsers.filter((u) => isNewUser(u.date_created)).length}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent New Users Section */}
-      {newUsers.length > 0 && (
-        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Recent New Users (Last 7 Days)
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {newUsers.map((user, index) => {
-              const isNew = isNewUser(user.date_created);
-              return (
-                <div
-                  key={user.id}
-                  className={`relative flex items-center gap-3 p-3 rounded-lg border ${
-                    isNew
-                      ? "bg-gradient-to-r from-green-50 to-green-100 border-green-200"
-                      : "bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200"
-                  }`}
-                >
-                  {isNew && (
-                    <div className="absolute -right-1 -top-1 rounded-full bg-green-500 px-2 py-0.5 text-xs font-bold text-white shadow-lg">
-                      NEW
-                    </div>
-                  )}
-                  {user.picture_url ? (
-                    <img
-                      src={user.picture_url}
-                      alt={user.display_name}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold ring-2 ring-blue-200">
-                      {(user.display_name || "U").charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-gray-900 truncate">
-                      {user.display_name}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {formatDistanceToNow(new Date(user.date_created), {
-                        addSuffix: true,
-                      })}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      
 
       {/* All Users Section */}
       <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
@@ -312,7 +163,7 @@ const UsersPage: React.FC = () => {
         </div>
 
         {/* Table */}
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <div className="space-y-3">
             {[...Array(10)].map((_, i) => (
               <div
@@ -463,7 +314,9 @@ const UsersPage: React.FC = () => {
               />
             </svg>
             <div className="text-gray-500">
-              {search ? "No users found matching your search" : "No users found"}
+              {search
+                ? "No users found matching your search"
+                : "No users found"}
             </div>
           </div>
         )}

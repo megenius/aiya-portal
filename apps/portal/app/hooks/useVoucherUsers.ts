@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAppSelector } from "~/store";
 import api from "~/services/api";
 
 export interface VoucherUser {
@@ -43,50 +42,32 @@ const fetchVoucherUsers = async (
     dateTo,
   } = options;
 
-  const offset = (page - 1) * limit;
-  const sortField = sortBy === "name" ? "display_name" : "date_created";
-  const sortPrefix = sortOrder === "desc" ? "-" : "";
-
-  // Build filter
-  const filters: any = {
-    liff_id: { _eq: liffId },
-  };
-
-  if (search) {
-    filters._or = [
-      { display_name: { _icontains: search } },
-      { uid: { _icontains: search } },
-    ];
-  }
-
-  if (dateFrom || dateTo) {
-    filters.date_created = {};
-    if (dateFrom) filters.date_created._gte = dateFrom;
-    if (dateTo) filters.date_created._lte = dateTo;
-  }
-
+  // Build params for new server endpoint
   const params = new URLSearchParams({
+    liff_id: liffId,
+    page: String(page),
     limit: String(limit),
-    offset: String(offset),
-    sort: `${sortPrefix}${sortField}`,
-    "meta": "total_count,filter_count",
-    filter: JSON.stringify(filters),
-    fields: "id,uid,display_name,picture_url,date_created,date_updated",
+    sortBy,
+    sortOrder,
   });
+  if (search) params.set("search", search);
+  if (dateFrom) params.set("dateFrom", dateFrom);
+  if (dateTo) params.set("dateTo", dateTo);
 
-  const response = await api.get<VoucherUsersResponse>(
-    `/items/profiles?${params.toString()}`
-  );
+  const response = await api.get(`/vouchers/users?${params.toString()}`);
 
-  return response.data;
+  const payload = response.data as { items?: VoucherUser[]; count?: number; meta?: { total_count?: number; filter_count?: number } };
+  const items: VoucherUser[] = Array.isArray(payload?.items) ? payload.items! : [];
+  const count = typeof payload?.count === "number" ? payload.count! : items.length;
+  const meta = payload?.meta || { total_count: count, filter_count: count };
+
+  return { data: items, meta: { total_count: Number(meta.total_count ?? count), filter_count: Number(meta.filter_count ?? count) } };
 };
 
 export const useVoucherUsers = (
   liffId?: string,
   options: UseVoucherUsersOptions = {}
 ) => {
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-
   return useQuery({
     queryKey: [
       "voucher-users",
@@ -100,6 +81,6 @@ export const useVoucherUsers = (
       options.dateTo,
     ],
     queryFn: () => fetchVoucherUsers(liffId!, options),
-    enabled: isAuthenticated && !!liffId,
+    enabled: !!liffId,
   });
 };
