@@ -42,6 +42,7 @@ const Header: React.FC<HeaderProps> = ({ voucherPage }) => {
   const navItems: NavItem[] = [
     { label: "Dashboard", to: `/apps/voucher/${voucherId}/dashboard` },
     { label: "Vouchers", to: `/apps/voucher/${voucherId}/vouchers` },
+    { label: "Users", to: `/apps/voucher/${voucherId}/users` },
     // { label: 'Settings', to: `/apps/voucher/${voucherId}/settings` },
   ];
 
