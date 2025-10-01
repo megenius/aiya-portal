@@ -206,19 +206,19 @@ const UsersPage: React.FC = () => {
               ))}
             </div>
           ) : users.length > 0 ? (
-            <table className="w-full text-sm">
+            <table className="w-full table-fixed text-sm">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-16">
                     #
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-64">
                     User
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     User ID
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-44">
                     Joined
                   </th>
                 </tr>
@@ -228,7 +228,7 @@ const UsersPage: React.FC = () => {
                   const isNew = isNewUser(user.date_created);
                   return (
                     <tr key={user.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-xs text-gray-500">
+                      <td className="px-4 py-3 text-xs text-gray-500 whitespace-nowrap">
                         {(page - 1) * limit + index + 1}
                       </td>
                       <td className="px-4 py-3">
@@ -246,22 +246,22 @@ const UsersPage: React.FC = () => {
                                 .toUpperCase()}
                             </div>
                           )}
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-gray-900">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-sm font-medium text-gray-900 truncate">
                               {user.display_name}
                             </span>
                             {isNew && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 flex-shrink-0">
                                 NEW
                               </span>
                             )}
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600 font-mono">
+                      <td className="px-4 py-3 text-sm text-gray-600 font-mono whitespace-nowrap">
                         {user.uid}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">
+                      <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
                         {formatDistanceToNow(new Date(user.date_created), {
                           addSuffix: true,
                         })}
