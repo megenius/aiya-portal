@@ -7,7 +7,6 @@ import {
   formatDateShort as formatDateShortUtil,
 } from "~/utils/voucher";
 import { SortSelect, DEFAULT_SORT_OPTIONS } from "./SortSelect";
-import { Pagination } from "~/components/voucher/Pagination";
 import { VOUCHER_CONSTANTS } from "~/constants/voucher.constant";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
@@ -581,17 +580,59 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
       {paginationData.totalItems > 0 && (
         <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-              Showing {paginationData.startIndex}-{paginationData.endIndex} of{" "}
+            <div className="text-sm text-gray-600">
+              Showing {paginationData.startIndex} to {paginationData.endIndex} of{" "}
               {paginationData.totalItems}
             </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={paginationData.totalPages}
-              totalItems={paginationData.totalItems}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-            />
+
+            {/* Full pagination */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Previous
+              </button>
+
+              {/* Page numbers */}
+              <div className="flex items-center gap-1">
+                {[...Array(Math.min(5, paginationData.totalPages))].map((_, i) => {
+                  let pageNum: number;
+                  if (paginationData.totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= paginationData.totalPages - 2) {
+                    pageNum = paginationData.totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        currentPage === pageNum
+                          ? "bg-blue-600 text-white"
+                          : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(Math.min(paginationData.totalPages, currentPage + 1))}
+                disabled={currentPage === paginationData.totalPages}
+                className="px-3 py-1.5 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       )}

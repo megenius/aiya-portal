@@ -63,7 +63,7 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-6">
-      
+
 
       {/* All Users Section */}
       <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">

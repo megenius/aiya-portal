@@ -6,7 +6,6 @@ import { useVoucherStats } from "~/hooks/useVoucherStats";
 import { useVoucherValidation } from "~/hooks/useVoucherValidation";
 import { useCollectorPagination } from "~/hooks/useCollectorPagination";
 import { StatsCard, StatsCardIcons } from "~/components/voucher/StatsCard";
-import { Pagination } from "~/components/voucher/Pagination";
 import VoucherStatsSkeleton from "./_components/VoucherStatsSkeleton";
 import {
   VoucherCodeStatus,
@@ -483,21 +482,63 @@ const VoucherStatsPage: React.FC = () => {
 
               {/* Pagination Component */}
               <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">
-                  Showing {startIndex + 1}-
+                <div className="text-sm text-gray-600">
+                  Showing {startIndex + 1} to{" "}
                   {Math.min(
                     startIndex + VOUCHER_CONSTANTS.ITEMS_PER_PAGE,
                     totalCollectors
                   )}{" "}
                   of {totalCollectors}
                 </div>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  totalItems={totalCollectors}
-                  itemsPerPage={VOUCHER_CONSTANTS.ITEMS_PER_PAGE}
-                  onPageChange={setCurrentPage}
-                />
+
+                {/* Full pagination */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1.5 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Previous
+                  </button>
+
+                  {/* Page numbers */}
+                  <div className="flex items-center gap-1">
+                    {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                      let pageNum: number;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                            currentPage === pageNum
+                              ? "bg-blue-600 text-white"
+                              : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1.5 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </>
           ) : (
