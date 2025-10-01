@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "~/store";
 import api from "~/services/api";
@@ -41,6 +42,7 @@ interface VoucherStatsData {
           | "unknown";
         collected_date: string | null;
         used_date: string | null;
+        expired_date?: string | null;
       }>;
     }>;
   };
@@ -49,7 +51,7 @@ interface VoucherStatsData {
 
   const fetchVoucherStats = (voucherId: string) =>
     api.get<VoucherStatsData>(`/vouchers/${voucherId}/stats`);
-
+  
   export const useVoucherStats = (
     voucherId: string,
     enabled: boolean = true,

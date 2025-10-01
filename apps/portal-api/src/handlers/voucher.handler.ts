@@ -8,6 +8,14 @@ import { DirectusError } from "@repo/shared/exceptions/directus";
 
 const factory = createFactory<Env>();
 
+// Helper: start of day in Asia/Bangkok (UTC+7)
+const getBangkokStartOfDay = (d: Date) => {
+  const tzOffsetMs = 7 * 60 * 60 * 1000; // UTC+7
+  const shifted = new Date(d.getTime() + tzOffsetMs);
+  shifted.setUTCHours(0, 0, 0, 0);
+  return new Date(shifted.getTime() - tzOffsetMs);
+};
+
 // getLiffPage - ดึงข้อมูล LIFF page เดียว
 export const getLiffPage = factory.createHandlers(
   logger(),
@@ -21,6 +29,143 @@ export const getLiffPage = factory.createHandlers(
       return c.json(liffPage);
     } catch (error) {
       console.error("LIFF page fetch error:", error);
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
+// getVoucherUsers - ดึง Users ตาม LIFF พร้อม pagination/search/sort
+export const getVoucherUsers = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const directus = c.get("directAdmin");
+      const {
+        liff_id: qLiffId,
+        liff_page_id,
+        page = "1",
+        limit = "25",
+        search = "",
+        sortBy = "date",
+        sortOrder = "desc",
+        dateFrom,
+        dateTo,
+      } = c.req.query();
+
+      let liffId: string | undefined = Array.isArray(qLiffId)
+        ? qLiffId[0]
+        : (qLiffId as string | undefined);
+
+      if (!liffId && liff_page_id) {
+        const pageId = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
+        if (pageId) {
+          try {
+            const liffPage = await directus.request(
+              readItem("pages_liff", pageId as string, { fields: ["id", "liff_id"] } as any)
+            );
+            liffId = (liffPage as any)?.liff_id ? String((liffPage as any).liff_id) : undefined;
+          } catch (e) {
+            return c.json({ error: "LIFF page not found" }, 404);
+          }
+        }
+      }
+
+      if (!liffId) {
+        return c.json({ error: "Missing liff_id or liff_page_id" }, 400);
+      }
+
+      const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
+      const limitNum = Math.max(1, parseInt(String(limit), 10) || 25);
+      const offsetNum = (pageNum - 1) * limitNum;
+
+      const sortField = sortBy === "name" ? "display_name" : "date_created";
+      const sortPrefix = sortOrder === "desc" ? "-" : "";
+
+      const filter: any = { liff_id: { _eq: liffId } };
+      if (search) {
+        filter._or = [
+          { display_name: { _icontains: search } },
+          { uid: { _icontains: search } },
+        ];
+      }
+      if (dateFrom || dateTo) {
+        filter.date_created = {
+          ...(dateFrom ? { _gte: dateFrom } : {}),
+          ...(dateTo ? { _lte: dateTo } : {}),
+        } as any;
+      }
+
+      let res: any;
+      try {
+        res = await directus.request(
+          readItems("profiles", {
+            fields: ["id", "uid", "display_name", "picture_url", "date_created", "date_updated"],
+            filter,
+            sort: [`${sortPrefix}${sortField}`],
+            limit: limitNum,
+            offset: offsetNum,
+            // Do NOT request meta here; we'll compute count via aggregate to avoid SDK meta issues
+          } as any)
+        );
+      } catch (sdkErr) {
+        console.warn("Directus SDK failed for list, fallback to raw REST", sdkErr);
+        const p = new URLSearchParams();
+        p.set("fields", [
+          "id",
+          "uid",
+          "display_name",
+          "picture_url",
+          "date_created",
+          "date_updated",
+        ].join(","));
+        p.set("limit", String(limitNum));
+        p.set("offset", String(offsetNum));
+        p.set("sort", `${sortPrefix}${sortField}`);
+        p.set("filter", JSON.stringify(filter));
+        const url = `${c.env.DIRECTUS_URL}/items/profiles?${p.toString()}`;
+        const r = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${c.env.DIRECTUS_SERVICE_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!r.ok) {
+          const txt = await r.text();
+          throw new Error(`Directus REST error ${r.status}: ${txt}`);
+        }
+        res = await r.json();
+      }
+
+      const dataArr: any[] = Array.isArray(res) ? res : (res?.data || []);
+      // Fetch total via aggregate[count] to avoid meta quirks
+      let total = dataArr.length;
+      try {
+        const p2 = new URLSearchParams();
+        p2.set("aggregate[count]", "*");
+        p2.set("filter", JSON.stringify(filter));
+        const url2 = `${c.env.DIRECTUS_URL}/items/profiles?${p2.toString()}`;
+        const r2 = await fetch(url2, {
+          headers: {
+            Authorization: `Bearer ${c.env.DIRECTUS_SERVICE_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (r2.ok) {
+          const j = await r2.json();
+          const cnt = Number(j?.data?.[0]?.count ?? j?.data?.count ?? 0);
+          if (!Number.isNaN(cnt) && cnt > 0) total = cnt;
+        } else {
+          const txt = await r2.text();
+          console.warn("aggregate[count] failed", r2.status, txt);
+        }
+      } catch (aggErr) {
+        console.warn("aggregate[count] request error", aggErr);
+      }
+
+      return c.json({ items: dataArr, count: total, meta: { filter_count: total } });
+    } catch (error) {
+      console.error("getVoucherUsers error:", error);
       throw DirectusError.fromDirectusResponse(error);
     }
   }
@@ -227,19 +372,32 @@ export const getDashboard = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const directus = c.get("directus");
+    // Use admin client; we'll apply tenant guard ourselves
+    const directus = c.get("directAdmin");
     const { liff_page_id, days } = c.req.query();
     const pageId = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
     const rangeDays = Math.max(0, parseInt(String(days || 0), 10) || 0); // 0 = All Time
     const now = new Date();
     const msPerDay = 24 * 60 * 60 * 1000;
+    const startOfTodayBKK = getBangkokStartOfDay(now);
     const start =
-      rangeDays > 0 ? new Date(now.getTime() - rangeDays * msPerDay) : null;
+      rangeDays > 0
+        ? rangeDays === 1
+          ? startOfTodayBKK
+          : new Date(now.getTime() - rangeDays * msPerDay)
+        : null;
     const prevStart =
-      rangeDays > 0 ? new Date(now.getTime() - rangeDays * 2 * msPerDay) : null;
+      rangeDays > 0
+        ? rangeDays === 1
+          ? new Date(startOfTodayBKK.getTime() - msPerDay)
+          : new Date(now.getTime() - rangeDays * 2 * msPerDay)
+        : null;
+    
+    // Hoist pageLiffId so it can be used later in this handler
+    let pageLiffId: string | undefined;
 
     try {
-      console.log("getDashboard called with liff_page_id:", pageId);
+      
       let allVouchers: any[] = [];
 
       if (pageId) {
@@ -307,6 +465,9 @@ export const getDashboard = factory.createHandlers(
             },
           } as any)
         );
+        pageLiffId = (liffPage as any)?.liff_id
+          ? String((liffPage as any).liff_id)
+          : undefined;
 
         // รวม vouchers จากทุก relation
         const vouchersFromVouchers = (liffPage.vouchers || [])
@@ -334,7 +495,7 @@ export const getDashboard = factory.createHandlers(
         allVouchers = Array.from(voucherSet).map((v) =>
           JSON.parse(v as string)
         );
-        console.log("Found allVouchers for LIFF page:", allVouchers.length);
+        
       } else {
         // ดึง vouchers ทั้งหมด
         allVouchers = await directus.request(
@@ -356,7 +517,7 @@ export const getDashboard = factory.createHandlers(
         .map((v: any) => v.id)
         .filter((id: any) => id !== null && id !== undefined);
 
-      console.log("Valid voucher IDs:", voucherIds.length);
+      
       let vouchersUsers: any[] = [];
       let collectedFromCodes = 0;
       let usedAllTimeFromVU = 0;
@@ -374,6 +535,9 @@ export const getDashboard = factory.createHandlers(
               limit: -1,
             })
           );
+          voucherCodes = Array.isArray(voucherCodes)
+            ? voucherCodes
+            : ((voucherCodes as any)?.data || []);
         } catch (error) {
           console.warn(
             "Error fetching voucher codes in main dashboard:",
@@ -382,15 +546,22 @@ export const getDashboard = factory.createHandlers(
           voucherCodes = [];
         }
 
-        const codeIds = voucherCodes
+        const codeIds = (voucherCodes as any[])
           .map((vc: any) => vc.id)
           .filter((id: any) => id !== null && id !== undefined && id !== "");
 
-        console.log(
-          "Valid code IDs found:",
-          codeIds.length,
-          voucherCodes.slice(0, 5).map((vc: any) => vc.code)
-        );
+        
+        try {
+          const codeStatusDist = (voucherCodes as any[]).reduce(
+            (acc: Record<string, number>, vc: any) => {
+              const st = String(vc?.code_status ?? "null");
+              acc[st] = (acc[st] || 0) + 1;
+              return acc;
+            },
+            {}
+          );
+          
+        } catch {}
 
         // นับจากสถานะของ codes โดยตรง สำหรับ collections รวม pending_confirmation/used
         collectedFromCodes = voucherCodes.filter((vc: any) =>
@@ -446,31 +617,21 @@ export const getDashboard = factory.createHandlers(
                 readItems("vouchers_users", {
                   fields: [
                     "id",
+                    "date_created",
                     "collected_date",
                     "used_date",
                     "collected_by",
-                    { collected_by: ["id"] },
-                    "code",
+                    { collected_by: ["id", "liff_id"] },
+                    { code: ["id", "code_status"] },
                   ],
-                  filter: {
-                    code: { _in: chunk },
-                    ...(rangeDays > 0 && prevStart
-                      ? {
-                          _or: [
-                            {
-                              collected_date: {
-                                _gte: prevStart.toISOString(),
-                              } as any,
-                            },
-                            {
-                              used_date: {
-                                _gte: prevStart.toISOString(),
-                              } as any,
-                            },
-                          ],
-                        }
-                      : {}),
-                  },
+                  filter: (
+                    pageLiffId
+                      ? ({
+                          code: { _in: chunk },
+                          collected_by: { liff_id: { _eq: pageLiffId } },
+                        } as any)
+                      : ({ code: { _in: chunk } } as any)
+                  ),
                   limit: -1,
                 } as any)
               );
@@ -486,19 +647,219 @@ export const getDashboard = factory.createHandlers(
             }
           }
           vouchersUsers = agg;
-          console.log(
-            "vouchers_users chunked fetch aggregated:",
-            vouchersUsers.length,
-            "from",
-            chunks.length,
-            "chunks"
-          );
+          try {
+            const vuCollected = agg.filter((vu: any) => !!vu.collected_date).length;
+            const vuUsed = agg.filter((vu: any) => !!vu.used_date).length;
+            const vuWithCode = agg.filter(
+              (vu: any) => vu.code && typeof vu.code === "object"
+            ).length;
+            const vuCodeStatusDist = agg.reduce(
+              (acc: Record<string, number>, vu: any) => {
+                const st = String(
+                  (vu?.code && typeof vu.code === "object" && vu.code?.code_status) ??
+                    "null"
+                );
+                acc[st] = (acc[st] || 0) + 1;
+                return acc;
+              },
+              {}
+            );
+            
+          } catch {}
+          // Fallback: if no rows matched by code filter, fetch by date window then filter by codes in JS
+          if (vouchersUsers.length === 0) {
+            try {
+              const fbRes: any = await directus.request(
+                readItems("vouchers_users", {
+                  fields: [
+                    "id",
+                    "date_created",
+                    "collected_date",
+                    "used_date",
+                    "collected_by",
+                    { collected_by: ["id", "liff_id"] },
+                    { code: ["id", "code_status"] },
+                  ],
+                  filter: (
+                    rangeDays > 0 && prevStart
+                      ? (
+                          pageLiffId
+                            ? ({
+                                _and: [
+                                  {
+                                    _or: [
+                                      { collected_date: { _gte: prevStart.toISOString() } as any },
+                                      { used_date: { _gte: prevStart.toISOString() } as any },
+                                    ],
+                                  },
+                                  { collected_by: { liff_id: { _eq: pageLiffId } } },
+                                ],
+                              } as any)
+                            : ({
+                                _or: [
+                                  { collected_date: { _gte: prevStart.toISOString() } as any },
+                                  { used_date: { _gte: prevStart.toISOString() } as any },
+                                ],
+                              } as any)
+                        )
+                      : (pageLiffId
+                          ? ({ collected_by: { liff_id: { _eq: pageLiffId } } } as any)
+                          : ({} as any)
+                        )
+                  ),
+                  limit: -1,
+                } as any)
+              );
+              let fbArr: any[] = Array.isArray(fbRes) ? fbRes : fbRes?.data || [];
+              const allowedSet = new Set(codeIds.map((x: any) => String(x)));
+              fbArr = fbArr.filter((vu: any) => {
+                const cid =
+                  typeof vu.code === "object" && vu.code !== null ? vu.code.id : vu.code;
+                return !!cid && allowedSet.has(String(cid));
+              });
+              vouchersUsers = fbArr;
+              
+            } catch (fbErr) {
+              console.warn("fallback vouchers_users date-only failed", fbErr);
+            }
+          }
+          // Tenant guard: filter vouchersUsers by profiles.liff_id == page.liff_id
+          try {
+            if (pageId && pageLiffId && vouchersUsers.length > 0) {
+              // Fast path: if collected_by already contains liff_id, filter inline
+              const hasInlineLiff = vouchersUsers.some(
+                (vu: any) => typeof vu.collected_by === "object" && vu.collected_by && "liff_id" in vu.collected_by
+              );
+              if (hasInlineLiff) {
+                const before = vouchersUsers.length;
+                vouchersUsers = vouchersUsers.filter(
+                  (vu: any) =>
+                    typeof vu.collected_by === "object" &&
+                    vu.collected_by &&
+                    String((vu.collected_by as any).liff_id ?? "") === String(pageLiffId)
+                );
+                
+              } else {
+              const profileIdsRaw = Array.from(
+                new Set(
+                  vouchersUsers
+                    .map((vu: any) =>
+                      typeof vu.collected_by === "object" && vu.collected_by !== null
+                        ? vu.collected_by.id
+                        : vu.collected_by
+                    )
+                    .filter((x: any) => x !== null && x !== undefined && x !== "")
+                )
+              );
+              
+              const profileIds: string[] = profileIdsRaw.map((x: any) => String(x));
+              if (profileIdsRaw.length > 0) {
+                // Diagnostics: chunked fetch to avoid URL length issues
+                try {
+                  const chunkSizeP = 150;
+                  const pChunks: string[][] = [];
+                  for (let i = 0; i < profileIds.length; i += chunkSizeP) {
+                    pChunks.push(profileIds.slice(i, i + chunkSizeP));
+                  }
+                  const rawAll: any[] = [];
+                  for (const ch of pChunks) {
+                    if (ch.length === 0) continue;
+                    try {
+                      const profAllRes: any = await directus.request(
+                        readItems("profiles", {
+                          fields: ["id", "liff_id"],
+                          filter: { id: { _in: ch } } as any,
+                          limit: -1,
+                        } as any)
+                      );
+                      const arr = Array.isArray(profAllRes)
+                        ? profAllRes
+                        : profAllRes?.data || [];
+                      rawAll.push(...arr);
+                      
+                    } catch (perr) {
+                      console.warn("profiles chunk fetch (diagnostics) failed", perr);
+                    }
+                  }
+                  const dist: Record<string, number> = {};
+                  rawAll.forEach((p: any) => {
+                    const lv = String((p as any)?.liff_id ?? "null");
+                    dist[lv] = (dist[lv] || 0) + 1;
+                  });
+                  const examples = rawAll.slice(0, 10).map((p: any) => ({
+                    id: String(p.id),
+                    liff_id: String((p as any)?.liff_id ?? "null"),
+                  }));
+                  
+                } catch {}
+
+                // Allowed set: chunked fetch with liff_id guard
+                const chunkSizeAllow = 150;
+                const pChunksAllow: string[][] = [];
+                for (let i = 0; i < profileIds.length; i += chunkSizeAllow) {
+                  pChunksAllow.push(profileIds.slice(i, i + chunkSizeAllow));
+                }
+                const allowedIds: string[] = [];
+                for (const ch of pChunksAllow) {
+                  if (ch.length === 0) continue;
+                  try {
+                    const profRes: any = await directus.request(
+                      readItems("profiles", {
+                        fields: ["id", "liff_id"],
+                        filter: { id: { _in: ch }, liff_id: { _eq: pageLiffId } } as any,
+                        limit: -1,
+                      } as any)
+                    );
+                    const arr = Array.isArray(profRes) ? profRes : profRes?.data || [];
+                    allowedIds.push(...arr.map((p: any) => String(p.id)));
+                    
+                  } catch (perr2) {
+                    console.warn("profiles chunk fetch (allowed) failed", perr2);
+                  }
+                }
+                const allowed = new Set<string>(allowedIds);
+                
+                vouchersUsers = vouchersUsers.filter((vu: any) => {
+                  const uid =
+                    typeof vu.collected_by === "object" && vu.collected_by !== null
+                      ? vu.collected_by.id
+                      : vu.collected_by;
+                  return !!uid && allowed.has(String(uid));
+                });
+                try {
+                  const vuCollected2 = vouchersUsers.filter((vu: any) => !!vu.collected_date).length;
+                  const vuUsed2 = vouchersUsers.filter((vu: any) => !!vu.used_date).length;
+                  const vuWithCode2 = vouchersUsers.filter(
+                    (vu: any) => vu.code && typeof vu.code === "object"
+                  ).length;
+                  const vuCodeStatusDist2 = vouchersUsers.reduce(
+                    (acc: Record<string, number>, vu: any) => {
+                      const st = String(
+                        (vu?.code && typeof vu.code === "object" && vu.code?.code_status) ??
+                          "null"
+                      );
+                      acc[st] = (acc[st] || 0) + 1;
+                      return acc;
+                    },
+                    {}
+                  );
+                  
+                } catch {}
+              } else {
+                vouchersUsers = [];
+              }
+              }
+            }
+          } catch (tenantErr) {
+            console.warn("Tenant guard filter failed in dashboard", tenantErr);
+          }
+          
         } else {
-          console.log("No valid codes found, skipping vouchers_users query");
+          
         }
       }
 
-      console.log("vouchersUsers found:", vouchersUsers.length);
+      
 
       // คำนวณสถิติพื้นฐาน
       const totalVouchers = allVouchers.length;
@@ -509,41 +870,126 @@ export const getDashboard = factory.createHandlers(
       ).length;
 
       // แยก current / previous period เมื่อมี days
+      const getCollectedAt = (vu: any): Date | null => {
+        // Domain rule: Collections counted strictly from collected_date
+        return vu?.collected_date ? new Date(vu.collected_date) : null;
+      };
       const vusCurrent =
         rangeDays > 0 && start
-          ? vouchersUsers.filter(
-              (vu: any) =>
-                vu.collected_date && new Date(vu.collected_date) >= start
-            )
+          ? vouchersUsers.filter((vu: any) => {
+              const at = getCollectedAt(vu);
+              return !!at && at >= start;
+            })
           : vouchersUsers;
       const vusPrev =
         rangeDays > 0 && start && prevStart
-          ? vouchersUsers.filter(
-              (vu: any) =>
-                vu.collected_date &&
-                new Date(vu.collected_date) >= prevStart &&
-                new Date(vu.collected_date) < start
-            )
+          ? vouchersUsers.filter((vu: any) => {
+              const at = getCollectedAt(vu);
+              return !!at && at >= prevStart && at < start;
+            })
           : [];
 
-      const collectedInRange = vusCurrent.length;
-      const collectedPrev = vusPrev.length;
+      // นับจาก vouchers_users ก่อน ถ้าไม่มี ให้ fallback จาก vouchers_codes.date_updated
+      let collectedInRange = vusCurrent.length;
+      let collectedPrev = vusPrev.length;
 
-      const usedInRange =
+      let usedInRange =
         rangeDays > 0 && start
           ? vouchersUsers.filter(
-              (vu: any) => vu.used_date && new Date(vu.used_date) >= start
+              (vu: any) =>
+                vu.used_date &&
+                new Date(vu.used_date) >= start &&
+                vu.code && typeof vu.code === "object" && vu.code.code_status === "used"
             ).length
-          : vouchersUsers.filter((vu: any) => !!vu.used_date).length;
-      const usedPrev =
+          : vouchersUsers.filter(
+              (vu: any) =>
+                !!vu.used_date &&
+                vu.code && typeof vu.code === "object" && vu.code.code_status === "used"
+            ).length;
+      let usedPrev =
         rangeDays > 0 && start && prevStart
           ? vouchersUsers.filter(
               (vu: any) =>
                 vu.used_date &&
                 new Date(vu.used_date) >= prevStart &&
-                new Date(vu.used_date) < start
+                new Date(vu.used_date) < start &&
+                vu.code && typeof vu.code === "object" && vu.code.code_status === "used"
             ).length
           : 0;
+
+      try {
+        if (rangeDays > 0 && start) {
+          const collectedWindow = vouchersUsers.filter(
+            (vu: any) => vu.collected_date && new Date(vu.collected_date) >= start
+          ).length;
+          const usedWindowAny = vouchersUsers.filter(
+            (vu: any) => vu.used_date && new Date(vu.used_date) >= start
+          ).length;
+          const usedWindowUsedStatus = vouchersUsers.filter(
+            (vu: any) =>
+              vu.used_date &&
+              new Date(vu.used_date) >= start &&
+              vu.code && typeof vu.code === "object" && vu.code.code_status === "used"
+          ).length;
+          const usedWindowPending = vouchersUsers.filter(
+            (vu: any) =>
+              vu.used_date &&
+              new Date(vu.used_date) >= start &&
+              vu.code && typeof vu.code === "object" && vu.code.code_status === "pending_confirmation"
+          ).length;
+          
+        }
+      } catch {}
+
+      // ถ้าไม่มีข้อมูลใน vouchers_users ให้ fallback ไปที่ vouchers_codes ตามช่วงเวลา
+      try {
+        if (voucherIds.length > 0 && rangeDays > 0 && start) {
+          const statusCollected: any = { _in: ["collected", "used", "pending_confirmation"] };
+          const statusUsed: any = { _eq: "used" };
+          const baseFilter: any = { voucher: { _in: voucherIds } };
+          // current range
+          const codesCurrRes: any = await directus.request(
+            readItems("vouchers_codes", {
+              fields: ["id", "code_status", "date_updated"],
+              filter: {
+                ...baseFilter,
+                date_updated: { _gte: start.toISOString() } as any,
+                code_status: statusCollected,
+              },
+              limit: -1,
+            } as any)
+          );
+          const codesCurr = Array.isArray(codesCurrRes) ? codesCurrRes : codesCurrRes?.data || [];
+          const codesUsedCurr = codesCurr.filter((c: any) => c.code_status === "used");
+
+          // prev range
+          let codesPrev: any[] = [];
+          let codesUsedPrev: any[] = [];
+          if (prevStart) {
+            const codesPrevRes: any = await directus.request(
+              readItems("vouchers_codes", {
+                fields: ["id", "code_status", "date_updated"],
+                filter: {
+                  ...baseFilter,
+                  date_updated: { _gte: prevStart.toISOString(), _lt: start.toISOString() } as any,
+                  code_status: statusCollected,
+                },
+                limit: -1,
+              } as any)
+            );
+            codesPrev = Array.isArray(codesPrevRes) ? codesPrevRes : codesPrevRes?.data || [];
+            codesUsedPrev = codesPrev.filter((c: any) => c.code_status === "used");
+          }
+
+          // Keep vouchers_users-based counts per domain; do not override from vouchers_codes
+          // if (collectedInRange === 0) collectedInRange = codesCurr.length;
+          // if (collectedPrev === 0) collectedPrev = codesPrev.length;
+          // if (usedInRange === 0) usedInRange = codesUsedCurr.length;
+          // if (usedPrev === 0) usedPrev = codesUsedPrev.length;
+        }
+      } catch (rangeCodesErr) {
+        console.warn("fallback via vouchers_codes for range failed", rangeCodesErr);
+      }
 
       // Redemption Rate = Used / Collected (not total vouchers)
       const redemptionRate =
@@ -561,7 +1007,7 @@ export const getDashboard = factory.createHandlers(
             : vu.collected_by
         )
         .filter((id: any) => !!id);
-      console.log("Collected entries with user:", collectorIds.length);
+      
       const uniqueCollectors = new Set(collectorIds).size;
       const uniqueCollectorsPrev = (() => {
         const ids = vusPrev
@@ -579,7 +1025,7 @@ export const getDashboard = factory.createHandlers(
       let totalAvailableCodes: any[] = [];
       try {
         if (voucherIds.length > 0) {
-          totalAvailableCodes = await directus.request(
+          const availRes: any = await directus.request(
             readItems("vouchers_codes", {
               fields: ["id"],
               filter: {
@@ -589,6 +1035,9 @@ export const getDashboard = factory.createHandlers(
               limit: -1,
             })
           );
+          totalAvailableCodes = Array.isArray(availRes)
+            ? availRes
+            : (availRes?.data || []);
         }
       } catch (codesError) {
         console.warn("vouchers_codes query error:", codesError);
@@ -599,6 +1048,8 @@ export const getDashboard = factory.createHandlers(
         totalAvailableCodes.length > 0
           ? Math.round((totalCollections / totalAvailableCodes.length) * 100)
           : 0;
+
+      
 
       // สถิติการดู voucher จาก user_events: voucher_click + page scope + ช่วงเวลา
       let totalViews = 0;
@@ -711,8 +1162,7 @@ export const getDashboard = factory.createHandlers(
         totalViews > 0 ? Math.round((totalCollections / totalViews) * 100) : 0;
 
       // สถิติเวลา - Collection วันนี้และสัปดาห์นี้
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const today = getBangkokStartOfDay(new Date());
       const todayCollections = vouchersUsers.filter(
         (vu) => vu.collected_date && new Date(vu.collected_date) >= today
       ).length;
@@ -858,7 +1308,8 @@ export const getDashboardQuick = factory.createHandlers(
   logger(),
   directusMiddleware,
   async (c) => {
-    const directus = c.get("directus");
+    // Use admin client for consistency
+    const directus = c.get("directAdmin");
     const { liff_page_id } = c.req.query();
 
     try {
@@ -878,6 +1329,7 @@ export const getDashboardQuick = factory.createHandlers(
             fields: [
               "id",
               "name",
+              "liff_id",
               {
                 vouchers: [
                   {
@@ -903,9 +1355,11 @@ export const getDashboardQuick = factory.createHandlers(
 
         console.log("Basic stats calculated:", basicStats);
 
-        // ดึงเฉพาะ collections วันนี้
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        // ดึงเฉพาะ collections วันนี้ (Asia/Bangkok midnight)
+      const today = getBangkokStartOfDay(new Date());
+      const pageLiffIdQuick: string | undefined = (liffPage as any)?.liff_id
+        ? String((liffPage as any).liff_id)
+        : undefined;
 
         if (vouchers.length > 0) {
           const voucherIds = vouchers
@@ -950,9 +1404,9 @@ export const getDashboardQuick = factory.createHandlers(
 
           if (codeIds.length > 0) {
             try {
-              const todayCollectionsData = await directus.request(
+              const todayCollectionsRes: any = await directus.request(
                 readItems("vouchers_users", {
-                  fields: ["id"],
+                  fields: ["id", "collected_by"],
                   filter: {
                     code: { _in: codeIds },
                     collected_date: { _gte: today.toISOString() } as any,
@@ -960,7 +1414,40 @@ export const getDashboardQuick = factory.createHandlers(
                   limit: -1,
                 })
               );
-              basicStats.todayCollections = todayCollectionsData.length;
+              let todayEntries = Array.isArray(todayCollectionsRes)
+                ? todayCollectionsRes
+                : todayCollectionsRes?.data || [];
+              if (pageLiffIdQuick) {
+                const profileIds = Array.from(
+                  new Set(
+                    todayEntries
+                      .map((vu: any) => vu?.collected_by)
+                      .filter((x: any) => !!x)
+                      .map((x: any) => String(x?.id || x))
+                  )
+                );
+                if (profileIds.length > 0) {
+                  const profRes: any = await directus.request(
+                    readItems("profiles", {
+                      fields: ["id", "liff_id"],
+                      filter: { id: { _in: profileIds }, liff_id: { _eq: pageLiffIdQuick } } as any,
+                      limit: -1,
+                    } as any)
+                  );
+                  const allowed = new Set<string>(
+                    (Array.isArray(profRes) ? profRes : profRes?.data || []).map((p: any) =>
+                      String(p.id)
+                    )
+                  );
+                  todayEntries = todayEntries.filter((vu: any) => {
+                    const uid = vu?.collected_by?.id || vu?.collected_by;
+                    return !!uid && allowed.has(String(uid));
+                  });
+                } else {
+                  todayEntries = [];
+                }
+              }
+              basicStats.todayCollections = todayEntries.length;
               console.log(
                 "Today collections found:",
                 basicStats.todayCollections
@@ -1059,6 +1546,7 @@ export const getVoucherStats = factory.createHandlers(
                 "code",
                 "collected_date",
                 "used_date",
+                "expired_date",
                 {
                   collected_by: ["id", "display_name", "picture_url"],
                 },
@@ -1258,6 +1746,7 @@ export const getVoucherStats = factory.createHandlers(
                 status: correspondingCode?.code_status || "unknown",
                 collected_date: vu.collected_date,
                 used_date: vu.used_date,
+                expired_date: vu.expired_date,
               },
             ],
           };

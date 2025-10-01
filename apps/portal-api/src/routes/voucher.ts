@@ -7,6 +7,7 @@ const voucherRoutes = new Hono();
 voucherRoutes.get("/", ...VoucherHandler.getVouchers);
 voucherRoutes.get("/dashboard", ...VoucherHandler.getDashboard);
 voucherRoutes.get("/dashboard/quick", ...VoucherHandler.getDashboardQuick);
+voucherRoutes.get("/users", ...VoucherHandler.getVoucherUsers);
 voucherRoutes.get("/:id/stats", ...VoucherHandler.getVoucherStats);
 // voucherRoutes.get("/vouchers/:id", ...VoucherHandler.getVoucher);
 // voucherRoutes.post("/vouchers", ...VoucherHandler.createVoucher);

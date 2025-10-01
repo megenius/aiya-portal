@@ -62,13 +62,62 @@ const MainContent: React.FC<MainContentProps> = ({ voucherPage }) => {
   if (dashboardLoading) {
     return (
       <div className="space-y-6">
+        {/* Performance Overview Skeleton */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-6 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="h-5 bg-gray-200 rounded w-48 animate-pulse"></div>
+            </div>
+            <div className="h-8 bg-gray-200 rounded w-32 animate-pulse"></div>
+          </div>
           <VoucherStatsSkeleton />
         </div>
+
+        {/* Category Distribution Skeleton */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-1 h-6 bg-amber-500 rounded-full"></div>
+            <div className="h-5 bg-gray-200 rounded w-48 animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[...Array(6)].map((_, idx) => (
+              <div
+                key={idx}
+                className="flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-200 animate-pulse"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-18 h-18 bg-gray-200 rounded-full relative">
+                    <div className="absolute inset-2 bg-white rounded-full"></div>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="h-3 bg-gray-200 rounded w-3/4 mb-1"></div>
+                  <div className="h-2 bg-gray-100 rounded w-1/2 mb-2"></div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                    <div className="h-1.5 bg-gray-300 rounded-full w-1/3"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Growth Trends Skeleton */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-1 h-6 bg-gray-200 rounded-full animate-pulse"></div>
+            <div className="h-5 bg-gray-200 rounded w-32 animate-pulse"></div>
+          </div>
           <TrendsSkeleton />
         </div>
+
+        {/* Top Performers Skeleton */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-1 h-6 bg-gray-200 rounded-full animate-pulse"></div>
+            <div className="h-5 bg-gray-200 rounded w-32 animate-pulse"></div>
+          </div>
           <LeaderboardsSkeleton />
         </div>
       </div>

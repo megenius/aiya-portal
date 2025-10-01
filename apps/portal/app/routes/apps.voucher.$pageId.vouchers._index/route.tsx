@@ -26,28 +26,19 @@ const Route = () => {
       <Suspense fallback={<Loading />}>
         <ClientOnly>
           {() => (
-            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
-              <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-                <div className="mb-6">
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    {voucherPage.name} - Vouchers
-                  </h1>
-                  <p className="text-gray-600">
-                    Manage and view all vouchers in this LIFF application
-                  </p>
-                </div>
-
-                {detailsLoading ? (
+            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 flex flex-col">
+              {detailsLoading ? (
+                <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
                   <VoucherListSkeleton />
-                ) : (
-                  <VoucherTabs
-                    voucherPage={voucherPage}
-                    allVouchers={allVouchers}
-                    popularVouchers={popularVouchers}
-                    bannerVouchers={bannerVouchers}
-                  />
-                )}
-              </div>
+                </div>
+              ) : (
+                <VoucherTabs
+                  voucherPage={voucherPage}
+                  allVouchers={allVouchers}
+                  popularVouchers={popularVouchers}
+                  bannerVouchers={bannerVouchers}
+                />
+              )}
             </div>
           )}
         </ClientOnly>

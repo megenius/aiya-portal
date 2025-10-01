@@ -17,14 +17,17 @@ export const getDirectusFileUrl = (
     filename_download,
     baseUrl,
   } = options;
-  let url = `/api/files/${fileId}${key && `?key=${encodeURIComponent(key)}`}`;
+  const params = new URLSearchParams();
+  if (key) params.set("key", key);
+  if (typeof width === "number") params.set("width", String(width));
+  if (typeof height === "number") params.set("height", String(height));
 
+  let url = `/api/files/${fileId}`;
   if (filename_download) {
-    url = `/api/files/${fileId}/${filename_download}?key=${encodeURIComponent(key)}`;
+    url += `/${encodeURIComponent(filename_download)}`;
   }
-
-  if (width) url += `&width=${width}`;
-  if (height) url += `&height=${height}`;
+  const query = params.toString();
+  if (query) url += `?${query}`;
 
   if (baseUrl) {
     return `${baseUrl}${url}`;

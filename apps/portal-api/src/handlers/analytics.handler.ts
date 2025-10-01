@@ -12,6 +12,14 @@ import { directusMiddleware } from "~/middleware/directus.middleware";
 
 const factory = createFactory<Env>();
 
+// Helper: start of day in Asia/Bangkok (UTC+7)
+const getBangkokStartOfDay = (d: Date) => {
+  const tzOffsetMs = 7 * 60 * 60 * 1000; // UTC+7
+  const shifted = new Date(d.getTime() + tzOffsetMs);
+  shifted.setUTCHours(0, 0, 0, 0);
+  return new Date(shifted.getTime() - tzOffsetMs);
+};
+
 // Normalize Directus SDK responses to a plain array
 function toArray<T = any>(res: any): T[] {
   if (Array.isArray(res)) return res as T[];
@@ -77,9 +85,20 @@ export const getAnalyticsTrends = factory.createHandlers(
     const rangeDays = Math.max(1, parseInt(String(days || 30), 10) || 30);
     const now = new Date();
     const start = new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
-    const startOfToday = new Date(now);
-    startOfToday.setHours(0, 0, 0, 0);
+    const startOfToday = getBangkokStartOfDay(now);
     const pageVoucherIds = await getVoucherIdsForPage(directus, liff_page_id);
+    // Resolve page.liff_id for user-level filtering
+    const pid = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
+    let pageLiffId: string | undefined;
+    try {
+      console.log("leaderboards page liff:", { pid, pageLiffId });
+      if (pid) {
+        const pageMeta = await directus.request(
+          (readItem as any)("pages_liff", pid, { fields: ["id", "liff_id"] } as any)
+        );
+        pageLiffId = pageMeta?.liff_id ? String(pageMeta.liff_id) : undefined;
+      }
+    } catch {}
 
     // Helper: format YYYY-MM-DD
     const toDateKey = (d: Date | string) => {
@@ -99,7 +118,10 @@ export const getAnalyticsTrends = factory.createHandlers(
         const profRes = await directus.request(
           readItems("profiles", {
             fields: ["id", "date_created"],
-            filter: { date_created: { _gte: (rangeDays === 1 ? startOfToday.toISOString() : start.toISOString()) } as any },
+            filter: {
+              date_created: { _gte: (rangeDays === 1 ? startOfToday.toISOString() : start.toISOString()) } as any,
+              ...(pageLiffId ? { liff_id: { _eq: pageLiffId } } : {}),
+            } as any,
             limit: -1,
           } as any)
         );
@@ -213,7 +235,7 @@ export const getAnalyticsTrends = factory.createHandlers(
       return c.json({
         range: {
           days: rangeDays,
-          startDate: start.toISOString(),
+          startDate: (rangeDays === 1 ? startOfToday : start).toISOString(),
           endDate: now.toISOString(),
         },
         usersNewDaily: buildSeries(usersDaily),
@@ -265,9 +287,22 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
     const rangeDays = Math.max(1, parseInt(String(days || 30), 10) || 30);
     const topN = Math.max(1, parseInt(String(limit || 5), 10) || 5);
     const now = new Date();
-    const start = new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
+    const start =
+      rangeDays === 1
+        ? getBangkokStartOfDay(now)
+        : new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
     const pid = Array.isArray(liff_page_id) ? liff_page_id[0] : liff_page_id;
     const pageVoucherIds = await getVoucherIdsForPage(directus, pid);
+    // Resolve page's liff_id to restrict users by tenant
+    let pageLiffId: string | undefined;
+    try {
+      if (pid) {
+        const pageMeta = await directus.request(
+          (readItem as any)("pages_liff", pid, { fields: ["id", "liff_id" ] } as any)
+        );
+        pageLiffId = (pageMeta as any)?.liff_id ? String((pageMeta as any).liff_id) : undefined;
+      }
+    } catch {}
 
     try {
       // 1) Claims timeframe
@@ -384,6 +419,87 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
         }
       }
       const voucherIds = Array.from(voucherIdsSet);
+
+      // Further restrict by collected_by.liff_id == page.liff_id (tenant guard)
+      if (pid && pageLiffId) {
+        try {
+          const profileIds = Array.from(
+            new Set(
+              claims
+                .map((vu: any) => getId(vu.collected_by))
+                .filter((x): x is string => typeof x === "string" && x.length > 0)
+            )
+          );
+          if (profileIds.length > 0) {
+            // Diagnostics: log liff_id distribution for these profiles (claims)
+            try {
+              const chunkSize = 200;
+              const raw: any[] = [];
+              for (let i = 0; i < profileIds.length; i += chunkSize) {
+                const ids = profileIds.slice(i, i + chunkSize);
+                const profAllRes = await directus.request(
+                  (readItems as any)("profiles", {
+                    fields: ["id", "liff_id"],
+                    filter: { id: { _in: ids } } as any,
+                    limit: -1,
+                  } as any)
+                );
+                raw.push(...toArray<any>(profAllRes));
+              }
+              const dist: Record<string, number> = {};
+              raw.forEach((p: any) => {
+                const lv = String((p as any)?.liff_id ?? "null");
+                dist[lv] = (dist[lv] || 0) + 1;
+              });
+              const examples = raw.slice(0, 10).map((p: any) => ({ id: String(p.id), liff_id: String((p as any)?.liff_id ?? "null") }));
+              const matchIds = raw
+                .filter((p: any) => String((p as any)?.liff_id ?? "null") === String(pageLiffId))
+                .map((p: any) => String(p.id));
+              const nonMatch = raw
+                .filter((p: any) => String((p as any)?.liff_id ?? "null") !== String(pageLiffId))
+                .slice(0, 10)
+                .map((p: any) => ({ id: String(p.id), liff_id: String((p as any)?.liff_id ?? "null") }));
+              console.log(
+                "leaderboards claims liff distribution:",
+                {
+                  pid,
+                  pageLiffId,
+                  profiles: profileIds.length,
+                  distinct: Object.keys(dist).length,
+                  sample: Object.entries(dist).slice(0, 5),
+                  examples,
+                  matchCount: matchIds.length,
+                  matchesSample: matchIds.slice(0, 10),
+                  nonMatchSample: nonMatch,
+                }
+              );
+            } catch {}
+            // Fetch allowed profiles (chunked)
+            const allowed = new Set<string>();
+            try {
+              const chunkSize = 200;
+              for (let i = 0; i < profileIds.length; i += chunkSize) {
+                const ids = profileIds.slice(i, i + chunkSize);
+                const profRes = await directus.request(
+                  (readItems as any)("profiles", {
+                    fields: ["id", "liff_id"],
+                    filter: { id: { _in: ids }, liff_id: { _eq: pageLiffId } } as any,
+                    limit: -1,
+                  } as any)
+                );
+                toArray<any>(profRes).forEach((p: any) => allowed.add(String(p.id)));
+              }
+            } catch {}
+            const filtered = claims.filter((vu: any) => {
+              const uid = getId(vu.collected_by);
+              return !!uid && allowed.has(uid);
+            });
+            claims = filtered;
+          }
+        } catch (e) {
+          console.warn("leaderboards: profiles filter by liff_id failed", e);
+        }
+      }
 
       // Prepare containers for voucher and brand metadata
       let voucherById: Record<string, any> = {};
@@ -687,6 +803,69 @@ export const getAnalyticsLeaderboards = factory.createHandlers(
             });
           }
         }
+        // Restrict usedEntries by collected_by.liff_id == page.liff_id
+        if (pid && pageLiffId) {
+          try {
+            const profileIds = Array.from(
+              new Set(
+                usedEntries
+                  .map((vu: any) => getId(vu.collected_by))
+                  .filter((x): x is string => typeof x === "string" && x.length > 0)
+              )
+            );
+            if (profileIds.length > 0) {
+              // Diagnostics: log liff_id distribution for these profiles (used)
+              try {
+                const chunkSize = 200;
+                const raw: any[] = [];
+                for (let i = 0; i < profileIds.length; i += chunkSize) {
+                  const ids = profileIds.slice(i, i + chunkSize);
+                  const profAllRes = await directus.request(
+                    (readItems as any)("profiles", {
+                      fields: ["id", "liff_id"],
+                      filter: { id: { _in: ids } } as any,
+                      limit: -1,
+                    } as any)
+                  );
+                  raw.push(...toArray<any>(profAllRes));
+                }
+                const dist: Record<string, number> = {};
+                raw.forEach((p: any) => {
+                  const lv = String((p as any)?.liff_id ?? "null");
+                  dist[lv] = (dist[lv] || 0) + 1;
+                });
+                const examples = raw.slice(0, 10).map((p: any) => ({ id: String(p.id), liff_id: String((p as any)?.liff_id ?? "null") }));
+                console.log(
+                  "leaderboards used liff distribution:",
+                  { pid, pageLiffId, profiles: profileIds.length, distinct: Object.keys(dist).length, sample: Object.entries(dist).slice(0, 5), examples }
+                );
+              } catch {}
+              // Fetch allowed profiles (chunked)
+              const allowed = new Set<string>();
+              try {
+                const chunkSize = 200;
+                for (let i = 0; i < profileIds.length; i += chunkSize) {
+                  const ids = profileIds.slice(i, i + chunkSize);
+                  const profRes = await directus.request(
+                    (readItems as any)("profiles", {
+                      fields: ["id", "liff_id"],
+                      filter: { id: { _in: ids }, liff_id: { _eq: pageLiffId } } as any,
+                      limit: -1,
+                    } as any)
+                  );
+                  toArray<any>(profRes).forEach((p: any) => allowed.add(String(p.id)));
+                }
+              } catch {}
+              const filtered = usedEntries.filter((vu: any) => {
+                const uid = getId(vu.collected_by);
+                return !!uid && allowed.has(uid);
+              });
+              usedEntries = filtered;
+            }
+          } catch (e) {
+            console.warn("leaderboards: profiles filter by liff_id (used) failed", e);
+          }
+        }
         usedEntries.forEach((vu: any) => {
           const uid = getId(vu.collected_by);
           if (!uid) return;
@@ -791,8 +970,22 @@ export const getAnalyticsOverview = factory.createHandlers(
 
     try {
       const now = new Date();
-      const startOfRange = new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
+      const startOfRange =
+        rangeDays === 1
+          ? getBangkokStartOfDay(now)
+          : new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
       const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+      // Resolve page's liff_id for tenant-guard (if pid provided)
+      let pageLiffId: string | undefined;
+      try {
+        if (pid) {
+          const pageMeta = await directus.request(
+            (readItem as any)("pages_liff", pid, { fields: ["id", "liff_id"] } as any)
+          );
+          pageLiffId = pageMeta?.liff_id ? String(pageMeta.liff_id) : undefined;
+        }
+      } catch {}
 
       // 1) Users total from profiles
       let totalUsers = 0;
@@ -895,6 +1088,34 @@ export const getAnalyticsOverview = factory.createHandlers(
               const cid = getId(vu.code);
               return !!cid && allowedCodeIds!.has(cid);
             });
+          }
+          // Further restrict by profiles.liff_id == page.liff_id
+          if (pid && pageLiffId) {
+            const profileIds = Array.from(
+              new Set(
+                vus
+                  .map((vu: any) => getId(vu.collected_by))
+                  .filter((x): x is string => typeof x === "string" && x.length > 0)
+              )
+            );
+            if (profileIds.length > 0) {
+              try {
+                const profRes = await directus.request(
+                  (readItems as any)("profiles", {
+                    fields: ["id", "liff_id"],
+                    filter: { id: { _in: profileIds }, liff_id: { _eq: pageLiffId } } as any,
+                    limit: -1,
+                  } as any)
+                );
+                const allowed = new Set<string>(toArray<any>(profRes).map((p: any) => String(p.id)));
+                vus = vus.filter((vu: any) => {
+                  const uid = getId(vu.collected_by);
+                  return !!uid && allowed.has(uid);
+                });
+              } catch {}
+            } else {
+              vus = [];
+            }
           }
           const uniq = new Set<string>();
           vus.forEach((vu: any) => {
