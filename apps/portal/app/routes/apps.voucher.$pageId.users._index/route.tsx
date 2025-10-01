@@ -3,8 +3,42 @@ import { useOutletContext } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { useVoucherUsers } from "~/hooks/useVoucherUsers";
 import { formatDistanceToNow } from "date-fns";
+import { SortSelect, SortOption } from "~/routes/apps.voucher.$pageId.vouchers._index/_components/SortSelect";
+import { ShowSelect } from "~/components/voucher/ShowSelect";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
+
+// Sort options for users
+const USER_SORT_OPTIONS: SortOption[] = [
+  {
+    value: "date",
+    label: "Join Date",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+    ),
+  },
+  {
+    value: "name",
+    label: "Name",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        />
+      </svg>
+    ),
+  },
+];
 
 const UsersPage: React.FC = () => {
   const { voucherPage } = useOutletContext<{ voucherPage: PageLiff }>();
@@ -61,195 +95,230 @@ const UsersPage: React.FC = () => {
     setPage(1);
   };
 
+  // Handle sort change
+  const handleSortChange = (value: string) => {
+    setSortBy(value as "name" | "date");
+    setPage(1);
+  };
+
   return (
-    <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-6">
+    <div className="p-2 sm:p-5 sm:py-0 md:pt-5">
+      {/* Main Users Table */}
+      <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden flex flex-col max-h-[calc(100vh-160px)]">
+        {/* Header Section - Sticky */}
+        <div className="flex-shrink-0 border-b border-gray-200 p-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <h2 className="text-lg font-semibold text-gray-900">All Users</h2>
 
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              {/* Sort & Show Controls */}
+              <div className="flex items-center gap-2">
+                {/* Sort Select */}
+                <SortSelect
+                  options={USER_SORT_OPTIONS}
+                  value={sortBy}
+                  onChange={handleSortChange}
+                />
 
-      {/* All Users Section */}
-      <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900">All Users</h2>
-
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex gap-2">
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search by name or ID..."
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-            >
-              Search
-            </button>
-            {search && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSearch("");
-                  setSearchInput("");
-                  setPage(1);
-                }}
-                className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Clear
-              </button>
-            )}
-          </form>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Sort by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value as "name" | "date");
-                  setPage(1);
-                }}
-                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="date">Join Date</option>
-                <option value="name">Name</option>
-              </select>
-              <button
-                onClick={() => {
-                  setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                  setPage(1);
-                }}
-                className="p-1.5 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
-                title={sortOrder === "asc" ? "Ascending" : "Descending"}
-              >
-                <svg
-                  className={`w-4 h-4 text-gray-600 transition-transform ${
-                    sortOrder === "desc" ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                {/* Sort Order Button */}
+                <button
+                  onClick={() => {
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                    setPage(1);
+                  }}
+                  className="flex items-center justify-center px-3 py-1.5 text-sm border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 transition-all duration-200"
+                  title={sortOrder === "asc" ? "Ascending" : "Descending"}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-              </button>
-            </div>
+                  {sortOrder === "asc" ? (
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Show:</span>
-              <select
-                value={limit}
-                onChange={(e) => {
-                  setLimit(Number(e.target.value));
-                  setPage(1);
-                }}
-                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
+              {/* Search Bar */}
+              <form onSubmit={handleSearch} className="flex gap-2">
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Search by name or ID..."
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                >
+                  Search
+                </button>
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch("");
+                      setSearchInput("");
+                      setPage(1);
+                    }}
+                    className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </form>
             </div>
           </div>
         </div>
 
-        {/* Table */}
-        {isLoading || isFetching ? (
-          <div className="space-y-3">
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                className="h-16 bg-gray-100 rounded-lg animate-pulse"
-              />
-            ))}
-          </div>
-        ) : users.length > 0 ? (
-          <>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      #
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      User
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      User ID
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Joined
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {users.map((user, index) => {
-                    const isNew = isNewUser(user.date_created);
-                    return (
-                      <tr key={user.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-xs text-gray-500">
-                          {(page - 1) * limit + index + 1}
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-3">
-                            {user.picture_url ? (
-                              <img
-                                src={user.picture_url}
-                                alt={user.display_name}
-                                className="w-8 h-8 rounded-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-600 font-medium">
-                                {(user.display_name || "U")
-                                  .charAt(0)
-                                  .toUpperCase()}
-                              </div>
-                            )}
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-gray-900">
-                                {user.display_name}
-                              </span>
-                              {isNew && (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                  NEW
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600 font-mono">
-                          {user.uid}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">
-                          {formatDistanceToNow(new Date(user.date_created), {
-                            addSuffix: true,
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+        {/* Table Content - Scrollable */}
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          {isLoading || isFetching ? (
+            <div className="p-6 space-y-3">
+              {[...Array(10)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-16 bg-gray-100 rounded-lg animate-pulse"
+                />
+              ))}
             </div>
+          ) : users.length > 0 ? (
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 sticky top-0">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    #
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    User
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    User ID
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Joined
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {users.map((user: any, index: number) => {
+                  const isNew = isNewUser(user.date_created);
+                  return (
+                    <tr key={user.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-xs text-gray-500">
+                        {(page - 1) * limit + index + 1}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          {user.picture_url ? (
+                            <img
+                              src={user.picture_url}
+                              alt={user.display_name}
+                              className="w-8 h-8 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-600 font-medium">
+                              {(user.display_name || "U")
+                                .charAt(0)
+                                .toUpperCase()}
+                            </div>
+                          )}
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-gray-900">
+                              {user.display_name}
+                            </span>
+                            {isNew && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                NEW
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600 font-mono">
+                        {user.uid}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600">
+                        {formatDistanceToNow(new Date(user.date_created), {
+                          addSuffix: true,
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <div className="text-center py-8">
+              <svg
+                className="w-10 h-10 text-gray-400 mx-auto mb-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+              <p className="text-sm text-gray-500">
+                {search
+                  ? "No users found matching your search"
+                  : "No users found"}
+              </p>
+            </div>
+          )}
+        </div>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+        {/* Footer with Pagination - Sticky */}
+        {users.length > 0 && (
+          <div className="flex-shrink-0 px-6 py-3 border-t border-gray-200 bg-gray-50">
+            <div className="flex items-center justify-between">
               <div className="text-sm text-gray-600">
                 Showing {(page - 1) * limit + 1} to{" "}
                 {Math.min(page * limit, totalUsers)} of {totalUsers} users
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                {/* Show Selector */}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">Show:</span>
+                  <ShowSelect
+                    value={limit}
+                    onChange={(value) => {
+                      setLimit(value);
+                      setPage(1);
+                    }}
+                  />
+                </div>
+
+                {/* Pagination Buttons */}
+                <div className="flex items-center gap-2 pl-3 border-l border-gray-300">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
@@ -295,28 +364,8 @@ const UsersPage: React.FC = () => {
                 >
                   Next
                 </button>
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <svg
-              className="w-12 h-12 text-gray-400 mx-auto mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-              />
-            </svg>
-            <div className="text-gray-500">
-              {search
-                ? "No users found matching your search"
-                : "No users found"}
             </div>
           </div>
         )}

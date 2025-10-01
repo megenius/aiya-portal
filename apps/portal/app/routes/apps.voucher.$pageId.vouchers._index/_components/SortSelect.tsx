@@ -19,6 +19,7 @@ export const SortSelect: React.FC<SortSelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
 
@@ -68,6 +69,7 @@ export const SortSelect: React.FC<SortSelectProps> = ({
     <div className="relative" ref={dropdownRef}>
       {/* Main Button */}
       <button
+        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md bg-white hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 transition-all duration-200"
       >
@@ -101,7 +103,10 @@ export const SortSelect: React.FC<SortSelectProps> = ({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+        <div
+          className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+          style={{ width: buttonRef.current?.offsetWidth }}
+        >
           <div className="py-1">
             {options.map((option) => (
               <button
@@ -126,21 +131,6 @@ export const SortSelect: React.FC<SortSelectProps> = ({
 
                 {/* Label */}
                 <span className="flex-1">{option.label}</span>
-
-                {/* Check Icon */}
-                {option.value === value && (
-                  <svg
-                    className="w-4 h-4 text-blue-600 flex-shrink-0"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
               </button>
             ))}
           </div>
