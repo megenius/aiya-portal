@@ -371,9 +371,10 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   };
 
   // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
-  const timePercentage = countdownSeconds
+  const timePercentageRaw = countdownSeconds
     ? (remainingTime / countdownSeconds) * 100
     : 0;
+  const timePercentage = Math.max(0, Math.min(100, timePercentageRaw));
 
   // Derive a warning tone from primaryColor for the near-expiry alert
   const warningColor = darkenColor(primaryColor, 0.35);
