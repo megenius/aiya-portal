@@ -140,6 +140,7 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
   const countdownSeconds =
     voucher?.redemption_countdown_seconds ?? countdown * 60;
   const countdownMinutes = Math.ceil(countdownSeconds / 60);
+  const [totalSeconds, setTotalSeconds] = useState<number>(countdownSeconds);
   const title = voucher.metadata.title[language].replace(
     /\$\{value\}/g,
     getVoucherValueWithType(voucherUser),
@@ -265,9 +266,19 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
       const timeLeft = Math.floor((expiryTime - now) / 1000);
       if (timeLeft > 0) {
         setRemainingTime(timeLeft);
+        // If have used_date, derive totalSeconds from [expiry - used]
+        if (usedDate) {
+          const usedTs = new Date(usedDate).getTime();
+          const total = Math.max(1, Math.floor((expiryTime - usedTs) / 1000));
+          setTotalSeconds(total);
+        } else {
+          // Fallback: ensure denominator at least current remaining or configured countdown
+          setTotalSeconds(Math.max(countdownSeconds, timeLeft));
+        }
       } else {
         setRemainingTime(0);
         setShowExpireWarning(true);
+        setTotalSeconds(countdownSeconds);
       }
       return;
     }
@@ -277,9 +288,12 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
       const timeLeft = Math.floor((expiryTime - now) / 1000);
       if (timeLeft > 0) {
         setRemainingTime(timeLeft);
+        const total = Math.max(1, Math.floor((expiryTime - usedDateTime) / 1000));
+        setTotalSeconds(total);
       } else {
         setRemainingTime(0);
         setShowExpireWarning(true);
+        setTotalSeconds(countdownSeconds);
       }
     }
   }, [usedDate, countdownSeconds, voucherUser]);
@@ -370,9 +384,9 @@ const RedeemModal: React.FC<RedeemModalProps> = ({
     );
   };
 
-  // คำนวณเปอร์เซ็นต์เวลาที่เหลือ
-  const timePercentageRaw = countdownSeconds
-    ? (remainingTime / countdownSeconds) * 100
+  // คำนวณเปอร์เซ็นต์เวลาที่เหลือ (ใช้ totalSeconds เป็นตัวหารเพื่อสะท้อน progress จริง)
+  const timePercentageRaw = totalSeconds
+    ? (remainingTime / totalSeconds) * 100
     : 0;
   const timePercentage = Math.max(0, Math.min(100, timePercentageRaw));
 
