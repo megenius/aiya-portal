@@ -161,7 +161,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   }, [activeTabData, currentPage, itemsPerPage]);
 
   return (
-    <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden flex flex-col max-h-[calc(100vh-80px)]">
+    <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden flex flex-col max-h-[calc(100vh-160px)]">
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 flex-shrink-0">
         <div className="flex justify-between items-center px-6">
@@ -291,7 +291,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
       </div>
 
       {/* Tab Content - Flexible scrollable area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         {viewMode === "card" ? (
           /* Card View */
           <div className="p-6">
@@ -433,8 +433,9 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
           </div>
         ) : (
           /* Table View */
-          <div className="overflow-auto">
+          <div>
             {paginationData.paginatedItems.length > 0 ? (
+              <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50 sticky top-0 z-10">
                     <tr>
@@ -563,6 +564,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                     ))}
                   </tbody>
                 </table>
+              </div>
             ) : (
               <div className="text-center py-8">
                 <div className="text-gray-400 text-sm">
