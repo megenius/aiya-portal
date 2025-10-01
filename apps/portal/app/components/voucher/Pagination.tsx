@@ -33,31 +33,26 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between text-xs">
-      <div className="text-gray-500">
-        {startIndex}-{endIndex} of {totalItems}
-      </div>
-      <div className="flex gap-1">
-        <button
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-          className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Previous page"
-        >
-          ‹
-        </button>
-        <span className="px-2 py-1 text-xs text-gray-600">
-          {currentPage} / {totalPages}
-        </span>
-        <button
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-          className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Next page"
-        >
-          ›
-        </button>
-      </div>
+    <div className="flex items-center justify-center gap-1 text-xs">
+      <button
+        onClick={handlePrevious}
+        disabled={currentPage === 1}
+        className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-all duration-200"
+        aria-label="Previous page"
+      >
+        ‹
+      </button>
+      <span className="px-2 py-1 text-xs text-gray-600">
+        {currentPage} / {totalPages}
+      </span>
+      <button
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+        className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-all duration-200"
+        aria-label="Next page"
+      >
+        ›
+      </button>
     </div>
   );
 };

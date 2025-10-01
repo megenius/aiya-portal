@@ -119,7 +119,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   const tabs = [
     {
       id: "all",
-      label: "All Vouchers",
+      label: "All",
       count: allVouchers.length,
       data: sortVouchers(allVouchers),
     },
@@ -158,9 +158,9 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   }, [activeTabData, currentPage, itemsPerPage]);
 
   return (
-    <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden">
+    <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden flex flex-col max-h-[calc(100vh-80px)]">
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 flex-shrink-0">
         <div className="flex justify-between items-center px-6">
           {/* Tabs - Underline Style */}
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
@@ -287,8 +287,8 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
         </div>
       </div>
 
-      {/* Tab Content - Fixed height with internal scrolling */}
-      <div className="max-h-[calc(100vh-250px)] min-h-[400px] overflow-y-auto">
+      {/* Tab Content - Flexible scrollable area */}
+      <div className="flex-1 overflow-y-auto">
       {viewMode === "card" ? (
         /* Card View */
         <div className="p-6">
@@ -326,7 +326,32 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                       </div>
                     )}
 
-                    {/* Status Badge - positioned on image */}
+                    {/* Redemption Type Badge - positioned on image left */}
+                    {voucher.metadata?.redemptionType && (
+                      <div className="absolute top-2 left-2">
+                        <span
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            voucher.metadata.redemptionType === "instant"
+                              ? "bg-purple-100 text-purple-800"
+                              : voucher.metadata.redemptionType === "limited_time"
+                                ? "bg-orange-100 text-orange-800"
+                                : voucher.metadata.redemptionType === "form"
+                                  ? "bg-indigo-100 text-indigo-800"
+                                  : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {voucher.metadata.redemptionType === "instant"
+                            ? "Instant"
+                            : voucher.metadata.redemptionType === "limited_time"
+                              ? "Limited Time"
+                              : voucher.metadata.redemptionType === "form"
+                                ? "Form Required"
+                                : voucher.metadata.redemptionType}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Status Badge - positioned on image right */}
                     {(() => {
                       const status = getVoucherStatus(
                         voucher.start_date,
@@ -385,33 +410,6 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                       <p className="text-xs text-gray-500">
                         End: {formatDateShort(voucher.end_date)}
                       </p>
-
-                      {/* Redemption Type Badge */}
-                      {voucher.metadata?.redemptionType && (
-                        <div className="pt-1">
-                          <span
-                            className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
-                              voucher.metadata.redemptionType === "instant"
-                                ? "bg-green-100 text-green-800"
-                                : voucher.metadata.redemptionType ===
-                                    "limited_time"
-                                  ? "bg-orange-100 text-orange-800"
-                                  : voucher.metadata.redemptionType === "form"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {voucher.metadata.redemptionType === "instant"
-                              ? "Instant"
-                              : voucher.metadata.redemptionType ===
-                                  "limited_time"
-                                ? "Limited Time"
-                                : voucher.metadata.redemptionType === "form"
-                                  ? "Form Required"
-                                  : voucher.metadata.redemptionType}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -518,12 +516,12 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                             voucher.metadata.redemptionType === "instant"
-                              ? "bg-green-100 text-green-800"
+                              ? "bg-purple-100 text-purple-800"
                               : voucher.metadata.redemptionType ===
                                   "limited_time"
                                 ? "bg-orange-100 text-orange-800"
                                 : voucher.metadata.redemptionType === "form"
-                                  ? "bg-blue-100 text-blue-800"
+                                  ? "bg-indigo-100 text-indigo-800"
                                   : "bg-gray-100 text-gray-800"
                           }`}
                         >
@@ -566,7 +564,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
 
       {/* Footer */}
       {paginationData.totalItems > 0 && (
-        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
+        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-500">
               Showing {paginationData.startIndex}-{paginationData.endIndex} of {paginationData.totalItems}
