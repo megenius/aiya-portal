@@ -260,7 +260,7 @@ export const getDashboard = factory.createHandlers(
     let pageLiffId: string | undefined;
 
     try {
-      console.log("getDashboard called with liff_page_id:", pageId);
+      
       let allVouchers: any[] = [];
 
       if (pageId) {
@@ -358,7 +358,7 @@ export const getDashboard = factory.createHandlers(
         allVouchers = Array.from(voucherSet).map((v) =>
           JSON.parse(v as string)
         );
-        console.log("Found allVouchers for LIFF page:", allVouchers.length);
+        
       } else {
         // ดึง vouchers ทั้งหมด
         allVouchers = await directus.request(
@@ -380,7 +380,7 @@ export const getDashboard = factory.createHandlers(
         .map((v: any) => v.id)
         .filter((id: any) => id !== null && id !== undefined);
 
-      console.log("Valid voucher IDs:", voucherIds.length);
+      
       let vouchersUsers: any[] = [];
       let collectedFromCodes = 0;
       let usedAllTimeFromVU = 0;
@@ -413,11 +413,7 @@ export const getDashboard = factory.createHandlers(
           .map((vc: any) => vc.id)
           .filter((id: any) => id !== null && id !== undefined && id !== "");
 
-        console.log(
-          "Valid code IDs found:",
-          codeIds.length,
-          voucherCodes.slice(0, 5).map((vc: any) => vc.code)
-        );
+        
         try {
           const codeStatusDist = (voucherCodes as any[]).reduce(
             (acc: Record<string, number>, vc: any) => {
@@ -427,7 +423,7 @@ export const getDashboard = factory.createHandlers(
             },
             {}
           );
-          console.log("codes status distribution:", codeStatusDist);
+          
         } catch {}
 
         // นับจากสถานะของ codes โดยตรง สำหรับ collections รวม pending_confirmation/used
@@ -531,13 +527,7 @@ export const getDashboard = factory.createHandlers(
               },
               {}
             );
-            console.log("vouchers_users pre-tenant summary:", {
-              total: agg.length,
-              withCollectedDate: vuCollected,
-              withUsedDate: vuUsed,
-              withCodeRelation: vuWithCode,
-              codeStatusDist: Object.entries(vuCodeStatusDist).slice(0, 5),
-            });
+            
           } catch {}
           // Fallback: if no rows matched by code filter, fetch by date window then filter by codes in JS
           if (vouchersUsers.length === 0) {
@@ -591,7 +581,7 @@ export const getDashboard = factory.createHandlers(
                 return !!cid && allowedSet.has(String(cid));
               });
               vouchersUsers = fbArr;
-              console.log("fallback vouchers_users by date-only matched:", vouchersUsers.length);
+              
             } catch (fbErr) {
               console.warn("fallback vouchers_users date-only failed", fbErr);
             }
@@ -611,7 +601,7 @@ export const getDashboard = factory.createHandlers(
                     vu.collected_by &&
                     String((vu.collected_by as any).liff_id ?? "") === String(pageLiffId)
                 );
-                console.log("tenant guard (inline liff) applied:", { before, after: vouchersUsers.length, pageLiffId });
+                
               } else {
               const profileIdsRaw = Array.from(
                 new Set(
@@ -624,11 +614,7 @@ export const getDashboard = factory.createHandlers(
                     .filter((x: any) => x !== null && x !== undefined && x !== "")
                 )
               );
-              console.log("tenant guard: pageLiffId:", pageLiffId);
-              console.log(
-                "tenant guard: profileIdsRaw sample:",
-                profileIdsRaw.slice(0, 10).map((v: any) => ({ v, type: typeof v }))
-              );
+              
               const profileIds: string[] = profileIdsRaw.map((x: any) => String(x));
               if (profileIdsRaw.length > 0) {
                 // Diagnostics: chunked fetch to avoid URL length issues
@@ -653,10 +639,7 @@ export const getDashboard = factory.createHandlers(
                         ? profAllRes
                         : profAllRes?.data || [];
                       rawAll.push(...arr);
-                      console.log(
-                        "profiles diagnostics chunk:",
-                        JSON.stringify({ inSize: ch.length, outSize: arr.length })
-                      );
+                      
                     } catch (perr) {
                       console.warn("profiles chunk fetch (diagnostics) failed", perr);
                     }
@@ -670,14 +653,7 @@ export const getDashboard = factory.createHandlers(
                     id: String(p.id),
                     liff_id: String((p as any)?.liff_id ?? "null"),
                   }));
-                  console.log("dashboard vouchersUsers liff distribution:", {
-                    pageId,
-                    pageLiffId,
-                    profiles: profileIds.length,
-                    distinct: Object.keys(dist).length,
-                    sample: Object.entries(dist).slice(0, 5),
-                    examples,
-                  });
+                  
                 } catch {}
 
                 // Allowed set: chunked fetch with liff_id guard
@@ -699,16 +675,13 @@ export const getDashboard = factory.createHandlers(
                     );
                     const arr = Array.isArray(profRes) ? profRes : profRes?.data || [];
                     allowedIds.push(...arr.map((p: any) => String(p.id)));
-                    console.log(
-                      "profiles allowed chunk:",
-                      JSON.stringify({ inSize: ch.length, matched: arr.length })
-                    );
+                    
                   } catch (perr2) {
                     console.warn("profiles chunk fetch (allowed) failed", perr2);
                   }
                 }
                 const allowed = new Set<string>(allowedIds);
-                console.log("tenant guard: allowedIds size:", allowed.size);
+                
                 vouchersUsers = vouchersUsers.filter((vu: any) => {
                   const uid =
                     typeof vu.collected_by === "object" && vu.collected_by !== null
@@ -733,13 +706,7 @@ export const getDashboard = factory.createHandlers(
                     },
                     {}
                   );
-                  console.log("vouchers_users post-tenant summary:", {
-                    total: vouchersUsers.length,
-                    withCollectedDate: vuCollected2,
-                    withUsedDate: vuUsed2,
-                    withCodeRelation: vuWithCode2,
-                    codeStatusDist: Object.entries(vuCodeStatusDist2).slice(0, 5),
-                  });
+                  
                 } catch {}
               } else {
                 vouchersUsers = [];
@@ -749,19 +716,13 @@ export const getDashboard = factory.createHandlers(
           } catch (tenantErr) {
             console.warn("Tenant guard filter failed in dashboard", tenantErr);
           }
-          console.log(
-            "vouchers_users chunked fetch aggregated:",
-            vouchersUsers.length,
-            "from",
-            chunks.length,
-            "chunks"
-          );
+          
         } else {
-          console.log("No valid codes found, skipping vouchers_users query");
+          
         }
       }
 
-      console.log("vouchersUsers found:", vouchersUsers.length);
+      
 
       // คำนวณสถิติพื้นฐาน
       const totalVouchers = allVouchers.length;
@@ -839,12 +800,7 @@ export const getDashboard = factory.createHandlers(
               new Date(vu.used_date) >= start &&
               vu.code && typeof vu.code === "object" && vu.code.code_status === "pending_confirmation"
           ).length;
-          console.log("window diagnostics:", {
-            collectedWindow,
-            usedWindowAny,
-            usedWindowUsedStatus,
-            usedWindowPending,
-          });
+          
         }
       } catch {}
 
@@ -914,7 +870,7 @@ export const getDashboard = factory.createHandlers(
             : vu.collected_by
         )
         .filter((id: any) => !!id);
-      console.log("Collected entries with user:", collectorIds.length);
+      
       const uniqueCollectors = new Set(collectorIds).size;
       const uniqueCollectorsPrev = (() => {
         const ids = vusPrev
@@ -956,20 +912,7 @@ export const getDashboard = factory.createHandlers(
           ? Math.round((totalCollections / totalAvailableCodes.length) * 100)
           : 0;
 
-      console.log("dashboard counters:", {
-        pageId,
-        pageLiffId,
-        rangeDays,
-        start: start ? start.toISOString() : null,
-        prevStart: prevStart ? prevStart.toISOString() : null,
-        voucherIds: voucherIds.length,
-        totalAvailableCodes: totalAvailableCodes.length,
-        vouchersUsers: vouchersUsers.length,
-        collectedInRange,
-        usedInRange,
-        collectionRate,
-        redemptionRate,
-      });
+      
 
       // สถิติการดู voucher จาก user_events: voucher_click + page scope + ช่วงเวลา
       let totalViews = 0;
