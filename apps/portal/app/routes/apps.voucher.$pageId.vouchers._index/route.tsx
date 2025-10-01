@@ -26,7 +26,7 @@ const Route = () => {
       <Suspense fallback={<Loading />}>
         <ClientOnly>
           {() => (
-            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 h-screen flex flex-col">
+            <div className="p-2 sm:p-5 sm:py-0 md:pt-5 flex flex-col">
               {detailsLoading ? (
                 <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
                   <VoucherListSkeleton />

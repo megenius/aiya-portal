@@ -69,17 +69,30 @@ export const formatDateTimeThTH = (date: Date | string | null | undefined): stri
 };
 
 /**
- * Format date to short format (for table display)
+ * Format date to short format with smart year display (for table/card display)
+ * Shows year only if different from current year
+ * Format: "15 Jan, 14:30" (same year) or "15 Jan 2023, 14:30" (different year)
  */
 export const formatDateShort = (date: Date | string | null | undefined): string => {
   if (!date) return "-";
   try {
     const dateObj = typeof date === "string" ? new Date(date) : date;
-    return dateObj.toLocaleDateString("en-US", {
-      month: "short",
+    const now = new Date();
+    const sameYear = dateObj.getFullYear() === now.getFullYear();
+
+    const datePart = dateObj.toLocaleDateString("en-GB", {
       day: "numeric",
+      month: "short",
+      ...(sameYear ? {} : { year: "numeric" }),
       timeZone: "Asia/Bangkok",
     });
+    const timePart = dateObj.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Bangkok",
+    });
+    return `${datePart}, ${timePart}`;
   } catch {
     return "-";
   }

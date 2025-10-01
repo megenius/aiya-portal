@@ -2,7 +2,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
-import { formatDateTimeTZ, formatDateShort as formatDateShortUtil } from "~/utils/voucher";
+import {
+  formatDateTimeTZ,
+  formatDateShort as formatDateShortUtil,
+} from "~/utils/voucher";
 import { SortSelect, DEFAULT_SORT_OPTIONS } from "./SortSelect";
 import { Pagination } from "~/components/voucher/Pagination";
 import { VOUCHER_CONSTANTS } from "~/constants/voucher.constant";
@@ -289,277 +292,286 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
 
       {/* Tab Content - Flexible scrollable area */}
       <div className="flex-1 overflow-y-auto">
-      {viewMode === "card" ? (
-        /* Card View */
-        <div className="p-6">
-          {paginationData.paginatedItems.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {paginationData.paginatedItems.map((voucher: any) => (
-                <div
-                  key={voucher.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => handleViewStats(voucher)}
-                >
-                  {/* Voucher Image - 1:1 aspect ratio */}
-                  <div className="aspect-square bg-gray-100 relative">
-                    {voucher.cover ? (
-                      <img
-                        className="w-full h-full object-cover"
-                        src={getDirectusFileUrl(voucher.cover)}
-                        alt={voucher.name}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                      </div>
-                    )}
-
-                    {/* Redemption Type Badge - positioned on image left */}
-                    {voucher.metadata?.redemptionType && (
-                      <div className="absolute top-2 left-2">
-                        <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            voucher.metadata.redemptionType === "instant"
-                              ? "bg-purple-100 text-purple-800"
-                              : voucher.metadata.redemptionType === "limited_time"
-                                ? "bg-orange-100 text-orange-800"
-                                : voucher.metadata.redemptionType === "form"
-                                  ? "bg-indigo-100 text-indigo-800"
-                                  : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {voucher.metadata.redemptionType === "instant"
-                            ? "Instant"
-                            : voucher.metadata.redemptionType === "limited_time"
-                              ? "Limited Time"
-                              : voucher.metadata.redemptionType === "form"
-                                ? "Form Required"
-                                : voucher.metadata.redemptionType}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Status Badge - positioned on image right */}
-                    {(() => {
-                      const status = getVoucherStatus(
-                        voucher.start_date,
-                        voucher.end_date
-                      );
-                      return (
-                        <div className="absolute top-2 right-2">
-                          <span
-                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                              status === "upcoming"
-                                ? "bg-blue-100 text-blue-800"
-                                : status === "active"
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {status === "upcoming"
-                              ? "Upcoming"
-                              : status === "active"
-                                ? "Active"
-                                : "Ended"}
-                          </span>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* Voucher Info */}
-                  <div className="p-2">
-                    <h4 className="text-xs font-medium text-gray-900 truncate mb-2">
-                      {voucher.metadata?.title?.th ||
-                        voucher.name ||
-                        "Untitled Voucher"}
-                    </h4>
-                    <div className="space-y-1">
-                      {/* Available/Total Codes */}
-                      <p className="text-xs text-gray-600">
-                        Available:{" "}
-                        <span className="font-medium text-gray-900">
-                          {voucher.codes?.filter(
-                            (c: any) => c.code_status === "available"
-                          ).length || 0}
-                        </span>
-                        {" / "}
-                        <span className="font-medium text-gray-900">
-                          {voucher.codes?.length || 0}
-                        </span>
-                      </p>
-
-                      {/* Start Date */}
-                      <p className="text-xs text-gray-500">
-                        Start: {formatDateShort(voucher.start_date)}
-                      </p>
-
-                      {/* End Date */}
-                      <p className="text-xs text-gray-500">
-                        End: {formatDateShort(voucher.end_date)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <div className="text-gray-400 text-sm">
-                No {activeTabData?.label.toLowerCase()} vouchers found
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        /* Table View */
-        <div className="overflow-x-auto">
-          {paginationData.paginatedItems.length > 0 ? (
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Voucher
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Codes
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Start Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    End Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Created
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+        {viewMode === "card" ? (
+          /* Card View */
+          <div className="p-6">
+            {paginationData.paginatedItems.length > 0 ? (
+              <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-3">
                 {paginationData.paginatedItems.map((voucher: any) => (
-                  <tr
+                  <button
                     key={voucher.id}
-                    className="hover:bg-gray-50 cursor-pointer"
+                    className="text-start border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
                     onClick={() => handleViewStats(voucher)}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          {voucher.cover ? (
-                            <img
-                              className="h-10 w-10 rounded-lg object-cover"
-                              src={getDirectusFileUrl(voucher.cover)}
-                              alt={voucher.name}
-                            />
-                          ) : (
-                            <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                              <svg
-                                className="w-5 h-5 text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                />
-                              </svg>
-                            </div>
+                    {/* Voucher Image - 16:9 aspect ratio */}
+                    <div className="aspect-video bg-gray-100 relative">
+                      {voucher.banner || voucher.cover ? (
+                        <img
+                          className="w-full h-full object-cover"
+                          src={getDirectusFileUrl(
+                            voucher.banner || voucher.cover,
+                            { key: "" }
                           )}
+                          alt={voucher.name}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {voucher.metadata?.title?.th ||
-                              voucher.name ||
-                              "Untitled Voucher"}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          voucher.status === "published"
-                            ? "bg-green-100 text-green-800"
-                            : voucher.status === "draft"
-                              ? "bg-gray-100 text-gray-800"
-                              : voucher.status === "archived"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {voucher.status || "Unknown"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                      )}
+
+                      {/* Redemption Type Badge - positioned on image left */}
                       {voucher.metadata?.redemptionType && (
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            voucher.metadata.redemptionType === "instant"
-                              ? "bg-purple-100 text-purple-800"
+                        <div className="absolute top-2 left-2">
+                          <span
+                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              voucher.metadata.redemptionType === "instant"
+                                ? "bg-purple-100 text-purple-800"
+                                : voucher.metadata.redemptionType ===
+                                    "limited_time"
+                                  ? "bg-orange-100 text-orange-800"
+                                  : voucher.metadata.redemptionType === "form"
+                                    ? "bg-indigo-100 text-indigo-800"
+                                    : "bg-gray-100 text-gray-800"
+                            }`}
+                          >
+                            {voucher.metadata.redemptionType === "instant"
+                              ? "Instant"
                               : voucher.metadata.redemptionType ===
                                   "limited_time"
-                                ? "bg-orange-100 text-orange-800"
+                                ? "Limited Time"
                                 : voucher.metadata.redemptionType === "form"
-                                  ? "bg-indigo-100 text-indigo-800"
-                                  : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {voucher.metadata.redemptionType === "instant"
-                            ? "Instant"
-                            : voucher.metadata.redemptionType === "limited_time"
-                              ? "Limited Time"
-                              : voucher.metadata.redemptionType === "form"
-                                ? "Form Required"
-                                : voucher.metadata.redemptionType}
-                        </span>
+                                  ? "Form Required"
+                                  : voucher.metadata.redemptionType}
+                          </span>
+                        </div>
                       )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {voucher.codes?.length || 0}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formatDate(voucher.start_date)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formatDate(voucher.end_date)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(voucher.date_created)}
-                    </td>
-                  </tr>
+
+                      {/* Status Badge - positioned on image right */}
+                      {(() => {
+                        const status = getVoucherStatus(
+                          voucher.start_date,
+                          voucher.end_date
+                        );
+                        return (
+                          <div className="absolute top-2 right-2">
+                            <span
+                              className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                status === "upcoming"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : status === "active"
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-gray-100 text-gray-800"
+                              }`}
+                            >
+                              {status === "upcoming"
+                                ? "Upcoming"
+                                : status === "active"
+                                  ? "Active"
+                                  : "Ended"}
+                            </span>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* Voucher Info */}
+                    <div className="p-2">
+                      <h4 className="text-xs font-medium text-gray-900 truncate mb-2">
+                        {voucher.metadata?.title?.th ||
+                          voucher.name ||
+                          "Untitled Voucher"}
+                      </h4>
+                      <div className="space-y-1">
+                        {/* Available/Total Codes */}
+                        <p className="text-xs text-gray-600">
+                          Available:{" "}
+                          <span className="font-medium text-gray-900">
+                            {voucher.codes?.filter(
+                              (c: any) => c.code_status === "available"
+                            ).length || 0}
+                          </span>
+                          {" / "}
+                          <span className="font-medium text-gray-900">
+                            {voucher.codes?.length || 0}
+                          </span>
+                        </p>
+
+                        {/* Start Date */}
+                        <p className="text-xs text-gray-500">
+                          Start: {formatDateShort(voucher.start_date)}
+                        </p>
+
+                        {/* End Date */}
+                        <p className="text-xs text-gray-500">
+                          End: {formatDateShort(voucher.end_date)}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
                 ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="text-center py-8">
-              <div className="text-gray-400 text-sm">
-                No {activeTabData?.label.toLowerCase()} vouchers found
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-gray-400 text-sm">
+                  No {activeTabData?.label.toLowerCase()} vouchers found
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Table View */
+          <div className="overflow-auto">
+            {paginationData.paginatedItems.length > 0 ? (
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50 sticky top-0 z-10">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Voucher
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Type
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Available / Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {paginationData.paginatedItems.map((voucher: any) => (
+                      <tr
+                        key={voucher.id}
+                        className="hover:bg-gray-50 cursor-pointer"
+                        onClick={() => handleViewStats(voucher)}
+                      >
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              {voucher.cover ? (
+                                <img
+                                  className="h-10 w-10 rounded-lg object-cover"
+                                  src={getDirectusFileUrl(voucher.cover)}
+                                  alt={voucher.name}
+                                />
+                              ) : (
+                                <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                                  <svg
+                                    className="w-5 h-5 text-gray-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                {voucher.metadata?.title?.th ||
+                                  voucher.name ||
+                                  "Untitled Voucher"}
+                              </div>
+                              <div className="text-xs text-gray-500 mt-0.5">
+                                {formatDateShort(voucher.start_date)} - {formatDateShort(voucher.end_date)}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {(() => {
+                            const status = getVoucherStatus(
+                              voucher.start_date,
+                              voucher.end_date
+                            );
+                            return (
+                              <span
+                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                  status === "upcoming"
+                                    ? "bg-blue-100 text-blue-800"
+                                    : status === "active"
+                                      ? "bg-green-100 text-green-800"
+                                      : "bg-gray-100 text-gray-800"
+                                }`}
+                              >
+                                {status === "upcoming"
+                                  ? "Upcoming"
+                                  : status === "active"
+                                    ? "Active"
+                                    : "Ended"}
+                              </span>
+                            );
+                          })()}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {voucher.metadata?.redemptionType && (
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                voucher.metadata.redemptionType === "instant"
+                                  ? "bg-purple-100 text-purple-800"
+                                  : voucher.metadata.redemptionType ===
+                                      "limited_time"
+                                    ? "bg-orange-100 text-orange-800"
+                                    : voucher.metadata.redemptionType === "form"
+                                      ? "bg-indigo-100 text-indigo-800"
+                                      : "bg-gray-100 text-gray-800"
+                              }`}
+                            >
+                              {voucher.metadata.redemptionType === "instant"
+                                ? "Instant"
+                                : voucher.metadata.redemptionType ===
+                                    "limited_time"
+                                  ? "Limited Time"
+                                  : voucher.metadata.redemptionType === "form"
+                                    ? "Form Required"
+                                    : voucher.metadata.redemptionType}
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          <span className="font-medium text-green-600">
+                            {voucher.codes?.filter(
+                              (c: any) => c.code_status === "available"
+                            ).length || 0}
+                          </span>
+                          {" / "}
+                          <span className="text-gray-600">
+                            {voucher.codes?.length || 0}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-gray-400 text-sm">
+                  No {activeTabData?.label.toLowerCase()} vouchers found
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Footer */}
@@ -567,7 +579,8 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
         <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-500">
-              Showing {paginationData.startIndex}-{paginationData.endIndex} of {paginationData.totalItems}
+              Showing {paginationData.startIndex}-{paginationData.endIndex} of{" "}
+              {paginationData.totalItems}
             </div>
             <Pagination
               currentPage={currentPage}
