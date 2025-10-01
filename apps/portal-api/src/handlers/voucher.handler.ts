@@ -1059,6 +1059,7 @@ export const getVoucherStats = factory.createHandlers(
                 "code",
                 "collected_date",
                 "used_date",
+                "expired_date",
                 {
                   collected_by: ["id", "display_name", "picture_url"],
                 },
@@ -1258,6 +1259,7 @@ export const getVoucherStats = factory.createHandlers(
                 status: correspondingCode?.code_status || "unknown",
                 collected_date: vu.collected_date,
                 used_date: vu.used_date,
+                expired_date: vu.expired_date,
               },
             ],
           };

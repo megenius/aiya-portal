@@ -1,52 +1,126 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useNavigate, useOutletContext } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
 import { useVoucherStats } from "~/hooks/useVoucherStats";
+import { useVoucherValidation } from "~/hooks/useVoucherValidation";
+import { useCollectorPagination } from "~/hooks/useCollectorPagination";
+import { StatsCard, StatsCardIcons } from "~/components/voucher/StatsCard";
+import { Pagination } from "~/components/voucher/Pagination";
 import VoucherStatsSkeleton from "./_components/VoucherStatsSkeleton";
+import {
+  VoucherCodeStatus,
+  STATUS_BADGE_STYLES,
+  VOUCHER_CONSTANTS,
+} from "~/constants/voucher.constant";
+import { sanitizeUserInput, getInitial, formatDateShort, formatDateTimeTZ } from "~/utils/voucher";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
+
+interface CollectorCode {
+  code: string;
+  status:
+    | "available"
+    | "reserved"
+    | "collected"
+    | "pending_confirmation"
+    | "used"
+    | "expired"
+    | "unknown";
+  collected_date: string | null;
+  used_date: string | null;
+}
+
+interface Collector {
+  userId: string;
+  display_name: string;
+  picture_url: string | null;
+  codes: CollectorCode[];
+}
+
+// Helper to get status badge class
+const getStatusBadgeClass = (status: string): string => {
+  return (
+    STATUS_BADGE_STYLES[status as VoucherCodeStatus] ||
+    STATUS_BADGE_STYLES[VoucherCodeStatus.AVAILABLE]
+  );
+};
+
+// Reusable back button component
+const BackButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <button
+    onClick={onClick}
+    className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
+  >
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Vouchers
+  </button>
+);
 
 const VoucherStatsPage: React.FC = () => {
   const { voucherId } = useParams();
   const navigate = useNavigate();
   const { voucherPage } = useOutletContext<{ voucherPage: PageLiff }>();
+  const validation = useVoucherValidation(voucherId);
 
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const { data: voucherStatsData, isLoading, error } = useVoucherStats(
-    voucherId as string,
-    !!voucherId
-  );
+  const {
+    data: voucherStatsData,
+    isLoading,
+    error,
+  } = useVoucherStats(voucherId as string, validation.isValid);
 
   const handleGoBack = () => {
     navigate(`/apps/voucher/${voucherPage.id}/vouchers`);
   };
 
+  // Use pagination hook
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    currentItems: currentCollectors,
+    setCurrentPage,
+  } = useCollectorPagination<Collector>(
+    voucherStatsData?.stats?.topCollectors,
+    VOUCHER_CONSTANTS.ITEMS_PER_PAGE
+  );
+
+  // Validation error
+  if (!validation.isValid) {
+    return (
+      <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
+        <div className="mb-4">
+          <BackButton onClick={handleGoBack} />
+        </div>
+        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
+          <div className="text-center py-8">
+            <div className="text-red-600 text-lg font-medium mb-2">{validation.error}</div>
+            <div className="text-gray-500">Please check the URL and try again.</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state
   if (isLoading) {
     return <VoucherStatsSkeleton />;
   }
 
+  // Error state
   if (error || !voucherStatsData) {
     return (
       <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
         <div className="mb-4">
-          <button
-            onClick={handleGoBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Vouchers
-          </button>
+          <BackButton onClick={handleGoBack} />
         </div>
-
         <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
           <div className="text-center py-8">
-            <div className="text-red-600 text-lg font-medium mb-2">Failed to load voucher statistics</div>
+            <div className="text-red-600 text-lg font-medium mb-2">
+              Failed to load voucher statistics
+            </div>
             <div className="text-gray-500">Please try refreshing the page or contact support.</div>
           </div>
         </div>
@@ -55,35 +129,85 @@ const VoucherStatsPage: React.FC = () => {
   }
 
   const { voucher, stats } = voucherStatsData;
+  const totalCollectors = stats.topCollectors?.length || 0;
+
+  // CSV Export: collectors
+  const handleExportCsv = () => {
+    try {
+      const collectors = stats.topCollectors || [];
+      const header = [
+        "collected_by.uid",
+        "collected_by.display_name",
+        "code",
+        "status",
+        "collected_date",
+        "used_date",
+        "expired_date",
+      ];
+
+      const escape = (val: unknown) => {
+        const s = val === null || val === undefined ? "" : String(val);
+        const escaped = s.replace(/"/g, '""');
+        return `"${escaped}"`;
+      };
+
+      const rows = collectors.map((collector) => {
+        const codeItem = collector.codes?.[0];
+        return [
+          collector.userId || "",
+          collector.display_name || "",
+          codeItem?.code || "",
+          codeItem?.status || "",
+          codeItem?.collected_date ? formatDateTimeTZ(codeItem.collected_date) : "",
+          codeItem?.used_date ? formatDateTimeTZ(codeItem.used_date) : "",
+          codeItem?.expired_date ? formatDateTimeTZ(codeItem.expired_date) : "",
+        ];
+      });
+
+      const csv = [
+        header.join(","),
+        ...rows.map((r) => r.map(escape).join(",")),
+      ].join("\n");
+
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeName = sanitizeUserInput(voucher?.metadata?.title?.th || voucher?.name || "voucher");
+      const ts = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      const filename = `${safeName}-collectors-${ts.getFullYear()}${pad(ts.getMonth() + 1)}${pad(ts.getDate())}-${pad(ts.getHours())}${pad(ts.getMinutes())}${pad(ts.getSeconds())}.csv`;
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("Export CSV failed:", e);
+      alert("Failed to export CSV. Please try again.");
+    }
+  };
 
   return (
     <div className="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-3">
       {/* Header with Back Button */}
       <div className="mb-4">
-        <button
-          onClick={handleGoBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm mb-4"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Vouchers
-        </button>
+        <BackButton onClick={handleGoBack} />
 
         {/* Voucher Header */}
-        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6">
+        <div className="bg-white border border-gray-200 shadow-xs rounded-xl p-6 mt-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               {voucher?.cover && (
                 <img
                   className="h-12 w-12 rounded-lg object-cover"
                   src={getDirectusFileUrl(voucher.cover)}
-                  alt={voucher.name}
+                  alt={sanitizeUserInput(voucher.name)}
                 />
               )}
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {voucher?.metadata?.title?.th || voucher?.name || "Voucher Statistics"}
+                  {sanitizeUserInput(voucher?.metadata?.title?.th || voucher?.name || "Voucher Statistics")}
                 </h1>
                 <p className="text-gray-600 mt-1">
                   Detailed statistics and analytics for this voucher
@@ -91,11 +215,16 @@ const VoucherStatsPage: React.FC = () => {
               </div>
             </div>
             <button
-              onClick={() => window.open(`/apps/voucher/ranking/${voucherId}`, '_blank')}
+              onClick={() => window.open(`/apps/voucher/ranking/${voucherId}`, "_blank")}
               className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2 text-white transition-all hover:from-indigo-700 hover:to-purple-700"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               View Latest Collectors
             </button>
@@ -105,234 +234,201 @@ const VoucherStatsPage: React.FC = () => {
 
       {/* Stats Content */}
       <div className="space-y-6">
-          {/* Overview Stats Grid - รวม Views และ Collections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Views Stats */}
-            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <div className="text-xs font-medium text-gray-500">Total Views</div>
-                  <div className="text-lg font-bold text-gray-900">{stats.totalViews || 0}</div>
-                  <div className="text-xs text-gray-400">{stats.uniqueViewers || 0} unique</div>
-                </div>
-              </div>
-            </div>
+        {/* Overview Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <StatsCard
+            icon={StatsCardIcons.Views}
+            label="Total Views"
+            value={stats.totalViews || 0}
+            subtitle={`${stats.uniqueViewers || 0} unique`}
+            iconBgColor="bg-blue-100"
+            iconColor="text-blue-600"
+          />
 
-            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <div className="text-xs font-medium text-gray-500">Collected</div>
-                  <div className="text-lg font-bold text-gray-900">{stats.collectedCodes}</div>
-                  <div className="text-xs text-gray-400">of {stats.totalCodes} codes</div>
-                </div>
-              </div>
-            </div>
+          <StatsCard
+            icon={StatsCardIcons.Collected}
+            label="Collected"
+            value={stats.collectedCodes}
+            subtitle={`of ${stats.totalCodes} codes`}
+            iconBgColor="bg-green-100"
+            iconColor="text-green-600"
+          />
 
-            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <div className="text-xs font-medium text-gray-500">Used</div>
-                  <div className="text-lg font-bold text-gray-900">{stats.usedCodes}</div>
-                  <div className="text-xs text-gray-400">{stats.redemptionRate}% rate</div>
-                </div>
-              </div>
-            </div>
+          <StatsCard
+            icon={StatsCardIcons.Used}
+            label="Used"
+            value={stats.usedCodes}
+            subtitle={`${stats.redemptionRate}% rate`}
+            iconBgColor="bg-purple-100"
+            iconColor="text-purple-600"
+          />
 
-            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-              <div className="flex items-center">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <div className="text-xs font-medium text-gray-500">Collection Rate</div>
-                  <div className="text-lg font-bold text-gray-900">{stats.collectionRate}%</div>
-                  <div className="text-xs text-gray-400">conversion</div>
-                </div>
+          <StatsCard
+            icon={StatsCardIcons.Rate}
+            label="Collection Rate"
+            value={`${stats.collectionRate}%`}
+            subtitle="conversion"
+            iconBgColor="bg-orange-100"
+            iconColor="text-orange-600"
+          />
+        </div>
+
+        {/* Time-based Metrics */}
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Recent Activity</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="text-center p-3 bg-blue-50 rounded-lg">
+              <div className="text-xs text-gray-600">Today Views</div>
+              <div className="text-lg font-semibold text-blue-900">{stats.todayViews || 0}</div>
+            </div>
+            <div className="text-center p-3 bg-green-50 rounded-lg">
+              <div className="text-xs text-gray-600">Today Collections</div>
+              <div className="text-lg font-semibold text-green-900">{stats.todayCollections}</div>
+            </div>
+            <div className="text-center p-3 bg-blue-50 rounded-lg">
+              <div className="text-xs text-gray-600">Week Views</div>
+              <div className="text-lg font-semibold text-blue-900">{stats.thisWeekViews || 0}</div>
+            </div>
+            <div className="text-center p-3 bg-green-50 rounded-lg">
+              <div className="text-xs text-gray-600">Week Collections</div>
+              <div className="text-lg font-semibold text-green-900">
+                {stats.thisWeekCollections}
               </div>
             </div>
           </div>
-
-          {/* Time-based Metrics */}
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Recent Activity</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="text-center p-3 bg-blue-50 rounded-lg">
-                <div className="text-xs text-gray-600">Today Views</div>
-                <div className="text-lg font-semibold text-blue-900">{stats.todayViews || 0}</div>
-              </div>
-              <div className="text-center p-3 bg-green-50 rounded-lg">
-                <div className="text-xs text-gray-600">Today Collections</div>
-                <div className="text-lg font-semibold text-green-900">{stats.todayCollections}</div>
-              </div>
-              <div className="text-center p-3 bg-blue-50 rounded-lg">
-                <div className="text-xs text-gray-600">Week Views</div>
-                <div className="text-lg font-semibold text-blue-900">{stats.thisWeekViews || 0}</div>
-              </div>
-              <div className="text-center p-3 bg-green-50 rounded-lg">
-                <div className="text-xs text-gray-600">Week Collections</div>
-                <div className="text-lg font-semibold text-green-900">{stats.thisWeekCollections}</div>
-              </div>
+          <div className="mt-3 pt-3 border-t border-gray-200">
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-gray-600">Avg. Time to Redemption</span>
+              <span className="font-medium text-gray-900">{stats.avgTimeToRedemption} days</span>
             </div>
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Avg. Time to Redemption</span>
-                <span className="font-medium text-gray-900">{stats.avgTimeToRedemption} days</span>
-              </div>
+          </div>
+        </div>
+
+        {/* All Collectors with Pagination */}
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-semibold text-gray-900">All Collectors</h3>
+            <div className="flex items-center gap-2">
+              <div className="text-xs text-gray-500">{totalCollectors} total</div>
+              <button
+                type="button"
+                onClick={handleExportCsv}
+                className="inline-flex items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
+                title="Export collectors as CSV"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v12m0 0l-3-3m3 3l3-3M6 20h12" />
+                </svg>
+                Export CSV
+              </button>
             </div>
           </div>
 
-          {/* All Collectors with Pagination */}
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">All Collectors</h3>
-              <div className="text-xs text-gray-500">
-                {stats.topCollectors?.length || 0} total
-              </div>
-            </div>
+          {totalCollectors > 0 ? (
+            <>
+              {/* Table View for better density */}
+              <div className="overflow-x-auto mb-4">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                        #
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                        Collector
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                        Code
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                        Status
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                        Collected
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {currentCollectors.map((collector, index) => {
+                      const codeItem = collector.codes?.[0];
+                      const safeName = sanitizeUserInput(collector.display_name);
+                      const initial = getInitial(collector.display_name);
 
-            {stats.topCollectors && stats.topCollectors.length > 0 ? (() => {
-              const totalPages = Math.ceil(stats.topCollectors.length / itemsPerPage);
-              const startIndex = (currentPage - 1) * itemsPerPage;
-              const endIndex = startIndex + itemsPerPage;
-              const currentCollectors = stats.topCollectors.slice(startIndex, endIndex);
-
-              return (
-                <>
-                  {/* Table View for better density */}
-                  <div className="overflow-x-auto mb-4">
-                    <table className="w-full text-sm">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Collector</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Collected</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {currentCollectors.map((collector: any, index: number) => {
-                          const codeItem = collector.codes?.[0];
-                          return (
-                            <tr key={index} className="hover:bg-gray-50">
-                              <td className="px-3 py-2 text-xs text-gray-500">
-                                #{startIndex + index + 1}
-                              </td>
-                              <td className="px-3 py-2">
-                                <div className="flex items-center gap-2">
-                                  {collector.picture_url ? (
-                                    <img
-                                      className="w-6 h-6 rounded-full object-cover"
-                                      src={collector.picture_url}
-                                      alt={collector.display_name}
-                                    />
-                                  ) : (
-                                    <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center">
-                                      <span className="text-xs text-gray-600 font-medium">
-                                        {collector.display_name.charAt(0).toUpperCase()}
-                                      </span>
-                                    </div>
-                                  )}
-                                  <span className="text-sm font-medium text-gray-900 truncate max-w-[120px]">
-                                    {collector.display_name}
+                      return (
+                        <tr key={`${collector.userId}-${index}`} className="hover:bg-gray-50">
+                          <td className="px-3 py-2 text-xs text-gray-500">
+                            #{startIndex + index + 1}
+                          </td>
+                          <td className="px-3 py-2">
+                            <div className="flex items-center gap-2">
+                              {collector.picture_url ? (
+                                <img
+                                  className="w-6 h-6 rounded-full object-cover"
+                                  src={collector.picture_url}
+                                  alt={safeName}
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = "none";
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center">
+                                  <span className="text-xs text-gray-600 font-medium">
+                                    {initial}
                                   </span>
                                 </div>
-                              </td>
-                              <td className="px-3 py-2">
-                                {codeItem ? (
-                                  <span className="font-mono text-xs text-gray-700">
-                                    {codeItem.code}
-                                  </span>
-                                ) : (
-                                  <span className="text-xs text-gray-400">-</span>
-                                )}
-                              </td>
-                              <td className="px-3 py-2">
-                                {codeItem ? (
-                                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
-                                    codeItem.status === 'used' ? 'bg-green-100 text-green-800' :
-                                    codeItem.status === 'collected' ? 'bg-blue-100 text-blue-800' :
-                                    codeItem.status === 'pending_confirmation' ? 'bg-yellow-100 text-yellow-800' :
-                                    codeItem.status === 'reserved' ? 'bg-purple-100 text-purple-800' :
-                                    codeItem.status === 'available' ? 'bg-gray-100 text-gray-800' :
-                                    codeItem.status === 'expired' ? 'bg-red-100 text-red-800' :
-                                    'bg-gray-100 text-gray-800'
-                                  }`}>
-                                    {codeItem.status}
-                                  </span>
-                                ) : (
-                                  <span className="text-xs text-gray-400">-</span>
-                                )}
-                              </td>
-                              <td className="px-3 py-2 text-xs text-gray-400">
-                                {codeItem?.collected_date
-                                  ? new Date(codeItem.collected_date).toLocaleDateString('en-US', {
-                                      month: 'short',
-                                      day: 'numeric'
-                                    })
-                                  : '-'
-                                }
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Compact Pagination */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="text-gray-500">
-                        {startIndex + 1}-{Math.min(endIndex, stats.topCollectors.length)} of {stats.topCollectors.length}
-                      </div>
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                          disabled={currentPage === 1}
-                          className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          ‹
-                        </button>
-                        <span className="px-2 py-1 text-xs text-gray-600">
-                          {currentPage} / {totalPages}
-                        </span>
-                        <button
-                          onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                          disabled={currentPage === totalPages}
-                          className="px-2 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          ›
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-            })() : (
-              <div className="text-center py-8">
-                <div className="text-gray-500">No collections yet</div>
+                              )}
+                              <span className="text-sm font-medium text-gray-900 truncate max-w-[120px]">
+                                {safeName}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-3 py-2">
+                            {codeItem ? (
+                              <span className="font-mono text-xs text-gray-700">
+                                {sanitizeUserInput(codeItem.code)}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-gray-400">-</span>
+                            )}
+                          </td>
+                          <td className="px-3 py-2">
+                            {codeItem ? (
+                              <span
+                                className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(
+                                  codeItem.status
+                                )}`}
+                              >
+                                {codeItem.status}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-gray-400">-</span>
+                            )}
+                          </td>
+                          <td className="px-3 py-2 text-xs text-gray-400">
+                            {formatDateShort(codeItem?.collected_date)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
-            )}
-          </div>
+
+              {/* Pagination Component */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={totalCollectors}
+                itemsPerPage={VOUCHER_CONSTANTS.ITEMS_PER_PAGE}
+                onPageChange={setCurrentPage}
+              />
+            </>
+          ) : (
+            <div className="text-center py-8">
+              <div className="text-gray-500">No collections yet</div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

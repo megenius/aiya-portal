@@ -1,20 +1,71 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams } from "@remix-run/react";
 import { format } from "date-fns";
 import { useVoucherStats } from "~/hooks/useVoucherStats";
+import { useVoucherValidation } from "~/hooks/useVoucherValidation";
 import { getDirectusFileUrl } from "~/utils/files";
+import {
+  VoucherCodeStatus,
+  RedemptionType,
+  REDEMPTION_TYPE_STYLES,
+  REDEMPTION_TYPE_LABELS,
+  VOUCHER_CONSTANTS,
+} from "~/constants/voucher.constant";
+import {
+  sanitizeUserInput,
+  getInitial,
+  formatDateTimeThTH,
+  isWithinTimeThreshold,
+} from "~/utils/voucher";
+
+interface CollectorData {
+  userId: string;
+  display_name: string;
+  picture_url: string | null;
+  codes: Array<{
+    code: string;
+    status:
+      | "available"
+      | "reserved"
+      | "collected"
+      | "pending_confirmation"
+      | "used"
+      | "expired"
+      | "unknown";
+    collected_date: string | null;
+    used_date: string | null;
+  }>;
+  collectedDate: Date | null;
+  status: VoucherCodeStatus;
+}
 
 const VoucherLatestCollectorsPage: React.FC = () => {
   const { voucherId } = useParams();
+  const validation = useVoucherValidation(voucherId);
 
   const {
     data: voucherStatsData,
     isLoading,
     error,
-  } = useVoucherStats(voucherId as string, !!voucherId, {
-    refetchInterval: 5000,
+  } = useVoucherStats(voucherId as string, validation.isValid, {
+    refetchInterval: VOUCHER_CONSTANTS.STATS_REFETCH_INTERVAL_MS,
   });
 
+  // Validation error
+  if (!validation.isValid) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
+        <div className="rounded-xl bg-white/10 p-8 text-center backdrop-blur-sm">
+          <div className="mb-2 text-xl font-medium text-white">
+            {validation.error}
+          </div>
+          <div className="text-white/80">Please check the URL and try again.</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex h-screen flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
@@ -24,7 +75,7 @@ const VoucherLatestCollectorsPage: React.FC = () => {
               <div
                 key={i}
                 className="h-20 w-full animate-pulse rounded-lg bg-white/10"
-              ></div>
+              />
             ))}
           </div>
         </div>
@@ -32,6 +83,7 @@ const VoucherLatestCollectorsPage: React.FC = () => {
     );
   }
 
+  // Error state
   if (error || !voucherStatsData) {
     return (
       <div className="flex h-screen items-center justify-center bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
@@ -48,46 +100,50 @@ const VoucherLatestCollectorsPage: React.FC = () => {
   const { stats, voucher } = voucherStatsData;
   const topCollectors = stats.topCollectors || [];
 
-  // Sort collectors by collection date (latest first) and prepare data
-  const latestCollectors = [...topCollectors]
-    .map((collector) => {
-      const firstCode = collector.codes?.[0];
-      const collectedDate = firstCode?.collected_date
-        ? new Date(firstCode.collected_date)
-        : null;
-      const status =
-        firstCode?.status === "used" ||
-        firstCode?.status === "pending_confirmation"
-          ? "used"
-          : "collected";
+  // Memoize collector processing to avoid expensive operations on every render
+  const latestCollectors = useMemo<CollectorData[]>(() => {
+    return [...topCollectors]
+      .map((collector) => {
+        const firstCode = collector.codes?.[0];
+        const collectedDate = firstCode?.collected_date
+          ? new Date(firstCode.collected_date)
+          : null;
 
-      return {
-        ...collector,
-        collectedDate,
-        status,
-      };
-    })
-    .sort((a, b) => {
-      // Sort by date, latest first
-      if (!a.collectedDate && !b.collectedDate) return 0;
-      if (!a.collectedDate) return 1;
-      if (!b.collectedDate) return -1;
-      return b.collectedDate.getTime() - a.collectedDate.getTime();
-    });
+        // Determine status from first code (or could check all codes)
+        let status = VoucherCodeStatus.COLLECTED;
+        if (firstCode?.status === VoucherCodeStatus.USED ||
+            firstCode?.status === VoucherCodeStatus.PENDING_CONFIRMATION) {
+          status = VoucherCodeStatus.USED;
+        }
+
+        return {
+          ...collector,
+          collectedDate,
+          status,
+        };
+      })
+      .sort((a, b) => {
+        // Sort by date, latest first
+        if (!a.collectedDate && !b.collectedDate) return 0;
+        if (!a.collectedDate) return 1;
+        if (!b.collectedDate) return -1;
+        return b.collectedDate.getTime() - a.collectedDate.getTime();
+      });
+  }, [topCollectors]);
+
+  // Get redemption type styling
+  const redemptionType = voucher.metadata?.redemptionType as RedemptionType | undefined;
+  const redemptionTypeStyle = redemptionType
+    ? REDEMPTION_TYPE_STYLES[redemptionType]
+    : "bg-gray-500/80 text-white";
+  const redemptionTypeLabel = redemptionType
+    ? REDEMPTION_TYPE_LABELS[redemptionType]
+    : redemptionType;
 
   return (
     <div className="flex min-h-screen flex-col overflow-hidden bg-gradient-to-b from-indigo-800 via-purple-700 to-fuchsia-600">
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="pt-8 space-y-6">
-          {/* <div className="px-6 pt-8">
-            <h1 className="text-center text-4xl font-bold tracking-tight text-white">
-              Latest Collectors
-            </h1>
-            <p className="mt-3 text-center text-lg text-white/80">
-              Most recent collectors for this voucher
-            </p>
-          </div> */}
-
           {/* Voucher Details Card */}
           <div className="px-6">
             <div className="rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
@@ -97,7 +153,7 @@ const VoucherLatestCollectorsPage: React.FC = () => {
                   {voucher.cover ? (
                     <img
                       src={getDirectusFileUrl(voucher.cover)}
-                      alt={voucher.metadata?.title?.th || voucher.name}
+                      alt={sanitizeUserInput(voucher.metadata?.title?.th || voucher.name)}
                       className="aspect-square w-32 rounded-lg object-cover md:w-48"
                     />
                   ) : (
@@ -123,31 +179,16 @@ const VoucherLatestCollectorsPage: React.FC = () => {
                 <div className="flex-1">
                   <div className="flex flex-col gap-2">
                     <h2 className="text-2xl font-bold text-white">
-                      {voucher.metadata?.title?.th || voucher.name}
+                      {sanitizeUserInput(voucher.metadata?.title?.th || voucher.name)}
                     </h2>
 
                     {/* Redemption Type Badge */}
-                    {voucher.metadata?.redemptionType && (
+                    {redemptionType && (
                       <div>
                         <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
-                            voucher.metadata.redemptionType === "instant"
-                              ? "bg-green-500/80 text-white"
-                              : voucher.metadata.redemptionType ===
-                                  "limited_time"
-                                ? "bg-orange-500/80 text-white"
-                                : voucher.metadata.redemptionType === "form"
-                                  ? "bg-blue-500/80 text-white"
-                                  : "bg-gray-500/80 text-white"
-                          }`}
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${redemptionTypeStyle}`}
                         >
-                          {voucher.metadata.redemptionType === "instant"
-                            ? "Instant"
-                            : voucher.metadata.redemptionType === "limited_time"
-                              ? "Limited Time"
-                              : voucher.metadata.redemptionType === "form"
-                                ? "Form Required"
-                                : voucher.metadata.redemptionType}
+                          {redemptionTypeLabel}
                         </span>
                       </div>
                     )}
@@ -184,7 +225,7 @@ const VoucherLatestCollectorsPage: React.FC = () => {
                     {/* Description */}
                     {voucher.metadata?.description?.th && (
                       <p className="mt-2 text-sm text-white/70 line-clamp-2">
-                        {voucher.metadata.description.th}
+                        {sanitizeUserInput(voucher.metadata.description.th)}
                       </p>
                     )}
                   </div>
@@ -232,11 +273,12 @@ const VoucherLatestCollectorsPage: React.FC = () => {
               <div className="pb-8">
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                   {latestCollectors.map((collector, index) => {
-                    // Check if collector is NEW (within 1 minute)
-                    const now = new Date();
-                    const isNew =
-                      collector.collectedDate &&
-                      now.getTime() - collector.collectedDate.getTime() < 60000;
+                    const safeName = sanitizeUserInput(collector.display_name);
+                    const initial = getInitial(collector.display_name);
+                    const isNew = isWithinTimeThreshold(
+                      collector.collectedDate,
+                      VOUCHER_CONSTANTS.NEW_COLLECTOR_THRESHOLD_MS
+                    );
 
                     return (
                       <div
@@ -253,49 +295,35 @@ const VoucherLatestCollectorsPage: React.FC = () => {
                           </div>
                         )}
                         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white">
-                          #{latestCollectors.length - index}
+                          #{index + 1}
                         </div>
                         <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border-2 border-white/30">
                           {collector.picture_url ? (
                             <img
                               src={collector.picture_url}
-                              alt={collector.display_name}
+                              alt={safeName}
                               className="h-full w-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
                             />
                           ) : (
                             <div className="flex h-full w-full items-center justify-center bg-white/20 text-sm text-white">
-                              {collector.display_name.charAt(0).toUpperCase()}
+                              {initial}
                             </div>
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="truncate text-sm font-semibold text-white">
-                            {collector.display_name}
+                            {safeName}
                           </div>
                           <div className="text-xs text-white/70">
-                            {collector.collectedDate
-                              ? collector.collectedDate.toLocaleDateString(
-                                  "th-TH",
-                                  {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  }
-                                ) +
-                                " " +
-                                collector.collectedDate.toLocaleTimeString(
-                                  "th-TH",
-                                  {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  }
-                                )
-                              : "-"}
+                            {formatDateTimeThTH(collector.collectedDate)}
                           </div>
                         </div>
                         <span
                           className={`flex-shrink-0 rounded-full px-2 py-1 text-xs font-medium ${
-                            collector.status === "used"
+                            collector.status === VoucherCodeStatus.USED
                               ? "bg-green-500/80 text-white"
                               : "bg-blue-500/80 text-white"
                           }`}

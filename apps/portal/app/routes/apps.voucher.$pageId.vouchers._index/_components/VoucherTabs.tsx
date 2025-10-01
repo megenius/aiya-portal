@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "@remix-run/react";
 import { components } from "~/@types/directus";
 import { getDirectusFileUrl } from "~/utils/files";
-import { format } from "date-fns";
+import { formatDateTimeTZ, formatDateShort as formatDateShortUtil } from "~/utils/voucher";
+import { SortSelect, DEFAULT_SORT_OPTIONS } from "./SortSelect";
+import { Pagination } from "~/components/voucher/Pagination";
+import { VOUCHER_CONSTANTS } from "~/constants/voucher.constant";
 
 type PageLiff = components["schemas"]["ItemsPagesLiff"];
 
@@ -12,7 +15,6 @@ interface VoucherTabsProps {
   popularVouchers: any[];
   bannerVouchers: any[];
 }
-
 
 const VoucherTabs: React.FC<VoucherTabsProps> = ({
   voucherPage,
@@ -25,6 +27,13 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   const [sortBy, setSortBy] = useState("date_created");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = VOUCHER_CONSTANTS.ITEMS_PER_PAGE;
+
+  // Reset to page 1 when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
   const handleViewStats = (voucher: any) => {
     // Navigate to voucher stats page instead of opening modal
@@ -34,7 +43,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   const formatDate = (dateString?: string | null) => {
     if (!dateString) return "-";
     try {
-      return format(new Date(dateString), "dd MMM yyyy HH:mm");
+      return formatDateTimeTZ(dateString, "en-US", "Asia/Bangkok");
     } catch {
       return "-";
     }
@@ -43,13 +52,16 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
   const formatDateShort = (dateString?: string | null) => {
     if (!dateString) return "-";
     try {
-      return format(new Date(dateString), "dd MMM yyyy");
+      return formatDateShortUtil(dateString);
     } catch {
       return "-";
     }
   };
 
-  const getVoucherStatus = (startDate?: string | null, endDate?: string | null) => {
+  const getVoucherStatus = (
+    startDate?: string | null,
+    endDate?: string | null
+  ) => {
     const now = new Date();
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
@@ -127,11 +139,30 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
 
   const activeTabData = tabs.find((tab) => tab.id === activeTab);
 
+  // Pagination logic
+  const paginationData = useMemo(() => {
+    const data = activeTabData?.data || [];
+    const totalItems = data.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    const paginatedItems = data.slice(startIndex, endIndex);
+
+    return {
+      totalItems,
+      totalPages,
+      startIndex: startIndex + 1, // 1-indexed for display
+      endIndex,
+      paginatedItems,
+    };
+  }, [activeTabData, currentPage, itemsPerPage]);
+
   return (
     <div className="bg-white border border-gray-200 shadow-xs rounded-xl overflow-hidden">
       {/* Tab Navigation */}
       <div className="border-b border-gray-200">
         <div className="flex justify-between items-center px-6">
+          {/* Tabs - Underline Style */}
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
@@ -141,7 +172,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                   activeTab === tab.id
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2`}
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 focus:outline-none focus-visible:text-blue-600 focus-visible:border-blue-400 transition-all duration-200`}
               >
                 {tab.label}
                 <span
@@ -163,11 +194,12 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
             <div className="flex border border-gray-300 rounded-md overflow-hidden">
               <button
                 onClick={() => setViewMode("card")}
-                className={`px-3 py-1 text-sm ${
+                className={`px-3 py-1.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400 transition-all duration-200 ${
                   viewMode === "card"
                     ? "bg-blue-500 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
+                title="Card View"
               >
                 <svg
                   className="w-4 h-4"
@@ -185,11 +217,12 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
               </button>
               <button
                 onClick={() => setViewMode("table")}
-                className={`px-3 py-1 text-sm ${
+                className={`px-3 py-1.5 text-sm border-l border-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400 transition-all duration-200 ${
                   viewMode === "table"
                     ? "bg-blue-500 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
+                title="Table View"
               >
                 <svg
                   className="w-4 h-4"
@@ -208,33 +241,60 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
             </div>
 
             {/* Sort Controls */}
-            <select
+            <SortSelect
+              options={DEFAULT_SORT_OPTIONS}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="date_created">Date Created</option>
-              <option value="name">Name</option>
-              <option value="start_date">Start Date</option>
-              <option value="end_date">End Date</option>
-            </select>
+              onChange={setSortBy}
+            />
+
+            {/* Sort Order Button */}
             <button
               onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-              className="text-sm border border-gray-300 rounded-md px-2 py-1 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="flex items-center justify-center px-3 py-1.5 text-sm border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 transition-all duration-200"
+              title={sortOrder === "asc" ? "Ascending" : "Descending"}
             >
-              {sortOrder === "asc" ? "↑" : "↓"}
+              {sortOrder === "asc" ? (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Tab Content */}
+      {/* Tab Content - Fixed height with internal scrolling */}
+      <div className="max-h-[calc(100vh-250px)] min-h-[400px] overflow-y-auto">
       {viewMode === "card" ? (
         /* Card View */
         <div className="p-6">
-          {activeTabData && activeTabData.data.length > 0 ? (
+          {paginationData.paginatedItems.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {activeTabData.data.map((voucher: any) => (
+              {paginationData.paginatedItems.map((voucher: any) => (
                 <div
                   key={voucher.id}
                   className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
@@ -268,7 +328,10 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
 
                     {/* Status Badge - positioned on image */}
                     {(() => {
-                      const status = getVoucherStatus(voucher.start_date, voucher.end_date);
+                      const status = getVoucherStatus(
+                        voucher.start_date,
+                        voucher.end_date
+                      );
                       return (
                         <div className="absolute top-2 right-2">
                           <span
@@ -303,7 +366,9 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                       <p className="text-xs text-gray-600">
                         Available:{" "}
                         <span className="font-medium text-gray-900">
-                          {voucher.codes?.filter((c: any) => c.code_status === "available").length || 0}
+                          {voucher.codes?.filter(
+                            (c: any) => c.code_status === "available"
+                          ).length || 0}
                         </span>
                         {" / "}
                         <span className="font-medium text-gray-900">
@@ -363,7 +428,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
       ) : (
         /* Table View */
         <div className="overflow-x-auto">
-          {activeTabData && activeTabData.data.length > 0 ? (
+          {paginationData.paginatedItems.length > 0 ? (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -391,7 +456,7 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {activeTabData.data.map((voucher: any) => (
+                {paginationData.paginatedItems.map((voucher: any) => (
                   <tr
                     key={voucher.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -497,17 +562,25 @@ const VoucherTabs: React.FC<VoucherTabsProps> = ({
           )}
         </div>
       )}
+      </div>
 
       {/* Footer */}
-      {activeTabData && activeTabData.data.length > 0 && (
+      {paginationData.totalItems > 0 && (
         <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
-          <div className="text-sm text-gray-500">
-            Showing {activeTabData.data.length} voucher
-            {activeTabData.data.length !== 1 ? "s" : ""} in {viewMode} view
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-500">
+              Showing {paginationData.startIndex}-{paginationData.endIndex} of {paginationData.totalItems}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={paginationData.totalPages}
+              totalItems={paginationData.totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
       )}
-
     </div>
   );
 };
