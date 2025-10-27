@@ -987,11 +987,15 @@ export const getAnalyticsOverview = factory.createHandlers(
         }
       } catch {}
 
-      // 1) Users total from profiles
+      // 1) Users total from profiles (filtered by liff_id if page specified)
       let totalUsers = 0;
       try {
         const profRes = await directus.request(
-          readItems("profiles", { fields: ["id"], limit: -1 } as any)
+          readItems("profiles", {
+            fields: ["id"],
+            filter: pageLiffId ? { liff_id: { _eq: pageLiffId } } : {},
+            limit: -1
+          } as any)
         );
         totalUsers = toArray(profRes).length;
       } catch (e) {
