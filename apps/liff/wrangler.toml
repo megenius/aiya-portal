@@ -45,13 +45,6 @@ bucket_name = "automix"
 
 ######## PRODUCTION environment config ########
 
-#[env.production]
-#name = "aiya-portal-liff"
-
-#routes = [
-#  { pattern = "liff.aiya.me/*", zone_name = "aiya.me" },
-#]
-
-#[env.production.vars]
-#DIRECTUS_URL = "https://console.portal.aiya.ai"
-#VITE_BASE_URL = "https://liff.aiya.me"
+[env.production.vars]
+DIRECTUS_URL = "https://console.portal.aiya.ai"
+VITE_BASE_URL = "https://liff.aiya.me"
