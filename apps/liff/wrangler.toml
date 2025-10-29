@@ -34,4 +34,4 @@ VITE_BASE_URL = "https://liff-review.aiya.me"
 
 [env.production.vars]
 DIRECTUS_URL = "https://console.portal.aiya.ai"
-VITE_BASE_URL = "https://liff.aiya.me"
+VITE_BASE_URL = "https://liff-dev.aiya.me"
