@@ -65,8 +65,12 @@ const Header: React.FC<HeaderProps> = ({
         },
       ]);
       setIsShareModalOpen(false);
+      setToastMessage(language === "en" ? "Shared successfully!" : "แชร์สำเร็จ!");
     } catch (error) {
-      console.error("LINE share error:", error);
+      // User cancelled the share
+      if (error instanceof Error && error.message !== "CANCEL") {
+        console.error("LINE share error:", error);
+      }
     }
   };
 
