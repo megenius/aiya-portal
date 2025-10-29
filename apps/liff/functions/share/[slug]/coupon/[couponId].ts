@@ -3,7 +3,7 @@
  *
  * This function handles requests to /share/:slug/coupon/:couponId
  * It generates proper Open Graph meta tags for social media sharing
- * and redirects regular users to the LIFF URL.
+ * by querying Directus directly.
  */
 
 interface PageLiff {
@@ -34,7 +34,8 @@ interface Voucher {
 }
 
 interface Env {
-  ASSETS: any;
+  DIRECTUS_URL: string;
+  DIRECTUS_TOKEN: string;
 }
 
 // Check if user agent is a crawler/bot
@@ -57,18 +58,21 @@ function isCrawler(userAgent: string): boolean {
   ];
 
   const lowerUA = userAgent.toLowerCase();
-  return crawlerPatterns.some(pattern => lowerUA.includes(pattern));
+  return crawlerPatterns.some((pattern) => lowerUA.includes(pattern));
 }
 
 // Generate Directus file URL
-function getDirectusFileUrl(fileId: string, options: {
-  width?: number;
-  height?: number;
-  fit?: string;
-  format?: string;
-  quality?: number;
-} = {}): string {
-  const baseUrl = 'https://console.portal.aiya.ai';
+function getDirectusFileUrl(
+  baseUrl: string,
+  fileId: string,
+  options: {
+    width?: number;
+    height?: number;
+    fit?: string;
+    format?: string;
+    quality?: number;
+  } = {}
+): string {
   const params = new URLSearchParams();
 
   if (options.width) params.append('width', options.width.toString());
@@ -81,21 +85,98 @@ function getDirectusFileUrl(fileId: string, options: {
   return `${baseUrl}/assets/${fileId}${queryString ? '?' + queryString : ''}`;
 }
 
+// Escape HTML to prevent XSS
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
+// Fetch page from Directus by slug
+async function fetchPageBySlug(
+  directusUrl: string,
+  token: string,
+  slug: string
+): Promise<PageLiff | null> {
+  const url = new URL(`${directusUrl}/items/pages_liff`);
+  url.searchParams.append('filter[slug][_eq]', slug);
+  url.searchParams.append('filter[status][_eq]', 'published');
+  url.searchParams.append('limit', '1');
+  url.searchParams.append(
+    'fields',
+    'id,liff_id,slug,name,image,bg_color,channel,metadata,status'
+  );
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    console.error('Failed to fetch page:', response.status, await response.text());
+    return null;
+  }
+
+  const data = await response.json();
+  if (!data.data || data.data.length === 0) {
+    return null;
+  }
+
+  return data.data[0];
+}
+
+// Fetch voucher from Directus by ID
+async function fetchVoucher(
+  directusUrl: string,
+  token: string,
+  voucherId: string
+): Promise<Voucher | null> {
+  const url = new URL(`${directusUrl}/items/vouchers/${voucherId}`);
+  url.searchParams.append('fields', '*,voucher_brand_id.*');
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    console.error(
+      'Failed to fetch voucher:',
+      response.status,
+      await response.text()
+    );
+    return null;
+  }
+
+  const data = await response.json();
+  return data.data;
+}
+
 // Generate HTML with OG meta tags
 function generateHTML(
   page: PageLiff,
   coupon: Voucher,
   baseUrl: string,
-  shareUrl: string
+  shareUrl: string,
+  directusUrl: string
 ): string {
-  const title = coupon.title || coupon.name || page.name || 'AIYA';
-  const brandName = coupon.voucher_brand_id?.name || 'AIYA';
-  const description = coupon.description || `${title} - ${brandName}`;
+  const title = escapeHtml(coupon.title || coupon.name || page.name || 'AIYA');
+  const brandName = escapeHtml(coupon.voucher_brand_id?.name || 'AIYA');
+  const description = escapeHtml(
+    coupon.description || `${coupon.title || coupon.name} - ${brandName}`
+  );
 
   // Generate OG image URL
   const imageFileId = coupon.banner || coupon.voucher_brand_id?.logo || page.image;
   const ogImage = imageFileId
-    ? getDirectusFileUrl(imageFileId, {
+    ? getDirectusFileUrl(directusUrl, imageFileId, {
         width: 1200,
         height: 630,
         fit: 'cover',
@@ -106,6 +187,14 @@ function generateHTML(
 
   // Generate LIFF URL for redirect
   const liffUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
+
+  const logoUrl =
+    coupon.voucher_brand_id?.logo
+      ? getDirectusFileUrl(directusUrl, coupon.voucher_brand_id.logo, {
+          width: 200,
+          height: 200,
+        })
+      : '';
 
   return `<!DOCTYPE html>
 <html lang="th">
@@ -120,9 +209,13 @@ function generateHTML(
   <meta property="og:type" content="website">
   <meta property="og:url" content="${shareUrl}">
   <meta property="og:description" content="${description}">
-  ${ogImage ? `<meta property="og:image" content="${ogImage}">
+  ${
+    ogImage
+      ? `<meta property="og:image" content="${ogImage}">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">` : ''}
+  <meta property="og:image:height" content="630">`
+      : ''
+  }
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -147,6 +240,7 @@ function generateHTML(
     .container {
       text-align: center;
       padding: 2rem;
+      max-width: 400px;
     }
     .logo {
       width: 80px;
@@ -174,12 +268,11 @@ function generateHTML(
 </head>
 <body>
   <div class="container">
-    ${coupon.voucher_brand_id?.logo ? `
-    <img
-      src="${getDirectusFileUrl(coupon.voucher_brand_id.logo, { width: 200, height: 200 })}"
-      alt="${coupon.voucher_brand_id.name}"
-      class="logo"
-    >` : ''}
+    ${
+      logoUrl
+        ? `<img src="${logoUrl}" alt="${brandName}" class="logo">`
+        : ''
+    }
     <h1>${title}</h1>
     <p>${brandName}</p>
     <p class="redirect-message">กำลังนำคุณไปยังคูปอง...</p>
@@ -198,8 +291,14 @@ export async function onRequest(context: {
   env: Env;
   params: { slug: string; couponId: string };
 }): Promise<Response> {
-  const { request, params } = context;
+  const { request, env, params } = context;
   const { slug, couponId } = params;
+
+  // Check environment variables
+  if (!env.DIRECTUS_URL || !env.DIRECTUS_TOKEN) {
+    console.error('Missing DIRECTUS_URL or DIRECTUS_TOKEN');
+    return new Response('Server configuration error', { status: 500 });
+  }
 
   // Get user agent
   const userAgent = request.headers.get('user-agent') || '';
@@ -212,16 +311,13 @@ export async function onRequest(context: {
 
   try {
     // Fetch page and coupon data in parallel
-    const [pageResponse, couponResponse] = await Promise.all([
-      fetch(`${baseUrl}/api/liff/by-slug/${slug}`),
-      fetch(`${baseUrl}/api/vouchers/${couponId}`),
+    const [page, coupon] = await Promise.all([
+      fetchPageBySlug(env.DIRECTUS_URL, env.DIRECTUS_TOKEN, slug),
+      fetchVoucher(env.DIRECTUS_URL, env.DIRECTUS_TOKEN, couponId),
     ]);
 
-    if (!pageResponse.ok || !couponResponse.ok) {
-      console.error('Failed to fetch data:', {
-        pageStatus: pageResponse.status,
-        couponStatus: couponResponse.status,
-      });
+    if (!page || !coupon) {
+      console.error('Page or coupon not found:', { page: !!page, coupon: !!coupon });
 
       // Return simple HTML with redirect to homepage
       return new Response(
@@ -233,7 +329,7 @@ export async function onRequest(context: {
   <meta http-equiv="refresh" content="0; url=${baseUrl}">
 </head>
 <body>
-  <p>กำลังโหลด...</p>
+  <p>ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...</p>
   <script>window.location.href = '${baseUrl}';</script>
 </body>
 </html>`,
@@ -246,11 +342,8 @@ export async function onRequest(context: {
       );
     }
 
-    const page: PageLiff = await pageResponse.json();
-    const coupon: Voucher = await couponResponse.json();
-
     // Generate HTML with OG tags
-    const html = generateHTML(page, coupon, baseUrl, shareUrl);
+    const html = generateHTML(page, coupon, baseUrl, shareUrl, env.DIRECTUS_URL);
 
     // Return HTML response
     return new Response(html, {
