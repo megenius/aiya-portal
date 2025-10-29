@@ -90,6 +90,23 @@ function getDirectusFileUrl(
   return `${baseUrl}/assets/${fileId}${queryString ? '?' + queryString : ''}`;
 }
 
+// Language detection from Accept-Language header
+function detectLanguage(acceptLanguage: string | null, queryLang?: string): 'th' | 'en' {
+  // Query parameter takes precedence
+  if (queryLang) {
+    return queryLang === 'en' ? 'en' : 'th';
+  }
+
+  // Parse Accept-Language header
+  if (acceptLanguage) {
+    const lowerLang = acceptLanguage.toLowerCase();
+    if (lowerLang.includes('en')) return 'en';
+  }
+
+  // Default to Thai
+  return 'th';
+}
+
 // Escape HTML to prevent XSS
 function escapeHtml(text: string): string {
   const map: Record<string, string> = {
@@ -170,15 +187,43 @@ function generateHTML(
   coupon: Voucher,
   baseUrl: string,
   shareUrl: string,
-  directusUrl: string
+  directusUrl: string,
+  lang: 'th' | 'en' = 'th'
 ): string {
-  const title = escapeHtml(coupon.metadata?.title?.th || coupon.title || coupon.name || 'AIYA');
+  // Language-specific texts
+  const texts = {
+    th: {
+      detailsTab: 'รายละเอียด',
+      conditionsTab: 'เงื่อนไข',
+      ctaButton: 'เก็บคูปองนี้',
+      defaultCondition: 'ดูเงื่อนไขเพิ่มเติมในแอป LINE',
+      notFound: 'ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...',
+      error: 'เกิดข้อผิดพลาด กำลังนำคุณกลับหน้าหลัก...',
+    },
+    en: {
+      detailsTab: 'Details',
+      conditionsTab: 'Terms',
+      ctaButton: 'Collect Coupon',
+      defaultCondition: 'See more conditions in LINE app',
+      notFound: 'Not found. Redirecting to homepage...',
+      error: 'An error occurred. Redirecting to homepage...',
+    },
+  };
+
+  const t = texts[lang];
+
+  // Get content in the selected language
+  const title = escapeHtml(
+    coupon.metadata?.title?.[lang] || coupon.title || coupon.name || 'AIYA'
+  );
   const brandName = escapeHtml(coupon.voucher_brand_id?.name || 'AIYA');
   const brandColor = coupon.voucher_brand_id?.primaryColor || '#2563eb';
   const description = escapeHtml(
-    coupon.metadata?.description?.th || coupon.description || `${title} - ${brandName}`
+    coupon.metadata?.description?.[lang] || coupon.description || `${title} - ${brandName}`
   );
-  const conditions = escapeHtml(coupon.metadata?.condition?.th || 'ดูเงื่อนไขเพิ่มเติมในแอป LINE');
+  const conditions = escapeHtml(
+    coupon.metadata?.condition?.[lang] || t.defaultCondition
+  );
 
   // Generate OG image URL
   const imageFileId = coupon.banner || coupon.voucher_brand_id?.logo || page.image;
@@ -426,8 +471,8 @@ function generateHTML(
 
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab active" data-tab="details">รายละเอียด</button>
-        <button class="tab" data-tab="conditions">เงื่อนไข</button>
+        <button class="tab active" data-tab="details">${t.detailsTab}</button>
+        <button class="tab" data-tab="conditions">${t.conditionsTab}</button>
       </div>
 
       <!-- Tab Contents -->
@@ -438,7 +483,7 @@ function generateHTML(
 
   <!-- Footer CTA -->
   <div class="footer">
-    <a href="${mobileUrl}" class="cta-button" id="ctaButton">เก็บคูปองนี้</a>
+    <a href="${mobileUrl}" class="cta-button" id="ctaButton">${t.ctaButton}</a>
   </div>
 
   <script>
@@ -489,8 +534,26 @@ export async function onRequest(context: {
   const userAgent = request.headers.get('user-agent') || '';
   const isBot = isCrawler(userAgent);
 
-  // Get base URL from request
+  // Detect language from query parameter or Accept-Language header
   const url = new URL(request.url);
+  const queryLang = url.searchParams.get('lang') || undefined;
+  const acceptLanguage = request.headers.get('accept-language');
+  const lang = detectLanguage(acceptLanguage, queryLang);
+
+  // Language-specific texts for error pages
+  const errorTexts = {
+    th: {
+      notFound: 'ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...',
+      error: 'เกิดข้อผิดพลาด กำลังนำคุณกลับหน้าหลัก...',
+    },
+    en: {
+      notFound: 'Not found. Redirecting to homepage...',
+      error: 'An error occurred. Redirecting to homepage...',
+    },
+  };
+  const t = errorTexts[lang];
+
+  // Get base URL from request
   const baseUrl = `${url.protocol}//${url.host}`;
   const shareUrl = `${baseUrl}/share/${slug}/coupon/${couponId}`;
 
@@ -514,7 +577,7 @@ export async function onRequest(context: {
   <meta http-equiv="refresh" content="0; url=${baseUrl}">
 </head>
 <body>
-  <p>ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...</p>
+  <p>${t.notFound}</p>
   <script>window.location.href = '${baseUrl}';</script>
 </body>
 </html>`,
@@ -528,7 +591,7 @@ export async function onRequest(context: {
     }
 
     // Generate HTML with OG tags
-    const html = generateHTML(page, coupon, baseUrl, shareUrl, env.DIRECTUS_URL);
+    const html = generateHTML(page, coupon, baseUrl, shareUrl, env.DIRECTUS_URL, lang);
 
     // Return HTML response
     return new Response(html, {
@@ -551,7 +614,7 @@ export async function onRequest(context: {
   <meta http-equiv="refresh" content="3; url=${baseUrl}">
 </head>
 <body>
-  <p>เกิดข้อผิดพลาด กำลังนำคุณกลับหน้าหลัก...</p>
+  <p>${t.error}</p>
   <script>setTimeout(() => { window.location.href = '${baseUrl}'; }, 3000);</script>
 </body>
 </html>`,
