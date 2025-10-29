@@ -180,8 +180,6 @@ function generateHTML(
         width: 1200,
         height: 630,
         fit: 'cover',
-        format: 'jpg',
-        quality: 85,
       })
     : '';
 
