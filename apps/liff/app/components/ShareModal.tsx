@@ -1,5 +1,6 @@
 import React from "react";
-import { Copy, ExternalLink, MessageCircle } from "lucide-react";
+import { Copy, ExternalLink } from "lucide-react";
+import LineIcon from "~/components/icons/LineIcon";
 import type { Lang } from "~/i18n/messages";
 
 export interface ShareModalProps {
@@ -75,9 +76,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
             >
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-full"
-                style={{ backgroundColor: primaryColor || "#06C755" }}
+                style={{ backgroundColor: "#06C755" }}
               >
-                <MessageCircle className="h-6 w-6 text-white" />
+                <LineIcon size={24} className="text-white" />
               </div>
               <div className="flex-1">
                 <div className="font-medium text-gray-900">{t.shareLine}</div>

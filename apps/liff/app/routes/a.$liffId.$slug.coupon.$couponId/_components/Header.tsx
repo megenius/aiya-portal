@@ -8,6 +8,7 @@ import { Share2 } from "lucide-react";
 import { useLineLiff } from "~/contexts/LineLiffContext";
 import type { PageLiff } from "~/types/page";
 import ShareModal from "~/components/ShareModal";
+import Toast from "~/components/Toast";
 import type { Lang } from "~/i18n/messages";
 
 interface HeaderProps {
@@ -31,6 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const [_isFollowed, setIsFollowed] = React.useState(isFollowed || false);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState<string>("");
 
   const navigateToBack = () => {
     const idx = window.history.state?.idx ?? window.history.length;
@@ -63,8 +65,12 @@ const Header: React.FC<HeaderProps> = ({
         },
       ]);
       setIsShareModalOpen(false);
+      setToastMessage(language === "en" ? "Shared successfully!" : "แชร์สำเร็จ!");
     } catch (error) {
-      console.error("LINE share error:", error);
+      // User cancelled the share
+      if (error instanceof Error && error.message !== "CANCEL") {
+        console.error("LINE share error:", error);
+      }
     }
   };
 
@@ -77,16 +83,20 @@ const Header: React.FC<HeaderProps> = ({
         url: shareUrl,
       });
       setIsShareModalOpen(false);
+      setToastMessage(language === "en" ? "Shared successfully!" : "แชร์สำเร็จ!");
     } catch (error) {
-      console.error("Web share error:", error);
+      // User cancelled the share, don't show error
+      if (error instanceof Error && error.name !== "AbortError") {
+        console.error("Web share error:", error);
+      }
     }
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert(language === "en" ? "Link copied!" : "คัดลอกลิงก์แล้ว!");
       setIsShareModalOpen(false);
+      setToastMessage(language === "en" ? "Link copied!" : "คัดลอกลิงก์แล้ว!");
     } catch (error) {
       console.error("Copy error:", error);
     }
@@ -136,6 +146,12 @@ const Header: React.FC<HeaderProps> = ({
         onShareLine={liff?.isInClient() ? handleShareLine : undefined}
         onShareOther={navigator.share ? handleShareOther : undefined}
         onCopyLink={handleCopyLink}
+      />
+
+      <Toast
+        message={toastMessage}
+        isVisible={!!toastMessage}
+        onClose={() => setToastMessage("")}
       />
     </>
   );
