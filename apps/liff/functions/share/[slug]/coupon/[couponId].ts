@@ -316,6 +316,38 @@ function generateHTML(
       flex-direction: column;
     }
 
+    /* Desktop: Show as mobile view */
+    @media (min-width: 768px) {
+      body {
+        background: #f5f5f5;
+        justify-content: center;
+        padding: 2rem 0;
+      }
+
+      body > .header,
+      body > .main,
+      body > .footer {
+        max-width: 480px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      body > .header {
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      body > .main {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      body > .footer {
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+
     /* Header */
     .header {
       display: flex;
