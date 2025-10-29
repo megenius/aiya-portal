@@ -66,6 +66,11 @@ function isCrawler(userAgent: string): boolean {
   return crawlerPatterns.some((pattern) => lowerUA.includes(pattern));
 }
 
+// Check if user is in LINE app
+function isLineApp(userAgent: string): boolean {
+  return userAgent.toLowerCase().includes('line/');
+}
+
 // Generate Directus file URL
 function getDirectusFileUrl(
   baseUrl: string,
@@ -668,6 +673,18 @@ export async function onRequest(context: {
           },
         }
       );
+    }
+
+    // If user is in LINE app (not a crawler), redirect to miniapp.line.me
+    if (isLineApp(userAgent) && !isBot) {
+      const redirectUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
+      return new Response(null, {
+        status: 302,
+        headers: {
+          'Location': redirectUrl,
+          'Cache-Control': 'no-cache',
+        },
+      });
     }
 
     // Generate HTML with OG tags
