@@ -27,7 +27,7 @@ interface LineLiffContextType {
 const LineLiffContext = createContext<LineLiffContextType | null>(null);
 
 interface LineLiffProviderProps {
-  liffId: string;
+  liffId?: string; // Make liffId optional
   children: React.ReactNode;
 }
 
@@ -45,6 +45,12 @@ export const LineLiffProvider: React.FC<LineLiffProviderProps> = ({
 
   // Initialize LIFF
   useEffect(() => {
+    // Skip LIFF initialization if liffId is not provided
+    if (!liffId) {
+      console.log("Skipping LIFF initialization: no liffId provided");
+      return;
+    }
+
     const initializeLiff = async () => {
       try {
         await liff.init({
