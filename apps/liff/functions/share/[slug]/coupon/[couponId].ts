@@ -97,10 +97,24 @@ function detectLanguage(acceptLanguage: string | null, queryLang?: string): 'th'
     return queryLang === 'en' ? 'en' : 'th';
   }
 
-  // Parse Accept-Language header
+  // Parse Accept-Language header (format: "en-US,en;q=0.9,th;q=0.8")
   if (acceptLanguage) {
-    const lowerLang = acceptLanguage.toLowerCase();
-    if (lowerLang.includes('en')) return 'en';
+    const languages = acceptLanguage
+      .toLowerCase()
+      .split(',')
+      .map((lang) => {
+        const [code, qPart] = lang.trim().split(';');
+        const quality = qPart ? parseFloat(qPart.split('=')[1]) : 1.0;
+        const langCode = code.split('-')[0]; // Extract primary language code (en from en-US)
+        return { code: langCode, quality };
+      })
+      .sort((a, b) => b.quality - a.quality); // Sort by quality value (highest first)
+
+    // Find first supported language (en or th)
+    for (const lang of languages) {
+      if (lang.code === 'en') return 'en';
+      if (lang.code === 'th') return 'th';
+    }
   }
 
   // Default to Thai
