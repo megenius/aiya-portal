@@ -20,38 +20,38 @@ bucket_name = "automix"
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/pages/functions/bindings/#secrets
 
-name = "aiya-portal-liff-dev"
+#name = "aiya-portal-liff-dev"
 
-routes = [
-  { pattern = "liff-dev.aiya.me/*", zone_name = "aiya.me" },
-]
+#routes = [
+#  { pattern = "liff-dev.aiya.me/*", zone_name = "aiya.me" },
+#]
 
-[vars]
-DIRECTUS_URL = "https://console.portal.aiya.ai"
-VITE_BASE_URL = "https://liff-dev.aiya.me"
+#[vars]
+#DIRECTUS_URL = "https://console.portal.aiya.ai"
+#VITE_BASE_URL = "https://liff-dev.aiya.me"
 
 ######## PREVIEW environment config ########
 
-[env.review]
-name = "aiya-portal-liff-review"
+#[env.preview]
+#name = "aiya-portal-liff-review"
 
-routes = [
-  { pattern = "liff-review.aiya.me/*", zone_name = "aiya.me" },
-]
+#routes = [
+#  { pattern = "liff-review.aiya.me/*", zone_name = "aiya.me" },
+#]
 
-[env.review.vars]
-DIRECTUS_URL = "https://console.portal.aiya.ai"
-VITE_BASE_URL = "https://liff-review.aiya.me"
+#[env.preview.vars]
+#DIRECTUS_URL = "https://console.portal.aiya.ai"
+#VITE_BASE_URL = "https://liff-review.aiya.me"
 
 ######## PRODUCTION environment config ########
 
-[env.prod]
-name = "aiya-portal-liff"
+#[env.production]
+#name = "aiya-portal-liff"
 
-routes = [
-  { pattern = "liff.aiya.me/*", zone_name = "aiya.me" },
-]
+#routes = [
+#  { pattern = "liff.aiya.me/*", zone_name = "aiya.me" },
+#]
 
-[env.prod.vars]
-DIRECTUS_URL = "https://console.portal.aiya.ai"
-VITE_BASE_URL = "https://liff.aiya.me"
+#[env.production.vars]
+#DIRECTUS_URL = "https://console.portal.aiya.ai"
+#VITE_BASE_URL = "https://liff.aiya.me"
