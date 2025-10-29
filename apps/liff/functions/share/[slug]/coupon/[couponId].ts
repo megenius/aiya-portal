@@ -209,15 +209,15 @@ function generateHTML(
     th: {
       detailsTab: 'รายละเอียด',
       conditionsTab: 'เงื่อนไข',
-      ctaButton: 'เก็บคูปองนี้',
+      ctaButton: 'เก็บคูปอง',
       defaultCondition: 'ดูเงื่อนไขเพิ่มเติมในแอป LINE',
       notFound: 'ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...',
       error: 'เกิดข้อผิดพลาด กำลังนำคุณกลับหน้าหลัก...',
     },
     en: {
       detailsTab: 'Details',
-      conditionsTab: 'Terms',
-      ctaButton: 'Collect Coupon',
+      conditionsTab: 'Conditions',
+      ctaButton: 'Collect',
       defaultCondition: 'See more conditions in LINE app',
       notFound: 'Not found. Redirecting to homepage...',
       error: 'An error occurred. Redirecting to homepage...',
