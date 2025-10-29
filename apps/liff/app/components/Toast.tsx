@@ -26,16 +26,18 @@ const Toast: React.FC<ToastProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 transform animate-toast">
-      <div className="flex items-center gap-2 rounded-full bg-gray-900 px-4 py-3 text-white shadow-lg">
-        <Check className="h-5 w-5" />
-        <span className="text-sm font-medium">{message}</span>
+    <div className="fixed inset-x-0 bottom-20 z-50 flex justify-center pointer-events-none">
+      <div className="animate-toast pointer-events-auto">
+        <div className="flex items-center gap-2 rounded-full bg-gray-900 px-4 py-3 text-white shadow-lg">
+          <Check className="h-5 w-5" />
+          <span className="text-sm font-medium">{message}</span>
+        </div>
       </div>
 
       <style>{`
         @keyframes toast-in {
           from {
-            transform: translateY(100%);
+            transform: translateY(100px);
             opacity: 0;
           }
           to {
