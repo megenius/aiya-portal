@@ -258,6 +258,8 @@ function generateHTML(
     : ogImage;
 
   // Generate redirect URLs
+  // Use LINE deep link for better app opening on mobile
+  const lineDeepLink = `line://app/${page.liff_id}/coupon/${coupon.id}`;
   const mobileUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
   const desktopUrl = `${baseUrl}/a/${page.liff_id}/${page.slug}/coupon/${coupon.id}`;
 
@@ -497,7 +499,7 @@ function generateHTML(
 
   <!-- Footer CTA -->
   <div class="footer">
-    <a href="${mobileUrl}" class="cta-button" id="ctaButton">${t.ctaButton}</a>
+    <a href="${lineDeepLink}" class="cta-button" id="ctaButton">${t.ctaButton}</a>
   </div>
 
   <script>
@@ -516,14 +518,37 @@ function generateHTML(
       });
     });
 
-    // Smart device detection for CTA link
+    // Smart device detection and link handling
     function isMobile() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
+    function isFacebookBrowser() {
+      return /FBAN|FBAV/i.test(navigator.userAgent);
+    }
+
     const ctaButton = document.getElementById('ctaButton');
+
     if (!isMobile()) {
+      // Desktop: use LIFF endpoint URL
       ctaButton.href = '${desktopUrl}';
+    } else if (isFacebookBrowser()) {
+      // Facebook mobile browser: try deep link first, fallback to miniapp
+      ctaButton.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Try LINE deep link first
+        window.location.href = '${lineDeepLink}';
+
+        // Fallback to miniapp.line.me after 2 seconds if deep link didn't work
+        setTimeout(function() {
+          window.location.href = '${mobileUrl}';
+        }, 2000);
+      });
+    } else {
+      // Regular mobile browser: use deep link (already set as default)
+      // Deep link will automatically fallback to miniapp.line.me if LINE app not installed
+      ctaButton.href = '${lineDeepLink}';
     }
   </script>
 </body>
