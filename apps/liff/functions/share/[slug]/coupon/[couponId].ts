@@ -183,8 +183,9 @@ function generateHTML(
       })
     : '';
 
-  // Generate LIFF URL for redirect
-  const liffUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
+  // Generate redirect URLs
+  const mobileUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
+  const desktopUrl = `${baseUrl}/a/${page.liff_id}/${page.slug}/coupon/${coupon.id}`;
 
   const logoUrl =
     coupon.voucher_brand_id?.logo
@@ -275,8 +276,25 @@ function generateHTML(
 
   <!-- JavaScript redirect for users (crawlers don't execute JS) -->
   <script>
-    // Immediate redirect for users
-    window.location.href = '${liffUrl}';
+    // Detect LINE app
+    function isLineApp() {
+      return /Line\\//i.test(navigator.userAgent);
+    }
+
+    // Detect mobile device
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Smart redirect logic
+    if (isLineApp() || isMobile()) {
+      // LINE app or mobile browser: use Universal Link
+      // LINE Universal Link works in both LINE app and mobile browsers
+      window.location.href = '${mobileUrl}';
+    } else {
+      // Desktop browser: use LIFF endpoint URL (accessible in browser)
+      window.location.href = '${desktopUrl}';
+    }
   </script>
 </body>
 </html>`;
