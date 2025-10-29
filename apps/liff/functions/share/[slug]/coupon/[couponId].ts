@@ -1,9 +1,8 @@
 /**
  * Cloudflare Function for Share URLs with OG Meta Tags
  *
- * This function handles requests to /share/:slug/coupon/:couponId
- * It generates proper Open Graph meta tags for social media sharing
- * by querying Directus directly.
+ * This function generates a landing page that mimics the real coupon collection page
+ * Complete with OG tags for social media sharing
  */
 
 interface PageLiff {
@@ -22,6 +21,7 @@ interface VoucherBrand {
   id: string;
   name: string;
   logo?: string;
+  primaryColor?: string;
 }
 
 interface Voucher {
@@ -31,6 +31,11 @@ interface Voucher {
   description?: string;
   banner?: string;
   voucher_brand_id?: VoucherBrand;
+  metadata?: {
+    title?: { th?: string; en?: string };
+    description?: { th?: string; en?: string };
+    condition?: { th?: string; en?: string };
+  };
 }
 
 interface Env {
@@ -123,7 +128,7 @@ async function fetchPageBySlug(
     return null;
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
   if (!data.data || data.data.length === 0) {
     return null;
   }
@@ -155,11 +160,11 @@ async function fetchVoucher(
     return null;
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
   return data.data;
 }
 
-// Generate HTML with OG meta tags
+// Generate HTML that mimics real coupon collection page
 function generateHTML(
   page: PageLiff,
   coupon: Voucher,
@@ -167,11 +172,13 @@ function generateHTML(
   shareUrl: string,
   directusUrl: string
 ): string {
-  const title = escapeHtml(coupon.title || coupon.name || page.name || 'AIYA');
+  const title = escapeHtml(coupon.metadata?.title?.th || coupon.title || coupon.name || 'AIYA');
   const brandName = escapeHtml(coupon.voucher_brand_id?.name || 'AIYA');
+  const brandColor = coupon.voucher_brand_id?.primaryColor || '#2563eb';
   const description = escapeHtml(
-    coupon.description || `${coupon.title || coupon.name} - ${brandName}`
+    coupon.metadata?.description?.th || coupon.description || `${title} - ${brandName}`
   );
+  const conditions = escapeHtml(coupon.metadata?.condition?.th || 'ดูเงื่อนไขเพิ่มเติมในแอป LINE');
 
   // Generate OG image URL
   const imageFileId = coupon.banner || coupon.voucher_brand_id?.logo || page.image;
@@ -183,6 +190,14 @@ function generateHTML(
       })
     : '';
 
+  const bannerUrl = coupon.banner
+    ? getDirectusFileUrl(directusUrl, coupon.banner, {
+        width: 800,
+        height: 450,
+        fit: 'cover',
+      })
+    : ogImage;
+
   // Generate redirect URLs
   const mobileUrl = `https://miniapp.line.me/${page.liff_id}/coupon/${coupon.id}`;
   const desktopUrl = `${baseUrl}/a/${page.liff_id}/${page.slug}/coupon/${coupon.id}`;
@@ -190,8 +205,8 @@ function generateHTML(
   const logoUrl =
     coupon.voucher_brand_id?.logo
       ? getDirectusFileUrl(directusUrl, coupon.voucher_brand_id.logo, {
-          width: 200,
-          height: 200,
+          width: 100,
+          height: 100,
         })
       : '';
 
@@ -199,7 +214,7 @@ function generateHTML(
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>${title} - ${brandName}</title>
 
   <!-- Open Graph Meta Tags -->
@@ -223,77 +238,233 @@ function generateHTML(
   ${ogImage ? `<meta name="twitter:image" content="${ogImage}">` : ''}
 
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f3f4f6;
+      box-sizing: border-box;
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
-      max-width: 400px;
-    }
-    .logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      object-fit: contain;
-      margin: 0 auto 1rem;
-    }
-    h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
       color: #1f2937;
-      margin: 0 0 0.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    p {
-      color: #6b7280;
-      margin: 0.25rem 0;
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
     }
-    .redirect-message {
-      margin-top: 1rem;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .brand-name {
       font-size: 0.875rem;
-      color: #9ca3af;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Banner */
+    .banner-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      overflow: hidden;
+      background: #f3f4f6;
+    }
+
+    .banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Content */
+    .content {
+      padding: 1rem;
+    }
+
+    .voucher-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      background: none;
+      border: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .tab.active {
+      color: ${brandColor};
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: ${brandColor};
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: #4b5563;
+      font-size: 0.9375rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 1rem;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .cta-button {
+      width: 100%;
+      padding: 1rem;
+      background: ${brandColor};
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      display: block;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+
+    .cta-button:active {
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    ${
-      logoUrl
-        ? `<img src="${logoUrl}" alt="${brandName}" class="logo">`
-        : ''
-    }
-    <h1>${title}</h1>
-    <p>${brandName}</p>
-    <p class="redirect-message">กำลังนำคุณไปยังคูปอง...</p>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      ${
+        logoUrl
+          ? `<img src="${logoUrl}" alt="${brandName}" class="brand-logo">`
+          : ''
+      }
+      <span class="brand-name">${brandName}</span>
+    </div>
   </div>
 
-  <!-- JavaScript redirect for users (crawlers don't execute JS) -->
-  <script>
-    // Detect LINE app
-    function isLineApp() {
-      return /Line\\//i.test(navigator.userAgent);
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Banner -->
+    ${
+      bannerUrl
+        ? `<div class="banner-container">
+      <img src="${bannerUrl}" alt="${title}" class="banner">
+    </div>`
+        : ''
     }
 
-    // Detect mobile device
+    <!-- Content -->
+    <div class="content">
+      <h1 class="voucher-title">${title}</h1>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="details">รายละเอียด</button>
+        <button class="tab" data-tab="conditions">เงื่อนไข</button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div class="tab-content active" data-content="details">${description}</div>
+      <div class="tab-content" data-content="conditions">${conditions}</div>
+    </div>
+  </div>
+
+  <!-- Footer CTA -->
+  <div class="footer">
+    <a href="${mobileUrl}" class="cta-button" id="ctaButton">เก็บคูปองนี้</a>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+
+        // Update tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+
+        // Update content
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector('[data-content="' + tabName + '"]').classList.add('active');
+      });
+    });
+
+    // Smart device detection for CTA link
     function isMobile() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
-    // Smart redirect logic
-    if (isLineApp() || isMobile()) {
-      // LINE app or mobile browser: use Universal Link
-      // LINE Universal Link works in both LINE app and mobile browsers
-      window.location.href = '${mobileUrl}';
-    } else {
-      // Desktop browser: use LIFF endpoint URL (accessible in browser)
-      window.location.href = '${desktopUrl}';
+    const ctaButton = document.getElementById('ctaButton');
+    if (!isMobile()) {
+      ctaButton.href = '${desktopUrl}';
     }
   </script>
 </body>
