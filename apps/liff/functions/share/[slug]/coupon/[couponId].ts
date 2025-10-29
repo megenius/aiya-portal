@@ -209,7 +209,8 @@ function generateHTML(
     th: {
       detailsTab: 'รายละเอียด',
       conditionsTab: 'เงื่อนไข',
-      ctaButton: 'เปิดใน LINE',
+      ctaButtonMobile: 'เปิดใน LINE',
+      ctaButtonDesktop: 'ดูคูปอง',
       defaultCondition: 'ดูเงื่อนไขเพิ่มเติมในแอป LINE',
       notFound: 'ไม่พบข้อมูล กำลังนำคุณกลับหน้าหลัก...',
       error: 'เกิดข้อผิดพลาด กำลังนำคุณกลับหน้าหลัก...',
@@ -217,7 +218,8 @@ function generateHTML(
     en: {
       detailsTab: 'Details',
       conditionsTab: 'Conditions',
-      ctaButton: 'Open in LINE',
+      ctaButtonMobile: 'Open in LINE',
+      ctaButtonDesktop: 'View Coupon',
       defaultCondition: 'See more conditions in LINE app',
       notFound: 'Not found. Redirecting to homepage...',
       error: 'An error occurred. Redirecting to homepage...',
@@ -499,7 +501,13 @@ function generateHTML(
 
   <!-- Footer CTA -->
   <div class="footer">
-    <a href="${lineDeepLink}" class="cta-button" id="ctaButton">${t.ctaButton}</a>
+    <a
+      href="${lineDeepLink}"
+      class="cta-button"
+      id="ctaButton"
+      data-text-mobile="${t.ctaButtonMobile}"
+      data-text-desktop="${t.ctaButtonDesktop}"
+    >${t.ctaButtonMobile}</a>
   </div>
 
   <script>
@@ -530,8 +538,9 @@ function generateHTML(
     const ctaButton = document.getElementById('ctaButton');
 
     if (!isMobile()) {
-      // Desktop: use LIFF endpoint URL
+      // Desktop: use LIFF endpoint URL and change button text
       ctaButton.href = '${desktopUrl}';
+      ctaButton.textContent = ctaButton.getAttribute('data-text-desktop');
     } else if (isFacebookBrowser()) {
       // Facebook mobile browser: try deep link first, fallback to miniapp
       ctaButton.addEventListener('click', function(e) {
