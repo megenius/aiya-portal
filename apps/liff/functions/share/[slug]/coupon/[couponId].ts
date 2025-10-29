@@ -223,9 +223,6 @@ function generateHTML(
   <meta name="twitter:description" content="${description}">
   ${ogImage ? `<meta name="twitter:image" content="${ogImage}">` : ''}
 
-  <!-- Auto-redirect for non-crawlers -->
-  <meta http-equiv="refresh" content="0; url=${liffUrl}">
-
   <style>
     body {
       margin: 0;
@@ -278,8 +275,9 @@ function generateHTML(
     <p class="redirect-message">กำลังนำคุณไปยังคูปอง...</p>
   </div>
 
-  <!-- JavaScript redirect as fallback -->
+  <!-- JavaScript redirect for users (crawlers don't execute JS) -->
   <script>
+    // Immediate redirect for users
     window.location.href = '${liffUrl}';
   </script>
 </body>
