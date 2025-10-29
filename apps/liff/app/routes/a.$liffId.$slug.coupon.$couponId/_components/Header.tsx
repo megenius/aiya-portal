@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const [_isFollowed, setIsFollowed] = React.useState(isFollowed || false);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
-  const [isToastVisible, setIsToastVisible] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState<string>("");
 
   const navigateToBack = () => {
     const idx = window.history.state?.idx ?? window.history.length;
@@ -79,8 +79,12 @@ const Header: React.FC<HeaderProps> = ({
         url: shareUrl,
       });
       setIsShareModalOpen(false);
+      setToastMessage(language === "en" ? "Shared successfully!" : "แชร์สำเร็จ!");
     } catch (error) {
-      console.error("Web share error:", error);
+      // User cancelled the share, don't show error
+      if (error instanceof Error && error.name !== "AbortError") {
+        console.error("Web share error:", error);
+      }
     }
   };
 
@@ -88,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
     try {
       await navigator.clipboard.writeText(shareUrl);
       setIsShareModalOpen(false);
-      setIsToastVisible(true);
+      setToastMessage(language === "en" ? "Link copied!" : "คัดลอกลิงก์แล้ว!");
     } catch (error) {
       console.error("Copy error:", error);
     }
@@ -141,9 +145,9 @@ const Header: React.FC<HeaderProps> = ({
       />
 
       <Toast
-        message={language === "en" ? "Link copied!" : "คัดลอกลิงก์แล้ว!"}
-        isVisible={isToastVisible}
-        onClose={() => setIsToastVisible(false)}
+        message={toastMessage}
+        isVisible={!!toastMessage}
+        onClose={() => setToastMessage("")}
       />
     </>
   );
