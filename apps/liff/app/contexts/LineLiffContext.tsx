@@ -16,6 +16,7 @@ interface LineLiffContextType {
   liff: typeof liff | null;
   isLoggedIn: boolean;
   isInitialized: boolean;
+  isInClient: boolean;
   profileQuery: UseQueryResult<UserProfile, Error>;
   language: string;
   error: Error | null;
@@ -36,6 +37,7 @@ export const LineLiffProvider: React.FC<LineLiffProviderProps> = ({
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInClient, setIsInClient] = useState(false);
   const [language, setLanguage] = useState<string>("en");
   const [error, setError] = useState<Error | null>(null);
   const [initializeError, setInitializeError] = useState<Error | null>(null);
@@ -45,9 +47,14 @@ export const LineLiffProvider: React.FC<LineLiffProviderProps> = ({
   useEffect(() => {
     const initializeLiff = async () => {
       try {
-        await liff.init({ liffId });
+        await liff.init({
+          liffId,
+          withLoginOnExternalBrowser: true, // Enable browser login
+        });
         setIsInitialized(true);
         setIsLoggedIn(liff.isLoggedIn());
+        setIsInClient(liff.isInClient()); // Detect if in LINE app
+
         if (!liff.isLoggedIn()) {
           const redirectUri = window.location.href;
           liff.login({ redirectUri });
@@ -73,6 +80,7 @@ export const LineLiffProvider: React.FC<LineLiffProviderProps> = ({
     return () => {
       setIsInitialized(false);
       setIsLoggedIn(false);
+      setIsInClient(false);
       setError(null);
       setInitializeError(null);
     };
@@ -206,6 +214,7 @@ export const LineLiffProvider: React.FC<LineLiffProviderProps> = ({
     liff,
     isLoggedIn,
     isInitialized,
+    isInClient,
     profileQuery,
     language,
     error,

@@ -224,6 +224,50 @@ function filterAndMapVouchers<T>(
     });
 }
 
+export const getBySlug = factory.createHandlers(
+  logger(),
+  directusMiddleware,
+  async (c) => {
+    const slug = c.req.param("slug");
+    const directus = c.get("directAdmin");
+
+    if (!slug) {
+      return c.json({ error: "Slug parameter is required" }, 400);
+    }
+
+    const pages = await directus.request(
+      readItems("pages_liff", {
+        fields: [
+          "id",
+          "liff_id",
+          "slug",
+          "name",
+          "image",
+          "bg_color",
+          "channel",
+          "metadata",
+          "status",
+        ],
+        filter: {
+          slug: {
+            _eq: slug,
+          },
+          status: {
+            _eq: "published",
+          },
+        },
+        limit: 1,
+      })
+    );
+
+    if (!pages || pages.length === 0) {
+      return c.json({ error: "Page not found" }, 404);
+    }
+
+    return c.json(pages[0]);
+  }
+);
+
 export const encryptChannelSecret = factory.createHandlers(
   logger(),
   async (c) => {
