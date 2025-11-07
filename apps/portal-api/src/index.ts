@@ -10,6 +10,7 @@ import { publicRoutes } from "./routes/public.route";
 import { voucherRoutes } from "./routes/voucher";
 import { workspacesRoutes } from "./routes/workspaces";
 import { pagesLiffRoutes } from "./routes/pages-liff";
+import serviceRoutes from "./routes/service";
 
 import { cors } from "hono/cors";
 import { clientRoutes } from "./routes/client.route";
@@ -28,6 +29,7 @@ const app = new Hono<Env>()
       !c.req.path.startsWith("/api/auth") &&
       !c.req.path.startsWith("/api/files") &&
       !c.req.path.startsWith("/api/users") &&
+      !c.req.path.startsWith("/api/service") &&
       !c.req.path.startsWith("/api/billings/stripe/webhook") &&
       !c.req.path.startsWith("/api/webhook")
     ) {
@@ -52,6 +54,7 @@ const app = new Hono<Env>()
   .route("/admin", adminRoutes)
   .route("/me", meRoutes)
   .route("/files", fileRoutes)
+  .route("/service", serviceRoutes)
   .route("/workspaces", workspacesRoutes)
   .route("/facebook", facebookRoutes)
   .route("/s3", s3Routes)
