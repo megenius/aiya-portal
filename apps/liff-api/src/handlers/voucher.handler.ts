@@ -267,6 +267,10 @@ export const getVoucherPageV2 = factory.createHandlers(
             ? "group_quota_full"
             : null;
 
+      console.log(
+        `[getVoucherPageV2] voucher=${voucher_id} user=${userId} available=${available} canCollect=${canCollectAllowed} deniedReason=${deniedReason}`
+      );
+
       return c.json({
         serverComputed: {
           serverNow: serverNow.toISOString(),
@@ -409,6 +413,9 @@ export const collectVoucherV2 = factory.createHandlers(
         })
       );
       if ((duplicate as any[]).length) {
+        console.warn(
+          `[collectVoucherV2] duplicate collect blocked voucher=${voucher_id} user=${userId}`
+        );
         return c.json(
           { error: "already_collected", message: "คุณเคยรับคูปองนี้ไปแล้ว" },
           409
@@ -469,6 +476,9 @@ export const collectVoucherV2 = factory.createHandlers(
         }
       }
       if (groupQuotaBlocked) {
+        console.warn(
+          `[collectVoucherV2] group quota blocked voucher=${voucher_id} user=${userId}`
+        );
         return c.json(
           {
             error: "group_quota_full",
@@ -479,8 +489,11 @@ export const collectVoucherV2 = factory.createHandlers(
       }
 
       // Reserve available code with retry to handle races (emulates WHERE code_status='available')
-      const maxAttempts = 3;
+      const maxAttempts = 10;
       for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        console.log(
+          `[collectVoucherV2] attempt ${attempt + 1}/${maxAttempts} voucher=${voucher_id} user=${userId}`
+        );
         // 1) pick an available code
         const candidates = await directus.request(
           readItems("vouchers_codes", {
@@ -489,83 +502,133 @@ export const collectVoucherV2 = factory.createHandlers(
               voucher: { _eq: voucher_id },
               code_status: { _eq: "available" },
             },
-            limit: 1,
+            sort: ["id"],
+            limit: 5,
           })
+        );
+        console.log(
+          `[collectVoucherV2] candidates=${(candidates as any[]).length} voucher=${voucher_id} user=${userId}`
         );
         if (!candidates.length) {
+          console.warn(
+            `[collectVoucherV2] no available code voucher=${voucher_id} user=${userId}`
+          );
           return c.json({ error: "fully collected" }, 409);
         }
-        const candidate = candidates[0];
-
-        // 2) attempt to reserve (set to collected)
-        await directus.request(
-          updateItem("vouchers_codes", candidate.id, {
-            code_status: "collected",
-          })
-        );
-
-        const now = new Date();
-        const collected_date = now.toISOString();
-        const validityCutoff = voucher.validity_in_seconds
-          ? addSeconds(now, voucher.validity_in_seconds)
-          : null;
-        const usageCutoff = voucher.usage_end_date
-          ? new Date(voucher.usage_end_date)
-          : null;
-        let expiresAtDate: Date | null = null;
-        if (validityCutoff && usageCutoff) {
-          expiresAtDate = new Date(
-            Math.min(validityCutoff.getTime(), usageCutoff.getTime())
+        for (const candidate of candidates as any[]) {
+          console.log(
+            `[collectVoucherV2] selected candidate code=${candidate.id} voucher=${voucher_id} user=${userId}`
           );
-        } else {
-          expiresAtDate =
-            validityCutoff ||
-            usageCutoff ||
-            (voucher.end_date ? new Date(voucher.end_date) : null);
-        }
-        const expires_at = expiresAtDate ? expiresAtDate.toISOString() : null;
 
-        try {
-          // 3) create vouchers_users with code relation (unique on code_id prevents double assign)
-          const newVoucherUser = await directus.request(
-            createItem("vouchers_users", {
-              collected_by: userId,
-              collected_date,
-              code: candidate.id,
-              channel,
-              discount_value: finalDiscountValue,
-              discount_type: finalDiscountType,
-              utm_source,
-              utm_medium,
-              utm_campaign,
-              expired_date: expires_at,
+          await directus.request(
+            updateItem("vouchers_codes", candidate.id, {
+              code_status: "collected",
             })
           );
 
-          return c.json({
-            success: true,
-            ...newVoucherUser,
-            voucher_id,
-            discount_value: finalDiscountValue,
-            discount_type: finalDiscountType,
-          });
-        } catch (err: any) {
-          const message = String(err?.message ?? err);
-          const isUniqueOnCode =
-            /unique|duplicate/i.test(message) && /code/i.test(message);
-          // If unique violation on code, another request got this code; don't rollback (code is truly taken). Retry next candidate.
-          if (!isUniqueOnCode) {
-            // unknown failure: rollback to available so it can be retried later
-            await directus.request(
-              updateItem("vouchers_codes", candidate.id, {
-                code_status: "available",
+          const now = new Date();
+          const collected_date = now.toISOString();
+          const validityCutoff = voucher.validity_in_seconds
+            ? addSeconds(now, voucher.validity_in_seconds)
+            : null;
+          const usageCutoff = voucher.usage_end_date
+            ? new Date(voucher.usage_end_date)
+            : null;
+          let expiresAtDate: Date | null = null;
+          if (validityCutoff && usageCutoff) {
+            expiresAtDate = new Date(
+              Math.min(validityCutoff.getTime(), usageCutoff.getTime())
+            );
+          } else {
+            expiresAtDate =
+              validityCutoff ||
+              usageCutoff ||
+              (voucher.end_date ? new Date(voucher.end_date) : null);
+          }
+          const expires_at = expiresAtDate ? expiresAtDate.toISOString() : null;
+
+          try {
+            console.log(
+              `[collectVoucherV2] creating vouchers_users payload voucher=${voucher_id} user=${userId} code=${candidate.id} channel=${channel ?? ""} discount_type=${finalDiscountType ?? ""} discount_value=${finalDiscountValue ?? ""} expires_at=${expires_at ?? ""}`
+            );
+            const newVoucherUser = await directus.request(
+              createItem("vouchers_users", {
+                collected_by: userId,
+                collected_date,
+                code: candidate.id,
+                channel,
+                discount_value: finalDiscountValue,
+                discount_type: finalDiscountType,
+                utm_source,
+                utm_medium,
+                utm_campaign,
+                expired_date: expires_at,
               })
             );
+            console.log(
+              `[collectVoucherV2] collected successfully voucher=${voucher_id} user=${userId} code=${candidate.id}`
+            );
+            return c.json({
+              success: true,
+              ...newVoucherUser,
+              voucher_id,
+              discount_value: finalDiscountValue,
+              discount_type: finalDiscountType,
+            });
+          } catch (err: any) {
+            const message = String(err?.message ?? err);
+            const directusErrors: any[] = Array.isArray((err as any)?.errors)
+              ? (err as any).errors
+              : [];
+            const isUniqueFromExtensions = directusErrors.some((e: any) => {
+              const ext = e?.extensions ?? {};
+              return (
+                (ext.code === "RECORD_NOT_UNIQUE" || /unique/i.test(e?.message)) &&
+                (/^code$/i.test(ext.field) || /code/i.test(e?.message))
+              );
+            });
+            const isUniqueOnCode =
+              isUniqueFromExtensions ||
+              (/unique|duplicate/i.test(message) && /code/i.test(message));
+            console.warn(
+              `[collectVoucherV2] create vouchers_users failed voucher=${voucher_id} user=${userId} code=${candidate.id} uniqueOnCode=${isUniqueOnCode} message=${message}`
+            );
+            let errDetail: string | null = null;
+            try {
+              const detailObj: any = {
+                status: (err as any)?.status ?? (err as any)?.response?.status ?? null,
+                code: (err as any)?.code ?? null,
+                message: (err as any)?.message ?? null,
+                errors: (err as any)?.errors ?? null,
+                data: (err as any)?.response?.data ?? null,
+              };
+              errDetail = JSON.stringify(detailObj);
+            } catch (_) {
+              errDetail = null;
+            }
+            if (errDetail) {
+              console.warn(
+                `[collectVoucherV2] error detail voucher=${voucher_id} user=${userId} code=${candidate.id} detail=${errDetail}`
+              );
+            }
+            if (!isUniqueOnCode) {
+              await directus.request(
+                updateItem("vouchers_codes", candidate.id, {
+                  code_status: "available",
+                })
+              );
+              console.warn(
+                `[collectVoucherV2] rolled back code to available code=${candidate.id} voucher=${voucher_id} user=${userId}`
+              );
+            }
+            continue;
           }
-          // try next attempt
         }
       }
       // If exhausted attempts
+      console.warn(
+        `[collectVoucherV2] exhausted attempts -> 409 fully collected voucher=${voucher_id} user=${userId}`
+      );
       return c.json({ error: "fully collected" }, 409);
     } catch (error: any) {
       console.error(error);
