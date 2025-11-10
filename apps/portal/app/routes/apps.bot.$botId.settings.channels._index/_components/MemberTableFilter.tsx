@@ -5,17 +5,16 @@ import { Channel, PageInfo } from '~/@types/app';
 interface MemberTableFilterProps {
   onChanged?: (value: string) => void;
   onChannelsSelected?: (channels: Array<Channel>) => void;
+  button?: React.ReactNode;
 }
 
-const MemberTableFilter: React.FC<MemberTableFilterProps> = ({ onChanged, onChannelsSelected }) => {
+const MemberTableFilter: React.FC<MemberTableFilterProps> = ({ onChanged, onChannelsSelected, button }) => {
   return (
     <>
       <div className="flex sm:grid sm:grid-cols-2 gap-x-2 sm:gap-x-5">
         <SearchInput onSearchChange={(value) => onChanged && onChanged(value)} />
         <div className="flex justify-end items-center gap-x-2">
-          {/* <DownloadCSVButton /> */}
-          {/* <AddButton /> */}
-          {/* <AddButton /> */}
+          {button}
         </div>
       </div>
     </>

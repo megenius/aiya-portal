@@ -134,7 +134,13 @@ export const insertBotHandler = factory.createHandlers(
         logo: bot.avatar,
       };
 
-      await directus.request(createItem("channels", channel));
+      const createdChannel = await directus.request(createItem("channels", channel));
+
+      // Create junction record to link channel with bot
+      await directus.request(createItem("channels_bots", {
+        channel_id: createdChannel.id,
+        bot_id: bot.id,
+      }));
 
       return c.json(bot);
     } catch (error) {
