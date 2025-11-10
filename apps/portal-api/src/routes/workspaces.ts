@@ -6,6 +6,7 @@ import * as WorkspaceHandler from "../handlers/workspace.handler";
 const workspacesRoutes = new Hono<Env>()
   .get("/", ...WorkspaceHandler.getWorkspaces)
   .post("/", ...WorkspaceHandler.createWorkspace)
+  .post("/by-slug", ...WorkspaceHandler.getOrCreateTeamBySlug)
   .get("/:id", ...WorkspaceHandler.getWorkspace)
   .patch("/:id", ...WorkspaceHandler.updateWorkspace)
   .delete("/:id", ...WorkspaceHandler.deleteWorkspace)

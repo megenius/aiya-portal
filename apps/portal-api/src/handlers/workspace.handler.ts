@@ -134,6 +134,59 @@ export const deleteWorkspace = factory.createHandlers(
   }
 );
 
+//get or create workspace by slug
+export const getOrCreateTeamBySlug = factory.createHandlers(
+  honoLogger(),
+  directusMiddleware,
+  async (c) => {
+    try {
+      const { slug } = await c.req.json();
+      const directus = c.get("directus");
+
+      console.log("[Portal API] Getting/creating team for slug:", slug);
+
+      // Query by slug to find existing team
+      const teams = await directus.request(
+        readItems("saas_teams", {
+          filter: { slug: { _eq: slug } },
+          limit: 1,
+        })
+      );
+
+      if (teams && teams.length > 0) {
+        const team = teams[0];
+        console.log("[Portal API] Found existing team:", team.id);
+        return c.json(team);
+      }
+
+      // Create new team if it doesn't exist
+      console.log("[Portal API] Creating new team with slug:", slug);
+
+      // Generate team name from slug
+      const teamName = slug
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+      const newTeam = await directus.request(
+        createItem("saas_teams", {
+          name: teamName,
+          slug,
+          status: "published",
+          date_created: new Date(),
+          date_updated: new Date(),
+        })
+      );
+
+      console.log("[Portal API] Created new team:", newTeam.id);
+      return c.json(newTeam);
+    } catch (error) {
+      console.error("[Portal API] Error getting/creating team:", error);
+      throw DirectusError.fromDirectusResponse(error);
+    }
+  }
+);
+
 // --------------- WORKSPACE MEMBERS  ---------------
 //get workspace members
 export const getWorkspaceMembers = factory.createHandlers(
