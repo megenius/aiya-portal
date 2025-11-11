@@ -17,6 +17,10 @@ interface DirectusJwtPayload {
 
 export const authMiddleware = createMiddleware<Env>(async (c, next) => {
   const DEBUG_MODE = c.env.NODE_ENV === "development";
+
+  // Debug: Log every request that hits auth middleware
+  console.log('[authMiddleware] DEBUG - Request:', c.req.method, c.req.url);
+
   const authHeader = c.req.header("Authorization");
 
   // console.log("authHeader", authHeader);
