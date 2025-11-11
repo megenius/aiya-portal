@@ -40,6 +40,11 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   const secretKey = c.env.DIRECTUS_SECRET_KEY;
 
+  // Debug: Check secret key
+  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY exists:', !!secretKey);
+  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY length:', secretKey?.length);
+  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY first 10 chars:', secretKey?.substring(0, 10));
+
   if (!secretKey) {
     console.error("DIRECTUS_SECRET_KEY is not set");
     return c.json({ error: "Server configuration error: DIRECTUS_SECRET_KEY is not set" }, 500);
@@ -47,15 +52,30 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   try {
     const payload = await verify(token, secretKey);
+
+    // Debug: Token verified successfully
+    console.log('[authMiddleware] DEBUG - Token verified successfully');
+    console.log('[authMiddleware] DEBUG - Payload:', JSON.stringify(payload, null, 2));
+    console.log('[authMiddleware] DEBUG - Issuer from payload:', payload.iss);
+
     if (DEBUG_MODE) {
       debugToken(payload);
     }
 
     const allowedIssuers = ["directus", "lambda"];
     const issuer = payload.iss as string;
+
+    // Debug: Issuer check
+    console.log('[authMiddleware] DEBUG - Checking issuer:', issuer);
+    console.log('[authMiddleware] DEBUG - Allowed issuers:', allowedIssuers);
+    console.log('[authMiddleware] DEBUG - Issuer check result:', allowedIssuers.indexOf(issuer) !== -1);
+
     if (allowedIssuers.indexOf(issuer) === -1) {
+      console.log('[authMiddleware] DEBUG - Issuer NOT allowed! Returning 401');
       return c.json({ error: "Invalid token issuer" }, 401);
     }
+
+    console.log('[authMiddleware] DEBUG - Issuer allowed, continuing...');
 
     if (issuer === "lambda") {
       token = c.env.DIRECTUS_SERVICE_TOKEN;
@@ -65,6 +85,11 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
     c.set("token", token);
     await next();
   } catch (error) {
+    // Debug: Verification error
+    console.error('[authMiddleware] DEBUG - Token verification FAILED');
+    console.error('[authMiddleware] DEBUG - Error type:', error instanceof Error ? error.constructor.name : typeof error);
+    console.error('[authMiddleware] DEBUG - Error message:', error instanceof Error ? error.message : String(error));
+
     if (error instanceof Error) {
       console.error("Token verification failed:", error.message);
     }
