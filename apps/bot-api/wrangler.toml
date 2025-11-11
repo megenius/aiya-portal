@@ -5,6 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   # { pattern = "lambda-api-local.aiya.me/api/bots/*", zone_name = "aiya.me" },
   # { pattern = "lambda-api-dev.aiya.me", zone_name = "aiya.me", custom_domain = true },
+  { pattern = "portal-dev.aiya.me/api/bots", zone_name = "aiya.me" },
   { pattern = "portal-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
   # { pattern = "lambda-api-dev.aiya.me/api/bots/*", zone_name = "aiya.me" },
 ]

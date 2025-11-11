@@ -1,7 +1,6 @@
-import { Context, Next } from "hono";
+import { Context } from "hono";
 import { createMiddleware } from "hono/factory";
-import { decode, verify } from "hono/jwt";
-import { JWTPayload } from "hono/utils/jwt/types";
+import { verify } from "hono/jwt";
 import { Env } from "~/types/hono.types";
 
 const BEARER_PREFIX = "Bearer ";
@@ -16,14 +15,7 @@ interface DirectusJwtPayload {
 }
 
 export const authMiddleware = createMiddleware<Env>(async (c, next) => {
-  const DEBUG_MODE = c.env.NODE_ENV === "development";
-
-  // Debug: Log every request that hits auth middleware
-  console.log('[authMiddleware] DEBUG - Request:', c.req.method, c.req.url);
-
   const authHeader = c.req.header("Authorization");
-
-  // console.log("authHeader", authHeader);
 
   if (!authHeader) {
     return c.json({ error: "Authorization header is missing" }, 401);
@@ -35,51 +27,26 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
 
   let token = authHeader.slice(BEARER_PREFIX.length);
 
-  console.log("token", token);
-  
-
   if (!token) {
     return c.json({ error: "Token is missing" }, 401);
   }
 
   const secretKey = c.env.DIRECTUS_SECRET_KEY;
 
-  // Debug: Check secret key
-  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY exists:', !!secretKey);
-  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY length:', secretKey?.length);
-  console.log('[authMiddleware] DEBUG - DIRECTUS_SECRET_KEY first 10 chars:', secretKey?.substring(0, 10));
-
   if (!secretKey) {
     console.error("DIRECTUS_SECRET_KEY is not set");
-    return c.json({ error: "Server configuration error: DIRECTUS_SECRET_KEY is not set" }, 500);
+    return c.json({ error: "Server configuration error" }, 500);
   }
 
   try {
     const payload = await verify(token, secretKey);
 
-    // Debug: Token verified successfully
-    console.log('[authMiddleware] DEBUG - Token verified successfully');
-    console.log('[authMiddleware] DEBUG - Payload:', JSON.stringify(payload, null, 2));
-    console.log('[authMiddleware] DEBUG - Issuer from payload:', payload.iss);
-
-    if (DEBUG_MODE) {
-      debugToken(payload);
-    }
-
     const allowedIssuers = ["directus", "lambda"];
     const issuer = payload.iss as string;
 
-    // Debug: Issuer check
-    console.log('[authMiddleware] DEBUG - Checking issuer:', issuer);
-    console.log('[authMiddleware] DEBUG - Allowed issuers:', allowedIssuers);
-    console.log('[authMiddleware] DEBUG - Issuer check result:', allowedIssuers.indexOf(issuer) !== -1);
-
     if (allowedIssuers.indexOf(issuer) === -1) {
-      console.log('[authMiddleware] DEBUG - Issuer NOT allowed! Returning 401');
       return c.json({ error: "Invalid token issuer" }, 401);
     }
-
-    console.log('[authMiddleware] DEBUG - Issuer allowed, continuing...');
 
     if (issuer === "lambda") {
       token = c.env.DIRECTUS_SERVICE_TOKEN;
@@ -89,11 +56,6 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
     c.set("token", token);
     await next();
   } catch (error) {
-    // Debug: Verification error
-    console.error('[authMiddleware] DEBUG - Token verification FAILED');
-    console.error('[authMiddleware] DEBUG - Error type:', error instanceof Error ? error.constructor.name : typeof error);
-    console.error('[authMiddleware] DEBUG - Error message:', error instanceof Error ? error.message : String(error));
-
     if (error instanceof Error) {
       console.error("Token verification failed:", error.message);
     }
@@ -115,22 +77,4 @@ export function hasAppAccess(c: Context): boolean {
 export function hasAdminAccess(c: Context): boolean {
   const payload = getJwtPayload(c);
   return payload ? payload.admin_access : false;
-}
-
-function debugToken(payload: JWTPayload) {
-  try {
-    const now = Math.floor(Date.now() / 1000);
-    console.log("Token Expiration:");
-    if (payload.exp) {
-      console.log(
-        `Expires at: ${new Date(payload.exp * 1000).toLocaleString()}`
-      );
-      console.log(`Current time: ${new Date(now * 1000).toLocaleString()}`);
-      console.log(`Time until expiration: ${payload.exp - now} seconds`);
-    } else {
-      console.log("No expiration time found in token");
-    }
-  } catch (error) {
-    console.error("Error decoding token:", error);
-  }
 }
