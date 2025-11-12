@@ -13,9 +13,13 @@ import AddFacebookModal from './AddFacebookModal';
 import { useWorkspaceChannelLineInsert } from '~/hooks/workspace/useWorkspaceChannelLineInsert';
 import { useWorkspaceChannelFacebookInsert } from '~/hooks/workspace/useWorkspaceChannelFacebookInsert';
 import { useBotChannelInsert } from '~/hooks/bot/useBotChannelInsert';
+import { useBotChannelDelete } from '~/hooks/bot/useBotChannelDelete';
+import { useBotChannelLineSetWebhook } from '~/hooks/bot/useBotChannelLineSetWebhook';
 import { useFacebookSDK } from '~/hooks/useFacebookSDK';
 import { Loading } from '@repo/preline';
 import { useWorkspaceChannels } from '~/hooks/workspace/useWorkspaceChannels';
+import { subscribeApp } from '~/services/facebook';
+import { toast } from 'react-toastify';
 
 interface MainContentProps {
   bot: Bot
@@ -27,6 +31,8 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
   const insertChannelLine = useWorkspaceChannelLineInsert();
   const insertChannelFacebook = useWorkspaceChannelFacebookInsert();
   const insertBotChannel = useBotChannelInsert();
+  const deleteBotChannel = useBotChannelDelete();
+  const setLineWebhook = useBotChannelLineSetWebhook();
   const [searchValue, setSearchValue] = useState('');
   const { login, getPages } = useFacebookSDK({ appId: import.meta.env.VITE_FB_APP_ID });
   const [pages, setPages] = useState<Array<PageInfo & { checked: boolean }>>([]);
@@ -85,64 +91,137 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
       })
   }
 
-  const handleInsertLine = (values: { provider_id: string; provider_secret: string }) => {
-    insertChannelLine.mutateAsync({
-      variables: {
-        workspaceId: bot.team as string,
-        data: {
-          ...values,
-          team: bot.team as string,
-          platform: 'Line',
-          provider: "Line"
+  const handleInsertLine = async (values: { provider_id: string; provider_secret: string }) => {
+    try {
+      // Step 1: Create channel in workspace
+      const channel = await insertChannelLine.mutateAsync({
+        variables: {
+          workspaceId: bot.team as string,
+          data: {
+            ...values,
+            team: bot.team as string,
+            platform: 'Line',
+            provider: "Line"
+          }
         }
+      });
+
+      if (!channel?.id) {
+        throw new Error('Failed to create channel');
       }
-    }).then((channel) => {
-      // Auto-connect the new channel to the bot
-      if (channel?.id) {
-        insertBotChannel.mutateAsync({
+
+      try {
+        // Step 2: Connect channel to bot
+        await insertBotChannel.mutateAsync({
           variables: {
             bot_id: bot.id as string,
             channel_id: channel.id as string
           }
-        })
+        });
+
+        // Step 3: Configure LINE webhook
+        await setLineWebhook.mutateAsync({
+          variables: {
+            bot_id: bot.id as string,
+            channel_id: channel.id as string,
+            endpoint: import.meta.env.VITE_LINE_WEBHOOK_ENDPOINT,
+          }
+        });
+
+        toast.success(`เพิ่มและเชื่อมต่อ ${channel.name} สำเร็จ`);
+      } catch (webhookError) {
+        // Rollback: Delete bot-channel relationship
+        console.error('Webhook configuration failed, rolling back...', webhookError);
+        await deleteBotChannel.mutateAsync({
+          variables: {
+            bot_id: bot.id as string,
+            channel_id: channel.id as string
+          }
+        });
+        toast.error('ไม่สามารถตั้งค่า webhook ได้ กรุณาลองใหม่อีกครั้ง');
       }
-    })
+    } catch (error) {
+      console.error('Channel creation failed:', error);
+      toast.error('ไม่สามารถเพิ่ม channel ได้ กรุณาลองใหม่อีกครั้ง');
+    }
   }
 
-  const handleInsertFacebook = (selectedPages: PageInfo[]) => {
+  const handleInsertFacebook = async (selectedPages: PageInfo[]) => {
     const existingPages = workspaceChannels?.items?.map(channel => channel.provider_id);
     const newPages = selectedPages.filter(page => !existingPages?.includes(page.id));
 
-    insertChannelFacebook.mutateAsync({
-      variables: {
-        workspaceId: bot.team as string,
-        items: newPages.map((page) => ({
-          provider_id: page.id,
-          provider_access_token: page.accessToken,
-          provider_name: page.name,
-          provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
-          name: page.name,
-          logo: page.pictureUrl,
-          team: bot.team as string,
-          platform: 'Facebook',
-          provider: "Facebook",
-        }))
+    try {
+      // Step 1: Create channels in workspace
+      const channels = await insertChannelFacebook.mutateAsync({
+        variables: {
+          workspaceId: bot.team as string,
+          items: newPages.map((page) => ({
+            provider_id: page.id,
+            provider_access_token: page.accessToken,
+            provider_name: page.name,
+            provider_info: _.omit(page, ['id', 'accessToken', 'name', 'pictureUrl']),
+            name: page.name,
+            logo: page.pictureUrl,
+            team: bot.team as string,
+            platform: 'Facebook',
+            provider: "Facebook",
+          }))
+        }
+      });
+
+      if (!channels || channels.length === 0) {
+        throw new Error('Failed to create channels');
       }
-    }).then((channels) => {
-      // Auto-connect the new channels to the bot
-      if (channels && channels.length > 0) {
-        channels.forEach(channel => {
-          if (channel?.id) {
-            insertBotChannel.mutateAsync({
+
+      // Step 2 & 3: Connect to bot and configure webhooks for each channel
+      const results = await Promise.allSettled(
+        channels.map(async (channel) => {
+          if (!channel?.id) {
+            throw new Error(`Invalid channel data`);
+          }
+
+          try {
+            // Connect channel to bot
+            await insertBotChannel.mutateAsync({
               variables: {
                 bot_id: bot.id as string,
                 channel_id: channel.id as string
               }
-            })
+            });
+
+            // Subscribe to Facebook page
+            await subscribeApp(channel.id as string);
+
+            return { success: true, channel };
+          } catch (error) {
+            // Rollback: Delete bot-channel relationship
+            console.error(`Webhook configuration failed for ${channel.name}, rolling back...`, error);
+            await deleteBotChannel.mutateAsync({
+              variables: {
+                bot_id: bot.id as string,
+                channel_id: channel.id as string
+              }
+            }).catch(err => console.error('Rollback failed:', err));
+
+            return { success: false, channel, error };
           }
         })
+      );
+
+      // Count successes and failures
+      const successful = results.filter(r => r.status === 'fulfilled' && r.value.success).length;
+      const failed = results.length - successful;
+
+      // Show appropriate toast message
+      if (failed === 0) {
+        toast.success(`เพิ่มและเชื่อมต่อ ${successful} channels สำเร็จ`);
+      } else if (successful === 0) {
+        toast.error('ไม่สามารถตั้งค่า webhook ได้ กรุณาลองใหม่อีกครั้ง');
+      } else {
+        toast.warning(`เพิ่มและเชื่อมต่อสำเร็จ ${successful} channels, ล้มเหลว ${failed} channels`);
       }
 
+      // Update pages checked state
       setPages(pages.map(page => {
         if (selectedPages.some(selectedPage => selectedPage.id === page.id)) {
           return {
@@ -151,8 +230,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           }
         }
         return page;
-      }))
-    })
+      }));
+    } catch (error) {
+      console.error('Channel creation failed:', error);
+      toast.error('ไม่สามารถเพิ่ม channels ได้ กรุณาลองใหม่อีกครั้ง');
+    }
   }
 
   return (
@@ -177,7 +259,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           />
           {/* End Filter Group */}
           {/* Loader */}
-          {(insertChannelLine.isPending || insertChannelFacebook.isPending) && <Loading />}
+          {(insertChannelLine.isPending || insertChannelFacebook.isPending || insertBotChannel.isPending || setLineWebhook.isPending) && <Loading />}
           {/* End Loader */}
           <MemberStats channels={filterItems} />
 

@@ -1,7 +1,7 @@
-// hooks/useBotChannelsInsert.ts
+// hooks/useBotChannelDelete.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Channel, ChannelBot } from "~/@types/app";
-import { insertBotChannel } from "~/services/bots";
+import { deleteBotChannel } from "~/services/bots";
 
 interface MutationFn {
   variables: Variables;
@@ -16,7 +16,7 @@ export const useBotChannelDelete = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ variables }: MutationFn) =>
-      insertBotChannel(variables).then((response) => response.data),
+      deleteBotChannel(variables).then((response) => response.data),
     onSuccess: (item: ChannelBot) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
