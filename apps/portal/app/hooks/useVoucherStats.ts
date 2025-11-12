@@ -17,6 +17,8 @@ interface VoucherStatsData {
     totalCodes: number;
     collectedCodes: number;
     usedCodes: number;
+    uniqueCollectors: number;
+    avgCodesPerCollector: number;
     collectionRate: number;
     redemptionRate: number;
     totalViews: number;

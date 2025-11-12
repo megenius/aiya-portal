@@ -286,7 +286,7 @@ const VoucherStatsPage: React.FC = () => {
             icon={StatsCardIcons.Collected}
             label="Collected"
             value={stats.collectedCodes}
-            subtitle={`of ${stats.totalCodes} codes`}
+            subtitle={`${stats.uniqueCollectors || 0} unique`}
             iconBgColor="bg-green-100"
             iconColor="text-green-600"
           />
@@ -304,7 +304,7 @@ const VoucherStatsPage: React.FC = () => {
             icon={StatsCardIcons.Rate}
             label="Collection Rate"
             value={`${stats.collectionRate}%`}
-            subtitle="conversion"
+            subtitle="viewers → collectors"
             iconBgColor="bg-orange-100"
             iconColor="text-orange-600"
           />

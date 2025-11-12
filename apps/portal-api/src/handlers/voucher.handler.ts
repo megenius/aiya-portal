@@ -1679,8 +1679,19 @@ export const getVoucherStats = factory.createHandlers(
       ).length;
       const usedCodes = vouchersUsers.filter((vu) => vu.used_date).length;
 
-      const collectionRate =
-        totalCodes > 0 ? Math.round((collectedCodes / totalCodes) * 100) : 0;
+      // คำนวณจำนวน unique collectors
+      const uniqueCollectors = new Set(
+        vouchersUsers
+          .filter((vu) => vu.collected_date)
+          .map((vu) => vu.collected_by)
+          .filter(Boolean)
+      ).size;
+
+      // คำนวณค่าเฉลี่ย codes ต่อ collector
+      const avgCodesPerCollector =
+        uniqueCollectors > 0
+          ? parseFloat((collectedCodes / uniqueCollectors).toFixed(1))
+          : 0;
 
       const redemptionRate =
         collectedCodes > 0 ? Math.round((usedCodes / collectedCodes) * 100) : 0;
@@ -1812,6 +1823,12 @@ export const getVoucherStats = factory.createHandlers(
         console.warn("Error fetching voucher views:", error);
       }
 
+      // คำนวณ Collection Rate จาก unique viewers
+      const collectionRate =
+        uniqueViewers > 0
+          ? Math.round((uniqueCollectors / uniqueViewers) * 100)
+          : 0;
+
       // Top collectors with code details - แต่ละคนได้หนึ่งโค้ดเท่านั้น
       console.log(
         "vouchersUsers sample for debugging:",
@@ -1873,6 +1890,8 @@ export const getVoucherStats = factory.createHandlers(
         totalCodes,
         collectedCodes,
         usedCodes,
+        uniqueCollectors,
+        avgCodesPerCollector,
         collectionRate,
         redemptionRate,
         totalViews,
@@ -1906,8 +1925,14 @@ export const getVoucherStats = factory.createHandlers(
             totalCodes: 0,
             collectedCodes: 0,
             usedCodes: 0,
+            uniqueCollectors: 0,
+            avgCodesPerCollector: 0,
             collectionRate: 0,
             redemptionRate: 0,
+            totalViews: 0,
+            uniqueViewers: 0,
+            todayViews: 0,
+            thisWeekViews: 0,
             todayCollections: 0,
             thisWeekCollections: 0,
             avgTimeToRedemption: 0,
