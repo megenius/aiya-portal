@@ -128,7 +128,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
           }
         });
 
-        toast.success(`เพิ่มและเชื่อมต่อ ${channel.name} สำเร็จ`);
+        toast.success(`Successfully added and connected ${channel.name}`);
       } catch (webhookError) {
         // Rollback: Delete bot-channel relationship
         console.error('Webhook configuration failed, rolling back...', webhookError);
@@ -138,11 +138,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
             channel_id: channel.id as string
           }
         });
-        toast.error('ไม่สามารถตั้งค่า webhook ได้ กรุณาลองใหม่อีกครั้ง');
+        toast.error('Failed to configure webhook. Please try again.');
       }
     } catch (error) {
       console.error('Channel creation failed:', error);
-      toast.error('ไม่สามารถเพิ่ม channel ได้ กรุณาลองใหม่อีกครั้ง');
+      toast.error('Failed to add channel. Please try again.');
     }
   }
 
@@ -214,11 +214,11 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
 
       // Show appropriate toast message
       if (failed === 0) {
-        toast.success(`เพิ่มและเชื่อมต่อ ${successful} channels สำเร็จ`);
+        toast.success(`Successfully added and connected ${successful} channels`);
       } else if (successful === 0) {
-        toast.error('ไม่สามารถตั้งค่า webhook ได้ กรุณาลองใหม่อีกครั้ง');
+        toast.error('Failed to configure webhook. Please try again.');
       } else {
-        toast.warning(`เพิ่มและเชื่อมต่อสำเร็จ ${successful} channels, ล้มเหลว ${failed} channels`);
+        toast.warning(`Successfully configured ${successful} channels, failed ${failed} channels`);
       }
 
       // Update pages checked state
@@ -233,7 +233,7 @@ const MainContent: React.FC<MainContentProps> = ({ bot }) => {
       }));
     } catch (error) {
       console.error('Channel creation failed:', error);
-      toast.error('ไม่สามารถเพิ่ม channels ได้ กรุณาลองใหม่อีกครั้ง');
+      toast.error('Failed to add channels. Please try again.');
     }
   }
 
