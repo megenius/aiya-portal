@@ -2,6 +2,7 @@ import { Avatar } from '@repo/preline/Avatar';
 import { formatDistance } from 'date-fns';
 import _ from 'lodash';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Bot, BotChannelStatus, Channel } from '~/@types/app';
 import { useBotUpdate } from '~/hooks/bot';
 import { useBotChannelDelete } from '~/hooks/bot/useBotChannelDelete';
@@ -21,20 +22,49 @@ const ChannelTable: React.FC<ChannelTableProps> = ({ bot, channels }) => {
   const updateBot = useBotUpdate();
 
   const handleConnectChannel = async (channel: Channel) => {
-    insertBotChannel.mutateAsync({ variables: { bot_id: bot.id as string, channel_id: channel.id as string } })
-      .then(async () => {
-        if (channel.platform === "Facebook") {
+    try {
+      // Step 1: Create database connection
+      await insertBotChannel.mutateAsync({
+        variables: {
+          bot_id: bot.id as string,
+          channel_id: channel.id as string
+        }
+      });
+
+      // Step 2: Configure provider webhook/subscription
+      if (channel.platform === "Facebook") {
+        try {
           await subscribeApp(channel.id as string);
-        } else if (channel.platform === "Line") {
-          // @todo
-          setLineWebhook.mutateAsync({
+          toast.success(`Successfully connected to ${channel.name}`);
+        } catch (fbError) {
+          console.error("Facebook subscription error:", fbError);
+          toast.error(`Connected to database but failed to subscribe to Facebook. Please try reconnecting.`);
+          // Note: Database connection was successful, so toggle will show "connected"
+          // but Facebook webhook subscription failed
+        }
+      } else if (channel.platform === "Line") {
+        try {
+          await setLineWebhook.mutateAsync({
             variables: {
-              bot_id: bot.id as string, channel_id: channel.id as string,
+              bot_id: bot.id as string,
+              channel_id: channel.id as string,
               endpoint: import.meta.env.VITE_LINE_WEBHOOK_ENDPOINT,
             }
           });
+          toast.success(`Successfully connected to ${channel.name}`);
+        } catch (lineError) {
+          console.error("LINE webhook setup error:", lineError);
+          toast.error(`Connected to database but failed to set LINE webhook. Please try reconnecting.`);
+          // Note: Database connection was successful, so toggle will show "connected"
+          // but LINE webhook configuration failed
         }
-      });
+      }
+    } catch (error) {
+      console.error("Channel connection error:", error);
+      toast.error(`Failed to connect ${channel.name}. Please try again.`);
+      // Database connection failed, toggle will remain unchecked
+      throw error;
+    }
   };
 
   const handleDisconnectChannel = async (channel: Channel & { _id: number }) => {

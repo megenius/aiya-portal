@@ -125,6 +125,15 @@ export const lineWebhookEndpoint = factory.createHandlers(
 
       console.log("lineWebhookEndpoint", channel_id, endpoint);
 
+      // Validate input
+      if (!channel_id || !endpoint) {
+        console.error("Missing required parameters", { channel_id, endpoint });
+        return c.json({
+          error: "Missing required parameters (channel_id or endpoint)",
+          success: false
+        }, 400);
+      }
+
       const directus = c.get("directus");
       const channel = await directus.request<Channel>(
         readItem("channels", channel_id)
@@ -132,13 +141,24 @@ export const lineWebhookEndpoint = factory.createHandlers(
 
       console.log("channel", channel);
 
+      // Validate channel credentials
+      if (!channel.provider_access_token) {
+        console.error("Missing LINE access token", { channel_id });
+        return c.json({
+          error: "Missing LINE channel access token",
+          success: false
+        }, 400);
+      }
+
       const client = new MessagingApiClient({
         channelAccessToken: channel.provider_access_token as string,
       });
 
+      // Get existing webhook endpoint
       const { endpoint: existEndpoint, active } = await client
         .getWebhookEndpoint()
         .catch((error) => {
+          console.warn("Failed to get existing webhook endpoint", error);
           return { endpoint: null, active: false };
         });
 
@@ -153,6 +173,7 @@ export const lineWebhookEndpoint = factory.createHandlers(
         "https://webhook.aiya.me/api/v2/line/webhook",
       ];
 
+      // Save existing external webhook for forwarding
       if (existEndpoint && !ignoreEndpoints.includes(existEndpoint)) {
         const channel = await directus.request(
           updateItem("channels", channel_id, {
@@ -176,12 +197,56 @@ export const lineWebhookEndpoint = factory.createHandlers(
         // ).then(() => console.log("put kv - " + `channel.id=${channel_id}`));
       }
 
+      // Set new webhook endpoint
       const result = await client.setWebhookEndpoint({ endpoint });
-      console.log("setWebhookEndpoint", result);
+      console.log("setWebhookEndpoint result", result);
 
-      return c.json(result);
+      // Verify webhook was set successfully
+      if (!result || typeof result !== 'object') {
+        console.error("Invalid LINE API response", result);
+        return c.json({
+          error: "Failed to set LINE webhook - invalid API response",
+          success: false
+        }, 500);
+      }
+
+      // Get webhook endpoint to verify it was set
+      const verification = await client.getWebhookEndpoint().catch(() => null);
+
+      if (verification && verification.endpoint === endpoint) {
+        console.log("Webhook endpoint verified successfully", { channel_id, endpoint });
+        return c.json({
+          success: true,
+          result,
+          verified: true,
+          endpoint: verification.endpoint,
+          active: verification.active
+        });
+      } else {
+        console.warn("Webhook endpoint set but verification failed", {
+          channel_id,
+          expected: endpoint,
+          actual: verification?.endpoint
+        });
+        return c.json({
+          success: true,
+          result,
+          verified: false,
+          warning: "Webhook was set but verification failed"
+        });
+      }
     } catch (error) {
-      console.error("error", error);
+      console.error("LINE webhook setup error", error);
+
+      // Check if it's a LINE API error
+      if (error && typeof error === 'object' && 'message' in error) {
+        return c.json({
+          error: error.message,
+          success: false,
+          details: error
+        }, 500);
+      }
+
       throw DirectusError.fromDirectusResponse(error);
     }
   }
